@@ -1,6 +1,6 @@
 Package: humind
 Title: Calculate Usual Humanitarian Composite Indicators
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person("Guillaume", "Noblet", , "gnoblet@zaclys.net", role = c("aut", "cre"))
 Maintainer: Guillaume Noblet <gnoblet@zaclys.net>
@@ -23,5 +23,5 @@ Imports:
 URL: https://github.com/gnoblet/humind,
     https://gnoblet.github.io/humind/
 BugReports: https://github.com/gnoblet/humind/issues
-Remotes:  
+Remotes: 
     github::gnoblet/impactR
