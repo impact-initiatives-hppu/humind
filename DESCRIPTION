@@ -18,7 +18,8 @@ Imports:
     purrr,
     rlang,
     stats,
-    stringr
+    stringr,
+    impactR
 Suggests:
     knitr
 VignetteBuilder: knitr
