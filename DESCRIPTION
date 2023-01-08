@@ -15,7 +15,6 @@ RoxygenNote: 7.2.3
 Imports: 
     dplyr,
     glue,
-    impactR,
     purrr,
     rlang,
     stats,
@@ -26,3 +25,5 @@ VignetteBuilder: knitr
 URL: https://github.com/gnoblet/humind,
     https://gnoblet.github.io/humind/
 BugReports: https://github.com/gnoblet/humind/issues
+Remotes:  
+    github::gnoblet/impactR  (>= 0.9.7.9000)
