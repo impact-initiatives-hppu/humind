@@ -1,4 +1,4 @@
-#' @title Add a dummy variable from dummies (if any is 1)
+#' @title Add a dummy variable from dummies
 #'
 #' @param df A data frame
 #' @param dummy_name The new dummy column name
