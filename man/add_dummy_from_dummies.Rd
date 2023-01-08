@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_dummy_from_dummies.R
 \name{add_dummy_from_dummies}
 \alias{add_dummy_from_dummies}
-\title{Add a dummy variable from dummies (if any is 1)}
+\title{Add a dummy variable from dummies}
 \usage{
 add_dummy_from_dummies(
   df,
@@ -24,5 +24,5 @@ add_dummy_from_dummies(
 An update data frame with a new dummy column.
 }
 \description{
-Add a dummy variable from dummies (if any is 1)
+Add a dummy variable from dummies
 }
