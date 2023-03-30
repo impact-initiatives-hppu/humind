@@ -1,9 +1,11 @@
-#' @title FEWS NET Food Consumption-Livelihood Coping Phase
+#' FEWS NET Food Consumption-Livelihood Coping Phase
 #'
 #' @param df A data frame.
 #' @param fcp The food consumption phase column.
-#' @param lcsi_cat The Livelihood Coping Strategies categories column.
+#' @param lcsi_cat_no_exhaustion The Livelihood Coping Strategies categories column.
 #' @param lcsi_levels LCSI levels in that order: "None", "Stress", "Crisis", "Emergency.
+#'
+#' @details `lcsi_cat_no_exhaustion` must be the categories column that was calculated without using the exhaustion of strategies choices when agregating. See `lcsi()` and argument `with_exhaustion` for instance. See page 13 of the Fews Net matrix guidance available here: https://fews.net/sites/default/files/documents/reports/fews-net-matrix-guidance-document.pdf.
 #'
 #' @return Two new columns with the FEWS NET Food Consumption-Livelihood Coping matrix phases: numbers (fclp) and categories (fclp_cat).
 #'
