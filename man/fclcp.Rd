@@ -6,8 +6,8 @@
 \usage{
 fclcp(
   df,
-  fcp,
-  lcsi_cat,
+  fcp = "fcp",
+  lcsi_cat_no_exhaustion = "lcsi_cat_no_exhaustion",
   lcsi_levels = c("None", "Stress", "Crisis", "Emergency")
 )
 }
@@ -16,7 +16,7 @@ fclcp(
 
 \item{fcp}{The food consumption phase column.}
 
-\item{lcsi_cat}{The Livelihood Coping Strategies categories column.}
+\item{lcsi_cat_no_exhaustion}{The Livelihood Coping Strategies categories column without the exhaustion of strategies.}
 
 \item{lcsi_levels}{LCSI levels in that order: "None", "Stress", "Crisis", "Emergency.}
 }
@@ -25,4 +25,7 @@ Two new columns with the FEWS NET Food Consumption-Livelihood Coping matrix phas
 }
 \description{
 FEWS NET Food Consumption-Livelihood Coping Phase
+}
+\details{
+\code{lcsi_cat_no_exhaustion} must be the categories column that was calculated without using the exhaustion of strategies choices when aggregating. See \code{lcsi()} and argument \code{with_exhaustion}. For calculation, see page 13 of the Fews Net matrix guidance available here: https://fews.net/sites/default/files/documents/reports/fews-net-matrix-guidance-document.pdf.
 }
