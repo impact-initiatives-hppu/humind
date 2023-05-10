@@ -43,7 +43,7 @@ fclcp <- function(df,
       {{ fcp }} == 4 & {{ lcsi_cat_no_exhaustion }} == lcsi_levels[3] ~ 4,
       {{ fcp }} == 4 & {{ lcsi_cat_no_exhaustion }} == lcsi_levels[4] ~ 4,
       {{ fcp }} == 5 ~ 5,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ))
 
   #------ Add fcp phase
@@ -55,7 +55,7 @@ fclcp <- function(df,
       fclcp == 3 ~ "Phase 3 FClC",
       fclcp == 4 ~ "Phase 4 FClC",
       fclcp == 5 ~ "Phase 5 FClC",
-      TRUE ~ NA_character_
+      .default = NA_character_
     ))
 
   return(df)

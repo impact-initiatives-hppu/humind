@@ -51,12 +51,12 @@ lcsi <- function(
       dplyr::case_when(
         {{ var }} %in% level_codes[1:2] ~ 1,
         {{ var }} %in% level_codes[3:4] ~ 0,
-        TRUE ~ NA_real_)
+        .default = NA_real_)
     } else if (!with_exhaustion) {
       dplyr::case_when(
         {{ var }} %in% level_codes[1] ~ 1,
         {{ var }} %in% level_codes[2:4] ~ 0,
-        TRUE ~ NA_real_)
+        .default = NA_real_)
     }
   }
 
@@ -123,7 +123,7 @@ lcsi <- function(
       !!lcsi_crisis_agg_col == 1 ~ "Crisis",
       !!lcsi_stress_agg_col == 1 ~ "Stress",
       !!lcsi_stress_agg_col == 0 & !!lcsi_crisis_agg_col == 0 & !!lcsi_emergency_agg_col == 0 ~ "None",
-      TRUE ~ NA_character_))
+      .default = NA_character_))
 
   return(df)
 }

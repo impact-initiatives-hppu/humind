@@ -26,7 +26,7 @@ add_dummy_from_dummies <- function(df,
       "{dummy_name}" := dplyr::case_when(
         rowSums(dplyr::across(dplyr::all_of(quoted_cols)), na.rm = TRUE) >= 1 ~ 1,
         rowSums(dplyr::across(dplyr::all_of(quoted_cols)), na.rm = TRUE) < 1 ~ 0,
-        TRUE ~ NA_real_
+        .default = NA_real_
       )
     )
   } else {
@@ -35,7 +35,7 @@ add_dummy_from_dummies <- function(df,
       "{dummy_name}" := dplyr::case_when(
         rowSums(dplyr::across(dplyr::all_of(quoted_cols)), na.rm = FALSE) >= 1 ~ 1,
         rowSums(dplyr::across(dplyr::all_of(quoted_cols)), na.rm = FALSE) < 1 ~ 0,
-        TRUE ~ NA_real_
+        .default = NA_real_
       )
     )
   }
