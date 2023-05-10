@@ -78,7 +78,7 @@ fcm_cell <- function(df,
       {{ fcs_cat }} == fcs_levels[3] & {{ hhs_cat }} == hhs_levels[3] & {{ rcsi_cat }} == rcsi_levels[3] ~ 43,
       {{ fcs_cat }} == fcs_levels[3] & {{ hhs_cat }} == hhs_levels[4] & {{ rcsi_cat }} == rcsi_levels[3] ~ 44,
       {{ fcs_cat }} == fcs_levels[3] & {{ hhs_cat }} == hhs_levels[5] & {{ rcsi_cat }} == rcsi_levels[3] ~ 45,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ))
 
   return(df)

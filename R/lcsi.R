@@ -47,7 +47,7 @@ lcsi <- function(
     dplyr::case_when(
       {{ var }} %in% level_codes[1:2] ~ 1,
       {{ var }} %in% level_codes[3:4] ~ 0,
-      TRUE ~ NA_real_)
+      .default = NA_real_)
   }
 
   #------ Recode LCS component columns
@@ -95,7 +95,7 @@ lcsi <- function(
       lcsi_crisis == 1 ~ "Crisis",
       lcsi_stress == 1 ~ "Stress",
       lcsi_stress == 0 & lcsi_crisis == 0 & lcsi_emergency == 0 ~ "None",
-      TRUE ~ NA_character_))
+      .default = NA_character_))
 
   return(df)
 }
