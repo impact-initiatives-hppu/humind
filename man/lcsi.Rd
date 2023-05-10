@@ -16,7 +16,8 @@ lcsi(
   lcsi_emergency_1 = "lcsi_emergency_1",
   lcsi_emergency_2 = "lcsi_emergency_2",
   lcsi_emergency_3 = "lcsi_emergency_3",
-  level_codes = c("yes", "exhausted", "no_need", "not_applicable")
+  level_codes = c("yes", "exhausted", "no_need", "not_applicable"),
+  with_exhaustion = TRUE
 )
 }
 \arguments{
@@ -43,6 +44,8 @@ lcsi(
 \item{lcsi_emergency_3}{Component column: Emergency strategy 3}
 
 \item{level_codes}{Character vector of responses codes, including first in the following order: Yes", "No, exhausted", "No, no need", "No, not applicable", e.g. c("yes", "exhausted", "no_need", "not_applicable")}
+
+\item{with_exhaustion}{Boolean. Is the exhaustion of strategies ("No, exhausted") accounted for?}
 }
 \value{
 Fourteen new columns: each strategy recoded (lcsi_stress_\emph{, lcsi_crisis_}, lcsi_emergency_*), a dummy for each category (lcsi_stress, lcsi_crisis, lcsi_emergency), and the category (lcsi_cat).
