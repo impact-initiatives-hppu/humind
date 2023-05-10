@@ -101,15 +101,15 @@ lcsi <- function(
   #------ LCS per emergency level
   df <- dplyr::mutate(
     df,
-    lcsi_stress =  ifelse(
+    "{lcsi_stress_agg_col}" =  ifelse(
       rowSums(dplyr::across(dplyr::all_of(lcsi_stress_cols)), na.rm = FALSE) >= 1,
       1,
       0),
-    lcsi_crisis =  ifelse(
+    "{lcsi_crisis_agg_col}" =  ifelse(
       rowSums(dplyr::across(dplyr::all_of(lcsi_crisis_cols)), na.rm = FALSE) >= 1,
       1,
       0),
-    lcsi_emergency = ifelse(
+    "{lcsi_emergency_agg_col}" = ifelse(
       rowSums(dplyr::across(dplyr::all_of(lcsi_emergency_cols)), na.rm = FALSE) >= 1,
       1,
       0)
