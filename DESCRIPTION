@@ -16,12 +16,14 @@ Imports:
     dplyr (>= 1.1.0),
     glue,
     purrr,
-    rlang,
+    rlang (>= 0.4.11),
     stats,
     stringr,
-    impactR  (>= 0.9.7.9000)
+    impactR (>= 0.9.7.9000)
 URL: https://github.com/gnoblet/humind,
     https://gnoblet.github.io/humind/
 BugReports: https://github.com/gnoblet/humind/issues
 Remotes: 
     github::gnoblet/impactR
+Suggests: 
+    roxygen2
