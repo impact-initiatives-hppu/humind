@@ -101,7 +101,7 @@ add_roster_wgq_ss <- function(roster,
   roster <- dplyr::ungroup(roster)
 
   #------ Remove columns from hh that are present in roster but id_col
-  hh <- impactR::diff_tibbles(hh, roster, {{ id_col }})
+  hh <- impactR.utils::df_diff(hh, roster, {{ id_col }})
 
   #------
   hh <- dplyr::left_join(hh, roster, by = id_col_name)
