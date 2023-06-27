@@ -5,6 +5,8 @@
 #' @param ... Dummy columns from df, must be in set c(0,1).
 #' @param na_to_zero Boolean. Mutate NA values to zero.
 #'
+#' @importFrom rlang `:=`
+#'
 #' @return An update data frame with a new dummy column.
 #' @export
 add_dummy_from_dummies <- function(df,

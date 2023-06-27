@@ -6,6 +6,8 @@
 #' @param dummy_name The new dummy column name
 #' @param na_to_zero Boolean. Convert NAs to zeros or not.
 #'
+#' @importFrom rlang `:=`
+#'
 #' @return An update data frame with a new dummy column.
 #' @export
 add_dummy_from_set <- function(df, col, dummy_name, set, na_to_zero = FALSE){

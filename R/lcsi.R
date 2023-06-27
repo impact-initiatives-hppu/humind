@@ -14,6 +14,8 @@
 #' @param level_codes Character vector of responses codes, including first in the following order: Yes", "No, exhausted", "No, no need", "No, not applicable", e.g. c("yes", "exhausted", "no_need", "not_applicable")
 #' @param with_exhaustion Boolean. Is the exhaustion of strategies ("No, exhausted") accounted for?
 #'
+#' @importFrom rlang `:=`
+#'
 #' @return Fourteen new columns: each strategy recoded (lcsi_stress_*, lcsi_crisis_*, lcsi_emergency_*), a dummy for each category (lcsi_stress, lcsi_crisis, lcsi_emergency), and the category (lcsi_cat).
 #'
 #' @export
