@@ -42,79 +42,79 @@ roster_wgq_ss <- function(
       {{ ind_age }} < 5 ~ NA_real_,
       {{ vision }} != level_codes[3] ~ 0,
       {{ vision }} != level_codes[3] ~ 1,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ),
     wgq_hearing_3 = dplyr::case_when(
       {{ ind_age }} < 5 ~ NA_real_,
       {{ hearing }} != level_codes[3] ~ 0,
       {{ hearing }} != level_codes[3] ~ 1,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ),
     wgq_mobility_3 = dplyr::case_when(
       {{ ind_age }} < 5 ~ NA_real_,
       {{ mobility }} != level_codes[3] ~ 0,
       {{ mobility }} != level_codes[3] ~ 1,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ),
     wgq_cognition_3 = dplyr::case_when(
       {{ ind_age }} < 5 ~ NA_real_,
       {{ cognition }} != level_codes[3] ~ 0,
       {{ cognition }} != level_codes[3] ~ 1,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ),
     wgq_self_care_3 = dplyr::case_when(
       {{ ind_age }} < 5 ~ NA_real_,
       {{ self_care }} != level_codes[3] ~ 0,
       {{ self_care }} != level_codes[3] ~ 1,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ),
     wgq_communication_3 = dplyr::case_when(
       {{ ind_age }} < 5 ~ NA_real_,
       {{ communication }} != level_codes[3] ~ 0,
       {{ communication }} != level_codes[3] ~ 1,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ),
     wgq_vision_4 = dplyr::case_when(
       {{ ind_age }} < 5 ~ NA_real_,
       {{ vision }} != level_codes[4] ~ 0,
       {{ vision }} != level_codes[4] ~ 1,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ),
     wgq_vision_4 = dplyr::case_when(
       {{ ind_age }} < 5 ~ NA_real_,
       {{ vision }} != level_codes[4] ~ 0,
       {{ vision }} != level_codes[4] ~ 1,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ),
     wgq_hearing_4 = dplyr::case_when(
       {{ ind_age }} < 5 ~ NA_real_,
       {{ hearing }} != level_codes[4] ~ 0,
       {{ hearing }} != level_codes[4] ~ 1,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ),
     wgq_mobility_4 = dplyr::case_when(
       {{ ind_age }} < 5 ~ NA_real_,
       {{ mobility }} != level_codes[4] ~ 0,
       {{ mobility }} != level_codes[4] ~ 1,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ),
     wgq_cognition_4 = dplyr::case_when(
       {{ ind_age }} < 5 ~ NA_real_,
       {{ cognition }} != level_codes[4] ~ 0,
       {{ cognition }} != level_codes[4] ~ 1,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ),
     wgq_self_care_4 = dplyr::case_when(
       {{ ind_age }} < 5 ~ NA_real_,
       {{ self_care }} != level_codes[4] ~ 0,
       {{ self_care }} != level_codes[4] ~ 1,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ),
     wgq_communication_4 = dplyr::case_when(
       {{ ind_age }} < 5 ~ NA_real_,
       {{ communication }} != level_codes[4] ~ 0,
       {{ communication }} != level_codes[4] ~ 1,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ))
 
   roster <- dplyr::mutate(
@@ -122,12 +122,12 @@ roster_wgq_ss <- function(
     wgq_disability_3 = dplyr::case_when(
       wgq_communication_3 == 1 | wgq_vision_3 == 1 | wgq_hearing_3 == 1 | wgq_mobility_3 == 1 | wgq_self_care_3 == 1 | wgq_cognition_3 == 1 ~ 1,
       wgq_communication_3 == 0 & wgq_vision_3 == 0 & wgq_hearing_3 == 0 & wgq_mobilite_3 == 0 & wgq_self_care_3 == 0 & wgq_cognition_3 == 0 ~ 0,
-      TRUE ~ NA_real_
+      .default = NA_real_
     ),
     wgq_disability_4 = dplyr::case_when(
       wgq_communication_4 == 1 | wgq_vision_4 == 1 | wgq_hearing_4 == 1 | wgq_mobility_4 == 1 | wgq_self_care_4 == 1 | wgq_cognition_4 == 1 ~ 1,
       wgq_communication_4 == 0 & wgq_vision_4 == 0 & wgq_hearing_4 == 0 & wgq_mobilite_4 == 0 & wgq_self_care_4 == 0 & wgq_cognition_4 == 0 ~ 0,
-      TRUE ~ NA_real_
+      .default = NA_real_
     )
   )
 
@@ -136,8 +136,8 @@ roster_wgq_ss <- function(
     wgq_disability = dplyr::case_when(
       wgq_disability_3 == 1 | wgq_disability_4 == 1 ~ 1,
       wgq_disability_3 == 0 & wgq_disability_4 == 0 ~ 0,
-      TRUE ~ NA_real_
-      )
+      .default = NA_real_
+    )
   )
 
   return(roster)
