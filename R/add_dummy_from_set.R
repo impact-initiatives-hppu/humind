@@ -6,6 +6,8 @@
 #' @param dummy_name The new dummy column name
 #' @param na_to_zero Boolean. Convert NAs to zeros or not.
 #'
+#' @importFrom rlang `:=`
+#'
 #' @return An update data frame with a new dummy column.
 #' @export
 add_dummy_from_set <- function(df, col, dummy_name, set, na_to_zero = FALSE){
@@ -29,7 +31,7 @@ add_dummy_from_set <- function(df, col, dummy_name, set, na_to_zero = FALSE){
         is.na({{ col }}) ~ NA_real_,
         stringr::str_detect({{ col }}, pattern) ~ 1,
         !stringr::str_detect({{ col }}, pattern) ~ 0,
-        TRUE ~ NA_real_
+        .default = NA_real_
       )
     )
   } else if (na_to_zero) {
@@ -39,7 +41,7 @@ add_dummy_from_set <- function(df, col, dummy_name, set, na_to_zero = FALSE){
         is.na({{ col }}) ~ 0,
         stringr::str_detect({{ col }}, pattern) ~ 1,
         !stringr::str_detect({{ col }}, pattern) ~ 0,
-        TRUE ~ NA_real_
+        .default = NA_real_
       )
     )
   }

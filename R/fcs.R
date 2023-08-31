@@ -72,7 +72,7 @@ fcs <- function(df,
         fcs_score <= 21 ~ "Poor",
         fcs_score <= 35 ~ "Borderline",
         fcs_score <= 200 ~ "Acceptable",
-        TRUE ~ NA_character_
+        .default = NA_character_
       )
     )
   } else {
@@ -82,7 +82,7 @@ fcs <- function(df,
         fcs_score <= 28 ~ "Poor",
         fcs_score <= 42 ~ "Borderline",
         fcs_score <= 200 ~ "Acceptable",
-        TRUE ~ NA_character_
+        .default = NA_character_
       )
     )
   }

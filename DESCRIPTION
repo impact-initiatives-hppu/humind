@@ -1,11 +1,11 @@
 Package: humind
 Title: Calculate Usual Humanitarian Composite Indicators
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person("Guillaume", "Noblet", , "gnoblet@zaclys.net", role = c("aut", "cre"))
 Maintainer: Guillaume Noblet <gnoblet@zaclys.net>
 Description: Give helpers to calculate usual humanitarian composite indicators
-  such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions,
+  such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, HWISE scales,
   or other helpers for calculating the % of HHs that reported having at least one damage to their shelter.
 License: MIT + file LICENSE
 Depends: R (>= 4.1.0)
@@ -13,15 +13,17 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
-    dplyr,
+    dplyr (>= 1.1.0),
     glue,
     purrr,
-    rlang,
+    rlang (>= 0.4.11),
     stats,
     stringr,
-    impactR  (>= 0.9.7.9000)
+    impactR.utils
 URL: https://github.com/gnoblet/humind,
     https://gnoblet.github.io/humind/
 BugReports: https://github.com/gnoblet/humind/issues
 Remotes: 
-    github::gnoblet/impactR
+    github::gnoblet/impactR.utils
+Suggests: 
+    roxygen2

@@ -40,7 +40,7 @@ hhs <- function(df,
       {{ q_yes_no }} == level1_codes[2] ~ 0,
       {{ q_freq }} %in% level2_codes[1:2] ~ 1,
       {{ q_freq }} == level2_codes[3] ~ 2,
-      TRUE ~ NA_real_
+      .default = NA_real_
     )
   }
 
@@ -75,7 +75,7 @@ hhs <- function(df,
       hhs_score <= 3 ~ "Moderate",
       hhs_score <= 4 ~ "Severe",
       hhs_score <= 6 ~ "Very Severe",
-      TRUE ~ NA_character_
+      .default = NA_character_
     )
   )
 

@@ -21,7 +21,7 @@ fcp <- function(df,
       {{ fcm_cell }} %in% c(4, 5, 8, 9, 13, 19, 20, 23, 24, 27, 28, 33, 34, 37, 38, 41, 42, 43) ~ 3,
       {{ fcm_cell }} %in% c(10, 14, 15, 25, 29, 35, 39, 40, 44) ~ 4,
       {{ fcm_cell }} %in% c(30, 45) ~ 5,
-      TRUE ~ NA_real_))
+      .default = NA_real_))
 
   df <- dplyr::mutate(
     df,
@@ -31,7 +31,7 @@ fcp <- function(df,
       fcp == 3 ~ "Phase 3 FC",
       fcp == 4 ~ "Phase 4 FC",
       fcp == 5 ~ "Phase 5 FC",
-      TRUE ~ NA_character_
+      .default = NA_character_
     ))
 
   return(df)

@@ -111,7 +111,7 @@ foodsec(
 \item{lcsi_level_codes}{Character vector of at responses codes, in the following order: ""Yes", "No, exhausted", "No, no need", "No, not applicable", e.g. c("yes", "exhausted", "no_need", "not_applicable")}
 }
 \value{
-All columns produced by the following \code{impactR} functions: \code{fcs()}, \code{hhs()}, \code{rcsi()}, \code{lcs()}, \code{fcm()}, \code{fcp()} and \code{fclp()}.
+All columns produced by the following functions: \code{fcs()}, \code{hhs()}, \code{rcsi()}, \code{lcs()}, \code{fcm()}, \code{fcp()} and \code{fclp()}.
 }
 \description{
 Calculate main food security indicators

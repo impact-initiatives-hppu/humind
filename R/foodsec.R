@@ -1,4 +1,3 @@
-
 #' @title Calculate main food security indicators
 #'
 #' @param df Data
@@ -37,7 +36,7 @@
 #' @param lcsi_level_codes Character vector of at responses codes, in the following order: ""Yes", "No, exhausted", "No, no need", "No, not applicable", e.g. c("yes", "exhausted", "no_need", "not_applicable")
 #'
 #'
-#' @return All columns produced by the following `impactR` functions: `fcs()`, `hhs()`, `rcsi()`, `lcs()`, `fcm()`, `fcp()` and `fclp()`.
+#' @return All columns produced by the following functions: `fcs()`, `hhs()`, `rcsi()`, `lcs()`, `fcm()`, `fcp()` and `fclp()`.
 #'
 #' @export
 foodsec <- function(df,
@@ -106,6 +105,7 @@ foodsec <- function(df,
     {{ rcsi_restrict }},
     {{ rcsi_reducemeals }})
 
+  # LCSI - with exhaustion
   df <- lcsi(
     df,
     {{ lcsi_stress_1 }},
@@ -119,6 +119,24 @@ foodsec <- function(df,
     {{ lcsi_emergency_2 }},
     {{ lcsi_emergency_3 }},
     level_codes = lcsi_level_codes)
+
+  # LCSI - without exhaustion
+  df <- lcsi(
+    df,
+    {{ lcsi_stress_1 }},
+    {{ lcsi_stress_2 }},
+    {{ lcsi_stress_3 }},
+    {{ lcsi_stress_4 }},
+    {{ lcsi_crisis_1 }},
+    {{ lcsi_crisis_2 }},
+    {{ lcsi_crisis_3 }},
+    {{ lcsi_emergency_1 }},
+    {{ lcsi_emergency_2 }},
+    {{ lcsi_emergency_3 }},
+    level_codes = lcsi_level_codes,
+    with_exhaustion = FALSE)
+
+
 
   df <- fcm_cell(df)
 

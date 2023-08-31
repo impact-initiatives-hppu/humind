@@ -55,7 +55,7 @@ rcsi <- function(df,
       rcsi_score <= 3 ~ "No to Low",
       rcsi_score <= 18 ~ "Medium",
       rcsi_score <= 1000 ~ "Severe",
-      TRUE ~ NA_character_
+      .default = NA_character_
     )
   )
 

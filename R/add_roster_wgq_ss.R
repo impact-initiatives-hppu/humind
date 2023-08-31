@@ -74,30 +74,34 @@ add_roster_wgq_ss <- function(roster,
 
 
 
-  #------ Summarize wgq
-  roster <- roster |>
-    dplyr::group_by({{ id_col }}) |>
-    dplyr::summarize(
-      wgq_communication_3 = sum(wgq_communication_3, na.rm = TRUE),
-      wgq_communication_4 = sum(wgq_communication_4, na.rm = TRUE),
-      wgq_vision_3 = sum(wgq_vision_3, na.rm = TRUE),
-      wgq_vision_4 = sum(wgq_vision_4, na.rm = TRUE),
-      wgq_hearing_3 = sum(wgq_hearing_3, na.rm = TRUE),
-      wgq_hearing_4 = sum(wgq_hearing_4, na.rm = TRUE),
-      wgq_mobility_3 = sum(wgq_mobility_3, na.rm = TRUE),
-      wgq_mobility_4 = sum(wgq_mobility_4, na.rm = TRUE),
-      wgq_self_care_3 = sum(wgq_self_care_3, na.rm = TRUE),
-      wgq_self_care_4 = sum(wgq_self_care_4, na.rm = TRUE),
-      wgq_cognition_3 = sum(wgq_cognition_3, na.rm = TRUE),
-      wgq_cognition_4 = sum(wgq_cognition_4, na.rm = TRUE),
-      wgq_disability_3 = sum(wgq_disability_3, na.rm = TRUE),
-      wgq_disability_4 = sum(wgq_disability_4, na.rm = TRUE),
-      wgq_disability = sum(wgq_disability, na.rm = TRUE)
-    ) |>
-    dplyr::ungroup()
+  #------ Group by
+  roster <- dplyr::group_by(roster, {{ id_col }})
+
+  #------ Summarize
+  roster <- dplyr::summarize(
+    roster,
+    wgq_communication_3 = sum(wgq_communication_3, na.rm = TRUE),
+    wgq_communication_4 = sum(wgq_communication_4, na.rm = TRUE),
+    wgq_vision_3 = sum(wgq_vision_3, na.rm = TRUE),
+    wgq_vision_4 = sum(wgq_vision_4, na.rm = TRUE),
+    wgq_hearing_3 = sum(wgq_hearing_3, na.rm = TRUE),
+    wgq_hearing_4 = sum(wgq_hearing_4, na.rm = TRUE),
+    wgq_mobility_3 = sum(wgq_mobility_3, na.rm = TRUE),
+    wgq_mobility_4 = sum(wgq_mobility_4, na.rm = TRUE),
+    wgq_self_care_3 = sum(wgq_self_care_3, na.rm = TRUE),
+    wgq_self_care_4 = sum(wgq_self_care_4, na.rm = TRUE),
+    wgq_cognition_3 = sum(wgq_cognition_3, na.rm = TRUE),
+    wgq_cognition_4 = sum(wgq_cognition_4, na.rm = TRUE),
+    wgq_disability_3 = sum(wgq_disability_3, na.rm = TRUE),
+    wgq_disability_4 = sum(wgq_disability_4, na.rm = TRUE),
+    wgq_disability = sum(wgq_disability, na.rm = TRUE)
+  )
+
+  #------ Ungroup
+  roster <- dplyr::ungroup(roster)
 
   #------ Remove columns from hh that are present in roster but id_col
-  hh <- impactR::diff_tibbles(hh, roster, {{ id_col }})
+  hh <- impactR.utils::df_diff(hh, roster, {{ id_col }})
 
   #------
   hh <- dplyr::left_join(hh, roster, by = id_col_name)
