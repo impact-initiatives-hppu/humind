@@ -36,7 +36,7 @@
 #' @param lcsi_level_codes Character vector of at responses codes, in the following order: ""Yes", "No, exhausted", "No, no need", "No, not applicable", e.g. c("yes", "exhausted", "no_need", "not_applicable")
 #'
 #'
-#' @return All columns produced by the followingfunctions: `fcs()`, `hhs()`, `rcsi()`, `lcs()`, `fcm()`, `fcp()` and `fclp()`.
+#' @return All columns produced by the following functions: `fcs()`, `hhs()`, `rcsi()`, `lcs()`, `fcm()`, `fcp()` and `fclp()`.
 #'
 #' @export
 foodsec <- function(df,
