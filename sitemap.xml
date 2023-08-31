@@ -55,6 +55,12 @@
     <loc>https://gnoblet.github.io/humind/reference/hhs.html</loc>
   </url>
   <url>
+    <loc>https://gnoblet.github.io/humind/reference/hwise.html</loc>
+  </url>
+  <url>
+    <loc>https://gnoblet.github.io/humind/reference/hwise_brief.html</loc>
+  </url>
+  <url>
     <loc>https://gnoblet.github.io/humind/reference/if_not_in_stop.html</loc>
   </url>
   <url>
@@ -74,5 +80,8 @@
   </url>
   <url>
     <loc>https://gnoblet.github.io/humind/reference/subvec_not_in.html</loc>
+  </url>
+  <url>
+    <loc>https://gnoblet.github.io/humind/reference/tidyeval.html</loc>
   </url>
 </urlset>

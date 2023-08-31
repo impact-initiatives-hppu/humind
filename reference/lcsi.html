@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,8 @@
 <span>  lcsi_emergency_1 <span class="op">=</span> <span class="st">"lcsi_emergency_1"</span>,</span>
 <span>  lcsi_emergency_2 <span class="op">=</span> <span class="st">"lcsi_emergency_2"</span>,</span>
 <span>  lcsi_emergency_3 <span class="op">=</span> <span class="st">"lcsi_emergency_3"</span>,</span>
-<span>  level_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yes"</span>, <span class="st">"exhausted"</span>, <span class="st">"no_need"</span>, <span class="st">"not_applicable"</span><span class="op">)</span></span>
+<span>  level_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yes"</span>, <span class="st">"exhausted"</span>, <span class="st">"no_need"</span>, <span class="st">"not_applicable"</span><span class="op">)</span>,</span>
+<span>  with_exhaustion <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -115,6 +116,10 @@
 
 <dt>level_codes</dt>
 <dd><p>Character vector of responses codes, including first in the following order: Yes", "No, exhausted", "No, no need", "No, not applicable", e.g. c("yes", "exhausted", "no_need", "not_applicable")</p></dd>
+
+
+<dt>with_exhaustion</dt>
+<dd><p>Boolean. Is the exhaustion of strategies ("No, exhausted") accounted for?</p></dd>
 
 </dl></div>
     <div class="section level2">
