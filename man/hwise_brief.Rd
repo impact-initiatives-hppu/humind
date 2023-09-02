@@ -6,25 +6,26 @@
 \usage{
 hwise_brief(
   df,
-  hwise_worry,
-  hwise_plans,
-  hwise_hands,
-  hwise_drink,
-  level_codes
+  hwise_worry = "hwise_worry",
+  hwise_plans = "hwise_plans",
+  hwise_hands = "hwise_hands",
+  hwise_drink = "hwise_drink",
+  level_codes = c("never", "rarely", "sometimes", "often", "always", "do_not_know",
+    "prefer_not_to_answer", "not_applicable")
 )
 }
 \arguments{
 \item{df}{A data frame}
 
-\item{hwise_worry}{Component column: Worry}
+\item{hwise_worry}{Component column: Worry.}
 
-\item{hwise_plans}{Component column: Plans}
+\item{hwise_plans}{Component column: Plans.}
 
-\item{hwise_hands}{Component column: Hands}
+\item{hwise_hands}{Component column: Hands.}
 
-\item{hwise_drink}{Component column: Drink}
+\item{hwise_drink}{Component column: Drink.}
 
-\item{level_codes}{Character vector of responses codes, including first in the following order: "Never (0 times)", "Rarely (1–2 times)", "Sometimes (3–10 times)", "Often (11-20 times)", "Always (more than 20 times)", "Do not know", "Prefer not to answer", "Not applicable", e.g. c("never", "rarely", "sometimes", "often", "always", "do_not_now", "prefer_not_to_answer", "not_applicable")}
+\item{level_codes}{Character vector of responses codes, including first in the following order: "Never (0 times)", "Rarely (1–2 times)", "Sometimes (3–10 times)", "Often (11-20 times)", "Always (more than 20 times)", "Do not know", "Prefer not to answer", "Not applicable", e.g. c("never", "rarely", "sometimes", "often", "always", "do_not_know", "prefer_not_to_answer", "not_applicable").}
 }
 \value{
 Eight new columns: each component score (hwise_brief_score_*), the overall score (hwise_brief_score), dummy for water insecurity (hwise_brief_insecure), the broader categories (hwise_brief_cat), the detailed categories (hwise_cat_details).
