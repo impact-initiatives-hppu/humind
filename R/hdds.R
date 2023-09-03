@@ -57,6 +57,7 @@ hdds <- function(df,
             ),
             na.rm = FALSE
         )
+    )
     
     #------ HDDS categories
     df <- dplyr::mutate(
