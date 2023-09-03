@@ -78,11 +78,11 @@ lcsi <- function(
     lcsi_crisis_cols <- lapply(lcsi_crisis_cols, \(x) stringr::str_c(x, "_no_exhaustion"))
     lcsi_emergency_cols <- lapply(lcsi_emergency_cols, \(x) stringr::str_c(x, "_no_exhaustion"))
 
-    lcsi_stress_agg_col <-  stringr::str_c(lcsi_stress_agg_col, "_no_exhaustion"))
-    lcsi_crisis_agg_col <-  stringr::str_c(lcsi_crisis_agg_col, "_no_exhaustion"))
-    lcsi_emergency_agg_col <-  stringr::str_c(lcsi_emergency_agg_col, "_no_exhaustion"))
+    lcsi_stress_agg_col <-  stringr::str_c(lcsi_stress_agg_col, "_no_exhaustion")
+    lcsi_crisis_agg_col <-  stringr::str_c(lcsi_crisis_agg_col, "_no_exhaustion")
+    lcsi_emergency_agg_col <-  stringr::str_c(lcsi_emergency_agg_col, "_no_exhaustion")
 
-    lcsi_cat <- stringr::str_c(lcsi_cat, "no_exhaustion"))
+    lcsi_cat <- stringr::str_c(lcsi_cat, "no_exhaustion")
   }
 
   #------ Recode LCS component columns
