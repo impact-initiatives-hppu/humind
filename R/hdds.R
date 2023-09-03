@@ -60,6 +60,7 @@ hdds <- function(df,
     
     #------ HDDS categories
     df <- dplyr::mutate(
+        df,
         hdds_cat = dplyr::case_when(
             hdds_score <= 2 ~ "0-2 food groups (phase 4 to 5)",
             hdds_score <= 4 ~ "3-4 food groups (phase 3)",
