@@ -1,6 +1,6 @@
 Package: humind
 Title: Calculate Usual Humanitarian Composite Indicators
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
     person("Guillaume", "Noblet", , "gnoblet@zaclys.net", role = c("aut", "cre"))
 Maintainer: Guillaume Noblet <gnoblet@zaclys.net>
