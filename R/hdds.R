@@ -36,6 +36,8 @@ hdds <- function(df,
     #------ Enquo and get character names
     hdds_cols <- rlang::enquos(hdds_cereal, hdds_roots, hdds_legumes, hdds_dairy, hdds_meat, hdds_fish, hdds_egg, hdds_veg, hdds_fruits, hdds_oil, hdds_sugar, hdds_spices)
     hdds_cols <- purrr::map_chr(hdds_cols, rlang::as_name)
+    hdds_cols_d <- paste0(hdds_cols, "_d")
+
 
     #------ Check values ranges and numeric type
     are_values_in_set(df, hdds_cols, level_codes)
