@@ -33,7 +33,7 @@ hdds <- function(df,
                 hdds_spices = "hdds_spices",
                 level_codes = c("yes", "no" ,"do_not_know", "prefer_not_to_answer")){
 
-     #------ Enquo and get character names
+    #------ Enquo and get character names
     hdds_cols <- rlang::enquos(hdds_cereal, hdds_roots, hdds_legumes, hdds_dairy, hdds_meat, hdds_fish, hdds_egg, hdds_veg, hdds_fruits, hdds_oil, hdds_sugar, hdds_spices)
     hdds_cols <- purrr::map_chr(hdds_cols, rlang::as_name)
 
@@ -57,6 +57,17 @@ hdds <- function(df,
             ),
             na.rm = FALSE
         )
+    
+    #------ HDDS categories
+    df <- dplyr::mutate(
+        hdds_cat = dplyr::case_when(
+            hdds_score <= 2 ~ "0-2 food groups (phase 4 to 5)",
+            hdds_score <= 4 ~ "3-4 food groups (phase 3)",
+            hdds_score <= 5 ~ "5 food groups (phase 2)",
+            hdds_score <= 12 ~ "6-12 food groups (phase 1)",
+            TRUE ~ NA_character_
+        )
+    )
 
     return(df)
 
