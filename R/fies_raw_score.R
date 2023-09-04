@@ -43,7 +43,10 @@ fies_raw_score <- function(df,
     df,
     dplyr::across(
       .cols = fies_cols,
-      .fns = \(x) ifelse(x == level_codes[1], 1, 0),
+      .fns = \(x) dplyr::case_when(
+        x == level_codes[1] ~ 1,
+        x == level_codes[2] ~ 0,
+        .default = NA_integer_),
       .names = "{.col}_d"))
 
   #------ FIES raw score
