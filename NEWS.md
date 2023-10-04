@@ -1,9 +1,13 @@
+# humind 0.0.4
+
+* Added `water_source()`: Water source 5-point-scale.
+* Added `sanitation_facility()`: Sanitation facility 5-point scale.
+
 # humind 0.0.3
 
 * Added `hdds()`: Household Dietary Diversity Scores (HDDS) ([#5](https://github.com/gnoblet/humind/issues/5))
 * Added `fies()`: Food Insecurity Experience Scale (FIES) [#6](https://github.com/gnoblet/humind/issues/6)
 * Bug fix: error in `lcsi()` on aggregated categories' names corrected (#20)
-
 
 # humind 0.0.2
 
