@@ -82,6 +82,9 @@
     <loc>https://gnoblet.github.io/humind/reference/roster_wgq_ss.html</loc>
   </url>
   <url>
+    <loc>https://gnoblet.github.io/humind/reference/sanitation_facility.html</loc>
+  </url>
+  <url>
     <loc>https://gnoblet.github.io/humind/reference/subvec_in.html</loc>
   </url>
   <url>
@@ -89,5 +92,8 @@
   </url>
   <url>
     <loc>https://gnoblet.github.io/humind/reference/tidyeval.html</loc>
+  </url>
+  <url>
+    <loc>https://gnoblet.github.io/humind/reference/water_source.html</loc>
   </url>
 </urlset>
