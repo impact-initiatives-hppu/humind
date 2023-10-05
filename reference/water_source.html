@@ -62,7 +62,8 @@
 <span>  time_to_fetch_above_threshold_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"30mins_to_59mins"</span>, <span class="st">"1hour_above"</span><span class="op">)</span>,</span>
 <span>  time_to_fetch_below_threshold_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"5mins_to_14mins"</span>, <span class="st">"15mins_to_29mins"</span><span class="op">)</span>,</span>
 <span>  time_to_fetch_premises_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"premises"</span><span class="op">)</span>,</span>
-<span>  time_to_fetch_na_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other"</span><span class="op">)</span></span>
+<span>  time_to_fetch_na_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other"</span><span class="op">)</span>,</span>
+<span>  class_colname <span class="op">=</span> <span class="st">"water_source_class"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -110,6 +111,10 @@
 
 <dt>time_to_fetch_na_codes</dt>
 <dd><p>Character vector of responses codes, that do not fit any category, e.g., c("other").</p></dd>
+
+
+<dt>class_colname</dt>
+<dd><p>The new column name for the classification column. Default to "water_source_class".</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -58,7 +58,8 @@
 <span>  sanitation_facility_unimproved_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bucket"</span>, <span class="st">"hanging_latrine"</span><span class="op">)</span>,</span>
 <span>  sanitation_facility_open_defecation_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"open_defecation"</span><span class="op">)</span>,</span>
 <span>  sanitation_facility_na_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other"</span><span class="op">)</span>,</span>
-<span>  sharing_sanitation_facility <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  sharing_sanitation_facility <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  class_colname <span class="op">=</span> <span class="st">"sanitation_facility_class"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -90,6 +91,10 @@
 
 <dt>sharing_sanitation_facility</dt>
 <dd><p>Component column: Number of people with whom the facility is shared.</p></dd>
+
+
+<dt>class_colname</dt>
+<dd><p>The new column name for the classification column. Default to "sanitation_facility_class".</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -54,7 +54,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">drinking_water_quantity</span><span class="op">(</span></span>
 <span>  <span class="va">df</span>,</span>
 <span>  drinking_water_quantity <span class="op">=</span> <span class="st">"water_source"</span>,</span>
-<span>  level_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"often"</span>, <span class="st">"sometimes"</span>, <span class="st">"rarely"</span>, <span class="st">"never"</span><span class="op">)</span></span>
+<span>  level_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"always"</span>, <span class="st">"often"</span>, <span class="st">"sometimes"</span>, <span class="st">"rarely"</span>, <span class="st">"never"</span><span class="op">)</span>,</span>
+<span>  class_colname <span class="op">=</span> <span class="st">"drinking_water_quantity_class"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -70,6 +71,10 @@
 
 <dt>level_codes</dt>
 <dd><p>Character vector of responses codes, including first in the following order: "Always (more than 20 times)", "Often (11-20 times)", "Sometimes (3–10 times)", "Rarely (1–2 times)", "Never (0 times)", e.g. c("always", "often", "sometimes", "rarely", "never").</p></dd>
+
+
+<dt>class_colname</dt>
+<dd><p>The new column name for the classification column. Default to "drinking_water_quantity_class".</p></dd>
 
 </dl></div>
     <div class="section level2">

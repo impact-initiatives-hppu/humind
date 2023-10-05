@@ -56,7 +56,8 @@
 <span>  handwashing_facility <span class="op">=</span> <span class="st">"sanitation_facility"</span>,</span>
 <span>  handwashing_facility_soap_and_water_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yes_soap_water"</span><span class="op">)</span>,</span>
 <span>  handwashing_facility_none_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span>, <span class="st">"yes_only_soap"</span>, <span class="st">"yes_only_water"</span><span class="op">)</span>,</span>
-<span>  handwashing_facility_na_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dnk"</span>, <span class="st">"no_access"</span><span class="op">)</span></span>
+<span>  handwashing_facility_na_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dnk"</span>, <span class="st">"no_access"</span><span class="op">)</span>,</span>
+<span>  class_colname <span class="op">=</span> <span class="st">"handwashing_facility_class"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -80,6 +81,10 @@
 
 <dt>handwashing_facility_na_codes</dt>
 <dd><p>Character vector of responses codes, such as "Don't know" or "No access", e.g., c("dnk","no_access").</p></dd>
+
+
+<dt>class_colname</dt>
+<dd><p>The new column name for the classification column. Default to "handwashing_facility_class".</p></dd>
 
 </dl></div>
     <div class="section level2">
