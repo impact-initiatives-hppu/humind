@@ -10,6 +10,7 @@ sanitation_facility(
   sanitation_facility_improved_codes = c("composting toilet", "pour_flush_toilet"),
   sanitation_facility_unimproved_codes = c("bucket", "hanging_latrine"),
   sanitation_facility_open_defecation_codes = c("open_defecation"),
+  sanitation_facility_na_codes = c("other"),
   sharing_sanitation_facility = NULL
 )
 }
@@ -23,6 +24,8 @@ sanitation_facility(
 \item{sanitation_facility_unimproved_codes}{Character vector of responses codes, such as "Bucket" or "Hanging latrine", e.g., c("bucket", "hanging_latrine").}
 
 \item{sanitation_facility_open_defecation_codes}{Character vector of responses codes, such as "Open defecation", e.g., c("open_defecation").}
+
+\item{sanitation_facility_na_codes}{Character vector of responses codes, that do not fit any category, e.g., c("other").}
 
 \item{sharing_sanitation_facility}{Component column: Number of people with whom the facility is shared.}
 }

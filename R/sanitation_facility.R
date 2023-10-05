@@ -7,6 +7,7 @@
 #' @param sanitation_facility_improved_codes Character vector of responses codes, such as "Composting toilet" or "Pour flush toilet", e.g., c("composting toilet", "pour_flush_toilet").
 #' @param sanitation_facility_unimproved_codes Character vector of responses codes, such as "Bucket" or "Hanging latrine", e.g., c("bucket", "hanging_latrine").
 #' @param sanitation_facility_open_defecation_codes Character vector of responses codes, such as "Open defecation", e.g., c("open_defecation").
+#' @param sanitation_facility_na_codes Character vector of responses codes, that do not fit any category, e.g., c("other").
 #' @param sharing_sanitation_facility Component column: Number of people with whom the facility is shared.
 #'
 #' @return Three new columns: a recoded column of sanitation facilities between improved, unimproved and open defecatop,my finger  (water_source_recoded), a recoded column of times to fetch water according to the chosen thresholds (time_to_fetch_recoded), a 5-point scale from 1 to 5 (water_source_class).
@@ -29,11 +30,12 @@ sanitation_facility <- function(df,
                                 sanitation_facility_improved_codes = c("composting toilet", "pour_flush_toilet"),
                                 sanitation_facility_unimproved_codes = c("bucket", "hanging_latrine"),
                                 sanitation_facility_open_defecation_codes = c("open_defecation"),
+                                sanitation_facility_na_codes = c("other"),
                                 sharing_sanitation_facility = NULL
 ) {
 
   #------ Check values ranges
-  are_values_in_set(df, sanitation_facility, c(sanitation_facility_improved_codes, sanitation_facility_unimproved_codes, sanitation_facility_open_defecation_codes))
+  are_values_in_set(df, sanitation_facility, c(sanitation_facility_improved_codes, sanitation_facility_unimproved_codes, sanitation_facility_open_defecation_codes, sanitation_facility_na_codes))
 
   if (!is.null(sharing_sanitation_facility)) are_cols_numeric(df, sharing_sanitation_facility)
 
