@@ -15,7 +15,8 @@ water_source(
   time_to_fetch_above_threshold_codes = c("30mins_to_59mins", "1hour_above"),
   time_to_fetch_below_threshold_codes = c("5mins_to_14mins", "15mins_to_29mins"),
   time_to_fetch_premises_codes = c("premises"),
-  time_to_fetch_na_codes = c("other")
+  time_to_fetch_na_codes = c("other"),
+  class_colname = "water_source_class"
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ water_source(
 \item{time_to_fetch_premises_codes}{Character vector of responses codes, such as "On premises", e.g., c("premises").}
 
 \item{time_to_fetch_na_codes}{Character vector of responses codes, that do not fit any category, e.g., c("other").}
+
+\item{class_colname}{The new column name for the classification column. Default to "water_source_class".}
 }
 \value{
 Three new columns: a recoded column of water sources between improved, unimproved and surface water (water_source_recoded), a recoded column of times to fetch water according to the chosen thresholds (time_to_fetch_recoded), a 5-point scale from 1 to 5 (water_source_class).
