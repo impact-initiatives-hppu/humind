@@ -9,7 +9,8 @@ handwashing_facility(
   handwashing_facility = "sanitation_facility",
   handwashing_facility_soap_and_water_codes = c("yes_soap_water"),
   handwashing_facility_none_codes = c("no", "yes_only_soap", "yes_only_water"),
-  handwashing_facility_na_codes = c("dnk", "no_access")
+  handwashing_facility_na_codes = c("dnk", "no_access"),
+  class_colname = "handwashing_facility_class"
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ handwashing_facility(
 \item{handwashing_facility_none_codes}{Character vector of responses codes, such as "Yes, only soap", "Yes, only water" or "No", e.g., c("no", "yes_only_soap", "yes_only_water").}
 
 \item{handwashing_facility_na_codes}{Character vector of responses codes, such as "Don't know" or "No access", e.g., c("dnk","no_access").}
+
+\item{class_colname}{The new column name for the classification column. Default to "handwashing_facility_class".}
 }
 \value{
 One new column: a 2-point scale from 1 to 2 (handwashing_facility_class).

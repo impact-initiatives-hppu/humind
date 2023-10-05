@@ -11,7 +11,8 @@ sanitation_facility(
   sanitation_facility_unimproved_codes = c("bucket", "hanging_latrine"),
   sanitation_facility_open_defecation_codes = c("open_defecation"),
   sanitation_facility_na_codes = c("other"),
-  sharing_sanitation_facility = NULL
+  sharing_sanitation_facility = NULL,
+  class_colname = "sanitation_facility_class"
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ sanitation_facility(
 \item{sanitation_facility_na_codes}{Character vector of responses codes, that do not fit any category, e.g., c("other").}
 
 \item{sharing_sanitation_facility}{Component column: Number of people with whom the facility is shared.}
+
+\item{class_colname}{The new column name for the classification column. Default to "sanitation_facility_class".}
 }
 \value{
 Three new columns: a recoded column of sanitation facilities between improved, unimproved and open defecation  (sanitation_facility_recoded), if not null a recoded column of the number of persons sharing the facility (sharing_sanitation_facility_recoded), a 5-point scale from 1 to 5 (sanitation_facility_class).
