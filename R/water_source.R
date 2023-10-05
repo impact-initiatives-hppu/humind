@@ -39,7 +39,7 @@ water_source <- function(df,
                          time_to_fetch_below_threshold_codes = c("5mins_to_14mins", "15mins_to_29mins"),
                          time_to_fetch_premises_codes = c("premises"),
                          time_to_fetch_na_codes = c("other")
-                         ) {
+) {
 
 
   #------ Check values set
@@ -51,9 +51,9 @@ water_source <- function(df,
   df <- dplyr::mutate(
     df,
     water_source_recoded = dplyr::case_when(
-      {{ water_source }} %in% water_source_surface_water_codes ~ "surface_water",
-      {{ water_source }} %in% water_source_unimproved_codes ~ "unimproved",
-      {{ water_source }} %in% water_source_improved_codes ~ "improved",
+      !!rlang::sym(water_source) %in% water_source_surface_water_codes ~ "surface_water",
+      !!rlang::sym(water_source) %in% water_source_unimproved_codes ~ "unimproved",
+      !!rlang::sym(water_source) %in% water_source_improved_codes ~ "improved",
       .default = NA_character_)
   )
 
@@ -61,9 +61,9 @@ water_source <- function(df,
   df <- dplyr::mutate(
     df,
     time_to_fetch_recoded = dplyr::case_when(
-      {{ time_to_fetch }} %in% time_to_fetch_above_threshold_codes ~ "above_threshold",
-      {{ time_to_fetch }} %in% time_to_fetch_below_threshold_codes ~ "below_threshold",
-      {{ time_to_fetch }} %in% time_to_fetch_premises_codes ~ "premises",
+      !!rlang::sym(time_to_fetch) %in% time_to_fetch_above_threshold_codes ~ "above_threshold",
+      !!rlang::sym(time_to_fetch) %in% time_to_fetch_below_threshold_codes ~ "below_threshold",
+      !!rlang::sym(time_to_fetch) %in% time_to_fetch_premises_codes ~ "premises",
       .default = NA_character_)
   )
 
@@ -73,9 +73,9 @@ water_source <- function(df,
     water_source_class = dplyr::case_when(
       water_source_recoded == "surface_water" ~ 5,
       water_source_recoded == "unimproved" ~ 4,
-      water_source_recoded == "improved" & time_to_fetch == "above_threshold" ~ 3,
-      water_source_recoded == "improved" & time_to_fetch == "below_threshold" ~ 2,
-      water_source_recoded == "improved" & time_to_fetch == "premises" ~ 1,
+      water_source_recoded == "improved" & time_to_fetch_recoded == "above_threshold" ~ 3,
+      water_source_recoded == "improved" & time_to_fetch_recoded == "below_threshold" ~ 2,
+      water_source_recoded == "improved" & time_to_fetch_recoded == "premises" ~ 1,
       .default = NA_real_)
   )
 
