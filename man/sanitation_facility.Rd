@@ -15,7 +15,7 @@ sanitation_facility(
 )
 }
 \arguments{
-\item{df}{A data frame}
+\item{df}{A data frame.}
 
 \item{sanitation_facility}{Component column: Sanitation facility types.}
 
@@ -30,7 +30,7 @@ sanitation_facility(
 \item{sharing_sanitation_facility}{Component column: Number of people with whom the facility is shared.}
 }
 \value{
-Three new columns: a recoded column of sanitation facilities between improved, unimproved and open defecatop,my finger  (water_source_recoded), a recoded column of times to fetch water according to the chosen thresholds (time_to_fetch_recoded), a 5-point scale from 1 to 5 (water_source_class).
+Three new columns: a recoded column of sanitation facilities between improved, unimproved and open defecation  (sanitation_facility_recoded), if not null a recoded column of the number of persons sharing the facility (sharing_sanitation_facility_recoded), a 5-point scale from 1 to 5 (sanitation_facility_class).
 }
 \description{
 \code{sanitation_facility()} recodes the types of sanitation facilities, and, if present, the number of persons sharing the facility, and classify each household/individual on a 5-point scale.
