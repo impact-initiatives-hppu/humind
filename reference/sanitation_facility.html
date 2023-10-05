@@ -57,6 +57,7 @@
 <span>  sanitation_facility_improved_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"composting toilet"</span>, <span class="st">"pour_flush_toilet"</span><span class="op">)</span>,</span>
 <span>  sanitation_facility_unimproved_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bucket"</span>, <span class="st">"hanging_latrine"</span><span class="op">)</span>,</span>
 <span>  sanitation_facility_open_defecation_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"open_defecation"</span><span class="op">)</span>,</span>
+<span>  sanitation_facility_na_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other"</span><span class="op">)</span>,</span>
 <span>  sharing_sanitation_facility <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -81,6 +82,10 @@
 
 <dt>sanitation_facility_open_defecation_codes</dt>
 <dd><p>Character vector of responses codes, such as "Open defecation", e.g., c("open_defecation").</p></dd>
+
+
+<dt>sanitation_facility_na_codes</dt>
+<dd><p>Character vector of responses codes, that do not fit any category, e.g., c("other").</p></dd>
 
 
 <dt>sharing_sanitation_facility</dt>

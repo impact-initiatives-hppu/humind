@@ -57,10 +57,12 @@
 <span>  water_source_improved_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"protected_well"</span>, <span class="st">"public_tap"</span><span class="op">)</span>,</span>
 <span>  water_source_unimproved_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"unprotected_well"</span>, <span class="st">"unprotected_spring"</span><span class="op">)</span>,</span>
 <span>  water_source_surface_water_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lake"</span>, <span class="st">"river"</span><span class="op">)</span>,</span>
+<span>  water_source_na_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other"</span><span class="op">)</span>,</span>
 <span>  time_to_fetch <span class="op">=</span> <span class="st">"time_to_fetch_water"</span>,</span>
 <span>  time_to_fetch_above_threshold_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"30mins_to_59mins"</span>, <span class="st">"1hour_above"</span><span class="op">)</span>,</span>
 <span>  time_to_fetch_below_threshold_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"5mins_to_14mins"</span>, <span class="st">"15mins_to_29mins"</span><span class="op">)</span>,</span>
-<span>  time_to_fetch_premises <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"premises"</span><span class="op">)</span></span>
+<span>  time_to_fetch_premises_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"premises"</span><span class="op">)</span>,</span>
+<span>  time_to_fetch_na_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -86,6 +88,10 @@
 <dd><p>Character vector of responses codes, such as "Lake" or "River, e.g., c("lake", "river").</p></dd>
 
 
+<dt>water_source_na_codes</dt>
+<dd><p>Character vector of responses codes, that do not fit any category, e.g., c("other").</p></dd>
+
+
 <dt>time_to_fetch</dt>
 <dd><p>Component column: Time to fetch water.</p></dd>
 
@@ -98,8 +104,12 @@
 <dd><p>Character vector of responses codes, such as "5 to 14 minutes" or "15 minutes to 29 minutes", e.g., c("5mins_to_14mins", "15mins_to_29mins").</p></dd>
 
 
-<dt>time_to_fetch_premises</dt>
+<dt>time_to_fetch_premises_codes</dt>
 <dd><p>Character vector of responses codes, such as "On premises", e.g., c("premises").</p></dd>
+
+
+<dt>time_to_fetch_na_codes</dt>
+<dd><p>Character vector of responses codes, that do not fit any category, e.g., c("other").</p></dd>
 
 </dl></div>
     <div class="section level2">
