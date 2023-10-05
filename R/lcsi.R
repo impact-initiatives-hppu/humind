@@ -1,17 +1,17 @@
 #' @title LCSI - Livelihood Coping Strategy Index
 #'
-#' @param df A data frame
-#' @param lcsi_stress_1  Component column: Stress strategy 1
-#' @param lcsi_stress_2 Component column: Stress strategy 2
-#' @param lcsi_stress_3 Component column: Stress strategy 3
-#' @param lcsi_stress_4 Component column: Stress strategy 4
-#' @param lcsi_crisis_1 Component column: Crisis strategy 1
-#' @param lcsi_crisis_2 Component column: Crisis strategy 2
-#' @param lcsi_crisis_3 Component column: Crisis strategy 3
-#' @param lcsi_emergency_1 Component column: Emergency strategy 1
-#' @param lcsi_emergency_2 Component column: Emergency strategy 2
-#' @param lcsi_emergency_3 Component column: Emergency strategy 3
-#' @param level_codes Character vector of responses codes, including first in the following order: Yes", "No, exhausted", "No, no need", "No, not applicable", e.g. c("yes", "exhausted", "no_need", "not_applicable")
+#' @param df A data frame.
+#' @param lcsi_stress_1  Component column: Stress strategy 1.
+#' @param lcsi_stress_2 Component column: Stress strategy 2.
+#' @param lcsi_stress_3 Component column: Stress strategy 3.
+#' @param lcsi_stress_4 Component column: Stress strategy 4.
+#' @param lcsi_crisis_1 Component column: Crisis strategy 1.
+#' @param lcsi_crisis_2 Component column: Crisis strategy 2.
+#' @param lcsi_crisis_3 Component column: Crisis strategy 3.
+#' @param lcsi_emergency_1 Component column: Emergency strategy 1.
+#' @param lcsi_emergency_2 Component column: Emergency strategy 2.
+#' @param lcsi_emergency_3 Component column: Emergency strategy 3.
+#' @param level_codes Character vector of responses codes, including first in the following order: Yes", "No, exhausted", "No, no need", "No, not applicable", e.g. c("yes", "exhausted", "no_need", "not_applicable").
 #' @param with_exhaustion Boolean. Is the exhaustion of strategies ("No, exhausted") accounted for?
 #'
 #' @importFrom rlang `:=`

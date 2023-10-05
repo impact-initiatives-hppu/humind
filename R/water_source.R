@@ -2,7 +2,7 @@
 #'
 #' `water_source()` recodes the types of water sources, the time to fetch water according to a chosen threshold, and classify each household/individual on a 5-point scale.
 #'
-#' @param df A data frame
+#' @param df A data frame.
 #' @param water_source Component column: Water source types.
 #' @param water_source_improved_codes Character vector of responses codes, such as "Protected well" or "Public tap", e.g., c("protected_well", "public_tap").
 #' @param water_source_unimproved_codes Character vector of responses codes, such as "Unprotected well" or "Unprotected spring", e.g., c("unprotected_well", "unprotected_spring").

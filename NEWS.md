@@ -2,6 +2,8 @@
 
 * Added `water_source()`: Water source 5-point-scale.
 * Added `sanitation_facility()`: Sanitation facility 5-point scale.
+* Added `handwashing_facility()`: Handwashing facility 2-point scale.
+* Added `drinking_water_quantity()`: Drinking water quantity 5-point scale.
 
 # humind 0.0.3
 

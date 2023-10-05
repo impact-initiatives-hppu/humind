@@ -19,7 +19,7 @@ water_source(
 )
 }
 \arguments{
-\item{df}{A data frame}
+\item{df}{A data frame.}
 
 \item{water_source}{Component column: Water source types.}
 

@@ -2,7 +2,7 @@
 #'
 #' `sanitation_facility()` recodes the types of sanitation facilities, and, if present, the number of persons sharing the facility, and classify each household/individual on a 5-point scale.
 #'
-#' @param df A data frame
+#' @param df A data frame.
 #' @param sanitation_facility Component column: Sanitation facility types.
 #' @param sanitation_facility_improved_codes Character vector of responses codes, such as "Composting toilet" or "Pour flush toilet", e.g., c("composting toilet", "pour_flush_toilet").
 #' @param sanitation_facility_unimproved_codes Character vector of responses codes, such as "Bucket" or "Hanging latrine", e.g., c("bucket", "hanging_latrine").
@@ -10,7 +10,7 @@
 #' @param sanitation_facility_na_codes Character vector of responses codes, that do not fit any category, e.g., c("other").
 #' @param sharing_sanitation_facility Component column: Number of people with whom the facility is shared.
 #'
-#' @return Three new columns: a recoded column of sanitation facilities between improved, unimproved and open defecatop,my finger  (water_source_recoded), a recoded column of times to fetch water according to the chosen thresholds (time_to_fetch_recoded), a 5-point scale from 1 to 5 (water_source_class).
+#' @return Three new columns: a recoded column of sanitation facilities between improved, unimproved and open defecation  (sanitation_facility_recoded), if not null a recoded column of the number of persons sharing the facility (sharing_sanitation_facility_recoded), a 5-point scale from 1 to 5 (sanitation_facility_class).
 #'
 #' @section Details on the 5-point scale:
 #'
@@ -43,9 +43,9 @@ sanitation_facility <- function(df,
   df <- dplyr::mutate(
     df,
     sanitation_facility_recoded = dplyr::case_when(
-      {{ sanitation_facility }} %in% sanitation_facility_open_defecation_codes ~ "open_defecation",
-      {{ sanitation_facility }} %in% sanitation_facility_unimproved_codes ~ "unimproved",
-      {{ sanitation_facility }} %in% sanitation_facility_improved_codes ~ "improved",
+      !!rlang::sym(sanitation_facility) %in% sanitation_facility_open_defecation_codes ~ "open_defecation",
+      !!rlang::sym(sanitation_facility)  %in% sanitation_facility_unimproved_codes ~ "unimproved",
+      !!rlang::sym(sanitation_facility)  %in% sanitation_facility_improved_codes ~ "improved",
       .default = NA_character_)
   )
 
@@ -55,9 +55,9 @@ sanitation_facility <- function(df,
     df <- dplyr::mutate(
       df,
       sharing_sanitation_facility_recoded = dplyr::case_when(
-        {{ sharing_sanitation_facility }} >= 50 ~ "50_and_above",
-        {{ sharing_sanitation_facility }} >= 20 ~ "20_to_49",
-        {{ sharing_sanitation_facility }} >= 0 ~ "19_and_below",
+        !!rlang::sym(sharing_sanitation_facility)  >= 50 ~ "50_and_above",
+        !!rlang::sym(sharing_sanitation_facility) >= 20 ~ "20_to_49",
+        !!rlang::sym(sharing_sanitation_facility) >= 0 ~ "19_and_below",
         .default = NA_character_)
     )
 
