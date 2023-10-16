@@ -66,7 +66,7 @@ sanitation_facility <- function(df,
     #------ 5-point scale
     df <- dplyr::mutate(
       df,
-      "{class_colname}" = dplyr::case_when(
+      "{class_colname}" := dplyr::case_when(
         sanitation_facility_recoded == "open_defecation" ~ 5,
         sanitation_facility_recoded == "unimproved" ~ 4,
         sanitation_facility_recoded == "improved" & sharing_sanitation_facility_recoded == "50_and_above" ~ 3,
@@ -81,7 +81,7 @@ sanitation_facility <- function(df,
     #------ 5-point scale
     df <- dplyr::mutate(
       df,
-      "{class_colname}" = dplyr::case_when(
+      "{class_colname}" := dplyr::case_when(
         sanitation_facility_recoded == "open_defecation" ~ 5,
         sanitation_facility_recoded == "unimproved" ~ 4,
         sanitation_facility_recoded == "improved" ~ 1,
