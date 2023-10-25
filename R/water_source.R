@@ -1,22 +1,17 @@
 #' Water source classification - 5-point scale
 #'
-#' `water_source()` recodes the types of water sources, the time to fetch water according to a chosen threshold, and classify each household/individual on a 5-point scale.
+#' [drinking_water_source()] recodes the types of water sources, [time_to_fetch_water()] the time to fetch water according to a chosen threshold, and [drinking_water_source_score()] classify each household/individual on a 5-point scale.
 #'
 #' @param df A data frame.
-#' @param water_source Component column: Water source types.
-#' @param water_source_improved_codes Character vector of responses codes, such as "Protected well" or "Public tap", e.g., c("protected_well", "public_tap").
-#' @param water_source_unimproved_codes Character vector of responses codes, such as "Unprotected well" or "Unprotected spring", e.g., c("unprotected_well", "unprotected_spring").
-#' @param water_source_surface_water_codes Character vector of responses codes, such as "Lake" or "River, e.g., c("lake", "river").
-#' @param water_source_na_codes Character vector of responses codes, that do not fit any category, e.g., c("other").
-#' @param time_to_fetch Component column: Time to fetch water.
-#' @param time_to_fetch_above_threshold_codes Character vector of responses codes, such as "30 minutes to 59 minutes" or "1 hour and above", e.g., c("30mins_to_59mins", "1hour_above").
-#' @param time_to_fetch_below_threshold_codes Character vector of responses codes, such as "5 to 14 minutes" or "15 minutes to 29 minutes", e.g., c("5mins_to_14mins", "15mins_to_29mins").
-#' @param time_to_fetch_premises_codes Character vector of responses codes, such as "On premises", e.g., c("premises").
-#' @param time_to_fetch_na_codes Character vector of responses codes, that do not fit any category, e.g., c("other").
-#' @param class_colname The new column name for the classification column. Default to "water_source_class".
+#' @param drinking_water_source Component column: Water source types.
+#' @param improved Character vector of responses codes, such as "Protected well" or "Public tap", e.g., c("protected_well", "public_tap").
+#' @param unimproved Character vector of responses codes, such as "Unprotected well" or "Unprotected spring", e.g., c("unprotected_well", "unprotected_spring").
+#' @param surface_water Character vector of responses codes, such as "Lake" or "River, e.g., c("lake", "river").
+#' @param premises Character vector of responses codes, such as "On premises", e.g., c("premises").
+#' @param na Character vector of responses codes, that do not fit any category, e.g., c("other").
 
 #'
-#' @return Three new columns: a recoded column of water sources between improved, unimproved and surface water (water_source_recoded), a recoded column of times to fetch water according to the chosen thresholds (time_to_fetch_recoded), a 5-point scale from 1 to 5 (water_source_class).
+#' @return A dataframe with a new column. For [drinking_water_source()], a recoded column of water sources between improved, unimproved and surface water (drinking_water_source_cat); for [time_to_fetch_water()], a recoded column of times to fetch water according to the chosen thresholds (time_to_fetch_water_cat); for [drinking_water_source_score()], a 5-point scale from 1 to 5 (drinking_water_source_score).
 #'
 #' @section Details on the 5-point scale:
 #'
@@ -29,58 +24,97 @@
 #' * Level 1: Improved water source on premises.
 #'
 #' @export
-water_source <- function(df,
-                         water_source = "water_source",
-                         water_source_improved_codes =   c("protected_well", "public_tap"),
-                         water_source_unimproved_codes =  c("unprotected_well", "unprotected_spring"),
-                         water_source_surface_water_codes = c("lake", "river"),
-                         water_source_na_codes = c("other"),
-                         time_to_fetch = "time_to_fetch_water",
-                         time_to_fetch_above_threshold_codes = c("30mins_to_59mins", "1hour_above"),
-                         time_to_fetch_below_threshold_codes = c("5mins_to_14mins", "15mins_to_29mins"),
-                         time_to_fetch_premises_codes = c("premises"),
-                         time_to_fetch_na_codes = c("other"),
-                         class_colname = "water_source_class"
-) {
+drinking_water_source <- function(df,
+                                  drinking_water_source = "drinking_water_source",
+                                  improved =   c("protected_well", "public_tap"),
+                                  unimproved =  c("unprotected_well", "unprotected_spring"),
+                                  surface_water = c("lake", "river"),
+                                  na = c("other")) {
 
 
   #------ Check values set
-  are_values_in_set(df, water_source, c(water_source_na_codes, water_source_improved_codes, water_source_unimproved_codes, water_source_surface_water_codes))
-  are_values_in_set(df, time_to_fetch, c(time_to_fetch_na_codes, time_to_fetch_above_threshold_codes, time_to_fetch_below_threshold_codes, time_to_fetch_premises_codes))
-
+  are_values_in_set(df, drinking_water_source, c(improved, unimproved, surface_water, na))
 
   #------ Recode water sources
   df <- dplyr::mutate(
     df,
-    water_source_recoded = dplyr::case_when(
-      !!rlang::sym(water_source) %in% water_source_surface_water_codes ~ "surface_water",
-      !!rlang::sym(water_source) %in% water_source_unimproved_codes ~ "unimproved",
-      !!rlang::sym(water_source) %in% water_source_improved_codes ~ "improved",
+    drinking_water_source_cat = dplyr::case_when(
+      !!rlang::sym(drinking_water_source) %in% surface_water ~ "surface_water",
+      !!rlang::sym(drinking_water_source) %in% unimproved ~ "unimproved",
+      !!rlang::sym(drinking_water_source) %in% improved ~ "improved",
       .default = NA_character_)
   )
+
+  return(df)
+
+}
+
+
+
+#' @rdname drinking_water_source
+#'
+#' @param time_to_fetch Component column: Time to fetch water.
+#' @param above_threshold Character vector of responses codes, such as "30 minutes to 59 minutes" or "1 hour and above", e.g., c("30mins_to_59mins", "1hour_above").
+#' @param below_threshold Character vector of responses codes, such as "5 to 14 minutes" or "15 minutes to 29 minutes", e.g., c("5mins_to_14mins", "15mins_to_29mins").
+#'
+#' @export
+time_to_fetch_water <- function(df,
+                                time_to_fetch_water = "time_to_fetch_water",
+                                above_threshold = c("30mins_to_59mins", "1hour_above"),
+                                below_threshold = c("5mins_to_14mins","15mins_to_29mins"),
+                                premises= c("premises"),
+                                na = c("other")){
+
+  #------ Check values set
+  are_values_in_set(df, time_to_fetch, c(above_threshold, below_threshold, premises, na ))
+
 
   #------ Recode time to fetch
   df <- dplyr::mutate(
     df,
-    time_to_fetch_recoded = dplyr::case_when(
-      !!rlang::sym(time_to_fetch) %in% time_to_fetch_above_threshold_codes ~ "above_threshold",
-      !!rlang::sym(time_to_fetch) %in% time_to_fetch_below_threshold_codes ~ "below_threshold",
-      !!rlang::sym(time_to_fetch) %in% time_to_fetch_premises_codes ~ "premises",
+    time_to_fetch_water_cat = dplyr::case_when(
+      !!rlang::sym(time_to_fetch_water) %in% above_threshold ~ "above_threshold",
+      !!rlang::sym(time_to_fetch_water) %in% below_threshold ~ "below_threshold",
+      !!rlang::sym(time_to_fetch_water) %in% premises ~ "premises",
       .default = NA_character_)
   )
+
+}
+
+
+#' @rdname drinking_water_source
+#'
+#' @param drinking_water_source_cat Drinking water sources column.
+#' @param drinking_water_source_levels Water sources levels - in that order: improved, unimproved, surface water.
+#' @param time_to_fetch_water_cat Time to fetch drinking water column.
+#' @param time_to_fetch_water_levels Time to fetch drinking water levels - in that order: premises, below the threshold, above the threshold.
+#'
+#' @export
+drinking_water_source_score <- function(df,
+                                        drinking_water_source_cat = "drinking_water_source_cat",
+                                        drinking_water_source_levels = c("improved", "unimproved", "surface_water"),
+                                        time_to_fetch_water_cat = "time_to_fetch_water_cat",
+                                        time_to_fetch_water_levels = c("premises", "below_threshold", "above_threshold")
+) {
+
+
+  #------ Check values set
+  are_values_in_set(df, drinking_water_source_cat, drinking_water_source_levels)
+  are_values_in_set(df, time_to_fetch_water_cat, time_to_fetch_water_levels)
 
   #------ 5-point scale
   df <- dplyr::mutate(
     df,
-    "{class_colname}" := dplyr::case_when(
-      water_source_recoded == "surface_water" ~ 5,
-      water_source_recoded == "unimproved" ~ 4,
-      water_source_recoded == "improved" & time_to_fetch_recoded == "above_threshold" ~ 3,
-      water_source_recoded == "improved" & time_to_fetch_recoded == "below_threshold" ~ 2,
-      water_source_recoded == "improved" & time_to_fetch_recoded == "premises" ~ 1,
+    drinking_water_source_score = dplyr::case_when(
+      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_levels[3] ~ 5,
+      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_levels[2] ~ 4,
+      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_levels[1] & !!rlang::sym(time_to_fetch_water_cat) == time_to_fetch_water_levels[3] ~ 3,
+      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_levels[1] & !!rlang::sym(time_to_fetch_water_cat) == time_to_fetch_water_levels[2] ~ 2,
+      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_levels[1] & !!rlang::sym(time_to_fetch_water_cat) == time_to_fetch_water_levels[1] ~ 1,
       .default = NA_real_)
   )
 
   return(df)
 
 }
+
