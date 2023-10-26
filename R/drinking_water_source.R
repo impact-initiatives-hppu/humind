@@ -1,4 +1,4 @@
-#' Water source classification - 5-point scale
+#' Drinking water source classification
 #'
 #' [drinking_water_source()] recodes the types of water sources, [time_to_fetch_water()] the time to fetch water according to a chosen threshold, and [drinking_water_source_score()] classify each household/individual on a 5-point scale.
 #'
@@ -7,7 +7,6 @@
 #' @param improved Character vector of responses codes, such as "Protected well" or "Public tap", e.g., c("protected_well", "public_tap").
 #' @param unimproved Character vector of responses codes, such as "Unprotected well" or "Unprotected spring", e.g., c("unprotected_well", "unprotected_spring").
 #' @param surface_water Character vector of responses codes, such as "Lake" or "River, e.g., c("lake", "river").
-#' @param premises Character vector of responses codes, such as "On premises", e.g., c("premises").
 #' @param na Character vector of responses codes, that do not fit any category, e.g., c("other").
 
 #'
@@ -26,10 +25,10 @@
 #' @export
 drinking_water_source <- function(df,
                                   drinking_water_source = "drinking_water_source",
-                                  improved =   c("protected_well", "public_tap"),
-                                  unimproved =  c("unprotected_well", "unprotected_spring"),
-                                  surface_water = c("lake", "river"),
-                                  na = c("other")) {
+                                  improved,
+                                  unimproved,
+                                  surface_water,
+                                  na) {
 
 
   #------ Check values set
@@ -53,20 +52,21 @@ drinking_water_source <- function(df,
 
 #' @rdname drinking_water_source
 #'
-#' @param time_to_fetch Component column: Time to fetch water.
+#' @param time_to_fetch_water Component column: Time to fetch water.
 #' @param above_threshold Character vector of responses codes, such as "30 minutes to 59 minutes" or "1 hour and above", e.g., c("30mins_to_59mins", "1hour_above").
 #' @param below_threshold Character vector of responses codes, such as "5 to 14 minutes" or "15 minutes to 29 minutes", e.g., c("5mins_to_14mins", "15mins_to_29mins").
+#' @param premises Character vector of responses codes, such as "On premises", e.g., c("premises").
 #'
 #' @export
 time_to_fetch_water <- function(df,
-                                time_to_fetch_water = "time_to_fetch_water",
-                                above_threshold = c("30mins_to_59mins", "1hour_above"),
-                                below_threshold = c("5mins_to_14mins","15mins_to_29mins"),
-                                premises= c("premises"),
-                                na = c("other")){
+                                time_to_fetch_water,
+                                above_threshold,
+                                below_threshold,
+                                premises,
+                                na) {
 
   #------ Check values set
-  are_values_in_set(df, time_to_fetch, c(above_threshold, below_threshold, premises, na ))
+  are_values_in_set(df, time_to_fetch_water, c(above_threshold, below_threshold, premises, na ))
 
 
   #------ Recode time to fetch
@@ -84,10 +84,10 @@ time_to_fetch_water <- function(df,
 
 #' @rdname drinking_water_source
 #'
-#' @param drinking_water_source_cat Drinking water sources column.
-#' @param drinking_water_source_levels Water sources levels - in that order: improved, unimproved, surface water.
-#' @param time_to_fetch_water_cat Time to fetch drinking water column.
-#' @param time_to_fetch_water_levels Time to fetch drinking water levels - in that order: premises, below the threshold, above the threshold.
+#' @param drinking_water_source_cat Component column: categories of drinking water sources.
+#' @param drinking_water_source_levels Drinking water sources levels - in that order: improved, unimproved, surface water.
+#' @param time_to_fetch_water_cat Component column: categories of time to fetch water.
+#' @param time_to_fetch_water_levels Time to fetch water levels - in that order: premises, below the threshold, above the threshold.
 #'
 #' @export
 drinking_water_source_score <- function(df,

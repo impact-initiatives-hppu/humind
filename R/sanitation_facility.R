@@ -1,15 +1,13 @@
-#' Sanitation facility classification - 5-point scale
+#' Sanitation facility classification
 #'
-#' `sanitation_facility()` recodes the types of sanitation facilities, and, if present, the number of persons sharing the facility, and classify each household/individual on a 5-point scale.
+#' [sanitation_facility()] recodes the types of sanitation facilities, [sharing_sanitation_facility()] recodes the number of people sharing the sanitation facility, and [sanitation_facility_score()] classify each household on a 5-point scale.
 #'
 #' @param df A data frame.
 #' @param sanitation_facility Component column: Sanitation facility types.
-#' @param sanitation_facility_improved_codes Character vector of responses codes, such as "Composting toilet" or "Pour flush toilet", e.g., c("composting toilet", "pour_flush_toilet").
-#' @param sanitation_facility_unimproved_codes Character vector of responses codes, such as "Bucket" or "Hanging latrine", e.g., c("bucket", "hanging_latrine").
-#' @param sanitation_facility_open_defecation_codes Character vector of responses codes, such as "Open defecation", e.g., c("open_defecation").
-#' @param sanitation_facility_na_codes Character vector of responses codes, that do not fit any category, e.g., c("other").
-#' @param sharing_sanitation_facility Component column: Number of people with whom the facility is shared.
-#' @param class_colname The new column name for the classification column. Default to "sanitation_facility_class".
+#' @param improved Character vector of responses codes, such as "Composting toilet" or "Pour flush toilet", e.g., c("composting toilet", "pour_flush_toilet").
+#' @param unimproved Character vector of responses codes, such as "Bucket" or "Hanging latrine", e.g., c("bucket", "hanging_latrine").
+#' @param open_defecation Character vector of responses codes, such as "Open defecation", e.g., c("open_defecation").
+#' @param na Character vector of responses codes, that do not fit any category, e.g., c("other").
 #'
 #' @return Three new columns: a recoded column of sanitation facilities between improved, unimproved and open defecation  (sanitation_facility_recoded), if not null a recoded column of the number of persons sharing the facility (sharing_sanitation_facility_recoded), a 5-point scale from 1 to 5 (sanitation_facility_class).
 #'
@@ -28,68 +26,84 @@
 #' @export
 sanitation_facility <- function(df,
                                 sanitation_facility = "sanitation_facility",
-                                sanitation_facility_improved_codes = c("composting toilet", "pour_flush_toilet"),
-                                sanitation_facility_unimproved_codes = c("bucket", "hanging_latrine"),
-                                sanitation_facility_open_defecation_codes = c("open_defecation"),
-                                sanitation_facility_na_codes = c("other"),
-                                sharing_sanitation_facility = NULL,
-                                class_colname = "sanitation_facility_class"
+                                improved,
+                                unimproved,
+                                open_defecation,
+                                na
 ) {
 
   #------ Check values ranges
-  are_values_in_set(df, sanitation_facility, c(sanitation_facility_improved_codes, sanitation_facility_unimproved_codes, sanitation_facility_open_defecation_codes, sanitation_facility_na_codes))
-
-  if (!is.null(sharing_sanitation_facility)) are_cols_numeric(df, sharing_sanitation_facility)
+  are_values_in_set(df, sanitation_facility, c(improved, unimproved, open_defecation, na))
 
   #------ Recode sanitation facility
   df <- dplyr::mutate(
     df,
-    sanitation_facility_recoded = dplyr::case_when(
-      !!rlang::sym(sanitation_facility) %in% sanitation_facility_open_defecation_codes ~ "open_defecation",
-      !!rlang::sym(sanitation_facility)  %in% sanitation_facility_unimproved_codes ~ "unimproved",
-      !!rlang::sym(sanitation_facility)  %in% sanitation_facility_improved_codes ~ "improved",
+    sanitation_facility_cat = dplyr::case_when(
+      !!rlang::sym(sanitation_facility) %in% open_defecation ~ "open_defecation",
+      !!rlang::sym(sanitation_facility) %in% unimproved ~ "unimproved",
+      !!rlang::sym(sanitation_facility) %in% improved ~ "improved",
       .default = NA_character_)
   )
 
-  if(!is.null(sharing_sanitation_facility)) {
+  return(df)
+}
 
-    #------ Recode time to fetch
-    df <- dplyr::mutate(
+
+
+#' @rdname sanitation_facility
+#'
+#' @param sharing_sanitation_facility Component column: Number of people with whom the facility is shared.
+#'
+#' @export
+sharing_sanitation_facility <- function(df,
+                                       sharing_sanitation_facility = "sharing_sanitation_facility"
+) {
+
+  #------ Check values ranges
+  are_cols_numeric(df, sharing_sanitation_facility)
+
+  #------ Recode sanitation facility
+  df <- dplyr::mutate(
       df,
-      sharing_sanitation_facility_recoded = dplyr::case_when(
-        !!rlang::sym(sharing_sanitation_facility)  >= 50 ~ "50_and_above",
+      sharing_sanitation_facility_cat = dplyr::case_when(
+        !!rlang::sym(sharing_sanitation_facility) >= 50 ~ "50_and_above",
         !!rlang::sym(sharing_sanitation_facility) >= 20 ~ "20_to_49",
         !!rlang::sym(sharing_sanitation_facility) >= 0 ~ "19_and_below",
         .default = NA_character_)
     )
 
-    #------ 5-point scale
-    df <- dplyr::mutate(
-      df,
-      "{class_colname}" := dplyr::case_when(
-        sanitation_facility_recoded == "open_defecation" ~ 5,
-        sanitation_facility_recoded == "unimproved" ~ 4,
-        sanitation_facility_recoded == "improved" & sharing_sanitation_facility_recoded == "50_and_above" ~ 3,
-        sanitation_facility_recoded == "improved" & sharing_sanitation_facility_recoded == "20_to_49" ~ 2,
-        sanitation_facility_recoded == "improved" & sharing_sanitation_facility_recoded == "19_and_below" ~ 1,
-        .default = NA_real_)
-    )
+  return(df)
+}
 
 
-  } else {
 
-    #------ 5-point scale
-    df <- dplyr::mutate(
-      df,
-      "{class_colname}" := dplyr::case_when(
-        sanitation_facility_recoded == "open_defecation" ~ 5,
-        sanitation_facility_recoded == "unimproved" ~ 4,
-        sanitation_facility_recoded == "improved" ~ 1,
-        .default = NA_real_)
-    )
+#' @rdname sanitation_facility
+#'
+#' @param sanitation_facility_cat Component column: categories of sanitation facilities.
+#' @param sanitation_facility_levels Sanitation facilities levels - in that order: improved, unimproved, open defecation.
+#' @param sharing_sanitation_facility_cat Component column: categories of the number of people sharing sanitation facilities.
+#' @param sharing_sanitation_facility_levels Sharing sanitation facilities levels - in that order: 19 and below, 20 to 49, 50 and above.
+#'
+#' @export
+sanitation_facility_score <- function(df,
+                                        sanitation_facility_cat = "sanitation_facility_cat",
+                                        sanitation_facility_levels = c("improved", "unimproved", "open_defecation"),
+                                        sharing_sanitation_facility_cat = "sharing_sanitation_facility_cat",
+                                        sharing_sanitation_facility_levels = c("19_and_below", "20_to_49", "50_and_above")
+){
 
-  }
+
+  #------ 5-point scale
+  df <- dplyr::mutate(
+    df,
+    sanitation_facility_score = dplyr::case_when(
+      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[3] ~ 5,
+      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[2]  ~ 4,
+      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & sharing_sanitation_facility_cat == sharing_sanitation_facility_levels[3] ~ 3,
+      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & sharing_sanitation_facility_cat == sharing_sanitation_facility_levels[2] ~ 2,
+      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & sharing_sanitation_facility_cat == sharing_sanitation_facility_levels[1] ~ 1,
+      .default = NA_real_)
+  )
 
   return(df)
-
 }
