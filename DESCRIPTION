@@ -1,12 +1,10 @@
 Package: humind
 Title: Calculate Usual Humanitarian Composite Indicators
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: 
     person("Guillaume", "Noblet", , "gnoblet@zaclys.net", role = c("aut", "cre"))
 Maintainer: Guillaume Noblet <gnoblet@zaclys.net>
-Description: Give helpers to calculate usual humanitarian composite indicators
-  such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, HWISE scales,
-  or other helpers for calculating the % of HHs that reported having at least one damage to their shelter.
+Description: Give helpers to calculate usual humanitarian composite indicators such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, HWISE scales, recode water sources.
 License: MIT + file LICENSE
 Depends: R (>= 4.1.0)
 Encoding: UTF-8

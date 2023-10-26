@@ -2,17 +2,30 @@
 % Please edit documentation in R/sanitation_facility.R
 \name{sanitation_facility}
 \alias{sanitation_facility}
-\title{Sanitation facility classification - 5-point scale}
+\alias{sharing_sanitation_facility}
+\alias{sanitation_facility_score}
+\title{Sanitation facility classification}
 \usage{
 sanitation_facility(
   df,
   sanitation_facility = "sanitation_facility",
-  sanitation_facility_improved_codes = c("composting toilet", "pour_flush_toilet"),
-  sanitation_facility_unimproved_codes = c("bucket", "hanging_latrine"),
-  sanitation_facility_open_defecation_codes = c("open_defecation"),
-  sanitation_facility_na_codes = c("other"),
-  sharing_sanitation_facility = NULL,
-  class_colname = "sanitation_facility_class"
+  improved,
+  unimproved,
+  open_defecation,
+  na
+)
+
+sharing_sanitation_facility(
+  df,
+  sharing_sanitation_facility = "sharing_sanitation_facility"
+)
+
+sanitation_facility_score(
+  df,
+  sanitation_facility_cat = "sanitation_facility_cat",
+  sanitation_facility_levels = c("improved", "unimproved", "open_defecation"),
+  sharing_sanitation_facility_cat = "sharing_sanitation_facility_cat",
+  sharing_sanitation_facility_levels = c("19_and_below", "20_to_49", "50_and_above")
 )
 }
 \arguments{
@@ -20,23 +33,29 @@ sanitation_facility(
 
 \item{sanitation_facility}{Component column: Sanitation facility types.}
 
-\item{sanitation_facility_improved_codes}{Character vector of responses codes, such as "Composting toilet" or "Pour flush toilet", e.g., c("composting toilet", "pour_flush_toilet").}
+\item{improved}{Character vector of responses codes, such as "Composting toilet" or "Pour flush toilet", e.g., c("composting toilet", "pour_flush_toilet").}
 
-\item{sanitation_facility_unimproved_codes}{Character vector of responses codes, such as "Bucket" or "Hanging latrine", e.g., c("bucket", "hanging_latrine").}
+\item{unimproved}{Character vector of responses codes, such as "Bucket" or "Hanging latrine", e.g., c("bucket", "hanging_latrine").}
 
-\item{sanitation_facility_open_defecation_codes}{Character vector of responses codes, such as "Open defecation", e.g., c("open_defecation").}
+\item{open_defecation}{Character vector of responses codes, such as "Open defecation", e.g., c("open_defecation").}
 
-\item{sanitation_facility_na_codes}{Character vector of responses codes, that do not fit any category, e.g., c("other").}
+\item{na}{Character vector of responses codes, that do not fit any category, e.g., c("other").}
 
 \item{sharing_sanitation_facility}{Component column: Number of people with whom the facility is shared.}
 
-\item{class_colname}{The new column name for the classification column. Default to "sanitation_facility_class".}
+\item{sanitation_facility_cat}{Component column: categories of sanitation facilities.}
+
+\item{sanitation_facility_levels}{Sanitation facilities levels - in that order: improved, unimproved, open defecation.}
+
+\item{sharing_sanitation_facility_cat}{Component column: categories of the number of people sharing sanitation facilities.}
+
+\item{sharing_sanitation_facility_levels}{Sharing sanitation facilities levels - in that order: 19 and below, 20 to 49, 50 and above.}
 }
 \value{
 Three new columns: a recoded column of sanitation facilities between improved, unimproved and open defecation  (sanitation_facility_recoded), if not null a recoded column of the number of persons sharing the facility (sharing_sanitation_facility_recoded), a 5-point scale from 1 to 5 (sanitation_facility_class).
 }
 \description{
-\code{sanitation_facility()} recodes the types of sanitation facilities, and, if present, the number of persons sharing the facility, and classify each household/individual on a 5-point scale.
+\code{\link[=sanitation_facility]{sanitation_facility()}} recodes the types of sanitation facilities, \code{\link[=sharing_sanitation_facility]{sharing_sanitation_facility()}} recodes the number of people sharing the sanitation facility, and \code{\link[=sanitation_facility_score]{sanitation_facility_score()}} classify each household on a 5-point scale.
 }
 \section{Details on the 5-point scale}{
 

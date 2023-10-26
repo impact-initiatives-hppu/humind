@@ -6,9 +6,8 @@
 \usage{
 drinking_water_quantity(
   df,
-  drinking_water_quantity = "water_source",
-  level_codes = c("always", "often", "sometimes", "rarely", "never"),
-  class_colname = "drinking_water_quantity_class"
+  drinking_water_quantity = "drinking_water_quantity",
+  level_codes = c("always", "often", "sometimes", "rarely", "never")
 )
 }
 \arguments{
@@ -17,12 +16,10 @@ drinking_water_quantity(
 \item{drinking_water_quantity}{Component column: Water source types.}
 
 \item{level_codes}{Character vector of responses codes, including first in the following order: "Always (more than 20 times)", "Often (11-20 times)", "Sometimes (3–10 times)", "Rarely (1–2 times)", "Never (0 times)", e.g. c("always", "often", "sometimes", "rarely", "never").}
-
-\item{class_colname}{The new column name for the classification column. Default to "drinking_water_quantity_class".}
 }
 \value{
 One new column: a 5-point scale from 1 to 5 (drinking_water_quantity_class).
 }
 \description{
-\code{drinking_water_quantity()} recodes the quantity of drinking availibility on a 5-point scale.
+\code{\link[=drinking_water_quantity]{drinking_water_quantity()}} recodes the quantity of drinking availability on a 5-point scale.
 }
