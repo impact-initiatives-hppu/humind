@@ -40,6 +40,9 @@
     <loc>https://gnoblet.github.io/humind/reference/drinking_water_quantity.html</loc>
   </url>
   <url>
+    <loc>https://gnoblet.github.io/humind/reference/drinking_water_source.html</loc>
+  </url>
+  <url>
     <loc>https://gnoblet.github.io/humind/reference/fclcp.html</loc>
   </url>
   <url>
@@ -98,8 +101,5 @@
   </url>
   <url>
     <loc>https://gnoblet.github.io/humind/reference/tidyeval.html</loc>
-  </url>
-  <url>
-    <loc>https://gnoblet.github.io/humind/reference/water_source.html</loc>
   </url>
 </urlset>
