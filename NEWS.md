@@ -1,3 +1,9 @@
+# humind 0.0.5
+
+* Breaking changes: revamp of all water sources and sanitation facilities fonctions with the same approach as the food security functions.
+* Added: `drinking_water_source()` recodes the types of water sources, `time_to_fetch_water()` the time to fetch water according to a chosen threshold, and `drinking_water_source_score()` classify each household/individual on a 5-point scale.
+* Added: `sanitation_facility()` recodes the types of sanitation facilities, `sharing_sanitation_facility()` recodes the number of people sharing the sanitation facility, and `sanitation_facility_score()` classify each household on a 5-point scale.
+
 # humind 0.0.4
 
 * Added `water_source()`: Water source 5-point-scale.
