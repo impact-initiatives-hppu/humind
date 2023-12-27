@@ -21,20 +21,19 @@
 #' @export
 handwashing_facility <- function(df,
                                  handwashing_facility = "sanitation_facility",
-                                 handwashing_facility_soap_and_water_codes = c("yes_soap_water"),
-                                 handwashing_facility_none_codes = c("no", "yes_only_soap", "yes_only_water"),
-                                 handwashing_facility_na_codes = c("dnk","no_access"),
-                                 class_colname = "handwashing_facility_class"
+                                 soap_and_water = c("yes_soap_water"),
+                                 none = c("no", "yes_only_soap", "yes_only_water"),
+                                 na = c("dnk","no_access")
 ) {
 
   #------ Check values ranges
-  are_values_in_set(df, handwashing_facility, c(handwashing_facility_soap_and_water_codes, handwashing_facility_none_codes, handwashing_facility_na_codes))
+  are_values_in_set(df, handwashing_facility, c(soap_and_water, none, na))
 
   df <- dplyr::mutate(
     df,
-    "{class_colname}" := dplyr::case_when(
-      !!rlang::sym(handwashing_facility) %in% handwashing_facility_soap_and_water_codes ~ 2,
-      !!rlang::sym(handwashing_facility) %in% handwashing_facility_none_codes ~ 1,
+    handwashing_facility_score = dplyr::case_when(
+      !!rlang::sym(handwashing_facility) %in% handwashing_facility_none_codes ~ 2,
+      !!rlang::sym(handwashing_facility) %in% handwashing_facility_soap_and_water_codes ~ 1,
       .default = NA_real_)
   )
 
