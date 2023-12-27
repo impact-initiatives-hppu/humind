@@ -4,10 +4,9 @@
 #'
 #' @param df A data frame
 #' @param handwashing_facility Component column: Handwashing facility types.
-#' @param handwashing_facility_soap_and_water_codes Character vector of responses codes, such as "Yes, available with soap and water (seen)" , e.g., c("yes_soap_water").
-#' @param handwashing_facility_none_codes Character vector of responses codes, such as "Yes, only soap", "Yes, only water" or "No", e.g., c("no", "yes_only_soap", "yes_only_water").
-#' @param handwashing_facility_na_codes Character vector of responses codes, such as "Don't know" or "No access", e.g., c("dnk","no_access").
-#' @param class_colname The new column name for the classification column. Default to "handwashing_facility_class".
+#' @param soap_and_water Character vector of responses codes, such as "Yes, available with soap and water (seen)" , e.g., c("yes_soap_water").
+#' @param none Character vector of responses codes, such as "Yes, only soap", "Yes, only water" or "No", e.g., c("no", "yes_only_soap", "yes_only_water").
+#' @param na Character vector of responses codes, such as "Don't know" or "No access", e.g., c("dnk","no_access").
 #'
 #' @return One new column: a 2-point scale from 1 to 2 (handwashing_facility_class).
 #'
