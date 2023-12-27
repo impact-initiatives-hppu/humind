@@ -20,7 +20,7 @@
 #'
 #' @export
 handwashing_facility <- function(df,
-                                 handwashing_facility = "sanitation_facility",
+                                 handwashing_facility = "handwashing_facility",
                                  soap_and_water = c("yes_soap_water"),
                                  none = c("no", "yes_only_soap", "yes_only_water"),
                                  na = c("dnk","no_access")
