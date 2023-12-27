@@ -1,3 +1,8 @@
+# humind 0.0.5.1
+
+* Bug fix: breaking change for `handwashing_facility()`
+
+
 # humind 0.0.5
 
 * Breaking changes: revamp of all water sources and sanitation facilities fonctions with the same approach as the food security functions.
