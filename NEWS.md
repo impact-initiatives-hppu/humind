@@ -1,6 +1,7 @@
 # humind 0.0.5.1
 
-* Bug fix: breaking change for `handwashing_facility()`
+* Bug fix and breaking change: `handwashing_facility()` now recodes the types of handwashing facility.
+* Added: `handwashing_facility_score()` which calculates a score on a 2-point scale based on `handwashing_facility()`
 
 
 # humind 0.0.5
