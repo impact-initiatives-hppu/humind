@@ -1,8 +1,8 @@
-#' Handwashing facility classification - 5-point scale
+#' Handwashing facility classification
 #'
-#' `handwashing_facility()` recodes the types of handwasing facility on a 2-point scale.
+#' [handwashing_facility()] recodes the types of handwasing facility, and [handwashing_facility_score()] classify each household/individual on a 2-point scale.
 #'
-#' @param df A data frame
+#' @param df A data frame.
 #' @param handwashing_facility Component column: Handwashing facility types.
 #' @param soap_and_water Character vector of responses codes, such as "Yes, available with soap and water (seen)" , e.g., c("yes_soap_water").
 #' @param none Character vector of responses codes, such as "Yes, only soap", "Yes, only water" or "No", e.g., c("no", "yes_only_soap", "yes_only_water").
@@ -30,9 +30,36 @@ handwashing_facility <- function(df,
 
   df <- dplyr::mutate(
     df,
+    handwashing_facility_cat = dplyr::case_when(
+      !!rlang::sym(handwashing_facility) %in% none ~ "none",
+      !!rlang::sym(handwashing_facility) %in% soap_and_water ~ "soap_and_water",
+      .default = NA_character_)
+  )
+
+  return(df)
+
+}
+
+#' @rdname handwashing_facility
+#' 
+#' @param handwashing_facility_cat Component column: Categories of handwashing facility.
+#' @param handwashing_facility_levels Handwashing facility levels - in that order: none, soap and water.
+#' 
+#' @export 
+handwashing_facility_score <- function(df,
+                                       handwashing_facility_cat = "handwashing_facility_cat",
+                                       handwashing_facility_levels = c("none", "soap_and_water")
+) {
+
+  #------ Check values set
+  are_values_in_set(df, handwashing_facility_cat, handwashing_facility_levels)
+
+  #------ 2-point scale
+  df <- dplyr::mutate(
+    df,
     handwashing_facility_score = dplyr::case_when(
-      !!rlang::sym(handwashing_facility) %in% handwashing_facility_none_codes ~ 2,
-      !!rlang::sym(handwashing_facility) %in% handwashing_facility_soap_and_water_codes ~ 1,
+      !!rlang::sym(handwashing_facility_cat) == handwashing_facility_levels[1] ~ 2,
+      !!rlang::sym(handwashing_facility_cat) == handwashing_facility_levels[2] ~ 1,
       .default = NA_real_)
   )
 
