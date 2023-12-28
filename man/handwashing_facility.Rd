@@ -2,7 +2,8 @@
 % Please edit documentation in R/handwashing_facility.R
 \name{handwashing_facility}
 \alias{handwashing_facility}
-\title{Handwashing facility classification - 5-point scale}
+\alias{handwashing_facility_score}
+\title{Handwashing facility classification}
 \usage{
 handwashing_facility(
   df,
@@ -11,9 +12,15 @@ handwashing_facility(
   none = c("no", "yes_only_soap", "yes_only_water"),
   na = c("dnk", "no_access")
 )
+
+handwashing_facility_score(
+  df,
+  handwashing_facility_cat = "handwashing_facility_cat",
+  handwashing_facility_levels = c("none", "soap_and_water")
+)
 }
 \arguments{
-\item{df}{A data frame}
+\item{df}{A data frame.}
 
 \item{handwashing_facility}{Component column: Handwashing facility types.}
 
@@ -22,12 +29,16 @@ handwashing_facility(
 \item{none}{Character vector of responses codes, such as "Yes, only soap", "Yes, only water" or "No", e.g., c("no", "yes_only_soap", "yes_only_water").}
 
 \item{na}{Character vector of responses codes, such as "Don't know" or "No access", e.g., c("dnk","no_access").}
+
+\item{handwashing_facility_cat}{Component column: Categories of handwashing facility.}
+
+\item{handwashing_facility_levels}{Handwashing facility levels - in that order: none, soap and water.}
 }
 \value{
 One new column: a 2-point scale from 1 to 2 (handwashing_facility_class).
 }
 \description{
-\code{handwashing_facility()} recodes the types of handwasing facility on a 2-point scale.
+\code{\link[=handwashing_facility]{handwashing_facility()}} recodes the types of handwasing facility, and \code{\link[=handwashing_facility_score]{handwashing_facility_score()}} classify each household/individual on a 2-point scale.
 }
 \section{Details on the 2-point scale}{
 
