@@ -8,8 +8,8 @@
 #' @param none Character vector of responses codes, such as "Yes, only soap", "Yes, only water" or "No", e.g., c("no", "yes_only_soap", "yes_only_water").
 #' @param na Character vector of responses codes, such as "Don't know" or "No access", e.g., c("dnk","no_access").
 #'
-#' @return One new column: a 2-point scale from 1 to 2 (handwashing_facility_class).
-#'
+#' @return A data frame with a new column named `handwashing_facility_cat` (for [handwashing_facility()]) and `handwashing_facility_score` (for [handwashing_facility_score()]) appended.
+#' 
 #' @section Details on the 2-point scale:
 #'
 #' The classification is computed as follows:

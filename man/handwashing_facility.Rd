@@ -35,7 +35,7 @@ handwashing_facility_score(
 \item{handwashing_facility_levels}{Handwashing facility levels - in that order: none, soap and water.}
 }
 \value{
-One new column: a 2-point scale from 1 to 2 (handwashing_facility_class).
+A data frame with a new column named \code{handwashing_facility_cat} (for \code{\link[=handwashing_facility]{handwashing_facility()}}) and \code{handwashing_facility_score} (for \code{\link[=handwashing_facility_score]{handwashing_facility_score()}}) appended.
 }
 \description{
 \code{\link[=handwashing_facility]{handwashing_facility()}} recodes the types of handwasing facility, and \code{\link[=handwashing_facility_score]{handwashing_facility_score()}} classify each household/individual on a 2-point scale.
