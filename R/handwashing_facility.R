@@ -1,6 +1,6 @@
 #' Handwashing facility classification
 #'
-#' [handwashing_facility()] recodes the types of handwasing facility, and [handwashing_facility_score()] classify each household/individual on a 2-point scale.
+#' [handwashing_facility()] recodes the types of handwasing facility, and [handwashing_facility_score()] classifies each household/individual on a 2-point scale.
 #'
 #' @param df A data frame.
 #' @param handwashing_facility Component column: Handwashing facility types.
