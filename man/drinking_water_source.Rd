@@ -65,7 +65,7 @@ drinking_water_source_score(
 A dataframe with a new column. For \code{\link[=drinking_water_source]{drinking_water_source()}}, a recoded column of water sources between improved, unimproved and surface water (drinking_water_source_cat); for \code{\link[=time_to_fetch_water]{time_to_fetch_water()}}, a recoded column of times to fetch water according to the chosen thresholds (time_to_fetch_water_cat); for \code{\link[=drinking_water_source_score]{drinking_water_source_score()}}, a 5-point scale from 1 to 5 (drinking_water_source_score).
 }
 \description{
-\code{\link[=drinking_water_source]{drinking_water_source()}} recodes the types of water sources, \code{\link[=time_to_fetch_water]{time_to_fetch_water()}} the time to fetch water according to a chosen threshold, and \code{\link[=drinking_water_source_score]{drinking_water_source_score()}} classify each household/individual on a 5-point scale.
+\code{\link[=drinking_water_source]{drinking_water_source()}} recodes the types of water sources, \code{\link[=time_to_fetch_water]{time_to_fetch_water()}} the categorical time to fetch water according to a chosen threshold, and \code{\link[=drinking_water_source_score]{drinking_water_source_score()}} classifies each household/individual on a 5-point scale.
 }
 \section{Details on the 5-point scale}{
 
