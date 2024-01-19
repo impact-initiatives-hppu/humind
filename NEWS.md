@@ -1,3 +1,7 @@
+# humind 0.0.5.2
+* Breaking change: `drinking_water_quantity()` now recodes the frequencies of days without drinking water, while `drinking_water_quantity_score()` assigns a score on a 5-point scale.
+* Added: `time_to_fetch_water_int_char()` and `time_to_fetch_water_combine()` to recode and combine both variables for the time to fetch water.
+
 # humind 0.0.5.1
 
 * Bug fix and breaking change: `handwashing_facility()` now recodes the types of handwashing facility.

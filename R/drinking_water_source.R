@@ -1,6 +1,6 @@
 #' Drinking water source classification
 #'
-#' [drinking_water_source()] recodes the types of water sources, [time_to_fetch_water()] the time to fetch water according to a chosen threshold, and [drinking_water_source_score()] classify each household/individual on a 5-point scale.
+#' [drinking_water_source()] recodes the types of water sources, [time_to_fetch_water()] the categorical time to fetch water according to a chosen threshold, and [drinking_water_source_score()] classifies each household/individual on a 5-point scale.
 #'
 #' @param df A data frame.
 #' @param drinking_water_source Component column: Water source types.
@@ -47,7 +47,6 @@ drinking_water_source <- function(df,
   return(df)
 
 }
-
 
 
 #' @rdname drinking_water_source
