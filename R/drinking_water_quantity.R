@@ -27,7 +27,7 @@ drinking_water_quantity <- function(df,
       !!rlang::sym(drinking_water_quantity) == level_codes[3] ~ "sometimes",
       !!rlang::sym(drinking_water_quantity) == level_codes[4] ~ "rarely",
       !!rlang::sym(drinking_water_quantity) == level_codes[5] ~ "never",
-      .default = NA_real_)
+      .default = NA_character_)
   )
 
   return(df)
