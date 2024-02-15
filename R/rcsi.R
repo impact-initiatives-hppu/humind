@@ -40,7 +40,7 @@ rcsi <- function(df,
   #------ rCSI score
   df <- dplyr::mutate(
     df,
-    fcs_score = rowSums(
+    rcsi_score = rowSums(
       dplyr::across(
         dplyr::all_of(rcsi_w_cols)
       ),
