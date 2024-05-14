@@ -25,10 +25,16 @@
     <loc>https://impact-initiatives-hppu.github.io/humind/news/index.html</loc>
   </url>
   <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_age_cat.html</loc>
+  </url>
+  <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_dummy_from_dummies.html</loc>
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_dummy_from_set.html</loc>
+  </url>
+  <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_num_cat.html</loc>
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_roster_wgq_ss.html</loc>
