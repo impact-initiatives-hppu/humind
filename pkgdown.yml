@@ -3,8 +3,8 @@ pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   hh-indicators: hh-indicators.html
-last_built: 2024-05-14T12:24Z
+last_built: 2024-05-14T12:32Z
 urls:
-  reference: https://gnoblet.github.io/humind/reference
-  article: https://gnoblet.github.io/humind/articles
+  reference: https://impact-initiatives-hppu.github.io/humind/reference
+  article: https://impact-initiatives-hppu.github.io/humind/articles
 
