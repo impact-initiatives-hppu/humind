@@ -15,7 +15,7 @@
 #' * [add_age_18_cat()] adds two columns to the dataframe: one with the categories (minor, major) and one with a dummy variable for below and above 18.
 #'
 #' @export
-add_age_cat <- function(df, age_col, breaks = seq(14, 100, by  = 5), labels = NULL, int_undefined = c(-999, 999), char_undefined = "undefined", new_colname = NULL) {
+add_age_cat <- function(df, age_col, breaks = seq(0, 100, by  = 5), labels = NULL, int_undefined = c(-999, 999), char_undefined = "undefined", new_colname = NULL) {
 
   # Use categorize_num function
   df <- add_num_cat(
@@ -42,26 +42,22 @@ add_age_18_cat <- function(df, age_col, int_undefined = c(-999, 999), char_undef
   # Paste "_d" for the new dummy column
   new_colname_d <- paste0(new_colname, "_d")
 
-  df <- add_num_cat(
-    df = df,
-    num_col = age_col,
-    breaks = 18,
-    labels = c("below_18", "above_18"),
-    int_undefined = int_undefined,
-    char_undefined = char_undefined,
-    new_colname = new_colname,
-    include_lowest = TRUE
-  )
-
   df <- dplyr::mutate(
     df,
+    # Labels class
+    "{new_colname}"  := dplyr::case_when(
+     !!rlang::sym(age_col) %in% int_undefined ~ char_undefined,
+     !!rlang::sym(age_col) < 18 ~ "below_18",
+     !!rlang::sym(age_col) >= 18 ~ "above_18",
+     .default = NA_character_
+    ),
     # Dummy 1 or 0 column
     "{new_colname_d}"  := dplyr::case_when(
       !!rlang::sym(new_colname) == char_undefined ~ NA_integer_,
       # Replace values below 18 by 1
-      !!rlang::sym(new_colname) == "below_18" ~ 1,
+      !!rlang::sym(new_colname) == "above_18" ~ 1,
       # Replace values above 18 by 0
-      !!rlang::sym(new_colname) == "above_18" ~ 0,
+      !!rlang::sym(new_colname) == "below_18" ~ 0,
       .default = NA_integer_
     )
   )

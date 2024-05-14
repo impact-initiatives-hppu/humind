@@ -21,8 +21,12 @@ library(dplyr)
 
 This vignette emphasizes how to add indicators for the "main" dataset at the household-level. The package provides functins to add, recode, and prepare the usual humanitarian composite indicators as well as the ones that are specific to the MSNA analytical framework.
 
-```{r load-data}
+```{r load-data, echo = FALSE}
 data("dummy_raw_data")
+```
+
+
+```{r load-data-prep}
 main <- dummy_raw_data$main |> as_tibble()
 main$weight <- 1
 ```
