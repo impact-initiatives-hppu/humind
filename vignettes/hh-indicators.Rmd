@@ -1,0 +1,49 @@
+---
+title: "Household-level indicators"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Household-level indicators}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(humind)
+library(dplyr)
+```
+
+This vignette emphasizes how to add indicators for the "main" dataset at the household-level. The package provides functins to add, recode, and prepare the usual humanitarian composite indicators as well as the ones that are specific to the MSNA analytical framework.
+
+```{r load-data}
+data("dummy_raw_data")
+main <- dummy_raw_data$main |> as_tibble()
+main$weight <- 1
+```
+
+
+# WASH - Water, Sanitation, and Hygiene
+
+# Sanitation
+
+```{r sanitation}
+# Category of sanitation facilities
+main <- add_sanitation_facility_cat(main)
+main |> select(wash_sanitation_facility, wash_sanitation_facility_cat) |> distinct() |> head(100)
+
+# Sharing the sanitation facility
+main <- add_sharing_sanitation_facility_cat(main)
+main |> select(wash_sanitation_facility_sharing_yn, wash_sharing_sanitation_facility_cat) |> distinct() |> head(100)
+
+# Number of individuals sharing the sanitation facility
+main <- add_sharing_sanitation_facility_num_ind(main)
+main |> select(wash_sanitation_facility_sharing_yn, hh_size, wash_sanitation_facility_sharing_n, wash_sharing_sanitation_facility_n_ind) |> distinct() |> head(100)
+```
+
+
