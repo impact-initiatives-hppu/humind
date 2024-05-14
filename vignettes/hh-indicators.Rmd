@@ -39,15 +39,15 @@ main$weight <- 1
 ```{r sanitation}
 # Category of sanitation facilities
 main <- add_sanitation_facility_cat(main)
-main |> select(wash_sanitation_facility, wash_sanitation_facility_cat) |> distinct() |> head(100)
+# main |> select(wash_sanitation_facility, wash_sanitation_facility_cat)
 
 # Sharing the sanitation facility
 main <- add_sharing_sanitation_facility_cat(main)
-main |> select(wash_sanitation_facility_sharing_yn, wash_sharing_sanitation_facility_cat) |> distinct() |> head(100)
+# main |> select(wash_sanitation_facility_sharing_yn, wash_sharing_sanitation_facility_cat)
 
 # Number of individuals sharing the sanitation facility
 main <- add_sharing_sanitation_facility_num_ind(main)
-main |> select(wash_sanitation_facility_sharing_yn, hh_size, wash_sanitation_facility_sharing_n, wash_sharing_sanitation_facility_n_ind) |> distinct() |> head(100)
+# main |> select(wash_sanitation_facility_sharing_yn, hh_size, wash_sanitation_facility_sharing_n, wash_sharing_sanitation_facility_n_ind)
 ```
 
 
