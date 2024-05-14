@@ -18,15 +18,17 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The package gives helpers to calculate usual humanitarian composite indicators such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, or other helpers for calculating the % of HHs that reported having at least one damage to their shelter.
+The package gives helpers to calculate usual humanitarian composite indicators in MSNAs.
 
+* Expect many breaking changes as we are moving towards a more consistent and coherent package for 2024 MSNAs
+* Food security indicators will be imported from impactR4PHU, potentially all Public Health functions.
 
 ## Installation
 
 You can install the development version of humind like so:
 
 ``` r
-devtools::install_github("gnoblet/humind")
+devtools::install_github("impact-initiatives-hppu/humind")
 ```
 
 ## Example
