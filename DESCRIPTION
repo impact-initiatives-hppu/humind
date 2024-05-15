@@ -17,7 +17,9 @@ Imports:
     rlang (>= 0.4.11),
     stats,
     stringr,
-    impactR.utils
+    impactR.utils,
+    limma,
+    tidyr
 URL: https://github.com/gnoblet/humind,
     https://gnoblet.github.io/humind/
 BugReports: https://github.com/gnoblet/humind/issues

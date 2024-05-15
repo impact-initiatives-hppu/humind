@@ -31,10 +31,23 @@ main <- dummy_raw_data$main |> as_tibble()
 main$weight <- 1
 ```
 
+# Shelter and NFI
+
+## Shelter types
+
+```{r shelter-type}
+# Category of shelter type
+main <- add_shelter_type_cat(main)
+# main |> select(snfi_shelter_type, snfi_shelter_type_individual, snfi_shelter_type_cat)
+
+# Shelter issues
+main <- add_shelter_issue_cat(main)
+main |> select(snfi_shelter_issue, snfi_shelter_issue_n, snfi_shelter_issue_cat)
+```
 
 # WASH - Water, Sanitation, and Hygiene
 
-# Sanitation
+## Sanitation facilities
 
 ```{r sanitation}
 # Category of sanitation facilities
@@ -50,4 +63,16 @@ main <- add_sharing_sanitation_facility_num_ind(main)
 # main |> select(wash_sanitation_facility_sharing_yn, hh_size, wash_sanitation_facility_sharing_n, wash_sharing_sanitation_facility_n_ind)
 ```
 
+## Water source and time to fetch water
+```{r water-source}
+# Category of water source
+main <- add_drinking_water_source_cat(main)
+
+# Time to fetch water
+main <- add_drinking_water_time_cat(main)
+
+# Time to fetch water according to the 1h threshold
+main <- add_drinking_water_time_threshold_cat(main)
+main |> select(wash_drinking_water_source, wash_drinking_water_time_yn, wash_drinking_water_time_int, wash_drinking_water_time_sl, wash_drinking_water_time_cat, wash_drinking_water_time_threshold_cat)
+```
 

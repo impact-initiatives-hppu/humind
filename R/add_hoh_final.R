@@ -1,11 +1,5 @@
 #' Head of household final values (from respondent skip logic)
 #'
-#' This function takes a dataframe and several variables related to household (hoh) and respondent (resp) information.
-#' It checks if the values in the 'hoh_yn' column are in the specified 'hoh_yn_codes' set.
-#' If the value is 'yes' in the 'hoh_yn' column (hoh_yn_codes[1]), it replaces the 'hoh_gender' and 'hoh_age' columns with the corresponding values.
-#' If the value is 'no' in the 'hoh_yn' column, it replaces the 'hoh_gender' and 'hoh_age' columns with the 'resp_gender' and 'resp_age' columns, respectively.
-#' The function returns the modified dataframe.
-#'
 #' @param df The input dataframe.
 #' @param resp_hoh_yn The column name for whether the respondent is the head of household (hoh) yes/no indicator.
 #' @param yes The value for 'yes' in the 'resp_hoh_yn' column.

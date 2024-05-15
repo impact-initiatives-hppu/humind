@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(humind)
 library(dplyr)
+library(tidyr)
 ```
 
 This vignette emphasizes how to add indicators for the "main" dataset at the household-level. The package provides functins to add, recode, and prepare the usual humanitarian composite indicators as well as the ones that are specific to the MSNA analytical framework.
@@ -42,7 +43,7 @@ roster <- dummy_raw_data$roster |> as_tibble()
 main <- add_hoh_final(main)
 
 # Print results
-main |> select(resp_gender, resp_age, resp_hoh_yn, hoh_gender, hoh_age) |> tidyr::drop_na()
+main |> select(resp_gender, resp_age, resp_hoh_yn, hoh_gender, hoh_age) |> drop_na()
 
 ```
 
