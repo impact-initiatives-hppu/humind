@@ -1,0 +1,66 @@
+---
+title: "General information"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{General information}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r setup}
+library(humind)
+library(dplyr)
+library(tidyr)
+```
+
+This vignette emphasizes how to add indicators for the "main" dataset at the household-level. The package provides functins to add, recode, and prepare the usual humanitarian composite indicators as well as the ones that are specific to the MSNA analytical framework.
+
+```{r load-data, echo = FALSE}
+data("dummy_raw_data")
+```
+
+
+```{r load-data-prep}
+main <- dummy_raw_data$main |> as_tibble()
+roster <- dummy_raw_data$roster |> as_tibble()
+```
+
+
+# Recategorize demographic variables
+
+# Head of household - final values
+
+```{r hoh-final}
+# Recategorize the head of household variable
+main <- add_hoh_final(main)
+
+# Print results
+main |> select(resp_gender, resp_age, resp_hoh_yn, hoh_gender, hoh_age) |> drop_na()
+
+```
+
+
+## Age variables
+
+```{r age}
+# Cateogize age of the respondent
+main <- add_age_cat(main, "resp_age")
+main <- add_age_18_cat(main, "resp_age")
+
+# Do the same for the individuals
+roster <- add_age_cat(roster, "ind_age")
+roster <- add_age_18_cat(roster, "ind_age")
+
+# Print results for the loop
+roster |> select(ind_age, ind_age_cat, ind_age_18_cat, ind_age_18_cat_d)
+
+```
+

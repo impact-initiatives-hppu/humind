@@ -18,7 +18,12 @@ add_sanitation_facility_cat <- function(df,
                                         undefined = c("other", "dnk", "pnta")
                                         ) {
 
-  #------ Check values ranges
+  #------ Checks
+
+  # Check if the variable is in the data frame
+  if_not_in_stop(df, sanitation_facility, "df")
+
+  # Check values ranges
   are_values_in_set(df, sanitation_facility, c(improved, unimproved, none, undefined))
 
   #------ Recode sanitation facility
