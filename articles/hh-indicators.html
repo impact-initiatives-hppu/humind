@@ -41,6 +41,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/general-information.html">General information</a>
     <a class="dropdown-item" href="../articles/hh-indicators.html">Household-level indicators</a>
   </div>
 </li>
@@ -96,76 +97,89 @@ at the household-level. The package provides functins to add, recode,
 and prepare the usual humanitarian composite indicators as well as the
 ones that are specific to the MSNA analytical framework.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dummy_raw_data"</span><span class="op">)</span></span>
-<span><span class="va">main</span> <span class="op">&lt;-</span> <span class="va">dummy_raw_data</span><span class="op">$</span><span class="va">main</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">main</span> <span class="op">&lt;-</span> <span class="va">dummy_raw_data</span><span class="op">$</span><span class="va">main</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">main</span><span class="op">$</span><span class="va">weight</span> <span class="op">&lt;-</span> <span class="fl">1</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="shelter-and-nfi">Shelter and NFI<a class="anchor" aria-label="anchor" href="#shelter-and-nfi"></a>
+</h2>
+<div class="section level3">
+<h3 id="shelter-types">Shelter types<a class="anchor" aria-label="anchor" href="#shelter-types"></a>
+</h3>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Category of shelter type</span></span>
+<span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_shelter_type_cat.html">add_shelter_type_cat</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
+<span><span class="co"># main |&gt; select(snfi_shelter_type, snfi_shelter_type_individual, snfi_shelter_type_cat)</span></span>
+<span></span>
+<span><span class="co"># Shelter issues</span></span>
+<span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_shelter_issue_cat.html">add_shelter_issue_cat</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
+<span><span class="va">main</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">snfi_shelter_issue</span>, <span class="va">snfi_shelter_issue_n</span>, <span class="va">snfi_shelter_issue_cat</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 400 × 3</span></span></span>
+<span><span class="co">#&gt;    snfi_shelter_issue                snfi_shelter_issue_n snfi_shelter_issue_cat</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> lack_privacy lack_space temperat…                 -<span style="color: #BB0000;">999</span> undefined             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="color: #BB0000;">NA</span>                                                  <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> <span style="color: #BB0000;">NA</span>                                                  <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="color: #BB0000;">NA</span>                                                  <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> lack_privacy lack_lighting diffi…                 -<span style="color: #BB0000;">999</span> undefined             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> <span style="color: #BB0000;">NA</span>                                                  <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> lack_space temperature leak lock…                 -<span style="color: #BB0000;">999</span> undefined             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> <span style="color: #BB0000;">NA</span>                                                  <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> lack_space temperature ventilati…                 -<span style="color: #BB0000;">999</span> undefined             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="color: #BB0000;">NA</span>                                                  <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>                    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 390 more rows</span></span></span></code></pre></div>
+</div>
+</div>
 <div class="section level2">
 <h2 id="wash---water-sanitation-and-hygiene">WASH - Water, Sanitation, and Hygiene<a class="anchor" aria-label="anchor" href="#wash---water-sanitation-and-hygiene"></a>
 </h2>
-</div>
-<div class="section level2">
-<h2 id="sanitation">Sanitation<a class="anchor" aria-label="anchor" href="#sanitation"></a>
-</h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="section level3">
+<h3 id="sanitation-facilities">Sanitation facilities<a class="anchor" aria-label="anchor" href="#sanitation-facilities"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Category of sanitation facilities</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_sanitation_facility_cat.html">add_sanitation_facility_cat</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
-<span><span class="va">main</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">wash_sanitation_facility</span>, <span class="va">wash_sanitation_facility_cat</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20 × 2</span></span></span>
-<span><span class="co">#&gt;    wash_sanitation_facility    wash_sanitation_facility_cat</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> <span style="color: #BB0000;">NA</span>                          <span style="color: #BB0000;">NA</span>                          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> pit_latrine_wo_slab         unimproved                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> bucket                      unimproved                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> compost                     improved                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> hanging_toilet              unimproved                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> container                   improved                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> dnk                         undefined                   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> flush_open_drain            unimproved                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> twin_pit_latrine_slab       improved                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> ventilated_pit_latrine_slab improved                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> pnta                        undefined                   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> flush_septic_tank           improved                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> flush_dnk_where             improved                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> pit_latrine_slab            improved                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> flush_elsewhere             unimproved                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> flush_piped_sewer           improved                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> plastic_bag                 unimproved                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> other                       undefined                   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> none                        none                        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span> flush_pit_latrine           improved</span></span>
+<span><span class="co"># main |&gt; select(wash_sanitation_facility, wash_sanitation_facility_cat)</span></span>
 <span></span>
 <span><span class="co"># Sharing the sanitation facility</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_sanitation_facility_cat.html">add_sharing_sanitation_facility_cat</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
-<span><span class="va">main</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">wash_sanitation_facility_sharing_yn</span>, <span class="va">wash_sharing_sanitation_facility_cat</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 2</span></span></span>
-<span><span class="co">#&gt;   wash_sanitation_facility_sharing_yn wash_sharing_sanitation_facility_cat</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>                                  <span style="color: #BB0000;">NA</span>                                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dnk                                 undefined                           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> no                                  not_shared                          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> yes                                 shared                              </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> pnta                                undefined</span></span>
+<span><span class="co"># main |&gt; select(wash_sanitation_facility_sharing_yn, wash_sharing_sanitation_facility_cat)</span></span>
 <span></span>
 <span><span class="co"># Number of individuals sharing the sanitation facility</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_sanitation_facility_cat.html">add_sharing_sanitation_facility_num_ind</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
-<span><span class="va">main</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">wash_sanitation_facility_sharing_yn</span>, <span class="va">hh_size</span>, <span class="va">wash_sanitation_facility_sharing_n</span>, <span class="va">wash_sharing_sanitation_facility_n_ind</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 27 × 4</span></span></span>
-<span><span class="co">#&gt;    wash_sanitation_facil…¹ hh_size wash_sanitation_faci…² wash_sharing_sanitat…³</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> <span style="color: #BB0000;">NA</span>                           <span style="color: #BB0000;">NA</span>                    <span style="color: #BB0000;">NA</span>  <span style="color: #BB0000;">NA</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> dnk                           3                    <span style="color: #BB0000;">NA</span>  <span style="color: #BB0000;">NA</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> no                            4                     4  19 and below          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> yes                           4                   253. 50_and_above          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> pnta                          4                    <span style="color: #BB0000;">NA</span>  <span style="color: #BB0000;">NA</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> yes                           4                   347. 50_and_above          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> yes                           4                   114. 50_and_above          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> dnk                           4                    <span style="color: #BB0000;">NA</span>  <span style="color: #BB0000;">NA</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> pnta                          5                    <span style="color: #BB0000;">NA</span>  <span style="color: #BB0000;">NA</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> no                            5                     5  19 and below          </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 17 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated names: ¹​wash_sanitation_facility_sharing_yn,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ²​wash_sanitation_facility_sharing_n,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ³​wash_sharing_sanitation_facility_n_ind</span></span></span></code></pre></div>
+<span><span class="co"># main |&gt; select(wash_sanitation_facility_sharing_yn, hh_size, wash_sanitation_facility_sharing_n, wash_sharing_sanitation_facility_n_ind)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="water-source-and-time-to-fetch-water">Water source and time to fetch water<a class="anchor" aria-label="anchor" href="#water-source-and-time-to-fetch-water"></a>
+</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Category of water source</span></span>
+<span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_source_cat</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Time to fetch water</span></span>
+<span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_time_cat</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Time to fetch water according to the 1h threshold</span></span>
+<span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_time_threshold_cat</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
+<span><span class="va">main</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">wash_drinking_water_source</span>, <span class="va">wash_drinking_water_time_yn</span>, <span class="va">wash_drinking_water_time_int</span>, <span class="va">wash_drinking_water_time_sl</span>, <span class="va">wash_drinking_water_time_cat</span>, <span class="va">wash_drinking_water_time_threshold_cat</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 400 × 6</span></span></span>
+<span><span class="co">#&gt;    wash_drinking_water_source wash_drinking_water_time_yn wash_drinking_water_…¹</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> other                      dnk                                             <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="color: #BB0000;">NA</span>                         <span style="color: #BB0000;">NA</span>                                              <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> bottled_water              dnk                                             <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="color: #BB0000;">NA</span>                         <span style="color: #BB0000;">NA</span>                                              <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> cart_tank                  number_minutes                                 154</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> sachet_water               pnta                                            <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> kiosk                      pnta                                            <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> <span style="color: #BB0000;">NA</span>                         <span style="color: #BB0000;">NA</span>                                              <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> tap                        dnk                                             <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="color: #BB0000;">NA</span>                         <span style="color: #BB0000;">NA</span>                                              <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 390 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated name: ¹​wash_drinking_water_time_int</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: wash_drinking_water_time_sl &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   wash_drinking_water_time_cat &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   wash_drinking_water_time_threshold_cat &lt;chr&gt;</span></span></span></code></pre></div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

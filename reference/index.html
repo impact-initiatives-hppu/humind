@@ -24,6 +24,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/general-information.html">General information</a>
     <a class="dropdown-item" href="../articles/hh-indicators.html">Household-level indicators</a>
   </div>
 </li>
@@ -67,6 +68,11 @@
         <dd>Add categories of age</dd>
       </dl><dl><dt>
           
+          <code><a href="add_drinking_water_source_cat.html">add_drinking_water_source_cat()</a></code> <code><a href="add_drinking_water_source_cat.html">add_drinking_water_time_cat()</a></code> <code><a href="add_drinking_water_source_cat.html">add_drinking_water_time_threshold_cat()</a></code> 
+        </dt>
+        <dd>Drinking water source recoding</dd>
+      </dl><dl><dt>
+          
           <code><a href="add_dummy_from_dummies.html">add_dummy_from_dummies()</a></code> 
         </dt>
         <dd>Add a dummy variable from dummies</dd>
@@ -75,6 +81,11 @@
           <code><a href="add_dummy_from_set.html">add_dummy_from_set()</a></code> 
         </dt>
         <dd>Add a dummy variable when any string from a set of strings</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_hoh_final.html">add_hoh_final()</a></code> 
+        </dt>
+        <dd>Head of household final values (from respondent skip logic)</dd>
       </dl><dl><dt>
           
           <code><a href="add_num_cat.html">add_num_cat()</a></code> 
@@ -92,6 +103,16 @@
         <dd>Sanitation facility classification</dd>
       </dl><dl><dt>
           
+          <code><a href="add_shelter_issue_cat.html">add_shelter_issue_cat()</a></code> 
+        </dt>
+        <dd>Add the number of shelter issues and related category</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_shelter_type_cat.html">add_shelter_type_cat()</a></code> 
+        </dt>
+        <dd>Combines both shelter types questions and recodes the type of shelter.</dd>
+      </dl><dl><dt>
+          
           <code><a href="are_cols_numeric.html">are_cols_numeric()</a></code> 
         </dt>
         <dd>Stop statement values are not numeric</dd>
@@ -107,24 +128,9 @@
         <dd>Stop statement values are not in set</dd>
       </dl><dl><dt>
           
-          <code><a href="drinking_water_quantity.html">drinking_water_quantity()</a></code> <code><a href="drinking_water_quantity.html">drinking_water_quantity_score()</a></code> 
-        </dt>
-        <dd>Drinking water quantity classification - 5-point scale</dd>
-      </dl><dl><dt>
-          
-          <code><a href="drinking_water_source.html">drinking_water_source()</a></code> <code><a href="drinking_water_source.html">time_to_fetch_water()</a></code> <code><a href="drinking_water_source.html">drinking_water_source_score()</a></code> 
-        </dt>
-        <dd>Drinking water source classification</dd>
-      </dl><dl><dt>
-          
           <code><a href="dummy_raw_data.html">dummy_raw_data</a></code> 
         </dt>
         <dd>Some MSNA dummy data A list of datasets with "main" for household-level, "roster" for demographics, "edu_ind" for individual education variables, "health_ind" for individual health variables, and "nut_ind" for individual nutrition variables.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="handwashing_facility.html">handwashing_facility()</a></code> <code><a href="handwashing_facility.html">handwashing_facility_score()</a></code> 
-        </dt>
-        <dd>Handwashing facility classification</dd>
       </dl><dl><dt>
           
           <code><a href="hwise.html">hwise()</a></code> 
@@ -142,6 +148,11 @@
         <dd>Stop statement "If not in colnames" with colnames</dd>
       </dl><dl><dt>
           
+          <code><a href="impute_value.html">impute_value()</a></code> <code><a href="impute_value.html">impute_median()</a></code> 
+        </dt>
+        <dd>Impute missing values</dd>
+      </dl><dl><dt>
+          
           <code><a href="roster_wgq_ss.html">roster_wgq_ss()</a></code> 
         </dt>
         <dd>Prepare dummy variables for each WG-SS component (individual data)</dd>
@@ -157,9 +168,9 @@
         <dd>Subvec not in</dd>
       </dl><dl><dt>
           
-          <code><a href="time_to_fetch_water_int_to_char.html">time_to_fetch_water_int_to_char()</a></code> <code><a href="time_to_fetch_water_int_to_char.html">time_to_fetch_water_combine()</a></code> 
+          <code><a href="sum_vars.html">sum_vars()</a></code> 
         </dt>
-        <dd>Shape the time to fetch water to recoding state</dd>
+        <dd>Function to sum up columns row-wise.</dd>
       </dl></div>
   </main></div>
 

@@ -10,6 +10,9 @@
     <loc>https://impact-initiatives-hppu.github.io/humind/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/articles/general-information.html</loc>
+  </url>
+  <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/articles/hh-indicators.html</loc>
   </url>
   <url>
@@ -28,10 +31,16 @@
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_age_cat.html</loc>
   </url>
   <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.html</loc>
+  </url>
+  <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_dummy_from_dummies.html</loc>
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_dummy_from_set.html</loc>
+  </url>
+  <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_hoh_final.html</loc>
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_num_cat.html</loc>
@@ -43,6 +52,12 @@
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.html</loc>
   </url>
   <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_shelter_issue_cat.html</loc>
+  </url>
+  <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_shelter_type_cat.html</loc>
+  </url>
+  <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/are_cols_numeric.html</loc>
   </url>
   <url>
@@ -52,16 +67,7 @@
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/are_values_in_set.html</loc>
   </url>
   <url>
-    <loc>https://impact-initiatives-hppu.github.io/humind/reference/drinking_water_quantity.html</loc>
-  </url>
-  <url>
-    <loc>https://impact-initiatives-hppu.github.io/humind/reference/drinking_water_source.html</loc>
-  </url>
-  <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/dummy_raw_data.html</loc>
-  </url>
-  <url>
-    <loc>https://impact-initiatives-hppu.github.io/humind/reference/handwashing_facility.html</loc>
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/hwise.html</loc>
@@ -71,6 +77,9 @@
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/if_not_in_stop.html</loc>
+  </url>
+  <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/impute_value.html</loc>
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/index.html</loc>
@@ -85,9 +94,9 @@
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/subvec_not_in.html</loc>
   </url>
   <url>
-    <loc>https://impact-initiatives-hppu.github.io/humind/reference/tidyeval.html</loc>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/sum_vars.html</loc>
   </url>
   <url>
-    <loc>https://impact-initiatives-hppu.github.io/humind/reference/time_to_fetch_water_int_to_char.html</loc>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/tidyeval.html</loc>
   </url>
 </urlset>
