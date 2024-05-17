@@ -101,23 +101,10 @@ so:</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/impact-initiatives-hppu/humind" class="external-link">humind</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">impactR.kobo</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gnoblet.github.io/impactR.analysis/" class="external-link">impactR.analysis</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'impactR.analysis'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:humind':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     analysis_dap</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">impactR.viz</span><span class="op">)</span></span></code></pre></div>
+<p>Load and prepare data, and add indicators:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     filter, lag</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
-<p>Load and prepare data:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu">humind</span><span class="fu">::</span><span class="va"><a href="../reference/dummy_raw_data.html">dummy_raw_data</a></span><span class="op">$</span><span class="va">main</span></span>
 <span><span class="va">main</span><span class="op">$</span><span class="va">weight</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span></span>
@@ -144,8 +131,8 @@ so:</p>
 <span></span>
 <span><span class="co"># Make it a survey design (IRL please use your survey design)</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu">srvyr</span><span class="fu">::</span><span class="fu"><a href="http://gdfe.co/srvyr/reference/as_survey_design.html" class="external-link">as_survey_design</a></span><span class="op">(</span><span class="va">main</span>, weights <span class="op">=</span> <span class="st">"weight"</span>, stratum <span class="op">=</span> <span class="st">"admin1"</span><span class="op">)</span></span></code></pre></div>
-<p>Now we load the kobo tool and analysis dap:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p>Now we load the kobo tool and data analysis plan:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">survey</span> <span class="op">&lt;-</span> <span class="fu">humind</span><span class="fu">::</span><span class="va"><a href="../reference/survey_update.html">survey_update</a></span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">label_english</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/impactR.kobo/man/split_survey.html" class="external-link">split_survey</a></span><span class="op">(</span><span class="va">type</span><span class="op">)</span></span>
@@ -156,7 +143,7 @@ so:</p>
 <div class="section level2">
 <h2 id="analysis">Analysis<a class="anchor" aria-label="anchor" href="#analysis"></a>
 </h2>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run the analysis</span></span>
 <span><span class="va">an</span> <span class="op">&lt;-</span> <span class="fu">impactR.analysis</span><span class="fu">::</span><span class="fu"><a href="https://gnoblet.github.io/impactR.analysis/reference/kobo_analysis_from_dap.html" class="external-link">kobo_analysis_from_dap</a></span><span class="op">(</span><span class="va">main</span>, <span class="va">analysis_dap</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dataset</span> <span class="op">==</span> <span class="st">"main"</span><span class="op">)</span>, <span class="va">survey</span>, <span class="va">choices</span><span class="op">)</span></span>
 <span><span class="co"># If we want a grouped analysis by admin 1</span></span>
@@ -169,62 +156,73 @@ so:</p>
 <h3 id="simple-bar-graphs">Simple bar graphs<a class="anchor" aria-label="anchor" href="#simple-bar-graphs"></a>
 </h3>
 <p>Let’s do one quick viz:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">impactR.viz</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'impactR.viz'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:grDevices':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     palette</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Drinking water sources for the whole country</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Drinking water sources for the whole country</span></span>
 <span><span class="va">var_to_plot</span> <span class="op">&lt;-</span> <span class="st">"wash_drinking_water_source_cat"</span></span>
 <span></span>
+<span><span class="co"># Filter the analysis results</span></span>
 <span><span class="va">an_plot</span> <span class="op">&lt;-</span> <span class="va">an</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">var</span> <span class="op">==</span> <span class="va">var_to_plot</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Get title, total number of observations and number of missing values</span></span>
 <span><span class="va">title_to_plot</span> <span class="op">&lt;-</span> <span class="va">an_plot</span><span class="op">$</span><span class="va">indicator</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">n_tot_plot</span> <span class="op">&lt;-</span> <span class="va">an_plot</span><span class="op">$</span><span class="va">n_tot</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">na_count_to_plot</span> <span class="op">&lt;-</span> <span class="va">an_plot</span><span class="op">$</span><span class="va">na_count_tot</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Bar plot</span></span>
 <span><span class="va">an_plot</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    stat_r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">stat</span><span class="op">*</span><span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>    var_value_na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">var_value</span><span class="op">)</span>, <span class="st">"missing"</span>, <span class="va">var_value</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"missing"</span>, <span class="st">"undefined"</span>, <span class="st">"improved"</span>, <span class="st">"unimproved"</span>, <span class="st">"surface_water"</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/impactR.viz/man/bar.html" class="external-link">bar</a></span><span class="op">(</span><span class="st">"var_value_na"</span>, <span class="st">"stat_r"</span>, add_text <span class="op">=</span> <span class="cn">F</span>, title <span class="op">=</span> <span class="va">title_to_plot</span>, theme_fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/impactR.viz/man/theme_reach.html" class="external-link">theme_reach</a></span><span class="op">(</span>title_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>, caption <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Number of observations: "</span>, <span class="va">n_tot_plot</span>, <span class="st">" ("</span>, <span class="va">na_count_to_plot</span>, <span class="st">" missing)"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="survey_analysis_files/figure-html/viz-bar-1.png" width="700"></p>
-<p>Let’s do one quick viz for the grouped analysis:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/impactR.viz/man/bar.html" class="external-link">bar</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"var_value_na"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"stat_r"</span>,</span>
+<span>    add_text <span class="op">=</span> <span class="cn">F</span>, </span>
+<span>    title <span class="op">=</span> <span class="va">title_to_plot</span>, </span>
+<span>    theme_fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/impactR.viz/man/theme_reach.html" class="external-link">theme_reach</a></span><span class="op">(</span>title_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,</span>
+<span>    caption <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Number of observations: "</span>, <span class="va">n_tot_plot</span>, <span class="st">" ("</span>, <span class="va">na_count_to_plot</span>, <span class="st">" missing)"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="survey_analysis_files/figure-html/viz-bar-1.png" width="65%" style="display: block; margin: auto;"></p>
+<p>Let’s do one quick viz for the grouped analysis at the admin 1
+level:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Drinking water sources for the whole country</span></span>
 <span><span class="va">var_to_plot</span> <span class="op">&lt;-</span> <span class="st">"wash_drinking_water_source_cat"</span></span>
 <span></span>
+<span><span class="co"># Filter the analysis results</span></span>
 <span><span class="va">an_ad1_plot</span> <span class="op">&lt;-</span> <span class="va">an_ad1</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">var</span> <span class="op">==</span> <span class="va">var_to_plot</span>, <span class="va">group_key</span> <span class="op">==</span> <span class="st">"admin1"</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Get title, total number of observations and number of missing values</span></span>
 <span><span class="va">title_to_plot</span> <span class="op">&lt;-</span> <span class="va">an_plot</span><span class="op">$</span><span class="va">indicator</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">n_tot_plot</span> <span class="op">&lt;-</span> <span class="va">an_plot</span><span class="op">$</span><span class="va">n_tot</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">na_count_to_plot</span> <span class="op">&lt;-</span> <span class="va">an_plot</span><span class="op">$</span><span class="va">na_count_tot</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Stack bar plot</span></span>
 <span><span class="va">an_ad1_plot</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    stat_r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">stat</span><span class="op">*</span><span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>    var_value_na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">var_value</span><span class="op">)</span>, <span class="st">"missing"</span>, <span class="va">var_value</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"missing"</span>, <span class="st">"undefined"</span>, <span class="st">"improved"</span>, <span class="st">"unimproved"</span>, <span class="st">"surface_water"</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/impactR.viz/man/bar.html" class="external-link">bar</a></span><span class="op">(</span><span class="st">"admin1"</span>, </span>
-<span>      <span class="st">"stat_r"</span>, </span>
-<span>      group <span class="op">=</span> <span class="st">"var_value_na"</span>, </span>
-<span>      position <span class="op">=</span> <span class="st">"stack"</span>, </span>
-<span>      add_text <span class="op">=</span> <span class="cn">T</span>, </span>
-<span>      add_text_color <span class="op">=</span> <span class="st">"white"</span>,</span>
-<span>      add_text_threshold_display <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>      title <span class="op">=</span> <span class="va">title_to_plot</span>, </span>
-<span>      theme_fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/impactR.viz/man/theme_reach.html" class="external-link">theme_reach</a></span><span class="op">(</span>grid_major_x <span class="op">=</span> <span class="cn">FALSE</span>, axis_x <span class="op">=</span> <span class="cn">FALSE</span>, axis_ticks_y <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    legend_direction <span class="op">=</span> <span class="st">"horizontal"</span>, legend_position <span class="op">=</span> <span class="st">"bottom"</span>, title_size <span class="op">=</span> <span class="fl">14</span><span class="op">)</span>,</span>
-<span>      caption <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Number of observations: "</span>,</span>
-<span>                       <span class="va">n_tot_plot</span>, <span class="st">" ("</span>, <span class="va">na_count_to_plot</span>, <span class="st">" missing)"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="survey_analysis_files/figure-html/viz-bar-grouped-1.png" width="700"></p>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/impactR.viz/man/bar.html" class="external-link">bar</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"admin1"</span>, </span>
+<span>    y <span class="op">=</span> <span class="st">"stat_r"</span>, </span>
+<span>    group <span class="op">=</span> <span class="st">"var_value_na"</span>, </span>
+<span>    position <span class="op">=</span> <span class="st">"stack"</span>, </span>
+<span>    add_text <span class="op">=</span> <span class="cn">T</span>, </span>
+<span>    add_text_color <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>    add_text_threshold_display <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>    title <span class="op">=</span> <span class="va">title_to_plot</span>, </span>
+<span>    theme_fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/impactR.viz/man/theme_reach.html" class="external-link">theme_reach</a></span><span class="op">(</span></span>
+<span>      grid_major_x <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>      axis_x <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span>      axis_ticks_y <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>      legend_direction <span class="op">=</span> <span class="st">"horizontal"</span>, </span>
+<span>      legend_position <span class="op">=</span> <span class="st">"bottom"</span>, </span>
+<span>      title_size <span class="op">=</span> <span class="fl">14</span><span class="op">)</span>,</span>
+<span>    caption <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Number of observations: "</span>,</span>
+<span>                     <span class="va">n_tot_plot</span>, <span class="st">" ("</span>, <span class="va">na_count_to_plot</span>, <span class="st">" missing)"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="survey_analysis_files/figure-html/viz-bar-grouped-1.png" width="65%" style="display: block; margin: auto;"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
