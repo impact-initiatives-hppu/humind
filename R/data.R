@@ -3,3 +3,18 @@
 #'
 #' @format A list of tibbles
 "dummy_raw_data"
+
+#' Some analysis DAP
+#'
+#' @format A tibble
+"analysis_dap"
+
+#' Some survey sheet, updated
+#'
+#' @format A tibble
+"survey_update"
+
+#' Some choices sheet, updated
+#'
+#' @format A tibble
+"choices_update"

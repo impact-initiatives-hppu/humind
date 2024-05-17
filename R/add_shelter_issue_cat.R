@@ -34,13 +34,10 @@ add_shelter_issue_cat <- function(
 
   #------ Recode
 
-  # New column name
-  shelter_issue_n <- paste0(shelter_issue, "_n")
-
   # Sum vars across issues
   df <- sum_vars(
     df,
-    new_colname = shelter_issue_n,
+    new_colname = "snfi_shelter_issue_n",
     vars = shelter_issue_d_issues,
     na_rm = FALSE,
     imputation = "none"
@@ -49,10 +46,10 @@ add_shelter_issue_cat <- function(
   # Add "none" and "undefined" information
   df <- dplyr::mutate(
     df,
-    "{shelter_issue_n}" := dplyr::case_when(
+    snfi_shelter_issue_n = dplyr::case_when(
       dplyr::if_any(shelter_issue_d_undefined, \(x) x == 1) ~ -999,
       !!rlang::sym(shelter_issue_d_none) == 1 ~ 0,
-      .default = !!rlang::sym(shelter_issue_n)
+      .default = !!rlang::sym("snfi_shelter_issue_n")
     )
   )
 
@@ -60,11 +57,11 @@ add_shelter_issue_cat <- function(
   df <- dplyr::mutate(
     df,
     snfi_shelter_issue_cat = dplyr::case_when(
-      !!rlang::sym(shelter_issue_n) == 0 ~ "none",
-      !!rlang::sym(shelter_issue_n) == -999 ~ "undefined",
-      !!rlang::sym(shelter_issue_n) <= 3 ~ "1_to_3",
-      !!rlang::sym(shelter_issue_n) <= 6 ~ "4_to_6",
-      !!rlang::sym(shelter_issue_n) <= 8 ~ "7_to_8",
+      snfi_shelter_issue_n == 0 ~ "none",
+      snfi_shelter_issue_n == -999 ~ "undefined",
+      snfi_shelter_issue_n <= 3 ~ "1_to_3",
+      snfi_shelter_issue_n <= 6 ~ "4_to_6",
+      snfi_shelter_issue_n <= 8 ~ "7_to_8",
       .default = NA_character_
     )
     )
