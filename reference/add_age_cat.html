@@ -26,6 +26,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/general-information.html">General information</a>
     <a class="dropdown-item" href="../articles/hh-indicators.html">Household-level indicators</a>
+    <a class="dropdown-item" href="../articles/survey_analysis.html">Example of survey analysis</a>
   </div>
 </li>
 <li class="nav-item">
@@ -35,7 +36,7 @@
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
       <ul class="navbar-nav"><li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/gnoblet/humind/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/impact-initiatives-hppu/humind/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -48,7 +49,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Add categories of age</h1>
-      <small class="dont-index">Source: <a href="https://github.com/gnoblet/humind/blob/HEAD/R/add_age_cat.R" class="external-link"><code>R/add_age_cat.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/HEAD/R/add_age_cat.R" class="external-link"><code>R/add_age_cat.R</code></a></small>
       <div class="d-none name"><code>add_age_cat.Rd</code></div>
     </div>
 
@@ -61,7 +62,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_age_cat</span><span class="op">(</span></span>
 <span>  <span class="va">df</span>,</span>
 <span>  <span class="va">age_col</span>,</span>
-<span>  breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
+<span>  breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">120</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
 <span>  labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  int_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">999</span>, <span class="fl">999</span><span class="op">)</span>,</span>
 <span>  char_undefined <span class="op">=</span> <span class="st">"undefined"</span>,</span>

@@ -19,6 +19,9 @@
     <loc>https://impact-initiatives-hppu.github.io/humind/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/articles/survey_analysis.html</loc>
+  </url>
+  <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/authors.html</loc>
   </url>
   <url>
@@ -40,10 +43,13 @@
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_dummy_from_set.html</loc>
   </url>
   <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_fds_cannot_cat.html</loc>
+  </url>
+  <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_hoh_final.html</loc>
   </url>
   <url>
-    <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_num_cat.html</loc>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_occupancy_cat.html</loc>
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_roster_wgq_ss.html</loc>
@@ -58,6 +64,9 @@
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_shelter_type_cat.html</loc>
   </url>
   <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/analysis_dap.html</loc>
+  </url>
+  <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/are_cols_numeric.html</loc>
   </url>
   <url>
@@ -65,6 +74,12 @@
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/are_values_in_set.html</loc>
+  </url>
+  <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/choices_update.html</loc>
+  </url>
+  <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/drinking_water_quantity.html</loc>
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/dummy_raw_data.html</loc>
@@ -85,6 +100,9 @@
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/num_cat.html</loc>
+  </url>
+  <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/roster_wgq_ss.html</loc>
   </url>
   <url>
@@ -97,6 +115,6 @@
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/sum_vars.html</loc>
   </url>
   <url>
-    <loc>https://impact-initiatives-hppu.github.io/humind/reference/tidyeval.html</loc>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/survey_update.html</loc>
   </url>
 </urlset>

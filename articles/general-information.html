@@ -43,6 +43,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/general-information.html">General information</a>
     <a class="dropdown-item" href="../articles/hh-indicators.html">Household-level indicators</a>
+    <a class="dropdown-item" href="../articles/survey_analysis.html">Example of survey analysis</a>
   </div>
 </li>
 <li class="nav-item">
@@ -55,7 +56,7 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/gnoblet/humind/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/impact-initiatives-hppu/humind/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -75,14 +76,14 @@
       <img src="" class="logo" alt=""><h1>General information</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/gnoblet/humind/blob/HEAD/vignettes/general-information.Rmd" class="external-link"><code>vignettes/general-information.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/HEAD/vignettes/general-information.Rmd" class="external-link"><code>vignettes/general-information.Rmd</code></a></small>
       <div class="d-none name"><code>general-information.Rmd</code></div>
     </div>
 
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gnoblet/humind" class="external-link">humind</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/impact-initiatives-hppu/humind" class="external-link">humind</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
@@ -91,13 +92,14 @@
 <span><span class="co">#&gt;     filter, lag</span></span>
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></code></pre></div>
 <p>This vignette emphasizes how to add indicators for the “main” dataset
 at the household-level. The package provides functins to add, recode,
 and prepare the usual humanitarian composite indicators as well as the
 ones that are specific to the MSNA analytical framework.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">main</span> <span class="op">&lt;-</span> <span class="va">dummy_raw_data</span><span class="op">$</span><span class="va">main</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">roster</span> <span class="op">&lt;-</span> <span class="va">dummy_raw_data</span><span class="op">$</span><span class="va">roster</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
@@ -107,7 +109,7 @@ ones that are specific to the MSNA analytical framework.</p>
 <div class="section level2">
 <h2 id="head-of-household---final-values">Head of household - final values<a class="anchor" aria-label="anchor" href="#head-of-household---final-values"></a>
 </h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Recategorize the head of household variable</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_hoh_final.html">add_hoh_final</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
 <span></span>
@@ -130,7 +132,7 @@ ones that are specific to the MSNA analytical framework.</p>
 <div class="section level3">
 <h3 id="age-variables">Age variables<a class="anchor" aria-label="anchor" href="#age-variables"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Cateogize age of the respondent</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_age_cat.html">add_age_cat</a></span><span class="op">(</span><span class="va">main</span>, <span class="st">"resp_age"</span><span class="op">)</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_age_cat.html">add_age_18_cat</a></span><span class="op">(</span><span class="va">main</span>, <span class="st">"resp_age"</span><span class="op">)</span></span>
@@ -149,11 +151,11 @@ ones that are specific to the MSNA analytical framework.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      84 (80,85]     above_18                      1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      49 (45,50]     above_18                      1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      13 (10,15]     below_18                      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     115 <span style="color: #BB0000;">NA</span>          above_18                      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     107 <span style="color: #BB0000;">NA</span>          above_18                      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     115 (110,115]   above_18                      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     107 (105,110]   above_18                      1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      96 (95,100]    above_18                      1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      46 (45,50]     above_18                      1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     120 <span style="color: #BB0000;">NA</span>          above_18                      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     120 (115,120]   above_18                      1</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 806 more rows</span></span></span></code></pre></div>
 </div>
 </div>

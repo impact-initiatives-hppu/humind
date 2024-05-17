@@ -43,6 +43,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/general-information.html">General information</a>
     <a class="dropdown-item" href="../articles/hh-indicators.html">Household-level indicators</a>
+    <a class="dropdown-item" href="../articles/survey_analysis.html">Example of survey analysis</a>
   </div>
 </li>
 <li class="nav-item">
@@ -55,7 +56,7 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/gnoblet/humind/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/impact-initiatives-hppu/humind/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -75,14 +76,14 @@
       <img src="" class="logo" alt=""><h1>Household-level indicators</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/gnoblet/humind/blob/HEAD/vignettes/hh-indicators.Rmd" class="external-link"><code>vignettes/hh-indicators.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/HEAD/vignettes/hh-indicators.Rmd" class="external-link"><code>vignettes/hh-indicators.Rmd</code></a></small>
       <div class="d-none name"><code>hh-indicators.Rmd</code></div>
     </div>
 
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gnoblet/humind" class="external-link">humind</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/impact-initiatives-hppu/humind" class="external-link">humind</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
@@ -128,6 +129,30 @@ ones that are specific to the MSNA analytical framework.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="color: #BB0000;">NA</span>                                                  <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>                    </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 390 more rows</span></span></span></code></pre></div>
 </div>
+<div class="section level3">
+<h3 id="functional-domestic-space">Functional domestic space<a class="anchor" aria-label="anchor" href="#functional-domestic-space"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Category of functional domestic space</span></span>
+<span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_fds_cannot_cat.html">add_fds_cannot_cat</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
+<span><span class="va">main</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">snfi_fds_cooking</span>, <span class="va">snfi_fds_sleeping</span>, <span class="va">snfi_fds_storing</span>, <span class="va">snfi_fds_personal_hygiene</span>, <span class="va">energy_lighting_source</span>, <span class="va">snfi_fds_cannot_n</span>, <span class="va">snfi_fds_cannot_cat</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 400 × 7</span></span></span>
+<span><span class="co">#&gt;    snfi_fds_cooking snfi_fds_sleeping snfi_fds_storing snfi_fds_personal_hygiene</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> no_cannot        yes_no_issues     yes_no_issues    undefined                </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> no_cannot        yes_no_issues     no_cannot        undefined                </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> undefined        yes_no_issues     no_cannot        yes_no_issues            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> yes_no_issues    yes_no_issues     yes_no_issues    yes_issues               </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                       </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 390 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: energy_lighting_source &lt;chr&gt;, snfi_fds_cannot_n &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   snfi_fds_cannot_cat &lt;chr&gt;</span></span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="wash---water-sanitation-and-hygiene">WASH - Water, Sanitation, and Hygiene<a class="anchor" aria-label="anchor" href="#wash---water-sanitation-and-hygiene"></a>
@@ -135,7 +160,7 @@ ones that are specific to the MSNA analytical framework.</p>
 <div class="section level3">
 <h3 id="sanitation-facilities">Sanitation facilities<a class="anchor" aria-label="anchor" href="#sanitation-facilities"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Category of sanitation facilities</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_sanitation_facility_cat.html">add_sanitation_facility_cat</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
 <span><span class="co"># main |&gt; select(wash_sanitation_facility, wash_sanitation_facility_cat)</span></span>
@@ -151,7 +176,7 @@ ones that are specific to the MSNA analytical framework.</p>
 <div class="section level3">
 <h3 id="water-source-and-time-to-fetch-water">Water source and time to fetch water<a class="anchor" aria-label="anchor" href="#water-source-and-time-to-fetch-water"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Category of water source</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_source_cat</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
 <span></span>
