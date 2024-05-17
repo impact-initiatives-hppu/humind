@@ -27,14 +27,15 @@ If `impactR.analysis`, `impactR.kobo`, and `impactR.viz` are not installed, you 
 # Load libraries an files
 
 Load packages:
-```{r setup}
+```{r setup, warning = FALSE, message = FALSE}
 library(humind)
 library(impactR.kobo)
 library(impactR.analysis)
 library(dplyr)
+library(impactR.viz)
 ```
 
-Load and prepare data:
+Load and prepare data, and add indicators:
 ```{r prep-data}
 main <- humind::dummy_raw_data$main
 main$weight <- 1
@@ -64,7 +65,7 @@ main <- main |>
 main <- srvyr::as_survey_design(main, weights = "weight", stratum = "admin1")
 ```
 
-Now we load the kobo tool and analysis dap:
+Now we load the kobo tool and data analysis plan:
 ```{r prep-analysis, warning=F}
 survey <- humind::survey_update |> 
   rename(label = label_english) |> 
@@ -89,55 +90,71 @@ an_ad1 <- impactR.analysis::kobo_analysis_from_dap(main, analysis_dap |> filter(
 ## Simple bar graphs
 
 Let's do one quick viz:
-```{r viz-bar, warning=F}
-library(impactR.viz)
-
+```{r viz-bar, warning = FALSE, out.width = "65%", fig.align = "center"}
 # Drinking water sources for the whole country
 var_to_plot <- "wash_drinking_water_source_cat"
 
+# Filter the analysis results
 an_plot <- an |> 
   filter(var == var_to_plot)
 
+# Get title, total number of observations and number of missing values
 title_to_plot <- an_plot$indicator |> unique()
 n_tot_plot <- an_plot$n_tot |> unique()
 na_count_to_plot <- an_plot$na_count_tot |> unique()
 
+# Bar plot
 an_plot |> 
   mutate(
     stat_r = round(stat*100, 1),
     var_value_na = factor(ifelse(is.na(var_value), "missing", var_value), levels = c("missing", "undefined", "improved", "unimproved", "surface_water"))
     ) |> 
-  bar("var_value_na", "stat_r", add_text = F, title = title_to_plot, theme_fun = theme_reach(title_size = 12), caption = paste0("Number of observations: ", n_tot_plot, " (", na_count_to_plot, " missing)"))
+  bar(
+    x = "var_value_na",
+    y = "stat_r",
+    add_text = F, 
+    title = title_to_plot, 
+    theme_fun = theme_reach(title_size = 12),
+    caption = paste0("Number of observations: ", n_tot_plot, " (", na_count_to_plot, " missing)"))
 
 ```
 
-Let's do one quick viz for the grouped analysis:
-```{r viz-bar-grouped, warning=F}
+Let's do one quick viz for the grouped analysis at the admin 1 level:
+```{r viz-bar-grouped, warning = FALSE, out.width = "65%", fig.align = "center"}
 # Drinking water sources for the whole country
 var_to_plot <- "wash_drinking_water_source_cat"
 
+# Filter the analysis results
 an_ad1_plot <- an_ad1 |> 
   filter(var == var_to_plot, group_key == "admin1")
 
+# Get title, total number of observations and number of missing values
 title_to_plot <- an_plot$indicator |> unique()
 n_tot_plot <- an_plot$n_tot |> unique()
 na_count_to_plot <- an_plot$na_count_tot |> unique()
 
+# Stack bar plot
 an_ad1_plot |> 
   mutate(
     stat_r = round(stat*100, 1),
     var_value_na = factor(ifelse(is.na(var_value), "missing", var_value), levels = c("missing", "undefined", "improved", "unimproved", "surface_water"))
     ) |> 
-  bar("admin1", 
-      "stat_r", 
-      group = "var_value_na", 
-      position = "stack", 
-      add_text = T, 
-      add_text_color = "white",
-      add_text_threshold_display = 5,
-      title = title_to_plot, 
-      theme_fun = theme_reach(grid_major_x = FALSE, axis_x = FALSE, axis_ticks_y = FALSE,
-    legend_direction = "horizontal", legend_position = "bottom", title_size = 14),
-      caption = paste0("Number of observations: ",
-                       n_tot_plot, " (", na_count_to_plot, " missing)"))
+  bar(
+    x = "admin1", 
+    y = "stat_r", 
+    group = "var_value_na", 
+    position = "stack", 
+    add_text = T, 
+    add_text_color = "white",
+    add_text_threshold_display = 5,
+    title = title_to_plot, 
+    theme_fun = theme_reach(
+      grid_major_x = FALSE,
+      axis_x = FALSE, 
+      axis_ticks_y = FALSE,
+      legend_direction = "horizontal", 
+      legend_position = "bottom", 
+      title_size = 14),
+    caption = paste0("Number of observations: ",
+                     n_tot_plot, " (", na_count_to_plot, " missing)"))
 ```
