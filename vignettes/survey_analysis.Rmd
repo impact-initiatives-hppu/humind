@@ -1,0 +1,143 @@
+---
+title: "Example of survey analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example of survey analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Installattion requirements
+
+If `impactR.analysis`, `impactR.kobo`, and `impactR.viz` are not installed, you can install it like so:
+
+```{r}
+# pak::pak("gnoblet/impactR.analysis")
+# pak::pak("gnoblet/impactR.kobo")
+# pak::pak("impact-initiatives-hppu/impactR.viz")
+```
+
+# Load libraries an files
+
+Load packages:
+```{r setup}
+library(humind)
+library(impactR.kobo)
+library(impactR.analysis)
+library(dplyr)
+```
+
+Load and prepare data:
+```{r prep-data}
+main <- humind::dummy_raw_data$main
+main$weight <- 1
+
+# Add all indicators needed (eventually this will be done in a one line pipe)
+main <- main |> 
+  # Demographics
+  add_hoh_final() |> 
+  add_age_cat("resp_age") |> 
+  add_age_18_cat("resp_age") |> 
+  add_age_cat("hoh_age") |> 
+  add_age_18_cat("hoh_age") |>
+  # WASH
+  add_sanitation_facility_cat() |> 
+  add_sharing_sanitation_facility_cat() |> 
+  add_sharing_sanitation_facility_num_ind() |> 
+  add_drinking_water_source_cat() |> 
+  add_drinking_water_time_cat() |>
+  add_drinking_water_time_threshold_cat() |>
+  # SNFI
+  add_shelter_type_cat() |>
+  add_shelter_issue_cat() |> 
+  add_fds_cannot_cat() |> 
+  add_occupancy_cat()
+
+# Make it a survey design (IRL please use your survey design)
+main <- srvyr::as_survey_design(main, weights = "weight", stratum = "admin1")
+```
+
+Now we load the kobo tool and analysis dap:
+```{r prep-analysis, warning=F}
+survey <- humind::survey_update |> 
+  rename(label = label_english) |> 
+  split_survey(type)
+choices <- humind::choices_update |> 
+  rename(label = label_english)
+analysis_dap <- humind::analysis_dap
+```
+
+
+# Analysis
+
+```{r run-analysis, warning=F}
+# Run the analysis
+an <- impactR.analysis::kobo_analysis_from_dap(main, analysis_dap |> filter(dataset == "main"), survey, choices)
+# If we want a grouped analysis by admin 1
+an_ad1 <- impactR.analysis::kobo_analysis_from_dap(main, analysis_dap |> filter(dataset == "main"), survey, choices, group = "admin1")
+```
+
+# Visualization of results
+
+## Simple bar graphs
+
+Let's do one quick viz:
+```{r viz-bar, warning=F}
+library(impactR.viz)
+
+# Drinking water sources for the whole country
+var_to_plot <- "wash_drinking_water_source_cat"
+
+an_plot <- an |> 
+  filter(var == var_to_plot)
+
+title_to_plot <- an_plot$indicator |> unique()
+n_tot_plot <- an_plot$n_tot |> unique()
+na_count_to_plot <- an_plot$na_count_tot |> unique()
+
+an_plot |> 
+  mutate(
+    stat_r = round(stat*100, 1),
+    var_value_na = factor(ifelse(is.na(var_value), "missing", var_value), levels = c("missing", "undefined", "improved", "unimproved", "surface_water"))
+    ) |> 
+  bar("var_value_na", "stat_r", add_text = F, title = title_to_plot, theme_fun = theme_reach(title_size = 12), caption = paste0("Number of observations: ", n_tot_plot, " (", na_count_to_plot, " missing)"))
+
+```
+
+Let's do one quick viz for the grouped analysis:
+```{r viz-bar-grouped, warning=F}
+# Drinking water sources for the whole country
+var_to_plot <- "wash_drinking_water_source_cat"
+
+an_ad1_plot <- an_ad1 |> 
+  filter(var == var_to_plot, group_key == "admin1")
+
+title_to_plot <- an_plot$indicator |> unique()
+n_tot_plot <- an_plot$n_tot |> unique()
+na_count_to_plot <- an_plot$na_count_tot |> unique()
+
+an_ad1_plot |> 
+  mutate(
+    stat_r = round(stat*100, 1),
+    var_value_na = factor(ifelse(is.na(var_value), "missing", var_value), levels = c("missing", "undefined", "improved", "unimproved", "surface_water"))
+    ) |> 
+  bar("admin1", 
+      "stat_r", 
+      group = "var_value_na", 
+      position = "stack", 
+      add_text = T, 
+      add_text_color = "white",
+      add_text_threshold_display = 5,
+      title = title_to_plot, 
+      theme_fun = theme_reach(grid_major_x = FALSE, axis_x = FALSE, axis_ticks_y = FALSE,
+    legend_direction = "horizontal", legend_position = "bottom", title_size = 14),
+      caption = paste0("Number of observations: ",
+                       n_tot_plot, " (", na_count_to_plot, " missing)"))
+```

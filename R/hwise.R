@@ -15,7 +15,7 @@
 #' @param hwise_shame Component column: Shame.
 #' @param level_codes Character vector of responses codes, including first in the following order: "Never (0 times)", "Rarely (1–2 times)", "Sometimes (3–10 times)", "Often (11-20 times)", "Always (more than 20 times)", "Do not know", "Prefer not to answer", "Not applicable", e.g. c("never", "rarely", "sometimes", "often", "always", "do_not_know", "prefer_not_to_answer", "not_applicable").
 #'
-#' @importFrom rlang `:=`
+#' @importFrom rlang :=
 #'
 #' @return Sixteen new columns: each component score (hwise_score_*), the overall score (hwise_score), dummy for water insecurity (hwise_insecure), the broader categories (hwise_cat), the detailed categories (hwise_cat_details).
 #'

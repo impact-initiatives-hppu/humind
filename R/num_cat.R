@@ -7,12 +7,11 @@
 #' @param int_undefined A vector of values to replace by char_dontknow.
 #' @param char_undefined A character to replace int_dontknow values.
 #' @param new_colname The name of the new column.
-#' @param include_lowest Logical. Include the lowest value of the interval.
 #'
 #' @return A dataframe with a new column.
 #'
 #' @export
-add_num_cat <- function(df, num_col, breaks, labels = NULL, int_undefined = c(-999, 999), char_undefined = "Unkown", new_colname = NULL, include_lowest = TRUE) {
+num_cat <- function(df, num_col, breaks, labels = NULL, int_undefined = c(-999, 999), char_undefined = "Unkown", new_colname = NULL) {
 
   #------ Checks
 
@@ -50,7 +49,7 @@ add_num_cat <- function(df, num_col, breaks, labels = NULL, int_undefined = c(-9
     # Replace values below 0 by NA
     !!rlang::sym(num_col) < 0 ~ NA_character_,
     # Create categories using function cut and breaks
-    .default = cut(!!rlang::sym(num_col), breaks = breaks, labels = labels, include.lowest = include_lowest)
+    .default = cut(!!rlang::sym(num_col), breaks = breaks, labels = labels, include.lowest = TRUE, right = TRUE)
   ))
 
   return(df)

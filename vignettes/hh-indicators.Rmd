@@ -45,6 +45,15 @@ main <- add_shelter_issue_cat(main)
 main |> select(snfi_shelter_issue, snfi_shelter_issue_n, snfi_shelter_issue_cat)
 ```
 
+## Functional domestic space
+
+```{r fds}
+# Category of functional domestic space
+main <- add_fds_cannot_cat(main)
+main |> select(snfi_fds_cooking, snfi_fds_sleeping, snfi_fds_storing, snfi_fds_personal_hygiene, energy_lighting_source, snfi_fds_cannot_n, snfi_fds_cannot_cat)
+```
+
+
 # WASH - Water, Sanitation, and Hygiene
 
 ## Sanitation facilities
