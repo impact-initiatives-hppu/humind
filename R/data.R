@@ -7,7 +7,7 @@
 #' Some analysis DAP
 #'
 #' @format A tibble
-"analysis_dap"
+"loa"
 
 #' Some survey sheet, updated
 #'

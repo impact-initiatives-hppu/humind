@@ -30,13 +30,13 @@ data("dummy_raw_data")
 
 ```{r load-data-prep}
 main <- dummy_raw_data$main |> as_tibble()
-roster <- dummy_raw_data$roster |> as_tibble()
+loop <- dummy_raw_data$roster |> as_tibble()
 ```
 
 
 # Recategorize demographic variables
 
-# Head of household - final values
+## Head of household - final values
 
 ```{r hoh-final}
 # Recategorize the head of household variable
@@ -56,11 +56,23 @@ main <- add_age_cat(main, "resp_age")
 main <- add_age_18_cat(main, "resp_age")
 
 # Do the same for the individuals
-roster <- add_age_cat(roster, "ind_age")
-roster <- add_age_18_cat(roster, "ind_age")
+loop <- add_age_cat(loop, "ind_age")
+loop <- add_age_18_cat(loop, "ind_age")
 
 # Print results for the loop
 #roster |> select(ind_age, ind_age_cat, ind_age_18_cat, ind_age_18_cat_d)
 
 ```
+## Adding school-aged children count
 
+```{r school-aged-children}
+# Add school-aged children count to the loop
+loop <- add_loop_age_dummy(loop, "ind_age", 5, 18)
+main <- add_loop_age_dummy_to_main(main, loop, "ind_age_5_18")
+# main |> select(ind_age_5_18_n)
+
+# Add school_aged_female children count to the loop
+loop <- add_loop_age_gender_dummy(loop, "ind_age", 5, 18, "ind_gender", "female")
+main <- add_loop_age_dummy_to_main(main, loop, "ind_age_female_5_18")
+# main |> select(ind_age_female_5_18)
+```
