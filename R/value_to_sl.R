@@ -25,18 +25,18 @@ value_to_sl <- function(
   #------ Add value
 
   # Add sl_value across sl_vars if sl_vars is NA and var is not "undefined"
-  df <- df %>%
-    dplyr:: mutate(
-      dplyr::across(
-        dplyr::all_of(sl_vars),
-          \(x) dplyr::if_else(
-            condition = is.na(x) & !(var %in% undefined),
-            true = sl_value,
-            false = x
-          ),
-        .names = "{.col}{suffix}"
-      )
+  df <- dplyr:: mutate(
+    df,
+    dplyr::across(
+      dplyr::all_of(sl_vars),
+        \(x) dplyr::if_else(
+          condition = is.na(x) & !(var %in% undefined),
+          true = sl_value,
+          false = x
+        ),
+      .names = "{.col}{suffix}"
     )
+  )
 
   return(df)
 }

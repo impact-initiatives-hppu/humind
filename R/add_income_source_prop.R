@@ -1,4 +1,4 @@
-#' Add income source proportions
+#' Add income source amount as proportions of total income
 #'
 #' @param df A data frame
 #' @param income_souce_salaried_n Column name for salaried income amount.
@@ -67,7 +67,7 @@ add_income_source_prop <- function(
     df,
     dplyr::across(
       dplyr::all_of(income_sources),
-      \(x) ifelse(cm_income_total == 0, NA_real_, x / !!rlang::sym("cm_income_total")),
+      \(x) ifelse(!!rlang::sym("cm_income_total") == 0, NA_real_, x / !!rlang::sym("cm_income_total")),
       .names = "{.col}_prop")
   )
 
