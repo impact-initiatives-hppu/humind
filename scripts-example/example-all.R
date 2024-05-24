@@ -54,7 +54,13 @@ main <- main |>
   add_shelter_type_cat() |>
   add_shelter_issue_cat() |>
   add_fds_cannot_cat() |>
-  add_occupancy_cat()
+  add_occupancy_cat() |>
+  # Cash & markets
+  add_income_source_zero_to_sl() |>
+  add_income_source_prop() |>
+  add_income_source_cat() |>
+  # AAP
+  add_received_assistance()
 
 
 # Analysis groups ---------------------------------------------------------
@@ -133,11 +139,12 @@ if (nrow(loa_main_w) > 0) {
 
 # Main analysis - unweighted
 if (nrow(loa_main_unw) > 0) {
-  an_main_unw <- impactR.analysis::kobo_analysis_from_dap(
+  an_main_unw <- impactR.analysis::kobo_analysis_from_dap_group(
   design_main_unw,
   loa_main_unw,
   survey,
   choices,
+  l_group = group_vars,
   choices_sep = "/")
 } else {
   an_main_unw <- tibble()
@@ -145,11 +152,12 @@ if (nrow(loa_main_unw) > 0) {
 
 # Loop analysis - weighted
 if (nrow(loa_loop_w) > 0) {
-  an_loop_w <- impactR.analysis::kobo_analysis_from_dap(
+  an_loop_w <- impactR.analysis::kobo_analysis_from_dap_group(
   design_loop_w,
   loa_loop_w,
   survey,
   choices,
+  l_group = group_vars,
   choices_sep = "/")
 } else {
   an_loop_w <- tibble()
@@ -162,6 +170,7 @@ if (nrow(loa_loop_unw) > 0) {
   loa_loop_unw,
   survey,
   choices,
+  l_group = group_vars,
   choices_sep = "/")
 } else {
   an_loop_unw <- tibble()
