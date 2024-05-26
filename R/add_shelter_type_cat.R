@@ -10,6 +10,7 @@
 #' @param inadequate Character vector of responses codes for inadequate shelter types.
 #' @param undefined Character vector of responses codes for undefined shelter types.
 #'
+#' @export
 add_shelter_type_cat <- function(
     df,
     shelter_type = "snfi_shelter_type",

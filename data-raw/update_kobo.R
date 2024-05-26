@@ -24,8 +24,8 @@ choices_update <- bind_rows(
   )
 )
 
-analysis_dap <- dap$dap_v1
+loa <- dap$dap_v1
 
-usethis::use_data(analysis_dap, overwrite = TRUE)
+usethis::use_data(loa, overwrite = TRUE)
 usethis::use_data(survey_update, overwrite = TRUE)
 usethis::use_data(choices_update, overwrite = TRUE)

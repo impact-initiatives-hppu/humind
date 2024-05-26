@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, warning = FALSE, message = FALSE}
 library(humind)
 library(dplyr)
 ```
@@ -42,7 +42,7 @@ main <- add_shelter_type_cat(main)
 
 # Shelter issues
 main <- add_shelter_issue_cat(main)
-main |> select(snfi_shelter_issue, snfi_shelter_issue_n, snfi_shelter_issue_cat)
+# main |> select(snfi_shelter_issue, snfi_shelter_issue_n, snfi_shelter_issue_cat)
 ```
 
 ## Functional domestic space
@@ -50,7 +50,7 @@ main |> select(snfi_shelter_issue, snfi_shelter_issue_n, snfi_shelter_issue_cat)
 ```{r fds}
 # Category of functional domestic space
 main <- add_fds_cannot_cat(main)
-main |> select(snfi_fds_cooking, snfi_fds_sleeping, snfi_fds_storing, snfi_fds_personal_hygiene, energy_lighting_source, snfi_fds_cannot_n, snfi_fds_cannot_cat)
+# main |> select(snfi_fds_cooking, snfi_fds_sleeping, snfi_fds_storing, snfi_fds_personal_hygiene, energy_lighting_source, snfi_fds_cannot_n, snfi_fds_cannot_cat)
 ```
 
 
@@ -82,6 +82,6 @@ main <- add_drinking_water_time_cat(main)
 
 # Time to fetch water according to the 1h threshold
 main <- add_drinking_water_time_threshold_cat(main)
-main |> select(wash_drinking_water_source, wash_drinking_water_time_yn, wash_drinking_water_time_int, wash_drinking_water_time_sl, wash_drinking_water_time_cat, wash_drinking_water_time_threshold_cat)
+#main |> select(wash_drinking_water_source, wash_drinking_water_time_yn, wash_drinking_water_time_int, wash_drinking_water_time_sl, wash_drinking_water_time_cat, wash_drinking_water_time_threshold_cat)
 ```
 
