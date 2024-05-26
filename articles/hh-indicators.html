@@ -43,7 +43,6 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/general-information.html">General information</a>
     <a class="dropdown-item" href="../articles/hh-indicators.html">Household-level indicators</a>
-    <a class="dropdown-item" href="../articles/survey_analysis.html">Example of survey analysis</a>
   </div>
 </li>
 <li class="nav-item">
@@ -84,15 +83,7 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/impact-initiatives-hppu/humind" class="external-link">humind</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     filter, lag</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
 <p>This vignette emphasizes how to add indicators for the “main” dataset
 at the household-level. The package provides functins to add, recode,
 and prepare the usual humanitarian composite indicators as well as the
@@ -113,21 +104,7 @@ ones that are specific to the MSNA analytical framework.</p>
 <span></span>
 <span><span class="co"># Shelter issues</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_shelter_issue_cat.html">add_shelter_issue_cat</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
-<span><span class="va">main</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">snfi_shelter_issue</span>, <span class="va">snfi_shelter_issue_n</span>, <span class="va">snfi_shelter_issue_cat</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 400 × 3</span></span></span>
-<span><span class="co">#&gt;    snfi_shelter_issue                snfi_shelter_issue_n snfi_shelter_issue_cat</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> lack_privacy lack_space temperat…                 -<span style="color: #BB0000;">999</span> undefined             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="color: #BB0000;">NA</span>                                                  <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> <span style="color: #BB0000;">NA</span>                                                  <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="color: #BB0000;">NA</span>                                                  <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> lack_privacy lack_lighting diffi…                 -<span style="color: #BB0000;">999</span> undefined             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> <span style="color: #BB0000;">NA</span>                                                  <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> lack_space temperature leak lock…                 -<span style="color: #BB0000;">999</span> undefined             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> <span style="color: #BB0000;">NA</span>                                                  <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> lack_space temperature ventilati…                 -<span style="color: #BB0000;">999</span> undefined             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="color: #BB0000;">NA</span>                                                  <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 390 more rows</span></span></span></code></pre></div>
+<span><span class="co"># main |&gt; select(snfi_shelter_issue, snfi_shelter_issue_n, snfi_shelter_issue_cat)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="functional-domestic-space">Functional domestic space<a class="anchor" aria-label="anchor" href="#functional-domestic-space"></a>
@@ -135,23 +112,7 @@ ones that are specific to the MSNA analytical framework.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Category of functional domestic space</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_fds_cannot_cat.html">add_fds_cannot_cat</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
-<span><span class="va">main</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">snfi_fds_cooking</span>, <span class="va">snfi_fds_sleeping</span>, <span class="va">snfi_fds_storing</span>, <span class="va">snfi_fds_personal_hygiene</span>, <span class="va">energy_lighting_source</span>, <span class="va">snfi_fds_cannot_n</span>, <span class="va">snfi_fds_cannot_cat</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 400 × 7</span></span></span>
-<span><span class="co">#&gt;    snfi_fds_cooking snfi_fds_sleeping snfi_fds_storing snfi_fds_personal_hygiene</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> no_cannot        yes_no_issues     yes_no_issues    undefined                </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> no_cannot        yes_no_issues     no_cannot        undefined                </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> undefined        yes_no_issues     no_cannot        yes_no_issues            </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> yes_no_issues    yes_no_issues     yes_no_issues    yes_issues               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>                       </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 390 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: energy_lighting_source &lt;chr&gt;, snfi_fds_cannot_n &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   snfi_fds_cannot_cat &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="co"># main |&gt; select(snfi_fds_cooking, snfi_fds_sleeping, snfi_fds_storing, snfi_fds_personal_hygiene, energy_lighting_source, snfi_fds_cannot_n, snfi_fds_cannot_cat)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -185,25 +146,7 @@ ones that are specific to the MSNA analytical framework.</p>
 <span></span>
 <span><span class="co"># Time to fetch water according to the 1h threshold</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_time_threshold_cat</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
-<span><span class="va">main</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">wash_drinking_water_source</span>, <span class="va">wash_drinking_water_time_yn</span>, <span class="va">wash_drinking_water_time_int</span>, <span class="va">wash_drinking_water_time_sl</span>, <span class="va">wash_drinking_water_time_cat</span>, <span class="va">wash_drinking_water_time_threshold_cat</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 400 × 6</span></span></span>
-<span><span class="co">#&gt;    wash_drinking_water_source wash_drinking_water_time_yn wash_drinking_water_…¹</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> other                      dnk                                             <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="color: #BB0000;">NA</span>                         <span style="color: #BB0000;">NA</span>                                              <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> bottled_water              dnk                                             <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="color: #BB0000;">NA</span>                         <span style="color: #BB0000;">NA</span>                                              <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> cart_tank                  number_minutes                                 154</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> sachet_water               pnta                                            <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> kiosk                      pnta                                            <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> <span style="color: #BB0000;">NA</span>                         <span style="color: #BB0000;">NA</span>                                              <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> tap                        dnk                                             <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="color: #BB0000;">NA</span>                         <span style="color: #BB0000;">NA</span>                                              <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 390 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated name: ¹​wash_drinking_water_time_int</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: wash_drinking_water_time_sl &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   wash_drinking_water_time_cat &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   wash_drinking_water_time_threshold_cat &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="co">#main |&gt; select(wash_drinking_water_source, wash_drinking_water_time_yn, wash_drinking_water_time_int, wash_drinking_water_time_sl, wash_drinking_water_time_cat, wash_drinking_water_time_threshold_cat)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

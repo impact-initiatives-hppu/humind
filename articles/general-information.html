@@ -43,7 +43,6 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/general-information.html">General information</a>
     <a class="dropdown-item" href="../articles/hh-indicators.html">Household-level indicators</a>
-    <a class="dropdown-item" href="../articles/survey_analysis.html">Example of survey analysis</a>
   </div>
 </li>
 <li class="nav-item">
@@ -92,20 +91,20 @@ and prepare the usual humanitarian composite indicators as well as the
 ones that are specific to the MSNA analytical framework.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">main</span> <span class="op">&lt;-</span> <span class="va">dummy_raw_data</span><span class="op">$</span><span class="va">main</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">roster</span> <span class="op">&lt;-</span> <span class="va">dummy_raw_data</span><span class="op">$</span><span class="va">roster</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">loop</span> <span class="op">&lt;-</span> <span class="va">dummy_raw_data</span><span class="op">$</span><span class="va">roster</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="recategorize-demographic-variables">Recategorize demographic variables<a class="anchor" aria-label="anchor" href="#recategorize-demographic-variables"></a>
 </h2>
-</div>
-<div class="section level2">
-<h2 id="head-of-household---final-values">Head of household - final values<a class="anchor" aria-label="anchor" href="#head-of-household---final-values"></a>
-</h2>
+<div class="section level3">
+<h3 id="head-of-household---final-values">Head of household - final values<a class="anchor" aria-label="anchor" href="#head-of-household---final-values"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Recategorize the head of household variable</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_hoh_final.html">add_hoh_final</a></span><span class="op">(</span><span class="va">main</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print results</span></span>
 <span><span class="co">#main |&gt; select(resp_gender, resp_age, resp_hoh_yn, hoh_gender, hoh_age) |&gt; drop_na()</span></span></code></pre></div>
+</div>
 <div class="section level3">
 <h3 id="age-variables">Age variables<a class="anchor" aria-label="anchor" href="#age-variables"></a>
 </h3>
@@ -115,11 +114,25 @@ ones that are specific to the MSNA analytical framework.</p>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_age_cat.html">add_age_18_cat</a></span><span class="op">(</span><span class="va">main</span>, <span class="st">"resp_age"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Do the same for the individuals</span></span>
-<span><span class="va">roster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_age_cat.html">add_age_cat</a></span><span class="op">(</span><span class="va">roster</span>, <span class="st">"ind_age"</span><span class="op">)</span></span>
-<span><span class="va">roster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_age_cat.html">add_age_18_cat</a></span><span class="op">(</span><span class="va">roster</span>, <span class="st">"ind_age"</span><span class="op">)</span></span>
+<span><span class="va">loop</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_age_cat.html">add_age_cat</a></span><span class="op">(</span><span class="va">loop</span>, <span class="st">"ind_age"</span><span class="op">)</span></span>
+<span><span class="va">loop</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_age_cat.html">add_age_18_cat</a></span><span class="op">(</span><span class="va">loop</span>, <span class="st">"ind_age"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print results for the loop</span></span>
 <span><span class="co">#roster |&gt; select(ind_age, ind_age_cat, ind_age_18_cat, ind_age_18_cat_d)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="adding-school-aged-children-count">Adding school-aged children count<a class="anchor" aria-label="anchor" href="#adding-school-aged-children-count"></a>
+</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Add school-aged children count to the loop</span></span>
+<span><span class="va">loop</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_loop_age_dummy.html">add_loop_age_dummy</a></span><span class="op">(</span><span class="va">loop</span>, <span class="st">"ind_age"</span>, <span class="fl">5</span>, <span class="fl">18</span><span class="op">)</span></span>
+<span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_loop_age_dummy.html">add_loop_age_dummy_to_main</a></span><span class="op">(</span><span class="va">main</span>, <span class="va">loop</span>, <span class="st">"ind_age_5_18"</span><span class="op">)</span></span>
+<span><span class="co"># main |&gt; select(ind_age_5_18_n)</span></span>
+<span></span>
+<span><span class="co"># Add school_aged_female children count to the loop</span></span>
+<span><span class="va">loop</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_loop_age_dummy.html">add_loop_age_gender_dummy</a></span><span class="op">(</span><span class="va">loop</span>, <span class="st">"ind_age"</span>, <span class="fl">5</span>, <span class="fl">18</span>, <span class="st">"ind_gender"</span>, <span class="st">"female"</span><span class="op">)</span></span>
+<span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_loop_age_dummy.html">add_loop_age_dummy_to_main</a></span><span class="op">(</span><span class="va">main</span>, <span class="va">loop</span>, <span class="st">"ind_age_female_5_18"</span><span class="op">)</span></span>
+<span><span class="co"># main |&gt; select(ind_age_female_5_18)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
