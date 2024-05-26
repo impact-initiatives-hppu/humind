@@ -186,3 +186,10 @@ an <- bind_rows(an_main_w, an_main_unw, an_loop_w, an_loop_unw)
 
 
 
+
+# Add sectoral composites -------------------------------------------------
+
+# Add to main
+main <- main |>
+  score_snfi()
+

@@ -23,7 +23,8 @@ Imports:
     impactR.analysis,
     impactR.utils,
     impactR.viz,
-    impactR.kobo
+    impactR.kobo,
+    impactR4PHU (>= 0.1.0)
 URL: https://github.com/impact-initiatives-hppu/humind,
     https://gnoblet.github.io/impact-initiatives-hppu/
 BugReports: https://github.com/impact-initiatives-hppu/humind/issues
@@ -31,7 +32,8 @@ Remotes:
     github::gnoblet/impactR.utils,
     github::impact-initiatives-hppu/impactR.analysis,
     github::impact-initiatives-hppu/impactR.viz,
-    github::gnoblet/impactR.kobo
+    github::gnoblet/impactR.kobo,
+    github::impact-initiatives/impactR4PHU
 Suggests: 
     knitr,
     rmarkdown,

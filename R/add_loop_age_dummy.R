@@ -59,6 +59,7 @@ add_loop_age_dummy <- function(
 #' @param id_col_main Column name for the unique identifier in the main dataset.
 #' @param id_col_loop Column name for the unique identifier in the loop dataset.
 #'
+#' @export
 add_loop_age_dummy_to_main <- function(
   main,
   loop,
@@ -114,6 +115,7 @@ add_loop_age_dummy_to_main <- function(
 #' @param ind_gender Column name for individual gender.
 #' @param gender Response options of interest, e.g. "Female".
 #'
+#' @export
 add_loop_age_gender_dummy <- function(
   loop,
   ind_age = "ind_age",
@@ -159,6 +161,7 @@ add_loop_age_gender_dummy <- function(
 #' @rdname add_loop_age_dummy
 #' @param ind_age_gender_dummy Column name for the dummy variable of the age-gender class.
 #'
+#' @export
 add_loop_age_gender_dummy_to_main <- function(
   main,
   loop,
