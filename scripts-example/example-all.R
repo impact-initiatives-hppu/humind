@@ -27,12 +27,26 @@ main <- dummy_raw_data$main |>
 
 # Add indicators ----------------------------------------------------------
 
-# Add to loop
+#------ Add to loop
 loop <- loop |>
   add_age_cat("ind_age") |>
   add_age_18_cat("ind_age") |>
   add_loop_age_dummy("ind_age", 5, 18) |>
   add_edu_access_d("edu_access")
+
+#------- Clean up food security indicators
+
+# Clean hhs
+main <- mutate(
+  main,
+  across(
+    c("fsl_hhs_nofoodhh", "fsl_hhs_sleephungry", "fsl_hhs_alldaynight"),
+    \(x) case_when(
+      x %in% c("dnk", "pnta") ~ NA_character_,
+      .default = x
+    )
+  )
+)
 
 # Add to main
 main <- main |>
@@ -55,6 +69,12 @@ main <- main |>
   add_shelter_issue_cat() |>
   add_fds_cannot_cat() |>
   add_occupancy_cat() |>
+  # Food security
+  add_lcsi() |>
+  add_hhs() |>
+  add_fcs(cutoffs = "normal") |>
+  add_rcsi() |>
+  add_fcm_phase() |>
   # Cash & markets
   add_income_source_zero_to_sl() |>
   add_income_source_prop() |>
@@ -191,5 +211,6 @@ an <- bind_rows(an_main_w, an_main_unw, an_loop_w, an_loop_unw)
 
 # Add to main
 main <- main |>
-  score_snfi()
+  score_snfi() |>
+  score_foodsec()
 

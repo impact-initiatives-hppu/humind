@@ -87,8 +87,15 @@ score_snfi <- function(
     df,
     !!!rlang::syms(c("score_snfi_shelter_type_cat", "score_snfi_shelter_issue_cat", "score_snfi_occupancy_cat", "score_snfi_fds_cannot_cat")),
     optimum = "max",
-    max_name = "score_snfi",
+    max_name = "comp_snfi_score",
     na_rm = TRUE
+  )
+
+  # Is in need?
+  df <- is_in_need(
+    df,
+    "comp_snfi_score",
+    "comp_snfi_in_need"
   )
 
   return(df)
