@@ -23,7 +23,7 @@ score_foodsec <- function(
   # Score
   df <- dplyr::mutate(
     df,
-    foodsec_score = dplyr::case_when(
+    comp_foodsec_score = dplyr::case_when(
       df[[fc_phase]] == fc_phase_levels[5] ~ 5,
       df[[fc_phase]] == fc_phase_levels[4] ~ 4,
       df[[fc_phase]] == fc_phase_levels[3] ~ 3,
@@ -31,6 +31,13 @@ score_foodsec <- function(
       df[[fc_phase]] == fc_phase_levels[1] ~ 1,
       .default =  NA_real_
     )
+  )
+
+  # Is in need?
+  df <- is_in_need(
+    df,
+    "comp_foodsec_score",
+    "comp_foodsec_in_need"
   )
 
   return(df)

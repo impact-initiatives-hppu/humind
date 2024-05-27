@@ -71,7 +71,7 @@ add_sharing_sanitation_facility_cat <- function(df,
     df <- dplyr::mutate(
       df,
       wash_sharing_sanitation_facility_cat = dplyr::case_when(
-        !!rlang::sym(sanitation_facility) %in% skipped_sanitation_facility ~ "shared",
+        !!rlang::sym(sanitation_facility) %in% skipped_sanitation_facility ~ "not_applicable",
         !!rlang::sym(sharing_sanitation_facility) == yes ~ "shared",
         !!rlang::sym(sharing_sanitation_facility) == no ~ "not_shared",
         !!rlang::sym(sharing_sanitation_facility) %in% undefined ~ "undefined",
@@ -162,7 +162,7 @@ add_sharing_sanitation_facility_num_ind <- function(
       wash_sharing_sanitation_facility_n_ind = dplyr::case_when(
         !!rlang::sym(sanitation_facility_sharing_n) >= 50 ~ "50_and_above",
         !!rlang::sym(sanitation_facility_sharing_n) >= 20 ~ "20_to_49",
-        !!rlang::sym(sanitation_facility_sharing_n) >= 0 ~ "19 and below",
+        !!rlang::sym(sanitation_facility_sharing_n) >= 0 ~ "19_and_below",
         .default = NA_character_)
     )
 

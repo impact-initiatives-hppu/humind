@@ -37,8 +37,6 @@ add_loop_age_dummy <- function(
 
   #------ Compute
 
-
-
   # Create dummy
   loop <- dplyr::mutate(
     loop,
