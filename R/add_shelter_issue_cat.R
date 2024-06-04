@@ -29,6 +29,10 @@ add_shelter_issue_cat <- function(
   # Check if columns are in the dataset
   if_not_in_stop(df, c(shelter_issue_d_issues, shelter_issue_d_undefined, shelter_issue_d_none), "df")
 
+  # Check that colimns are in set 0:1
+  are_values_in_set(df, c(shelter_issue_d_issues, shelter_issue_d_undefined, shelter_issue_d_none), c(0, 1))
+
+
   # Check that none is of length 1
   if (length(none) != 1) rlang::abort("none must be of length 1")
 

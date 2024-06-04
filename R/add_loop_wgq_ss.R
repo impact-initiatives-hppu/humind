@@ -40,17 +40,25 @@ add_loop_wgq_ss <- function(
 
   #------ Recode
 
+  # Create age above 5 dummy
+  loop <- add_loop_age_dummy(
+    loop = loop,
+    ind_age = ind_age,
+    lb = 5,
+    ub = 120,
+    new_colname = "ind_age_above_5")
+
   # Add level 3 dummies
   loop <- dplyr::mutate(
     loop,
     dplyr::across(
       wgq_vars,
       \(x) dplyr::case_when(
-        !!rlang::sym(ind_age) < 5 ~ NA_real_,
-        x %in% levels[5:6] ~ NA_real_,
-        x == levels[3] ~  1,
-        x == levels[4] ~ 0,
-        x %in% levels[1:2] ~ 0,
+        ind_age_above_5 == 0 ~ NA_real_,
+        ind_age_above_5 == 1 & x %in% levels[5:6] ~ NA_real_,
+        ind_age_above_5 == 1 & x == levels[3] ~  1,
+        ind_age_above_5 == 1 & x == levels[4] ~ 0,
+        ind_age_above_5 == 1 & x %in% levels[1:2] ~ 0,
         .default = NA_real_
       ),
       .names = "{.col}_3"
@@ -63,10 +71,10 @@ add_loop_wgq_ss <- function(
     dplyr::across(
       wgq_vars,
       \(x) dplyr::case_when(
-        !!rlang::sym(ind_age) < 5 ~ NA_real_,
-        x %in% levels[5:6] ~ NA_real_,
-        x == levels[4] ~ 1,
-        x %in% levels[1:3] ~ 0,
+        ind_age_above_5 == 0 ~ NA_real_,
+        ind_age_above_5 == 1 & x %in% levels[5:6] ~ NA_real_,
+        ind_age_above_5 == 1 & x == levels[4] ~ 1,
+        ind_age_above_5 == 1 & x %in% levels[1:3] ~ 0,
         .default = NA_real_
       ),
       .names = "{.col}_4"
@@ -110,18 +118,18 @@ add_loop_wgq_ss <- function(
 #'
 #' @param main A data frame of household-level data.
 #' @param wgq_dis Column name for the disability dummy in the individual-level dataset.
+#' @param ind_age_above_5 Column name for the age above 5 dummy in the individual-level dataset.
 #' @param id_col_main Column name for the unique identifier in the main dataset.
 #' @param id_col_loop Column name for the unique identifier in the loop dataset.
-#' @param new_colname If NULL, the column will be named `wgq_dis_n`. Otherwise, it will be named as specified.
 #'
 #' @export
 add_loop_wgq_ss_to_main <- function(
     main,
     loop,
     wgq_dis = "wgq_dis",
+    ind_age_above_5 = "ind_age_above_5",
     id_col_main = "uuid",
-    id_col_loop = "uuid",
-    new_colname = NULL){
+    id_col_loop = "uuid"){
 
   #------ Checks
 
@@ -133,14 +141,17 @@ add_loop_wgq_ss_to_main <- function(
   if_not_in_stop(loop, id_col_loop, "loop")
 
   # Check if value is in set
-  are_values_in_set(loop)
+  are_values_in_set(loop, wgq_dis, c(0,1))
 
   # Check if new colname is in main and throw a warning if it is
-  if(is.null(new_colname)) {
-    new_colname <- paste0(wgq_dis, "_n")
+   wgq_dis_n <- paste0(wgq_dis, "_n")
+   ind_age_above_5_n <- paste0(ind_age_above_5, "_n")
+
+  if (wgq_dis_n %in% colnames(main)) {
+    rlang::warn(paste0(wgq_dis_n, " already exists in 'main'. It will be replaced."))
   }
-  if (new_colname %in% colnames(main)) {
-    rlang::warn(paste0(new_colname, " already exists in 'main'. It will be replaced."))
+  if (ind_age_above_5_n %in% colnames(main)) {
+    rlang::warn(paste0(ind_age_above_5_n, " already exists in 'main'. It will be replaced."))
   }
 
 
@@ -152,7 +163,8 @@ add_loop_wgq_ss_to_main <- function(
   # Sum the dummy variable
   loop <- dplyr::summarize(
     loop,
-    "{new_colname}" := sum(!!rlang::sym(wgq_dis), na.rm = TRUE)
+    "{wgq_dis_n}" := sum(!!rlang::sym(wgq_dis), na.rm = TRUE),
+    "{ind_age_above_5_n}" := sum(!!rlang::sym(ind_age_above_5), na.rm = TRUE)
   )
 
   # Remove columns in main that exists in loop, but the grouping ones
