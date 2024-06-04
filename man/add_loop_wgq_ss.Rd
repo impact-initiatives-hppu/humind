@@ -22,9 +22,9 @@ add_loop_wgq_ss_to_main(
   main,
   loop,
   wgq_dis = "wgq_dis",
+  ind_age_above_5 = "ind_age_above_5",
   id_col_main = "uuid",
-  id_col_loop = "uuid",
-  new_colname = NULL
+  id_col_loop = "uuid"
 )
 }
 \arguments{
@@ -50,11 +50,11 @@ add_loop_wgq_ss_to_main(
 
 \item{wgq_dis}{Column name for the disability dummy in the individual-level dataset.}
 
+\item{ind_age_above_5}{Column name for the age above 5 dummy in the individual-level dataset.}
+
 \item{id_col_main}{Column name for the unique identifier in the main dataset.}
 
 \item{id_col_loop}{Column name for the unique identifier in the loop dataset.}
-
-\item{new_colname}{If NULL, the column will be named \code{wgq_dis_n}. Otherwise, it will be named as specified.}
 }
 \value{
 Fifteen new columns: each component dummy for levels 3 and 4, disability level 3, level 4, and level 3 and 4 together.
