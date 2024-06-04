@@ -31,6 +31,9 @@
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_age_cat.html</loc>
   </url>
   <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_child_sep_cat.html</loc>
+  </url>
+  <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.html</loc>
   </url>
   <url>
@@ -61,6 +64,9 @@
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_age_dummy.html</loc>
   </url>
   <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.html</loc>
+  </url>
+  <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_wgq_ss.html</loc>
   </url>
   <url>
@@ -89,6 +95,18 @@
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/choices_update.html</loc>
+  </url>
+  <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/comp_foodsec.html</loc>
+  </url>
+  <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/comp_health.html</loc>
+  </url>
+  <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/comp_prot.html</loc>
+  </url>
+  <url>
+    <loc>https://impact-initiatives-hppu.github.io/humind/reference/comp_snfi.html</loc>
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/count_if_above_zero.html</loc>
@@ -122,12 +140,6 @@
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://impact-initiatives-hppu.github.io/humind/reference/score_foodsec.html</loc>
-  </url>
-  <url>
-    <loc>https://impact-initiatives-hppu.github.io/humind/reference/score_snfi.html</loc>
   </url>
   <url>
     <loc>https://impact-initiatives-hppu.github.io/humind/reference/subvec_in.html</loc>
