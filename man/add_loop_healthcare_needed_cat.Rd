@@ -39,7 +39,7 @@ add_loop_healthcare_needed_cat_main(
 
 \item{ind_healthcare_received_levels}{A character vector of levels for ind_healthcare_received.}
 
-\item{wgq_dis}{The name of the variable that indicates if the individual has a disability.}
+\item{wgq_dis}{The name of the variable that indicates if the individual has a disability (usual cut-offs are 3).}
 
 \item{ind_age}{The name of the variable that indicates the age of the individual.}
 
