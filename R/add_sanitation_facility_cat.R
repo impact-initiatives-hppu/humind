@@ -1,6 +1,6 @@
 #' Sanitation facility classification
 #'
-#' [add_sanitation_facility_cat()] recodes the types of sanitation facilities, [add_sharing_sanitation_facility_cat()] recodes the sharing status of sanitation facility, and [add_sharing_sanitation_facility_num_ind()] recodes the number of individuals sharing the sanitation facility.
+#' [add_sanitation_facility_cat()] recodes the types of sanitation facilities, [add_sharing_sanitation_facility_cat()] recodes the sharing status of sanitation facility, and [add_sanitation_facility_jmp_cat()] combines the previous two functions to recode the sanitation facility into a JMP classification. Finally, [add_sharing_sanitation_facility_num_ind()] recodes the number of individuals sharing the sanitation facility.
 #'
 #' @param df A data frame.
 #' @param sanitation_facility Component column: Sanitation facility types.
@@ -90,9 +90,6 @@ add_sharing_sanitation_facility_cat <- function(df,
     )
   }
 
-#
-
-
   return(df)
 }
 
@@ -170,46 +167,54 @@ add_sharing_sanitation_facility_num_ind <- function(
 }
 
 
+#' @rdname add_sanitation_facility_cat
+#'
+#' @param sanitation_facility_cat Component column: Sanitation facility types recoded.
+#' @param sanitation_facility_levels Levels: Improved, Unimproved, None, Undefined.
+#' @param sharing_sanitation_facility_cat Component column: Sharing status of sanitation facility recoded.
+#' @param sharing_sanitation_facility_levels Levels: Shared, Not shared, Not applicable, Undefined.
+#'
+#' @export
+add_sanitation_facility_jmp_cat <- function(
+  df,
+  sanitation_facility_cat = "wash_sanitation_facility_cat",
+  sanitation_facility_levels = c("improved", "unimproved", "none", "undefined"),
+  sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
+  sharing_sanitation_facility_levels = c("shared", "not_shared", "not_applicable", "undefined")){
 
-#' #' @rdname sanitation_facility
-#' #'
-#' #' @param sanitation_facility_cat Component column: categories of sanitation facilities.
-#' #' @param sanitation_facility_levels Sanitation facilities levels - in that order: improved, unimproved, open defecation.
-#' #' @param sharing_sanitation_facility_cat Component column: categories of the number of people sharing sanitation facilities.
-#' #' @param sharing_sanitation_facility_levels Sharing sanitation facilities levels - in that order: 19 and below, 20 to 49, 50 and above.
-#' #'
-#' #' @export
-#' sanitation_facility_sev <- function(df,
-#'                                         sanitation_facility_cat = "wash_sanitation_facility_cat",
-#'                                         sanitation_facility_levels = c("improved", "unimproved", "none", "undefined"),
-#'                                         sharing_sanitation_facility_n_ind = "wash_sharing_sanitation_facility_n_ind",
-#'                                         sharing_sanitation_facility_levels = c("19_and_below", "20_to_49", "50_and_above")
-#' ){
-#'
-#'   # Check values of levels
-#'   are_values_in_set(df, sanitation_facility_cat, sanitation_facility_levels)
-#'   are_values_in_set(df, sharing_sanitation_facility_n_ind, sharing_sanitation_facility_levels)
-#'
-#'   # Check length of levels
-#'   if (length(sanitation_facility_levels) != 4) {
-#'     rlang::abort("sanitation_facility_levels should be of length 4.")
-#'   }
-#'   if (length(sharing_sanitation_facility_levels) != 3) {
-#'     rlang::abort("sharing_sanitation_facility_levels should be of length 3.")
-#'   }
-#'
-#'
-#'   #------ 5-point scale
-#'   df <- dplyr::mutate(
-#'     df,
-#'     wash_sanitation_facility_sev = dplyr::case_when(
-#'       !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[3] ~ 5,
-#'       !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[2]  ~ 4,
-#'       !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & sharing_sanitation_facility_cat == sharing_sanitation_facility_levels[3] ~ 3,
-#'       !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & sharing_sanitation_facility_cat == sharing_sanitation_facility_levels[2] ~ 2,
-#'       !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & sharing_sanitation_facility_cat == sharing_sanitation_facility_levels[1] ~ 1,
-#'       .default = NA_real_)
-#'   )
-#'
-#'   return(df)
-#' }
+  #------ Checks
+
+  # Check if vars exist
+  if_not_in_stop(df, c(sanitation_facility_cat, sharing_sanitation_facility_cat), "df")
+
+  # Check length of levels
+  if (length(sanitation_facility_levels) != 4) {
+    rlang::abort("sanitation_facility_levels should be of length 4.")
+  }
+  if (length(sharing_sanitation_facility_levels) != 4) {
+    rlang::abort("sharing_sanitation_facility_levels should be of length 4.")
+  }
+
+  # Check values of levels
+  are_values_in_set(df, sanitation_facility_cat, sanitation_facility_levels)
+  are_values_in_set(df, sharing_sanitation_facility_cat, sharing_sanitation_facility_levels)
+
+  #------ Recode
+
+  # Recode sanitation facility
+  df <- dplyr::mutate(
+    df,
+    wash_sanitation_facility_jmp_cat = dplyr::case_when(
+      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[3] ~ "open_defecation",
+      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[2] ~ "unimproved",
+      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & sharing_sanitation_facility_cat == sharing_sanitation_facility_levels[1] ~ "limited",
+      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & sharing_sanitation_facility_cat == sharing_sanitation_facility_levels[1] &  !!rlang::sym(sharing_sanitation_facility_cat) == sharing_sanitation_facility_levels[2] ~ "basic",
+      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[4] ~ "undefined",
+      !!rlang::sym(sharing_sanitation_facility_cat) %in% sharing_sanitation_facility_levels[3:4] ~ "undefined"),
+      .default = NA_character_
+    )
+
+    return(df)
+
+}
+

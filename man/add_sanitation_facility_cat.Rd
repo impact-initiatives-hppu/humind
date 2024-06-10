@@ -4,6 +4,7 @@
 \alias{add_sanitation_facility_cat}
 \alias{add_sharing_sanitation_facility_cat}
 \alias{add_sharing_sanitation_facility_num_ind}
+\alias{add_sanitation_facility_jmp_cat}
 \title{Sanitation facility classification}
 \usage{
 add_sanitation_facility_cat(
@@ -36,6 +37,15 @@ add_sharing_sanitation_facility_num_ind(
   hh_size = "hh_size",
   weight = "weight"
 )
+
+add_sanitation_facility_jmp_cat(
+  df,
+  sanitation_facility_cat = "wash_sanitation_facility_cat",
+  sanitation_facility_levels = c("improved", "unimproved", "none", "undefined"),
+  sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
+  sharing_sanitation_facility_levels = c("shared", "not_shared", "not_applicable",
+    "undefined")
+)
 }
 \arguments{
 \item{df}{A data frame.}
@@ -58,7 +68,7 @@ add_sharing_sanitation_facility_num_ind(
 
 \item{skipped_sanitation_facility}{Character vector of responses codes for skipped sanitation facility.}
 
-\item{sharing_sanitation_facility_cat}{Component column: is the sanitation facility shared.}
+\item{sharing_sanitation_facility_cat}{Component column: Sharing status of sanitation facility recoded.}
 
 \item{levels}{Character vector of responses codes, including first in the following order: Shared, Not shared, Not applicable, and Undefined.}
 
@@ -67,7 +77,13 @@ add_sharing_sanitation_facility_num_ind(
 \item{hh_size}{Column of the household size.}
 
 \item{weight}{Column of the survey weights.}
+
+\item{sanitation_facility_cat}{Component column: Sanitation facility types recoded.}
+
+\item{sanitation_facility_levels}{Levels: Improved, Unimproved, None, Undefined.}
+
+\item{sharing_sanitation_facility_levels}{Levels: Shared, Not shared, Not applicable, Undefined.}
 }
 \description{
-\code{\link[=add_sanitation_facility_cat]{add_sanitation_facility_cat()}} recodes the types of sanitation facilities, \code{\link[=add_sharing_sanitation_facility_cat]{add_sharing_sanitation_facility_cat()}} recodes the sharing status of sanitation facility, and \code{\link[=add_sharing_sanitation_facility_num_ind]{add_sharing_sanitation_facility_num_ind()}} recodes the number of individuals sharing the sanitation facility.
+\code{\link[=add_sanitation_facility_cat]{add_sanitation_facility_cat()}} recodes the types of sanitation facilities, \code{\link[=add_sharing_sanitation_facility_cat]{add_sharing_sanitation_facility_cat()}} recodes the sharing status of sanitation facility, and \code{\link[=add_sanitation_facility_jmp_cat]{add_sanitation_facility_jmp_cat()}} combines the previous two functions to recode the sanitation facility into a JMP classification. Finally, \code{\link[=add_sharing_sanitation_facility_num_ind]{add_sharing_sanitation_facility_num_ind()}} recodes the number of individuals sharing the sanitation facility.
 }
