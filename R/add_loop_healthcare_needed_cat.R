@@ -5,7 +5,7 @@
 #' @param ind_healthcare_needed_levels A character vector of levels for ind_healthcare_needed.
 #' @param ind_healthcare_received The name of the variable that indicates if healthcare is received.
 #' @param ind_healthcare_received_levels A character vector of levels for ind_healthcare_received.
-#' @param wgq_dis The name of the variable that indicates if the individual has a disability.
+#' @param wgq_dis The name of the variable that indicates if the individual has a disability (usual cut-offs are 3).
 #' @param ind_age The name of the variable that indicates the age of the individual.
 #'
 #' @export

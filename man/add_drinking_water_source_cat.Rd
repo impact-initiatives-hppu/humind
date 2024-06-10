@@ -4,6 +4,7 @@
 \alias{add_drinking_water_source_cat}
 \alias{add_drinking_water_time_cat}
 \alias{add_drinking_water_time_threshold_cat}
+\alias{add_drinking_water_source_jmp_cat}
 \title{Drinking water source recoding}
 \usage{
 add_drinking_water_source_cat(
@@ -40,9 +41,19 @@ add_drinking_water_time_threshold_cat(
   df,
   drinking_water_time_cat = "wash_drinking_water_time_cat",
   premises = "premises",
-  under_threshold = c("under_30_min", "30min_1hr"),
-  above_threshold = "more_than_1hr",
+  under_30min = c("under_30_min", "30min_1hr"),
+  above_30min = "more_than_1hr",
   undefined = "undefined"
+)
+
+add_drinking_water_source_jmp_cat(
+  df,
+  drinking_water_source_cat = "wash_drinking_water_source_cat",
+  drinking_water_source_cat_levels = c("improved", "unimproved", "surface_water",
+    "undefined"),
+  drinking_water_time_30min_cat = "wash_drinking_water_time_30min_cat",
+  drinking_water_time_30min_cat_levels = c("premises", "under_30min", "above_30min",
+    "undefined")
 )
 }
 \arguments{
@@ -88,10 +99,18 @@ add_drinking_water_time_threshold_cat(
 
 \item{premises}{Character vector of responses codes for water on premises.}
 
-\item{under_threshold}{Character vector of responses codes for under threshold, usually under 1hr.}
+\item{under_30min}{Character vector of responses codes for under 30 min.}
 
-\item{above_threshold}{Character vector of responses codes for above threshold, usually above 1hr.}
+\item{above_30min}{Character vector of responses codes for above 30 min.}
+
+\item{drinking_water_source_cat}{Component column: Water source categories.}
+
+\item{drinking_water_source_cat_levels}{Character vector of water source categories in that order: Improved, Unimproved, Surface water, Undefined.}
+
+\item{drinking_water_time_30min_cat}{Component column: Time to fetch water, recoded categories.}
+
+\item{drinking_water_time_30min_cat_levels}{Character vector of time to fetch water categories in that order: Premises, Under 30 min, Above 30 min, Undefined.}
 }
 \description{
-\code{\link[=add_drinking_water_source_cat]{add_drinking_water_source_cat()}} recodes the types of water sources, \code{\link[=add_drinking_water_time_cat]{add_drinking_water_time_cat()}} adds the categorical time to fetch water, and \code{\link[=add_drinking_water_time_threshold_cat]{add_drinking_water_time_threshold_cat()}} according to a chosen threshold.
+\code{\link[=add_drinking_water_source_cat]{add_drinking_water_source_cat()}} recodes the types of water sources, \code{\link[=add_drinking_water_time_cat]{add_drinking_water_time_cat()}} adds the categorical time to fetch water, and \code{\link[=add_drinking_water_time_threshold_cat]{add_drinking_water_time_threshold_cat()}} according to a chosen threshold. Finally, \link{add_drinking_water_source_jmp_cat} recodes the water source and time to fetch water into a joint JMP category.
 }

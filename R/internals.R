@@ -77,9 +77,10 @@ are_values_in_range <- function(df, cols, lower = 0, upper = 7){
 #' @param df A data frame
 #' @param cols A vector of column names (quoted)
 #' @param set A vector of values
+#' @param main_message A main message
 #'
 #' @return A stop statement
-are_values_in_set <- function(df, cols, set){
+are_values_in_set <- function(df, cols, set, main_message = "All columns must be in the following set: "){
 
   #------ Check for missing columns
   if_not_in_stop(df, cols, "df")
@@ -112,7 +113,7 @@ are_values_in_set <- function(df, cols, set){
     })
 
     rlang::abort(c(
-      glue::glue("All columns must be in the following set: ", glue::glue_collapse(set, sep = ", ")),
+      glue::glue(main_message, glue::glue_collapse(set, sep = ", ")),
       "i" = glue::glue(
         "The following columns have values out of the set Please check.\n",
         glue::glue_collapse(cols, sep = "\n")

@@ -4,7 +4,12 @@
 \alias{are_values_in_set}
 \title{Stop statement values are not in set}
 \usage{
-are_values_in_set(df, cols, set)
+are_values_in_set(
+  df,
+  cols,
+  set,
+  main_message = "All columns must be in the following set: "
+)
 }
 \arguments{
 \item{df}{A data frame}
@@ -12,6 +17,8 @@ are_values_in_set(df, cols, set)
 \item{cols}{A vector of column names (quoted)}
 
 \item{set}{A vector of values}
+
+\item{main_message}{A main message}
 }
 \value{
 A stop statement
