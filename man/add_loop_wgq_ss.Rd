@@ -14,14 +14,20 @@ add_loop_wgq_ss(
   cognition = "wgq_cognition",
   self_care = "wgq_self_care",
   communication = "wgq_communication",
-  levels = c("no_difficulty", "some_difficulty", "lot_of_difficulty", "cannot_do", "dnk",
-    "pnta")
+  no_difficulty = "no_difficulty",
+  some_difficulty = "some_difficulty",
+  lot_of_difficulty = "lot_of_difficulty",
+  cannot_do = "cannot_do",
+  undefined = c("dnk", "pnta")
 )
 
 add_loop_wgq_ss_to_main(
   main,
   loop,
-  wgq_dis = "wgq_dis",
+  wgq_dis_4 = "wgq_dis_4",
+  wgq_dis_3 = "wgq_dis_3",
+  wgq_dis_2 = "wgq_dis_2",
+  wgq_dis_1 = "wgq_dis_1",
   ind_age_above_5 = "ind_age_above_5",
   id_col_main = "uuid",
   id_col_loop = "uuid"
@@ -44,11 +50,25 @@ add_loop_wgq_ss_to_main(
 
 \item{communication}{Communication component column.}
 
-\item{levels}{Character vector of responses codes, including first in the following order: "No difficulty", "Some difficulty", "A lot of difficulty", "Cannot do at all", e.g. c("no_difficulty", "some_difficulty", "lot_of_difficulty", "cannot_do").}
+\item{no_difficulty}{Level for no difficulty.}
+
+\item{some_difficulty}{Level for some difficulty.}
+
+\item{lot_of_difficulty}{Level for a lot of difficulty.}
+
+\item{cannot_do}{Level for cannot do at all.}
+
+\item{undefined}{Vector of undefined responses, such as Prefer not to answer and Don't know.}
 
 \item{main}{A data frame of household-level data.}
 
-\item{wgq_dis}{Column name for the disability dummy in the individual-level dataset.}
+\item{wgq_dis_4}{Column name for the disability 4 cut-offs binary.}
+
+\item{wgq_dis_3}{Column name for the disability 3 cut-offs binary.}
+
+\item{wgq_dis_2}{Column name for the disability 2 cut-offs binary.}
+
+\item{wgq_dis_1}{Column name for the disability 1 cut-offs binary.}
 
 \item{ind_age_above_5}{Column name for the age above 5 dummy in the individual-level dataset.}
 
@@ -56,9 +76,6 @@ add_loop_wgq_ss_to_main(
 
 \item{id_col_loop}{Column name for the unique identifier in the loop dataset.}
 }
-\value{
-Fifteen new columns: each component dummy for levels 3 and 4, disability level 3, level 4, and level 3 and 4 together.
-}
 \description{
-Prepare dummy variables for each WG-SS component (individual data)
+\link{add_loop_wgq_ss} prepares dummy variables for each WG-SS component (vision, hearing, mobility, cognition, self-care, communication) and their levels (no difficulty, some difficulty, a lot of difficulty, cannot do at all) and combines them into the sum of domains coded for each level (e.g, wgq_cannot_do_n), and disability binary cut-offs variables (wgq_dis_1, wgq_dis_2, wgq_dis_3, wgq_dis_4).
 }
