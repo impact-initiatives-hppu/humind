@@ -51,3 +51,43 @@ main.out <- add_loop_wgq_ss_to_main(main = main,
                                     id_col_main = "uuid",
                                     id_col_loop = "uuid"
 )
+
+
+# test age pyramid function ------------------------------------------------
+
+source("R/graph_add_pyramid.R")
+
+main <- main %>% add_age_cat(age_col = "resp_age",
+                             breaks = c(0,18, 30, 65, 100, 120),
+                             int_undefined = c(-999, 999),
+                             char_undefined = "undefined",
+                             new_colname = "resp_age_cat")
+# main$admin1 %>% unique
+
+age_table <- aggregate_age(df = main, 
+                           var_age_cat = "resp_age_cat",
+                           var_gender = "resp_gender",
+                           gender_filtered_values = c(NA, "other", "pnta"),
+                           group_var = "admin1",
+                           col_weight = "weight")
+
+age_table %>% plot.age.pyramid(var_gender = "resp_gender",
+                               var_age_cat = "resp_age_cat",
+                               col_stat = "prop",
+                               col_n = "n",
+                               unit = "Respondent",
+                               group_var = "admin1",
+                               save = F,
+                               value_men = "male",
+                               value_women = "female")
+
+df <- age_table
+var_gender = "resp_gender"
+var_age_cat = "resp_age_cat"
+col_stat = "prop"
+col_n = "n"
+unit = "Respondent"
+group_var = NULL
+save = F
+value_men = "male"
+value_women = "female"

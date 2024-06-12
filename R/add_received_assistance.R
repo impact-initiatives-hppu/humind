@@ -30,18 +30,18 @@ add_received_assistance <- function(
 
   # Check if vars are in df
   if_not_in_stop(df, c(received_assistance_12m, received_assistance_date), "df")
-
+  
   # Check if all values are in set
   are_values_in_set(df, received_assistance_12m, c(yes, no, undefined))
   are_values_in_set(df, received_assistance_date, c(date_past_30d, date_1_3_months, date_4_6_months, date_7_12_months, date_undefined))
-
+  
   # Check if yes and no are of length 1
   if (length(yes) != 1 | length(no) != 1) {
     stop("yes and no must be of length 1.")
   }
-
+  
   #------ Add
-
+  
   # Add received assistance
   df <- dplyr::mutate(
     df,
@@ -72,7 +72,7 @@ add_received_assistance <- function(
 #' @param choice_dnk The value value that indicates that the person does not know.
 #' @return The data frame with the new variable `aap_barriers_assistance_any_barrier`
 #' 
-add_any_barrier_aap <- function(df=dp$BFA$main,
+add_any_barrier_aap <- function(df,
                                 col_barrier="aap_barriers_assistance",
                                 choice_none="none",
                                 choice_pnta="pnta",
