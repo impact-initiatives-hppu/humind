@@ -188,14 +188,13 @@ add_loop_wgq_ss <- function(
   )
 
   # Add final cut-offs - disability 4 - the level of inclusion is any one domain is coded CANNOT DO AT ALL (4)
-  # loop <- dplyr::mutate(loop, wgq_dis_4 = !!rlang::sym("wgq_vars_cannot_do_d")) ## was not found in data frame
   loop <- dplyr::mutate(loop, wgq_dis_4 = !!rlang::sym("wgq_cannot_do_d"))
   
   # Add final cut-offs - disability 3 -  the level of inclusion is any 1 domain/question is coded A LOT OF DIFFICULTY or CANNOT DO AT ALL.
   loop <- dplyr::mutate(loop, wgq_dis_3 = dplyr::case_when(
     wgq_dis_4 == 1 ~ 1,
-    wgq_lot_of_difficulty_d == 1 ~ 1, ## changed from wgq_vars_lot_of_difficulty_d to wgq_lot_of_difficulty_d
-    wgq_dis_4 == 0 & wgq_lot_of_difficulty_d == 0 ~ 0, ## idem
+    wgq_lot_of_difficulty_d == 1 ~ 1,
+    wgq_dis_4 == 0 & wgq_lot_of_difficulty_d == 0 ~ 0,
     .default = NA_real_
   ))
 
@@ -205,8 +204,8 @@ add_loop_wgq_ss <- function(
     wgq_dis_2 = dplyr::case_when(
       wgq_dis_4 == 1 ~ 1,
       wgq_dis_3 == 1 ~ 1,
-      wgq_some_difficulty_n >= 2 ~ 1, # changed from wgq_vars_some_difficulty_n to wgq_some_difficulty_n
-      wgq_dis_3 == 0 & wgq_dis_4 == 0 & wgq_some_difficulty_n < 2 ~ 0, # changed from wgq_vars_some_difficulty_n to wgq_some_difficulty_n
+      wgq_some_difficulty_n >= 2 ~ 1,
+      wgq_dis_3 == 0 & wgq_dis_4 == 0 & wgq_some_difficulty_n < 2 ~ 0,
       .default = NA_real_
     )
   )
@@ -217,8 +216,8 @@ add_loop_wgq_ss <- function(
     wgq_dis_1 = dplyr::case_when(
       wgq_dis_4 == 1 ~ 1,
       wgq_dis_3 == 1 ~ 1,
-      wgq_some_difficulty_d == 1 ~ 1, # changed from wgq_vars_some_difficulty_n to wgq_some_difficulty_n
-      wgq_dis_3 == 0 & wgq_dis_4 == 0 & wgq_some_difficulty_d == 0 ~ 0, # changed from wgq_vars_some_difficulty_n to wgq_some_difficulty_n
+      wgq_some_difficulty_d == 1 ~ 1,
+      wgq_dis_3 == 0 & wgq_dis_4 == 0 & wgq_some_difficulty_d == 0 ~ 0, 
       .default = NA_real_
     )
   )
