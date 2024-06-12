@@ -296,7 +296,7 @@ add_loop_wgq_ss_to_main <- function(
     "{ind_age_above_5_n}" := sum(!!rlang::sym(ind_age_above_5), na.rm = TRUE)
   )
   
-  ## add binary when at least one hh member has a difficulty in the considered dimension
+  ## add binary when at least one hh member has a difficulty in any considered dimension, for all thresholds
   loop <- loop %>% dplyr::mutate(
     across(
       all_of(wgq_dis_n),
