@@ -1,4 +1,4 @@
-msni <- function(
+add_msni <- function(
   df,
   comp_foodsec_score = "comp_foodsec_score",
   comp_snfi_score = "comp_snfi_score",

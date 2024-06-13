@@ -21,12 +21,12 @@ library(dplyr)
 
 This vignette emphasizes how to add indicators for the "main" dataset at the household-level. The package provides functins to add, recode, and prepare the usual humanitarian composite indicators as well as the ones that are specific to the MSNA analytical framework.
 
-```{r load-data, echo = FALSE}
+```{r load-data, echo = FALSE, render=F}
 data("dummy_raw_data")
 ```
 
 
-```{r load-data-prep}
+```{r load-data-prep, render=F}
 main <- dummy_raw_data$main |> as_tibble()
 main$weight <- 1
 ```
@@ -35,7 +35,7 @@ main$weight <- 1
 
 ## Shelter types
 
-```{r shelter-type}
+```{r shelter-type, render=F}
 # Category of shelter type
 main <- add_shelter_type_cat(main)
 # main |> select(snfi_shelter_type, snfi_shelter_type_individual, snfi_shelter_type_cat)
@@ -47,7 +47,7 @@ main <- add_shelter_issue_cat(main)
 
 ## Functional domestic space
 
-```{r fds}
+```{r fds, render=F}
 # Category of functional domestic space
 main <- add_fds_cannot_cat(main)
 # main |> select(snfi_fds_cooking, snfi_fds_sleeping, snfi_fds_storing, snfi_fds_personal_hygiene, energy_lighting_source, snfi_fds_cannot_n, snfi_fds_cannot_cat)
@@ -58,7 +58,7 @@ main <- add_fds_cannot_cat(main)
 
 ## Sanitation facilities
 
-```{r sanitation}
+```{r sanitation, render=F}
 # Category of sanitation facilities
 main <- add_sanitation_facility_cat(main)
 # main |> select(wash_sanitation_facility, wash_sanitation_facility_cat)
@@ -73,7 +73,7 @@ main <- add_sharing_sanitation_facility_num_ind(main)
 ```
 
 ## Water source and time to fetch water
-```{r water-source}
+```{r water-source, render=F}
 # Category of water source
 main <- add_drinking_water_source_cat(main)
 
