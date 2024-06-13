@@ -1,12 +1,6 @@
 # Load packages -----------------------------------------------------------
-
-library(impactR.utils)
-library(impactR.kobo)
-library(impactR.analysis)
-library(humind)
-library(srvyr)
-library(dplyr)
-library(tidyr)
+require(pacman)
+p_load(impactR.utils, impactR.kobo, impactR.analysis, humind, srvyr, dplyr, tidyr, ggplot2, stringr)
 
 # Prepare datasets --------------------------------------------------------
 
@@ -17,7 +11,7 @@ loop <- left_joints_dup(list(
   nut_ind = dummy_raw_data$nut_ind),
   person_id,
   uuid)
-
+main <- dummy_raw_data$main %>% mutate(weight=1)
 
 # Use WGSS functions--------------------------------------------------------
 
@@ -54,14 +48,22 @@ main.out <- add_loop_wgq_ss_to_main(main = main,
 
 
 # test age pyramid function ------------------------------------------------
-source("R/graph_add_pyramid.R")
+source("R/plot_age_pyramid.R")
 
+## add age categories for main and loop dataset ----------------------------
 main <- main %>% add_age_cat(age_col = "resp_age",
-                             breaks = c(0,18, 30, 65, 100, 120),
+                             breaks = c(0, 17, 30, 65, 100, 120),
                              int_undefined = c(-999, 999),
                              char_undefined = "undefined",
                              new_colname = "resp_age_cat")
+loop <- loop %>% add_age_cat(age_col = "ind_age",
+                             breaks = c(0, 17, 30, 65, 100, 120),
+                             int_undefined = c(-999, 999),
+                             char_undefined = "undefined",
+                             new_colname = "ind_age_cat")
 
+
+## Aggregate data by age and gender + any other grouping variables ---------
 age_table <- aggregate_age(df = main, 
                            var_age_cat = "resp_age_cat",
                            var_gender = "resp_gender",
@@ -69,7 +71,8 @@ age_table <- aggregate_age(df = main,
                            group_var = "admin1",
                            col_weight = "weight")
 
-age_table %>% plot.age.pyramid(var_gender = "resp_gender",
+## Plot age pyramid by gender ----------------------------------------------
+age_table %>% plot_age_pyramid(var_gender = "resp_gender",
                                var_age_cat = "resp_age_cat",
                                col_stat = "prop",
                                col_n = "n",
@@ -78,4 +81,27 @@ age_table %>% plot.age.pyramid(var_gender = "resp_gender",
                                save = F,
                                value_men = "male",
                                value_women = "female")
+
+## Aggregate data by age and gender for main and loop dataset jointly ------
+compare.sample <- compare_main_loop(df_resp = main,
+                                    col_resp_gender = "resp_gender",
+                                    col_resp_age_cat = "resp_age_cat",
+                                    df_ind = loop,
+                                    col_ind_gender = "ind_gender",
+                                    col_ind_age_cat = "ind_age_cat",
+                                    col_ind_age = "ind_age",
+                                    group_var = NULL,
+                                    group_var_ind = NULL,
+                                    filter_value_gender = c("male", "female"),
+                                    all.age.group = F)
+
+compare.sample %>% 
+  mutate(n_report = paste0(n_resp-n_ind)) %>%
+  plot_age_pyramid_main_loop(col_age_cat = "age_cat",
+                             col_prop_diff = "prop_diff",
+                             col_gender = "gender",
+                             group_var = NULL,
+                             val_women = "female",
+                             val_men = "male",
+                             age.labs = NULL)
 
