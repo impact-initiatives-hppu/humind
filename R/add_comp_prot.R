@@ -10,7 +10,7 @@
 #' @param concern_levels Levels for concern variables.
 #'
 #' @export
-comp_prot <- function(
+add_comp_prot <- function(
   df,
   child_sep_cat = "prot_child_sep_cat",
   child_sep_cat_levels = c("none", "at_least_one_very_severe", "at_least_one_severe", "at_least_one_non_severe", "undefined"),
