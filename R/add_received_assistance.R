@@ -30,18 +30,18 @@ add_received_assistance <- function(
 
   # Check if vars are in df
   if_not_in_stop(df, c(received_assistance_12m, received_assistance_date), "df")
-  
+
   # Check if all values are in set
   are_values_in_set(df, received_assistance_12m, c(yes, no, undefined))
   are_values_in_set(df, received_assistance_date, c(date_past_30d, date_1_3_months, date_4_6_months, date_7_12_months, date_undefined))
-  
+
   # Check if yes and no are of length 1
   if (length(yes) != 1 | length(no) != 1) {
     stop("yes and no must be of length 1.")
   }
-  
+
   #------ Add
-  
+
   # Add received assistance
   df <- dplyr::mutate(
     df,
@@ -61,39 +61,43 @@ add_received_assistance <- function(
 
 }
 
-#' Any barriers to accessing humanitarian assistance encountered ---------------
-#' 
-#' @title function to recode any barriers to accessing humanitarian assistance encountered from the barriers to accessing humanitarian assistance by type indicator
-#' @description This function creates a new variable that indicates whether any barriers to accessing humanitarian assistance were encountered.
+#' Any barriers to accessing humanitarian assistance encountered
+#'
+#' This function recodes any barriers to accessing humanitarian assistance encountered from the barriers to accessing humanitarian assistance by type indicator.
+#'
 #' @param df The input data frame
 #' @param col_barrier The name of the column that contains the information about the barriers to accessing humanitarian assistance.
 #' @param choice_none The choice value that indicates that no barriers were encountered.
 #' @param choice_pnta The value value that indicates that the person prefers not to answer.
 #' @param choice_dnk The value value that indicates that the person does not know.
 #' @return The data frame with the new variable `aap_barriers_assistance_any_barrier`
-#' 
-add_any_barrier_aap <- function(df,
-                                col_barrier="aap_barriers_assistance",
-                                choice_none="none",
-                                choice_pnta="pnta",
-                                choice_dnk="dnk"){
-  
-  ## check that col_barrier is present in dataframe
-  if_not_in_stop(df, col_barrier, "df")
+#'
+add_barriers_assistance_any <- function(df,
+                                       barriers_assistance = "aap_barriers_assistance",
+                                       none = "none",
+                                       pnta = "pnta",
+                                       dnk = "dnk"){
 
-  # Check if all values are in set
-  are_values_in_set(df, col_barrier, c(choice_none, choice_pnta, choice_dnk))
-  
-  df <- df %>%
-    mutate(
-      aap_barriers_assistance_any_barrier = case_when(
-        !!sym(col_barrier) %in% c(choice_none) ~ "no",
-        !!sym(col_barrier) %in% c(choice_pnta) ~ "pnta",
-        !!sym(col_barrier) %in% c(choice_dnk) ~ "dnk",
-        !!sym(col_barrier) %in% c("NA", NA) ~ NA_character_,
-        TRUE ~ "yes"
+
+  #------ Checks
+
+  ## check that col_barrier is present in dataframe
+  if_not_in_stop(df, barrier, "df")
+
+  #------ Compute
+
+  df <- dplyr::mutate(
+    df,
+    aap_barriers_assistance_any = case_when(
+      is.na(!!rlang::sym(barriers_assistance)) ~ NA_character_
+      !!rlang::sym(barriers_assistance) %in% c(none) ~ "no",
+      !!rlang::sym(barriers_assistance) %in% c(pnta) ~ "pnta",
+      !!rlang::sym(barriers_assistance) %in% c(dnk) ~ "dnk",
+       .default = "yes"
       )
     )
+
+  return(df)
 }
 
 
