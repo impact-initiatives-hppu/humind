@@ -73,10 +73,10 @@ add_received_assistance <- function(
 #' @return The data frame with the new variable `aap_barriers_assistance_any_barrier`
 #'
 add_barriers_assistance_any <- function(df,
-                                       barriers_assistance = "aap_barriers_assistance",
-                                       none = "none",
-                                       pnta = "pnta",
-                                       dnk = "dnk"){
+                                        barriers_assistance = "aap_barriers_assistance",
+                                        none = "none",
+                                        pnta = "pnta",
+                                        dnk = "dnk"){
 
 
   #------ Checks
@@ -89,11 +89,11 @@ add_barriers_assistance_any <- function(df,
   df <- dplyr::mutate(
     df,
     aap_barriers_assistance_any = case_when(
-      is.na(!!rlang::sym(barriers_assistance)) ~ NA_character_
+      is.na(!!rlang::sym(barriers_assistance)) ~ NA_character_,
       !!rlang::sym(barriers_assistance) %in% c(none) ~ "no",
       !!rlang::sym(barriers_assistance) %in% c(pnta) ~ "pnta",
       !!rlang::sym(barriers_assistance) %in% c(dnk) ~ "dnk",
-       .default = "yes"
+      .default = "yes"
       )
     )
 

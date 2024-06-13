@@ -52,15 +52,15 @@ add_access_to_phone_best <- function(
   #------ Recode
 
   df <- dplyr::mutate(
-    df
+    df,
     etc_access_to_phone_best = dplyr::case_when(
-      !!sym(access_to_phone_d_smartphone) == 1 ~ "smartphone"
+      !!sym(access_to_phone_d_smartphone) == 1 ~ "smartphone",
       !!sym(access_to_phone_d_feature_phone) == 1 ~ "feature_phone",
       !!sym(access_to_phone_d_basic_phone) == 1 ~ "basic_phone",
       !!sym(access_to_phone_d_none) == 1 ~ "none",
       !!sym(access_to_phone_d_dnk) == 1 ~ "undefined",
       !!sym(access_to_phone_d_pnta) == 1 ~ "undefined",
-      !!sym(access_to_phone_d_other) == 1 ~ "undefined"
+      !!sym(access_to_phone_d_other) == 1 ~ "undefined",
       .default = NA_character_
     )
     )
@@ -81,8 +81,8 @@ add_access_to_phone_coverage <- function(
     df,
     coverage_internet = "etc_coverage_internet",
     coverage_none = "no_coverage",
-    coverage_no_internet=c("only_sms", "voice_no_internet"),
-    coverage_internet="internet",
+    coverage_no_internet = c("only_sms", "voice_no_internet"),
+    coverage_yes_internet="internet",
     coverage_undefined = c("dnk", "pnta", "other"),
     access_to_phone_best = "etc_access_to_phone_best",
     access_to_phone_none = "none",
@@ -107,7 +107,7 @@ add_access_to_phone_coverage <- function(
   if (length(access_to_undefined) != 1) rlang::abort("access_to_undefined must be of length 1")
 
   # Check if all values are in set
-  are_values_in_set(df, coverage_internet, c(coverage_none, coverage_no_internet, coverage_internet, coverage_undefined))
+  are_values_in_set(df, coverage_internet, c(coverage_none, coverage_no_internet, coverage_yes_internet, coverage_undefined))
   are_values_in_set(df, access_to_phone_best, c(access_to_phone_none, accss_to_basic_phone, access_to_feature_phone, access_to_smartphone, access_to_undefined))
 
 df <- dplyr::mutate(
@@ -118,9 +118,9 @@ df <- dplyr::mutate(
     # no_internet_or_basic_phone
     !!rlang::sym(coverage_internet) %in% coverage_no_internet | !!rlang::sym(access_to_phone_best) %in% c(access_to_basic_phone) ~ "no_internet_or_basic_phone",
     # internet_feature_phone
-    !!rlang::sym(coverage_internet) %in% coverage_internet & !!rlang::sym(access_to_phone_best) %in% c(access_to_feature_phone) ~ "internet_feature_phone",
+    !!rlang::sym(coverage_internet) %in% coverage_yes_internet & !!rlang::sym(access_to_phone_best) %in% c(access_to_feature_phone) ~ "internet_feature_phone",
     # internet_smartphone
-    !!rlang::sym(coverage_internet) %in% coverage_internet & !!rlang::sym(access_to_phone_best) %in% c(access_to_smartphone) ~ "internet_smartphone",
+    !!rlang::sym(coverage_internet) %in% coverage_yes_internet & !!rlang::sym(access_to_phone_best) %in% c(access_to_smartphone) ~ "internet_smartphone",
     # undefined
     (!!rlang::sym(coverage_internet) %in% c(coverage_undefined)) | (!!rlang::sym(access_to_phone_best) %in% c(access_to_undefined)) ~ "undefined",
       .default = NA_character_)
