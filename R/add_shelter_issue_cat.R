@@ -5,7 +5,7 @@
 #' @param none Response code for no issue.
 #' @param issues Character vector of issues.
 #' @param undefined Character vector of undefined responses codes (e.g. "Prefer not to answer").
-#' @param sep Separator for the dummy columns.
+#' @param sep Separator for the binary columns.
 #'
 #'@export
 add_shelter_issue_cat <- function(

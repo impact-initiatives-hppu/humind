@@ -35,7 +35,7 @@ add_received_assistance <- function(
   are_values_in_set(df, received_assistance_12m, c(yes, no, undefined))
   are_values_in_set(df, received_assistance_date, c(date_past_30d, date_1_3_months, date_4_6_months, date_7_12_months, date_undefined))
 
-  # Check if yes and no a re of length 1
+  # Check if yes and no are of length 1
   if (length(yes) != 1 | length(no) != 1) {
     stop("yes and no must be of length 1.")
   }
@@ -60,3 +60,44 @@ add_received_assistance <- function(
   return(df)
 
 }
+
+#' Any barriers to accessing humanitarian assistance encountered
+#'
+#' This function recodes any barriers to accessing humanitarian assistance encountered from the barriers to accessing humanitarian assistance by type indicator.
+#'
+#' @param df The input data frame
+#' @param col_barrier The name of the column that contains the information about the barriers to accessing humanitarian assistance.
+#' @param choice_none The choice value that indicates that no barriers were encountered.
+#' @param choice_pnta The value value that indicates that the person prefers not to answer.
+#' @param choice_dnk The value value that indicates that the person does not know.
+#' @return The data frame with the new variable `aap_barriers_assistance_any_barrier`
+#'
+add_barriers_assistance_any <- function(df,
+                                       barriers_assistance = "aap_barriers_assistance",
+                                       none = "none",
+                                       pnta = "pnta",
+                                       dnk = "dnk"){
+
+
+  #------ Checks
+
+  ## check that col_barrier is present in dataframe
+  if_not_in_stop(df, barrier, "df")
+
+  #------ Compute
+
+  df <- dplyr::mutate(
+    df,
+    aap_barriers_assistance_any = case_when(
+      is.na(!!rlang::sym(barriers_assistance)) ~ NA_character_
+      !!rlang::sym(barriers_assistance) %in% c(none) ~ "no",
+      !!rlang::sym(barriers_assistance) %in% c(pnta) ~ "pnta",
+      !!rlang::sym(barriers_assistance) %in% c(dnk) ~ "dnk",
+       .default = "yes"
+      )
+    )
+
+  return(df)
+}
+
+
