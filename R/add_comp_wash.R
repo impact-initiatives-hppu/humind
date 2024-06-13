@@ -6,7 +6,7 @@
 #' #' #' @param fc_phase_levels Levels of the food security phase.
 #' #' #'
 #' #' #' @export
-#' comp_wash <- function(
+#' add_ <- function(
 #'     df,
 #'     setting,
 #'     setting_levels = c("rural", "urban", "camp"),

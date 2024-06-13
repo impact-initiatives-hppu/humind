@@ -10,7 +10,7 @@
 #' @param ind_healthcare_needed_yes_met_wgq_dis_n Column name for the number of individuals who needed to access healthcare and did and have a disability.
 #'
 #' @export
-comp_health <- function(
+add_comp_health <- function(
     df,
     ind_healthcare_needed_no_n = "health_ind_healthcare_needed_no_n",
     ind_healthcare_needed_yes_unmet_n = "health_ind_healthcare_needed_yes_unmet_n",

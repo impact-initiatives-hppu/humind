@@ -5,7 +5,7 @@
 #' @param fc_phase_levels Levels of the food security phase.
 #'
 #' @export
-comp_foodsec <- function(
+add_comp_foodsec <- function(
     df,
     fc_phase = "fsl_fc_phase",
     fc_phase_levels = c("Phase 1 FC", "Phase 2 FC", "Phase 3 FC", "Phase 4 FC", "Phase 5 FC")){

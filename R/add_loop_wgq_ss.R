@@ -188,13 +188,13 @@ add_loop_wgq_ss <- function(
   )
 
   # Add final cut-offs - disability 4 - the level of inclusion is any one domain is coded CANNOT DO AT ALL (4)
-  loop <- dplyr::mutate(loop, wgq_dis_4 = !!rlang::sym("wgq_vars_cannot_do_d"))
+  loop <- dplyr::mutate(loop, wgq_dis_4 = !!rlang::sym("wgq_cannot_do_d"))
 
   # Add final cut-offs - disability 3 -  the level of inclusion is any 1 domain/question is coded A LOT OF DIFFICULTY or CANNOT DO AT ALL.
   loop <- dplyr::mutate(loop, wgq_dis_3 = dplyr::case_when(
     wgq_dis_4 == 1 ~ 1,
-    wgq_vars_lot_of_difficulty_d == 1 ~ 1,
-    wgq_dis_4 == 0 & wgq_vars_lot_of_difficulty_d == 0 ~ 0,
+    wgq_lot_of_difficulty_d == 1 ~ 1,
+    wgq_dis_4 == 0 & wgq_lot_of_difficulty_d == 0 ~ 0,
     .default = NA_real_
   ))
 
@@ -204,8 +204,8 @@ add_loop_wgq_ss <- function(
     wgq_dis_2 = dplyr::case_when(
       wgq_dis_4 == 1 ~ 1,
       wgq_dis_3 == 1 ~ 1,
-      wgq_vars_some_difficulty_n >= 2 ~ 1,
-      wgq_dis_3 == 0 & wgq_dis_4 == 0 & wgq_vars_some_difficulty_n < 2 ~ 0,
+      wgq_some_difficulty_n >= 2 ~ 1,
+      wgq_dis_3 == 0 & wgq_dis_4 == 0 & wgq_some_difficulty_n < 2 ~ 0,
       .default = NA_real_
     )
   )
@@ -216,8 +216,8 @@ add_loop_wgq_ss <- function(
     wgq_dis_1 = dplyr::case_when(
       wgq_dis_4 == 1 ~ 1,
       wgq_dis_3 == 1 ~ 1,
-      wgq_vars_some_difficulty_d == 1 ~ 1,
-      wgq_dis_3 == 0 & wgq_dis_4 == 0 & wgq_vars_some_difficulty_d == 0 ~ 0,
+      wgq_some_difficulty_d == 1 ~ 1,
+      wgq_dis_3 == 0 & wgq_dis_4 == 0 & wgq_some_difficulty_d == 0 ~ 0,
       .default = NA_real_
     )
   )
@@ -295,6 +295,22 @@ add_loop_wgq_ss_to_main <- function(
     "{wgq_dis_n[4]}" := sum(!!rlang::sym(wgq_dis[4]), na.rm = TRUE),
     "{ind_age_above_5_n}" := sum(!!rlang::sym(ind_age_above_5), na.rm = TRUE)
   )
+
+  # Add binary when at least one hh member has a difficulty in any considered dimension, for all thresholds
+  loop <- dplyr::mutate(
+    loop,
+    dplyr::across(
+      dplyr::all_of(wgq_dis_n),
+      \(x) dplyr::case_when(
+        x >= 1 ~ 1,
+        x == 0 ~ 0,
+        .default = NA_real_),
+      .names = "{.col}_at_least_one"
+      )
+    )
+  # Rename to remove the "_n"
+  loop <- dplyr::rename_with(loop, ~ gsub("_n_at_least_one$", "_at_least_one", .), ends_with("_n_at_least_one"))
+
 
   # Remove columns in main that exists in loop, but the grouping ones
   main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
