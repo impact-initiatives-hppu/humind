@@ -4,6 +4,8 @@
 # humind
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/impact-initiatives-hppu/humind/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/impact-initiatives-hppu/humind/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The package gives helpers to calculate usual humanitarian composite
