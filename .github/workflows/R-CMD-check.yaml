@@ -2,35 +2,51 @@ name: R-CMD-check
 
 on:
   push:
-    branches: 
-      - unit-test
+    branches: [unit-test]
   pull_request:
-    branches: 
-      - unit-test
+    branches: [unit-test]
 
 jobs:
   R-CMD-check:
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
-
-    runs-on: ${{ matrix.os }}
+        os: [ubuntu-latest]
+        r: [release]
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: true
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set up R
       uses: r-lib/actions/setup-r@v2
+      with:
+        r-version: ${{ matrix.r }}
+
+    - name: Caches the R package dependencies to speed up subsequent builds
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-r-${{ hashFiles('**/*.R') }}-${{ matrix.r }}
+        restore-keys: |
+          ${{ runner.os }}-r-${{ matrix.r }}
+          ${{ runner.os }}-r-
 
     - name: Install dependencies
-      run: |
-        install.packages(c("devtools", "roxygen2", "testthat", "dplyr", "rlang", "rcmdcheck"))
-        devtools::install_deps(dependencies = TRUE)
-      shell: Rscript {0}
+      uses: r-lib/actions/setup-r-dependencies@v2
+      with:
+        extra-packages: devtools
 
-    - name: Check package
-      run: R CMD check .
+    #- name: Check package as CRAN would, excluding the manual
+    #  run: R CMD check --as-cran --no-manual .
 
     - name: Run tests
-      run: Rscript -e 'devtools::test()'
+      run: Rscript -e "devtools::test('tests', coverage = TRUE)"
