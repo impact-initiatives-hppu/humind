@@ -32,7 +32,7 @@ add_edu_indicators  <- function(roster,
     # add column edu_school_child_gender with 'boy'/'girl'
     add_edu_gender_values(gender_col = ind_gender) %>%
 
-    # IMPORTANT: THE INDICATOR MUST COMPLAY WITH THE MSNA GUIDANCE AND LOGIC
+    # IMPORTANT: THE INDICATOR MUST COMPLY WITH THE MSNA GUIDANCE AND LOGIC
     # Add columns to use for calculation of the composite indicators: Net attendance, early-enrollment, overage learners
     add_edu_level_grade_indicators(country_assessment = country_MSNA, education_access = education_access_col, education_level_grade = education_level_grade_col)%>%
 
