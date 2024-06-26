@@ -49,4 +49,8 @@ jobs:
     #  run: R CMD check --as-cran --no-manual .
 
     - name: Run tests
-      run: Rscript -e "devtools::test('tests', coverage = TRUE)"
+      run: |
+        Rscript -e '
+          testthat::set_max_fails(Inf)
+          testthat::test_dir("tests/testthat", reporter = testthat::ProgressReporter$new(show_praise = FALSE))
+          '
