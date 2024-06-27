@@ -60,9 +60,14 @@ jobs:
           library(humind)
           options(testthat.output_file = "test-output.txt")
           testthat::set_max_fails(Inf)
-          test_results <- testthat::test_dir("tests/testthat", reporter = testthat::ProgressReporter$new(show_praise = FALSE))
+          test_results <- tryCatch({
+            testthat::test_dir("tests/testthat", reporter = testthat::ProgressReporter$new(show_praise = FALSE))
+          }, error = function(e) {
+            writeLines("TESTS_FAILED=true", "failure-indicator.txt")
+            stop(e)
+          })
           writeLines(readLines("test-output.txt"))
-          if (length(test_results) > 0) {
+          if (exists("test_results") && length(test_results) > 0) {
             writeLines("TESTS_FAILED=true", "failure-indicator.txt")
           } else {
             writeLines("TESTS_FAILED=false", "failure-indicator.txt")
@@ -75,14 +80,14 @@ jobs:
       run: |
         if grep -q "TESTS_FAILED=true" failure-indicator.txt; then
           echo "Tests failed"
-          echo "::set-output name=tests_failed::true"
+          echo "tests_failed=true" >> $GITHUB_ENV
         else
           echo "Tests passed"
-          echo "::set-output name=tests_failed::false"
+          echo "tests_failed=false" >> $GITHUB_ENV
         fi
 
     - name: Create GitHub issues for failed and error tests
-      if: steps.check_failure.outputs.tests_failed == 'true'
+      if: env.tests_failed == 'true'
       run: |
         Rscript -e '
           library(jsonlite)
@@ -109,21 +114,23 @@ jobs:
 
           test_results <- readLines("test-output.txt")
           
-          error_tests <- grep("^Error \\(", test_results, value = TRUE)
-          for (test in error_tests) {
-            test_name <- str_match(test, "Error \\((.+?)\\):")[2]
-            error_message <- str_match(test, "Error \\(.+?\\): (.+)")[2]
-            issue_title <- paste("Error in test:", test_name)
-            issue_body <- paste("Error message:", error_message, "\n\nFull error details:\n", test)
+          failure_tests <- grep("── Failure \\('", test_results, value = TRUE)
+          for (test in failure_tests) {
+            test_details <- str_match(test, "── Failure \\('(.+?)'\\): (.+) ──")
+            test_name <- test_details[2]
+            failure_message <- test_details[3]
+            issue_title <- paste("Failure in test:", test_name)
+            issue_body <- paste("Failure message:", failure_message, "\n\nFull failure details:\n", test)
             create_issue(issue_title, issue_body)
           }
           
-          failure_tests <- grep("^Failure \\(", test_results, value = TRUE)
-          for (test in failure_tests) {
-            test_name <- str_match(test, "Failure \\((.+?)\\):")[2]
-            failure_message <- str_match(test, "Failure \\(.+?\\): (.+)")[2]
-            issue_title <- paste("Failure in test:", test_name)
-            issue_body <- paste("Failure message:", failure_message, "\n\nFull failure details:\n", test)
+          error_tests <- grep("── Error \\('", test_results, value = TRUE)
+          for (test in error_tests) {
+            test_details <- str_match(test, "── Error \\('(.+?)'\\): (.+) ──")
+            test_name <- test_details[2]
+            error_message <- test_details[3]
+            issue_title <- paste("Error in test:", test_name)
+            issue_body <- paste("Error message:", error_message, "\n\nFull error details:\n", test)
             create_issue(issue_title, issue_body)
           }
         '
