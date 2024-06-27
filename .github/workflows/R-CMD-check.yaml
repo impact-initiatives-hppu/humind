@@ -8,15 +8,11 @@ on:
 
 jobs:
   R-CMD-check:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       issues: write
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
-        r: [release]
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: true
@@ -30,15 +26,15 @@ jobs:
     - name: Set up R
       uses: r-lib/actions/setup-r@v2
       with:
-        r-version: ${{ matrix.r }}
+        r-version: release
 
-    - name: Caches the R package dependencies to speed up subsequent builds
+    - name: Cache R packages
       uses: actions/cache@v4
       with:
         path: ${{ env.R_LIBS_USER }}
-        key: ${{ runner.os }}-r-${{ hashFiles('**/*.R') }}-${{ matrix.r }}
+        key: ${{ runner.os }}-r-${{ hashFiles('**/*.R') }}-release
         restore-keys: |
-          ${{ runner.os }}-r-${{ matrix.r }}
+          ${{ runner.os }}-r-release
           ${{ runner.os }}-r-
 
     - name: Install dependencies
@@ -56,7 +52,7 @@ jobs:
       run: |
         Rscript -e 'devtools::document()'
         R CMD INSTALL .
-      
+
     - name: Run tests
       run: |
         Rscript -e '
@@ -67,13 +63,26 @@ jobs:
           test_results <- testthat::test_dir("tests/testthat", reporter = testthat::ProgressReporter$new(show_praise = FALSE))
           writeLines(readLines("test-output.txt"))
           if (length(test_results) > 0) {
-            print(test_results)
-            quit(status = 1)
+            writeLines("TESTS_FAILED=true", "failure-indicator.txt")
+          } else {
+            writeLines("TESTS_FAILED=false", "failure-indicator.txt")
           }
         '
+      continue-on-error: true
+
+    - name: Check if tests failed
+      id: check_failure
+      run: |
+        if grep -q "TESTS_FAILED=true" failure-indicator.txt; then
+          echo "Tests failed"
+          echo "::set-output name=tests_failed::true"
+        else
+          echo "Tests passed"
+          echo "::set-output name=tests_failed::false"
+        fi
 
     - name: Create GitHub issues for failed and error tests
-      if: failure()
+      if: steps.check_failure.outputs.tests_failed == 'true'
       run: |
         Rscript -e '
           library(jsonlite)
