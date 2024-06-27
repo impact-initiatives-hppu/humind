@@ -3,10 +3,10 @@ library(tibble)
 library(devtools)
 #install.packages("pak")
 #pak::pak("limma")
-install_github("impact-initiatives-hppu/humind")
+#install_github("impact-initiatives-hppu/humind")
 library(humind)
 library(dplyr)
-library(writexl)
+#library(writexl)
 
 df <- data.frame(
   uuid = 1:3,
@@ -23,30 +23,30 @@ df <- data.frame(
   cm_income_source_other_n = c(0, 60, 0)
 )
 
-write_xlsx(df, "C:/Users/sunhee.moraes/Desktop/Cross Crisis/output_analysis/test_1.xlsx")
+#write_xlsx(df, "C:/Users/sunhee.moraes/Desktop/Cross Crisis/output_analysis/test_1.xlsx")
 
 test_that("add_income_source_cat returns correct structure", {
   result <- add_income_source_cat(df)
-  
+
   # Test that the result is a data frame
   expect_s3_class(result, "data.frame")
-  
+
   # Test that the new columns are present
-  expect_true(all(c("cm_income_source_emergency_n", "cm_income_source_unstable_n", 
-                    "cm_income_source_stable_n", "cm_income_source_other_n", 
-                    "cm_income_source_top1", "cm_income_source_top2", 
+  expect_true(all(c("cm_income_source_emergency_n", "cm_income_source_unstable_n",
+                    "cm_income_source_stable_n", "cm_income_source_other_n",
+                    "cm_income_source_top1", "cm_income_source_top2",
                     "cm_income_source_top3") %in% names(result)))
 })
 
 test_that("add_income_source_cat returns correct values", {
   result <- add_income_source_cat(df)
-  
+
   # Test that the counts are correct
   expect_equal(result$cm_income_source_emergency_n, c(2, 2, 1))
   expect_equal(result$cm_income_source_unstable_n, c(3, 2, 1))
   expect_equal(result$cm_income_source_stable_n, c(1, 1, 2))
   expect_equal(result$cm_income_source_other_n, c(0, 1, 0))
-  
+
   # Test that the final categories are correct
   expect_equal(result$cm_income_source_top1, c("stable", "emergency", "unstable"))
   expect_equal(result$cm_income_source_top2, c("unstable", "stable", "stable"))
@@ -94,10 +94,10 @@ other <- "cm_income_source_other_n"
 test_that("income_source_cat_rec correctly recodes income sources", {
   result <- income_source_cat_rec(df, "cm_income_source_top1", emergency, unstable, stable, other)
   expect_equal(result$cm_income_source_top1, c("emergency", "stable", "unstable"))
-  
+
   result <- income_source_cat_rec(df, "cm_income_source_top2", emergency, unstable, stable, other)
   expect_equal(result$cm_income_source_top2, c("unstable", "emergency", "stable"))
-  
+
   result <- income_source_cat_rec(df, "cm_income_source_top3", emergency, unstable, stable, other)
   expect_equal(result$cm_income_source_top3, c("emergency", "stable", "other"))
 })

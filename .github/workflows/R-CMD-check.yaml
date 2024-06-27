@@ -11,6 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
+      issues: write
     strategy:
       fail-fast: false
       matrix:
@@ -47,9 +48,10 @@ jobs:
           any::devtools
           any::testthat
           any::rcmdcheck
+          any::stringr
+          any::httr
+          any::jsonlite
 
-    #- name: Check package as CRAN would, excluding the manual
-    #  run: R CMD check --as-cran --no-manual .
     - name: Document and install package
       run: |
         Rscript -e 'devtools::document()'
@@ -60,6 +62,61 @@ jobs:
         Rscript -e '
           library(testthat)
           library(humind)
+          options(testthat.output_file = "test-output.txt")
           testthat::set_max_fails(Inf)
-          testthat::test_dir("tests/testthat", reporter = testthat::ProgressReporter$new(show_praise = FALSE))
-          '
+          test_results <- testthat::test_dir("tests/testthat", reporter = testthat::ProgressReporter$new(show_praise = FALSE))
+          writeLines(readLines("test-output.txt"))
+          if (length(test_results) > 0) {
+            print(test_results)
+            quit(status = 1)
+          }
+        '
+
+    - name: Create GitHub issues for failed and error tests
+      if: failure()
+      run: |
+        Rscript -e '
+          library(jsonlite)
+          library(httr)
+          library(stringr)
+
+          create_issue <- function(title, body) {
+            existing_issues <- GET(
+              url = "https://api.github.com/repos/impact-initiatives-hppu/humind/issues",
+              add_headers(Authorization = paste("token", Sys.getenv("GITHUB_TOKEN")))
+            )
+            existing_titles <- sapply(content(existing_issues), function(x) x$title)
+            
+            if (!(title %in% existing_titles)) {
+              issue_data <- toJSON(list(title = title, body = body), auto_unbox = TRUE)
+              POST(
+                url = "https://api.github.com/repos/impact-initiatives-hppu/humind/issues",
+                add_headers(Authorization = paste("token", Sys.getenv("GITHUB_TOKEN"))),
+                body = issue_data,
+                encode = "json"
+              )
+            }
+          }
+
+          test_results <- readLines("test-output.txt")
+          
+          error_tests <- grep("^Error \\(", test_results, value = TRUE)
+          for (test in error_tests) {
+            test_name <- str_match(test, "Error \\((.+?)\\):")[2]
+            error_message <- str_match(test, "Error \\(.+?\\): (.+)")[2]
+            issue_title <- paste("Error in test:", test_name)
+            issue_body <- paste("Error message:", error_message, "\n\nFull error details:\n", test)
+            create_issue(issue_title, issue_body)
+          }
+          
+          failure_tests <- grep("^Failure \\(", test_results, value = TRUE)
+          for (test in failure_tests) {
+            test_name <- str_match(test, "Failure \\((.+?)\\):")[2]
+            failure_message <- str_match(test, "Failure \\(.+?\\): (.+)")[2]
+            issue_title <- paste("Failure in test:", test_name)
+            issue_body <- paste("Failure message:", failure_message, "\n\nFull failure details:\n", test)
+            create_issue(issue_title, issue_body)
+          }
+        '
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
