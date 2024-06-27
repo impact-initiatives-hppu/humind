@@ -43,14 +43,23 @@ jobs:
     - name: Install dependencies
       uses: r-lib/actions/setup-r-dependencies@v2
       with:
-        extra-packages: devtools
+        extra-packages: |
+          any::devtools
+          any::testthat
+          any::rcmdcheck
 
     #- name: Check package as CRAN would, excluding the manual
     #  run: R CMD check --as-cran --no-manual .
-
+    - name: Document and install package
+      run: |
+        Rscript -e 'devtools::document()'
+        R CMD INSTALL .
+      
     - name: Run tests
       run: |
         Rscript -e '
+          library(testthat)
+          library(humind)
           testthat::set_max_fails(Inf)
           testthat::test_dir("tests/testthat", reporter = testthat::ProgressReporter$new(show_praise = FALSE))
           '
