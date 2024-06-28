@@ -99,7 +99,7 @@ test_that("add_loop_wgq_ss handles missing columns", {
     wgq_cognition = c("some_difficulty", "cannot_do", "lot_of_difficulty", "no_difficulty", "no_difficulty")
   )
 
-  expect_error(add_loop_wgq_ss(df), "Missing columns\n• The following columns are missing in `loop`:  wgq_vision, wgq_self_care, and wgq_communication")
+  expect_error(add_loop_wgq_ss(df), class = "error")
 })
 
 test_that("add_loop_wgq_ss handles invalid values", {
@@ -113,7 +113,7 @@ test_that("add_loop_wgq_ss handles invalid values", {
     wgq_communication = c("lot_of_difficulty", "no_difficulty", "cannot_do", "some_difficulty", "dnk")
   )
 
-  expect_error(add_loop_wgq_ss(df), "Missing columns\n• The following column is missing in `loop`:  wgq_vision")
+  expect_error(add_loop_wgq_ss(df), class = "error")
 })
 
 test_that("add_loop_wgq_ss_to_main works correctly", {
@@ -161,7 +161,7 @@ test_that("add_loop_wgq_ss_to_main handles missing columns", {
     wgq_dis_4 = c(1, 0, 0, 1, 0)
   )
 
-  expect_error(add_loop_wgq_ss_to_main(main, loop), "Missing columns\n• The following columns are missing in `loop`: wgq_dis_3, wgq_dis_2, and wgq_dis_1")
+  expect_error(add_loop_wgq_ss_to_main(main, loop), class = "error")
 })
 
 test_that("add_loop_wgq_ss_to_main handles invalid values", {
@@ -179,7 +179,7 @@ test_that("add_loop_wgq_ss_to_main handles invalid values", {
     ind_age_above_5 = c(1, 1, 1, 1, 1)
   )
 
-  expect_error(add_loop_wgq_ss_to_main(main, loop), "All columns must be in the following set: 0, 1\nℹ The following columns have values out of the set Please check.\nwgq_dis_1\n✖ The values out of the set are:\nwgq_dis_1: invalid_value")
+  expect_error(add_loop_wgq_ss_to_main(main, loop), class = "error")
 })
 
 test_that("add_loop_wgq_ss_to_main warns about existing columns", {

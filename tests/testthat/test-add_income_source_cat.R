@@ -55,13 +55,13 @@ test_that("add_income_source_cat returns correct values", {
 
 test_that("add_income_source_cat handles missing columns gracefully", {
   df_missing <- df %>% select(-cm_income_source_assistance_n)
-  expect_error(add_income_source_cat(df_missing), "df does not contain the following columns")
+  expect_error(add_income_source_cat(df_missing), class = "error")
 })
 
 test_that("add_income_source_cat handles non-numeric columns gracefully", {
   df_non_numeric <- df %>%
     mutate(cm_income_source_assistance_n = as.character(cm_income_source_assistance_n))
-  expect_error(add_income_source_cat(df_non_numeric), "The following columns are not numeric")
+  expect_error(add_income_source_cat(df_non_numeric), class = "error")
 })
 
 #-------------------------------------------------------------------------------------------

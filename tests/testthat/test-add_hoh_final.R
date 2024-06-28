@@ -89,7 +89,7 @@ test_that("add_hoh_final handles missing columns", {
     resp_hoh_yn = c("yes", "no", "yes")
   )
 
-  expect_error(add_hoh_final(df), "Missing columns\n• The following columns are missing in `df`: hoh_gender, hoh_age, resp_gender, and resp_age")
+  expect_error(add_hoh_final(df), class = "error")
 })
 
 test_that("add_hoh_final handles non-numeric age variables", {

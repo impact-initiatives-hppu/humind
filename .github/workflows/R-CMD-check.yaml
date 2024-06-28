@@ -10,7 +10,7 @@ jobs:
   R-CMD-check:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       issues: write
 
     env:
@@ -55,22 +55,22 @@ jobs:
         library(testthat)
         library(humind)
 
-        # Function to write lines and append
-        write_append <- function(text, file) {
-          cat(paste0(text, "\n"), file = file, append = TRUE)
+        # Function to write lines (overwriting the file)
+        write_line <- function(text, file, append = FALSE) {
+          cat(paste0(text, "\n"), file = file, append = append)
         }
 
         # Diagnostic information
-        write_append("Diagnostic Information:", "test_results.txt")
-        write_append("------------------------", "test_results.txt")
-        write_append(paste("Current working directory:", getwd()), "test_results.txt")
-        write_append("Files in tests/testthat:", "test_results.txt")
-        write_append(paste(list.files("tests/testthat"), collapse = "\n"), "test_results.txt")
+        write_line("Diagnostic Information:", "test_results.txt", append = FALSE)
+        write_line("------------------------", "test_results.txt", append = TRUE)
+        write_line(paste("Current working directory:", getwd()), "test_results.txt", append = TRUE)
+        write_line("Files in tests/testthat:", "test_results.txt", append = TRUE)
+        write_line(paste(list.files("tests/testthat"), collapse = "\n"), "test_results.txt", append = TRUE)
         capture.output(print(sessionInfo()), file = "test_results.txt", append = TRUE)
 
         # Run tests and capture all output
-        write_append("\nTest Output:", "test_results.txt")
-        write_append("------------", "test_results.txt")
+        write_line("\nTest Output:", "test_results.txt", append = TRUE)
+        write_line("------------", "test_results.txt", append = TRUE)
         
         test_output <- capture.output({
           tryCatch({
@@ -83,7 +83,7 @@ jobs:
           })
         })
         
-        write_append(paste(test_output, collapse = "\n"), "test_results.txt")
+        write_line(paste(test_output, collapse = "\n"), "test_results.txt", append = TRUE)
 
         # Print content of test_results.txt for debugging
         cat("Contents of test_results.txt:\n")
@@ -91,7 +91,7 @@ jobs:
         '
       continue-on-error: true
 
-    - name: Create GitHub issues
+    - name: Create GitHub issues and update report
       run: |
         Rscript -e '
         library(stringr)
@@ -101,6 +101,17 @@ jobs:
 
         # Function to create a GitHub issue
         create_issue <- function(title, body) {
+          # Check if the issue already exists
+          existing_issues <- gh::gh("GET /repos/impact-initiatives-hppu/humind/issues",
+                                    state = "open",
+                                    .token = Sys.getenv("GITHUB_TOKEN"))
+          
+          existing_titles <- sapply(existing_issues, function(i) i$title)
+          if (title %in% existing_titles) {
+            cat("Issue already exists:", title, "\n")
+            return(NULL)
+          }
+          
           tryCatch({
             gh::gh("POST /repos/impact-initiatives-hppu/humind/issues",
                    title = title,
@@ -183,3 +194,9 @@ jobs:
         '
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Commit and push test report
+      run: |
+        git add test_results.txt
+        git commit -m "Update test results" || echo "No changes to commit"
+        git push

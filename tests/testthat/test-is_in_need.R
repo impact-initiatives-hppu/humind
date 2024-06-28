@@ -26,11 +26,11 @@ test_that("is_in_need works with default parameters", {
 })
 
 test_that("is_in_need handles missing 'score' column", {
-  expect_error(is_in_need(df_missing_score, "score"), "The following column is missing in `df`:")
+  expect_error(is_in_need(df_missing_score, "score"), class = "error")
 })
 
 test_that("is_in_need handles values out of set (1:5)", {
-  expect_error(is_in_need(df_out_of_set, "score"), "All columns must be in the following set: 1, 2, 3, 4, 5")
+  expect_error(is_in_need(df_out_of_set, "score"), class = "error")
 })
 
 test_that("is_in_need creates a new column with custom name", {

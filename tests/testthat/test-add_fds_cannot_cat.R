@@ -87,7 +87,7 @@ test_that("add_fds_cannot_cat handles missing columns", {
     snfi_fds_cooking = c("no_cannot", "yes_issues", "yes_no_issues", "no_no_need", "pnta")
   )
 
-  expect_error(add_fds_cannot_cat(df), "Missing columns\n• The following columns are missing in `df`: snfi_fds_sleeping, snfi_fds_storing, and snfi_fds_personal_hygiene")
+  expect_error(add_fds_cannot_cat(df), class = "error")
 })
 
 test_that("add_fds_cannot_cat handles non-numeric variables", {

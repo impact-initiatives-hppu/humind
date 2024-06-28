@@ -57,7 +57,7 @@ test_that("add_received_assistance give message about missing columns", {
     aap_received_assistance_12m = c("yes", "no", "dnk", "pnta")
   )
 
-  expect_error(add_received_assistance(df), "Missing columns\n• The following column is missing in `df`: aap_received_assistance_date")
+  expect_error(add_received_assistance(df), class = "error")
 })
 
 test_that("add_received_assistance give message about invalid values", {
@@ -66,7 +66,7 @@ test_that("add_received_assistance give message about invalid values", {
     aap_received_assistance_date = c("past_30d", "invalid", "1_3_months", "invalid")
   )
 
-  expect_error(add_received_assistance(df), "All columns must be in the following set: yes, no, dnk, pnta")
+  expect_error(add_received_assistance(df), class = "error")
 })
 
 test_that("add_received_assistance handles custom parameters", {

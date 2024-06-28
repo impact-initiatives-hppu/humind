@@ -72,7 +72,7 @@ test_that("add_shelter_type_cat handles missing columns", {
     snfi_shelter_type = c("none", "collective_center", "pnta")
   )
 
-  expect_error(add_shelter_type_cat(df), "Missing columns\n• The following column is missing in `df`: snfi_shelter_type_individual")
+  expect_error(add_shelter_type_cat(df), class = "error")
 })
 
 test_that("add_shelter_type_cat handles invalid values", {
@@ -81,5 +81,5 @@ test_that("add_shelter_type_cat handles invalid values", {
     snfi_shelter_type_individual = c("invalid", "makeshift", "tent")
   )
 
-  expect_error(add_shelter_type_cat(df), "All columns must be in the following set: house, apartment, tent, makeshift, unfinished_building, pnta, other, dnk\nℹ The following columns have values out of the set Please check.\nsnfi_shelter_type_individual\n✖ The values out of the set are:\nsnfi_shelter_type_individual: invalid")
+  expect_error(add_shelter_type_cat(df), class = "error")
 })

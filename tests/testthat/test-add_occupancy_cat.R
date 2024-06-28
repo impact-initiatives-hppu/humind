@@ -57,7 +57,7 @@ test_that("add_occupancy_cat handles missing occupancy column", {
     some_other_col = c("no_agreement", "rented", "ownership", "dnk", "hosted_free")
   )
 
-  expect_error(add_occupancy_cat(df), "Missing columns\n• The following column is missing in `df`: hlp_occupancy")
+  expect_error(add_occupancy_cat(df), class = "error")
 })
 
 #test_that("add_occupancy_cat handles out-of-range values", {

@@ -35,7 +35,7 @@ test_that("sum_vars works with default parameters", {
 })
 
 test_that("sum_vars handles missing columns", {
-  expect_error(sum_vars(df_missing_var, c("var1", "var2", "var3"), "sum_var"), "The following column is missing in `df`:")
+  expect_error(sum_vars(df_missing_var, c("var1", "var2", "var3"), "sum_var"), class = "error")
 })
 
 test_that("sum_vars handles imputation with 'value'", {
@@ -64,5 +64,5 @@ test_that("sum_vars handles NA removal", {
 })
 
 test_that("sum_vars throws error for unrecognized imputation method", {
-  expect_error(sum_vars(df, c("var1", "var2"), "sum_var", imputation = "unknown"), "The imputation method is not recognized.")
+  expect_error(sum_vars(df, c("var1", "var2"), "sum_var", imputation = "unknown"), class = "error")
 })

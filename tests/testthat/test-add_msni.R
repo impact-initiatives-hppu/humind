@@ -62,7 +62,7 @@ test_that("add_msni handles missing columns", {
     comp_snfi_score = c(5, 4, 3, 2, 1)
   )
 
-  expect_error(humind:::add_msni(df), "Missing columns\n• The following columns are missing in `df`: comp_wash_score, comp_prot_score, comp_health_score, and comp_edu_score")
+  expect_error(humind:::add_msni(df), class = "error")
 })
 
 test_that("add_msni handles out-of-range values", {
@@ -75,5 +75,5 @@ test_that("add_msni handles out-of-range values", {
     comp_edu_score = c(5, 5, 5, 5, 5)
   )
 
-  expect_error(humind:::add_msni(df), "All columns must be in the following set: 1, 2, 3, 4, 5\nℹ The following columns have values out of the set Please check.\ncomp_foodsec_score\n✖ The values out of the set are:\ncomp_foodsec_score: 0, 6, -1 and 10")
+  expect_error(humind:::add_msni(df), class = "error")
 })

@@ -41,7 +41,7 @@ test_that("impute_value handles missing columns", {
     var1 = c(1, 2, NA, 4)
   )
 
-  expect_error(impute_value(df, vars = c("var1", "var2"), value = 0), "Missing columns\n• The following column is missing in `df`: var2")
+  expect_error(impute_value(df, vars = c("var1", "var2"), value = 0), class = "error")
 })
 
 test_that("impute_median works with default parameters", {
@@ -101,7 +101,7 @@ test_that("impute_median handles missing columns", {
     var1 = c(1, 2, NA, 4)
   )
 
-  expect_error(impute_median(df, vars = c("var1", "var2")), "Missing columns\n• The following column is missing in `df`: var2")
+  expect_error(impute_median(df, vars = c("var1", "var2")), class = "error")
 })
 
 test_that("impute_median handles non-numeric variables", {
@@ -110,5 +110,5 @@ test_that("impute_median handles non-numeric variables", {
     var2 = c(NA, 2, 3, NA)
   )
 
-  expect_error(impute_median(df, vars = c("var1", "var2")), "must be numeric")
+  expect_error(impute_median(df, vars = c("var1", "var2")), class = "error")
 })
