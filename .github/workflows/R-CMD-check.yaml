@@ -47,6 +47,7 @@ jobs:
           any::stringr
           any::httr
           any::jsonlite
+          any::gh
           
     - name: Run tests and write results
       run: |
@@ -91,12 +92,12 @@ jobs:
       continue-on-error: true
 
     - name: Create GitHub issues
-      if: failure()
       run: |
         Rscript -e '
         library(stringr)
         library(httr)
         library(jsonlite)
+        library(gh)
 
         # Function to create a GitHub issue
         create_issue <- function(title, body) {
