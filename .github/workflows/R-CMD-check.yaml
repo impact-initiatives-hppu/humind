@@ -47,92 +47,128 @@ jobs:
           any::stringr
           any::httr
           any::jsonlite
-
-    - name: Document and install package
-      run: |
-        Rscript -e 'devtools::document()'
-        R CMD INSTALL .
-
-    - name: Run tests
+          
+    - name: Run tests and write results
       run: |
         Rscript -e '
-          library(testthat)
-          library(humind)
-          options(testthat.output_file = "test-output.txt")
-          testthat::set_max_fails(Inf)
-          test_results <- tryCatch({
-            testthat::test_dir("tests/testthat", reporter = testthat::ProgressReporter$new(show_praise = FALSE))
+        library(testthat)
+        library(humind)
+
+        # Function to write lines and append
+        write_append <- function(text, file) {
+          cat(paste0(text, "\n"), file = file, append = TRUE)
+        }
+
+        # Diagnostic information
+        write_append("Diagnostic Information:", "test_results.txt")
+        write_append("------------------------", "test_results.txt")
+        write_append(paste("Current working directory:", getwd()), "test_results.txt")
+        write_append("Files in tests/testthat:", "test_results.txt")
+        write_append(paste(list.files("tests/testthat"), collapse = "\n"), "test_results.txt")
+        capture.output(print(sessionInfo()), file = "test_results.txt", append = TRUE)
+
+        # Run tests and capture all output
+        write_append("\nTest Output:", "test_results.txt")
+        write_append("------------", "test_results.txt")
+        
+        test_output <- capture.output({
+          tryCatch({
+            test_results <- testthat::test_dir("tests/testthat", reporter = testthat::ProgressReporter$new(max_failures = 10))
+            print(test_results)
           }, error = function(e) {
-            writeLines("TESTS_FAILED=true", "failure-indicator.txt")
-            stop(e)
+            cat("Error running tests:", conditionMessage(e), "\n")
+          }, warning = function(w) {
+            cat("Warning during tests:", conditionMessage(w), "\n")
           })
-          writeLines(readLines("test-output.txt"))
-          if (exists("test_results") && length(test_results) > 0) {
-            writeLines("TESTS_FAILED=true", "failure-indicator.txt")
-          } else {
-            writeLines("TESTS_FAILED=false", "failure-indicator.txt")
-          }
+        })
+        
+        write_append(paste(test_output, collapse = "\n"), "test_results.txt")
+
+        # Print content of test_results.txt for debugging
+        cat("Contents of test_results.txt:\n")
+        cat(readLines("test_results.txt"), sep = "\n")
         '
       continue-on-error: true
 
-    - name: Check if tests failed
-      id: check_failure
-      run: |
-        if grep -q "TESTS_FAILED=true" failure-indicator.txt; then
-          echo "Tests failed"
-          echo "tests_failed=true" >> $GITHUB_ENV
-        else
-          echo "Tests passed"
-          echo "tests_failed=false" >> $GITHUB_ENV
-        fi
-
-    - name: Create GitHub issues for failed and error tests
-      if: env.tests_failed == 'true'
+    - name: Create GitHub issues
+      if: failure()
       run: |
         Rscript -e '
-          library(jsonlite)
-          library(httr)
-          library(stringr)
+        library(stringr)
+        library(httr)
+        library(jsonlite)
 
-          create_issue <- function(title, body) {
-            existing_issues <- GET(
-              url = "https://api.github.com/repos/impact-initiatives-hppu/humind/issues",
-              add_headers(Authorization = paste("token", Sys.getenv("GITHUB_TOKEN")))
-            )
-            existing_titles <- sapply(content(existing_issues), function(x) x$title)
-            
-            if (!(title %in% existing_titles)) {
-              issue_data <- toJSON(list(title = title, body = body), auto_unbox = TRUE)
-              POST(
-                url = "https://api.github.com/repos/impact-initiatives-hppu/humind/issues",
-                add_headers(Authorization = paste("token", Sys.getenv("GITHUB_TOKEN"))),
-                body = issue_data,
-                encode = "json"
-              )
+        # Function to create a GitHub issue
+        create_issue <- function(title, body) {
+          url <- "https://api.github.com/repos/impact-initiatives-hppu/humind/issues"
+          headers <- c(
+            "Authorization" = paste("token", Sys.getenv("GITHUB_TOKEN")),
+            "Accept" = "application/vnd.github.v3+json"
+          )
+          payload <- list(title = title, body = body)
+          response <- httr::POST(url, httr::add_headers(.headers = headers), body = payload, encode = "json")
+          httr::stop_for_status(response)
+        }
+
+        # Read test results
+        test_results <- readLines("test_results.txt")
+
+        # Find the start of test output
+        test_start <- which(test_results == "Test Output:")
+        if (length(test_start) > 0) {
+          test_output <- test_results[test_start:length(test_results)]
+          
+          # Process test failures and create issues
+          current_context <- NULL
+          current_test <- NULL
+          failure_body <- character()
+
+          for (line in test_output) {
+            if (startsWith(line, "Context: ")) {
+              if (!is.null(current_context) && !is.null(current_test) && length(failure_body) > 0) {
+                create_issue(
+                  sprintf("[Test Failure] %s: %s", current_context, current_test),
+                  paste(c(sprintf("Context: %s", current_context), 
+                          sprintf("Test: %s", current_test), 
+                          failure_body), 
+                        collapse = "\n")
+                )
+                failure_body <- character()
+              }
+              current_context <- sub("Context: ", "", line)
+              current_test <- NULL
+            } else if (startsWith(line, "  Test: ")) {
+              if (!is.null(current_test) && length(failure_body) > 0) {
+                create_issue(
+                  sprintf("[Test Failure] %s: %s", current_context, current_test),
+                  paste(c(sprintf("Context: %s", current_context), 
+                          sprintf("Test: %s", current_test), 
+                          failure_body), 
+                        collapse = "\n")
+                )
+                failure_body <- character()
+              }
+              current_test <- sub("  Test: ", "", line)
+            } else if (startsWith(line, "    Failure: ") || startsWith(line, "    Call: ")) {
+              failure_body <- c(failure_body, line)
             }
           }
 
-          test_results <- readLines("test-output.txt")
-          
-          failure_tests <- grep("── Failure \\('", test_results, value = TRUE)
-          for (test in failure_tests) {
-            test_details <- str_match(test, "── Failure \\('(.+?)'\\): (.+) ──")
-            test_name <- test_details[2]
-            failure_message <- test_details[3]
-            issue_title <- paste("Failure in test:", test_name)
-            issue_body <- paste("Failure message:", failure_message, "\n\nFull failure details:\n", test)
-            create_issue(issue_title, issue_body)
+          # Create issue for the last failure if any
+          if (!is.null(current_context) && !is.null(current_test) && length(failure_body) > 0) {
+            create_issue(
+              sprintf("[Test Failure] %s: %s", current_context, current_test),
+              paste(c(sprintf("Context: %s", current_context), 
+                      sprintf("Test: %s", current_test), 
+                      failure_body), 
+                    collapse = "\n")
+            )
           }
-          
-          error_tests <- grep("── Error \\('", test_results, value = TRUE)
-          for (test in error_tests) {
-            test_details <- str_match(test, "── Error \\('(.+?)'\\): (.+) ──")
-            test_name <- test_details[2]
-            error_message <- test_details[3]
-            issue_title <- paste("Error in test:", test_name)
-            issue_body <- paste("Error message:", error_message, "\n\nFull error details:\n", test)
-            create_issue(issue_title, issue_body)
-          }
+        } else {
+          # If no test output found, create a single issue with the entire output
+          create_issue(
+            "Test Suite Failure",
+            paste(test_results, collapse = "\n")
+          )
+        }
         '
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
