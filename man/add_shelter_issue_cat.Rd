@@ -25,7 +25,7 @@ add_shelter_issue_cat(
 
 \item{undefined}{Character vector of undefined responses codes (e.g. "Prefer not to answer").}
 
-\item{sep}{Separator for the dummy columns.}
+\item{sep}{Separator for the binary columns.}
 }
 \description{
 Add the number of shelter issues and related category
