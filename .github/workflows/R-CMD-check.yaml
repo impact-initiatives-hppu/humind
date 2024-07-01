@@ -74,7 +74,7 @@ jobs:
         
         test_output <- capture.output({
           tryCatch({
-            test_results <- testthat::test_dir("tests/testthat", reporter = testthat::ProgressReporter$new(max_failures = 10))
+            test_results <- testthat::test_dir("tests/testthat", reporter = testthat::ProgressReporter$new(max_failures = 100))
             print(test_results)
           }, error = function(e) {
             cat("Error running tests:", conditionMessage(e), "\n")
@@ -105,13 +105,13 @@ jobs:
           existing_issues <- gh::gh("GET /repos/impact-initiatives-hppu/humind/issues",
                                     state = "open",
                                     .token = Sys.getenv("GITHUB_TOKEN"))
-          
+         
           existing_titles <- sapply(existing_issues, function(i) i$title)
           if (title %in% existing_titles) {
             cat("Issue already exists:", title, "\n")
             return(NULL)
           }
-          
+         
           tryCatch({
             gh::gh("POST /repos/impact-initiatives-hppu/humind/issues",
                    title = title,
@@ -151,10 +151,12 @@ jobs:
               if (!is.null(current_failure)) {
                 failures <- c(failures, list(current_failure))
               }
+              error_match <- str_match(line, "^(Error|Failure) \\((.+)\\): (.+)$")
               current_failure <- list(
                 context = current_context,
-                type = ifelse(startsWith(line, "Error"), "Error", "Failure"),
-                description = str_trim(str_match(line, "^(Error|Failure) \\((.+)\\): (.+)$")[1,4]),
+                type = error_match[1,2],
+                location = error_match[1,3],
+                description = str_trim(error_match[1,4]),
                 details = character()
               )
               cat("New failure in context:", current_context, "\n")
@@ -172,11 +174,22 @@ jobs:
           # Create issues for each failure
           cat("Creating", length(failures), "issues\n")
           for (failure in failures) {
+            # Extract test file and line number
+            location_parts <- strsplit(failure$location, ":")[[1]]
+            test_file <- location_parts[1]
+            line_number <- location_parts[2]
+
+            # Extract function name (assuming it's the last part of the context)
+            function_name <- tail(strsplit(failure$context, "\\.")[[1]], 1)
+
             title <- sprintf("[%s] %s: %s", failure$type, failure$context, failure$description)
             body <- paste(c(
               sprintf("Context: %s", failure$context),
               sprintf("Type: %s", failure$type),
               sprintf("Description: %s", failure$description),
+              sprintf("Tested Function: %s", function_name),
+              sprintf("Test File: %s", test_file),
+              sprintf("Failed at Line: %s", line_number),
               "",
               "Details:",
               failure$details
@@ -195,8 +208,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Commit and push test report
-      run: |
-        git add test_results.txt
-        git commit -m "Update test results" || echo "No changes to commit"
-        git push
+    #- name: Commit and push test report
+      #run: |
+        #git add test_results.txt
+        #git commit -m "Update test results" || echo "No changes to commit"
+        #git push
