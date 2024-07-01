@@ -23,10 +23,10 @@ df <- tibble::tibble(
 test_that("add_child_sep_cat correctly categorizes child separation", {
   result <- add_child_sep_cat(df)
 
-  expect_equal(result$prot_child_sep_cat[1], "non_severe")
+  expect_equal(result$prot_child_sep_cat[1], "at_least_non_severe")
   expect_equal(result$prot_child_sep_cat[2], "none")
   expect_equal(result$prot_child_sep_cat[3], "undefined")
-  expect_equal(result$prot_child_sep_cat[4], "very_severe")
+  expect_equal(result$prot_child_sep_cat[4], "at_least_very_severe")
 })
 
 test_that("add_child_sep_cat handles undefined child separation responses", {
@@ -46,10 +46,10 @@ test_that("add_child_sep_cat correctly handles severity of reasons", {
 
   result <- add_child_sep_cat(df_severe)
 
-  expect_equal(result$prot_child_sep_cat[1], "non_severe")
-  expect_equal(result$prot_child_sep_cat[2], "severe")
-  expect_equal(result$prot_child_sep_cat[3], "very_severe")
-  expect_equal(result$prot_child_sep_cat[4], "very_severe")
+  expect_equal(result$prot_child_sep_cat[1], "at_least_non_severe")
+  expect_equal(result$prot_child_sep_cat[2], "at_least_severe")
+  expect_equal(result$prot_child_sep_cat[3], "at_least_very_severe")
+  expect_equal(result$prot_child_sep_cat[4], "at_least_very_severe")
 })
 
 test_that("add_child_sep_cat handles edge cases", {
@@ -62,5 +62,5 @@ test_that("add_child_sep_cat handles edge cases", {
   result <- add_child_sep_cat(df_edge)
 
   expect_equal(result$prot_child_sep_cat[1], "undefined")
-  expect_equal(result$prot_child_sep_cat[2], "very_severe")
+  expect_equal(result$prot_child_sep_cat[2], "at_least_very_severe")
 })
