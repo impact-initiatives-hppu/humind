@@ -179,7 +179,7 @@ jobs:
             test_file <- location_parts[1]
             line_number <- location_parts[2]
 
-            # Extract function name (assuming it's the last part of the context)
+            # Extract function name (assuming its the last part of the context)
             function_name <- tail(strsplit(failure$context, "\\.")[[1]], 1)
 
             title <- sprintf("[%s] %s: %s", failure$type, failure$context, failure$description)
@@ -207,6 +207,7 @@ jobs:
         '
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
     #- name: Commit and push test report
       #run: |
