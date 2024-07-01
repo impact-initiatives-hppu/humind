@@ -108,7 +108,7 @@ add_access_to_phone_coverage <- function(
 
   # Check if all values are in set
   are_values_in_set(df, coverage_internet, c(coverage_none, coverage_no_internet, coverage_yes_internet, coverage_undefined))
-  are_values_in_set(df, access_to_phone_best, c(access_to_phone_none, accss_to_basic_phone, access_to_feature_phone, access_to_smartphone, access_to_undefined))
+  are_values_in_set(df, access_to_phone_best, c(access_to_phone_none, access_to_basic_phone, access_to_feature_phone, access_to_smartphone, access_to_undefined))
 
 df <- dplyr::mutate(
   df,
