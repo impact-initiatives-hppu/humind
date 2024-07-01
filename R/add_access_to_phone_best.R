@@ -54,13 +54,13 @@ add_access_to_phone_best <- function(
   df <- dplyr::mutate(
     df,
     etc_access_to_phone_best = dplyr::case_when(
-      !!sym(access_to_phone_d_smartphone) == 1 ~ "smartphone",
-      !!sym(access_to_phone_d_feature_phone) == 1 ~ "feature_phone",
-      !!sym(access_to_phone_d_basic_phone) == 1 ~ "basic_phone",
-      !!sym(access_to_phone_d_none) == 1 ~ "none",
-      !!sym(access_to_phone_d_dnk) == 1 ~ "undefined",
-      !!sym(access_to_phone_d_pnta) == 1 ~ "undefined",
-      !!sym(access_to_phone_d_other) == 1 ~ "undefined",
+      !!rlang::sym(access_to_phone_d_smartphone) == 1 ~ "smartphone",
+      !!rlang::sym(access_to_phone_d_feature_phone) == 1 ~ "feature_phone",
+      !!rlang::sym(access_to_phone_d_basic_phone) == 1 ~ "basic_phone",
+      !!rlang::sym(access_to_phone_d_none) == 1 ~ "none",
+      !!rlang::sym(access_to_phone_d_dnk) == 1 ~ "undefined",
+      !!rlang::sym(access_to_phone_d_pnta) == 1 ~ "undefined",
+      !!rlang::sym(access_to_phone_d_other) == 1 ~ "undefined",
       .default = NA_character_
     )
     )
