@@ -13,7 +13,7 @@
 #' @param sanitation_facility_n_ind_levels Levels for number of individuals sharing a sanitation facility.
 #' 
 #' @export
-add_ <- function(
+add_comp_wash <- function(
     df,
     setting = "setting",
     setting_levels = c("camp", "urban", "rural"),
