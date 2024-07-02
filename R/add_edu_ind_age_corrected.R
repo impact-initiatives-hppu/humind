@@ -1,17 +1,36 @@
 #' Add a corrected schooling age  edu_ind_corrected_age with the revised and corrected individual age according to the start of the data collection wrt the start f the school-year
 #' Add a column edu_is_school_child
 
-#' @param roster A data frame of individual-level data.
-#' @param household_data A data frame of hh-level data.
-#' @param age_col The individual age column.
-#' @param start_school_year numeric. it is the month when the school year has started.
-#' @return 2 new columns with the corrected individual age definition and dummy edu_is_school_child
+#' @param loop A data frame of individual-level data.
+#' @param main A data frame of individual-level data.
+#' @param id_col_loop  Survey unique identifier column name in loop.
+#' @param id_col_main  Survey unique identifier column name in main.
+#' @param survey_start_date  Survey start date column name in main.
+#' @param school_year_start_month  The month when the school year has started.
+#' @param ind_age  The individual age column.
+#' @param month  If not NULL, an integer between 1 and 12 which will be used as the month of data collection for all households/
+#' @return 2 new columns: "edu_ind_age_corrected" with the corrected individual age, and a dummy variable edu_ind_schooling_age_d
+#' 
 #' @export
-
-
-
 add_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_col_main = "uuid", survey_start_date = "start", school_year_start_month = 9, ind_age = "ind_age", month = NULL) {
   
+
+  #------ Initial checks
+
+  # Check if the variable is in the data frame
+  if_not_in_stop(loop, id_col_loop, "loop")
+  if_not_in_stop(main, id_col_main, "main")
+  if_not_in_stop(main, survey_start_date, "main")
+  if_not_in_stop(loop, ind_age, "loop")
+
+  # Check if ind_age is numeric
+  are_cols_numeric(loop, ind_age)
+
+  # Check if survey_start_date is a date in main
+  # To do
+
+  #------ Prepare month of data collection var
+
   # Convert the survey start date column to month OR use the provided param 'month'
   if (is.null(month)){
     # Prepare month date
