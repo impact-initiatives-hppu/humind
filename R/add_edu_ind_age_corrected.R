@@ -10,14 +10,30 @@
 
 
 
-add_edu_ind_age_corrected <- function(loop, main, id_col = "uuid", survey_start_date = "start", school_year_start_month = 9, ind_age = "ind_age") {
+add_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_col_main = "uuid", survey_start_date = "start", school_year_start_month = 9, ind_age = "ind_age", month = NULL) {
   
-  # Convert the survey start date column to month
-  main <- dplyr::mutate(main, month = as.integer(format(as.Date(!!rlang::sym(survey_start_date)), "%m")))
-  main <- dplyr::select(main, dplyr::all_of(id_col, "month"))
-
-  # Join main to loop
-  loop <- dplyr::left_join(loop, main, by = id_col)
+  # Convert the survey start date column to month OR use the provided param 'month'
+  if (is.null(month)){
+    # Prepare month date
+    main <- dplyr::mutate(main, month = as.integer(format(as.Date(!!rlang::sym(survey_start_date)), "%m")))
+    main <- dplyr::select(main, dplyr::all_of(id_col, "month"))
+    # Check that month values are between 1 and 12, if not abort
+    are_values_in_set(main, "month", 1:12)
+    # Remove "month" from loop if it exists
+    if("month" %in% colnames(loop)){
+      # warn for removal
+      rlang::warn("'month' already exists in 'loop', replacing it.")
+      # Remove
+      loop <- dplyr::select(loop, -dplyr::all_of("month"))
+    }
+    # Join main to loop
+    loop <- dplyr::left_join(loop, main, by = c(id_col_loop = id_col_main))
+  } else {
+    # Check that month is a number between 1 and 12, if no abort
+    if (!(month %in% c(1:12))) rlang::abort("month must be between 1 and 12")
+    # Add "month" as a column to loop
+    loop <- dplyr::mutate(loop, month = month)
+  }
 
   # Calculate the adjusted start month number
   school_year_start_month_adj <- ifelse(school_year_start_month > 6, school_year_start_month - 12, school_year_start_month)
