@@ -3,9 +3,15 @@
 #' @param df A data frame.
 #' @param setting Column name for the setting.
 #' @param setting_levels Levels for the setting in that order: camp, rural, urban.
-#' @param drinking_
-#' @param fc_phase_levels Levels of the food security phase.
-#'
+#' @param drinking_water_quantity Column name for drinking water quantity.
+#' @param drinking_water_quantity_levels Levels for drinking water quantity.
+#' @param drinking_water_quality_jmp_cat Column name for drinking water quality JMP category.
+#' @param drinking_water_quality_jmp_cat_levels Levels for drinking water quality JMP category.
+#' @param sanitation_facility_jmp_cat Column name for sanitation facility JMP category.
+#' @param sanitation_facility_jmp_cat_levels Levels for sanitation facility JMP category.
+#' @param sanitation_facility_n_ind Column name for number of individuals sharing a sanitation facility.
+#' @param sanitation_facility_n_ind_levels Levels for number of individuals sharing a sanitation facility.
+#' 
 #' @export
 add_ <- function(
     df,
@@ -28,14 +34,40 @@ add_ <- function(
     #------ Checks
 
     # Check if the variables are in the data frame
-    if_not_in_stop(df, c(setting, drinking_water_quantity, drinking_water_jmp_cat, sanitation_facility_jmp_cat, handwashing_facility_jmp_cat))
+    if_not_in_stop(df, c(setting, drinking_water_quantity, drinking_water_quality_jmp_cat, sanitation_facility_jmp_cat, sanitation_faciliy_cat, sanitation_facility_n_ind, handwashing_facility_jmp_cat))
 
     # Check if values are in set
     are_values_in_set(df, setting, setting_levels)
     are_values_in_set(df, drinking_water_quantity, drinking_water_quantity_levels)
-    are_values_in_set(df, drinking_water_jmp_cat, drinking_water_jmp_cat_levels)
+    are_values_in_set(df, drinking_water_quality_jmp_cat, drinking_water_quality_jmp_cat_levels)
     are_values_in_set(df, sanitation_facility_jmp_cat, sanitation_facility_jmp_cat_levels)
+    are_values_in_set(df, sanitation_faciliy_cat, sanitation_faciliy_cat_levels)
+    are_values_in_set(df, sanitation_facility_n_ind, sanitation_facility_n_ind_levels)
     are_values_in_set(df, handwashing_facility_jmp_cat, handwashing_facility_levels)
+
+    # Check lengths
+    # Is that necessary? the remaining will be NAes
+    if (length(setting_levels) != 3) {
+        rlang::abort("setting_levels should be of length 3.")
+    }
+    if (length(drinking_water_quantity_levels) != 7) {
+        rlang::abort("drinking_water_quantity_levels should be of length 7.")
+    }
+    if (length(drinking_water_quality_jmp_cat_levels) != 6) {
+        rlang::abort("drinking_water_quality_jmp_cat_levels should be of length 6.")
+    }
+    if (length(sanitation_facility_jmp_cat_levels) != 6) {
+        rlang::abort("sanitation_facility_jmp_cat_levels should be of length 6.")
+    }
+    if (length(sanitation_faciliy_cat_levels) != 4) {
+        rlang::abort("sanitation_faciliy_cat_levels should be of length 4.")
+    }
+    if (length(sanitation_facility_n_ind_levels) != 3) {
+        rlang::abort("sanitation_facility_n_ind_levels should be of length 3.")
+    }
+    if (length(handwashing_facility_levels) != 4) {
+        rlang::abort("handwashing_facility_levels should be of length 4.")
+    }
 
     #------ Recode
 
