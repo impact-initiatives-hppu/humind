@@ -146,6 +146,7 @@ add_sharing_sanitation_facility_num_ind <- function(
   df <- dplyr::mutate(
     df,
     "{sanitation_facility_sharing_n}" := dplyr::case_when(
+      # If facility shared
       !!rlang::sym(sharing_sanitation_facility_cat) == levels[1] ~ (!!rlang::sym(sanitation_facility_sharing_n) - 1) * mean_hh_size + !!rlang::sym(hh_size),
       # If facility not shared
       !!rlang::sym(sharing_sanitation_facility_cat) == levels[2]  ~ !!rlang::sym(hh_size),

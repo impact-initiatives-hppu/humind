@@ -103,7 +103,7 @@ add_comp_prot <- function(
             "comp_prot_concern_hh_freq_kidnapping",
             "comp_prot_concern_hh_freq_discrimination"),
           \(x) x != 3) ~ 0,
-        .default = NA_integer_
+        .default = NA_real_
         )
       )
 
@@ -124,7 +124,7 @@ add_comp_prot <- function(
         comp_prot_risk_always_d == 1 ~ 3,	
         comp_prot_score_concern >= 2 ~ 2,
         comp_prot_score_concern == 0 ~ 1,
-        .default = NA_character_
+        .default = NA_real_
       )
     )
 
