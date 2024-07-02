@@ -39,11 +39,11 @@ add_comp_prot <- function(
     df <- dplyr::mutate(
       df,
       comp_prot_child_sep_cat = dplyr::case_when(
-        !!rlang::sym(child_sep_cat) %in% "none" ~ 1,
-        !!rlang::sym(child_sep_cat) %in% "very_severe" ~ 5,
-        !!rlang::sym(child_sep_cat) %in% "severe" ~ 4,
-        !!rlang::sym(child_sep_cat) %in% "non_severe" ~ 1,
-        !!rlang::sym(child_sep_cat) %in% "undefined" ~ NA_character_,
+        !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[1] ~ 1,
+        !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[2] ~ 5,
+        !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[3] ~ 4,
+        !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[4] ~ 2,
+        !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[5] ~ NA_character_,
         .default = NA_character_
       )
     )
