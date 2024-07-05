@@ -1,4 +1,6 @@
+set.seed(123446)
 
+library(tidyverse)
 
 xlsform_fill_loop <- function (tool.path = "",language = "English", n = 100) {
 
@@ -23,18 +25,18 @@ xlsform_fill_loop <- function (tool.path = "",language = "English", n = 100) {
   ## create tool.survey
   tool.survey <- survey %>%
     filter(!is.na(type)) %>%
-    mutate(q.type=as.character(lapply(type, function(x) str_split(x, " ")[[1]][1])),
-           list_name=as.character(lapply(type, function(x) str_split(x, " ")[[1]][2])),
-           list_name=ifelse(str_starts(type, "select_"), list_name, NA))
+    mutate(q.type=as.character(lapply(type, function(x) stringr::str_split(x, " ")[[1]][1])),
+           list_name=as.character(lapply(type, function(x) stringr::str_split(x, " ")[[1]][2])),
+           list_name=ifelse(stringr::str_starts(type, "select_"), list_name, NA))
 
   # Find which data sheet question belongs to:
   tool.survey <- tool.survey %>% mutate(datasheet = NA)
   sheet_name <- "main"
   for(i in 1:nrow(tool.survey)){
     toolrow <- tool.survey %>% slice(i)
-    if(str_detect(toolrow$type, "begin[ _]repeat")) sheet_name <- toolrow$name
-    else if(str_detect(toolrow$type, "end[ _]repeat")) sheet_name <- "main"   # watch out for nested repeats (Why would you even want to do that?)
-    else if(str_detect(toolrow$type, "((end)|(begin))[ _]group", T)) tool.survey[i, "datasheet"] <- sheet_name
+    if(stringr::str_detect(toolrow$type, "begin[ _]repeat")) sheet_name <- toolrow$name
+    else if(stringr::str_detect(toolrow$type, "end[ _]repeat")) sheet_name <- "main"   # watch out for nested repeats (Why would you even want to do that?)
+    else if(stringr::str_detect(toolrow$type, "((end)|(begin))[ _]group", T)) tool.survey[i, "datasheet"] <- sheet_name
   }
 
   ## create tool.choices
@@ -43,9 +45,9 @@ xlsform_fill_loop <- function (tool.path = "",language = "English", n = 100) {
   repeat_c <- NA
   for(i in 1:nrow(tool.survey)){
     toolrow <- tool.survey %>% slice(i)
-    if(str_detect(toolrow$type, "begin[ _]repeat")) repeat_c <- toolrow$repeat_count
-    else if(str_detect(toolrow$type, "end[ _]repeat")) repeat_c <- NA   # watch out for nested repeats (Why would you even want to do that?)
-    else if(str_detect(toolrow$type, "((end)|(begin))[ _]group", T)) tool.survey[i, "count_repeat"] <- repeat_c
+    if(stringr::str_detect(toolrow$type, "begin[ _]repeat")) repeat_c <- toolrow$repeat_count
+    else if(stringr::str_detect(toolrow$type, "end[ _]repeat")) repeat_c <- NA   # watch out for nested repeats (Why would you even want to do that?)
+    else if(stringr::str_detect(toolrow$type, "((end)|(begin))[ _]group", T)) tool.survey[i, "count_repeat"] <- repeat_c
   }
 
   choices <- read_xlsx(tool.path, sheet = "choices", col_types = "text") %>%

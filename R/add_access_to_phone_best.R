@@ -1,6 +1,6 @@
 #' Access to phone and coverage
 #'
-#' [add_access_to_phone] recodes the best type of phone accessible in the household. [add_access_to_phone_coverage()] recodes the coverage network type and the best type of phone owned in the household.
+#' [add_access_to_phone_best()] recodes the best type of phone accessible in the household. [add_access_to_phone_coverage()] recodes the coverage network type and the best type of phone owned in the household.
 #' @param df The input data frame
 #' @param access_to_phone The name of the column that contains the access to phone information.
 #' @param none The value for no phone.
@@ -73,7 +73,14 @@ add_access_to_phone_best <- function(
 #' @param coverage_internet Network coverage column.
 #' @param coverage_none Value for no coverage.
 #' @param coverage_no_internet Vector of values for no internet.
-#' @param coverage_internet Value for internet.
+#' @param coverage_yes_internet Value for yes internet.
+#' @param coverage_undefined Vector of values for do not know.
+#' @param access_to_phone_best The name of the column that contains the access to phone information.
+#' @param access_to_phone_none Value for no phone.
+#' @param access_to_basic_phone Value for basic phone.
+#' @param access_to_feature_phone Value for feature phone.
+#' @param access_to_smartphone Value for smartphone.
+#' @param access_to_undefined Value for undefined.
 #'
 #'
 #' @export
@@ -82,7 +89,7 @@ add_access_to_phone_coverage <- function(
     coverage_internet = "etc_coverage_internet",
     coverage_none = "no_coverage",
     coverage_no_internet = c("only_sms", "voice_no_internet"),
-    coverage_yes_internet="internet",
+    coverage_yes_internet = "internet",
     coverage_undefined = c("dnk", "pnta", "other"),
     access_to_phone_best = "etc_access_to_phone_best",
     access_to_phone_none = "none",
