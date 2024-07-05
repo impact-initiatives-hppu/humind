@@ -178,7 +178,7 @@ add_drinking_water_time_threshold_cat <- function(
 #' @param drinking_water_time_30min_cat_levels Character vector of time to fetch water categories in that order: Premises, Under 30 min, Above 30 min, Undefined.
 #'
 #' @export
-add_drinking_water_source_jmp_cat <- function(
+add_drinking_water_quality_jmp_cat <- function(
     df,
     drinking_water_source_cat = "wash_drinking_water_source_cat",
     drinking_water_source_cat_levels = c("improved", "unimproved", "surface_water", "undefined"),
@@ -198,7 +198,7 @@ add_drinking_water_source_jmp_cat <- function(
 
       df <- dplyr::mutate(
         df,
-        wash_drinking_water_jmp_cat = dplyr::case_when(
+        wash_drinking_water_quality_jmp_cat = dplyr::case_when(
           !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_levels[3] ~ "surface_water",
           !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_levels[2] ~ "unimproved",
           !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_levels[1] & !!rlang::sym(drinking_water_time_30min_cat) == drinking_water_time_30min_cat_levels[3] ~ "limited",

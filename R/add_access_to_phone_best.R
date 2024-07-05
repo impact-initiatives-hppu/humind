@@ -54,13 +54,13 @@ add_access_to_phone_best <- function(
   df <- dplyr::mutate(
     df,
     etc_access_to_phone_best = dplyr::case_when(
-      !!sym(access_to_phone_d_smartphone) == 1 ~ "smartphone",
-      !!sym(access_to_phone_d_feature_phone) == 1 ~ "feature_phone",
-      !!sym(access_to_phone_d_basic_phone) == 1 ~ "basic_phone",
-      !!sym(access_to_phone_d_none) == 1 ~ "none",
-      !!sym(access_to_phone_d_dnk) == 1 ~ "undefined",
-      !!sym(access_to_phone_d_pnta) == 1 ~ "undefined",
-      !!sym(access_to_phone_d_other) == 1 ~ "undefined",
+      !!rlang::sym(access_to_phone_d_smartphone) == 1 ~ "smartphone",
+      !!rlang::sym(access_to_phone_d_feature_phone) == 1 ~ "feature_phone",
+      !!rlang::sym(access_to_phone_d_basic_phone) == 1 ~ "basic_phone",
+      !!rlang::sym(access_to_phone_d_none) == 1 ~ "none",
+      !!rlang::sym(access_to_phone_d_dnk) == 1 ~ "undefined",
+      !!rlang::sym(access_to_phone_d_pnta) == 1 ~ "undefined",
+      !!rlang::sym(access_to_phone_d_other) == 1 ~ "undefined",
       .default = NA_character_
     )
     )
@@ -108,7 +108,7 @@ add_access_to_phone_coverage <- function(
 
   # Check if all values are in set
   are_values_in_set(df, coverage_internet, c(coverage_none, coverage_no_internet, coverage_yes_internet, coverage_undefined))
-  are_values_in_set(df, access_to_phone_best, c(access_to_phone_none, accss_to_basic_phone, access_to_feature_phone, access_to_smartphone, access_to_undefined))
+  are_values_in_set(df, access_to_phone_best, c(access_to_phone_none, access_to_basic_phone, access_to_feature_phone, access_to_smartphone, access_to_undefined))
 
 df <- dplyr::mutate(
   df,
