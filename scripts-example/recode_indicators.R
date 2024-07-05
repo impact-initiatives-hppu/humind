@@ -90,7 +90,8 @@ main <- main |>
   # AAP
   add_received_assistance()
 
-
+# If WG-SS collected
+loop <- add_loop_wgq_ss(loop)
 
 # Add sectoral composites -------------------------------------------------
 

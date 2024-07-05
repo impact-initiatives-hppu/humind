@@ -18,7 +18,7 @@ add_comp_prot <- function(
   concern_freq_displaced = "prot_concern_freq_displaced",
   concern_hh_freq_kidnapping = "prot_concern_hh_freq_kidnapping",
   concern_hh_freq_discrimination = "prot_concern_hh_freq_discrimination",
-  concern_levels = c("never", "once_or_twice", "several_times", "always", "dnk", "pnta")){
+  concern_levels = c("always", "several_times", "once_or_twice", "never", "dnk", "pnta")){
 
     #------ Checks
 
@@ -39,12 +39,12 @@ add_comp_prot <- function(
     df <- dplyr::mutate(
       df,
       comp_prot_child_sep_cat = dplyr::case_when(
-        !!rlang::sym(child_sep_cat) %in% "none" ~ 1,
-        !!rlang::sym(child_sep_cat) %in% "very_severe" ~ 5,
-        !!rlang::sym(child_sep_cat) %in% "severe" ~ 4,
-        !!rlang::sym(child_sep_cat) %in% "non_severe" ~ 1,
-        !!rlang::sym(child_sep_cat) %in% "undefined" ~ NA_real_,
-        .default = NA_real_
+        !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[1] ~ 1,
+        !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[2] ~ 5,
+        !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[3] ~ 4,
+        !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[4] ~ 2,
+        !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[5] ~ NA_character_,
+        .default = NA_character_
       )
     )
 
@@ -53,37 +53,59 @@ add_comp_prot <- function(
     df <- dplyr::mutate(
       df,
       comp_prot_score_concern_freq_cope = dplyr::case_when(
-        !!rlang::sym(concern_freq_cope) %in% "always" ~ 4,
-        !!rlang::sym(concern_freq_cope) %in% "several_times" ~ 3,
-        !!rlang::sym(concern_freq_cope) %in% "once_or_twice" ~ 2,
-        !!rlang::sym(concern_freq_cope) %in% "never" ~ 1,
-        !!rlang::sym(concern_freq_cope) %in% c("dnk", "pnta") ~ NA_real_,
+        !!rlang::sym(concern_freq_cope) %in% concern_levels[1] ~ 3,
+        !!rlang::sym(concern_freq_cope) %in% concern_levels[2] ~ 2,
+        !!rlang::sym(concern_freq_cope) %in% concern_levels[3] ~ 1,
+        !!rlang::sym(concern_freq_cope) %in% concern_levels[4] ~ 0,
+        !!rlang::sym(concern_freq_cope) %in% concern_levels[5:6] ~ NA_real_,
         .default = NA_real_
       ),
       comp_prot_score_concern_freq_displaced = dplyr::case_when(
-        !!rlang::sym(concern_freq_displaced) %in% "always" ~ 4,
-        !!rlang::sym(concern_freq_displaced) %in% "several_times" ~ 3,
-        !!rlang::sym(concern_freq_displaced) %in% "once_or_twice" ~ 2,
-        !!rlang::sym(concern_freq_displaced) %in% "never" ~ 1,
-        !!rlang::sym(concern_freq_displaced) %in% c("dnk", "pnta") ~ NA_real_,
+        !!rlang::sym(concern_freq_displaced) %in% concern_levels[1] ~ 3,
+        !!rlang::sym(concern_freq_displaced) %in% concern_levels[2] ~ 2,
+        !!rlang::sym(concern_freq_displaced) %in% concern_levels[3] ~ 1,
+        !!rlang::sym(concern_freq_displaced) %in% concern_levels[4] ~ 0,
+        !!rlang::sym(concern_freq_displaced) %in% concern_levels[5:6] ~ NA_real_,
         .default = NA_real_
       ),
       comp_prot_score_concern_hh_freq_kidnapping = dplyr::case_when(
-        !!rlang::sym(concern_hh_freq_kidnapping) %in% "always" ~ 4,
-        !!rlang::sym(concern_hh_freq_kidnapping) %in% "several_times" ~ 3,
-        !!rlang::sym(concern_hh_freq_kidnapping) %in% "once_or_twice" ~ 2,
-        !!rlang::sym(concern_hh_freq_kidnapping) %in% "never" ~ 1,
-        !!rlang::sym(concern_hh_freq_kidnapping) %in% c("dnk", "pnta") ~ NA_real_,
+        !!rlang::sym(concern_hh_freq_kidnapping) %in% concern_levels[1] ~ 3,
+        !!rlang::sym(concern_hh_freq_kidnapping) %in% concern_levels[2] ~ 2,
+        !!rlang::sym(concern_hh_freq_kidnapping) %in% concern_levels[3] ~ 1,
+        !!rlang::sym(concern_hh_freq_kidnapping) %in% concern_levels[4] ~ 0,
+        !!rlang::sym(concern_hh_freq_kidnapping) %in% concern_levels[5:6] ~ NA_real_,
         .default = NA_real_
       ),
       comp_prot_score_concern_hh_freq_discrimination = dplyr::case_when(
-        !!rlang::sym(concern_hh_freq_discrimination) %in% "always" ~ 4,
-        !!rlang::sym(concern_hh_freq_discrimination) %in% "several_times" ~ 3,
-        !!rlang::sym(concern_hh_freq_discrimination) %in% "once_or_twice" ~ 2,
-        !!rlang::sym(concern_hh_freq_discrimination) %in% "never" ~ 1,
-        !!rlang::sym(concern_hh_freq_discrimination) %in% c("dnk", "pnta") ~ NA_real_,
+        !!rlang::sym(concern_hh_freq_discrimination) %in% concern_levels[1] ~ 3,
+        !!rlang::sym(concern_hh_freq_discrimination) %in% concern_levels[2] ~ 2,
+        !!rlang::sym(concern_hh_freq_discrimination) %in% concern_levels[3] ~ 1,
+        !!rlang::sym(concern_hh_freq_discrimination) %in% concern_levels[4] ~ 0,
+        !!rlang::sym(concern_hh_freq_discrimination) %in% concern_levels[5:6] ~ NA_real_,
         .default = NA_real_)
     )
+
+    # Add one new integer variable called prot_risks_always_d indicating the whethere there's at least an Always response in the four perceived risks
+    df <- dplyr::mutate(
+      df,
+      comp_prot_risk_always_d = dplyr::case_when(
+        dplyr::if_any(
+          c(
+            "comp_prot_concern_freq_cope",
+            "comp_prot_concern_freq_displaced",
+            "comp_prot_concern_hh_freq_kidnapping",
+            "comp_prot_concern_hh_freq_discrimination"),
+          \(x) x == 3) ~ 1,
+        dplyr::if_all(
+          c(
+            "comp_prot_concern_freq_cope",
+            "comp_prot_concern_freq_displaced",
+            "comp_prot_concern_hh_freq_kidnapping",
+            "comp_prot_concern_hh_freq_discrimination"),
+          \(x) x != 3) ~ 0,
+        .default = NA_real_
+        )
+      )
 
     # now sum across with the following threshold: 11 and above = 5, 8 to 10 = 4, 5 to 7 = 3, 2 to 4 = 2, 1 = 1, NA = NA
     df <- sum_vars(
@@ -97,25 +119,25 @@ add_comp_prot <- function(
     df <- dplyr::mutate(
       df,
       comp_prot_score_concern = dplyr::case_when(
-        comp_prot_score_concern >= 11 ~ 5,
-        comp_prot_score_concern >= 8 & comp_prot_score_concern <= 10 ~ 4,
-        comp_prot_score_concern >= 5 & comp_prot_score_concern <= 7 ~ 3,
-        comp_prot_score_concern >= 2 & comp_prot_score_concern <= 4 ~ 2,
-        comp_prot_score_concern == 1 ~ 1,
+        comp_prot_score_concern >= 9 ~ 4,
+        comp_prot_score_concern >= 4 ~ 3,
+        comp_prot_risk_always_d == 1 ~ 3,	
+        comp_prot_score_concern >= 2 ~ 2,
+        comp_prot_score_concern == 0 ~ 1,
         .default = NA_real_
       )
     )
 
-
     # Get the score for protection
-    df <- sum_vars(
+    # Compute total score = max
+    df <- impactR.utils::row_optimum(
       df,
-      c("comp_prot_child_sep_cat", "comp_prot_score_concern"),
-      "comp_prot_score",
-      na_rm = FALSE,
-      imputation = "none"
+      !!!rlang::syms(c("comp_prot_child_sep_cat", "comp_prot_score_concern")),
+      optimum = "max",
+      max_name = "comp_prot_score",
+      na_rm = TRUE
     )
-
+  
     # Is in need?
     df <- is_in_need(
       df,
@@ -125,4 +147,4 @@ add_comp_prot <- function(
 
     return(df)
 
-    }
+}
