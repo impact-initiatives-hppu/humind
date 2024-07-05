@@ -54,12 +54,28 @@ add_access_to_phone_coverage(
 
 \item{sep}{Separator for the binary columns.}
 
-\item{coverage_internet}{Value for internet.}
+\item{coverage_internet}{Network coverage column.}
 
 \item{coverage_none}{Value for no coverage.}
 
 \item{coverage_no_internet}{Vector of values for no internet.}
+
+\item{coverage_yes_internet}{Value for yes internet.}
+
+\item{coverage_undefined}{Vector of values for do not know.}
+
+\item{access_to_phone_best}{The name of the column that contains the access to phone information.}
+
+\item{access_to_phone_none}{Value for no phone.}
+
+\item{access_to_basic_phone}{Value for basic phone.}
+
+\item{access_to_feature_phone}{Value for feature phone.}
+
+\item{access_to_smartphone}{Value for smartphone.}
+
+\item{access_to_undefined}{Value for undefined.}
 }
 \description{
-\link{add_access_to_phone} recodes the best type of phone accessible in the household. \code{\link[=add_access_to_phone_coverage]{add_access_to_phone_coverage()}} recodes the coverage network type and the best type of phone owned in the household.
+\code{\link[=add_access_to_phone_best]{add_access_to_phone_best()}} recodes the best type of phone accessible in the household. \code{\link[=add_access_to_phone_coverage]{add_access_to_phone_coverage()}} recodes the coverage network type and the best type of phone owned in the household.
 }

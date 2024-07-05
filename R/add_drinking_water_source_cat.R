@@ -1,6 +1,6 @@
 #' Drinking water source recoding
 #'
-#' [add_drinking_water_source_cat()] recodes the types of water sources, [add_drinking_water_time_cat()] adds the categorical time to fetch water, and [add_drinking_water_time_threshold_cat()] according to a chosen threshold. Finally, [add_drinking_water_source_jmp_cat] recodes the water source and time to fetch water into a joint JMP category.
+#' [add_drinking_water_source_cat()] recodes the types of water sources, [add_drinking_water_time_cat()] adds the categorical time to fetch water, and [add_drinking_water_time_threshold_cat()] according to a chosen threshold. Finally, [add_drinking_water_quality_jmp_cat] recodes the water source and time to fetch water into a joint JMP category.
 #'
 #' @param df A data frame.
 #' @param drinking_water_source Component column: Water source types.
