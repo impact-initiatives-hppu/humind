@@ -309,7 +309,7 @@ add_loop_wgq_ss_to_main <- function(
       )
     )
   # Rename to remove the "_n"
-  loop <- dplyr::rename_with(loop, ~ gsub("_n_at_least_one$", "_at_least_one", .), ends_with("_n_at_least_one"))
+  loop <- dplyr::rename_with(loop, ~ gsub("_n_at_least_one$", "_at_least_one", .), dplyr::ends_with("_n_at_least_one"))
 
   # Remove columns in main that exists in loop, but the grouping ones
   main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))

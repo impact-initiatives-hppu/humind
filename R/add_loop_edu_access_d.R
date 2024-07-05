@@ -12,7 +12,6 @@
 #'
 #' @export
 add_loop_edu_access_d <- function(
-  
     loop,
     ind_access = "edu_access",
     yes = "yes",
@@ -64,12 +63,19 @@ add_loop_edu_access_d <- function(
     )
   )
 
-  return(df)
+  return(loop)
 
 }
 
 #' @rdname add_loop_edu_access_d
 #' 
+#' @param main A data frame of household-level data.
+#' @param ind_access_d Column name for education access (binary).
+#' @param ind_no_access_d Column name for education no access (binary).
+#' @param id_col_main Column name for the unique identifier in the main dataset.
+#' @param id_col_loop Column name for the unique identifier in the loop dataset.
+#'
+#' @export
 add_loop_edu_access_to_main <- function(
   main,
   loop,

@@ -66,10 +66,10 @@ add_received_assistance <- function(
 #' This function recodes any barriers to accessing humanitarian assistance encountered from the barriers to accessing humanitarian assistance by type indicator.
 #'
 #' @param df The input data frame
-#' @param col_barrier The name of the column that contains the information about the barriers to accessing humanitarian assistance.
-#' @param choice_none The choice value that indicates that no barriers were encountered.
-#' @param choice_pnta The value value that indicates that the person prefers not to answer.
-#' @param choice_dnk The value value that indicates that the person does not know.
+#' @param barriers_assistance The name of the column that contains the information about the barriers to accessing humanitarian assistance.
+#' @param none The choice value that indicates that no barriers were encountered.
+#' @param pnta The value value that indicates that the person prefers not to answer.
+#' @param dnk The value value that indicates that the person does not know.
 #' @return The data frame with the new variable `aap_barriers_assistance_any_barrier`
 #'
 add_barriers_assistance_any <- function(df,
@@ -82,13 +82,13 @@ add_barriers_assistance_any <- function(df,
   #------ Checks
 
   ## check that col_barrier is present in dataframe
-  if_not_in_stop(df, barrier, "df")
+  if_not_in_stop(df, barriers_assistance, "df")
 
   #------ Compute
 
   df <- dplyr::mutate(
     df,
-    aap_barriers_assistance_any = case_when(
+    aap_barriers_assistance_any = dplyr::case_when(
       is.na(!!rlang::sym(barriers_assistance)) ~ NA_character_,
       !!rlang::sym(barriers_assistance) %in% c(none) ~ "no",
       !!rlang::sym(barriers_assistance) %in% c(pnta) ~ "pnta",

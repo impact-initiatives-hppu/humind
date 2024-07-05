@@ -112,5 +112,5 @@ add_drinking_water_quality_jmp_cat(
 \item{drinking_water_time_30min_cat_levels}{Character vector of time to fetch water categories in that order: Premises, Under 30 min, Above 30 min, Undefined.}
 }
 \description{
-\code{\link[=add_drinking_water_source_cat]{add_drinking_water_source_cat()}} recodes the types of water sources, \code{\link[=add_drinking_water_time_cat]{add_drinking_water_time_cat()}} adds the categorical time to fetch water, and \code{\link[=add_drinking_water_time_threshold_cat]{add_drinking_water_time_threshold_cat()}} according to a chosen threshold. Finally, \link{add_drinking_water_source_jmp_cat} recodes the water source and time to fetch water into a joint JMP category.
+\code{\link[=add_drinking_water_source_cat]{add_drinking_water_source_cat()}} recodes the types of water sources, \code{\link[=add_drinking_water_time_cat]{add_drinking_water_time_cat()}} adds the categorical time to fetch water, and \code{\link[=add_drinking_water_time_threshold_cat]{add_drinking_water_time_threshold_cat()}} according to a chosen threshold. Finally, \link{add_drinking_water_quality_jmp_cat} recodes the water source and time to fetch water into a joint JMP category.
 }

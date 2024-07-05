@@ -38,6 +38,16 @@ add_loop_edu_access_to_main(
 \item{dnk}{Value for don't know.}
 
 \item{ind_schooling_age_d}{Column name for the dummy variable of schooling age.}
+
+\item{main}{A data frame of household-level data.}
+
+\item{ind_access_d}{Column name for education access (binary).}
+
+\item{ind_no_access_d}{Column name for education no access (binary).}
+
+\item{id_col_main}{Column name for the unique identifier in the main dataset.}
+
+\item{id_col_loop}{Column name for the unique identifier in the loop dataset.}
 }
 \description{
 This function adds a dummy variable (edu_ind_access_d) to the individual-level dataframe for all school-aged children, taking 1 if the child accessed school and O otherwise. It also adds a no acces variable (edu_ind_no_access_d).

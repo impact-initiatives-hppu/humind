@@ -9,8 +9,13 @@
 #' @param drinking_water_quality_jmp_cat_levels Levels for drinking water quality JMP category.
 #' @param sanitation_facility_jmp_cat Column name for sanitation facility JMP category.
 #' @param sanitation_facility_jmp_cat_levels Levels for sanitation facility JMP category.
+#' @param sanitation_faciliy_cat Column name for sanitation facility category.
+#' @param sanitation_faciliy_cat_levels Levels for sanitation facility category.
 #' @param sanitation_facility_n_ind Column name for number of individuals sharing a sanitation facility.
 #' @param sanitation_facility_n_ind_levels Levels for number of individuals sharing a sanitation facility.
+#' @param handwashing_facility_jmp_cat Column name for handwashing facility JMP category.
+#' @param handwashing_facility_jmp_cat_levels Levels for handwashing facility JMP category.
+#' 
 #' 
 #' @export
 add_comp_wash <- function(
@@ -43,7 +48,7 @@ add_comp_wash <- function(
     are_values_in_set(df, sanitation_facility_jmp_cat, sanitation_facility_jmp_cat_levels)
     are_values_in_set(df, sanitation_faciliy_cat, sanitation_faciliy_cat_levels)
     are_values_in_set(df, sanitation_facility_n_ind, sanitation_facility_n_ind_levels)
-    are_values_in_set(df, handwashing_facility_jmp_cat, handwashing_facility_levels)
+    are_values_in_set(df, handwashing_facility_jmp_cat, handwashing_facility_jmp_cat_levels)
 
     # Check lengths
     # Is that necessary? the remaining will be NAes
@@ -65,8 +70,8 @@ add_comp_wash <- function(
     if (length(sanitation_facility_n_ind_levels) != 3) {
         rlang::abort("sanitation_facility_n_ind_levels should be of length 3.")
     }
-    if (length(handwashing_facility_levels) != 4) {
-        rlang::abort("handwashing_facility_levels should be of length 4.")
+    if (length(handwashing_facility_jmp_cat_levels) != 4) {
+        rlang::abort("handwashing_facility_jmp_cat_levels should be of length 4.")
     }
 
     #------ Recode
@@ -87,21 +92,21 @@ add_comp_wash <- function(
             # Safely managed is always 1
             !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[5] ~ 1,
             # Camp
-            !!rlang:::sym(setting) == setting_levels[1] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[1] ~ 5,
-            !!rlang:::sym(setting) == setting_levels[1] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[2] ~ 4,
-            !!rlang:::sym(setting) == setting_levels[1] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[3] ~ 3,
-            !!rlang:::sym(setting) == setting_levels[1] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[4] ~ 2,
-            !!rlang:::sym(setting) == setting_levels[1] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[6] ~ NA_real_,
+            !!rlang::sym(setting) == setting_levels[1] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[1] ~ 5,
+            !!rlang::sym(setting) == setting_levels[1] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[2] ~ 4,
+            !!rlang::sym(setting) == setting_levels[1] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[3] ~ 3,
+            !!rlang::sym(setting) == setting_levels[1] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[4] ~ 2,
+            !!rlang::sym(setting) == setting_levels[1] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[6] ~ NA_real_,
             # Urban
-            !!rlang:::sym(setting) == setting_levels[2] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[1] ~ 4,
-            !!rlang:::sym(setting) == setting_levels[2] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[2] ~ 3,
-            !!rlang:::sym(setting) == setting_levels[2] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[3:4] ~ 2,
-            !!rlang:::sym(setting) == setting_levels[2] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[6] ~ NA_real_,
+            !!rlang::sym(setting) == setting_levels[2] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[1] ~ 4,
+            !!rlang::sym(setting) == setting_levels[2] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[2] ~ 3,
+            !!rlang::sym(setting) == setting_levels[2] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[3:4] ~ 2,
+            !!rlang::sym(setting) == setting_levels[2] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[6] ~ NA_real_,
             # Rural
-            !!rlang:::sym(setting) == setting_levels[3] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[1] ~ 4,
-            !!rlang:::sym(setting) == setting_levels[3] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[2:3] ~ 2,
-            !!rlang:::sym(setting) == setting_levels[3] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[4] ~ 1,
-            !!rlang:::sym(setting) == setting_levels[3] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[6] ~ NA_real_,
+            !!rlang::sym(setting) == setting_levels[3] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[1] ~ 4,
+            !!rlang::sym(setting) == setting_levels[3] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[2:3] ~ 2,
+            !!rlang::sym(setting) == setting_levels[3] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[4] ~ 1,
+            !!rlang::sym(setting) == setting_levels[3] & !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[6] ~ NA_real_,
             # Default
             .default = NA_real_
         ),

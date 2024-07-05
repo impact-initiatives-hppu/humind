@@ -33,7 +33,7 @@ add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_
   if (is.null(month)){
     # Prepare month date
     main <- dplyr::mutate(main, month = as.integer(format(as.Date(!!rlang::sym(survey_start_date)), "%m")))
-    main <- dplyr::select(main, dplyr::all_of(id_col, "month"))
+    main <- dplyr::select(main, dplyr::all_of(id_col_main, "month"))
     # Check that month values are between 1 and 12, if not abort
     are_values_in_set(main, "month", 1:12)
     # Remove "month" from loop if it exists

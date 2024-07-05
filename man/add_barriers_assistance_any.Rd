@@ -15,13 +15,13 @@ add_barriers_assistance_any(
 \arguments{
 \item{df}{The input data frame}
 
-\item{col_barrier}{The name of the column that contains the information about the barriers to accessing humanitarian assistance.}
+\item{barriers_assistance}{The name of the column that contains the information about the barriers to accessing humanitarian assistance.}
 
-\item{choice_none}{The choice value that indicates that no barriers were encountered.}
+\item{none}{The choice value that indicates that no barriers were encountered.}
 
-\item{choice_pnta}{The value value that indicates that the person prefers not to answer.}
+\item{pnta}{The value value that indicates that the person prefers not to answer.}
 
-\item{choice_dnk}{The value value that indicates that the person does not know.}
+\item{dnk}{The value value that indicates that the person does not know.}
 }
 \value{
 The data frame with the new variable \code{aap_barriers_assistance_any_barrier}

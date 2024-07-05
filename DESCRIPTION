@@ -16,7 +16,6 @@ Imports:
     purrr,
     rlang (>= 0.4.11),
     stats,
-    stringr,
     limma,
     tidyr,
     impactR.utils,

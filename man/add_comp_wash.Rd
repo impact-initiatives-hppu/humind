@@ -44,9 +44,17 @@ add_comp_wash(
 
 \item{sanitation_facility_jmp_cat_levels}{Levels for sanitation facility JMP category.}
 
+\item{sanitation_faciliy_cat}{Column name for sanitation facility category.}
+
+\item{sanitation_faciliy_cat_levels}{Levels for sanitation facility category.}
+
 \item{sanitation_facility_n_ind}{Column name for number of individuals sharing a sanitation facility.}
 
 \item{sanitation_facility_n_ind_levels}{Levels for number of individuals sharing a sanitation facility.}
+
+\item{handwashing_facility_jmp_cat}{Column name for handwashing facility JMP category.}
+
+\item{handwashing_facility_jmp_cat_levels}{Levels for handwashing facility JMP category.}
 }
 \description{
 WASH sectoral composite - add score and dummy for in need
