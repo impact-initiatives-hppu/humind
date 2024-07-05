@@ -78,12 +78,12 @@ add_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_col_m
   loop <- dplyr::mutate(
     loop, 
     edu_ind_schooling_age_d = dplyr::case_when(
-      is.na(!!rlang::sym("edu_ind_age_corrected")) ~ 0
+      is.na(!!rlang::sym("edu_ind_age_corrected")) ~ 0,
       !!rlang::sym("edu_ind_age_corrected") < 5 | !!rlang::sym("edu_ind_age_corrected") > 17 ~ 0,
       .default = 1
     )
   )
-  
-  return (loop)
-}
+
+  return(loop)
+  }
 

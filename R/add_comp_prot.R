@@ -43,8 +43,8 @@ add_comp_prot <- function(
         !!rlang::sym(child_sep_cat) %in% "very_severe" ~ 5,
         !!rlang::sym(child_sep_cat) %in% "severe" ~ 4,
         !!rlang::sym(child_sep_cat) %in% "non_severe" ~ 1,
-        !!rlang::sym(child_sep_cat) %in% "undefined" ~ NA_character_,
-        .default = NA_character_
+        !!rlang::sym(child_sep_cat) %in% "undefined" ~ NA_real_,
+        .default = NA_real_
       )
     )
 
@@ -88,8 +88,8 @@ add_comp_prot <- function(
     # now sum across with the following threshold: 11 and above = 5, 8 to 10 = 4, 5 to 7 = 3, 2 to 4 = 2, 1 = 1, NA = NA
     df <- sum_vars(
       df,
-      !!!rlang::syms(c("comp_prot_concern_freq_cope", "comp_prot_concern_freq_displaced", "comp_prot_concern_hh_freq_kidnapping", "comp_prot_concern_hh_freq_discrimination")),
-      "comp_prot_score_concern",
+      c("comp_prot_score_concern_freq_cope", "comp_prot_score_concern_freq_displaced", "comp_prot_score_concern_hh_freq_kidnapping", "comp_prot_score_concern_hh_freq_discrimination"),
+  "comp_prot_score_concern",
       na_rm = FALSE,
       imputation = "none")
 
@@ -102,7 +102,7 @@ add_comp_prot <- function(
         comp_prot_score_concern >= 5 & comp_prot_score_concern <= 7 ~ 3,
         comp_prot_score_concern >= 2 & comp_prot_score_concern <= 4 ~ 2,
         comp_prot_score_concern == 1 ~ 1,
-        .default = NA_character_
+        .default = NA_real_
       )
     )
 

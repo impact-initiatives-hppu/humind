@@ -48,7 +48,7 @@ add_comp_health <- function(
       df,
       comp_health_score = dplyr::case_when(
         !!rlang::sym(ind_healthcare_needed_yes_unmet_n) > 0 ~ 3,
-        !!rlang::sym(ind_health_care_needed_yes_met_n) > 0 ~ 2,
+        !!rlang::sym(ind_healthcare_needed_yes_met_n) > 0 ~ 2,
         !!rlang::sym(ind_healthcare_needed_no_n) > 0 ~1,
         .default = NA_real_
       )
@@ -59,8 +59,8 @@ add_comp_health <- function(
       comp_health_score = dplyr::case_when(
         !!rlang::sym(ind_healthcare_needed_yes_unmet_wgq_dis_n) > 0 ~ 4,
         !!rlang::sym(ind_healthcare_needed_yes_unmet_n) > 0 ~ 3,
-        !!rlang::sym(ind_health_care_needed_yes_met_wgq_dis_n) > 0 ~ 3,
-        !!rlang::sym(ind_health_care_needed_yes_met_n) > 0 ~ 2,
+        !!rlang::sym(ind_healthcare_needed_yes_met_wgq_dis_n) > 0 ~ 3,
+        !!rlang::sym(ind_healthcare_needed_yes_met_n) > 0 ~ 2,
         !!rlang::sym(wgq_dis_n) > 0 ~ 2,
         !!rlang::sym(ind_healthcare_needed_no_n) > 0 ~ 1,
         .default = NA_real_
