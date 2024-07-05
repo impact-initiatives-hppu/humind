@@ -4,7 +4,7 @@
 \alias{add_drinking_water_source_cat}
 \alias{add_drinking_water_time_cat}
 \alias{add_drinking_water_time_threshold_cat}
-\alias{add_drinking_water_source_jmp_cat}
+\alias{add_drinking_water_quality_jmp_cat}
 \title{Drinking water source recoding}
 \usage{
 add_drinking_water_source_cat(
@@ -46,7 +46,7 @@ add_drinking_water_time_threshold_cat(
   undefined = "undefined"
 )
 
-add_drinking_water_source_jmp_cat(
+add_drinking_water_quality_jmp_cat(
   df,
   drinking_water_source_cat = "wash_drinking_water_source_cat",
   drinking_water_source_cat_levels = c("improved", "unimproved", "surface_water",
@@ -112,5 +112,5 @@ add_drinking_water_source_jmp_cat(
 \item{drinking_water_time_30min_cat_levels}{Character vector of time to fetch water categories in that order: Premises, Under 30 min, Above 30 min, Undefined.}
 }
 \description{
-\code{\link[=add_drinking_water_source_cat]{add_drinking_water_source_cat()}} recodes the types of water sources, \code{\link[=add_drinking_water_time_cat]{add_drinking_water_time_cat()}} adds the categorical time to fetch water, and \code{\link[=add_drinking_water_time_threshold_cat]{add_drinking_water_time_threshold_cat()}} according to a chosen threshold. Finally, \link{add_drinking_water_source_jmp_cat} recodes the water source and time to fetch water into a joint JMP category.
+\code{\link[=add_drinking_water_source_cat]{add_drinking_water_source_cat()}} recodes the types of water sources, \code{\link[=add_drinking_water_time_cat]{add_drinking_water_time_cat()}} adds the categorical time to fetch water, and \code{\link[=add_drinking_water_time_threshold_cat]{add_drinking_water_time_threshold_cat()}} according to a chosen threshold. Finally, \link{add_drinking_water_quality_jmp_cat} recodes the water source and time to fetch water into a joint JMP category.
 }

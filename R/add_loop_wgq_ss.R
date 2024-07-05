@@ -75,7 +75,7 @@ add_loop_wgq_ss <- function(
       wgq_vars,
       \(x) dplyr::case_when(
         ind_age_above_5 == 0 ~ NA_real_,
-        ind_age_above_5 == 1 & x %in% undefined~ NA_real_,
+        ind_age_above_5 == 1 & x %in% undefined ~ NA_real_,
         ind_age_above_5 == 1 & x == cannot_do ~ 1,
         ind_age_above_5 == 1 & x %in% c(no_difficulty, some_difficulty, lot_of_difficulty) ~ 0,
         .default = NA_real_
@@ -309,8 +309,7 @@ add_loop_wgq_ss_to_main <- function(
       )
     )
   # Rename to remove the "_n"
-  loop <- dplyr::rename_with(loop, ~ gsub("_n_at_least_one$", "_at_least_one", .), ends_with("_n_at_least_one"))
-
+  loop <- dplyr::rename_with(loop, ~ gsub("_n_at_least_one$", "_at_least_one", .), dplyr::ends_with("_n_at_least_one"))
 
   # Remove columns in main that exists in loop, but the grouping ones
   main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
