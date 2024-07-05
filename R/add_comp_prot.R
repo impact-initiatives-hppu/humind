@@ -43,8 +43,8 @@ add_comp_prot <- function(
         !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[2] ~ 5,
         !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[3] ~ 4,
         !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[4] ~ 2,
-        !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[5] ~ NA_character_,
-        .default = NA_character_
+        !!rlang::sym(child_sep_cat) %in% child_sep_cat_levels[5] ~ NA_real_,
+        .default = NA_real_
       )
     )
 
