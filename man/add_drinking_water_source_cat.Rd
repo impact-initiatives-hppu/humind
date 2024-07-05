@@ -4,7 +4,7 @@
 \alias{add_drinking_water_source_cat}
 \alias{add_drinking_water_time_cat}
 \alias{add_drinking_water_time_threshold_cat}
-\alias{add_drinking_water_source_jmp_cat}
+\alias{add_drinking_water_quality_jmp_cat}
 \title{Drinking water source recoding}
 \usage{
 add_drinking_water_source_cat(
@@ -46,7 +46,7 @@ add_drinking_water_time_threshold_cat(
   undefined = "undefined"
 )
 
-add_drinking_water_source_jmp_cat(
+add_drinking_water_quality_jmp_cat(
   df,
   drinking_water_source_cat = "wash_drinking_water_source_cat",
   drinking_water_source_cat_levels = c("improved", "unimproved", "surface_water",

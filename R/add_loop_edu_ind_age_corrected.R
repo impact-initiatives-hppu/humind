@@ -1,4 +1,4 @@
-#' Add a correct schooling age 
+#' Add a correct schooling age to the loop
 #' 
 #' @param loop A data frame of individual-level data.
 #' @param main A data frame of individual-level data.
@@ -11,7 +11,7 @@
 #' @return 2 new columns: "edu_ind_age_corrected" with the corrected individual age, and a dummy variable edu_ind_schooling_age_d
 #' 
 #' @export
-add_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_col_main = "uuid", survey_start_date = "start", school_year_start_month = 9, ind_age = "ind_age", month = NULL) {
+add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_col_main = "uuid", survey_start_date = "start", school_year_start_month = 9, ind_age = "ind_age", month = NULL) {
   
   #------ Initial checks
 
@@ -78,7 +78,7 @@ add_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_col_m
   loop <- dplyr::mutate(
     loop, 
     edu_ind_schooling_age_d = dplyr::case_when(
-      is.na(!!rlang::sym("edu_ind_age_corrected")) ~ 0
+      is.na(!!rlang::sym("edu_ind_age_corrected")) ~ 0,
       !!rlang::sym("edu_ind_age_corrected") < 5 | !!rlang::sym("edu_ind_age_corrected") > 17 ~ 0,
       .default = 1
     )

@@ -28,13 +28,13 @@ add_comp_wash <- function(
     sanitation_facility_n_ind = "wash_sharing_sanitation_facility_n_ind",
     sanitation_facility_n_ind_levels = c("50_and_above", "20_to_49", "19_and_below"),
     handwashing_facility_jmp_cat = "wash_sanitation_facility_jmp_cat",
-    handwashing_facility_jmp_cat_levels = c("no_facility", "limited", "basic", "undefined"),
+    handwashing_facility_jmp_cat_levels = c("no_facility", "limited", "basic", "undefined")
     ){
 
     #------ Checks
 
     # Check if the variables are in the data frame
-    if_not_in_stop(df, c(setting, drinking_water_quantity, drinking_water_quality_jmp_cat, sanitation_facility_jmp_cat, sanitation_faciliy_cat, sanitation_facility_n_ind, handwashing_facility_jmp_cat))
+    if_not_in_stop(df, c(setting, drinking_water_quantity, drinking_water_quality_jmp_cat, sanitation_facility_jmp_cat, sanitation_faciliy_cat, sanitation_facility_n_ind, handwashing_facility_jmp_cat), "df")
 
     # Check if values are in set
     are_values_in_set(df, setting, setting_levels)
@@ -165,12 +165,11 @@ add_comp_wash <- function(
                 !!rlang::sym(setting) == settings_levels[3] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[4] ~ NA_real_,
                 .default = NA_real_)
         )
-    )
 
     # Compute total score = max
     df <- impactR.utils::row_optimum(
         df,
-        !!!rlang::syms(c("comp_wash_water_quantity", "comp_wash_water_quality", "comp_wash_sanitation", "comp_wash_hygiene")),),
+        c("comp_wash_water_quantity", "comp_wash_water_quality", "comp_wash_sanitation", "comp_wash_hygiene"),
         optimum = "max",
         max_name = "comp_wash_score",
         na_rm = TRUE
