@@ -760,6 +760,35 @@ sheetsbinded <- lapply(sheetsbinded, function(x) x |> mutate(across(where(~ is.f
 sheetsbinded$edu_ind$edu_person_id <- sheetsbinded$edu_ind$person_id
 sheetsbinded$health_ind$health_person_id <- sheetsbinded$health_ind$person_id
 sheetsbinded$nut_ind$nut_person_id <- sheetsbinded$nut_ind$person_id
+
+
+
+# Add weights ------------------------------------------------------------
+
+# Import packages
+# pak::pak("gnoblet/impactR.utils")
+library(impactR.utils)
+# pak::pak("impact-initiatives/analysistools")
+library(analysistools)
+
+# Import fake sample frame
+sf <- import_xlsx("data-raw/loa.xlsx", "sample_frame")
+
+# Add strata column --- admin2 in the example
+sheetsbinded$main <- mutate(sheetsbinded$main, stratum = admin2)
+
+# Compose
+sheetsbinded$main <- add_weights(
+  sheetsbinded$main,
+  sf,
+  "stratum",
+  "stratum",
+  "pop",
+  "weight"
+)
+
+# Save objects -----------------------------------------------------------
+
 write.xlsx(sheetsbinded, paste0("data-raw/dummy_raw_data.xlsx"), overwrite = T)
 dummy_raw_data <- sheetsbinded
 # library(impactR.utils)
