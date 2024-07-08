@@ -19,7 +19,7 @@ comp_snfi <- function(
     shelter_issue_cat_levels = c("none", "7_to_8", "4_to_6", "1_to_3", "undefined"),
     occupancy_cat = "hlp_occupancy_cat",
     occupancy_cat_levels = c("high_risk", "medium_risk", "low_risk", "undefined"),
-    fds_cannot_cat= "snfi_fds_cannot_cat",
+    fds_cannot_cat = "snfi_fds_cannot_cat",
     fds_cannot_cat_levels = c("4_to_5_tasks", "2_to_3_tasks", "1_task", "none", "undefined")
     ){
 

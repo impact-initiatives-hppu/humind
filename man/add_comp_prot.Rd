@@ -13,7 +13,7 @@ add_comp_prot(
   concern_freq_displaced = "prot_concern_freq_displaced",
   concern_hh_freq_kidnapping = "prot_concern_hh_freq_kidnapping",
   concern_hh_freq_discrimination = "prot_concern_hh_freq_discrimination",
-  concern_levels = c("never", "once_or_twice", "several_times", "always", "dnk", "pnta")
+  concern_levels = c("always", "several_times", "once_or_twice", "never", "dnk", "pnta")
 )
 }
 \arguments{

@@ -1,4 +1,6 @@
+set.seed(123446)
 
+library(tidyverse)
 
 xlsform_fill_loop <- function (tool.path = "",language = "English", n = 100) {
 
@@ -23,18 +25,18 @@ xlsform_fill_loop <- function (tool.path = "",language = "English", n = 100) {
   ## create tool.survey
   tool.survey <- survey %>%
     filter(!is.na(type)) %>%
-    mutate(q.type=as.character(lapply(type, function(x) str_split(x, " ")[[1]][1])),
-           list_name=as.character(lapply(type, function(x) str_split(x, " ")[[1]][2])),
-           list_name=ifelse(str_starts(type, "select_"), list_name, NA))
+    mutate(q.type=as.character(lapply(type, function(x) stringr::str_split(x, " ")[[1]][1])),
+           list_name=as.character(lapply(type, function(x) stringr::str_split(x, " ")[[1]][2])),
+           list_name=ifelse(stringr::str_starts(type, "select_"), list_name, NA))
 
   # Find which data sheet question belongs to:
   tool.survey <- tool.survey %>% mutate(datasheet = NA)
   sheet_name <- "main"
   for(i in 1:nrow(tool.survey)){
     toolrow <- tool.survey %>% slice(i)
-    if(str_detect(toolrow$type, "begin[ _]repeat")) sheet_name <- toolrow$name
-    else if(str_detect(toolrow$type, "end[ _]repeat")) sheet_name <- "main"   # watch out for nested repeats (Why would you even want to do that?)
-    else if(str_detect(toolrow$type, "((end)|(begin))[ _]group", T)) tool.survey[i, "datasheet"] <- sheet_name
+    if(stringr::str_detect(toolrow$type, "begin[ _]repeat")) sheet_name <- toolrow$name
+    else if(stringr::str_detect(toolrow$type, "end[ _]repeat")) sheet_name <- "main"   # watch out for nested repeats (Why would you even want to do that?)
+    else if(stringr::str_detect(toolrow$type, "((end)|(begin))[ _]group", T)) tool.survey[i, "datasheet"] <- sheet_name
   }
 
   ## create tool.choices
@@ -43,9 +45,9 @@ xlsform_fill_loop <- function (tool.path = "",language = "English", n = 100) {
   repeat_c <- NA
   for(i in 1:nrow(tool.survey)){
     toolrow <- tool.survey %>% slice(i)
-    if(str_detect(toolrow$type, "begin[ _]repeat")) repeat_c <- toolrow$repeat_count
-    else if(str_detect(toolrow$type, "end[ _]repeat")) repeat_c <- NA   # watch out for nested repeats (Why would you even want to do that?)
-    else if(str_detect(toolrow$type, "((end)|(begin))[ _]group", T)) tool.survey[i, "count_repeat"] <- repeat_c
+    if(stringr::str_detect(toolrow$type, "begin[ _]repeat")) repeat_c <- toolrow$repeat_count
+    else if(stringr::str_detect(toolrow$type, "end[ _]repeat")) repeat_c <- NA   # watch out for nested repeats (Why would you even want to do that?)
+    else if(stringr::str_detect(toolrow$type, "((end)|(begin))[ _]group", T)) tool.survey[i, "count_repeat"] <- repeat_c
   }
 
   choices <- read_xlsx(tool.path, sheet = "choices", col_types = "text") %>%
@@ -739,7 +741,8 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, readxl, writexl, openxlsx, randomcoloR, sf, anytime, DT,
                cluster, survey, srvyr, knitr, webshot, docstring, tcltk, scales,svDialogs)
 # source("src/functions_create_dummy.R")
-num <- as.numeric(svDialogs::dlg_input(message = "Please enter the number of submission to create the dummy data (only real number)")$res)
+# num <- as.numeric(svDialogs::dlg_input(message = "Please enter the number of submission to create the dummy data (only real number)")$res)
+num <- 400
 # tool_path <- choose.files("data-raw/REACH_2024_MSNA-kobo-tool_draft_v8.xlsx", caption ="Please select the tool to create the dummy data.", multi = F)
 data <- xlsform_fill_loop("data-raw/REACH_2024_MSNA-kobo-tool_draft_v10.xlsx", n = num)
 
@@ -757,6 +760,35 @@ sheetsbinded <- lapply(sheetsbinded, function(x) x |> mutate(across(where(~ is.f
 sheetsbinded$edu_ind$edu_person_id <- sheetsbinded$edu_ind$person_id
 sheetsbinded$health_ind$health_person_id <- sheetsbinded$health_ind$person_id
 sheetsbinded$nut_ind$nut_person_id <- sheetsbinded$nut_ind$person_id
+
+
+
+# Add weights ------------------------------------------------------------
+
+# Import packages
+# pak::pak("gnoblet/impactR.utils")
+library(impactR.utils)
+# pak::pak("impact-initiatives/analysistools")
+library(analysistools)
+
+# Import fake sample frame
+sf <- import_xlsx("data-raw/loa.xlsx", "sample_frame")
+
+# Add strata column --- admin2 in the example
+sheetsbinded$main <- mutate(sheetsbinded$main, stratum = admin2)
+
+# Compose
+sheetsbinded$main <- add_weights(
+  sheetsbinded$main,
+  sf,
+  "stratum",
+  "stratum",
+  "pop",
+  "weight"
+)
+
+# Save objects -----------------------------------------------------------
+
 write.xlsx(sheetsbinded, paste0("data-raw/dummy_raw_data.xlsx"), overwrite = T)
 dummy_raw_data <- sheetsbinded
 # library(impactR.utils)
