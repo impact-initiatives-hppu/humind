@@ -741,7 +741,8 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, readxl, writexl, openxlsx, randomcoloR, sf, anytime, DT,
                cluster, survey, srvyr, knitr, webshot, docstring, tcltk, scales,svDialogs)
 # source("src/functions_create_dummy.R")
-num <- as.numeric(svDialogs::dlg_input(message = "Please enter the number of submission to create the dummy data (only real number)")$res)
+# num <- as.numeric(svDialogs::dlg_input(message = "Please enter the number of submission to create the dummy data (only real number)")$res)
+num <- 400
 # tool_path <- choose.files("data-raw/REACH_2024_MSNA-kobo-tool_draft_v8.xlsx", caption ="Please select the tool to create the dummy data.", multi = F)
 data <- xlsform_fill_loop("data-raw/REACH_2024_MSNA-kobo-tool_draft_v10.xlsx", n = num)
 
