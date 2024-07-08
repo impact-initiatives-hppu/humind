@@ -45,12 +45,12 @@ add_loop_healthcare_needed_cat <- function(
       health_ind_healthcare_needed_d = dplyr::case_when(
         !!rlang::sym(ind_healthcare_needed) == ind_healthcare_needed_levels[1] ~ 0,
         !!rlang::sym(ind_healthcare_needed) == ind_healthcare_needed_levels[2] ~ 1,
-        !!rlang::sym(ind_healthcare_needed) == ind_healthcare_needed_levels[3:4] ~ NA_real_,
+        !!rlang::sym(ind_healthcare_needed) %in% ind_healthcare_needed_levels[3:4] ~ NA_real_,
         .default = NA_real_),
       health_ind_healthcare_received_d = dplyr::case_when(
         !!rlang::sym(ind_healthcare_received) == ind_healthcare_received_levels[1] ~ 0,
         !!rlang::sym(ind_healthcare_received) == ind_healthcare_received_levels[2] ~ 1,
-        !!rlang::sym(ind_healthcare_received) == ind_healthcare_received_levels[3:4] ~ NA_real_,
+        !!rlang::sym(ind_healthcare_received) %in% ind_healthcare_received_levels[3:4] ~ NA_real_,
         .default = NA_real_)
     )
 
