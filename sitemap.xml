@@ -12,9 +12,11 @@
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_age_cat.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_barriers_assistance_any.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_child_sep_cat.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_comp_edu.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_comp_foodsec.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_comp_health.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_comp_prot.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_comp_snfi.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_comp_wash.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_fds_cannot_cat.html</loc></url>
@@ -24,6 +26,8 @@
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_income_source_zero_to_sl.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_age_dummy.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_access_d.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_barrier_protection_d.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_disrupted_d.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_ind_age_corrected.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_wgq_ss.html</loc></url>
@@ -36,7 +40,6 @@
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/are_values_in_range.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/are_values_in_set.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/choices_update.html</loc></url>
-<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/comp_snfi.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/count_if_above_zero.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/dummy_raw_data.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/humind-package.html</loc></url>

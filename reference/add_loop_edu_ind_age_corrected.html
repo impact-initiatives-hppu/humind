@@ -53,6 +53,14 @@
 <span>  school_year_start_month <span class="op">=</span> <span class="fl">9</span>,</span>
 <span>  ind_age <span class="op">=</span> <span class="st">"ind_age"</span>,</span>
 <span>  month <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">add_loop_edu_ind_schooling_age_d_to_main</span><span class="op">(</span></span>
+<span>  <span class="va">main</span>,</span>
+<span>  <span class="va">loop</span>,</span>
+<span>  ind_schooling_age_d <span class="op">=</span> <span class="st">"edu_ind_schooling_age_d"</span>,</span>
+<span>  id_col_main <span class="op">=</span> <span class="st">"uuid"</span>,</span>
+<span>  id_col_loop <span class="op">=</span> <span class="st">"uuid"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -65,15 +73,15 @@
 
 
 <dt id="arg-main">main<a class="anchor" aria-label="anchor" href="#arg-main"></a></dt>
-<dd><p>A data frame of individual-level data.</p></dd>
+<dd><p>A data frame of household-level data.</p></dd>
 
 
 <dt id="arg-id-col-loop">id_col_loop<a class="anchor" aria-label="anchor" href="#arg-id-col-loop"></a></dt>
-<dd><p>Survey unique identifier column name in loop.</p></dd>
+<dd><p>Column name for the unique identifier in the loop dataset.</p></dd>
 
 
 <dt id="arg-id-col-main">id_col_main<a class="anchor" aria-label="anchor" href="#arg-id-col-main"></a></dt>
-<dd><p>Survey unique identifier column name in main.</p></dd>
+<dd><p>Column name for the unique identifier in the main dataset.</p></dd>
 
 
 <dt id="arg-survey-start-date">survey_start_date<a class="anchor" aria-label="anchor" href="#arg-survey-start-date"></a></dt>
@@ -90,6 +98,10 @@
 
 <dt id="arg-month">month<a class="anchor" aria-label="anchor" href="#arg-month"></a></dt>
 <dd><p>If not NULL, an integer between 1 and 12 which will be used as the month of data collection for all households/</p></dd>
+
+
+<dt id="arg-ind-schooling-age-d">ind_schooling_age_d<a class="anchor" aria-label="anchor" href="#arg-ind-schooling-age-d"></a></dt>
+<dd><p>Column name for the dummy variable of the schooling age class.</p></dd>
 
 </dl></div>
     <div class="section level2">
