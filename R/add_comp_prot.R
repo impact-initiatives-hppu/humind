@@ -91,17 +91,17 @@ add_comp_prot <- function(
       comp_prot_risk_always_d = dplyr::case_when(
         dplyr::if_any(
           c(
-            "comp_prot_concern_freq_cope",
-            "comp_prot_concern_freq_displaced",
-            "comp_prot_concern_hh_freq_kidnapping",
-            "comp_prot_concern_hh_freq_discrimination"),
+            "comp_prot_score_concern_freq_cope",
+            "comp_prot_score_concern_freq_displaced",
+            "comp_prot_score_concern_hh_freq_kidnapping",
+            "comp_prot_score_concern_hh_freq_discrimination"),
           \(x) x == 3) ~ 1,
         dplyr::if_all(
           c(
-            "comp_prot_concern_freq_cope",
-            "comp_prot_concern_freq_displaced",
-            "comp_prot_concern_hh_freq_kidnapping",
-            "comp_prot_concern_hh_freq_discrimination"),
+            "comp_prot_score_concern_freq_cope",
+            "comp_prot_score_concern_freq_displaced",
+            "comp_prot_score_concern_hh_freq_kidnapping",
+            "comp_prot_score_concern_hh_freq_discrimination"),
           \(x) x != 3) ~ 0,
         .default = NA_real_
         )
@@ -110,7 +110,12 @@ add_comp_prot <- function(
     # now sum across with the following threshold: 11 and above = 5, 8 to 10 = 4, 5 to 7 = 3, 2 to 4 = 2, 1 = 1, NA = NA
     df <- sum_vars(
       df,
-      c("comp_prot_score_concern_freq_cope", "comp_prot_score_concern_freq_displaced", "comp_prot_score_concern_hh_freq_kidnapping", "comp_prot_score_concern_hh_freq_discrimination"),
+      c(
+        "comp_prot_score_concern_freq_cope",
+        "comp_prot_score_concern_freq_displaced",
+        "comp_prot_score_concern_hh_freq_kidnapping",
+        "comp_prot_score_concern_hh_freq_discrimination"
+      ),
   "comp_prot_score_concern",
       na_rm = FALSE,
       imputation = "none")
@@ -121,7 +126,7 @@ add_comp_prot <- function(
       comp_prot_score_concern = dplyr::case_when(
         comp_prot_score_concern >= 9 ~ 4,
         comp_prot_score_concern >= 4 ~ 3,
-        comp_prot_risk_always_d == 1 ~ 3,	
+        comp_prot_risk_always_d == 1 ~ 3,
         comp_prot_score_concern >= 2 ~ 2,
         comp_prot_score_concern == 0 ~ 1,
         .default = NA_real_
@@ -137,7 +142,7 @@ add_comp_prot <- function(
       max_name = "comp_prot_score",
       na_rm = TRUE
     )
-  
+
     # Is in need?
     df <- is_in_need(
       df,
