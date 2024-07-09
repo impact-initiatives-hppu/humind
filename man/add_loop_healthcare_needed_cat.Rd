@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_loop_healthcare_needed_cat.R
 \name{add_loop_healthcare_needed_cat}
 \alias{add_loop_healthcare_needed_cat}
-\alias{add_loop_healthcare_needed_cat_main}
+\alias{add_loop_healthcare_needed_cat_to_main}
 \title{Add healthcare needed category to loop data (incl. WGQ-SS if provided)}
 \usage{
 add_loop_healthcare_needed_cat(
@@ -15,7 +15,7 @@ add_loop_healthcare_needed_cat(
   ind_age = "ind_age"
 )
 
-add_loop_healthcare_needed_cat_main(
+add_loop_healthcare_needed_cat_to_main(
   main,
   loop,
   ind_healthcare_needed_no = "health_ind_healthcare_needed_no",
