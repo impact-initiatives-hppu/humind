@@ -6,7 +6,7 @@
 \alias{humind-package}
 \title{humind: Calculate Usual Humanitarian Composite Indicators}
 \description{
-Give helpers to calculate usual humanitarian composite indicators such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, HWISE scales, recode water sources.
+This packages provides functions to compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP ladders, as well as specific indicators related to the MSNI framework.
 }
 \seealso{
 Useful links:

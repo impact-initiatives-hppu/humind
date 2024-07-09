@@ -1,5 +1,5 @@
 #' Add a correct schooling age to the loop
-#' 
+#'
 #' @param loop A data frame of individual-level data.
 #' @param main A data frame of individual-level data.
 #' @param id_col_loop  Survey unique identifier column name in loop.
@@ -9,10 +9,10 @@
 #' @param ind_age  The individual age column.
 #' @param month  If not NULL, an integer between 1 and 12 which will be used as the month of data collection for all households/
 #' @return 2 new columns: "edu_ind_age_corrected" with the corrected individual age, and a dummy variable edu_ind_schooling_age_d
-#' 
+#'
 #' @export
 add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_col_main = "uuid", survey_start_date = "start", school_year_start_month = 9, ind_age = "ind_age", month = NULL) {
-  
+
   #------ Initial checks
 
   # Check if the variable is in the data frame
@@ -67,7 +67,7 @@ add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_
 
   #Final classification --- NAing with below 5 or under 17
   loop <- dplyr::mutate(
-    loop, 
+    loop,
     edu_ind_age_corrected = dplyr::case_when(
       !!rlang::sym("edu_ind_age_corrected") < 5 | !!rlang::sym("edu_ind_age_corrected") > 17 ~ NA_real_,
       .default = !!rlang::sym("edu_ind_age_corrected")
@@ -76,7 +76,7 @@ add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_
 
   # Add a dummy variable, 1 if the individual is a school child, 0 otherwise
   loop <- dplyr::mutate(
-    loop, 
+    loop,
     edu_ind_schooling_age_d = dplyr::case_when(
       is.na(!!rlang::sym("edu_ind_age_corrected")) ~ 0,
       !!rlang::sym("edu_ind_age_corrected") < 5 | !!rlang::sym("edu_ind_age_corrected") > 17 ~ 0,
@@ -85,5 +85,48 @@ add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_
   )
 
   return(loop)
+}
+
+#' @rdname add_loop_edu_ind_age_corrected
+#'
+#' @param main A data frame of household-level data.
+#' @param loop A data frame of individual-level data.
+#' @param ind_schooling_age_d Column name for the dummy variable of the schooling age class.
+#' @param id_col_main Column name for the unique identifier in the main dataset.
+#' @param id_col_loop Column name for the unique identifier in the loop dataset.
+#'
+#' @export
+add_loop_edu_ind_schooling_age_d_to_main <- function(
+    main,
+    loop,
+    ind_schooling_age_d = "edu_ind_schooling_age_d",
+    id_col_main = "uuid",
+    id_col_loop = "uuid") {
+
+  #------ Checks
+
+  # Check if the variables are in the data frame
+  if_not_in_stop(loop, c(ind_schooling_age_d), "loop")
+  if_not_in_stop(main, id_col_main, "main")
+  if_not_in_stop(loop, id_col_loop, "loop")
+
+  # Check if new_colname exists in the dataframe, if yes throw a warning for replacement
+  ind_schooling_age_d_n <- paste0(ind_schooling_age_d, "_n")
+
+  if (ind_schooling_age_d_n %in% colnames(main)) {
+    rlang::warn(paste0(ind_schooling_age_d_n, " already exists in the data frame. It will be replaced."))
   }
 
+  #------ Compute
+
+  # Group loop by id_col_loop
+  loop <- dplyr::group_by(loop, !!rlang::sym(id_col_loop))
+
+  # Sum the schooling age dummy variable
+  loop <- dplyr::summarise(loop, "{ind_schooling_age_d_n}" = sum(!!rlang::sym(ind_schooling_age_d), na.rm = TRUE))
+
+  # Join loop to main
+  main <- dplyr::left_join(main, loop, by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop)))
+
+  return(main)
+}

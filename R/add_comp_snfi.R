@@ -11,7 +11,7 @@
 #' @param fds_cannot_cat_levels Levels for fds cannot. in that order: 4_to_5_tasks, 2_to_3_tasks, 1_task, none, undefined.
 #'
 #' @export
-comp_snfi <- function(
+add_comp_snfi <- function(
     df,
     shelter_type_cat = "snfi_shelter_type_cat",
     shelter_type_cat_levels = c("none", "inadequate", "adequate", "undefined"),
