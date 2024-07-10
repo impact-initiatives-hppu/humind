@@ -15,8 +15,8 @@
 #' @param sanitation_facility_n_ind_levels Levels for number of individuals sharing a sanitation facility.
 #' @param handwashing_facility_jmp_cat Column name for handwashing facility JMP category.
 #' @param handwashing_facility_jmp_cat_levels Levels for handwashing facility JMP category.
-#' 
-#' 
+#'
+#'
 #' @export
 add_comp_wash <- function(
     df,
@@ -79,7 +79,7 @@ add_comp_wash <- function(
     # Dimensions - sub-composites
     df <- dplyr::mutate(
         df,
-        comp_wash_water_quantity = dplyr::case_when(
+        comp_wash_score_water_quantity = dplyr::case_when(
             !!rlang::sym(drinking_water_quantity) %in% drinking_water_quantity_levels[1] ~ 5,
             !!rlang::sym(drinking_water_quantity) %in% drinking_water_quantity_levels[2] ~ 4,
             !!rlang::sym(drinking_water_quantity) %in% drinking_water_quantity_levels[3] ~ 3,
@@ -88,7 +88,7 @@ add_comp_wash <- function(
             !!rlang::sym(drinking_water_quantity) %in% drinking_water_quantity_levels[6:7] ~ NA_real_,
             .default = NA_real_
         ),
-        comp_wash_water_quality = dplyr::case_when(
+        comp_wash_score_water_quality = dplyr::case_when(
             # Safely managed is always 1
             !!rlang::sym(drinking_water_quality_jmp_cat) %in% drinking_water_jmp_cat_levels[5] ~ 1,
             # Camp
@@ -110,7 +110,7 @@ add_comp_wash <- function(
             # Default
             .default = NA_real_
         ),
-        comp_wash_sanitation = dplyr::case_when(
+        comp_wash_score_sanitation = dplyr::case_when(
             # Camp---does not use the JMP categories
             # - Open defecation
             !!rlang::sym(setting) == setting_levels[1] & !!rlang::sym(sanitation_facility_cat_levels) == sanitation_facility_cat_levels[1] ~ 5,
@@ -124,7 +124,7 @@ add_comp_wash <- function(
             !!rlang::sym(setting) == setting_levels[1] &
                 !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_levels[3] &
                 !!rlang::sym(sanitation_facility_n_ind) == sanitation_facility_n_ind_levels[2]  ~ 2,
-            # - Improved and shared with less than 20 people 
+            # - Improved and shared with less than 20 people
             !!rlang::sym(setting) == setting_levels[1] &
                 !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_levels[3] &
                 !!rlang::sym(sanitation_facility_n_ind) == sanitation_facility_n_ind_levels[3]  ~ 1,
@@ -158,7 +158,7 @@ add_comp_wash <- function(
                 !!rlang::sym(drinking_water_jmp_cat_levels) == drinking_water_jmp_cat_levels[6] ~ NA_real_,
             # Default
             .default = NA_real_),
-            comp_wash_hygiene = dplyr::case_when(
+            comp_wash_score_hygiene = dplyr::case_when(
                 # Camp and Urban are the same
                 !!rlang::sym(setting) == setting_levels[1:2] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[1] ~ 3,
                 !!rlang::sym(setting) == setting_levels[1:2] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[2] ~ 2,
@@ -174,7 +174,7 @@ add_comp_wash <- function(
     # Compute total score = max
     df <- impactR.utils::row_optimum(
         df,
-        c("comp_wash_water_quantity", "comp_wash_water_quality", "comp_wash_sanitation", "comp_wash_hygiene"),
+        c("comp_wash_score_water_quantity", "comp_wash_score_water_quality", "comp_wash_score_sanitation", "comp_was_scoreh_hygiene"),
         optimum = "max",
         max_name = "comp_wash_score",
         na_rm = TRUE

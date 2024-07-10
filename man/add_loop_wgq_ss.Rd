@@ -8,7 +8,7 @@
 add_loop_wgq_ss(
   loop,
   ind_age = "ind_age",
-  vision = " wgq_vision",
+  vision = "wgq_vision",
   hearing = "wgq_hearing",
   mobility = "wgq_mobility",
   cognition = "wgq_cognition",

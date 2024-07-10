@@ -20,7 +20,7 @@
 add_loop_wgq_ss <- function(
     loop,
     ind_age = "ind_age",
-    vision =" wgq_vision",
+    vision = "wgq_vision",
     hearing = "wgq_hearing",
     mobility = "wgq_mobility",
     cognition = "wgq_cognition",
@@ -121,7 +121,7 @@ add_loop_wgq_ss <- function(
   loop <- dplyr::mutate(
     loop,
     dplyr::across(
-      wgq_vars,
+      dplyr::all_of(wgq_vars),
       \(x) dplyr::case_when(
         ind_age_above_5 == 0 ~ NA_real_,
         ind_age_above_5 == 1 & x %in% undefined ~ NA_real_,
@@ -151,8 +151,8 @@ add_loop_wgq_ss <- function(
   loop <- dplyr::mutate(
     loop,
     wgq_cannot_do_d = dplyr::case_when(
-      dplyr::if_any(wgq_vars_cannot_do, \(x) x == 1) ~ 1,
-      dplyr::if_all(wgq_vars_cannot_do, \(x) x == 0) ~ 0,
+      dplyr::if_any(dplyr::all_of(wgq_vars_cannot_do), \(x) x == 1) ~ 1,
+      dplyr::if_all(dplyr::all_of(wgq_vars_cannot_do), \(x) x == 0) ~ 0,
       .default = NA_real_
     )
   )
@@ -161,8 +161,8 @@ add_loop_wgq_ss <- function(
   loop <- dplyr::mutate(
     loop,
     wgq_lot_of_difficulty_d = dplyr::case_when(
-      dplyr::if_any(wgq_vars_lot_of_difficulty, \(x) x == 1) ~ 1,
-      dplyr::if_all(wgq_vars_lot_of_difficulty, \(x) x == 0) ~ 0,
+      dplyr::if_any(dplyr::all_of(wgq_vars_lot_of_difficulty), \(x) x == 1) ~ 1,
+      dplyr::if_all(dplyr::all_of(wgq_vars_lot_of_difficulty), \(x) x == 0) ~ 0,
       .default = NA_real_
     )
   )
@@ -171,8 +171,8 @@ add_loop_wgq_ss <- function(
   loop <- dplyr::mutate(
     loop,
     wgq_some_difficulty_d = dplyr::case_when(
-      dplyr::if_any(wgq_vars_some_difficulty, \(x) x == 1) ~ 1,
-      dplyr::if_all(wgq_vars_some_difficulty, \(x) x == 0) ~ 0,
+      dplyr::if_any(dplyr::all_of(wgq_vars_some_difficulty), \(x) x == 1) ~ 1,
+      dplyr::if_all(dplyr::all_of(wgq_vars_some_difficulty), \(x) x == 0) ~ 0,
       .default = NA_real_
     )
   )
@@ -181,8 +181,8 @@ add_loop_wgq_ss <- function(
   loop <- dplyr::mutate(
     loop,
     wgq_no_difficulty_d = dplyr::case_when(
-      dplyr::if_any(wqg_vars_no_difficulty, \(x) x == 1) ~ 1,
-      dplyr::if_all(wqg_vars_no_difficulty, \(x) x == 0) ~ 0,
+      dplyr::if_any(dplyr::all_of(wqg_vars_no_difficulty), \(x) x == 1) ~ 1,
+      dplyr::if_all(dplyr::all_of(wqg_vars_no_difficulty), \(x) x == 0) ~ 0,
       .default = NA_real_
     )
   )

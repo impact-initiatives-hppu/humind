@@ -1,5 +1,5 @@
 #' Add education access dummy
-#' 
+#'
 #' This function adds a dummy variable (edu_ind_access_d) to the individual-level dataframe for all school-aged children, taking 1 if the child accessed school and O otherwise. It also adds a no acces variable (edu_ind_no_access_d).
 #'
 #' @param loop A data frame of individual-level data for the loop.
@@ -41,7 +41,7 @@ add_loop_edu_access_d <- function(
     rlang::warn("edu_ind_no_access_d already exists in loop. It will be replaced.")
   }
 
-  #Check 
+  #Check
 
   #------ Recode
 
@@ -68,7 +68,7 @@ add_loop_edu_access_d <- function(
 }
 
 #' @rdname add_loop_edu_access_d
-#' 
+#'
 #' @param main A data frame of household-level data.
 #' @param ind_access_d Column name for education access (binary).
 #' @param ind_no_access_d Column name for education no access (binary).
@@ -76,19 +76,19 @@ add_loop_edu_access_d <- function(
 #' @param id_col_loop Column name for the unique identifier in the loop dataset.
 #'
 #' @export
-add_loop_edu_access_to_main <- function(
+add_loop_edu_access_d_to_main <- function(
   main,
   loop,
   ind_access_d = "edu_ind_access_d",
   ind_no_access_d = "edu_ind_no_access_d",
   id_col_main = "uuid",
   id_col_loop = "uuid"){
-  
+
     #------ Checks
 
     # Check if id_cols are in df
-    if_not_in_stop(loop, "ind_access_d", "loop")
-    if_not_in_stop(loop, "ind_no_access_d", "loop")
+    if_not_in_stop(loop, ind_access_d, "loop")
+    if_not_in_stop(loop, ind_no_access_d, "loop")
     if_not_in_stop(main, id_col_main, "main")
     if_not_in_stop(loop, id_col_loop, "loop")
 

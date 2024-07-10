@@ -2,6 +2,7 @@
 % Please edit documentation in R/add_loop_edu_ind_age_corrected.R
 \name{add_loop_edu_ind_age_corrected}
 \alias{add_loop_edu_ind_age_corrected}
+\alias{add_loop_edu_ind_schooling_age_d_to_main}
 \title{Add a correct schooling age to the loop}
 \usage{
 add_loop_edu_ind_age_corrected(
@@ -14,15 +15,23 @@ add_loop_edu_ind_age_corrected(
   ind_age = "ind_age",
   month = NULL
 )
+
+add_loop_edu_ind_schooling_age_d_to_main(
+  main,
+  loop,
+  ind_schooling_age_d = "edu_ind_schooling_age_d",
+  id_col_main = "uuid",
+  id_col_loop = "uuid"
+)
 }
 \arguments{
 \item{loop}{A data frame of individual-level data.}
 
-\item{main}{A data frame of individual-level data.}
+\item{main}{A data frame of household-level data.}
 
-\item{id_col_loop}{Survey unique identifier column name in loop.}
+\item{id_col_loop}{Column name for the unique identifier in the loop dataset.}
 
-\item{id_col_main}{Survey unique identifier column name in main.}
+\item{id_col_main}{Column name for the unique identifier in the main dataset.}
 
 \item{survey_start_date}{Survey start date column name in main.}
 
@@ -31,6 +40,8 @@ add_loop_edu_ind_age_corrected(
 \item{ind_age}{The individual age column.}
 
 \item{month}{If not NULL, an integer between 1 and 12 which will be used as the month of data collection for all households/}
+
+\item{ind_schooling_age_d}{Column name for the dummy variable of the schooling age class.}
 }
 \value{
 2 new columns: "edu_ind_age_corrected" with the corrected individual age, and a dummy variable edu_ind_schooling_age_d

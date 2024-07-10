@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_loop_edu_access_d.R
 \name{add_loop_edu_access_d}
 \alias{add_loop_edu_access_d}
-\alias{add_loop_edu_access_to_main}
+\alias{add_loop_edu_access_d_to_main}
 \title{Add education access dummy}
 \usage{
 add_loop_edu_access_d(
@@ -15,7 +15,7 @@ add_loop_edu_access_d(
   ind_schooling_age_d = "edu_ind_schooling_age_d"
 )
 
-add_loop_edu_access_to_main(
+add_loop_edu_access_d_to_main(
   main,
   loop,
   ind_access_d = "edu_ind_access_d",

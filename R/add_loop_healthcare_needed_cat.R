@@ -39,18 +39,60 @@ add_loop_healthcare_needed_cat <- function(
     # Check that both are of length 4
     if (length(ind_healthcare_needed_levels) != 4 | length(ind_healthcare_received_levels) != 4) rlang::abort("Both levels must be of length 4")
 
+    # Warn if health_ind_healthcare_needed_d exists in loop and will be replaced
+    if ("health_ind_healthcare_needed_d" %in% colnames(loop)) {
+      rlang::warn("health_ind_healthcare_needed_d already exists in loop. It will be replaced.")
+    }
+
+    # Warn if health_ind_healthcare_needed_cat
+    if ("health_ind_healthcare_needed_cat" %in% colnames(loop)) {
+      rlang::warn("health_ind_healthcare_needed_cat already exists in loop. It will be replaced.")
+    }
+
+    # Warn if health_ind_healthcare_needed_no exists in loop and will be replaced
+    if ("health_ind_healthcare_needed_no" %in% colnames(loop)) {
+      rlang::warn("health_ind_healthcare_needed_no already exists in loop. It will be replaced.")
+    }
+
+    # Warn if health_ind_healthcare_needed_yes_unmet exists in loop and will be replaced
+    if ("health_ind_healthcare_needed_yes_unmet" %in% colnames(loop)) {
+      rlang::warn("health_ind_healthcare_needed_yes_unmet already exists in loop. It will be replaced.")
+    }
+
+    # Warn if health_ind_healthcare_needed_yes_met exists in loop and will be replaced
+    if ("health_ind_healthcare_needed_yes_met" %in% colnames(loop)) {
+      rlang::warn("health_ind_healthcare_needed_yes_met already exists in loop. It will be replaced.")
+    }
+
+    # Warn if health_ind_healthcare_needed_no_wgq_dis exists in loop and will be replaced
+    if (!is.null(wgq_dis) & "health_ind_healthcare_needed_no_wgq_dis" %in% colnames(loop)) {
+      rlang::warn("health_ind_healthcare_needed_no_wgq_dis already exists in loop. It will be replaced.")
+    }
+
+    # Warn if health_ind_healthcare_needed_yes_unmet_wgq_dis exists in loop and will be replaced
+    if (!is.null(wgq_dis) & "health_ind_healthcare_needed_yes_unmet_wgq_dis" %in% colnames(loop)) {
+      rlang::warn("health_ind_healthcare_needed_yes_unmet_wgq_dis already exists in loop. It will be replaced.")
+    }
+
+    # Warn if health_ind_healthcare_needed_yes_met_wgq_dis exists in loop and will be replaced
+    if (!is.null(wgq_dis) & "health_ind_healthcare_needed_yes_met_wgq_dis" %in% colnames(loop)) {
+      rlang::warn("health_ind_healthcare_needed_yes_met_wgq_dis already exists in loop. It will be replaced.")
+    }
+
+    #------ Compute
+
     # Calculate dummy variables
     loop <- dplyr::mutate(
       loop,
       health_ind_healthcare_needed_d = dplyr::case_when(
         !!rlang::sym(ind_healthcare_needed) == ind_healthcare_needed_levels[1] ~ 0,
         !!rlang::sym(ind_healthcare_needed) == ind_healthcare_needed_levels[2] ~ 1,
-        !!rlang::sym(ind_healthcare_needed) == ind_healthcare_needed_levels[3:4] ~ NA_real_,
+        !!rlang::sym(ind_healthcare_needed) %in% ind_healthcare_needed_levels[3:4] ~ NA_real_,
         .default = NA_real_),
       health_ind_healthcare_received_d = dplyr::case_when(
         !!rlang::sym(ind_healthcare_received) == ind_healthcare_received_levels[1] ~ 0,
         !!rlang::sym(ind_healthcare_received) == ind_healthcare_received_levels[2] ~ 1,
-        !!rlang::sym(ind_healthcare_received) == ind_healthcare_received_levels[3:4] ~ NA_real_,
+        !!rlang::sym(ind_healthcare_received) %in% ind_healthcare_received_levels[3:4] ~ NA_real_,
         .default = NA_real_)
     )
 
@@ -128,7 +170,7 @@ add_loop_healthcare_needed_cat <- function(
 #' @param id_col_loop The column name for the unique identifier in the loop data frame.
 #'
 #' @export
-add_loop_healthcare_needed_cat_main <- function(
+add_loop_healthcare_needed_cat_to_main <- function(
     main,
     loop,
     ind_healthcare_needed_no = "health_ind_healthcare_needed_no",
@@ -188,33 +230,36 @@ add_loop_healthcare_needed_cat_main <- function(
   loop <- dplyr::group_by(loop, !!rlang::sym(id_col_loop))
 
   # Sum the dummy variable
-  loop <- dplyr::summarize(
+  loop_vars <- dplyr::summarize(
     loop,
     dplyr::across(
-      vars,
-      \(x) sum(x, na.rm = FALSE),
+      dplyr::all_of(vars),
+      \(x) sum(x, na.rm = TRUE),
       .names = "{.col}_n")
     )
 
   # Sum the dis dummy variable (if not null)
   if (!is.null(ind_healthcare_needed_no_wgq_dis)) {
-    loop <- dplyr::summarize(
+    loop_no_wgq_dis <- dplyr::summarize(
       loop,
-      "{new_colname_no_wgq_dis}" := sum(!!rlang::sym(ind_healthcare_needed_no_wgq_dis), na.rm = FALSE)
+      "{new_colname_no_wgq_dis}" := sum(!!rlang::sym(ind_healthcare_needed_no_wgq_dis), na.rm = TRUE)
     )
   }
   if (!is.null(ind_healthcare_needed_yes_unmet_wgq_dis)) {
-    loop <- dplyr::summarize(
+    loop_yes_unmet_wgq_dis <- dplyr::summarize(
       loop,
-      "{new_colname_yes_unmet_wgq_dis}" := sum(!!rlang::sym(ind_healthcare_needed_yes_unmet_wgq_dis), na.rm = FALSE)
+      "{new_colname_yes_unmet_wgq_dis}" := sum(!!rlang::sym(ind_healthcare_needed_yes_unmet_wgq_dis), na.rm = TRUE)
     )
   }
   if (!is.null(ind_healthcare_needed_yes_met_wgq_dis)) {
-    loop <- dplyr::summarize(
+    loop_yes_met_wgq_dis <- dplyr::summarize(
       loop,
-      "{new_colname_yes_met_wgq_dis}" := sum(!!rlang::sym(ind_healthcare_needed_yes_met_wgq_dis), na.rm = FALSE)
+      "{new_colname_yes_met_wgq_dis}" := sum(!!rlang::sym(ind_healthcare_needed_yes_met_wgq_dis), na.rm = TRUE)
     )
   }
+
+  # Bind rows
+  loop <- dplyr::bind_rows(loop_vars, loop_no_wgq_dis, loop_yes_unmet_wgq_dis, loop_yes_met_wgq_dis)
 
   # Remove columns in main that exists in loop, but the grouping ones
   main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
