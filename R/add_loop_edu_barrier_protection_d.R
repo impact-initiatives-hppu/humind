@@ -36,8 +36,7 @@ add_loop_edu_barrier_protection_d <- function(
     # Level 4-5 categories --- dummy for protection and unable_severe
     edu_ind_barrier_protection_d = dplyr::case_when(
       !!rlang::sym(ind_schooling_age_d) == 0 ~ NA_real_,
-      !!rlang::sym(barriers) %in% protection ~ 1,
-      !!rlang::sym(barriers) %in% unable_severe ~ 1,
+      !!rlang::sym(barriers) %in% protection_issues ~ 1,
       .default = 0)
   )
 
