@@ -85,7 +85,7 @@ add_loop_edu_barrier_protection_d_to_main <- function(
   main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
 
   # Join loop to main
-  main <- dplyr::left_join(main, loop, by = c(!!rlang::sym(id_col_main) := !!rlang::sym(id_col_loop)))
+  main <- dplyr::left_join(main, loop, by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop)))
 
   return(main)
 
