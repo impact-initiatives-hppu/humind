@@ -2,7 +2,7 @@
 #' Note:Frequent expenditure = 30-day recall period
 #'
 #' @param df A data frame.
-#' @param cm_expenditure_frequent A character string. The name of the column that contains the frequent expenditures.
+#' @param expenditure_freq A character string. The name of the column that contains the frequent expenditures.
 #' @param undefined A character vector. The values that indicate that the frequent expenditures type was skipped.
 #' @param expenditure_freq_types A character vector. The names of the columns that contain the amount of frequent expenditures types.
 #'
