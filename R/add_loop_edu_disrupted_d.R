@@ -106,10 +106,10 @@ add_loop_edu_disrupted_d_to_main <- function(
   # Check if the variables are in the data frame
   if_not_in_stop(main, id_col_main, "main")
   if_not_in_stop(loop, id_col_loop, "loop")
-  if_not_in_stop(main, c(occupation_d, hazards_d, displaced_d, teacher_d), "main")
+  if_not_in_stop(loop, c(occupation_d, hazards_d, displaced_d, teacher_d), "loop")
 
   # Check if dummies are 0 and 1
-  are_values_in_set(loop, c(occupation_d, hazards_d, displaced_d, teacher_d), 0:1)
+  are_values_in_set(loop, c(occupation_d, hazards_d, displaced_d, teacher_d), 0:1, main_message = "All columns must be binary columns (1s and 0s).")
 
   # Check if new colnames are in main and throw a warning if it is
   occupation_d_n <- paste0(occupation_d, "_n")
