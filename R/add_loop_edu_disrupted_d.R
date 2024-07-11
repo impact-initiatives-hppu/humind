@@ -69,7 +69,7 @@ add_loop_edu_disrupted_d <- function(
         x == levels[1] ~ 1,
         x == levels[2] ~ 0,
         x %in% levels[3:4] ~ NA_real_,
-        TRUE ~ NA_real_
+        .default = NA_real_
       ),
       .names = "{.col}_d"
     )
