@@ -40,6 +40,8 @@ add_loop_edu_barrier_protection_d <- function(
       .default = 0)
   )
 
+  return(loop)
+
 }
 
 #' @rdname add_loop_edu_barrier_protection_d
