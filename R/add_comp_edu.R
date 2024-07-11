@@ -78,6 +78,13 @@ add_comp_edu <- function(
     "comp_edu_in_need"
   )
 
+  # Is in acute need?
+  df <- is_in_acute_need(
+    df,
+    "comp_edu_score",
+    "comp_edu_in_acute_need"
+  )
+
 
 
 }

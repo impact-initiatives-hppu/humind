@@ -68,12 +68,20 @@ add_comp_health <- function(
     )
   }
 
-    # Is in need?
-    df <- is_in_need(
-      df,
-      "comp_health_score",
-      "comp_health_in_need"
-    )
+  # Is in need?
+  df <- is_in_need(
+    df,
+    "comp_health_score",
+    "comp_health_in_need"
+  )
+
+  # Is in acute need?
+  df <- is_in_acute_need(
+    df,
+    "comp_health_score",
+    "comp_health_in_acute_need"
+  )
+
 
   return(df)
 

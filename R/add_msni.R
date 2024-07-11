@@ -30,10 +30,18 @@ add_msni <- function(
 
   #------ Create dummy "in need"
 
+  # Is in need?
   df <- is_in_need(
     df = df,
     score = "msni_score",
     new_colname = "msni_in_need"
+  )
+
+  # Is in acute need?
+  df <- is_in_acute_need(
+    df = df,
+    score = "msni_score",
+    new_colname = "msni_in_acute_need"
   )
 
   return(df)

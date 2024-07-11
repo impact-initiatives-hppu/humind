@@ -150,6 +150,13 @@ add_comp_prot <- function(
       "comp_prot_in_need"
     )
 
+    # Is in acute need?
+    df <- is_in_acute_need(
+      df,
+      "comp_prot_score",
+      "comp_prot_in_acute_need"
+    )
+
     return(df)
 
 }
