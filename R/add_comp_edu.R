@@ -51,7 +51,7 @@ add_comp_edu <- function(
     df,
     comp_edu_score_attendance = dplyr::case_when(
       # No school-aged child
-      !!rlang::sym(schooling_age_n) == 0 ~ 0,
+      !!rlang::sym(schooling_age_n) == 0 ~ 1,
       # Non-attendance and protection barriers
       !!rlang::sym(no_access_n) >= 1 | !!rlang::sym(barrier_protection_n) >= 1 ~ 4,
       # Non attendance only
