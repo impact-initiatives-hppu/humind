@@ -35,7 +35,7 @@ add_comp_edu <- function(
     df,
     comp_edu_score_disrupted = dplyr::case_when(
       # No school-aged child
-      !!rlang::sym(schooling_age_n) == 0 ~ 0,
+      !!rlang::sym(schooling_age_n) == 0 ~ 1,
       # Remaining
       !!rlang::sym(occupation_n) >= 1 ~ 4,
       !!rlang::sym(hazards_n) >= 1 | !!rlang::sym(displaced_n) > 1 ~ 3,
