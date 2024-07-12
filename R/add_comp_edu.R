@@ -42,7 +42,6 @@ add_comp_edu <- function(
       !!rlang::sym(teacher_n) >= 1 ~ 2,
       # All equal to 0
       !!rlang::sym(occupation_n) == 0 & !!rlang::sym(hazards_n) == 0 & !!rlang::sym(displaced_n) == 0 & !!rlang::sym(teacher_n) == 0 ~ 1,
-
       .default = NA_real_
     )
   )
@@ -71,7 +70,7 @@ add_comp_edu <- function(
       na.rm = TRUE
     )
   )
-s
+
   # Is in need?
   df <- is_in_need(
     df,
