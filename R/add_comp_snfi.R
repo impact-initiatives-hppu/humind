@@ -99,12 +99,11 @@ add_comp_snfi <- function(
   )
 
   # Compute total score = max
-  df <- impactR.utils::row_optimum(
+  df <- dplyr::mutate(
     df,
-    !!!rlang::syms(c("comp_snfi_score_shelter_type_cat", "comp_snfi_score_shelter_issue_cat", "comp_snfi_score_occupancy_cat", "comp_snfi_score_fds_cannot_cat")),
-    optimum = "max",
-    max_name = "comp_snfi_score",
-    na_rm = TRUE
+    comp_snfi_score = pmax(
+      !!!rlang::syms(c("comp_snfi_score_shelter_type_cat", "comp_snfi_score_shelter_issue_cat", "comp_snfi_score_occupancy_cat", "comp_snfi_score_fds_cannot_cat")),
+      na.rm = TRUE)
   )
 
   # Is in need?
