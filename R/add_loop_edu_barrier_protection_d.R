@@ -80,7 +80,7 @@ add_loop_edu_barrier_protection_d_to_main <- function(
   # Sum the dummy variable
   loop <- dplyr::summarize(
     loop,
-    "{ind_barrier_protection_d_n}" := sum(!!rlang::sym(ind_barrier_protection_d), na.rm = TRUE)
+    edu_barrier_protection_n := sum(!!rlang::sym(ind_barrier_protection_d), na.rm = TRUE)
   )
 
   # Remove columns in main that exists in loop, but the grouping ones

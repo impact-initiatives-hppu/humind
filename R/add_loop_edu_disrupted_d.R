@@ -112,12 +112,20 @@ add_loop_edu_disrupted_d_to_main <- function(
   are_values_in_set(loop, c(occupation_d, hazards_d, displaced_d, teacher_d), 0:1, main_message = "All columns must be binary columns (1s and 0s).")
 
   # Check if new colnames are in main and throw a warning if it is
-  occupation_d_n <- paste0(occupation_d, "_n")
-  hazards_d_n <- paste0(hazards_d, "_n")
-  displaced_d_n <- paste0(displaced_d, "_n")
-  teacher_d_n <- paste0(teacher_d, "_n")
-  if (occupation_d_n %in% colnames(main)) {
-    rlang::warn(paste0(occupation_d_n, " already exists in main. It will be replaced."))
+  if ("edu_disrupted_occupation_n" %in% colnames(main)) {
+    rlang::warn("edu_disrupted_occupation_n already exists in main. It will be replaced.")
+  }
+
+  if ("edu_disrupted_hazards_n" %in% colnames(main)) {
+    rlang::warn("edu_disrupted_hazards_n already exists in main. It will be replaced.")
+  }
+
+  if ("edu_disrupted_displaced_n" %in% colnames(main)) {
+    rlang::warn("edu_disrupted_displaced_n already exists in main. It will be replaced.")
+  }
+
+  if ("edu_disrupted_teacher_n" %in% colnames(main)) {
+    rlang::warn("edu_disrupted_teacher_n already exists in main. It will be replaced.")
   }
 
   #----- Merge
@@ -128,10 +136,10 @@ add_loop_edu_disrupted_d_to_main <- function(
   # Summarize to paste _n
   loop <- dplyr::summarize(
     loop,
-    "{occupation_d}_n" = sum(!!rlang::sym(occupation_d), na.rm = TRUE),
-    "{hazards_d}_n" = sum(!!rlang::sym(hazards_d), na.rm = TRUE),
-    "{displaced_d}_n" = sum(!!rlang::sym(displaced_d), na.rm = TRUE),
-    "{teacher_d}_n" = sum(!!rlang::sym(teacher_d), na.rm = TRUE)
+    edu_disrupted_occupation_n = sum(!!rlang::sym(occupation_d), na.rm = TRUE),
+    edu_disrupted_hazards_n = sum(!!rlang::sym(hazards_d), na.rm = TRUE),
+    edu_disrupted_displaced_n = sum(!!rlang::sym(displaced_d), na.rm = TRUE),
+    edu_disrupted_teacher_n = sum(!!rlang::sym(teacher_d), na.rm = TRUE)
   )
 
   # Remove columns in main that exists in loop, but the grouping ones

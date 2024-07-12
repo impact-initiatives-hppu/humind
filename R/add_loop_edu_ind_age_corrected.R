@@ -123,7 +123,7 @@ add_loop_edu_ind_schooling_age_d_to_main <- function(
   loop <- dplyr::group_by(loop, !!rlang::sym(id_col_loop))
 
   # Sum the schooling age dummy variable
-  loop <- dplyr::summarise(loop, "{ind_schooling_age_d_n}" = sum(!!rlang::sym(ind_schooling_age_d), na.rm = TRUE))
+  loop <- dplyr::summarise(loop, edu_schooling_age_n = sum(!!rlang::sym(ind_schooling_age_d), na.rm = TRUE))
 
   # Join loop to main
   main <- dplyr::left_join(main, loop, by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop)))
