@@ -54,11 +54,11 @@ add_comp_edu <- function(
       # No school-aged child
       !!rlang::sym(schooling_age_n) == 0 ~ 0,
       # Non-attendance and protection barriers
-      !!rlang::sym(edu_no_access_n) >= 1 | !!rlang::sym(barrier_protection_n) >= 1 ~ 4,
+      !!rlang::sym(no_access_n) >= 1 | !!rlang::sym(barrier_protection_n) >= 1 ~ 4,
       # Non attendance only
-      !!rlang::sym(edu_no_access_n) >= 1 ~ 3,
+      !!rlang::sym(no_access_n) >= 1 ~ 3,
       # All attending
-      !!rlang::sym(edu_no_access_n) == 0 ~ 0,
+      !!rlang::sym(no_access_n) == 0 ~ 0,
       .default = NA_real_
     )
   )
