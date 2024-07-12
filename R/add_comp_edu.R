@@ -85,6 +85,6 @@ add_comp_edu <- function(
     "comp_edu_in_acute_need"
   )
 
-
+  return(df)
 
 }
