@@ -135,12 +135,12 @@ add_comp_prot <- function(
 
     # Get the score for protection
     # Compute total score = max
-    df <- impactR.utils::row_optimum(
+    df <- dplyr::mutate(
       df,
-      !!!rlang::syms(c("comp_prot_child_sep_cat", "comp_prot_score_concern")),
-      optimum = "max",
-      max_name = "comp_prot_score",
-      na_rm = TRUE
+      comp_prot_score = pmax(
+        !!!rlang::syms(c("comp_prot_child_sep_cat", "comp_prot_score_concern")),
+        na.rm = TRUE
+      )
     )
 
     # Is in need?
@@ -148,6 +148,13 @@ add_comp_prot <- function(
       df,
       "comp_prot_score",
       "comp_prot_in_need"
+    )
+
+    # Is in acute need?
+    df <- is_in_acute_need(
+      df,
+      "comp_prot_score",
+      "comp_prot_in_acute_need"
     )
 
     return(df)

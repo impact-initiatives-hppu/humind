@@ -2,9 +2,12 @@
 % Please edit documentation in R/is_in_need.R
 \name{is_in_need}
 \alias{is_in_need}
+\alias{is_in_acute_need}
 \title{Add a dummy variable 'is in need'}
 \usage{
 is_in_need(df, score, new_colname = NULL)
+
+is_in_acute_need(df, score, new_colname = NULL)
 }
 \arguments{
 \item{df}{A dataframe.}
@@ -14,5 +17,5 @@ is_in_need(df, score, new_colname = NULL)
 \item{new_colname}{The name of the new column. If NULL, the function will create a new column with the name 'score_in_need'.}
 }
 \description{
-This function creates a new variable in a dataframe that indicates if a score is above 3, which means: "in need".
+\code{\link[=is_in_need]{is_in_need()}} function adds a new binary variable indicates if a score is above 3, which means: "in need", and \code{\link[=is_in_acute_need]{is_in_acute_need()}} if a score is above 4, which means: "in acute need".
 }

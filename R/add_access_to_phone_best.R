@@ -22,7 +22,6 @@ add_access_to_phone_best <- function(
     basic_phone = "basic_phone",
     dnk = "dnk",
     pnta = "pnta",
-    other = "other",
     sep = "/"
     ){
 
@@ -38,10 +37,9 @@ add_access_to_phone_best <- function(
   access_to_phone_d_none <- paste0(access_to_phone, sep, none)
   access_to_phone_d_dnk <- paste0(access_to_phone, sep, dnk)
   access_to_phone_d_pnta <- paste0(access_to_phone, sep, pnta)
-  access_to_phone_d_other <- paste0(access_to_phone, sep, other)
 
   # All cols
-  access_to_phone_d_vars <- c(access_to_phone_d_smartphone, access_to_phone_d_feature_phone, access_to_phone_d_basic_phone, access_to_phone_d_none, access_to_phone_d_dnk, access_to_phone_d_pnta, access_to_phone_d_other)
+  access_to_phone_d_vars <- c(access_to_phone_d_smartphone, access_to_phone_d_feature_phone, access_to_phone_d_basic_phone, access_to_phone_d_none, access_to_phone_d_dnk, access_to_phone_d_pnta)
 
   # Check if columns are in the dataset
   if_not_in_stop(df, access_to_phone_d_vars, "df")
@@ -54,13 +52,12 @@ add_access_to_phone_best <- function(
   df <- dplyr::mutate(
     df,
     etc_access_to_phone_best = dplyr::case_when(
+      !!rlang::sym(access_to_phone_d_none) == 1 ~ "none",
       !!rlang::sym(access_to_phone_d_smartphone) == 1 ~ "smartphone",
       !!rlang::sym(access_to_phone_d_feature_phone) == 1 ~ "feature_phone",
       !!rlang::sym(access_to_phone_d_basic_phone) == 1 ~ "basic_phone",
-      !!rlang::sym(access_to_phone_d_none) == 1 ~ "none",
       !!rlang::sym(access_to_phone_d_dnk) == 1 ~ "undefined",
       !!rlang::sym(access_to_phone_d_pnta) == 1 ~ "undefined",
-      !!rlang::sym(access_to_phone_d_other) == 1 ~ "undefined",
       .default = NA_character_
     )
     )
@@ -86,11 +83,11 @@ add_access_to_phone_best <- function(
 #' @export
 add_access_to_phone_coverage <- function(
     df,
-    coverage_internet = "etc_coverage_internet",
+    coverage_network_type = "etc_coverage_network_type",
     coverage_none = "no_coverage",
-    coverage_no_internet = c("only_sms", "voice_no_internet"),
-    coverage_yes_internet = "internet",
-    coverage_undefined = c("dnk", "pnta", "other"),
+    coverage_no_internet = c("only_sms", "voice_sms", "only_voice"),
+    coverage_yes_internet = c("voice_sms_internet", "only_internet"),
+    coverage_undefined = c("dnk", "pnta"),
     access_to_phone_best = "etc_access_to_phone_best",
     access_to_phone_none = "none",
     access_to_basic_phone = "basic_phone",
@@ -102,7 +99,7 @@ add_access_to_phone_coverage <- function(
   #------ Checks
 
   # Check if col_coverage_internet and col_access are present in dataframe
-  if_not_in_stop(df, coverage_internet, "df")
+  if_not_in_stop(df, coverage_network_type, "df")
   if_not_in_stop(df, access_to_phone_best, "df")
 
   # Check that coverage_none, and all access_ are of length 1
@@ -114,22 +111,22 @@ add_access_to_phone_coverage <- function(
   if (length(access_to_undefined) != 1) rlang::abort("access_to_undefined must be of length 1")
 
   # Check if all values are in set
-  are_values_in_set(df, coverage_internet, c(coverage_none, coverage_no_internet, coverage_yes_internet, coverage_undefined))
+  are_values_in_set(df, coverage_network_type, c(coverage_none, coverage_no_internet, coverage_yes_internet, coverage_undefined))
   are_values_in_set(df, access_to_phone_best, c(access_to_phone_none, access_to_basic_phone, access_to_feature_phone, access_to_smartphone, access_to_undefined))
 
 df <- dplyr::mutate(
   df,
   etc_access_to_phone_coverage = dplyr::case_when(
     # no_coverage_or_phone
-    !!rlang::sym(coverage_internet) %in% coverage_none | !!rlang::sym(access_to_phone_best) %in% access_to_phone_none ~ "no_coverage_or_no_phone",
+    !!rlang::sym(coverage_network_type) %in% coverage_none | !!rlang::sym(access_to_phone_best) %in% access_to_phone_none ~ "no_coverage_or_no_phone",
     # no_internet_or_basic_phone
-    !!rlang::sym(coverage_internet) %in% coverage_no_internet | !!rlang::sym(access_to_phone_best) %in% c(access_to_basic_phone) ~ "no_internet_or_basic_phone",
+    !!rlang::sym(coverage_network_type) %in% coverage_no_internet | !!rlang::sym(access_to_phone_best) %in% c(access_to_basic_phone) ~ "no_internet_or_basic_phone",
     # internet_feature_phone
-    !!rlang::sym(coverage_internet) %in% coverage_yes_internet & !!rlang::sym(access_to_phone_best) %in% c(access_to_feature_phone) ~ "internet_feature_phone",
+    !!rlang::sym(coverage_network_type) %in% coverage_yes_internet & !!rlang::sym(access_to_phone_best) %in% c(access_to_feature_phone) ~ "internet_feature_phone",
     # internet_smartphone
-    !!rlang::sym(coverage_internet) %in% coverage_yes_internet & !!rlang::sym(access_to_phone_best) %in% c(access_to_smartphone) ~ "internet_smartphone",
+    !!rlang::sym(coverage_network_type) %in% coverage_yes_internet & !!rlang::sym(access_to_phone_best) %in% c(access_to_smartphone) ~ "internet_smartphone",
     # undefined
-    (!!rlang::sym(coverage_internet) %in% c(coverage_undefined)) | (!!rlang::sym(access_to_phone_best) %in% c(access_to_undefined)) ~ "undefined",
+    (!!rlang::sym(coverage_network_type) %in% c(coverage_undefined)) | (!!rlang::sym(access_to_phone_best) %in% c(access_to_undefined)) ~ "undefined",
       .default = NA_character_)
   )
 

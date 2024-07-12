@@ -1,4 +1,4 @@
-set.seed(123446)
+set.seed(123476)
 
 library(tidyverse)
 
@@ -744,7 +744,7 @@ pacman::p_load(tidyverse, readxl, writexl, openxlsx, randomcoloR, sf, anytime, D
 # num <- as.numeric(svDialogs::dlg_input(message = "Please enter the number of submission to create the dummy data (only real number)")$res)
 num <- 400
 # tool_path <- choose.files("data-raw/REACH_2024_MSNA-kobo-tool_draft_v8.xlsx", caption ="Please select the tool to create the dummy data.", multi = F)
-data <- xlsform_fill_loop("data-raw/REACH_2024_MSNA-kobo-tool_draft_v10.xlsx", n = num)
+data <- xlsform_fill_loop("data-raw/REACH_2024_MSNA-kobo-tool_draft_v11.xlsx", n = num)
 
 # Sensitive data removed write excel
 sheetsbinded <- list("main" = data$main,
@@ -760,7 +760,6 @@ sheetsbinded <- lapply(sheetsbinded, function(x) x |> mutate(across(where(~ is.f
 sheetsbinded$edu_ind$edu_person_id <- sheetsbinded$edu_ind$person_id
 sheetsbinded$health_ind$health_person_id <- sheetsbinded$health_ind$person_id
 sheetsbinded$nut_ind$nut_person_id <- sheetsbinded$nut_ind$person_id
-
 
 
 # Add weights ------------------------------------------------------------
@@ -786,6 +785,13 @@ sheetsbinded$main <- add_weights(
   "pop",
   "weight"
 )
+
+# Remove no conset
+sheetsbinded$main <- sheetsbinded$main |> filter(consent == "yes")
+sheetsbinded$roster <- sheetsbinded$roster |> filter(uuid %in% sheetsbinded$main$uuid)
+sheetsbinded$edu_ind <- sheetsbinded$edu_ind |> filter(uuid %in% sheetsbinded$main$uuid)
+sheetsbinded$health_ind <- sheetsbinded$health_ind |> filter(uuid %in% sheetsbinded$main$uuid)
+sheetsbinded$nut_ind <- sheetsbinded$nut_ind |> filter(uuid %in% sheetsbinded$main$uuid)
 
 # Save objects -----------------------------------------------------------
 

@@ -2,7 +2,7 @@
 #' Note: Infrequent expenditure = 6-month recall period
 #'
 #' @param df A data frame.
-#' @param cm_expenditure_infrequent A character string. The name of the column that contains the infrequent expenditures.
+#' @param expenditure_infreq A character string. The name of the column that contains the infrequent expenditures.
 #' @param undefined A character vector. The values that indicate that the infrequent expenditures type was skipped.
 #' @param expenditure_infreq_types A character vector. The names of the columns that contain the amount of infrequent expenditures types.
 #'
