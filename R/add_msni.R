@@ -28,7 +28,7 @@ add_msni <- function(
   # Check that variables are in df, if they are not, throw a warning for the ones missing or stop if all are missing
   comp_scores_lgl <- comp_scores %in% df
   comp_scores_nin <- comp_scores[!comp_scores_lgl]
-  comp_scores <- comp_scores[comp_in_df]
+  comp_scores <- comp_scores[comp_scores_lgl]
   # all missing
   if (all(!comp_scores_lgl)) {
     rlang::abort(paste("There are none of the sectoral composites variables. Are you sure you specified the names correctly or you have run the necessary functions to add them?"))
@@ -37,9 +37,6 @@ add_msni <- function(
   if (any(!comp_scores_lgl)) {
     rlang::warn(paste("The following variables are not in the data frame and the calculation will be run without them:", paste(comp_scores_nin, collapse = ", ")))
   }
-
-  # Keep only existing ones
-  comp_scores <- comp_scores[comp_in_df]
 
   # If length
 
