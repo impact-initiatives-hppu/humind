@@ -33,19 +33,20 @@ add_handwashing_facility_cat <- function(
 ){
 
   # Option 1: Process for In-person modality
-  df_in_person <- dplyr::filter(df, !!rlang::sym(survey_modality) %in% survey_modality_in_person & !!rlang::sym(facility) %in% facility_options1) 
+  df_in_person <- dplyr::filter(df, !!rlang::sym(survey_modality) %in% survey_modality_in_person & !!rlang::sym(facility) %in% facility_options1)
   df_in_person <- dplyr::mutate(
+    df_in_person,
     wash_handwashing_facility_yn = dplyr::case_when(
-      !!rlang::sym(facility_var) == facility_options1[1] ~ 1,
-      !!rlang::sym(facility_var) == facility_options1[2] ~ 0,
+      !!rlang::sym(facility) == facility_options1[1] ~ 1,
+      !!rlang::sym(facility) == facility_options1[2] ~ 0,
       .default = NA_real_
     ),
     wash_soap_yn = dplyr::case_when(
-      !!rlang::sym(observed_soap) == soap_options[1] ~ 1,
-      !!rlang::sym(observed_soap) %in% soap_options[-1] ~ 0,
+      !!rlang::sym(observed_soap) == observed_soap_options[1] ~ 1,
+      !!rlang::sym(observed_soap) %in% observed_soap_options[-1] ~ 0,
       .default = NA_real_
     ),
-    handwashing_facility_jmp_cat = dplyr::case_when(
+    wash_handwashing_facility_jmp_cat = dplyr::case_when(
       wash_handwashing_facility_yn == 1 & wash_soap_yn == 1 & !!rlang::sym(observed_water) == observed_water_options[1] ~ "basic",
       wash_handwashing_facility_yn == 1 & (wash_soap_yn == 0 | !!rlang::sym(observed_water) == observed_water_options[2]) ~ "limited",
       wash_handwashing_facility_yn == 1 & wash_soap_yn == 1 & !!rlang::sym(observed_water) == observed_water_options[2] ~ "limited",
@@ -64,11 +65,11 @@ add_handwashing_facility_cat <- function(
       .default = NA_real_
     ),
     wash_soap_yn = dplyr::case_when(
-      !!rlang::sym(observed_soap) == soap_options[1] ~ 1,
-      !!rlang::sym(observed_soap) %in% soap_options[-1] ~ 0,
+      !!rlang::sym(observed_soap) == observed_soap_options[1] ~ 1,
+      !!rlang::sym(observed_soap) %in% observed_soap_options[-1] ~ 0,
       .default = NA_real_
     ),
-    handwashing_facility_jmp_cat = dplyr::case_when(
+    wash_handwashing_facility_jmp_cat = dplyr::case_when(
       wash_handwashing_facility_yn == 1 & wash_soap_yn == 1 ~ "basic",
       wash_handwashing_facility_yn == 1 & wash_soap_yn == 0 ~ "limited",
       wash_handwashing_facility_yn == 0 ~ "no_facility",
