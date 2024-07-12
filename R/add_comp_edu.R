@@ -2,12 +2,12 @@
 #'
 #' @param df A data frame.
 #' @param schooling_age_n Column name for the number of children of schooling age.
-#' @param ind_no_access_d_n Column name for the number of children with no access to education.
+#' @param no_access_n Column name for the number of children with no access to education.
 #' @param barrier_protection_n Column name for the number of children with barriers to protection.
-#' @param occupation_d_n Column name for the number of children with disrupted education due to the school being occupied by armed groups
-#' @param hazards_d_n Column name for the number of children with disrupted education due to hazards.
-#' @param displaced_d_n Column name for the number of children with disrupted education due to a recent displacement.
-#' @param teacher_d_n Column name for the number of children with disrupted education due to teachers' absence.
+#' @param occupation_n Column name for the number of children with disrupted education due to the school being occupied by armed groups
+#' @param hazards_n Column name for the number of children with disrupted education due to hazards.
+#' @param displaced_n Column name for the number of children with disrupted education due to a recent displacement.
+#' @param teacher_n Column name for the number of children with disrupted education due to teachers' absence.
 #'
 #' @export
 add_comp_edu <- function(
@@ -41,7 +41,7 @@ add_comp_edu <- function(
       !!rlang::sym(hazards_n) >= 1 | !!rlang::sym(displaced_n) > 1 ~ 3,
       !!rlang::sym(teacher_n) >= 1 ~ 2,
       # All equal to 0
-      !!rlang::sym(occupation_d_n) == 0 & !!rlang::sym(hazards_n) == 0 & !!rlang::sym(displaced_n) == 0 & !!rlang::sym(teacher_n) == 0 ~ 1,
+      !!rlang::sym(occupation_n) == 0 & !!rlang::sym(hazards_n) == 0 & !!rlang::sym(displaced_n) == 0 & !!rlang::sym(teacher_n) == 0 ~ 1,
 
       .default = NA_real_
     )
