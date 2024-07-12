@@ -11,17 +11,17 @@ add_comp_wash(
   drinking_water_quantity = "wash_drinking_water_quantity",
   drinking_water_quantity_levels = c("always", "often", "sometimes", "rarely", "never",
     "dnk", "pnta"),
-  drinking_water_quality_jmp_cat = "wash_drinking_water_jmp_cat",
+  drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat",
   drinking_water_quality_jmp_cat_levels = c("surface_water", "unimproved", "limited",
     "basic", "safely_managed", "undefined"),
   sanitation_facility_jmp_cat = "wash_sanitation_facility_jmp_cat",
   sanitation_facility_jmp_cat_levels = c("open_defecation", "unimproved", "limited",
     "basic", "safely_managed", "undefined"),
-  sanitation_faciliy_cat = "wash_sanitation_facility_cat",
-  sanitation_faciliy_cat_levels = c("none", "unimproved", "improved", "undefined"),
+  sanitation_facility_cat = "wash_sanitation_facility_cat",
+  sanitation_facility_cat_levels = c("none", "unimproved", "improved", "undefined"),
   sanitation_facility_n_ind = "wash_sharing_sanitation_facility_n_ind",
   sanitation_facility_n_ind_levels = c("50_and_above", "20_to_49", "19_and_below"),
-  handwashing_facility_jmp_cat = "wash_sanitation_facility_jmp_cat",
+  handwashing_facility_jmp_cat = "wash_handwashing_facility_jmp_cat",
   handwashing_facility_jmp_cat_levels = c("no_facility", "limited", "basic", "undefined")
 )
 }
@@ -44,9 +44,9 @@ add_comp_wash(
 
 \item{sanitation_facility_jmp_cat_levels}{Levels for sanitation facility JMP category.}
 
-\item{sanitation_faciliy_cat}{Column name for sanitation facility category.}
+\item{sanitation_facility_cat}{Column name for sanitation facility category.}
 
-\item{sanitation_faciliy_cat_levels}{Levels for sanitation facility category.}
+\item{sanitation_facility_cat_levels}{Levels for sanitation facility category.}
 
 \item{sanitation_facility_n_ind}{Column name for number of individuals sharing a sanitation facility.}
 
