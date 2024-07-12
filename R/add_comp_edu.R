@@ -57,7 +57,7 @@ add_comp_edu <- function(
       # Non attendance only
       !!rlang::sym(no_access_n) >= 1 ~ 3,
       # All attending
-      !!rlang::sym(no_access_n) == 0 ~ 0,
+      !!rlang::sym(no_access_n) == 0 ~ 1,
       .default = NA_real_
     )
   )
