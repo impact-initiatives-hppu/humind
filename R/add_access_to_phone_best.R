@@ -9,7 +9,6 @@
 #' @param basic_phone The value for basic phone.
 #' @param dnk The value for do not know.
 #' @param pnta The value for prefer not to answer.
-#' @param other The value for other.
 #' @param sep Separator for the binary columns.
 #'
 #' @export
@@ -67,7 +66,7 @@ add_access_to_phone_best <- function(
 
 #' @rdname add_access_to_phone_best
 #'
-#' @param coverage_internet Network coverage column.
+#' @param coverage_network_type Network coverage column.
 #' @param coverage_none Value for no coverage.
 #' @param coverage_no_internet Vector of values for no internet.
 #' @param coverage_yes_internet Value for yes internet.
