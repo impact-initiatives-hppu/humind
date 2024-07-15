@@ -8,6 +8,7 @@
 #' @param facility_yes Response code for yes.
 #' @param facility_no Response code for no.
 #' @param facility_no_permission Response code for no permission.
+#' @param facility_undefined Response code for undefined.
 #' @param facility_reported Column name for the reported handwashing facility - e.g., "wash_handwashing_facility_reported".
 #' @param facility_reported_yes Response code for yes.
 #' @param facility_reported_no Response code for no.
