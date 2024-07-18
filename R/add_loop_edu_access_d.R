@@ -114,8 +114,8 @@ add_loop_edu_access_d_to_main <- function(
     # Sum the dummy variable
     loop <- dplyr::summarize(
       loop,
-      edu_access_n := sum(!!rlang::sym(ind_access_d), na.rm = TRUE),
-      edu_no_access_n := sum(!!rlang::sym(ind_no_access_d), na.rm = TRUE)
+      "edu_access_n" := sum(!!rlang::sym(ind_access_d), na.rm = TRUE),
+      "edu_no_access_n" := sum(!!rlang::sym(ind_no_access_d), na.rm = TRUE)
     )
 
     # Remove columns in main that exists in loop, but the grouping ones
