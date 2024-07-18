@@ -6,31 +6,31 @@
 \usage{
 add_comp_edu(
   df,
-  ind_schooling_age_d_n = "edu_ind_schooling_age_d_n",
-  ind_no_access_d_n = "edu_ind_no_access_d_n",
-  ind_barrier_protection_d_n = "ind_barrier_protection_d_n",
-  occupation_d_n = "edu_disrupted_occupation_d_n",
-  hazards_d_n = "edu_disrupted_hazards_d_n",
-  displaced_d_n = "edu_disrupted_displaced_d_n",
-  teacher_d_n = "edu_disrupted_teacher_d_n"
+  schooling_age_n = "edu_schooling_age_n",
+  no_access_n = "edu_no_access_n",
+  barrier_protection_n = "edu_barrier_protection_n",
+  occupation_n = "edu_disrupted_occupation_n",
+  hazards_n = "edu_disrupted_hazards_n",
+  displaced_n = "edu_disrupted_displaced_n",
+  teacher_n = "edu_disrupted_teacher_n"
 )
 }
 \arguments{
 \item{df}{A data frame.}
 
-\item{ind_schooling_age_d_n}{Column name for the number of children of schooling age.}
+\item{schooling_age_n}{Column name for the number of children of schooling age.}
 
-\item{ind_no_access_d_n}{Column name for the number of children with no access to education.}
+\item{no_access_n}{Column name for the number of children with no access to education.}
 
-\item{ind_barrier_protection_d_n}{Column name for the number of children with barriers to protection.}
+\item{barrier_protection_n}{Column name for the number of children with barriers to protection.}
 
-\item{occupation_d_n}{Column name for the number of children with disrupted education due to the school being occupied by armed groups}
+\item{occupation_n}{Column name for the number of children with disrupted education due to the school being occupied by armed groups}
 
-\item{hazards_d_n}{Column name for the number of children with disrupted education due to hazards.}
+\item{hazards_n}{Column name for the number of children with disrupted education due to hazards.}
 
-\item{displaced_d_n}{Column name for the number of children with disrupted education due to a recent displacement.}
+\item{displaced_n}{Column name for the number of children with disrupted education due to a recent displacement.}
 
-\item{teacher_d_n}{Column name for the number of children with disrupted education due to teachers' absence.}
+\item{teacher_n}{Column name for the number of children with disrupted education due to teachers' absence.}
 }
 \description{
 Education sectoral composite - add score and dummy for in need
