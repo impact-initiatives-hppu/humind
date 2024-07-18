@@ -32,29 +32,50 @@ add_handwashing_facility_cat <- function(
   facility_no = "none",
   facility_no_permission = "no_permission",
   facility_undefined = "other",
+  facility_observed_water = "wash_handwashing_facility_observed_water",
+  facility_observed_water_yes = "water_available",
+  facility_observed_water_no = "water_not_available",
+  facility_observed_soap = "wash_handwashing_facility_observed_soap",
+  facility_observed_soap_yes = "soap_available",
+  facility_observed_soap_no = "soap_not_available",
+  facility_observed_soap_alternative = "alternative_available",
   facility_reported = "wash_handwashing_facility_reported",
   facility_reported_yes = c("fixed_dwelling", "fixed_yard", "mobile"),
   facility_reported_no = c("none"),
   facility_reported_undefined = c("other", "dnk", "pnta"),
-  observed_soap = "wash_handwashing_facility_observed_soap",
-  observed_soap_yes = "soap_available",
-  observed_soap_no = "soap_not_available",
-  observed_soap_alternative = "alternative_available",
-  observed_water = "wash_handwashing_facility_observed_water",
-  observed_water_yes = "water_available",
-  observed_water_no = "water_not_available"){
+  facility_reported_no_permission_soap = "wash_soap_observed",
+  facility_reported_no_permission_soap_yes = c("yes_soap_shown", "yes_soap_not_shown"),
+  facility_reported_no_permission_soap_no = "no",
+  facility_reported_no_permission_soap_undefined = c("dnk", "pnta"),
+  facility_reported_no_permission_soap_type = "wash_soap_observed_type",
+  facility_reported_no_permission_soap_type_yes = c("soap", "detergent"),
+  facility_reported_no_permission_soap_type_no = "ash_mud_sand",
+  facility_reported_no_permission_soap_type_undefined = c("other", "dnk", "pnta"),
+  facility_reported_remote_soap = "wash_soap_reported",
+  facility_reported_remote_soap_yes = "yes",
+  facility_reported_remote_soap_no = "no",
+  facility_reported_remote_soap_undefined = c("dnk", "pnta"),
+  facility_reported_remote_soap_type = "wash_soap_reported_type",
+  facility_reported_remote_soap_type_yes = c("soap", "detergent"),
+  facility_reported_remote_soap_type_no = c("ash_mud_sand"),
+  facility_reported_remote_soap_type_undefined = c("other", "dnk", "pnta")
+    ){
 
   #------ Checks
 
   # Check that variables are in df
-  if_not_in_stop(df, c(survey_modality, facility, facility_reported, observed_soap, observed_water), "df")
+  if_not_in_stop(df, c(survey_modality, facility, facility_observed_water, facility_observed_soap, facility_reported, facility_reported_no_permission_soap, facility_reported_no_permission_soap_type, facility_reported_remote_soap, facility_reported_remote_soap_type), "df")
 
-  # Checks that values are in set 
+  # Checks that values are in set
   are_values_in_set(df, survey_modality, c(survey_modality_in_person, survey_modality_remote))
   are_values_in_set(df, facility, c(facility_yes, facility_no, facility_no_permission, facility_undefined))
+  are_values_in_set(df, facility_observed_water, c(facility_observed_water_yes, facility_observed_water_no))
+  are_values_in_set(df, facility_observed_soap, c(facility_observed_soap_yes, facility_observed_soap_no, facility_observed_soap_alternative))
   are_values_in_set(df, facility_reported, c(facility_reported_yes, facility_reported_no, facility_reported_undefined))
-  are_values_in_set(df, observed_soap, c(observed_soap_yes, observed_soap_no, observed_soap_alternative))
-  are_values_in_set(df, observed_water, c(observed_water_yes, observed_water_no))
+  are_values_in_set(df, facility_reported_no_permission_soap, c(facility_reported_no_permission_soap_yes, facility_reported_no_permission_soap_no, facility_reported_no_permission_soap_undefined))
+  are_values_in_set(df, facility_reported_no_permission_soap_type, c(facility_reported_no_permission_soap_type_yes, facility_reported_no_permission_soap_type_no, facility_reported_no_permission_soap_type_undefined))
+  are_values_in_set(df, facility_reported_remote_soap, c(facility_reported_remote_soap_yes, facility_reported_remote_soap_no, facility_reported_remote_soap_undefined))
+  are_values_in_set(df, facility_reported_remote_soap_type, c(facility_reported_remote_soap_type_yes, facility_reported_remote_soap_type_no, facility_reported_remote_soap_type_undefined))
 
   # Check lengths
   # - length 1 of facility_yes
@@ -73,57 +94,39 @@ add_handwashing_facility_cat <- function(
   if (length(facility_undefined) != 1) {
     rlang::abort("facility_undefined should be of length 1.")
   }
+  # - length 1 of observed_soap_yes
+  if (length(observed_soap_yes) != 1) {
+    rlang::abort("observed_soap_yes should be of length 1.")
+  }
 
-
-
-  #------ Recode option 1: Process for In-person modality with permission to see
-
-  df_in_person <- dplyr::filter(df, !!rlang::sym(survey_modality) %in% survey_modality_in_person & !!rlang::sym(facility) %in% facility_yes)
-  df_in_person <- dplyr::mutate(
-    df_in_person,
-    wash_handwashing_facility_yn = dplyr::case_when(
-      !!rlang::sym(facility) == facility_yes ~ 1,
-      !!rlang::sym(facility) == facility_no ~ 0,
-      .default = NA_real_
-    ),
-    wash_soap_yn = dplyr::case_when(
-      !!rlang::sym(observed_soap) == observed_soap_yes ~ 1,
-      !!rlang::sym(observed_soap) %in% c(observed_soap_no, observed_soap_alternative) ~ 0,
-      .default = NA_real_
-    ),
+  df <- dplyr::mutate(
+    df,
     wash_handwashing_facility_jmp_cat = dplyr::case_when(
-      wash_handwashing_facility_yn == 1 & wash_soap_yn == 1 & !!rlang::sym(observed_water) == observed_water_yes ~ "basic",
-      wash_handwashing_facility_yn == 1 & (wash_soap_yn == 0 | !!rlang::sym(observed_water) == observed_water_no) ~ "limited",
-      wash_handwashing_facility_yn == 1 & wash_soap_yn == 1 & !!rlang::sym(observed_water) == observed_water_no ~ "limited",
-      wash_handwashing_facility_yn == 1 & wash_soap_yn == 0 & !!rlang::sym(observed_water) == observed_water_yes ~ "limited",
-      wash_handwashing_facility_yn == 0 ~ "no_facility",
-      .default = NA_character_
-    ))
-
-  # Option 2: Process for Remote modality or No permission to see
-  df_remote <-dplyr::filter(df, !!rlang::sym(survey_modality) %in% survey_modality_remote | !!rlang::sym(facility) %in% facility_no_permission)
-  df_remote <- dplyr::mutate(
-    df_remote,
-    wash_handwashing_facility_yn = dplyr::case_when(
-      !!rlang::sym(facility_reported) %in% facility_reported_yes ~ 1,
-      !!rlang::sym(facility_reported)  %in% facility_reported_no ~ 0,
-      .default = NA_real_
+      # Option 1: Process for In-person modality with permission to see
+      !!rlang::sym(survey_modality) %in% survey_modality_in_person & !(!!rlang::sym(facility) %in% facility_no_permission) ~ dplyr::case_when(
+          # Undefined 
+          !!rlang::sym(facility) == facility_undefined ~ "undefined",
+          # No facility, then "no_facility"
+          !!rlang::sym(facility) == facility_no ~ "no_facility",
+          # Soap and water are available, then "basic"
+          !!rlang::sym(facility) == facility_yes & !!rlang::sym(observed_water) == observed_water_yes & !!rlang::sym(observed_soap) == observed_soap_yes ~ "basic",
+          # Soap or water is not available, then "limited"
+          !!rlang::sym(facility) == facility_yes & !!rlang::sym(observed_water) == c(observed_water_no) | !!rlang::sym(observed_soap) %in% c(observed_soap_no, observed_soap_alternative) ~ "limited"
     ),
-    wash_soap_yn = dplyr::case_when(
-      !!rlang::sym(observed_soap) == observed_soap_yes ~ 1,
-      !!rlang::sym(observed_soap) %in% c(observed_soap_no, observed_soap_alternative) ~ 0,
-      .default = NA_real_
+      # If remote facility reported is "none", then "no_facility"
+    (!!rlang::sym(survey_modality) %in% survey_modality_remote) |  (!!rlang::sym(survey_modality) %in% survey_modality_in_person & !!rlang::sym(facility) %in% facility_no_permission) ~
+      dplyr::case_when(
+        # facility reported is "none", then "no_facility"
+        !!rlang::sym(facility_reported) %in% facility_reported_none ~ "no_facility",
+        # facility reported is undefined, then "undefined"
+        !!rlang::sym(facility_reported) %in% facility_reported_undefined ~ "undefined",
+        # facility reported is yes, then "limited"
+        !!rlang::sym(facility_reported) %in% facility_reported_yes ~ "limited"
+      )
     ),
-    wash_handwashing_facility_jmp_cat = dplyr::case_when(
-      wash_handwashing_facility_yn == 1 & wash_soap_yn == 1 ~ "basic",
-      wash_handwashing_facility_yn == 1 & wash_soap_yn == 0 ~ "limited",
-      wash_handwashing_facility_yn == 0 ~ "no_facility",
-      .default = NA_character_
-    )
+    .default = NA_character_
   )
 
-  # Combine both processed data frames
-  df <- dplyr::bind_rows(df_in_person, df_remote)
 
   return(df)
 }
