@@ -1,82 +1,106 @@
 library(testthat)
 library(dplyr)
 
-# Dummy data for testing
-dummy_data <- data.frame(
-  uuid = 1:6,
-  survey_modality = c("in_person", "in_person", "remote", "remote", "in_person", "remote"),
-  wash_handwashing_facility = c("available", "none", "no_permission", "available", "available", "no_permission"),
-  wash_handwashing_facility_reported = c(NA, NA, "fixed_dwelling", "fixed_yard", NA, "none"),
-  wash_handwashing_facility_observed_soap = c("soap_available", "soap_not_available", NA, "alternative_available", "soap_available", NA),
-  wash_handwashing_facility_observed_water = c("water_available", "water_not_available", NA, "water_available", "water_available", NA)
-)
+# Helper function to create a test data frame
+create_test_df <- function() {
+  data.frame(
+    survey_modality = c("in_person", "remote", "in_person", "in_person", "in_person", "remote"),
+    wash_handwashing_facility = c("available", "no_permission", "none", "other", "available", "no_permission"),
+    wash_handwashing_facility_observed_water = c("water_available", NA, NA, NA, "water_not_available", NA),
+    wash_handwashing_facility_observed_soap = c("soap_available", NA, NA, NA, "soap_not_available", NA),
+    wash_handwashing_facility_reported = c(NA, "fixed_dwelling", NA, NA, NA, "none"),
+    wash_soap_observed = c(NA, "yes_soap_shown", NA, NA, NA, "no"),
+    wash_soap_observed_type = c(NA, "soap", NA, NA, NA, "ash_mud_sand"),
+    wash_soap_reported = c(NA, NA, NA, NA, NA, "no"),
+    wash_soap_reported_type = c(NA, NA, NA, NA, NA, "ash_mud_sand")
+  )
+}
 
-# 1. Test the function with default parameters for in-person surveys
-test_that("add_handwashing_facility_cat function works with default parameters for in-person surveys", {
-  result <- add_handwashing_facility_cat(dummy_data)
-  expect_true(all(c("wash_handwashing_facility_yn", "wash_soap_yn", "wash_handwashing_facility_jmp_cat") %in% colnames(result)))
-  expect_equal(result$wash_handwashing_facility_yn[1], 1)
-  expect_equal(result$wash_handwashing_facility_yn[2], 0)
-  expect_equal(result$wash_soap_yn[1], 1)
-  expect_equal(result$wash_soap_yn[2], 0)
-  expect_equal(result$wash_handwashing_facility_jmp_cat[1], "basic")
-  expect_equal(result$wash_handwashing_facility_jmp_cat[2], "no_facility")
+# Test the function with default parameters using a dummy data
+test_that("Function works with default parameters and dummy data", {
+  df <- create_test_df()
+  result <- add_handwashing_facility_cat(df)
+
+  expect_equal(nrow(result), 6)
+  expect_true("wash_handwashing_facility_jmp_cat" %in% colnames(result))
 })
 
-# 2. Test the function with default parameters for remote surveys
-test_that("add_handwashing_facility_cat function works with default parameters for remote surveys", {
-  result <- add_handwashing_facility_cat(dummy_data)
-  expect_equal(result$wash_handwashing_facility_yn[3], 1)
-  expect_equal(result$wash_handwashing_facility_yn[4], 1)
-  expect_equal(result$wash_handwashing_facility_yn[6], 0)
-  expect_equal(result$wash_soap_yn[4], 0)
-  expect_equal(result$wash_handwashing_facility_jmp_cat[4], "limited")
-  expect_equal(result$wash_handwashing_facility_jmp_cat[6], "no_facility")
+# Test the function handling all values as undefined category
+test_that("Function handles all values as undefined category", {
+  df <-   data.frame(
+    survey_modality = c("in_person", "remote", "in_person", "in_person", "in_person", "remote"),
+    wash_handwashing_facility = c("other", "other", "other", "other", "other", "other"),
+    wash_handwashing_facility_observed_water = c("water_available", NA, NA, NA, "water_not_available", NA),
+    wash_handwashing_facility_observed_soap = c("soap_available", NA, NA, NA, "soap_not_available", NA),
+    wash_handwashing_facility_reported = c("other", "other", "other", "other", "other", "other"),
+    wash_soap_observed = c(NA, "yes_soap_shown", NA, NA, NA, "no"),
+    wash_soap_observed_type = c(NA, "soap", NA, NA, NA, "ash_mud_sand"),
+    wash_soap_reported = c(NA, NA, NA, NA, NA, "no"),
+    wash_soap_reported_type = c(NA, NA, NA, NA, NA, "ash_mud_sand")
+  )
+  result <- add_handwashing_facility_cat(df)
+
+  expect_equal(result$wash_handwashing_facility_jmp_cat, rep("undefined", 6))
 })
 
-# 3. Test handling of missing columns
-missing_column_data <- dummy_data %>% select(-wash_handwashing_facility)
+# Test with sample data containing NA values
+test_that("Function handles NA values correctly", {
+  df <- create_test_df()
+  result <- add_handwashing_facility_cat(df)
 
-test_that("add_handwashing_facility_cat function handles missing columns", {
-  expect_error(add_handwashing_facility_cat(missing_column_data))
+  expect_equal(result$wash_handwashing_facility_jmp_cat, c("basic", "limited", "no_facility", "undefined", "limited", "no_facility"))
 })
 
-# 4. Test correct categorization of handwashing facility status
-test_that("add_handwashing_facility_cat function categorizes handwashing facility status correctly", {
-  result <- add_handwashing_facility_cat(dummy_data)
-  expect_equal(result$wash_handwashing_facility_jmp_cat[5], "basic")
+# Test missing values or columns
+test_that("Function handles missing values or columns", {
+  df <- create_test_df() %>%
+    select(-wash_handwashing_facility_observed_water)
+
+  expect_error(add_handwashing_facility_cat(df))
 })
 
-# 5. Test edge cases for facility options and reported facility options
-edge_case_data <- data.frame(
-  uuid = 7:10,
-  survey_modality = c("in_person", "remote", "in_person", "remote"),
-  wash_handwashing_facility = c("available", "no_permission", "none", "no_permission"),
-  wash_handwashing_facility_reported = c(NA, "fixed_dwelling", NA, "none"),
-  wash_handwashing_facility_observed_soap = c("soap_available", NA, "soap_not_available", NA),
-  wash_handwashing_facility_observed_water = c("water_not_available", NA, "water_available", NA)
-)
+# Test function with modified parameters
+test_that("Function works with modified parameters", {
+  df <- create_test_df()
+  result <- add_handwashing_facility_cat(df, survey_modality = "survey_modality", facility = "wash_handwashing_facility", facility_yes = "available")
 
-test_that("add_handwashing_facility_cat function handles edge cases for facility options and reported facility options", {
-  result <- add_handwashing_facility_cat(edge_case_data)
-  expect_equal(result$wash_handwashing_facility_jmp_cat[1], "limited")
-  expect_equal(result$wash_handwashing_facility_jmp_cat[2], "basic")
-  expect_equal(result$wash_handwashing_facility_jmp_cat[3], "no_facility")
-  expect_equal(result$wash_handwashing_facility_jmp_cat[4], "no_facility")
+  expect_equal(result$wash_handwashing_facility_jmp_cat, c("basic", "limited", "no_facility", "undefined", "limited", "no_facility"))
 })
 
-# 6. Test correct handling of alternative soap availability
-alternative_soap_data <- data.frame(
-  uuid = 11:12,
-  survey_modality = c("in_person", "remote"),
-  wash_handwashing_facility = c("available", "no_permission"),
-  wash_handwashing_facility_reported = c(NA, "fixed_dwelling"),
-  wash_handwashing_facility_observed_soap = c("alternative_available", NA),
-  wash_handwashing_facility_observed_water = c("water_available", NA)
-)
+# Test all possible categories
+test_that("Function correctly assigns categories for all scenarios", {
+  df <- data.frame(
+    survey_modality = c("in_person", "in_person", "in_person", "in_person", "remote", "remote"),
+    wash_handwashing_facility = c("available", "available", "none", "other", "no_permission", "no_permission"),
+    wash_handwashing_facility_observed_water = c("water_available", "water_not_available", NA, NA, NA, NA),
+    wash_handwashing_facility_observed_soap = c("soap_available", "soap_not_available", NA, NA, NA, NA),
+    wash_handwashing_facility_reported = c(NA, NA, NA, NA, "fixed_dwelling", "none"),
+    wash_soap_observed = c(NA, NA, NA, NA, "yes_soap_shown", "no"),
+    wash_soap_observed_type = c(NA, NA, NA, NA, "soap", "ash_mud_sand"),
+    wash_soap_reported = c(NA, NA, NA, NA, "yes", "no"),
+    wash_soap_reported_type = c(NA, NA, NA, NA, "soap", "ash_mud_sand")
+  )
 
-test_that("add_handwashing_facility_cat function handles alternative soap availability correctly", {
-  result <- add_handwashing_facility_cat(alternative_soap_data)
-  expect_equal(result$wash_handwashing_facility_jmp_cat[1], "limited")
-  expect_equal(result$wash_handwashing_facility_jmp_cat[2], "basic")
+  result <- add_handwashing_facility_cat(df)
+
+  expect_equal(result$wash_handwashing_facility_jmp_cat, c("basic", "limited", "no_facility", "undefined", "limited", "no_facility"))
+})
+
+# Additional common scenarios
+test_that("Function correctly processes edge cases", {
+  df <- data.frame(
+    survey_modality = c("in_person", "remote"),
+    wash_handwashing_facility = c("available", "no_permission"),
+    wash_handwashing_facility_observed_water = c("water_available", NA),
+    wash_handwashing_facility_observed_soap = c("alternative_available", NA),
+    wash_handwashing_facility_reported = c(NA, "fixed_dwelling"),
+    wash_soap_observed = c(NA, "yes_soap_shown"),
+    wash_soap_observed_type = c(NA, "soap"),
+    wash_soap_reported = c(NA, "yes"),
+    wash_soap_reported_type = c(NA, "soap")
+  )
+
+  result <- add_handwashing_facility_cat(df)
+
+  expect_equal(result$wash_handwashing_facility_jmp_cat, c("limited", "limited"))
 })
