@@ -14,17 +14,16 @@ add_access_to_phone_best(
   basic_phone = "basic_phone",
   dnk = "dnk",
   pnta = "pnta",
-  other = "other",
   sep = "/"
 )
 
 add_access_to_phone_coverage(
   df,
-  coverage_internet = "etc_coverage_internet",
+  coverage_network_type = "etc_coverage_network_type",
   coverage_none = "no_coverage",
-  coverage_no_internet = c("only_sms", "voice_no_internet"),
-  coverage_yes_internet = "internet",
-  coverage_undefined = c("dnk", "pnta", "other"),
+  coverage_no_internet = c("only_sms", "voice_sms", "only_voice"),
+  coverage_yes_internet = c("voice_sms_internet", "only_internet"),
+  coverage_undefined = c("dnk", "pnta"),
   access_to_phone_best = "etc_access_to_phone_best",
   access_to_phone_none = "none",
   access_to_basic_phone = "basic_phone",
@@ -50,11 +49,9 @@ add_access_to_phone_coverage(
 
 \item{pnta}{The value for prefer not to answer.}
 
-\item{other}{The value for other.}
-
 \item{sep}{Separator for the binary columns.}
 
-\item{coverage_internet}{Network coverage column.}
+\item{coverage_network_type}{Network coverage column.}
 
 \item{coverage_none}{Value for no coverage.}
 

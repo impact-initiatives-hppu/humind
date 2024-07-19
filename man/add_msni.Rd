@@ -11,7 +11,13 @@ add_msni(
   comp_wash_score = "comp_wash_score",
   comp_prot_score = "comp_prot_score",
   comp_health_score = "comp_health_score",
-  comp_edu_score = "comp_edu_score"
+  comp_edu_score = "comp_edu_score",
+  comp_foodsec_in_need = "comp_foodsec_in_need",
+  comp_snfi_in_need = "comp_snfi_in_need",
+  comp_wash_in_need = "comp_wash_in_need",
+  comp_prot_in_need = "comp_prot_in_need",
+  comp_health_in_need = "comp_health_in_need",
+  comp_edu_in_need = "comp_edu_in_need"
 )
 }
 \arguments{
@@ -28,7 +34,22 @@ add_msni(
 \item{comp_health_score}{Column name for the health composite score.}
 
 \item{comp_edu_score}{Column name for the education composite score.}
+
+\item{comp_foodsec_in_need}{Column name for food security in need.}
+
+\item{comp_snfi_in_need}{Column name for SNFI in need.}
+
+\item{comp_wash_in_need}{Column name for WASH in need.}
+
+\item{comp_prot_in_need}{Column name for protection in need.}
+
+\item{comp_health_in_need}{Column name for health in need.}
+
+\item{comp_edu_in_need}{Column name for education in need.}
+}
+\value{
+A data frame with 5 new columns.
 }
 \description{
-The output is a data frame with three new columns: \code{msni_score}, "msni_in_need", and "msni_in_acute_need".`
+The output is a data frame with 5 new columns. First the MSNI-related variables: \code{msni_score}, \code{msni_in_need}, and \code{msni_in_acute_need}. The two latter are used for metrics 1 and 2. Second, the number of sectoral needs \code{sector_in_need_n} and the sectoral needs profile \code{sector_needs_profile}. These two are used for metric 3 and 4.
 }
