@@ -9,6 +9,14 @@
 #' @param comp_prot_score Column name for the protection composite score.
 #' @param comp_health_score Column name for the health composite score.
 #' @param comp_edu_score Column name for the education composite score.
+#' @param comp_foodsec_in_need Column name for food security in need.
+#' @param comp_snfi_in_need Column name for SNFI in need.
+#' @param comp_wash_in_need Column name for WASH in need.
+#' @param comp_prot_in_need Column name for protection in need.
+#' @param comp_health_in_need Column name for health in need.
+#' @param comp_edu_in_need Column name for education in need.
+#' 
+#' @return A data frame with 5 new columns.
 #'
 #' @export
 add_msni <- function(

@@ -34,7 +34,7 @@ add_loop_edu_barrier_protection_d <- function(
   loop <- dplyr::mutate(
     loop,
     # Level 4-5 categories --- dummy for protection and unable_severe
-    edu_ind_barrier_protection_d = dplyr::case_when(
+    "edu_ind_barrier_protection_d" := dplyr::case_when(
       !!rlang::sym(ind_schooling_age_d) == 0 ~ NA_real_,
       !!rlang::sym(barriers) %in% protection_issues ~ 1,
       .default = 0)
@@ -80,7 +80,7 @@ add_loop_edu_barrier_protection_d_to_main <- function(
   # Sum the dummy variable
   loop <- dplyr::summarize(
     loop,
-    edu_barrier_protection_n := sum(!!rlang::sym(ind_barrier_protection_d), na.rm = TRUE)
+    "edu_barrier_protection_n" := sum(!!rlang::sym(ind_barrier_protection_d), na.rm = TRUE)
   )
 
   # Remove columns in main that exists in loop, but the grouping ones
