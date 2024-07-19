@@ -9,17 +9,33 @@
 #' @param facility_no Response code for no.
 #' @param facility_no_permission Response code for no permission.
 #' @param facility_undefined Response code for undefined.
-#' @param facility_reported Column name for the reported handwashing facility - e.g., "wash_handwashing_facility_reported".
+#' @param facility_observed_water Column name for the observed handwashing facility - e.g., "wash_handwashing_facility_observed_water".
+#' @param facility_observed_water_yes Response code for yes.
+#' @param facility_observed_water_no Response code for no.
+#' @param facility_observed_soap Column name for the observed handwashing facility - e.g., "wash_handwashing_facility_observed_soap".
+#' @param facility_observed_soap_yes Response code for yes.
+#' @param facility_observed_soap_no Response code for no.
+#' @param facility_observed_soap_alternative Response code for alternative.
+#' @param facility_reported Column name for the reported handwashing facility.
 #' @param facility_reported_yes Response code for yes.
 #' @param facility_reported_no Response code for no.
 #' @param facility_reported_undefined Response code for undefined.
-#' @param observed_soap Column name for observed soap availability - e.g., "wash_handwashing_facility_observed_soap".
-#' @param observed_soap_yes Response code for yes.
-#' @param observed_soap_no Response code for no.
-#' @param observed_soap_alternative Response code for alternatives.
-#' @param observed_water Column name for observed water availability - e.g., "wash_handwashing_facility_observed_water".
-#' @param observed_water_yes Response code for yes.
-#' @param observed_water_no Response code for no.
+#' @param facility_reported_no_permission_soap Column name for the reported handwashing facility.
+#' @param facility_reported_no_permission_soap_yes Response code for yes.
+#' @param facility_reported_no_permission_soap_no Response code for no.
+#' @param facility_reported_no_permission_soap_undefined Response code for undefined.
+#' @param facility_reported_no_permission_soap_type Column name for the type of soap reported
+#' @param facility_reported_no_permission_soap_type_yes Response code for yes.
+#' @param facility_reported_no_permission_soap_type_no Response code for no.
+#' @param facility_reported_no_permission_soap_type_undefined Response code for undefined.
+#' @param facility_reported_remote_soap Column name for the availability of soap reported in remote cases.
+#' @param facility_reported_remote_soap_yes Response code for yes.
+#' @param facility_reported_remote_soap_no Response code for no.
+#' @param facility_reported_remote_soap_undefined Response code for undefined.
+#' @param facility_reported_remote_soap_type Column name for the type of soap reported in remote cases.
+#' @param facility_reported_remote_soap_type_yes Response code for yes.
+#' @param facility_reported_remote_soap_type_no Response code for no.
+#' @param facility_reported_remote_soap_type_undefined Response code for undefined. 
 #'
 #' @export
 add_handwashing_facility_cat <- function(
@@ -94,10 +110,11 @@ add_handwashing_facility_cat <- function(
   if (length(facility_undefined) != 1) {
     rlang::abort("facility_undefined should be of length 1.")
   }
-  # - length 1 of observed_soap_yes
-  if (length(observed_soap_yes) != 1) {
-    rlang::abort("observed_soap_yes should be of length 1.")
+  # - length 1 of facility_observed_soap_yes
+  if (length(facility_observed_soap_yes) != 1) {
+    rlang::abort("facility_observed_soap_yes should be of length 1.")
   }
+  # - length 1 of facility 
 
   df <- dplyr::mutate(
     df,
@@ -109,9 +126,9 @@ add_handwashing_facility_cat <- function(
           # No facility, then "no_facility"
           !!rlang::sym(facility) == facility_no ~ "no_facility",
           # Soap and water are available, then "basic"
-          !!rlang::sym(facility) == facility_yes & !!rlang::sym(observed_water) == observed_water_yes & !!rlang::sym(observed_soap) == observed_soap_yes ~ "basic",
+          !!rlang::sym(facility) == facility_yes & !!rlang::sym(facility_observed_water) == facility_observed_water_yes & !!rlang::sym(facility_observed_soap) == facility_observed_soap_yes ~ "basic",
           # Soap or water is not available, then "limited"
-          !!rlang::sym(facility) == facility_yes & !!rlang::sym(observed_water) == c(observed_water_no) | !!rlang::sym(observed_soap) %in% c(observed_soap_no, observed_soap_alternative) ~ "limited"
+          !!rlang::sym(facility) == facility_yes & !!rlang::sym(facility_observed_water) == c(facility_observed_water_no) | !!rlang::sym(facility_observed_soap) %in% c(obsefacility_observed_soap_no, facility_observed_soap_alternative) ~ "limited"
     ),
       # If remote facility reported is "none", then "no_facility"
     (!!rlang::sym(survey_modality) %in% survey_modality_remote) |  (!!rlang::sym(survey_modality) %in% survey_modality_in_person & !!rlang::sym(facility) %in% facility_no_permission) ~
