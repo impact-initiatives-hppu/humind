@@ -98,5 +98,8 @@ impute_median <- function(df, vars, group = NULL, weighted = FALSE, weight = NUL
   # Ungroup
   df <- dplyr::ungroup(df)
 
+  # Convert back to a dataframe as dplyr usually returns a tibble by default
+  df <- as.data.frame(df)
+
   return(df)
 }
