@@ -23,10 +23,10 @@ df <- tibble::tibble(
 test_that("add_child_sep_cat correctly categorizes child separation", {
   result <- add_child_sep_cat(df)
 
-  expect_equal(result$prot_child_sep_cat[1], "at_least_non_severe")
+  expect_equal(result$prot_child_sep_cat[1], "at_least_one_non_severe")
   expect_equal(result$prot_child_sep_cat[2], "none")
   expect_equal(result$prot_child_sep_cat[3], "undefined")
-  expect_equal(result$prot_child_sep_cat[4], "at_least_very_severe")
+  expect_equal(result$prot_child_sep_cat[4], "at_least_one_very_severe")
 })
 
 test_that("add_child_sep_cat handles undefined child separation responses", {
@@ -39,17 +39,30 @@ test_that("add_child_sep_cat handles undefined child separation responses", {
 })
 
 test_that("add_child_sep_cat correctly handles severity of reasons", {
-  df_severe <- df
-  df_severe$prot_child_sep_reason <- c("left_study", "left_employment", "left_armed_groups", "kidnapped")
-  df_severe[["prot_child_sep_reason/left_employment"]] <- c(0, 1, 0, 0)
-  df_severe[["prot_child_sep_reason/kidnapped"]] <- c(0, 0, 0, 1)
+  df_severe <- tibble::tibble(
+    id = 1:4,
+    prot_child_sep = c("yes", "yes", "yes", "yes"),
+    prot_child_sep_reason = c("left_study", "left_employment", "left_armed_groups", "kidnapped"),
+    "prot_child_sep_reason/left_study" = c(1, 0, 0, 0),
+    "prot_child_sep_reason/left_married" = c(0, 0, 0, 0),
+    "prot_child_sep_reason/left_armed_groups" = c(0, 0, 1, 0),
+    "prot_child_sep_reason/other" = c(0, 0, 0, 0),
+    "prot_child_sep_reason/left_employment" = c(0, 1, 0, 0),
+    "prot_child_sep_reason/kidnapped" = c(0, 0, 0, 1),
+    "prot_child_sep_reason/missing" = c(0, 0, 0, 0),
+    "prot_child_sep_reason/detained" = c(0, 0, 0, 0),
+    "prot_child_sep_reason/stayed_in_origin" = c(0, 0, 0, 0),
+    "prot_child_sep_reason/separated_displacement" = c(0, 0, 0, 0),
+    "prot_child_sep_reason/dnk" = c(0, 0, 0, 0),
+    "prot_child_sep_reason/pnta" = c(0, 0, 0, 0)
+  )
 
   result <- add_child_sep_cat(df_severe)
 
-  expect_equal(result$prot_child_sep_cat[1], "at_least_non_severe")
-  expect_equal(result$prot_child_sep_cat[2], "at_least_severe")
-  expect_equal(result$prot_child_sep_cat[3], "at_least_very_severe")
-  expect_equal(result$prot_child_sep_cat[4], "at_least_very_severe")
+  expect_equal(result$prot_child_sep_cat[1], "at_least_one_non_severe")
+  expect_equal(result$prot_child_sep_cat[2], "at_least_one_severe")
+  expect_equal(result$prot_child_sep_cat[3], "at_least_one_very_severe")
+  expect_equal(result$prot_child_sep_cat[4], "at_least_one_very_severe")
 })
 
 test_that("add_child_sep_cat handles edge cases", {
@@ -62,5 +75,5 @@ test_that("add_child_sep_cat handles edge cases", {
   result <- add_child_sep_cat(df_edge)
 
   expect_equal(result$prot_child_sep_cat[1], "undefined")
-  expect_equal(result$prot_child_sep_cat[2], "at_least_very_severe")
+  expect_equal(result$prot_child_sep_cat[2], "at_least_one_very_severe")
 })
