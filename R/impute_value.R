@@ -67,6 +67,7 @@ impute_median <- function(df, vars, group = NULL, weighted = FALSE, weight = NUL
   }
 
   if (weighted)
+  # TODO: Implement weighted median imputation
   {
     rlang::abort("Weighted median has not been implemented yet. Please use 'FALSE'.")
     # df <- dplyr::mutate(
