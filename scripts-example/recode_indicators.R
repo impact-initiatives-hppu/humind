@@ -27,6 +27,7 @@ loop <- left_joints_dup(list(
 
 main <- dummy_raw_data$main
 
+
 # Add indicators ----------------------------------------------------------
 
 
@@ -86,14 +87,17 @@ main <- main |>
   # Protection
   add_child_sep_cat() |>
   # WASH
+  # WASH - Sanitation facility
   add_sanitation_facility_cat() |>
   add_sharing_sanitation_facility_cat() |>
   add_sharing_sanitation_facility_num_ind() |>
   add_sanitation_facility_jmp_cat() |>
+  # WASH - Water
   add_drinking_water_source_cat() |>
   add_drinking_water_time_cat() |>
   add_drinking_water_time_threshold_cat() |>
   add_drinking_water_quality_jmp_cat() |>
+  # WASH - Hygiene
   add_handwashing_facility_cat() |>
   # SNFI
   add_shelter_type_cat() |>
@@ -106,6 +110,7 @@ main <- main |>
   add_fcs(cutoffs = "normal") |>
   add_rcsi() |>
   add_fcm_phase() |>
+  add_fclcm_phase() |>
   # Cash & markets
   add_income_source_zero_to_sl() |>
   add_income_source_prop() |>
