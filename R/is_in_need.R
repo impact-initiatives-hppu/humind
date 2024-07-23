@@ -71,12 +71,12 @@ is_in_acute_need <- function(
     rlang::warn(paste0(new_colname, " already exists in the data frame. It will be replaced."))
   }
 
-  #------ Create new variable
+  #------ Create new variable, acute need is defined as score 4 or 5.
 
   df <- dplyr::mutate(
     df,
     "{new_colname}" := dplyr::case_when(
-      !!rlang::sym(score) %in% 1:4 ~ 0,
+      !!rlang::sym(score) %in% 1:3 ~ 0,
       !!rlang::sym(score) %in% 4:5 ~ 1,
       .default = NA_integer_
     )

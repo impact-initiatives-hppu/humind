@@ -62,7 +62,7 @@ invalid_labels_data <- dummy_data
 test_that("Function handles invalid labels length", {
   breaks <- c(0, 10, 20)
   invalid_labels <- c("Low", "Medium")
-  result <- num_cat(invalid_labels_data, "num_col", breaks, labels = invalid_labels)
+  expect_warning(result <- num_cat(invalid_labels_data, "num_col", breaks, labels = invalid_labels))
   expect_warning(num_cat(invalid_labels_data, "num_col", breaks, labels = invalid_labels))
 })
 
