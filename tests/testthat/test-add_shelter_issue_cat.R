@@ -60,7 +60,7 @@ test_that("add_shelter_issue_cat handles undefined values", {
     'snfi_shelter_issue/other' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
     'snfi_shelter_issue/none' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
     'snfi_shelter_issue/lack_privacy' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/pnta' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    'snfi_shelter_issue/pnta' = c(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 
 
   )
