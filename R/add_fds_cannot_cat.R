@@ -53,7 +53,7 @@ add_fds_cannot_cat <- function(
     fds_personal_hygiene_undefined = c("pnta", "dnk"),
     lighting_source = "energy_lighting_source",
     lighting_source_none = "none",
-    lighting_source_undefined = c("pnta", "dnk", "other")
+    lighting_source_undefined = c("pnta", "dnk")
 ){
 
   #------ Checks
@@ -145,10 +145,10 @@ add_fds_cannot_cat <- function(
   df <- dplyr::mutate(
     df,
     energy_lighting_source_d = dplyr::case_when(
+      is.na(!!rlang::sym("energy_lighting_source")) ~ NA_real_
       !!rlang::sym("energy_lighting_source") %in% lighting_source_undefined ~ NA_real_,
-      !!rlang::sym("energy_lighting_source") == lighting_source_none ~ 0,
-      !(!!rlang::sym("energy_lighting_source") %in% c("lighting_source_undefined","lighting_source_none")) ~ 1,
-      .default = NA_real_
+      !!rlang::sym("energy_lighting_source") == lighting_source_none ~ 1,
+      .default = 0
     )
   )
 
