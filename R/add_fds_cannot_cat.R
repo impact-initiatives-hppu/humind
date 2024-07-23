@@ -132,22 +132,13 @@ add_fds_cannot_cat <- function(
     )
   )
 
-  df <- dplyr::mutate(
-    df,
-    energy_lighting_source = dplyr::case_when(
-      !!rlang::sym(lighting_source) == lighting_source_none ~ "none",
-      !!rlang::sym(lighting_source) %in% lighting_source_undefined ~ "undefined",
-      is.na(!!rlang::sym(lighting_source)) ~ NA_character_,
-      .default = !!rlang::sym(lighting_source)
-    )
-  )
-
+  # Add binary for lighting 
   df <- dplyr::mutate(
     df,
     energy_lighting_source_d = dplyr::case_when(
-      is.na(!!rlang::sym("energy_lighting_source")) ~ NA_real_
-      !!rlang::sym("energy_lighting_source") %in% lighting_source_undefined ~ NA_real_,
-      !!rlang::sym("energy_lighting_source") == lighting_source_none ~ 1,
+      is.na(!!rlang::sym(lighting_source) ~ NA_real_,
+      !!rlang::sym(lighting_source) %in% lighting_source_undefined ~ NA_real_,
+      !!rlang::sym(lighting_source) == lighting_source_none ~ 1,
       .default = 0
     )
   )
