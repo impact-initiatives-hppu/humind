@@ -172,7 +172,7 @@ test_that("add_drinking_water_source_jmp_cat function works correctly with defau
   df_test <- add_drinking_water_time_cat(df_test)
   df_test <- add_drinking_water_time_threshold_cat(df_test)
   result <- add_drinking_water_source_jmp_cat(df_test)
-  expect_equal(result$wash_drinking_water_jmp_cat, c("safely_managed", "unimproved", "surface_water", "undefined", NA))
+  expect_equal(result$wash_drinking_water_jmp_cat, c("basic", "unimproved", "surface_water", "undefined", NA))
 })
 
 test_that("add_drinking_water_source_jmp_cat handles NA values correctly", {
