@@ -131,7 +131,7 @@ test_that("add_drinking_water_time_cat function works correctly with default par
   df_dummy$wash_drinking_water_time_int <- c(10, 1, 45, 60, NA)
   df_dummy$wash_drinking_water_time_sl <- c("under_30_min", "under_30_min", "more_than_1hr", "dnk", NA)
   result <- add_drinking_water_time_cat(df_dummy)
-  expect_equal(result$wash_drinking_water_time_cat, c("under_30_min", "premises", "dnk", "undefined", NA))
+  expect_equal(result$wash_drinking_water_time_cat, c("under_30_min", "premises", "more_than_1hr", "undefined", NA))
 })
 
 test_that("add_drinking_water_time_cat handles NA values correctly", {
