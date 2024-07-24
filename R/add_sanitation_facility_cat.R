@@ -97,12 +97,12 @@ add_sharing_sanitation_facility_cat <- function(df,
 #'
 #' @param sharing_sanitation_facility_cat Component column: is the sanitation facility shared.
 #' @param levels Character vector of responses codes, including first in the following order: Shared, Not shared, Not applicable, and Undefined.
-#' @param sanitation_facility_sharing_n Component column: number of people sharing the sanitation facility.
+#' @param sanitation_facility_sharing_n Component column: number of households sharing the sanitation facility.
 #' @param hh_size Column of the household size.
 #' @param weight Column of the survey weights.
 #'
 #' @export
-add_sharing_sanitation_facility_num_ind <- function(
+add_sharing_sanitation_facility_n_ind <- function(
     df,
     sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
     levels = c("shared", "not_shared", "not_applicable", "undefined"),
