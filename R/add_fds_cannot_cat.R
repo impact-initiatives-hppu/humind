@@ -84,8 +84,8 @@ add_fds_cannot_cat <- function(
   if (length(lighting_source_none) != 1) rlang::abort("lighting_source_none must be of length 1")
 
   #----- Prepare dummy
-  df <- df %>%
-    dplyr::mutate(
+  df <- dplyr::mutate(
+      df,
       snfi_fds_cooking = dplyr::case_when(
         !!rlang::sym(fds_cooking) == fds_cooking_cannot ~ "no_cannot",
         !!rlang::sym(fds_cooking) == fds_cooking_can_issues ~ "yes_issues",
@@ -124,28 +124,28 @@ add_fds_cannot_cat <- function(
     )
 
   #----- Sum across cols if "no_cannot"
-  df <- df %>%
-    dplyr::mutate(
-      dplyr::across(
-        c("snfi_fds_cooking", "snfi_fds_sleeping", "snfi_fds_storing", "snfi_fds_personal_hygiene"),
-        \(x) dplyr::case_when(
-          x == "no_cannot" ~ 1,
-          x %in% c("yes_issues", "yes_no_issues", "no_no_need") ~ 0,
-          .default = NA_real_
-        ),
-        .names = "{.col}_d"
-      )
+  df <- dplyr::mutate(
+    df, 
+    dplyr::across(
+      c("snfi_fds_cooking", "snfi_fds_sleeping", "snfi_fds_storing", "snfi_fds_personal_hygiene"),
+      \(x) dplyr::case_when(
+        x == "no_cannot" ~ 1,
+        x %in% c("yes_issues", "yes_no_issues", "no_no_need") ~ 0,
+        .default = NA_real_
+      ),
+      .names = "{.col}_d"
+    )
     )
 
   # Add binary for lighting
-  df <- df %>%
-    dplyr::mutate(
-      energy_lighting_source_d = dplyr::case_when(
-        energy_lighting_source == "none" ~ 1,
-        energy_lighting_source == "undefined" ~ NA_real_,
-        is.na(energy_lighting_source) ~ NA_real_,
-        .default = 0
-      )
+  df <- dplyr::mutate(
+    df, 
+    energy_lighting_source_d = dplyr::case_when(
+      energy_lighting_source == "none" ~ 1,
+      energy_lighting_source == "undefined" ~ NA_real_,
+      is.na(energy_lighting_source) ~ NA_real_,
+      .default = 0
+    )
     )
 
   df <- sum_vars(
@@ -157,15 +157,15 @@ add_fds_cannot_cat <- function(
   )
 
   #------ Recode to categories cannot perform 0 task, 1task, 2-3 tasks, 4 to 5 tasks
-  df <- df %>%
-    dplyr::mutate(
-      snfi_fds_cannot_cat = dplyr::case_when(
-        snfi_fds_cannot_n == 0 ~ "none",
-        snfi_fds_cannot_n == 1 ~ "1_task",
-        snfi_fds_cannot_n %in% 2:3 ~ "2_to_3_tasks",
-        snfi_fds_cannot_n %in% 4:5 ~ "4_to_5_tasks",
-        .default = NA_character_
-      )
+  df <- dplyr::mutate(
+    df,
+    snfi_fds_cannot_cat = dplyr::case_when(
+      snfi_fds_cannot_n == 0 ~ "none",
+      snfi_fds_cannot_n == 1 ~ "1_task",
+      snfi_fds_cannot_n %in% 2:3 ~ "2_to_3_tasks",
+      snfi_fds_cannot_n %in% 4:5 ~ "4_to_5_tasks",
+      .default = NA_character_
+    )
     )
 
   return(df)
