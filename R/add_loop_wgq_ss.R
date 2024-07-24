@@ -75,7 +75,7 @@ add_loop_wgq_ss <- function(
       wgq_vars,
       \(x) dplyr::case_when(
         ind_age_above_5 == 0 ~ NA_real_,
-        ind_age_above_5 == 1 & x %in% undefined ~ NA_real_,
+        ind_age_above_5 == 1 & x %in% undefined ~ 0,
         ind_age_above_5 == 1 & x == cannot_do ~ 1,
         ind_age_above_5 == 1 & x %in% c(no_difficulty, some_difficulty, lot_of_difficulty) ~ 0,
         .default = NA_real_
@@ -92,7 +92,7 @@ add_loop_wgq_ss <- function(
       wgq_vars,
       \(x) dplyr::case_when(
         ind_age_above_5 == 0 ~ NA_real_,
-        ind_age_above_5 == 1 & x %in% undefined ~ NA_real_,
+        ind_age_above_5 == 1 & x %in% undefined ~ 0,
         ind_age_above_5 == 1 & x == lot_of_difficulty ~  1,
         ind_age_above_5 == 1 & x %in% c( no_difficulty, some_difficulty, cannot_do) ~ 0,
         .default = NA_real_
@@ -108,7 +108,7 @@ add_loop_wgq_ss <- function(
       wgq_vars,
       \(x) dplyr::case_when(
         ind_age_above_5 == 0 ~ NA_real_,
-        ind_age_above_5 == 1 & x %in% undefined ~ NA_real_,
+        ind_age_above_5 == 1 & x %in% undefined ~ 0,
         ind_age_above_5 == 1 & x == some_difficulty ~ 1,
         ind_age_above_5 == 1 & x %in% c(no_difficulty, lot_of_difficulty, cannot_do) ~ 0,
         .default = NA_real_
@@ -124,7 +124,7 @@ add_loop_wgq_ss <- function(
       dplyr::all_of(wgq_vars),
       \(x) dplyr::case_when(
         ind_age_above_5 == 0 ~ NA_real_,
-        ind_age_above_5 == 1 & x %in% undefined ~ NA_real_,
+        ind_age_above_5 == 1 & x %in% undefined ~ 0,
         ind_age_above_5 == 1 & x == no_difficulty ~ 1,
         ind_age_above_5 == 1 & x %in% c(some_difficulty, lot_of_difficulty, cannot_do) ~ 0,
         .default = NA_real_
@@ -135,16 +135,16 @@ add_loop_wgq_ss <- function(
 
 
   # Add sum of cannot do across all components
-  loop <- sum_vars(loop, wgq_vars_cannot_do, "wgq_cannot_do_n")
+  loop <- sum_vars(loop, wgq_vars_cannot_do, "wgq_cannot_do_n", na_rm = TRUE)
 
   # Add sum of lot of difficulty across all components
-  loop <- sum_vars(loop, wgq_vars_lot_of_difficulty, "wgq_lot_of_difficulty_n")
+  loop <- sum_vars(loop, wgq_vars_lot_of_difficulty, "wgq_lot_of_difficulty_n", na_rm = TRUE)
 
   # Add sum of some difficulty across all components
-  loop <- sum_vars(loop, wgq_vars_some_difficulty, "wgq_some_difficulty_n")
+  loop <- sum_vars(loop, wgq_vars_some_difficulty, "wgq_some_difficulty_n", na_rm = TRUE)
 
   # Add sum of no difficulty across all components
-  loop <- sum_vars(loop, wqg_vars_no_difficulty, "wgq_no_difficulty_n")
+  loop <- sum_vars(loop, wqg_vars_no_difficulty, "wgq_no_difficulty_n", na_rm = TRUE)
 
 
   # Add binary cannot do across all components
