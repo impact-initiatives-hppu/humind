@@ -2,7 +2,6 @@
 
 library(testthat)
 library(dplyr)
-library(rlang)
 
 # Sample data for testing
 df <- data.frame(

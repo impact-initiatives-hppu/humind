@@ -2,7 +2,6 @@
 
 library(testthat)
 library(dplyr)
-library(rlang)
 
 # Sample data for testing
 loop <- data.frame(
@@ -59,8 +58,8 @@ test_that("add_loop_healthcare_needed_cat_main works with default parameters", {
 test_that("add_loop_healthcare_needed_cat_main works with wgq_dis parameters", {
   loop_result <- add_loop_healthcare_needed_cat(loop, wgq_dis = "wgq_dis")
   result <- add_loop_healthcare_needed_cat_to_main(
-    main, 
-    loop_result, 
+    main,
+    loop_result,
     ind_healthcare_needed_no_wgq_dis = "health_ind_healthcare_needed_no_wgq_dis",
     ind_healthcare_needed_yes_unmet_wgq_dis = "health_ind_healthcare_needed_yes_unmet_wgq_dis",
     ind_healthcare_needed_yes_met_wgq_dis = "health_ind_healthcare_needed_yes_met_wgq_dis")
