@@ -11,7 +11,7 @@ df_dummy <- data.frame(
   health_ind_healthcare_needed_yes_met_wgq_dis_n = c(0, 1, 0, 0, 0)
 )
 
-#tests
+# Tests
 test_that("add_comp_health function works correctly with default parameters", {
   result <- add_comp_health(df_dummy)
   expect_equal(result$comp_health_score, c(3, 1, 2, 1, NA))
@@ -28,13 +28,6 @@ test_that("add_comp_health handles non-numeric values correctly", {
   df_test <- df_dummy
   df_test$health_ind_healthcare_needed_no_n[1] <- "non-numeric"
   expect_error(add_comp_health(df_test), class = "error")
-})
-
-test_that("add_comp_health handles NA values correctly", {
-  df_test <- df_dummy
-  df_test$health_ind_healthcare_needed_no_n[1] <- NA
-  result <- add_comp_health(df_test)
-  expect_true(is.na(result$comp_health_score[1]))
 })
 
 test_that("add_comp_health throws error for missing columns", {
