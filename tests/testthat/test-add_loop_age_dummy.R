@@ -1,6 +1,5 @@
 library(testthat)
 library(dplyr)
-library(rlang)
 
 # Mock the helper functions if_not_in_stop and are_cols_numeric
 if_not_in_stop <- function(df, cols, df_name) {

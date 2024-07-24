@@ -1,7 +1,5 @@
 library(testthat)
 library(dplyr)
-library(tidyr)
-library(rlang)
 
 # Mock the helper functions if_not_in_stop and are_values_in_set
 if_not_in_stop <- function(df, cols, df_name) {

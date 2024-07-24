@@ -1,7 +1,5 @@
 library(testthat)
 library(dplyr)
-library(rlang)
-library(glue)
 
 # Example test data
 df <- data.frame(
