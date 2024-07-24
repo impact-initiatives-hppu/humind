@@ -22,6 +22,10 @@ add_hoh_final <- function(df, resp_hoh_yn = "resp_hoh_yn", yes = "yes", no = "no
   # Are values in set, hoh_yn in hoh_yn_codes
   are_values_in_set(df, resp_hoh_yn, c(yes, no))
 
+  # Check that age columns are numeric
+  are_cols_numeric(df, c(hoh_age, resp_age))
+  
+
   #------ Compute
 
   # if hoh is yes, then hoh gender and age, else resp gender and age
