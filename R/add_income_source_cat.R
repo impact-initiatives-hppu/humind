@@ -36,7 +36,7 @@ add_income_source_cat <- function(
   df <- count_if_above_zero(df, stable, "cm_income_source_stable_n")
 
   # Other
-  df <- count_if_above_zero(df, other, "cm_income_source_other_n")
+  df <- count_if_above_zero(df, other, "cm_income_source_other_source_n")
 
   # Ranking
   df <- rank_top3_vars(
