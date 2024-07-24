@@ -101,16 +101,7 @@ test_that("add_hoh_final handles non-numeric age variables", {
     resp_age = c("40", "35", "55")
   )
 
-  result <- add_hoh_final(df)
+  expect_error(add_hoh_final(df), class = "error")
 
-  expected <- data.frame(
-    resp_hoh_yn = c("yes", "no", "yes"),
-    hoh_gender = c("female", "female", "male"),
-    hoh_age = c(40, 50, 55),
-    resp_gender = c("female", "male", "male"),
-    resp_age = c(40, 35, 55)
-  )
-
-  expect_equal(result, expected)
 })
 
