@@ -18,14 +18,14 @@ test_that("add_fds_cannot_cat works with default parameters", {
     snfi_fds_sleeping = c("yes_no_issues", "no_cannot", "yes_issues", "undefined", "undefined"),
     snfi_fds_storing = c("no_cannot", "no_cannot", "yes_no_issues", "yes_issues", "undefined"),
     snfi_fds_personal_hygiene = c("yes_issues", "yes_issues", "no_cannot", "no_cannot", "undefined"),
-    energy_lighting_source = c("none", "undefined", "candle", "undefined", "undefined"),
+    energy_lighting_source = c("none", "other", "candle", "undefined", "undefined"),
     snfi_fds_cooking_d = c(1, 0, 0, 0, NA),
     snfi_fds_sleeping_d = c(0, 1, 0, NA, NA),
     snfi_fds_storing_d = c(1, 1, 0, 0, NA),
     snfi_fds_personal_hygiene_d = c(0, 0, 1, 1, NA),
-    energy_lighting_source_d = c(0, 1, 1, 1, 1),
-    snfi_fds_cannot_n = c(2, 3, 2, NA, NA),
-    snfi_fds_cannot_cat = c("2_to_3_tasks", "2_to_3_tasks", "2_to_3_tasks", NA, NA)
+    energy_lighting_source_d = c(1, 0, 0, NA, NA),
+    snfi_fds_cannot_n = c(3, 2, 1, NA, NA),
+    snfi_fds_cannot_cat = c("2_to_3_tasks", "2_to_3_tasks", "1_task", NA, NA)
   )
 
   expect_equal(result, expected)
@@ -84,14 +84,14 @@ test_that("add_fds_cannot_cat handles non-numeric variables", {
     snfi_fds_sleeping = c("yes_no_issues", "no_cannot", "yes_issues", "undefined", "undefined"),
     snfi_fds_storing = c("no_cannot", "no_cannot", "yes_no_issues", "yes_issues", "undefined"),
     snfi_fds_personal_hygiene = c("yes_issues", "yes_issues", "no_cannot", "no_cannot", "undefined"),
-    energy_lighting_source = c("none", "undefined", "candle", "undefined", "undefined"),
+    energy_lighting_source = c("none", "other", "candle", "undefined", "undefined"),
     snfi_fds_cooking_d = c(1, 0, 0, 0, NA),
     snfi_fds_sleeping_d = c(0, 1, 0, NA, NA),
     snfi_fds_storing_d = c(1, 1, 0, 0, NA),
     snfi_fds_personal_hygiene_d = c(0, 0, 1, 1, NA),
-    energy_lighting_source_d = c(0, 1, 1, 1, 1),
-    snfi_fds_cannot_n = c(2, 3, 2, NA, NA),
-    snfi_fds_cannot_cat = c("2_to_3_tasks", "2_to_3_tasks", "2_to_3_tasks", NA, NA)
+    energy_lighting_source_d = c(1, 0, 0, NA, NA),
+    snfi_fds_cannot_n = c(3, 2, 1, NA, NA),
+    snfi_fds_cannot_cat = c("2_to_3_tasks", "2_to_3_tasks", "1_task", NA, NA)
   )
 
   expect_equal(result, expected)

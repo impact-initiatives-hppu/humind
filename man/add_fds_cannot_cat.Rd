@@ -29,7 +29,7 @@ add_fds_cannot_cat(
   fds_personal_hygiene_undefined = c("pnta", "dnk"),
   lighting_source = "energy_lighting_source",
   lighting_source_none = "none",
-  lighting_source_undefined = c("pnta", "dnk", "other")
+  lighting_source_undefined = c("pnta", "dnk")
 )
 }
 \arguments{
