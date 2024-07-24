@@ -3,7 +3,7 @@
 \name{add_sanitation_facility_cat}
 \alias{add_sanitation_facility_cat}
 \alias{add_sharing_sanitation_facility_cat}
-\alias{add_sharing_sanitation_facility_num_ind}
+\alias{add_sharing_sanitation_facility_n_ind}
 \alias{add_sanitation_facility_jmp_cat}
 \title{Sanitation facility classification}
 \usage{
@@ -29,7 +29,7 @@ add_sharing_sanitation_facility_cat(
   skipped_sanitation_facility = NULL
 )
 
-add_sharing_sanitation_facility_num_ind(
+add_sharing_sanitation_facility_n_ind(
   df,
   sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
   levels = c("shared", "not_shared", "not_applicable", "undefined"),
@@ -72,7 +72,7 @@ add_sanitation_facility_jmp_cat(
 
 \item{levels}{Character vector of responses codes, including first in the following order: Shared, Not shared, Not applicable, and Undefined.}
 
-\item{sanitation_facility_sharing_n}{Component column: number of people sharing the sanitation facility.}
+\item{sanitation_facility_sharing_n}{Component column: number of households sharing the sanitation facility.}
 
 \item{hh_size}{Column of the household size.}
 
@@ -85,5 +85,5 @@ add_sanitation_facility_jmp_cat(
 \item{sharing_sanitation_facility_levels}{Levels: Shared, Not shared, Not applicable, Undefined.}
 }
 \description{
-\code{\link[=add_sanitation_facility_cat]{add_sanitation_facility_cat()}} recodes the types of sanitation facilities, \code{\link[=add_sharing_sanitation_facility_cat]{add_sharing_sanitation_facility_cat()}} recodes the sharing status of sanitation facility, and \code{\link[=add_sanitation_facility_jmp_cat]{add_sanitation_facility_jmp_cat()}} combines the previous two functions to recode the sanitation facility into a JMP classification. Finally, \code{\link[=add_sharing_sanitation_facility_num_ind]{add_sharing_sanitation_facility_num_ind()}} recodes the number of individuals sharing the sanitation facility.
+\code{\link[=add_sanitation_facility_cat]{add_sanitation_facility_cat()}} recodes the types of sanitation facilities, \code{\link[=add_sharing_sanitation_facility_cat]{add_sharing_sanitation_facility_cat()}} recodes the sharing status of sanitation facility, and \code{\link[=add_sanitation_facility_jmp_cat]{add_sanitation_facility_jmp_cat()}} combines the previous two functions to recode the sanitation facility into a JMP classification. Finally, \code{\link[=add_sharing_sanitation_facility_n_ind]{add_sharing_sanitation_facility_n_ind()}} recodes the number of individuals sharing the sanitation facility.
 }
