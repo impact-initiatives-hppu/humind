@@ -80,4 +80,5 @@ test_that("rank_top3_vars correctly handles NA values", {
   expect_equal(result$top2, c("var3", "var1", "var3"))
   expect_equal(result$top3, c(NA, NA, "var2"))
 })
+
 df_test <- rank_top3_vars(df, vars = c("var1", "var2", "var3"), new_colname_top1 = "top1", new_colname_top2 = "top2", new_colname_top3 = "top3")
