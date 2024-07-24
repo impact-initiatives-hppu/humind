@@ -258,9 +258,15 @@ add_loop_healthcare_needed_cat_to_main <- function(
     )
   }
 
+  # Get existing data frames to bind
+  df_names <- c("loop_no_wgq_dis", "loop_yes_unmet_wgq_dis", "loop_yes_met_wgq_dis")
+  
   # Bind rows
-  loop <- dplyr::bind_rows(loop_vars, loop_no_wgq_dis, loop_yes_unmet_wgq_dis, loop_yes_met_wgq_dis)
-
+  loop <- loop_vars
+  if (!is.null(ind_healthcare_needed_no_wgq_dis)) loop <- dplyr::left_join(loop, loop_no_wgq_dis, by = dplyr::join_by(!!rlang::sym(id_col_loop)))
+  if (!is.null(ind_healthcare_needed_yes_unmet_wgq_dis)) loop <- dplyr::left_join(loop, loop_yes_unmet_wgq_dis, by = dplyr::join_by(!!rlang::sym(id_col_loop)))
+  if (!is.null(ind_healthcare_needed_yes_met_wgq_dis)) loop <- dplyr::left_join(loop, loop_yes_met_wgq_dis, by = dplyr::join_by(!!rlang::sym(id_col_loop)))
+  
   # Remove columns in main that exists in loop, but the grouping ones
   main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
 
@@ -268,6 +274,5 @@ add_loop_healthcare_needed_cat_to_main <- function(
   main <- dplyr::left_join(main, loop, by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop)))
 
   return(main)
-
 
 }
