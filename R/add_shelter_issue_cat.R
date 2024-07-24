@@ -43,7 +43,7 @@ add_shelter_issue_cat <- function(
     df,
     new_colname = "snfi_shelter_issue_n",
     vars = shelter_issue_d_issues,
-    na_rm = FALSE,
+    na_rm = TRUE,
     imputation = "none"
   )
 

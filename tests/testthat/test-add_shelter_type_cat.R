@@ -25,9 +25,9 @@ test_that("add_shelter_type_cat works with different shelter types", {
   result <- add_shelter_type_cat(df)
 
   expected <- data.frame(
-    snfi_shelter_type = c("none", "collective_center", "pnta", "other", "house"),
+    snfi_shelter_type = c("none", "collective_center", "pnta", "other", "individual_shelter"),
     snfi_shelter_type_individual = c("house", "makeshift", "tent", "other", "unfinished_building"),
-    snfi_shelter_type_cat = c("none", "inadequate", "undefined", "undefined", "adequate")
+    snfi_shelter_type_cat = c("none", "inadequate", "undefined", "undefined", "inadequate")
   )
 
   expect_equal(result, expected)

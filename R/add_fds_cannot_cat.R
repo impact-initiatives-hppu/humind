@@ -142,6 +142,7 @@ add_fds_cannot_cat <- function(
       .default = 0
     )
   )
+)
 
   df <- sum_vars(
     df,
