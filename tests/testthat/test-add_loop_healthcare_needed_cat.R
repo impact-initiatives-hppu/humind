@@ -50,7 +50,7 @@ test_that("wgq_dis is correctly handled for children under 5", {
 # Test with default parameters for add_loop_healthcare_needed_cat_main
 test_that("add_loop_healthcare_needed_cat_main works with default parameters", {
   loop_result <- add_loop_healthcare_needed_cat(loop)
-  result <- add_loop_healthcare_needed_cat_main(main, loop_result)
+  result <- add_loop_healthcare_needed_cat_to_main(main, loop_result)
   expect_true(all(c("health_ind_healthcare_needed_no_n", "health_ind_healthcare_needed_yes_unmet_n",
                     "health_ind_healthcare_needed_yes_met_n") %in% colnames(result)))
 })
@@ -58,23 +58,26 @@ test_that("add_loop_healthcare_needed_cat_main works with default parameters", {
 # Test with wgq_dis parameters for add_loop_healthcare_needed_cat_main
 test_that("add_loop_healthcare_needed_cat_main works with wgq_dis parameters", {
   loop_result <- add_loop_healthcare_needed_cat(loop, wgq_dis = "wgq_dis")
-  result <- add_loop_healthcare_needed_cat_main(main, loop_result, ind_healthcare_needed_no_wgq_dis = "health_ind_healthcare_needed_no_wgq_dis",
-                                                ind_healthcare_needed_yes_unmet_wgq_dis = "health_ind_healthcare_needed_yes_unmet_wgq_dis",
-                                                ind_healthcare_needed_yes_met_wgq_dis = "health_ind_healthcare_needed_yes_met_wgq_dis")
+  result <- add_loop_healthcare_needed_cat_to_main(
+    main, 
+    loop_result, 
+    ind_healthcare_needed_no_wgq_dis = "health_ind_healthcare_needed_no_wgq_dis",
+    ind_healthcare_needed_yes_unmet_wgq_dis = "health_ind_healthcare_needed_yes_unmet_wgq_dis",
+    ind_healthcare_needed_yes_met_wgq_dis = "health_ind_healthcare_needed_yes_met_wgq_dis")
   expect_true(all(c("health_ind_healthcare_needed_no_wgq_dis_n", "health_ind_healthcare_needed_yes_unmet_wgq_dis_n",
                     "health_ind_healthcare_needed_yes_met_wgq_dis_n") %in% colnames(result)))
 })
 
 # Test if id columns are correctly handled
 test_that("id columns are correctly handled", {
-  expect_error(add_loop_healthcare_needed_cat_main(main, loop, id_col_main = "uuid", id_col_loop = "missing_id"), class = "error")
-  expect_error(add_loop_healthcare_needed_cat_main(main, loop, id_col_main = "missing_id", id_col_loop = "uuid"), class = "error")
+  expect_error(add_loop_healthcare_needed_cat_to_main(main, loop, id_col_main = "uuid", id_col_loop = "missing_id"), class = "error")
+  expect_error(add_loop_healthcare_needed_cat_to_main(main, loop, id_col_main = "missing_id", id_col_loop = "uuid"), class = "error")
 })
 
 # Test if main data frame correctly joins with loop data frame
 test_that("main data frame correctly joins with loop data frame", {
   loop_result <- add_loop_healthcare_needed_cat(loop)
-  result <- add_loop_healthcare_needed_cat_main(main, loop_result)
+  result <- add_loop_healthcare_needed_cat_to_main(main, loop_result)
   expect_equal(result$health_ind_healthcare_needed_no_n, c(0, 1, 0, 0, 0, 1))
   expect_equal(result$health_ind_healthcare_needed_yes_unmet_n, c(1, 0, 0, 0, 0, 0))
   expect_equal(result$health_ind_healthcare_needed_yes_met_n, c(0, 0, 0, 0, 1, 0))
