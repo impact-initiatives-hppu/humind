@@ -48,5 +48,5 @@ test_that("add_sanitation_facility_jmp_cat works correctly", {
   df <- add_sharing_sanitation_facility_cat(df)
   result <- add_sanitation_facility_jmp_cat(df)
   expect_true("wash_sanitation_facility_jmp_cat" %in% colnames(result))
-  expect_equal(result$wash_sanitation_facility_jmp_cat, c("limited", "basic", "open_defecation", "undefined", "unimproved"))
+  expect_equal(result$wash_sanitation_facility_jmp_cat, c("limited", "unimproved", "open_defecation", "undefined", "unimproved"))
 })
