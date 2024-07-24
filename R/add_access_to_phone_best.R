@@ -116,6 +116,8 @@ add_access_to_phone_coverage <- function(
 df <- dplyr::mutate(
   df,
   etc_access_to_phone_coverage = dplyr::case_when(
+    # undefined
+    (!!rlang::sym(coverage_network_type) %in% c(coverage_undefined)) | (!!rlang::sym(access_to_phone_best) %in% c(access_to_undefined)) ~ "undefined",
     # no_coverage_or_phone
     !!rlang::sym(coverage_network_type) %in% coverage_none | !!rlang::sym(access_to_phone_best) %in% access_to_phone_none ~ "no_coverage_or_no_phone",
     # no_internet_or_basic_phone
@@ -124,8 +126,6 @@ df <- dplyr::mutate(
     !!rlang::sym(coverage_network_type) %in% coverage_yes_internet & !!rlang::sym(access_to_phone_best) %in% c(access_to_feature_phone) ~ "internet_feature_phone",
     # internet_smartphone
     !!rlang::sym(coverage_network_type) %in% coverage_yes_internet & !!rlang::sym(access_to_phone_best) %in% c(access_to_smartphone) ~ "internet_smartphone",
-    # undefined
-    (!!rlang::sym(coverage_network_type) %in% c(coverage_undefined)) | (!!rlang::sym(access_to_phone_best) %in% c(access_to_undefined)) ~ "undefined",
       .default = NA_character_)
   )
 
