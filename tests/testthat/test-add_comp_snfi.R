@@ -11,7 +11,7 @@ df_dummy <- data.frame(
 
 # Define tests
 test_that("comp_snfi function works correctly with default parameters", {
-  result <- comp_snfi(df_dummy)
+  result <- add_comp_snfi(df_dummy)
   expect_equal(result$comp_snfi_score_shelter_type_cat, c(5, 3, 1, NA, NA))
   expect_equal(result$comp_snfi_score_shelter_issue_cat, c(4, 3, 2, 1, NA))
   expect_equal(result$comp_snfi_score_occupancy_cat, c(3, 2, 1, NA, NA))
@@ -22,18 +22,18 @@ test_that("comp_snfi function works correctly with default parameters", {
 test_that("comp_snfi handles NA values correctly", {
   df_test <- df_dummy
   df_test$snfi_shelter_type_cat[1] <- NA
-  result <- comp_snfi(df_test)
+  result <- add_comp_snfi(df_test)
   expect_true(is.na(result$comp_snfi_score_shelter_type_cat[1]))
 })
 
 test_that("comp_snfi throws error for missing columns", {
   df_test <- df_dummy
   df_test <- df_test %>% select(-snfi_shelter_type_cat)
-  expect_error(comp_snfi(df_test), class = "error")
+  expect_error(add_comp_snfi(df_test), class = "error")
 })
 
 test_that("comp_snfi assigns in need status correctly", {
-  result <- comp_snfi(df_dummy)
+  result <- add_comp_snfi(df_dummy)
   expect_equal(result$comp_snfi_in_need, c(TRUE, TRUE, FALSE, FALSE, NA))
 })
 
@@ -43,7 +43,7 @@ test_that("comp_snfi handles custom category levels correctly", {
   custom_occupancy_levels <- c("high_risk", "medium_risk", "low_risk", "undefined")
   custom_fds_cannot_levels <- c("4_to_5_tasks", "2_to_3_tasks", "1_task", "none", "undefined")
 
-  result <- comp_snfi(
+  result <- add_comp_snfi(
     df_dummy,
     shelter_type_cat_levels = custom_shelter_type_levels,
     shelter_issue_cat_levels = custom_shelter_issue_levels,
