@@ -3,6 +3,7 @@
 #'
 #' @param df A data frame.
 #' @param expenditure_infreq A character string. The name of the column that contains the infrequent expenditures.
+#' @param none The value for no expenditure.
 #' @param undefined A character vector. The values that indicate that the infrequent expenditures type was skipped.
 #' @param expenditure_infreq_types A character vector. The names of the columns that contain the amount of infrequent expenditures types.
 #'
@@ -53,7 +54,7 @@ add_expenditure_type_zero_infreq <- function(
     dplyr::across(
       dplyr::all_of(expenditure_infreq),
       \(x) dplyr::case_when(
-        !!rlang::sym(expenditure_infreq) == "none" ~ 0,
+        !!rlang::sym(expenditure_infreq) == none ~ 0,
         .default = x
       )
     )
