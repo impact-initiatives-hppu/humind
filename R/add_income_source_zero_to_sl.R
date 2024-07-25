@@ -57,7 +57,7 @@ add_income_source_zero_to_sl <- function(
     dplyr::across(
       dplyr::all_of(income_sources),
       \(x) dplyr::case_when(
-        !!rlang::sym(income_source) == "none" ~ 0,
+        !!rlang::sym(income_source) == none ~ 0,
         .default = x
       )
     )
