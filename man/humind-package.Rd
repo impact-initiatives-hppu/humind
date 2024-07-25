@@ -25,5 +25,10 @@ Authors:
   \item Sunhee Moraes \email{sunhee.moraes@impact-initiatives.org}
 }
 
+Other contributors:
+\itemize{
+  \item Raphael Bacot \email{raphael.bacot@impact-initiatives.org} [contributor]
+}
+
 }
 \keyword{internal}
