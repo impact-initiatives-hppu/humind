@@ -1,6 +1,6 @@
 #' Sanitation facility classification
 #'
-#' [add_sanitation_facility_cat()] recodes the types of sanitation facilities, [add_sharing_sanitation_facility_cat()] recodes the sharing status of sanitation facility, and [add_sanitation_facility_jmp_cat()] combines the previous two functions to recode the sanitation facility into a JMP classification. Finally, [add_sharing_sanitation_facility_num_ind()] recodes the number of individuals sharing the sanitation facility.
+#' [add_sanitation_facility_cat()] recodes the types of sanitation facilities, [add_sharing_sanitation_facility_cat()] recodes the sharing status of sanitation facility, and [add_sanitation_facility_jmp_cat()] combines the previous two functions to recode the sanitation facility into a JMP classification. Finally, [add_sharing_sanitation_facility_n_ind()] recodes the number of individuals sharing the sanitation facility.
 #'
 #' @param df A data frame.
 #' @param sanitation_facility Component column: Sanitation facility types.

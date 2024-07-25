@@ -44,7 +44,7 @@ add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_
       loop <- dplyr::select(loop, -dplyr::all_of("month"))
     }
     # Join main to loop, setNames used to dynamically set the column names for the join operation.
-    loop <- dplyr::left_join(loop, main, by = setNames(id_col_main, id_col_loop))
+    loop <- dplyr::left_join(loop, main, by = stats::setNames(id_col_main, id_col_loop))
   } else {
     # Check that month is a number between 1 and 12, if no abort
     if (!(month %in% c(1:12))) rlang::abort("month must be between 1 and 12")
