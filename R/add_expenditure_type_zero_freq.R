@@ -3,6 +3,7 @@
 #'
 #' @param df A data frame.
 #' @param expenditure_freq A character string. The name of the column that contains the frequent expenditures.
+#' @param none The value for no expenditure.
 #' @param undefined A character vector. The values that indicate that the frequent expenditures type was skipped.
 #' @param expenditure_freq_types A character vector. The names of the columns that contain the amount of frequent expenditures types.
 #'
@@ -55,7 +56,7 @@ add_expenditure_type_zero_freq <- function(
     dplyr::across(
       dplyr::all_of(expenditure_freq),
       \(x) dplyr::case_when(
-        !!rlang::sym(expenditure_freq) == "none" ~ 0,
+        !!rlang::sym(expenditure_freq) == none ~ 0,
         .default = x
       )
     )
