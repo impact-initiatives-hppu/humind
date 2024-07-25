@@ -1,12 +1,5 @@
 library(testthat)
-library(tibble)
-library(devtools)
-#install.packages("pak")
-#pak::pak("limma")
-#install_github("impact-initiatives-hppu/humind")
-library(humind)
 library(dplyr)
-#library(writexl)
 
 df <- data.frame(
   uuid = 1:3,
