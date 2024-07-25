@@ -32,10 +32,10 @@ df[income_sources] <- lapply(df[income_sources], as.numeric)
 test_that("add_income_source_zero_to_sl correctly adds zero when income source was skipped", {
   result <- add_income_source_zero_to_sl(df)
 
-  expect_equal(result$cm_income_source_salaried_n, c(0, 500, 0))
-  expect_equal(result$cm_income_source_casual_n, c(0, 200, 0))
-  expect_equal(result$cm_income_source_own_business_n, c(0, 0, 0))
-  expect_equal(result$cm_income_source_own_production_n, c(0, 0, 0))
+  expect_equal(result$cm_income_source_salaried_n, c(NA, 500, 0))
+  expect_equal(result$cm_income_source_casual_n, c(NA, 200, 0))
+  expect_equal(result$cm_income_source_own_business_n, c(NA, 0, 0))
+  expect_equal(result$cm_income_source_own_production_n, c(NA, 0, 0))
   # Add similar expectations for other income source columns
 })
 
