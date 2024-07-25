@@ -2,6 +2,7 @@
 #'
 #' @param df A data frame.
 #' @param income_source A character string. The name of the column that contains the income source.
+#' @param none A character string. The value that indicates that the income source was skipped.
 #' @param undefined A character vector. The values that indicate that the income source was skipped.
 #' @param income_sources A character vector. The names of the columns that contain the amount of income sources.
 #'
@@ -49,7 +50,7 @@ add_income_source_zero_to_sl <- function(
     suffix = "")
 
   # Ensure that when income_source is "none", all sl_vars are 0
-  # Which should be the case already with value_to_sl 
+  # Which should be the case already with value_to_sl
   # to be on the safe side in the meantime
   df <- dplyr::mutate(
     df,

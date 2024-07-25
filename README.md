@@ -8,22 +8,34 @@
 [![R-CMD-check](https://github.com/impact-initiatives-hppu/humind/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/impact-initiatives-hppu/humind/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The package gives helpers to calculate usual humanitarian composite
-indicators in MSNAs.
-
-- Expect many breaking changes as we are moving towards a more
-  consistent and coherent package for 2024 MSNAs
-- Food security indicators will be imported from impactR4PHU,
-  potentially all Public Health functions.
+`humind` provides functions to compose usual humanitarian composite
+indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such
+as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short
+Set of questions (WG-SS), JMP ladders, as well as specific indicators
+related to the MSNI framework. It follows Step - Composition of the R
+framework.
 
 ## Installation
 
-You can install the development version of humind like so:
+You can install the latest version of `humind` like so:
 
 ``` r
 devtools::install_github("impact-initiatives-hppu/humind")
 ```
 
-## Example
+Education specific functions are stored in the education branch at the
+moment. They will be added to the main branch with an upcoming
+version/milestone. The education branch is up-to-date with the main
+branch. To install the education branch:
 
-Under construction.
+``` r
+devtools::install_github("impact-initiatives-hppu/humind@education")
+```
+
+## Issues and feedback
+
+If any issue or feedback, please add an
+[issue](https://github.com/impact-initiatives-hppu/humind/issues/new/choose).
+
+Expect (potential breaking) changes as we roll out the first version of
+the package for 2024 MSNAs, based on country testing and feedback.
