@@ -9,7 +9,8 @@
 add_income_source_zero_to_sl <- function(
     df,
     income_source = "cm_income_source",
-    undefined = c("dnk", "pnta", "none"),
+    none = "none",
+    undefined = c("dnk", "pnta"),
     income_sources = c("cm_income_source_salaried_n",
                        "cm_income_source_casual_n",
                        "cm_income_source_own_business_n",
@@ -47,7 +48,20 @@ add_income_source_zero_to_sl <- function(
     sl_value = 0,
     suffix = "")
 
-  return(df)
+  # Ensure that when income_source is "none", all sl_vars are 0
+  # Which should be the case already with value_to_sl 
+  # to be on the safe side in the meantime
+  df <- dplyr::mutate(
+    df,
+    dplyr::across(
+      dplyr::all_of(income_sources),
+      \(x) dplyr::case_when(
+        !!rlang::sym(income_source) == "none" ~ 0,
+        .default = x
+      )
+    )
+  )
 
+  return(df)
 
 }

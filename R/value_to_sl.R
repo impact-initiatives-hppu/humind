@@ -29,10 +29,9 @@ value_to_sl <- function(
     df,
     dplyr::across(
       dplyr::all_of(sl_vars),
-        \(x) dplyr::if_else(
-          condition = is.na(x) & !(var %in% undefined),
-          true = sl_value,
-          false = x
+        \(x) dplyr::case_when(
+          is.na(x) & !(!!rlang::sym(var) %in% undefined) ~ sl_value,
+          .default = x
         ),
       .names = "{.col}{suffix}"
     )
