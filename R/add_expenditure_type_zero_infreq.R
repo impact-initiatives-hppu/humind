@@ -9,8 +9,9 @@
 #' @export
 add_expenditure_type_zero_infreq <- function(
     df,
-    expenditure_infreq = "cm_expenditure_infrequent",
-    undefined = c("dnk", "pnta", "none"),
+    expenditure_infreq = "cm_expenditure_frequent",
+    none = "none",
+    undefined = c("dnk", "pnta"),
     expenditure_infreq_types = c("cm_expenditure_infrequent_shelter",
                                  "cm_expenditure_infrequent_nfi",
                                  "cm_expenditure_infrequent_health",
@@ -44,7 +45,22 @@ add_expenditure_type_zero_infreq <- function(
     sl_value = 0,
     suffix = "")
   
+  # Ensure that when expenditure_infreq is "none", all sl_vars are 0
+  # Which should be the case already with value_to_sl
+  # to be on the safe side in the meantime
+  df <- dplyr::mutate(
+    df,
+    dplyr::across(
+      dplyr::all_of(expenditure_infreq),
+      \(x) dplyr::case_when(
+        !!rlang::sym(expenditure_infreq) == "none" ~ 0,
+        .default = x
+      )
+    )
+  )
+  
   return(df)
+  
   
   
 }
