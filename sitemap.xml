@@ -1,13 +1,10 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/404.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/LICENSE-text.html</loc></url>
-<url><loc>https://impact-initiatives-hppu.github.io/humind/LICENSE.html</loc></url>
-<url><loc>https://impact-initiatives-hppu.github.io/humind/articles/general-information.html</loc></url>
-<url><loc>https://impact-initiatives-hppu.github.io/humind/articles/hh-indicators.html</loc></url>
-<url><loc>https://impact-initiatives-hppu.github.io/humind/articles/index.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/authors.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/index.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/news/index.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/r_package_documentation.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_access_to_phone_best.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_age_cat.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_barriers_assistance_any.html</loc></url>
@@ -19,10 +16,17 @@
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_comp_snfi.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_comp_wash.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_freq_rank.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_infreq_rank.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_prop_freq.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_prop_infreq.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_zero_freq.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_zero_infreq.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_fds_cannot_cat.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_handwashing_facility_cat.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_hoh_final.html</loc></url>
-<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_income_source_cat.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_income_source_prop.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_income_source_rank.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_income_source_zero_to_sl.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_age_dummy.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_access_d.html</loc></url>
@@ -31,6 +35,7 @@
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_ind_age_corrected.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_wgq_ss.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_msni.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_occupancy_cat.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_received_assistance.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.html</loc></url>
