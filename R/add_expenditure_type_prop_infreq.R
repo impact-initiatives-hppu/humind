@@ -34,7 +34,7 @@ add_expenditure_type_prop_infreq <- function(
   if_not_in_stop(df, expenditure_infreq_types , "df")
   
   # Check that all infrequent expenditure types are here
-  if (length(expenditure_infreq_types ) < 9) {
+  if (length(expenditure_infreq_types ) < 6) {
     
     rlang::abort("Some of the infrequent expenditure types are null.")
   }

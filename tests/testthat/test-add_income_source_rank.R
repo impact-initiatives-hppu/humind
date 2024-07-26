@@ -15,11 +15,8 @@ df <- data.frame(
   cm_income_source_own_production_n = c(0, 0, 20),
   cm_income_source_other_n = c(0, 60, 0)
 )
-
-#write_xlsx(df, "C:/Users/sunhee.moraes/Desktop/Cross Crisis/output_analysis/test_1.xlsx")
-
-test_that("add_income_source_cat returns correct structure", {
-  result <- add_income_source_cat(df)
+test_that("add_income_source_rank returns correct structure", {
+  result <- add_income_source_rank(df)
 
   # Test that the result is a data frame
   expect_s3_class(result, "data.frame")
@@ -31,8 +28,8 @@ test_that("add_income_source_cat returns correct structure", {
                     "cm_income_source_top3") %in% names(result)))
 })
 
-test_that("add_income_source_cat returns correct values", {
-  result <- add_income_source_cat(df)
+test_that("add_income_source_rank returns correct values", {
+  result <- add_income_source_rank(df)
 
   # Test that the counts are correct
   expect_equal(result$cm_income_source_emergency_n, c(2, 2, 1))
@@ -46,31 +43,17 @@ test_that("add_income_source_cat returns correct values", {
   expect_equal(result$cm_income_source_top3, c("emergency", "unstable", "stable"))
 })
 
-test_that("add_income_source_cat handles missing columns gracefully", {
+test_that("add_income_source_rank handles missing columns gracefully", {
   df_missing <- df %>% select(-cm_income_source_assistance_n)
-  expect_error(add_income_source_cat(df_missing), class = "error")
+  expect_error(add_income_source_rank(df_missing), class = "error")
 })
 
-test_that("add_income_source_cat handles non-numeric columns gracefully", {
+test_that("add_income_source_rank handles non-numeric columns gracefully", {
   df_non_numeric <- df %>%
     mutate(cm_income_source_assistance_n = as.character(cm_income_source_assistance_n))
-  expect_error(add_income_source_cat(df_non_numeric), class = "error")
+  expect_error(add_income_source_rank(df_non_numeric), class = "error")
 })
 
-#-------------------------------------------------------------------------------------------
-
-# Define the income_source_cat_rec function for testing
-income_source_cat_rec <- function(df, var, emergency, unstable, stable, undefined){
-  dplyr::mutate(
-    df,
-    "{var}" := dplyr::case_when(
-      !!rlang::sym(var) %in% emergency ~ "emergency",
-      !!rlang::sym(var) %in% unstable ~ "unstable",
-      !!rlang::sym(var) %in% stable ~ "stable",
-      !!rlang::sym(var) %in% other ~ "other",
-      .default = NA_character_)
-  )
-}
 
 # Sample data frame
 df <- data.frame(
@@ -78,20 +61,4 @@ df <- data.frame(
   cm_income_source_top2 = c("cm_income_source_social_benefits_n", "cm_income_source_support_friends_n", "cm_income_source_own_business_n"),
   cm_income_source_top3 = c("cm_income_source_donation_n", "cm_income_source_own_production_n", "cm_income_source_other_n")
 )
-
-emergency <- c("cm_income_source_assistance_n", "cm_income_source_support_friends_n", "cm_income_source_donation_n")
-unstable <- c("cm_income_source_casual_n", "cm_income_source_social_benefits_n", "cm_income_source_rent_n", "cm_income_source_remittances_n")
-stable <- c("cm_income_source_salaried_n", "cm_income_source_own_business_n", "cm_income_source_own_production_n")
-other <- "cm_income_source_other_n"
-
-test_that("income_source_cat_rec correctly recodes income sources", {
-  result <- income_source_cat_rec(df, "cm_income_source_top1", emergency, unstable, stable, other)
-  expect_equal(result$cm_income_source_top1, c("emergency", "stable", "unstable"))
-
-  result <- income_source_cat_rec(df, "cm_income_source_top2", emergency, unstable, stable, other)
-  expect_equal(result$cm_income_source_top2, c("unstable", "emergency", "stable"))
-
-  result <- income_source_cat_rec(df, "cm_income_source_top3", emergency, unstable, stable, other)
-  expect_equal(result$cm_income_source_top3, c("emergency", "stable", "other"))
-})
 

@@ -47,7 +47,7 @@ count_if_above_zero <- function(df, vars, new_colname){
     vars_d,
     new_colname = new_colname,
     imputation = "none",
-    na_rm = FALSE
+    na_rm = TRUE
   )
 
     return(df)

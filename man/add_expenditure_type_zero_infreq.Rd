@@ -7,8 +7,9 @@ Note: Infrequent expenditure = 6-month recall period}
 \usage{
 add_expenditure_type_zero_infreq(
   df,
-  expenditure_infreq = "cm_expenditure_infrequent",
-  undefined = c("dnk", "pnta", "none"),
+  expenditure_infreq = "cm_expenditure_frequent",
+  none = "none",
+  undefined = c("dnk", "pnta"),
   expenditure_infreq_types = c("cm_expenditure_infrequent_shelter",
     "cm_expenditure_infrequent_nfi", "cm_expenditure_infrequent_health",
     "cm_expenditure_infrequent_education", "cm_expenditure_infrequent_debt",
@@ -19,6 +20,8 @@ add_expenditure_type_zero_infreq(
 \item{df}{A data frame.}
 
 \item{expenditure_infreq}{A character string. The name of the column that contains the infrequent expenditures.}
+
+\item{none}{The value for no expenditure.}
 
 \item{undefined}{A character vector. The values that indicate that the infrequent expenditures type was skipped.}
 

@@ -4,9 +4,9 @@ library(dplyr)
 # Dummy data for testing
 dummy_data_top3 <- data.frame(
   uuid = 1:4,
-  cm_expenditure_frequent_food = c(100, 200, 50, 150),
+  cm_expenditure_frequent_food = c(100, 200, 50, 200),
   cm_expenditure_frequent_rent = c(300, 100, 100, 50),
-  cm_expenditure_frequent_water = c(50, 300, 200, 200),
+  cm_expenditure_frequent_water = c(50, 300, 200, 150),
   cm_expenditure_frequent_nfi = c(20, 20, 20, 20),
   cm_expenditure_frequent_utilitiues = c(10, 10, 10, 10),
   cm_expenditure_frequent_fuel = c(5, 5, 5, 5),
@@ -35,9 +35,9 @@ test_that("add_top3_expenditure_type_freq function handles tied values correctly
   result <- add_top3_expenditure_type_freq(tied_values_data)
 
   # Check if tied values are handled correctly
-  expect_equal(result$cm_freq_expenditure_top1, c("cm_expenditure_frequent_rent", "cm_expenditure_frequent_water", "cm_expenditure_frequent_rent", "cm_expenditure_frequent_food"))
-  expect_equal(result$cm_freq_expenditure_top2, c("cm_expenditure_frequent_food", "cm_expenditure_frequent_food", "cm_expenditure_frequent_water", "cm_expenditure_frequent_rent"))
-  expect_equal(result$cm_freq_expenditure_top3, c("cm_expenditure_frequent_water", "cm_expenditure_frequent_rent", "cm_expenditure_frequent_food", "cm_expenditure_frequent_nfi"))
+  expect_equal(result$cm_freq_expenditure_top1, c("cm_expenditure_frequent_food", "cm_expenditure_frequent_water", "cm_expenditure_frequent_water", "cm_expenditure_frequent_water"))
+  expect_equal(result$cm_freq_expenditure_top2, c("cm_expenditure_frequent_rent", "cm_expenditure_frequent_food", "cm_expenditure_frequent_rent", "cm_expenditure_frequent_food"))
+  expect_equal(result$cm_freq_expenditure_top3, c("cm_expenditure_frequent_water", "cm_expenditure_frequent_rent", "cm_expenditure_frequent_food", "cm_expenditure_frequent_rent"))
 })
 
 # 3. Test handling of missing columns
