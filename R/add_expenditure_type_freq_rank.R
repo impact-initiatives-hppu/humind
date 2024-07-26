@@ -5,7 +5,7 @@
 #' @param id_col The name of the column that contains the unique identifier.
 #'
 #' @export
-add_top3_expenditure_type_freq <- function(
+add_expenditure_type_freq_rank <- function(
     df,
     expenditure_freq_types = c("cm_expenditure_frequent_food",
                                "cm_expenditure_frequent_rent",

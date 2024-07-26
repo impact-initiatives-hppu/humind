@@ -17,8 +17,8 @@ dummy_data_top3 <- data.frame(
 
 
 # 1. Test the function with default parameters
-test_that("add_top3_expenditure_type_freq function works with default parameters", {
-  result <- add_top3_expenditure_type_freq(dummy_data_top3)
+test_that("add_expenditure_type_freq_rank function works with default parameters", {
+  result <- add_expenditure_type_freq_rank(dummy_data_top3)
 
   # Check if the top 3 expenditure types are identified correctly
   expect_equal(result$cm_freq_expenditure_top1, c("cm_expenditure_frequent_rent", "cm_expenditure_frequent_water", "cm_expenditure_frequent_water", "cm_expenditure_frequent_food"))
@@ -31,8 +31,8 @@ tied_values_data <- dummy_data_top3
 tied_values_data$cm_expenditure_frequent_food <- c(100, 200, 50, 50)
 tied_values_data$cm_expenditure_frequent_rent <- c(100, 100, 100, 50)
 
-test_that("add_top3_expenditure_type_freq function handles tied values correctly", {
-  result <- add_top3_expenditure_type_freq(tied_values_data)
+test_that("add_expenditure_type_freq_rank function handles tied values correctly", {
+  result <- add_expenditure_type_freq_rank(tied_values_data)
 
   # Check if tied values are handled correctly
   expect_equal(result$cm_freq_expenditure_top1, c("cm_expenditure_frequent_food", "cm_expenditure_frequent_water", "cm_expenditure_frequent_water", "cm_expenditure_frequent_water"))
@@ -43,15 +43,15 @@ test_that("add_top3_expenditure_type_freq function handles tied values correctly
 # 3. Test handling of missing columns
 missing_column_data_top3 <- dummy_data_top3 %>% select(-cm_expenditure_frequent_food)
 
-test_that("add_top3_expenditure_type_freq function handles missing columns", {
-  expect_error(add_top3_expenditure_type_freq(missing_column_data_top3))
+test_that("add_expenditure_type_freq_rank function handles missing columns", {
+  expect_error(add_expenditure_type_freq_rank(missing_column_data_top3))
 })
 
 # 4. Test that expenditure types are numeric
 non_numeric_data_top3 <- dummy_data_top3
 non_numeric_data_top3$cm_expenditure_frequent_food <- as.character(non_numeric_data_top3$cm_expenditure_frequent_food)
 
-test_that("add_top3_expenditure_type_freq function checks for numeric expenditure types", {
-  expect_error(add_top3_expenditure_type_freq(non_numeric_data_top3))
+test_that("add_expenditure_type_freq_rank function checks for numeric expenditure types", {
+  expect_error(add_expenditure_type_freq_rank(non_numeric_data_top3))
 })
 
