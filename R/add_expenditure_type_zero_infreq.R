@@ -54,7 +54,7 @@ add_expenditure_type_zero_infreq <- function(
     dplyr::across(
       dplyr::all_of(expenditure_infreq),
       \(x) dplyr::case_when(
-        !!rlang::sym(expenditure_infreq) == none ~ 0,
+        !!rlang::sym(expenditure_infreq) == none ~ "0",
         .default = x
       )
     )

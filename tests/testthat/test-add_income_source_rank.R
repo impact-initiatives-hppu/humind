@@ -62,9 +62,3 @@ df <- data.frame(
   cm_income_source_top3 = c("cm_income_source_donation_n", "cm_income_source_own_production_n", "cm_income_source_other_n")
 )
 
-emergency <- c("cm_income_source_assistance_n", "cm_income_source_support_friends_n", "cm_income_source_donation_n")
-unstable <- c("cm_income_source_casual_n", "cm_income_source_social_benefits_n", "cm_income_source_rent_n", "cm_income_source_remittances_n")
-stable <- c("cm_income_source_salaried_n", "cm_income_source_own_business_n", "cm_income_source_own_production_n")
-other <- "cm_income_source_other_n"
-
-

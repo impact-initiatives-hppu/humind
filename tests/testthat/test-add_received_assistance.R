@@ -51,7 +51,7 @@ test_that("add_received_assistance handles all NA values", {
 
   expect_equal(result, expected)
 })
-s
+
 test_that("add_received_assistance give message about missing columns", {
   df <- data.frame(
     aap_received_assistance_12m = c("yes", "no", "dnk", "pnta")
