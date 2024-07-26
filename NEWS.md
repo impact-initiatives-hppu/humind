@@ -1,3 +1,20 @@
+# humind 2024.1.0
+
+Provides functions to compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs). Such as:
+
+   * Food security indicators (rCSI, LCSI, HHS, FCS).
+   * Washington Group Short Set of questions (WG-SS).
+   * JMP ladders.
+   * Specific indicators related to the MSNI framework.
+
+The package follows the ‘Step-Composition’ approach of IMPACT R framework.
+
+
+# humind 0.1.900
+
+* Expect many breaking changes as we are moving towards a more consistent and coherent package for 2024 MSNAs
+* Food security indicators will be imported from impactR4PHU, potentially all Public Health functions.
+
 # humind 0.0.5.3
 
 * Bug fix: `rsci()` now correctly adds the `rcsi_score` variable.

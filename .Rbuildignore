@@ -6,3 +6,8 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^data-raw$
+^doc$
+^Meta$
+^scripts-example
+^r_package_documentation\.md

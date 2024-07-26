@@ -77,33 +77,48 @@ are_values_in_range <- function(df, cols, lower = 0, upper = 7){
 #' @param df A data frame
 #' @param cols A vector of column names (quoted)
 #' @param set A vector of values
+#' @param main_message A main message
 #'
 #' @return A stop statement
-are_values_in_set <- function(df, cols, set){
+are_values_in_set <- function(df, cols, set, main_message = "All columns must be in the following set: "){
 
   #------ Check for missing columns
   if_not_in_stop(df, cols, "df")
 
   #------ Values not in set
-  values <- purrr::map_lgl(
+  values_lgl <- purrr::map_lgl(
     dplyr::select(
       df,
       dplyr::all_of(cols)
     ),
     \(x) {
-      sum(!(stats::na.omit(x) %in% set), na.rm = TRUE) >= 1
+      !all(stats::na.omit(unique(x)) %in% set)
     }
   )
 
-  cols <- cols[values]
+  if (any(values_lgl)) {
 
-  if (any(values)) {
+    cols <- cols[values_lgl]
+    values_chr <- names(values_lgl)
+
+    # Get values not in set
+    df_cols <- dplyr::select(df, dplyr::all_of(cols))
+    values_chr <- purrr::map(df_cols, \(x) {
+      x <- unique(x)
+      x[!is.na(x) & !(x %in% set)]
+    })
+
+    values_chr <- purrr::imap_chr(values_chr, \(x, idx) {
+      glue::glue("{idx}: {glue::glue_collapse(x, sep = ', ', last = ' and ')}")
+    })
+
     rlang::abort(c(
-      glue::glue("All columns must be in the following set: ", glue::glue_collapse(set, sep = ", ")),
+      glue::glue(main_message, glue::glue_collapse(set, sep = ", ")),
       "i" = glue::glue(
         "The following columns have values out of the set Please check.\n",
         glue::glue_collapse(cols, sep = "\n")
-      )
+      ),
+      "x" = glue::glue("The values out of the set are:\n", glue::glue_collapse(values_chr, sep = "\n"))
     ))
   }
 

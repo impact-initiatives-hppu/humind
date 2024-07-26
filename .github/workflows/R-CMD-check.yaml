@@ -1,0 +1,216 @@
+name: R-CMD-check
+
+on:
+  push:
+    branches: [unit-test]
+  pull_request:
+    branches: [unit-test]
+
+jobs:
+  R-CMD-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: true
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up R
+      uses: r-lib/actions/setup-r@v2
+      with:
+        r-version: release
+
+    - name: Cache R packages
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-r-${{ hashFiles('**/*.R') }}-release
+        restore-keys: |
+          ${{ runner.os }}-r-release
+          ${{ runner.os }}-r-
+
+    - name: Install dependencies
+      uses: r-lib/actions/setup-r-dependencies@v2
+      with:
+        extra-packages: |
+          any::devtools
+          any::testthat
+          any::rcmdcheck
+          any::stringr
+          any::httr
+          any::jsonlite
+          any::gh
+          
+    - name: Run tests and write results
+      run: |
+        Rscript -e '
+        library(testthat)
+        library(humind)
+
+        # Function to write lines (overwriting the file)
+        write_line <- function(text, file, append = FALSE) {
+          cat(paste0(text, "\n"), file = file, append = append)
+        }
+
+        # Diagnostic information
+        write_line("Diagnostic Information:", "test_results.txt", append = FALSE)
+        write_line("------------------------", "test_results.txt", append = TRUE)
+        write_line(paste("Current working directory:", getwd()), "test_results.txt", append = TRUE)
+        write_line("Files in tests/testthat:", "test_results.txt", append = TRUE)
+        write_line(paste(list.files("tests/testthat"), collapse = "\n"), "test_results.txt", append = TRUE)
+        capture.output(print(sessionInfo()), file = "test_results.txt", append = TRUE)
+
+        # Run tests and capture all output
+        write_line("\nTest Output:", "test_results.txt", append = TRUE)
+        write_line("------------", "test_results.txt", append = TRUE)
+        
+        test_output <- capture.output({
+          tryCatch({
+            test_results <- testthat::test_dir("tests/testthat", reporter = testthat::ProgressReporter$new(max_failures = 100))
+            print(test_results)
+          }, error = function(e) {
+            cat("Error running tests:", conditionMessage(e), "\n")
+          }, warning = function(w) {
+            cat("Warning during tests:", conditionMessage(w), "\n")
+          })
+        })
+        
+        write_line(paste(test_output, collapse = "\n"), "test_results.txt", append = TRUE)
+
+        # Print content of test_results.txt for debugging
+        cat("Contents of test_results.txt:\n")
+        cat(readLines("test_results.txt"), sep = "\n")
+        '
+      continue-on-error: true
+
+    # - name: Create GitHub issues and update report
+    #   run: |
+    #     Rscript -e '
+    #     library(stringr)
+    #     library(httr)
+    #     library(jsonlite)
+    #     library(gh)
+
+    #     # Function to create a GitHub issue
+    #     create_issue <- function(title, body) {
+    #       # Check if the issue already exists
+    #       existing_issues <- gh::gh("GET /repos/impact-initiatives-hppu/humind/issues",
+    #                                 state = "open",
+    #                                 .token = Sys.getenv("GITHUB_TOKEN"))
+         
+    #       existing_titles <- sapply(existing_issues, function(i) i$title)
+    #       if (title %in% existing_titles) {
+    #         cat("Issue already exists:", title, "\n")
+    #         return(NULL)
+    #       }
+         
+    #       tryCatch({
+    #         gh::gh("POST /repos/impact-initiatives-hppu/humind/issues",
+    #                title = title,
+    #                body = body,
+    #                .token = Sys.getenv("GITHUB_TOKEN"))
+    #         cat("Created issue:", title, "\n")
+    #       }, error = function(e) {
+    #         cat("Error creating issue:", conditionMessage(e), "\n")
+    #       })
+    #     }
+
+    #     # Read test results
+    #     test_results <- readLines("test_results.txt")
+    #     cat("Read", length(test_results), "lines from test_results.txt\n")
+
+    #     # Find the start of test output
+    #     test_start <- which(test_results == "Test Output:")
+    #     if (length(test_start) > 0) {
+    #       test_output <- test_results[test_start:length(test_results)]
+    #       cat("Found Test Output section starting at line", test_start, "\n")
+          
+    #       # Process test failures and create issues
+    #       current_context <- NULL
+    #       failures <- list()
+    #       current_failure <- NULL
+
+    #       for (line in test_output) {
+    #         if (grepl("^[✔✖⠏⠙] \\|", line)) {
+    #           # New context
+    #           context_match <- str_match(line, "\\| (.+)$")
+    #           if (!is.na(context_match[1,2])) {
+    #             current_context <- str_trim(context_match[1,2])
+    #             cat("New context:", current_context, "\n")
+    #           }
+    #         } else if (startsWith(line, "Error (") || startsWith(line, "Failure (")) {
+    #           # Start of a new failure
+    #           if (!is.null(current_failure)) {
+    #             failures <- c(failures, list(current_failure))
+    #           }
+    #           error_match <- str_match(line, "^(Error|Failure) \\((.+)\\): (.+)$")
+    #           current_failure <- list(
+    #             context = current_context,
+    #             type = error_match[1,2],
+    #             location = error_match[1,3],
+    #             description = str_trim(error_match[1,4]),
+    #             details = character()
+    #           )
+    #           cat("New failure in context:", current_context, "\n")
+    #         } else if (!is.null(current_failure)) {
+    #           # Add details to the current failure
+    #           current_failure$details <- c(current_failure$details, line)
+    #         }
+    #       }
+          
+    #       # Add the last failure if any
+    #       if (!is.null(current_failure)) {
+    #         failures <- c(failures, list(current_failure))
+    #       }
+
+    #       # Create issues for each failure
+    #       cat("Creating", length(failures), "issues\n")
+    #       for (failure in failures) {
+    #         # Extract test file and line number
+    #         location_parts <- strsplit(failure$location, ":")[[1]]
+    #         test_file <- location_parts[1]
+    #         line_number <- location_parts[2]
+
+    #         # Extract function name (assuming its the last part of the context)
+    #         function_name <- tail(strsplit(failure$context, "\\.")[[1]], 1)
+
+    #         title <- sprintf("[%s] %s: %s", failure$type, failure$context, failure$description)
+    #         body <- paste(c(
+    #           sprintf("Context: %s", failure$context),
+    #           sprintf("Type: %s", failure$type),
+    #           sprintf("Description: %s", failure$description),
+    #           sprintf("Tested Function: %s", function_name),
+    #           sprintf("Test File: %s", test_file),
+    #           sprintf("Failed at Line: %s", line_number),
+    #           "",
+    #           "Details:",
+    #           failure$details
+    #         ), collapse = "\n")
+    #         create_issue(title, body)
+    #       }
+    #     } else {
+    #       cat("No Test Output section found\n")
+    #       # If no test output found, create a single issue with the entire output
+    #       create_issue(
+    #         "Test Suite Failure",
+    #         paste(test_results, collapse = "\n")
+    #       )
+    #     }
+    #     '
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+    #- name: Commit and push test report
+      #run: |
+        #git add test_results.txt
+        #git commit -m "Update test results" || echo "No changes to commit"
+        #git push
