@@ -8,7 +8,8 @@ Note:Frequent expenditure = 30-day recall period}
 add_expenditure_type_zero_freq(
   df,
   expenditure_freq = "cm_expenditure_frequent",
-  undefined = c("dnk", "pnta", "none"),
+  none = "none",
+  undefined = c("dnk", "pnta"),
   expenditure_freq_types = c("cm_expenditure_frequent_food",
     "cm_expenditure_frequent_rent", "cm_expenditure_frequent_water",
     "cm_expenditure_frequent_nfi", "cm_expenditure_frequent_utilitiues",
@@ -20,6 +21,8 @@ add_expenditure_type_zero_freq(
 \item{df}{A data frame.}
 
 \item{expenditure_freq}{A character string. The name of the column that contains the frequent expenditures.}
+
+\item{none}{The value for no expenditure.}
 
 \item{undefined}{A character vector. The values that indicate that the frequent expenditures type was skipped.}
 
