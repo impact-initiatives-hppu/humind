@@ -1,6 +1,6 @@
 #' Sanitation facility classification
 #'
-#' [add_sanitation_facility_cat()] recodes the types of sanitation facilities, [add_sharing_sanitation_facility_cat()] recodes the sharing status of sanitation facility, and [add_sanitation_facility_jmp_cat()] combines the previous two functions to recode the sanitation facility into a JMP classification. Finally, [add_sharing_sanitation_facility_num_ind()] recodes the number of individuals sharing the sanitation facility.
+#' [add_sanitation_facility_cat()] recodes the types of sanitation facilities, [add_sharing_sanitation_facility_cat()] recodes the sharing status of sanitation facility, and [add_sanitation_facility_jmp_cat()] combines the previous two functions to recode the sanitation facility into a JMP classification. Finally, [add_sharing_sanitation_facility_n_ind()] recodes the number of individuals sharing the sanitation facility.
 #'
 #' @param df A data frame.
 #' @param sanitation_facility Component column: Sanitation facility types.
@@ -97,12 +97,12 @@ add_sharing_sanitation_facility_cat <- function(df,
 #'
 #' @param sharing_sanitation_facility_cat Component column: is the sanitation facility shared.
 #' @param levels Character vector of responses codes, including first in the following order: Shared, Not shared, Not applicable, and Undefined.
-#' @param sanitation_facility_sharing_n Component column: number of people sharing the sanitation facility.
+#' @param sanitation_facility_sharing_n Component column: number of households sharing the sanitation facility.
 #' @param hh_size Column of the household size.
 #' @param weight Column of the survey weights.
 #'
 #' @export
-add_sharing_sanitation_facility_num_ind <- function(
+add_sharing_sanitation_facility_n_ind <- function(
     df,
     sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
     levels = c("shared", "not_shared", "not_applicable", "undefined"),
@@ -208,11 +208,14 @@ add_sanitation_facility_jmp_cat <- function(
     wash_sanitation_facility_jmp_cat = dplyr::case_when(
       !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[3] ~ "open_defecation",
       !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[2] ~ "unimproved",
-      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & sharing_sanitation_facility_cat == sharing_sanitation_facility_levels[1] ~ "limited",
-      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & sharing_sanitation_facility_cat == sharing_sanitation_facility_levels[1] &  !!rlang::sym(sharing_sanitation_facility_cat) == sharing_sanitation_facility_levels[2] ~ "basic",
+      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & 
+        !!rlang::sym(sharing_sanitation_facility_cat) == sharing_sanitation_facility_levels[1] ~ "limited",
+      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & 
+        sharing_sanitation_facility_cat == sharing_sanitation_facility_levels[1] & 
+        !!rlang::sym(sharing_sanitation_facility_cat) == sharing_sanitation_facility_levels[2] ~ "basic",
       !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[4] ~ "undefined",
-      !!rlang::sym(sharing_sanitation_facility_cat) %in% sharing_sanitation_facility_levels[3:4] ~ "undefined"),
-      .default = NA_character_
+      !!rlang::sym(sharing_sanitation_facility_cat) %in% sharing_sanitation_facility_levels[3:4] ~ "undefined",
+      .default = NA_character_)
     )
 
     return(df)

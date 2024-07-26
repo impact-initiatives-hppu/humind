@@ -34,12 +34,13 @@ add_loop_edu_barrier_protection_d <- function(
   loop <- dplyr::mutate(
     loop,
     # Level 4-5 categories --- dummy for protection and unable_severe
-    edu_ind_barrier_protection_d = dplyr::case_when(
+    "edu_ind_barrier_protection_d" := dplyr::case_when(
       !!rlang::sym(ind_schooling_age_d) == 0 ~ NA_real_,
-      !!rlang::sym(barriers) %in% protection ~ 1,
-      !!rlang::sym(barriers) %in% unable_severe ~ 1,
+      !!rlang::sym(barriers) %in% protection_issues ~ 1,
       .default = 0)
   )
+
+  return(loop)
 
 }
 
@@ -79,14 +80,14 @@ add_loop_edu_barrier_protection_d_to_main <- function(
   # Sum the dummy variable
   loop <- dplyr::summarize(
     loop,
-    "{ind_barrier_protection_d_n}" := sum(!!rlang::sym(ind_barrier_protection_d), na.rm = TRUE)
+    "edu_barrier_protection_n" := sum(!!rlang::sym(ind_barrier_protection_d), na.rm = TRUE)
   )
 
   # Remove columns in main that exists in loop, but the grouping ones
   main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
 
   # Join loop to main
-  main <- dplyr::left_join(main, loop, by = c(!!rlang::sym(id_col_main) := !!rlang::sym(id_col_loop)))
+  main <- dplyr::left_join(main, loop, by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop)))
 
   return(main)
 

@@ -1,4 +1,4 @@
-#' Add income source categories, count, and top 3
+#' Add income source categories, count, and ranking top 3
 #'
 #' @param df A data frame.
 #' @param emergency The names of the columns that contain emergency income sources.
@@ -8,7 +8,7 @@
 #' @param id_col The name of the column that contains the unique identifier.
 #'
 #' @export
-add_income_source_cat <- function(
+add_income_source_rank <- function(
     df,
     emergency = c("cm_income_source_assistance_n", "cm_income_source_support_friends_n", "cm_income_source_donation_n"),
     unstable = c ("cm_income_source_casual_n", "cm_income_source_social_benefits_n", "cm_income_source_rent_n", "cm_income_source_remittances_n"),

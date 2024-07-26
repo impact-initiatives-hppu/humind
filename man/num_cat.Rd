@@ -10,8 +10,9 @@ num_cat(
   breaks,
   labels = NULL,
   int_undefined = c(-999, 999),
-  char_undefined = "Unkown",
-  new_colname = NULL
+  char_undefined = "Unknown",
+  new_colname = NULL,
+  plus_last = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ num_cat(
 \item{char_undefined}{A character to replace int_dontknow values.}
 
 \item{new_colname}{The name of the new column.}
+
+\item{plus_last}{Logical, whether to add a "+" to the last category.}
 }
 \value{
 A dataframe with a new column.

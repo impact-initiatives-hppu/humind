@@ -53,13 +53,13 @@ add_fds_cannot_cat <- function(
     fds_personal_hygiene_undefined = c("pnta", "dnk"),
     lighting_source = "energy_lighting_source",
     lighting_source_none = "none",
-    lighting_source_undefined = c("pnta", "dnk", "other")
+    lighting_source_undefined = c("pnta", "dnk")
 ){
 
   #------ Checks
 
   # Check if all columns are present
-  if_not_in_stop(df, c(fds_cooking, fds_sleeping, fds_storing, fds_personal_hygiene), "df")
+  if_not_in_stop(df, c(fds_cooking, fds_sleeping, fds_storing, fds_personal_hygiene, lighting_source), "df")
 
   # Check if values are in set
   are_values_in_set(df, fds_cooking, c(fds_cooking_cannot, fds_cooking_can_issues, fds_cooking_can_no_issues, fds_cooking_no_need, fds_cooking_undefined))
@@ -85,42 +85,47 @@ add_fds_cannot_cat <- function(
 
   #----- Prepare dummy
   df <- dplyr::mutate(
-    df,
-    snfi_fds_cooking= dplyr::case_when(
-      !!rlang::sym(fds_cooking) == fds_cooking_cannot ~ "no_cannot",
-      !!rlang::sym(fds_cooking) == fds_cooking_can_issues ~ "yes_issues",
-      !!rlang::sym(fds_cooking) == fds_cooking_can_no_issues ~ "yes_no_issues",
-      !!rlang::sym(fds_cooking) == fds_cooking_no_need ~ "no_no_need",
-      !!rlang::sym(fds_cooking) %in% fds_cooking_undefined ~ "undefined",
-      .default = NA_character_
-    ),
-    snfi_fds_sleeping = dplyr::case_when(
-      !!rlang::sym(fds_sleeping) == fds_sleeping_cannot ~ "no_cannot",
-      !!rlang::sym(fds_sleeping) == fds_sleeping_can_issues ~ "yes_issues",
-      !!rlang::sym(fds_sleeping) == fds_sleeping_can_no_issues ~ "yes_no_issues",
-      !!rlang::sym(fds_sleeping) %in% fds_sleeping_undefined ~ "undefined",
-      .default = NA_character_
-    ),
-    snfi_fds_storing = dplyr::case_when(
-      !!rlang::sym(fds_storing) == fds_storing_cannot ~ "no_cannot",
-      !!rlang::sym(fds_storing) == fds_storing_can_issues ~"yes_issues",
-      !!rlang::sym(fds_storing) == fds_storing_can_no_issues ~"yes_no_issues",
-      !!rlang::sym(fds_storing) %in% fds_storing_undefined ~ "undefined",
-      .default = NA_character_
-    ),
-    snfi_fds_personal_hygiene = dplyr::case_when(
-      !!rlang::sym(fds_personal_hygiene) == fds_personal_hygiene_cannot ~ "no_cannot",
-      !!rlang::sym(fds_personal_hygiene) == fds_personal_hygiene_can_issues ~ "yes_issues",
-      !!rlang::sym(fds_personal_hygiene) == fds_personal_hygiene_can_no_issues ~ "yes_no_issues",
-      !!rlang::sym(fds_personal_hygiene) %in% fds_personal_hygiene_undefined ~ "undefined",
-      .default = NA_character_
+      df,
+      snfi_fds_cooking = dplyr::case_when(
+        !!rlang::sym(fds_cooking) == fds_cooking_cannot ~ "no_cannot",
+        !!rlang::sym(fds_cooking) == fds_cooking_can_issues ~ "yes_issues",
+        !!rlang::sym(fds_cooking) == fds_cooking_can_no_issues ~ "yes_no_issues",
+        !!rlang::sym(fds_cooking) == fds_cooking_no_need ~ "no_no_need",
+        !!rlang::sym(fds_cooking) %in% fds_cooking_undefined ~ "undefined",
+        .default = NA_character_
+      ),
+      snfi_fds_sleeping = dplyr::case_when(
+        !!rlang::sym(fds_sleeping) == fds_sleeping_cannot ~ "no_cannot",
+        !!rlang::sym(fds_sleeping) == fds_sleeping_can_issues ~ "yes_issues",
+        !!rlang::sym(fds_sleeping) == fds_sleeping_can_no_issues ~ "yes_no_issues",
+        !!rlang::sym(fds_sleeping) %in% fds_sleeping_undefined ~ "undefined",
+        .default = NA_character_
+      ),
+      snfi_fds_storing = dplyr::case_when(
+        !!rlang::sym(fds_storing) == fds_storing_cannot ~ "no_cannot",
+        !!rlang::sym(fds_storing) == fds_storing_can_issues ~ "yes_issues",
+        !!rlang::sym(fds_storing) == fds_storing_can_no_issues ~ "yes_no_issues",
+        !!rlang::sym(fds_storing) %in% fds_storing_undefined ~ "undefined",
+        .default = NA_character_
+      ),
+      snfi_fds_personal_hygiene = dplyr::case_when(
+        !!rlang::sym(fds_personal_hygiene) == fds_personal_hygiene_cannot ~ "no_cannot",
+        !!rlang::sym(fds_personal_hygiene) == fds_personal_hygiene_can_issues ~ "yes_issues",
+        !!rlang::sym(fds_personal_hygiene) == fds_personal_hygiene_can_no_issues ~ "yes_no_issues",
+        !!rlang::sym(fds_personal_hygiene) %in% fds_personal_hygiene_undefined ~ "undefined",
+        .default = NA_character_
+      ),
+      energy_lighting_source = dplyr::case_when(
+        is.na(!!rlang::sym(lighting_source)) ~ NA_character_,
+        !!rlang::sym(lighting_source) %in% lighting_source_undefined ~ "undefined",
+        !!rlang::sym(lighting_source) == lighting_source_none ~ "none",
+        .default = !!rlang::sym(lighting_source)
+      )
     )
-  )
-
 
   #----- Sum across cols if "no_cannot"
   df <- dplyr::mutate(
-    df,
+    df, 
     dplyr::across(
       c("snfi_fds_cooking", "snfi_fds_sleeping", "snfi_fds_storing", "snfi_fds_personal_hygiene"),
       \(x) dplyr::case_when(
@@ -130,27 +135,18 @@ add_fds_cannot_cat <- function(
       ),
       .names = "{.col}_d"
     )
-  )
-
-  df <- dplyr::mutate(
-    df,
-    energy_lighting_source = dplyr::case_when(
-      !!rlang::sym(lighting_source) == lighting_source_none ~ "none",
-      !!rlang::sym(lighting_source) %in% lighting_source_undefined ~ "undefined",
-      is.na(!!rlang::sym(lighting_source)) ~ NA_character_,
-      .default = !!rlang::sym(lighting_source)
     )
-  )
 
+  # Add binary for lighting
   df <- dplyr::mutate(
-    df,
+    df, 
     energy_lighting_source_d = dplyr::case_when(
-      !!rlang::sym("energy_lighting_source") %in% lighting_source_undefined ~ NA_real_,
-      !!rlang::sym("energy_lighting_source") == lighting_source_none ~ 0,
-      !(!!rlang::sym("energy_lighting_source") %in% c("lighting_source_undefined","lighting_source_none")) ~ 1,
-      .default = NA_real_
+      energy_lighting_source == "none" ~ 1,
+      energy_lighting_source == "undefined" ~ NA_real_,
+      is.na(energy_lighting_source) ~ NA_real_,
+      .default = 0
     )
-  )
+    )
 
   df <- sum_vars(
     df,
@@ -160,7 +156,7 @@ add_fds_cannot_cat <- function(
     imputation = "none"
   )
 
-  #------ Recode to categories cannot perform 0 task, 1tasks, 2-3 tasks, 4 to 5 tasks
+  #------ Recode to categories cannot perform 0 task, 1task, 2-3 tasks, 4 to 5 tasks
   df <- dplyr::mutate(
     df,
     snfi_fds_cannot_cat = dplyr::case_when(
@@ -170,8 +166,7 @@ add_fds_cannot_cat <- function(
       snfi_fds_cannot_n %in% 4:5 ~ "4_to_5_tasks",
       .default = NA_character_
     )
-  )
+    )
 
   return(df)
-
 }

@@ -67,6 +67,7 @@ impute_median <- function(df, vars, group = NULL, weighted = FALSE, weight = NUL
   }
 
   if (weighted)
+  # TODO: Implement weighted median imputation
   {
     rlang::abort("Weighted median has not been implemented yet. Please use 'FALSE'.")
     # df <- dplyr::mutate(
@@ -96,6 +97,9 @@ impute_median <- function(df, vars, group = NULL, weighted = FALSE, weight = NUL
 
   # Ungroup
   df <- dplyr::ungroup(df)
+
+  # Convert back to a dataframe as dplyr usually returns a tibble by default
+  df <- as.data.frame(df)
 
   return(df)
 }

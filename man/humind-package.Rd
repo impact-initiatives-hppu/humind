@@ -4,21 +4,33 @@
 \name{humind-package}
 \alias{humind}
 \alias{humind-package}
-\title{humind: Calculate Usual Humanitarian Composite Indicators}
+\title{humind: Compose MSNA Indicators}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 This packages provides functions to compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP ladders, as well as specific indicators related to the MSNI framework.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/impact-initiatives-hppu/humind}
-  \item \url{https://gnoblet.github.io/impact-initiatives-hppu/}
   \item Report bugs at \url{https://github.com/impact-initiatives-hppu/humind/issues}
 }
 
 }
 \author{
 \strong{Maintainer}: Guillaume Noblet \email{gnoblet@zaclys.net}
+
+Authors:
+\itemize{
+  \item Laith Abu-Nawwas \email{laith.abu-nawwas@impact-initiatives.org}
+  \item Sunhee Moraes \email{sunhee.moraes@impact-initiatives.org}
+}
+
+Other contributors:
+\itemize{
+  \item Raphael Bacot \email{raphael.bacot@impact-initiatives.org} [contributor]
+}
 
 }
 \keyword{internal}

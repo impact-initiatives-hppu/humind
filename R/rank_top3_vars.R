@@ -37,14 +37,16 @@ rank_top3_vars <- function(df, vars, new_colname_top1, new_colname_top2, new_col
     names_to = "var",
     values_to = "val")
 
+  # Remove zeros or NAs
+  int <- dplyr::filter(int, !is.na(!!rlang::sym("val")) & !!rlang::sym("val") > 0)
+
   # Group and summarize
   int <- dplyr::group_by(int, !!rlang::sym(id_col))
   # Group making sure that it follows col order
   # For income, the order counting stable, unstable and then emergency
   # Rational is: if amount of stable == amount of emergency, we keep stable as the source
   int <- dplyr::arrange(int, !!rlang::sym(id_col), dplyr::desc(!!rlang::sym("val")), factor(!!rlang::sym("var"), levels = vars))
-  # Remove zeros or NAs
-  int <- dplyr::filter(int, !is.na(!!rlang::sym("var")) & !!rlang::sym("var") > 0)
+
   # summarize and get first, 2nd and 3rd
   int <- dplyr::summarize(
     int,

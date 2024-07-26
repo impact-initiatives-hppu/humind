@@ -78,7 +78,7 @@ main <- main |>
   # Cash & markets
   add_income_source_zero_to_sl() |>
   add_income_source_prop() |>
-  add_income_source_cat() |>
+  add_income_source_rank() |>
   # AAP
   add_received_assistance()
 

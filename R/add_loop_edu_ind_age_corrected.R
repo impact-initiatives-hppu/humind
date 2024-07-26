@@ -33,7 +33,7 @@ add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_
   if (is.null(month)){
     # Prepare month date
     main <- dplyr::mutate(main, month = as.integer(format(as.Date(!!rlang::sym(survey_start_date)), "%m")))
-    main <- dplyr::select(main, dplyr::all_of(id_col_main, "month"))
+    main <- dplyr::select(main, dplyr::all_of(c(id_col_main, "month")))
     # Check that month values are between 1 and 12, if not abort
     are_values_in_set(main, "month", 1:12)
     # Remove "month" from loop if it exists
@@ -43,8 +43,8 @@ add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_
       # Remove
       loop <- dplyr::select(loop, -dplyr::all_of("month"))
     }
-    # Join main to loop
-    loop <- dplyr::left_join(loop, main, by = c(id_col_loop = id_col_main))
+    # Join main to loop, setNames used to dynamically set the column names for the join operation.
+    loop <- dplyr::left_join(loop, main, by = stats::setNames(id_col_main, id_col_loop))
   } else {
     # Check that month is a number between 1 and 12, if no abort
     if (!(month %in% c(1:12))) rlang::abort("month must be between 1 and 12")
@@ -123,7 +123,7 @@ add_loop_edu_ind_schooling_age_d_to_main <- function(
   loop <- dplyr::group_by(loop, !!rlang::sym(id_col_loop))
 
   # Sum the schooling age dummy variable
-  loop <- dplyr::summarise(loop, "{ind_schooling_age_d_n}" = sum(!!rlang::sym(ind_schooling_age_d), na.rm = TRUE))
+  loop <- dplyr::summarise(loop, edu_schooling_age_n = sum(!!rlang::sym(ind_schooling_age_d), na.rm = TRUE))
 
   # Join loop to main
   main <- dplyr::left_join(main, loop, by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop)))

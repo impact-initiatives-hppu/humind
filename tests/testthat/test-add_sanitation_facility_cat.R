@@ -2,7 +2,6 @@
 
 library(testthat)
 library(dplyr)
-library(rlang)
 
 
 # Sample data for testing
@@ -34,12 +33,16 @@ test_that("add_sharing_sanitation_facility_num_ind works correctly", {
   mean_hh_size <- stats::weighted.mean(df$hh_size, df$weight, na.rm = TRUE)
   df_test <- add_sanitation_facility_cat(df)
   df_test <- add_sharing_sanitation_facility_cat(df_test)
-  result <- add_sharing_sanitation_facility_num_ind(df_test)
+  result <- add_sharing_sanitation_facility_n_ind(df_test)
   expected_sharing_n <- (df$wash_sanitation_facility_sharing_n - 1) * mean_hh_size + df$hh_size
+  # [2] and [4] Not shared so only hhsize
   expected_sharing_n[2] <- df$hh_size[2]
+  expected_sharing_n[5] <- df$hh_size[5]
+  # [3] Undefined so NA
+  expected_sharing_n[3] <- NA
   expect_true("wash_sharing_sanitation_facility_n_ind" %in% colnames(result))
   expect_equal(result$wash_sanitation_facility_sharing_n, expected_sharing_n)
-  expect_equal(result$wash_sharing_sanitation_facility_n_ind, c("19_and_below", "19_and_below", "19_and_below", "20_to_49", "19_and_below"))
+  expect_equal(result$wash_sharing_sanitation_facility_n_ind, c("20_to_49", "19_and_below", NA, "20_to_49", "19_and_below"))
 })
 
 # Test add_sanitation_facility_jmp_cat function
@@ -48,5 +51,5 @@ test_that("add_sanitation_facility_jmp_cat works correctly", {
   df <- add_sharing_sanitation_facility_cat(df)
   result <- add_sanitation_facility_jmp_cat(df)
   expect_true("wash_sanitation_facility_jmp_cat" %in% colnames(result))
-  expect_equal(result$wash_sanitation_facility_jmp_cat, c("limited", "basic", "open_defecation", "undefined", "unimproved"))
+  expect_equal(result$wash_sanitation_facility_jmp_cat, c("limited", "unimproved", "open_defecation", "undefined", "unimproved"))
 })

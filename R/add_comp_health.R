@@ -27,12 +27,12 @@ add_comp_health <- function(
   if (!is.logical(wgq_dis)) rlang::abort("wgq_dis must be TRUE or FALSE.")
 
   # Get vars names
-  vars_n <- c(ind_healthcare_needed_no_n, ind_healthcare_needed_yes_unmet_n, ind_healthcare_needed_yes_unmet_n)
-  if (wgq_dis) vars_dis_n <- c(ind_healthcare_needed_no_wgq_dis_n, ind_healthcare_needed_yes_unmet_wgq_dis_n, ind_healthcare_needed_yes_unmet_wgq_dis_n)
+  vars_n <- c(ind_healthcare_needed_no_n, ind_healthcare_needed_yes_unmet_n, ind_healthcare_needed_yes_met_n)
+  if (wgq_dis) vars_dis_n <- c(ind_healthcare_needed_no_wgq_dis_n, ind_healthcare_needed_yes_unmet_wgq_dis_n, ind_healthcare_needed_yes_met_wgq_dis_n)
 
   # Check if the variables are in the data frame
   if_not_in_stop(df, vars_n, "df")
-  if (wgq_dis) if_not_in_stop(df, , "df")
+  if (wgq_dis) if_not_in_stop(df, vars_dis_n, "df")
 
   # Check if values are numeric and above 0
   are_cols_numeric(df, vars_n)
@@ -47,9 +47,9 @@ add_comp_health <- function(
     df <- dplyr::mutate(
       df,
       comp_health_score = dplyr::case_when(
+        !!rlang::sym(ind_healthcare_needed_no_n) > 0 ~ 1,
         !!rlang::sym(ind_healthcare_needed_yes_unmet_n) > 0 ~ 3,
         !!rlang::sym(ind_healthcare_needed_yes_met_n) > 0 ~ 2,
-        !!rlang::sym(ind_healthcare_needed_no_n) > 0 ~1,
         .default = NA_real_
       )
     )
@@ -61,21 +61,17 @@ add_comp_health <- function(
         !!rlang::sym(ind_healthcare_needed_yes_unmet_n) > 0 ~ 3,
         !!rlang::sym(ind_healthcare_needed_yes_met_wgq_dis_n) > 0 ~ 3,
         !!rlang::sym(ind_healthcare_needed_yes_met_n) > 0 ~ 2,
-        !!rlang::sym(wgq_dis_n) > 0 ~ 2,
+        !!rlang::sym(ind_healthcare_needed_no_wgq_dis_n) > 0 ~ 2,
         !!rlang::sym(ind_healthcare_needed_no_n) > 0 ~ 1,
         .default = NA_real_
       )
     )
   }
 
-    # Is in need?
-    df <- is_in_need(
-      df,
-      "comp_health_score",
-      "comp_health_in_need"
-    )
+  # Is in need?
+  df <- is_in_need(df, "comp_health_score", "comp_health_in_need")
+  # Is in acute need?
+  df <- is_in_acute_need(df, "comp_health_score", "comp_health_in_acute_need")
 
   return(df)
-
-
 }

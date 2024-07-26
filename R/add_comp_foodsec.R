@@ -40,6 +40,13 @@ add_comp_foodsec <- function(
     "comp_foodsec_in_need"
   )
 
+  # Is in acute need?
+  df <- is_in_acute_need(
+    df,
+    "comp_foodsec_score",
+    "comp_foodsec_in_acute_need"
+  )
+
   return(df)
 
 }

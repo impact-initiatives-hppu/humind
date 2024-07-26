@@ -1,8 +1,5 @@
 library(testthat)
 library(dplyr)
-library(purrr)
-library(rlang)
-library(glue)
 
 # Test data
 df <- data.frame(

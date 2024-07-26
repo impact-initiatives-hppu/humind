@@ -46,7 +46,7 @@ test_that("add_received_assistance handles all NA values", {
   expected <- data.frame(
     aap_received_assistance_12m = c(NA, NA, NA, NA),
     aap_received_assistance_date = c(NA, NA, NA, NA),
-    aap_received_assistance = c(NA, NA, NA, NA)
+    aap_received_assistance = c(NA_character_, NA_character_, NA_character_, NA_character_)
   )
 
   expect_equal(result, expected)

@@ -1,31 +1,5 @@
 library(testthat)
 library(dplyr)
-library(rlang)
-
-# Mock the helper functions if_not_in_stop and are_values_in_set
-#if_not_in_stop <- function(df, cols, df_name) {
-#  missing_cols <- setdiff(cols, colnames(df))
-#  if (length(missing_cols) > 0) {
-#    stop(paste("The following columns are not present in", df_name, ":", paste(missing_cols, collapse = ", ")), call. = FALSE)
-#  }
-#}
-#
-#are_values_in_set <- function(df, cols, valid_values) {
-#  invalid_values <- unique(unlist(sapply(df[cols], function(col) setdiff(unique(col), valid_values))))
-#  if (length(invalid_values) > 0) {
-#    stop(paste("The following values are not valid in the specified columns:", paste(invalid_values, collapse = ", ")), call. = FALSE)
-#  }
-#}
-
-# Mock add_loop_age_dummy function
-#add_loop_age_dummy <- function(loop, ind_age, lb, ub, new_colname) {
-#  loop %>% mutate(!!new_colname := ifelse(between(!!sym(ind_age), lb, ub), 1, 0))
-#}
-
-# Mock sum_vars function
-#sum_vars <- function(df, vars, new_colname) {
-#  df %>% mutate(!!new_colname := rowSums(select(df, all_of(vars)), na.rm = TRUE))
-#}
 
 test_that("add_loop_wgq_ss works with different levels of difficulty", {
   df <- data.frame(
@@ -49,34 +23,34 @@ test_that("add_loop_wgq_ss works with different levels of difficulty", {
     wgq_self_care = c("cannot_do", "some_difficulty", "no_difficulty", "lot_of_difficulty", "pnta"),
     wgq_communication = c("lot_of_difficulty", "no_difficulty", "cannot_do", "some_difficulty", "dnk"),
     ind_age_above_5 = c(1, 1, 1, 1, 1),
-    wgq_vision_cannot_do_d = c(1, 0, 0, 0, NA),
-    wgq_hearing_cannot_do_d = c(0, 0, 1, 0, NA),
+    wgq_vision_cannot_do_d = c(1, 0, 0, 0, 0),
+    wgq_hearing_cannot_do_d = c(0, 0, 1, 0, 0),
     wgq_mobility_cannot_do_d = c(0, 0, 0, 1, 0),
     wgq_cognition_cannot_do_d = c(0, 1, 0, 0, 0),
-    wgq_self_care_cannot_do_d = c(1, 0, 0, 0, NA),
-    wgq_communication_cannot_do_d = c(0, 0, 1, 0, NA),
-    wgq_vision_lot_of_difficulty_d = c(0, 0, 0, 1, NA),
-    wgq_hearing_lot_of_difficulty_d = c(1, 0, 0, 0, NA),
+    wgq_self_care_cannot_do_d = c(1, 0, 0, 0, 0),
+    wgq_communication_cannot_do_d = c(0, 0, 1, 0, 0),
+    wgq_vision_lot_of_difficulty_d = c(0, 0, 0, 1, 0),
+    wgq_hearing_lot_of_difficulty_d = c(1, 0, 0, 0, 0),
     wgq_mobility_lot_of_difficulty_d = c(0, 1, 0, 0, 0),
     wgq_cognition_lot_of_difficulty_d = c(0, 0, 1, 0, 0),
-    wgq_self_care_lot_of_difficulty_d = c(0, 0, 0, 1, NA),
-    wgq_communication_lot_of_difficulty_d = c(1, 0, 0, 0, NA),
-    wgq_vision_some_difficulty_d = c(0, 1, 0, 0, NA),
-    wgq_hearing_some_difficulty_d = c(0, 0, 0, 1, NA),
+    wgq_self_care_lot_of_difficulty_d = c(0, 0, 0, 1, 0),
+    wgq_communication_lot_of_difficulty_d = c(1, 0, 0, 0, 0),
+    wgq_vision_some_difficulty_d = c(0, 1, 0, 0, 0),
+    wgq_hearing_some_difficulty_d = c(0, 0, 0, 1, 0),
     wgq_mobility_some_difficulty_d = c(0, 0, 1, 0, 0),
     wgq_cognition_some_difficulty_d = c(1, 0, 0, 0, 0),
-    wgq_self_care_some_difficulty_d = c(0, 1, 0, 0, NA),
-    wgq_communication_some_difficulty_d = c(0, 0, 0, 1, NA),
-    wgq_vision_no_difficulty_d = c(0, 0, 1, 0, NA),
-    wgq_hearing_no_difficulty_d = c(0, 1, 0, 0, NA),
+    wgq_self_care_some_difficulty_d = c(0, 1, 0, 0, 0),
+    wgq_communication_some_difficulty_d = c(0, 0, 0, 1, 0),
+    wgq_vision_no_difficulty_d = c(0, 0, 1, 0, 0),
+    wgq_hearing_no_difficulty_d = c(0, 1, 0, 0, 0),
     wgq_mobility_no_difficulty_d = c(1, 0, 0, 0, 1),
     wgq_cognition_no_difficulty_d = c(0, 0, 0, 1, 1),
-    wgq_self_care_no_difficulty_d = c(0, 0, 1, 0, NA),
-    wgq_communication_no_difficulty_d = c(0, 1, 0, 0, NA),
+    wgq_self_care_no_difficulty_d = c(0, 0, 1, 0, 0),
+    wgq_communication_no_difficulty_d = c(0, 1, 0, 0, 0),
     wgq_cannot_do_n = c(2, 1, 2, 1, 0),
-    wgq_lot_of_difficulty_n = c(2, 1, 1, 1, 0),
-    wgq_some_difficulty_n = c(1, 2, 1, 1, 0),
-    wgq_no_difficulty_n = c(1, 1, 2, 1, 2),
+    wgq_lot_of_difficulty_n = c(2, 1, 1, 2, 0),
+    wgq_some_difficulty_n = c(1, 2, 1, 2, 0),
+    wgq_no_difficulty_n = c(1, 2, 2, 1, 2),
     wgq_cannot_do_d = c(1, 1, 1, 1, 0),
     wgq_lot_of_difficulty_d = c(1, 1, 1, 1, 0),
     wgq_some_difficulty_d = c(1, 1, 1, 1, 0),
@@ -139,11 +113,11 @@ test_that("add_loop_wgq_ss_to_main works correctly", {
     wgq_dis_4_n = c(1, 0, 1),
     wgq_dis_3_n = c(1, 0, 1),
     wgq_dis_2_n = c(0, 1, 0),
-    wgq_dis_1_n = c(1, 1, 0),
+    wgq_dis_1_n = c(2, 1, 1),
     ind_age_above_5_n = c(2, 1, 2),
     wgq_dis_4_at_least_one = c(1, 0, 1),
     wgq_dis_3_at_least_one = c(1, 0, 1),
-    wgq_dis_2_at_least_one = c(1, 1, 1),
+    wgq_dis_2_at_least_one = c(0, 1, 0),
     wgq_dis_1_at_least_one = c(1, 1, 1)
   )
 
@@ -203,4 +177,3 @@ test_that("add_loop_wgq_ss_to_main warns about existing columns", {
     "wgq_dis_4_n already exists in 'main'. It will be replaced."
   )
 })
-

@@ -7,7 +7,8 @@
 add_income_source_zero_to_sl(
   df,
   income_source = "cm_income_source",
-  undefined = c("dnk", "pnta", "none"),
+  none = "none",
+  undefined = c("dnk", "pnta"),
   income_sources = c("cm_income_source_salaried_n", "cm_income_source_casual_n",
     "cm_income_source_own_business_n", "cm_income_source_own_production_n",
     "cm_income_source_social_benefits_n", "cm_income_source_rent_n",
@@ -20,6 +21,8 @@ add_income_source_zero_to_sl(
 \item{df}{A data frame.}
 
 \item{income_source}{A character string. The name of the column that contains the income source.}
+
+\item{none}{A character string. The value that indicates that the income source was skipped.}
 
 \item{undefined}{A character vector. The values that indicate that the income source was skipped.}
 
