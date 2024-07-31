@@ -1,6 +1,6 @@
 #' Add MSNI - add score and dummy for in need
 #'
-#' The output is a data frame with 5 new columns. First the MSNI-related variables: `msni_score`, `msni_in_need`, and `msni_in_acute_need`. The two latter are used for metrics 1 and 2. Second, the number of sectoral needs `sector_in_need_n` and the sectoral needs profile `sector_needs_profile`. These two are used for metric 3 and 4.
+#' The output is a data frame with 5 new columns. First the MSNI-related variables: `msni_score`, `msni_in_need`, and `msni_in_acute_need`. The two latter are used for metrics 1 and 2. Second, the number of sectoral needs `sector_in_need_n` and the sectoral needs profile `sector_needs_profile`. These two are used for metric 3 and 4. `sector needs profile` is NA if no sectoral need is identified.
 #'
 #' @param df A data frame.
 #' @param comp_foodsec_score Column name for the food security composite score.
@@ -120,6 +120,10 @@ add_msni <- function(
       paste(labels, collapse = " - ")
     })
 
+  # NA if empty character string
+  df <- dplyr::mutate(
+    df, 
+    sector_needs_profile = ifelse(!!rlang::sym("sector_needs_profile") == "", NA, !!rlang::sym("sector_needs_profile")))
 
   #------ Return
 
