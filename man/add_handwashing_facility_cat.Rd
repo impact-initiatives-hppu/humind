@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_handwashing_facility_cat.R
 \name{add_handwashing_facility_cat}
 \alias{add_handwashing_facility_cat}
-\title{Add frequent expenditure type amount as proportions of total frequent expenditure}
+\title{Add handwashing facility category - "Basic," "Limited," or "No facility."}
 \usage{
 add_handwashing_facility_cat(
   df,
@@ -117,5 +117,5 @@ add_handwashing_facility_cat(
 \item{facility_reported_remote_soap_type_undefined}{Response code for undefined.}
 }
 \description{
-Add frequent expenditure type amount as proportions of total frequent expenditure
+Add handwashing facility category - "Basic," "Limited," or "No facility."
 }
