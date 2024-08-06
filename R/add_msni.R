@@ -101,12 +101,19 @@ add_msni <- function(
 
   #------ Add number of sectoral needs
 
+  # Sum vars across composites in need
   df <- sum_vars(
     df,
     comp_in_need,
     "sector_in_need_n",
     na_rm = TRUE,
     imputation = "none")
+  
+  # If the sum is zero, NA the result
+  df <- dplyr::mutate(
+    df,
+    sector_in_need_n = ifelse(sector_in_need_n == 0, NA, sector_in_need_n)
+  )
 
   #------ Add needs profiles
 
