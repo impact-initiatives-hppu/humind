@@ -53,7 +53,14 @@ add_income_source_prop <- function(
   if_not_in_stop(df, income_sources, "df")
 
   # CHeck that all income sources are here
-  if (length(income_sources) < 9) {
+  if (is.null(income_source_support_friends_n) && is.null(income_source_donation_n){
+      len_income_source <- 7
+  } else if (!is.null(income_source_support_friends_n) && !is.null(income_source_donation_n){
+      len_income_source <- 9
+  } else if (is.null(income_source_support_friends_n) | !is.null(income_source_donation_n){
+      len_income_source <- 9
+  }
+  if (length(income_sources) < len_income_source) {
 
     rlang::abort("Some of the income sources are null.")
   }
