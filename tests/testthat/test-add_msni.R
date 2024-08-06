@@ -67,7 +67,7 @@ test_that("add_msni handles all possible values", {
       msni_score = 1:5,
       msni_in_need = ifelse(msni_score >= 3, 1, 0),
       msni_in_acute_need = ifelse(msni_score >= 4, 1, 0),
-      sector_in_need_n = comp_foodsec_in_need + comp_snfi_in_need + comp_wash_in_need + comp_prot_in_need + comp_health_in_need + comp_edu_in_need,
+      sector_in_need_n = c(NA, NA, 6, 6, 6),
       sector_needs_profile = purrr::pmap_chr(
         list(comp_foodsec_in_need, comp_snfi_in_need, comp_wash_in_need, comp_prot_in_need, comp_health_in_need, comp_edu_in_need),
         function(foodsec, snfi, wash, prot, health, edu) {
@@ -78,7 +78,8 @@ test_that("add_msni handles all possible values", {
           if (prot == 1) labels <- c(labels, "Protection")
           if (health == 1) labels <- c(labels, "Health")
           if (edu == 1) labels <- c(labels, "Education")
-          paste(labels, collapse = " - ")
+          p <- paste(labels, collapse = " - ")
+          p <- ifelse(p == "", NA, p)
         }
       )
     )
