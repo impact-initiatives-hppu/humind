@@ -112,7 +112,7 @@ add_msni <- function(
   # If the sum is zero, NA the result
   df <- dplyr::mutate(
     df,
-    sector_in_need_n = ifelse(sector_in_need_n == 0, NA, sector_in_need_n)
+    sector_in_need_n = ifelse(!!rlang::sym("sector_in_need_n") == 0, NA, !!rlang::sym("sector_in_need_n"))
   )
 
   #------ Add needs profiles
