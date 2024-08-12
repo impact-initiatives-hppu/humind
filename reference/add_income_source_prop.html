@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,7 +28,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Add income source amount as proportions of total income</h1>
-      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/v2024.1/R/add_income_source_prop.R" class="external-link"><code>R/add_income_source_prop.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/main/R/add_income_source_prop.R" class="external-link"><code>R/add_income_source_prop.R</code></a></small>
       <div class="d-none name"><code>add_income_source_prop.Rd</code></div>
     </div>
 
@@ -48,8 +48,8 @@
 <span>  income_source_rent_n <span class="op">=</span> <span class="st">"cm_income_source_rent_n"</span>,</span>
 <span>  income_source_remittances_n <span class="op">=</span> <span class="st">"cm_income_source_remittances_n"</span>,</span>
 <span>  income_source_assistance_n <span class="op">=</span> <span class="st">"cm_income_source_assistance_n"</span>,</span>
-<span>  income_source_support_friends_n <span class="op">=</span> <span class="st">"cm_income_source_support_friends_n"</span>,</span>
-<span>  income_source_donation_n <span class="op">=</span> <span class="st">"cm_income_source_donation_n"</span>,</span>
+<span>  income_source_support_friends_n <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  income_source_donation_n <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  income_source_other_n <span class="op">=</span> <span class="st">"cm_income_source_other_n"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -106,6 +106,13 @@
 <dd><p>Column name for other income amount.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="details-on-loans">Details on loans<a class="anchor" aria-label="anchor" href="#details-on-loans"></a></h2>
+
+
+
+<p>Loans (income_source_support_friends_n and income_source_donation_n) are considered to be a cash influx. Yet they do not count as a formal income source. While it is good practice to collect these figures as part of this module, they should not be included in the total income calculation. This is why their default value here is NULL.</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
