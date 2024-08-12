@@ -10,7 +10,7 @@ add_expenditure_type_prop_freq(
   cm_expenditure_frequent_rent = "cm_expenditure_frequent_rent",
   cm_expenditure_frequent_water = "cm_expenditure_frequent_water",
   cm_expenditure_frequent_nfi = "cm_expenditure_frequent_nfi",
-  cm_expenditure_frequent_utilitiues = "cm_expenditure_frequent_utilitiues",
+  cm_expenditure_frequent_utilities = "cm_expenditure_frequent_utilities",
   cm_expenditure_frequent_fuel = "cm_expenditure_frequent_fuel",
   cm_expenditure_frequent_transportation = "cm_expenditure_frequent_transportation",
   cm_expenditure_frequent_communication = "cm_expenditure_frequent_communication",
@@ -28,7 +28,7 @@ add_expenditure_type_prop_freq(
 
 \item{cm_expenditure_frequent_nfi}{Column name for non-food household items expenditure amount for regular purchase, such as hygiene items, lightbulbs, etc.}
 
-\item{cm_expenditure_frequent_utilitiues}{Column name for utilities expenditure amount, such as electricity or gas connections, etc.}
+\item{cm_expenditure_frequent_utilities}{Column name for utilities expenditure amount, such as electricity or gas connections, etc.}
 
 \item{cm_expenditure_frequent_fuel}{Column name for fuel expenditure amount for cooking, for vehicles, etc.}
 

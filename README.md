@@ -23,7 +23,7 @@ Such as:
 - JMP ladders.
 - Specific indicators related to the MSNI framework.
 
-The package follows the ‘Step-Composition’ approach of IMPACT R
+The package follows the ‘Step - Composition’ approach of IMPACT R
 framework.
 
 ## Installation
@@ -33,18 +33,6 @@ You can install the latest stable version of `humind` from GitHub:
 ``` r
 install.packages("devtools")
 devtools::install_github("impact-initiatives-hppu/humind")
-```
-
-Education specific functions are stored in the education branch at the
-moment. They will be added to the main branch with an upcoming
-version/milestone.
-
-**IMPORTANT**: The education branch is up-to-date with the main branch.
-
-To install the education branch:
-
-``` r
-devtools::install_github("impact-initiatives-hppu/humind@education")
 ```
 
 ## Usage

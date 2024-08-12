@@ -30,7 +30,6 @@ test_that("Correct column names are added to the output", {
     "cm_income_source_own_business_n_prop", "cm_income_source_own_production_n_prop",
     "cm_income_source_social_benefits_n_prop", "cm_income_source_rent_n_prop",
     "cm_income_source_remittances_n_prop", "cm_income_source_assistance_n_prop",
-    "cm_income_source_support_friends_n_prop", "cm_income_source_donation_n_prop",
     "cm_income_source_other_n_prop"
   )
 
@@ -63,8 +62,9 @@ test_that("Proportions are calculated correctly", {
   expect_equal(result$cm_income_source_rent_n_prop, df$cm_income_source_rent_n / result$cm_income_total)
   expect_equal(result$cm_income_source_remittances_n_prop, df$cm_income_source_remittances_n / result$cm_income_total)
   expect_equal(result$cm_income_source_assistance_n_prop, df$cm_income_source_assistance_n / result$cm_income_total)
-  expect_equal(result$cm_income_source_support_friends_n_prop, df$cm_income_source_support_friends_n / result$cm_income_total)
-  expect_equal(result$cm_income_source_donation_n_prop, df$cm_income_source_donation_n / result$cm_income_total)
+  # Default is null for these two
+  # expect_equal(result$cm_income_source_support_friends_n_prop, df$cm_income_source_support_friends_n / result$cm_income_total)
+  # expect_equal(result$cm_income_source_donation_n_prop, df$cm_income_source_donation_n / result$cm_income_total)
   expect_equal(result$cm_income_source_other_n_prop, df$cm_income_source_other_n / result$cm_income_total)
 })
 #---------------------------------------------------------------------------------
@@ -95,8 +95,9 @@ test_that("Handles zero total income correctly", {
   expect_equal(result$cm_income_source_rent_n_prop, expected_proportions)
   expect_equal(result$cm_income_source_remittances_n_prop, expected_proportions)
   expect_equal(result$cm_income_source_assistance_n_prop, expected_proportions)
-  expect_equal(result$cm_income_source_support_friends_n_prop, expected_proportions)
-  expect_equal(result$cm_income_source_donation_n_prop, expected_proportions)
+  # Default is null for these two
+  # expect_equal(result$cm_income_source_support_friends_n_prop, expected_proportions)
+  # expect_equal(result$cm_income_source_donation_n_prop, expected_proportions)
   expect_equal(result$cm_income_source_other_n_prop, expected_proportions)
 })
 
