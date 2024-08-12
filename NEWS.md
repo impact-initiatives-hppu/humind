@@ -1,3 +1,11 @@
+# humind 2024.1.1
+
+This release covers mostly hot patches on a few bugs.
+- For perceived protection risks, `add_comp_prot()` assigns the score of 1 to a severity level. (#514) 
+- `add_msni()` now correctly handles metrics 3 and 4, adding a missing value when the household is not in need (#509, #510)
+- `add_comp_wash` has some minor refinements. (#507)
+- For total income, loans to friends and from assistance should not be considered. Function `add_income_source_prop()` now has these two parameters as `NULL` by default. It is still possible to include them. (#506)
+
 # humind 2024.1.0
 
 Provides functions to compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs). Such as:
