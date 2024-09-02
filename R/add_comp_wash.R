@@ -151,9 +151,9 @@ add_comp_wash <- function(
                 !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_levels[1] &
                 !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_levels[1] ~ 4,
             !!rlang::sym(setting) == setting_levels[3] &
-                !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_levels[2:3] ~ 2,
+                !!rlang::sym(sanitation_facility_jmp_cat) %in% sanitation_facility_jmp_cat_levels[2:3] ~ 2,
             !!rlang::sym(setting) == setting_levels[3] &
-                !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_levels[4:5] ~ 1,
+                !!rlang::sym(sanitation_facility_jmp_cat) %in% sanitation_facility_jmp_cat_levels[4:5] ~ 1,
             !!rlang::sym(setting) == setting_levels[3] &
                 !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_levels[6] ~ NA_real_,
             # Default
@@ -161,12 +161,12 @@ add_comp_wash <- function(
             ),
         comp_wash_score_hygiene = dplyr::case_when(
             # Camp and Urban are the same
-            !!rlang::sym(setting) == setting_levels[1:2] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[1] ~ 3,
-            !!rlang::sym(setting) == setting_levels[1:2] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[2] ~ 2,
-            !!rlang::sym(setting) == setting_levels[1:2] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[3] ~ 1,
-            !!rlang::sym(setting) == setting_levels[1:2] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[4] ~ NA_real_,
+            !!rlang::sym(setting) %in% setting_levels[1:2] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[1] ~ 3,
+            !!rlang::sym(setting) %in% setting_levels[1:2] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[2] ~ 2,
+            !!rlang::sym(setting) %in% setting_levels[1:2] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[3] ~ 1,
+            !!rlang::sym(setting) %in% setting_levels[1:2] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[4] ~ NA_real_,
             # Rural
-            !!rlang::sym(setting) == setting_levels[3] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[1:2] ~ 2,
+            !!rlang::sym(setting) == setting_levels[3] & !!rlang::sym(handwashing_facility_jmp_cat) %in% handwashing_facility_jmp_cat_levels[1:2] ~ 2,
             !!rlang::sym(setting) == setting_levels[3] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[3] ~ 1,
             !!rlang::sym(setting) == setting_levels[3] & !!rlang::sym(handwashing_facility_jmp_cat) == handwashing_facility_jmp_cat_levels[4] ~ NA_real_,
             .default = NA_real_

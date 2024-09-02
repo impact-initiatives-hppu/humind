@@ -128,7 +128,7 @@ add_comp_prot <- function(
         comp_prot_score_concern >= 4 ~ 3,
         comp_prot_risk_always_d == 1 ~ 3,
         comp_prot_score_concern >= 2 ~ 2,
-        comp_prot_score_concern == 0 ~ 1,
+        comp_prot_score_concern >= 0 ~ 1,
         .default = NA_real_
       )
     )

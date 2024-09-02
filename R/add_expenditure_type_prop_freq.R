@@ -5,7 +5,7 @@
 #' @param cm_expenditure_frequent_rent Column name for rent or shelter and/or land expenditure amount.
 #' @param cm_expenditure_frequent_water Column name for water expenditure amount from all sources combined.
 #' @param cm_expenditure_frequent_nfi Column name for non-food household items expenditure amount for regular purchase, such as hygiene items, lightbulbs, etc.
-#' @param cm_expenditure_frequent_utilitiues Column name for utilities expenditure amount, such as electricity or gas connections, etc. 
+#' @param cm_expenditure_frequent_utilities Column name for utilities expenditure amount, such as electricity or gas connections, etc. 
 #' @param cm_expenditure_frequent_fuel Column name for fuel expenditure amount for cooking, for vehicles, etc.
 #' @param cm_expenditure_frequent_transportation Column name for transportation expenditure amount, not including vehicle fuel.
 #' @param cm_expenditure_frequent_communication Column name for communications expenditure amount, such as phone airtime, Internet costs, etc.
@@ -18,7 +18,7 @@ add_expenditure_type_prop_freq <- function(
     cm_expenditure_frequent_rent = "cm_expenditure_frequent_rent",
     cm_expenditure_frequent_water = "cm_expenditure_frequent_water",
     cm_expenditure_frequent_nfi = "cm_expenditure_frequent_nfi",
-    cm_expenditure_frequent_utilitiues = "cm_expenditure_frequent_utilitiues",
+    cm_expenditure_frequent_utilities = "cm_expenditure_frequent_utilities",
     cm_expenditure_frequent_fuel = "cm_expenditure_frequent_fuel",
     cm_expenditure_frequent_transportation = "cm_expenditure_frequent_transportation",
     cm_expenditure_frequent_communication = "cm_expenditure_frequent_communication",
@@ -32,7 +32,7 @@ add_expenditure_type_prop_freq <- function(
       cm_expenditure_frequent_rent,
       cm_expenditure_frequent_water,
       cm_expenditure_frequent_nfi,
-      cm_expenditure_frequent_utilitiues,
+      cm_expenditure_frequent_utilities,
       cm_expenditure_frequent_fuel,
       cm_expenditure_frequent_transportation,
       cm_expenditure_frequent_communication,

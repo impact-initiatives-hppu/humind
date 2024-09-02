@@ -17,7 +17,7 @@ add_expenditure_type_zero_freq <- function(
                                "cm_expenditure_frequent_rent",
                                "cm_expenditure_frequent_water",
                                "cm_expenditure_frequent_nfi",
-                               "cm_expenditure_frequent_utilitiues",
+                               "cm_expenditure_frequent_utilities",
                                "cm_expenditure_frequent_fuel",
                                "cm_expenditure_frequent_transportation",
                                "cm_expenditure_frequent_communication",
