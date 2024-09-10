@@ -17,7 +17,7 @@ num_cat <- function(df, num_col, breaks, labels = NULL, int_undefined = c(-999, 
   #------ Checks
 
   # Check if num_col is in df
-  if_not_in_stop(df, num_col, "num_col")
+  if_not_in_stop(df, num_col, "df")
 
   # Check if num_col is numeric
   are_cols_numeric(df, num_col)
