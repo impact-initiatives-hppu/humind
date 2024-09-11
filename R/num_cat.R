@@ -40,21 +40,36 @@ num_cat <- function(df, num_col, breaks, labels = NULL, int_undefined = c(-999, 
     labels <- NULL
   }
 
+  # Check that plus_last is logical and not NA
+  if (!is.logical(plus_last) || is.na(plus_last)) {
+    rlang::abort("plus_last must be logical and not NA")
+  }
+
   # If new_colname is not provided, create one
   if (is.null(new_colname)) new_colname <- paste0(num_col, "_cat")
 
+  #----- Create labels if NULL
+
+  # Max value
+  max_val <- max(df[[num_col]], na.rm = TRUE)
+
   # If labels are not provided, generate them
+  breaks_inf <- c(breaks, Inf) 
+
   if (is.null(labels)) {
-    labels <- sapply(1:(length(breaks) - 1), function(i) {
-      lower <- breaks[i]
-      upper <- breaks[i + 1]
-      if (i == length(breaks) - 1 && plus_last) {
-        return(paste0(lower + 1, "+"))
+    labels <- sapply(1:(length(breaks_inf) - 1), function(i) {
+      lower <- breaks_inf[i]
+      upper <- breaks_inf[i + 1]
+      if (i == length(breaks_inf) - 1 && plus_last) {
+        return(paste0(lower, "+"))
+      } else if (i == length(breaks_inf) - 1 && !plus_last) {
+        if (lower == max_val) return(paste0(lower, "+")) else return(paste0(lower, "-", max_val))
       } else {
-        return(paste0(lower + 1, "-", upper))
+        return(paste0(lower, "-", upper - 1))
       }
     })
   }
+
   # Create categories
   df <- dplyr::mutate(df, "{new_colname}" := dplyr::case_when(
     # Replace value in int_dontkow by char_dontknow
@@ -66,8 +81,9 @@ num_cat <- function(df, num_col, breaks, labels = NULL, int_undefined = c(-999, 
                    breaks = breaks,
                    labels = labels,
                    include.lowest = TRUE,
-                   right = TRUE)
-  ))
+                   right = FALSE)
+    )
+  )
 
   return(df)
 }
