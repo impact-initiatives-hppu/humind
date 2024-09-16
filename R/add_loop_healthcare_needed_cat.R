@@ -268,7 +268,12 @@ add_loop_healthcare_needed_cat_to_main <- function(
   if (!is.null(ind_healthcare_needed_yes_met_wgq_dis)) loop <- dplyr::left_join(loop, loop_yes_met_wgq_dis, by = dplyr::join_by(!!rlang::sym(id_col_loop)))
   
   # Remove columns in main that exists in loop, but the grouping ones
-  main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
+  cols_uuids <- c(id_col_main, id_col_loop)
+  cols_from_loop_in_main <- intersect(colnames(loop), colnames(main))
+  cols_from_loop_in_main <- setdiff(cols_from_loop_in_main, cols_uuids)
+  main <- dplyr::select(main, -dplyr::all_of(cols_from_loop_in_main))
+  # Need a change of behavior of df_diff towards: if it exists, keep them and no need to remove from df_b
+  # main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
 
   # Join the data
   main <- dplyr::left_join(main, loop, by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop)))
