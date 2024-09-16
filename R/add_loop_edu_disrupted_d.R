@@ -152,9 +152,11 @@ add_loop_edu_disrupted_d_to_main <- function(
   }
   loop <- dplyr::left_join(loop_wo_occupation, loop_occupation, by = dplyr::join_by(!!rlang::sym(id_col_loop)))
 
-
   # Remove columns in main that exists in loop, but the grouping ones
-  main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
+  cols_uuids <- c(id_col_main, id_col_loop)
+  cols_from_loop_in_main <- intersect(colnames(loop), colnames(main))
+  cols_from_loop_in_main <- setdiff(cols_from_loop_in_main, cols_uuids)
+  main <- dplyr::select(main, -dplyr::all_of(cols_from_loop_in_main))
 
   # Join
   main <- dplyr::left_join(main, loop, by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop)))
