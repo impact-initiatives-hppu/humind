@@ -22,7 +22,8 @@ Imports:
     tidyr,
     impactR.utils,
     impactR4PHU (>= 0.1.0),
-    Hmisc
+    Hmisc,
+    stringr
 URL: https://github.com/impact-initiatives-hppu/humind
 BugReports: https://github.com/impact-initiatives-hppu/humind/issues
 Remotes: 
