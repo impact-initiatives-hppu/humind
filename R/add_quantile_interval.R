@@ -26,11 +26,11 @@ add_quantile_interval <- function(
   # Check if the variables are numeric
   are_cols_numeric(df, vars)
 
-  # Check if group is NULL if group is there
-  if (!is.null(group)) if_not_in_stop(df, group, "df")
-
   # Check if "weight" is present if not NULL
   if (!is.null(weight)) if_not_in_stop(df, weight, "df")
+
+  # Check if group is NULL if group is there
+  if (!is.null(group)) if_not_in_stop(df, group, "df")
 
   # Warn that vars_qtl will be replaced if they exist
   vars_names <- paste0(vars, "_qtl")
@@ -48,7 +48,7 @@ add_quantile_interval <- function(
   # Iterate the weighted quantile functions over all vars
   qtl <- purrr::map(
     dplyr::select(df, dplyr::all_of(vars)),
-    \(x) Hmisc::wtd.quantile(x, probs = cut_offs, type = "quantile")
+    \(x) Hmisc::wtd.quantile(x, weights = weight, probs = cut_offs, type = "quantile")
   )
 
   # Iterate to get neat vector of quantile labels for all vars
@@ -62,17 +62,33 @@ add_quantile_interval <- function(
     vars,
     \(x) {
 
-      int <- num_cat(
-        df = df,
-        num_col = x,
-        breaks =  qtl[[x]],
-        labels = qtl_labs[[x]],
-        int_undefined = c(-999, 999),
-        char_undefined = "Unknown",
-        new_colname = paste0(x, "_qtl"),
-        plus_last = FALSE)
+      # Is x NA only?
+      is_x_na <- all(is.na(df[[x]]))
+
+      if (is_x_na) {
+
+        int <- dplyr::mutate(
+          df,
+          "{x}_qtl" := NA_character_
+        )
+
+      } else {
+
+        int <- num_cat(
+          df = df,
+          num_col = x,
+          breaks =  qtl[[x]],
+          labels = qtl_labs[[x]],
+          int_undefined = c(-999, 999),
+          char_undefined = "Unknown",
+          new_colname = paste0(x, "_qtl"),
+          plus_last = FALSE)
+  
+      }
 
       int <- dplyr::select(int, !!rlang::sym(paste0(x, "_qtl")))
+
+      return(int)
 
     }
   )
