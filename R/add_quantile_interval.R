@@ -64,8 +64,6 @@ add_quantile_interval <- function(
       "")
   )
 
-  return(qtl_labs)
-
   # Use the num cat function across columns
   l_df_qtl <- purrr::map(
     vars,

@@ -2,14 +2,13 @@
 % Please edit documentation in R/add_quantile_interval.R
 \name{add_quantile_interval}
 \alias{add_quantile_interval}
-\title{Add a income group intervals}
+\title{Add quantile intervals}
 \usage{
 add_quantile_interval(
   df,
   vars,
   cut_offs = c(0, 0.2, 0.4, 0.6, 0.8, 1),
-  weight = NULL,
-  group = NULL
+  weight = NULL
 )
 }
 \arguments{
@@ -20,8 +19,6 @@ add_quantile_interval(
 \item{cut_offs}{The cut-offs for computaton of quantiles. The default corresponds to the quantiles of the distribution, based on the weighted median.}
 
 \item{weight}{The sampling weights.}
-
-\item{group}{Can be used to compute the quanitles for the sampled sub-groups.}
 }
 \description{
 \code{\link[=add_quantile_interval]{add_quantile_interval()}} function calculates weighted income quantiles and classifies households according to these.
