@@ -1,6 +1,19 @@
+# humind 2024.1.2
+
+This release covers a hot patch, a new function, and enhancements.
+
+- `add_sanitation_facility_jmp_cat()` now correctly handles the cases when the sanitation facility is improved and not shared (#522)
+- A marvelous new function `add_quantile_interval()` now allows to add (weighted) quantile intervals columns for any numeric variables (#516), for instance for adding income quantiles.
+- Some bug fixes for `add_loop_healthcare_needed_cat_to_main()` and 
+`add_loop_edu_disrupted_d_to_main` when datasets do not name UUI columns "uuid" (#517).
+- `add_age_cat()` has more intuitive breaks due to a fix and improvement of `num_cat()`. To be able to get the following thresholds: 0-17, 18-59, 60-119, 120+, you can write `add_age_cat("resp_age", breaks = c(0, 18, 60, 120))` (#504). Default breaks also changed to the aforementioned ones.
+- If occupation by armed groups was not added in country due to relevancy, `add_loop_edu_disrupted_d()` and `add_loop_edu_disrupted_d_to_main()`, `occupation` can be set to NULL.
+
+
 # humind 2024.1.1
 
 This release covers mostly hot patches on a few bugs.
+
 - For perceived protection risks, `add_comp_prot()` assigns the score of 1 to a severity level. (#514) 
 - `add_msni()` now correctly handles metrics 3 and 4, adding a missing value when the household is not in need (#509, #510)
 - `add_comp_wash` has some minor refinements. (#507)

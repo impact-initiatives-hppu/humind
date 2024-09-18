@@ -8,7 +8,7 @@ dummy_data_top3 <- data.frame(
   cm_expenditure_frequent_rent = c(300, 100, 100, 50),
   cm_expenditure_frequent_water = c(50, 300, 200, 150),
   cm_expenditure_frequent_nfi = c(20, 20, 20, 20),
-  cm_expenditure_frequent_utilitiues = c(10, 10, 10, 10),
+  cm_expenditure_frequent_utilities = c(10, 10, 10, 10),
   cm_expenditure_frequent_fuel = c(5, 5, 5, 5),
   cm_expenditure_frequent_transportation = c(0, 0, 0, 0),
   cm_expenditure_frequent_communication = c(0, 0, 0, 0),

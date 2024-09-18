@@ -9,7 +9,7 @@ dummy_data <- data.frame(
   cm_expenditure_frequent_rent = c(NA, NA, NA, 200),
   cm_expenditure_frequent_water = c(NA, NA, NA, 50),
   cm_expenditure_frequent_nfi = c(NA, NA, NA, 80),
-  cm_expenditure_frequent_utilitiues = c(NA, NA, NA, 60),
+  cm_expenditure_frequent_utilities = c(NA, NA, NA, 60),
   cm_expenditure_frequent_fuel = c(NA, NA, NA, 40),
   cm_expenditure_frequent_transportation = c(NA, NA, NA, 30),
   cm_expenditure_frequent_communication = c(NA, NA, NA, 20),
@@ -29,8 +29,8 @@ test_that("add_expenditure_type_zero_freq function works with default parameters
   expect_equal(result$cm_expenditure_frequent_water[4], 50)
   expect_equal(result$cm_expenditure_frequent_nfi[1:3], c(NA, NA, 0))
   expect_equal(result$cm_expenditure_frequent_nfi[4], 80)
-  expect_equal(result$cm_expenditure_frequent_utilitiues[1:3], c(NA, NA, 0))
-  expect_equal(result$cm_expenditure_frequent_utilitiues[4], 60)
+  expect_equal(result$cm_expenditure_frequent_utilities[1:3], c(NA, NA, 0))
+  expect_equal(result$cm_expenditure_frequent_utilities[4], 60)
   expect_equal(result$cm_expenditure_frequent_fuel[1:3], c(NA, NA, 0))
   expect_equal(result$cm_expenditure_frequent_fuel[4], 40)
   expect_equal(result$cm_expenditure_frequent_transportation[1:3], c(NA, NA, 0))
@@ -53,7 +53,7 @@ test_that("add_expenditure_type_zero_freq function does not alter non-skipped va
   expect_equal(result$cm_expenditure_frequent_rent, c(0, 0, 0, 200))
   expect_equal(result$cm_expenditure_frequent_water, c(0, 0, 0, 50))
   expect_equal(result$cm_expenditure_frequent_nfi, c(0, 0, 0, 80))
-  expect_equal(result$cm_expenditure_frequent_utilitiues, c(0, 0, 0, 60))
+  expect_equal(result$cm_expenditure_frequent_utilities, c(0, 0, 0, 60))
   expect_equal(result$cm_expenditure_frequent_fuel, c(0, 0, 0, 40))
   expect_equal(result$cm_expenditure_frequent_transportation, c(0, 0, 0, 30))
   expect_equal(result$cm_expenditure_frequent_communication, c(0, 0, 0, 20))

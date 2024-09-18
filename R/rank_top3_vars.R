@@ -33,7 +33,7 @@ rank_top3_vars <- function(df, vars, new_colname_top1, new_colname_top2, new_col
   # Rank income sources for each row
   int <- tidyr::pivot_longer(
     dplyr::select(df, dplyr::all_of(c(id_col, vars))),
-    vars,
+    dplyr::all_of(vars),
     names_to = "var",
     values_to = "val")
 

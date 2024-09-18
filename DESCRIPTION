@@ -1,6 +1,6 @@
 Package: humind
 Title: Compose MSNA Indicators
-Version: 2024.1.1
+Version: 2024.1.2
 Authors@R: c(
     person("Guillaume", "Noblet", , "gnoblet@zaclys.net", role = c("aut", "cre")),
     person("Laith", "Abu-Nawwas", , "laith.abu-nawwas@impact-initiatives.org", role = "aut"),
@@ -21,7 +21,9 @@ Imports:
     stats,
     tidyr,
     impactR.utils,
-    impactR4PHU (>= 0.1.0)
+    impactR4PHU (>= 0.1.0),
+    Hmisc,
+    stringr
 URL: https://github.com/impact-initiatives-hppu/humind
 BugReports: https://github.com/impact-initiatives-hppu/humind/issues
 Remotes: 
