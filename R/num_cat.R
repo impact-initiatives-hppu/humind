@@ -8,12 +8,13 @@
 #' @param char_undefined A character to replace int_dontknow values.
 #' @param new_colname The name of the new column.
 #' @param plus_last Logical, whether to add a "+" to the last category.
+#' @param above_last Logical, whether to add a category for values above the last break.
 #'
 #' @return A dataframe with a new column.
 #'
 #' @export
-num_cat <- function(df, num_col, breaks, labels = NULL, int_undefined = c(-999, 999), 
-                    char_undefined = "Unknown", new_colname = NULL, plus_last = FALSE) {
+num_cat <- function(df, num_col, breaks, labels = NULL, int_undefined = c(-999, 999),
+                    char_undefined = "Unknown", new_colname = NULL, plus_last = FALSE, above_last = FALSE) {
   #------ Checks
 
   # Check if num_col is in df
@@ -34,11 +35,24 @@ num_cat <- function(df, num_col, breaks, labels = NULL, int_undefined = c(-999, 
   # Check if breaks have at least two values
   if (length(breaks) < 2) rlang::abort("breaks must have at least two values")
 
-  # Check if labels is of length of breaks - 1 
-  if (!is.null(labels) && length(labels) != length(breaks) - 1) {
+  # Check that above_last is logical and not NA
+  if (!is.logical(above_last) || is.na(above_last)) {
+    rlang::abort("above_last must be logical and not NA")
+  }
+
+  # Check if labels is of length of breaks if above_last is TRUE
+  if (!is.null(labels) && length(labels) != length(breaks) && above_last) {
+    rlang::warn("labels must be of length of breaks. Reverting to labels = NULL")
+    labels <- NULL
+  }
+
+  # Check if labels is of length of breaks - 1 if above_last is FALSE
+  if (!is.null(labels) && length(labels) != length(breaks) - 1 && !above_last) {
     rlang::warn("labels must be of length of breaks - 1. Reverting to labels = NULL")
     labels <- NULL
   }
+
+
 
   # Check that plus_last is logical and not NA
   if (!is.logical(plus_last) || is.na(plus_last)) {
@@ -50,21 +64,22 @@ num_cat <- function(df, num_col, breaks, labels = NULL, int_undefined = c(-999, 
 
   #----- Create labels if NULL
 
-  # Max value
   vals <- df[[num_col]]
   vals <- vals[!(vals %in% int_undefined)]
   max_val <- max(vals, na.rm = TRUE)
 
-  # If labels are not provided, generate them
-  breaks_inf <- c(breaks, Inf) 
+  # Total number of breaks
+  if (above_last) breaks <- c(breaks, Inf)
 
+  # If labels are not provided, generate them
   if (is.null(labels)) {
-    labels <- sapply(1:(length(breaks_inf) - 1), function(i) {
-      lower <- breaks_inf[i]
-      upper <- breaks_inf[i + 1]
-      if (i == length(breaks_inf) - 1 && plus_last) {
+
+    labels <- sapply(1:(length(breaks) - 1), function(i) {
+      lower <- breaks[i]
+      upper <- breaks[i + 1]
+      if (i == length(breaks) - 1 && plus_last) {
         return(paste0(lower, "+"))
-      } else if (i == length(breaks_inf) - 1 && !plus_last) {
+      } else if (i == length(breaks) - 1 && !plus_last) {
         if (lower == max_val) return(paste0(lower, "+")) else return(paste0(lower, "-", max_val))
       } else {
         return(paste0(lower, "-", upper - 1))
