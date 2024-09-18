@@ -51,7 +51,9 @@ num_cat <- function(df, num_col, breaks, labels = NULL, int_undefined = c(-999, 
   #----- Create labels if NULL
 
   # Max value
-  max_val <- max(df[[num_col]], na.rm = TRUE)
+  vals <- df[[num_col]]
+  vals <- vals[!(vals %in% int_undefined)]
+  max_val <- max(vals, na.rm = TRUE)
 
   # If labels are not provided, generate them
   breaks_inf <- c(breaks, Inf) 
