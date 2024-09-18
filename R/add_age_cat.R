@@ -15,7 +15,7 @@
 #' * [add_age_18_cat()] adds two columns to the dataframe: one with the categories (minor, major) and one with a dummy variable for below and above 18.
 #'
 #' @export
-add_age_cat <- function(df, age_col, breaks = c(seq(0, 115, by = 5), 120), labels = NULL, int_undefined = c(-999, 999), char_undefined = "undefined", new_colname = NULL) {
+add_age_cat <- function(df, age_col, breaks = c(0, 18, 60, 120), labels = NULL, int_undefined = c(-999, 999), char_undefined = "undefined", new_colname = NULL) {
 
   # Use categorize_num function
   df <- num_cat(
@@ -26,7 +26,8 @@ add_age_cat <- function(df, age_col, breaks = c(seq(0, 115, by = 5), 120), label
     int_undefined = int_undefined,
     char_undefined = char_undefined,
     new_colname = new_colname,
-    plus_last = FALSE)
+    plus_last = TRUE,
+    above_last = TRUE)
 
   return(df)
 }

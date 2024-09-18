@@ -90,7 +90,7 @@ add_quantile_interval <- function(
           char_undefined = "Unknown",
           new_colname = paste0(x, "_qtl"),
           plus_last = FALSE)
-  
+
       }
 
       int <- dplyr::select(int, !!rlang::sym(paste0(x, "_qtl")))

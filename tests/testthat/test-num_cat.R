@@ -5,7 +5,9 @@ library(dplyr)
 
 # Dummy data for testing
 dummy_data <- data.frame(
-  num_col = c(1, 5, 10, 15, 20, 25, -999, 999, NA)
+  num_col = c(1, 5, 10, 15, 20, 25, -999, 999, NA),
+  num_col2 = c(1, 5, 10, 15, 20, 25, 60, 30, NA)
+
 )
 
 # 1. Test the function with default parameters
