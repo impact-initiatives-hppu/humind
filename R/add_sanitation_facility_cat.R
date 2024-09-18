@@ -211,7 +211,6 @@ add_sanitation_facility_jmp_cat <- function(
       !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & 
         !!rlang::sym(sharing_sanitation_facility_cat) == sharing_sanitation_facility_levels[1] ~ "limited",
       !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[1] & 
-        sharing_sanitation_facility_cat == sharing_sanitation_facility_levels[1] & 
         !!rlang::sym(sharing_sanitation_facility_cat) == sharing_sanitation_facility_levels[2] ~ "basic",
       !!rlang::sym(sanitation_facility_cat) == sanitation_facility_levels[4] ~ "undefined",
       !!rlang::sym(sharing_sanitation_facility_cat) %in% sharing_sanitation_facility_levels[3:4] ~ "undefined",

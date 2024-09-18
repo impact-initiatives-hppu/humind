@@ -60,12 +60,14 @@ test_that("add_loop_edu_disrupted_d_to_main function handles missing columns", {
 })
 
 # 6. Test ensuring value checks in add_loop_edu_disrupted_d_to_main
-invalid_value_loop_data <- dummy_loop_data
-invalid_value_loop_data$edu_ind_schooling_age_d <- 2
-
 test_that("add_loop_edu_disrupted_d_to_main function ensures value checks", {
+  invalid_value_loop_data <- dummy_loop_data
+  invalid_value_loop_data$edu_ind_schooling_age_d <- 2
   expect_error(loop_result <- add_loop_edu_disrupted_d(invalid_value_loop_data))
-  expect_error(add_loop_edu_disrupted_d_to_main(dummy_main_data, loop_result))
+
+  invalid_value_loop_data <- add_loop_edu_disrupted_d(dummy_loop_data)
+  invalid_value_loop_data$edu_disrupted_displaced_d <- 2
+  expect_error(add_loop_edu_disrupted_d_to_main(dummy_main_data, invalid_value_loop_data))
 })
 
 # 7. Test with edge cases (e.g., all zeros, all ones)

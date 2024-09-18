@@ -29,7 +29,7 @@ add_loop_edu_disrupted_d_to_main(
 \arguments{
 \item{df}{A data frame.}
 
-\item{occupation}{Column name for occupation disruption.}
+\item{occupation}{Column name for occupation disruption. NULL if dimension is not present in the data frame.}
 
 \item{hazards}{Column name for hazards disruption.}
 
@@ -45,7 +45,7 @@ add_loop_edu_disrupted_d_to_main(
 
 \item{loop}{A data frame of individual-level data.}
 
-\item{occupation_d}{Column name for the dummy variable of the occupation dimension.}
+\item{occupation_d}{Column name for the dummy variable of the occupation dimension. NULL if dimension is not present in the data frame.}
 
 \item{hazards_d}{Column name for the dummy variable of the hazards dimension.}
 

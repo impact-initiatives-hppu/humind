@@ -8,7 +8,7 @@
 add_age_cat(
   df,
   age_col,
-  breaks = c(seq(0, 115, by = 5), 120),
+  breaks = c(0, 18, 60, 120),
   labels = NULL,
   int_undefined = c(-999, 999),
   char_undefined = "undefined",

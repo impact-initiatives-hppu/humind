@@ -15,7 +15,8 @@ loop <- data.frame(
 
 main <- data.frame(
   uuid = c(1, 2, 3, 4, 5, 6),
-  stringsAsFactors = FALSE
+  stringsAsFactors = FALSE,
+  health_ind_healthcare_needed_no_n = T
 )
 
 # Test with default parameters for add_loop_healthcare_needed_cat
@@ -77,6 +78,17 @@ test_that("id columns are correctly handled", {
 test_that("main data frame correctly joins with loop data frame", {
   loop_result <- add_loop_healthcare_needed_cat(loop)
   result <- add_loop_healthcare_needed_cat_to_main(main, loop_result)
+  expect_equal(result$health_ind_healthcare_needed_no_n, c(0, 1, 0, 0, 0, 1))
+  expect_equal(result$health_ind_healthcare_needed_yes_unmet_n, c(1, 0, 0, 0, 0, 0))
+  expect_equal(result$health_ind_healthcare_needed_yes_met_n, c(0, 0, 0, 0, 1, 0))
+})
+
+# Test that it works if UUID columns are named X_UUID in main, and X_SUB_UUID in loop
+test_that("it works if UUID columns are named X_UUID in main, and X_SUB_UUID in loop", {
+  main$X_UUID <- c(1, 2, 3, 4, 5, 6)
+  loop$X_SUB_UUID <- c(1, 2, 3, 4, 5, 6)
+  loop_result <- add_loop_healthcare_needed_cat(loop)
+  result <- add_loop_healthcare_needed_cat_to_main(main, loop_result, id_col_main = "X_UUID", id_col_loop = "X_SUB_UUID")
   expect_equal(result$health_ind_healthcare_needed_no_n, c(0, 1, 0, 0, 0, 1))
   expect_equal(result$health_ind_healthcare_needed_yes_unmet_n, c(1, 0, 0, 0, 0, 0))
   expect_equal(result$health_ind_healthcare_needed_yes_met_n, c(0, 0, 0, 0, 1, 0))

@@ -12,7 +12,8 @@ num_cat(
   int_undefined = c(-999, 999),
   char_undefined = "Unknown",
   new_colname = NULL,
-  plus_last = FALSE
+  plus_last = FALSE,
+  above_last = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ num_cat(
 \item{new_colname}{The name of the new column.}
 
 \item{plus_last}{Logical, whether to add a "+" to the last category.}
+
+\item{above_last}{Logical, whether to add a category for values above the last break.}
 }
 \value{
 A dataframe with a new column.

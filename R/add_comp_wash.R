@@ -141,7 +141,7 @@ add_comp_wash <- function(
             !!rlang::sym(setting) == setting_levels[2] &
                 !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_levels[2] ~ 3,
             !!rlang::sym(setting) == setting_levels[2] &
-                !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_levels[3:4] ~ 2,
+                !!rlang::sym(sanitation_facility_jmp_cat) %in% sanitation_facility_jmp_cat_levels[3:4] ~ 2,
             !!rlang::sym(setting) == setting_levels[2] &
                 !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_levels[5] ~ 1,
             !!rlang::sym(setting) == setting_levels[2] &
