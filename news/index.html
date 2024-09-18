@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,13 +28,30 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/v2024.1.1/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2024.1.2" id="humind-202412">humind 2024.1.2<a class="anchor" aria-label="anchor" href="#humind-202412"></a></h2>
+<p>This release covers a hot patch, a new function, and enhancements.</p>
+<ul><li>
+<code><a href="../reference/add_sanitation_facility_cat.html">add_sanitation_facility_jmp_cat()</a></code> now correctly handles the cases when the sanitation facility is improved and not shared (<a href="https://github.com/impact-initiatives-hppu/humind/issues/522" class="external-link">#522</a>)</li>
+<li>A marvelous new function <code><a href="../reference/add_quantile_interval.html">add_quantile_interval()</a></code> now allows to add (weighted) quantile intervals columns for any numeric variables (<a href="https://github.com/impact-initiatives-hppu/humind/issues/516" class="external-link">#516</a>), for instance for adding income quantiles.</li>
+<li>Some bug fixes for <code><a href="../reference/add_loop_healthcare_needed_cat.html">add_loop_healthcare_needed_cat_to_main()</a></code> and <code>add_loop_edu_disrupted_d_to_main</code> when datasets do not name UUI columns “uuid” (<a href="https://github.com/impact-initiatives-hppu/humind/issues/517" class="external-link">#517</a>).</li>
+<li>
+<code><a href="../reference/add_age_cat.html">add_age_cat()</a></code> has more intuitive breaks due to a fix and improvement of <code><a href="../reference/num_cat.html">num_cat()</a></code>. To be able to get the following thresholds: 0-17, 18-59, 60-119, 120+, you can write <code>add_age_cat("resp_age", breaks = c(0, 18, 60, 120))</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/504" class="external-link">#504</a>). Default breaks also changed to the aforementioned ones.</li>
+<li>If occupation by armed groups was not added in country due to relevancy, <code><a href="../reference/add_loop_edu_disrupted_d.html">add_loop_edu_disrupted_d()</a></code> and <code><a href="../reference/add_loop_edu_disrupted_d.html">add_loop_edu_disrupted_d_to_main()</a></code>, <code>occupation</code> can be set to NULL.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2024.1.1" id="humind-202411">humind 2024.1.1<a class="anchor" aria-label="anchor" href="#humind-202411"></a></h2>
-<p>This release covers mostly hot patches on a few bugs. - For perceived protection risks, <code><a href="../reference/add_comp_prot.html">add_comp_prot()</a></code> assigns the score of 1 to a severity level. (<a href="https://github.com/impact-initiatives-hppu/humind/issues/514" class="external-link">#514</a>) - <code><a href="../reference/add_msni.html">add_msni()</a></code> now correctly handles metrics 3 and 4, adding a missing value when the household is not in need (<a href="https://github.com/impact-initiatives-hppu/humind/issues/509" class="external-link">#509</a>, <a href="https://github.com/impact-initiatives-hppu/humind/issues/510" class="external-link">#510</a>) - <code>add_comp_wash</code> has some minor refinements. (<a href="https://github.com/impact-initiatives-hppu/humind/issues/507" class="external-link">#507</a>) - For total income, loans to friends and from assistance should not be considered. Function <code><a href="../reference/add_income_source_prop.html">add_income_source_prop()</a></code> now has these two parameters as <code>NULL</code> by default. It is still possible to include them. (<a href="https://github.com/impact-initiatives-hppu/humind/issues/506" class="external-link">#506</a>)</p>
-</div>
+<p>This release covers mostly hot patches on a few bugs.</p>
+<ul><li>For perceived protection risks, <code><a href="../reference/add_comp_prot.html">add_comp_prot()</a></code> assigns the score of 1 to a severity level. (<a href="https://github.com/impact-initiatives-hppu/humind/issues/514" class="external-link">#514</a>)</li>
+<li>
+<code><a href="../reference/add_msni.html">add_msni()</a></code> now correctly handles metrics 3 and 4, adding a missing value when the household is not in need (<a href="https://github.com/impact-initiatives-hppu/humind/issues/509" class="external-link">#509</a>, <a href="https://github.com/impact-initiatives-hppu/humind/issues/510" class="external-link">#510</a>)</li>
+<li>
+<code>add_comp_wash</code> has some minor refinements. (<a href="https://github.com/impact-initiatives-hppu/humind/issues/507" class="external-link">#507</a>)</li>
+<li>For total income, loans to friends and from assistance should not be considered. Function <code><a href="../reference/add_income_source_prop.html">add_income_source_prop()</a></code> now has these two parameters as <code>NULL</code> by default. It is still possible to include them. (<a href="https://github.com/impact-initiatives-hppu/humind/issues/506" class="external-link">#506</a>)</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2024.1.0" id="humind-202410">humind 2024.1.0<a class="anchor" aria-label="anchor" href="#humind-202410"></a></h2>
 <p>Provides functions to compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs). Such as:</p>
