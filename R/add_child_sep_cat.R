@@ -60,10 +60,10 @@ add_child_sep_cat <- function(
     prot_child_sep_cat = dplyr::case_when(
       !!rlang::sym(child_sep) == child_sep_no ~ "none",
       !!rlang::sym(child_sep) %in% child_sep_undefined ~ "undefined",
-      !!rlang::sym(child_sep) == child_sep_yes & dplyr::if_any(child_sep_reason_d_undefined, \(x) x == 1) ~ "undefined",
-      !!rlang::sym(child_sep) == child_sep_yes & dplyr::if_any(child_sep_reason_d_very_severe, \(x) x == 1) ~ "at_least_one_very_severe",
-      !!rlang::sym(child_sep) == child_sep_yes & dplyr::if_any(child_sep_reason_d_severe, \(x) x == 1) ~ "at_least_one_severe",
-      !!rlang::sym(child_sep) == child_sep_yes & dplyr::if_any(child_sep_reason_d_non_severe, \(x) x == 1) ~ "at_least_one_non_severe",
+      !!rlang::sym(child_sep) == child_sep_yes & dplyr::if_any(dplyr::all_of(child_sep_reason_d_undefined), \(x) x == 1) ~ "undefined",
+      !!rlang::sym(child_sep) == child_sep_yes & dplyr::if_any(dplyr::all_of(child_sep_reason_d_very_severe), \(x) x == 1) ~ "at_least_one_very_severe",
+      !!rlang::sym(child_sep) == child_sep_yes & dplyr::if_any(dplyr::all_of(child_sep_reason_d_severe), \(x) x == 1) ~ "at_least_one_severe",
+      !!rlang::sym(child_sep) == child_sep_yes & dplyr::if_any(dplyr::all_of(child_sep_reason_d_non_severe), \(x) x == 1) ~ "at_least_one_non_severe",
       .default = NA_character_
     )
   )
