@@ -109,7 +109,7 @@ add_loop_edu_disrupted_d_to_main <- function(
   if_not_in_stop(main, id_col_main, "main")
   if_not_in_stop(loop, id_col_loop, "loop")
   if_not_in_stop(loop, c(hazards_d, displaced_d, teacher_d), "loop")
-  if (!is.null(occupation_d)) if_not_in_stop(main, occupation_d, "loop")
+  if (!is.null(occupation_d)) if_not_in_stop(loop, occupation_d, "loop")
 
   # Check if dummies are 0 and 1
   cols <- c(occupation_d, hazards_d, displaced_d, teacher_d)
