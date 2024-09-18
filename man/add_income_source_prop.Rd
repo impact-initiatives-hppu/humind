@@ -14,8 +14,8 @@ add_income_source_prop(
   income_source_rent_n = "cm_income_source_rent_n",
   income_source_remittances_n = "cm_income_source_remittances_n",
   income_source_assistance_n = "cm_income_source_assistance_n",
-  income_source_support_friends_n = "cm_income_source_support_friends_n",
-  income_source_donation_n = "cm_income_source_donation_n",
+  income_source_support_friends_n = NULL,
+  income_source_donation_n = NULL,
   income_source_other_n = "cm_income_source_other_n"
 )
 }
@@ -47,3 +47,9 @@ add_income_source_prop(
 \description{
 Add income source amount as proportions of total income
 }
+\section{Details on loans}{
+
+
+Loans (income_source_support_friends_n and income_source_donation_n) are considered to be a cash influx. Yet they do not count as a formal income source. While it is good practice to collect these figures as part of this module, they should not be included in the total income calculation. This is why their default value here is NULL.
+}
+

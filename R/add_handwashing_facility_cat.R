@@ -1,4 +1,4 @@
-#' Add frequent expenditure type amount as proportions of total frequent expenditure
+#' Add handwashing facility category - "Basic," "Limited," or "No facility."
 #'
 #' @param df Data frame containing the survey data.
 #' @param survey_modality Column name for the survey modality - e.g., "survey_modality".

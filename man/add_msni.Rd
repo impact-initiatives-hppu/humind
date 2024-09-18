@@ -51,5 +51,5 @@ add_msni(
 A data frame with 5 new columns.
 }
 \description{
-The output is a data frame with 5 new columns. First the MSNI-related variables: \code{msni_score}, \code{msni_in_need}, and \code{msni_in_acute_need}. The two latter are used for metrics 1 and 2. Second, the number of sectoral needs \code{sector_in_need_n} and the sectoral needs profile \code{sector_needs_profile}. These two are used for metric 3 and 4.
+The output is a data frame with 5 new columns. First the MSNI-related variables: \code{msni_score}, \code{msni_in_need}, and \code{msni_in_acute_need}. The two latter are used for metrics 1 and 2. Second, the number of sectoral needs \code{sector_in_need_n} and the sectoral needs profile \code{sector_needs_profile}. These two are used for metric 3 and 4. \verb{sector needs profile} is NA if no sectoral need is identified.
 }
