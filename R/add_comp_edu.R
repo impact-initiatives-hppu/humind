@@ -38,7 +38,7 @@ add_comp_edu <- function(
       !!rlang::sym(schooling_age_n) == 0 ~ 1,
       # Remaining
       !!rlang::sym(occupation_n) >= 1 ~ 4,
-      !!rlang::sym(hazards_n) >= 1 & !!rlang::sym(displaced_n) > 1 ~ 3,
+      !!rlang::sym(hazards_n) >= 1 | !!rlang::sym(displaced_n) > 1 ~ 3,
       !!rlang::sym(teacher_n) >= 1 ~ 2,
       # All equal to 0
       !!rlang::sym(occupation_n) == 0 & !!rlang::sym(hazards_n) == 0 & !!rlang::sym(displaced_n) == 0 & !!rlang::sym(teacher_n) == 0 ~ 1,
@@ -53,7 +53,7 @@ add_comp_edu <- function(
       # No school-aged child
       !!rlang::sym(schooling_age_n) == 0 ~ 1,
       # Non-attendance and protection barriers
-      !!rlang::sym(no_access_n) >= 1 | !!rlang::sym(barrier_protection_n) >= 1 ~ 4,
+      !!rlang::sym(no_access_n) >= 1 & !!rlang::sym(barrier_protection_n) >= 1 ~ 4,
       # Non attendance only
       !!rlang::sym(no_access_n) >= 1 ~ 3,
       # All attending
