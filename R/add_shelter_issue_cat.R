@@ -13,31 +13,33 @@ add_shelter_issue_cat <- function(
     shelter_issue = "snfi_shelter_issue",
     none = "none",
     issues = c("lack_privacy", "lack_space", "temperature", "ventilation", "leak", "lock", "lack_lighting", "difficulty_move"),
-    undefined = c("dnk", "pnta", "other"),
+    undefined = c("dnk", "pnta"), #remove "other"
+    other = c("other"), #create separate category for "other"
     sep = "/"){
-
+  
   #------ Checks
-
+  
   # Check if the variable is in the data frame
   if_not_in_stop(df, shelter_issue, "df")
-
+  
   # Prep choices
   shelter_issue_d_issues <- paste0(shelter_issue, sep, issues)
   shelter_issue_d_undefined <- paste0(shelter_issue, sep, undefined)
+  shelter_issue_d_other <- paste0(shelter_issue, sep, other) #add this line
   shelter_issue_d_none <- paste0(shelter_issue, sep, none)
-
+  
   # Check if columns are in the dataset
-  if_not_in_stop(df, c(shelter_issue_d_issues, shelter_issue_d_undefined, shelter_issue_d_none), "df")
-
+  if_not_in_stop(df, c(shelter_issue_d_issues, shelter_issue_d_undefined,  shelter_issue_d_other, shelter_issue_d_none), "df") #add shelter_issue_d_other
+  
   # Check that colimns are in set 0:1
-  are_values_in_set(df, c(shelter_issue_d_issues, shelter_issue_d_undefined, shelter_issue_d_none), c(0, 1))
-
-
+  are_values_in_set(df, c(shelter_issue_d_issues, shelter_issue_d_undefined,  shelter_issue_d_other, shelter_issue_d_none), c(0, 1)) #add shelter_issue_d_other
+  
+  
   # Check that none is of length 1
   if (length(none) != 1) rlang::abort("none must be of length 1")
-
+  
   #------ Recode
-
+  
   # Sum vars across issues
   df <- sum_vars(
     df,
@@ -46,30 +48,41 @@ add_shelter_issue_cat <- function(
     na_rm = TRUE,
     imputation = "none"
   )
-
-  # Add "none" and "undefined" information
+  
+  # Add "none," "undefined" and "other" information
   df <- dplyr::mutate(
     df,
     snfi_shelter_issue_n = dplyr::case_when(
       dplyr::if_any(shelter_issue_d_undefined, \(x) x == 1) ~ -999,
+      dplyr::if_any(shelter_issue_d_other, \(x) x == 1) ~ -998,
       !!rlang::sym(shelter_issue_d_none) == 1 ~ 0,
       .default = !!rlang::sym("snfi_shelter_issue_n")
     )
   )
-
+  
   # Add final recoding
   df <- dplyr::mutate(
     df,
     snfi_shelter_issue_cat = dplyr::case_when(
       snfi_shelter_issue_n == 0 ~ "none",
       snfi_shelter_issue_n == -999 ~ "undefined",
+      snfi_shelter_issue_n == -998 ~ "other",
       snfi_shelter_issue_n <= 3 ~ "1_to_3",
       snfi_shelter_issue_n <= 6 ~ "4_to_6",
       snfi_shelter_issue_n <= 8 ~ "7_to_8",
       .default = NA_character_
     )
+  )
+  
+  # Change -999 and -998 in snfi_shelter_issue_n to NA
+  df <- dplyr::mutate(
+    df,
+    snfi_shelter_issue_n = dplyr::case_when(
+      snfi_shelter_issue_n %in% c(-999, -998) ~ NA_real_,
+      .default = snfi_shelter_issue_n
     )
-
+  )
+  
   return(df)
-
+  
 }
