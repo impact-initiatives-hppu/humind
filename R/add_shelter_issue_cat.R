@@ -5,6 +5,7 @@
 #' @param none Response code for no issue.
 #' @param issues Character vector of issues.
 #' @param undefined Character vector of undefined responses codes (e.g. "Prefer not to answer").
+#' @param other Character vector of other responses codes (e.g. "Other").
 #' @param sep Separator for the binary columns.
 #'
 #'@export
@@ -13,8 +14,8 @@ add_shelter_issue_cat <- function(
     shelter_issue = "snfi_shelter_issue",
     none = "none",
     issues = c("lack_privacy", "lack_space", "temperature", "ventilation", "leak", "lock", "lack_lighting", "difficulty_move"),
-    undefined = c("dnk", "pnta"), #remove "other"
-    other = c("other"), #create separate category for "other"
+    undefined = c("dnk", "pnta"),
+    other = c("other"),
     sep = "/"){
   
   #------ Checks
@@ -64,12 +65,12 @@ add_shelter_issue_cat <- function(
   df <- dplyr::mutate(
     df,
     snfi_shelter_issue_cat = dplyr::case_when(
-      snfi_shelter_issue_n == 0 ~ "none",
-      snfi_shelter_issue_n == -999 ~ "undefined",
-      snfi_shelter_issue_n == -998 ~ "other",
-      snfi_shelter_issue_n <= 3 ~ "1_to_3",
-      snfi_shelter_issue_n <= 6 ~ "4_to_6",
-      snfi_shelter_issue_n <= 8 ~ "7_to_8",
+      !!rlang::sym("snfi_shelter_issue_n") == 0 ~ "none",
+      !!rlang::sym("snfi_shelter_issue_n") == -999 ~ "undefined",
+      !!rlang::sym("snfi_shelter_issue_n") == -998 ~ "other",
+      !!rlang::sym("snfi_shelter_issue_n") <= 3 ~ "1_to_3",
+      !!rlang::sym("snfi_shelter_issue_n") <= 6 ~ "4_to_6",
+      !!rlang::sym("snfi_shelter_issue_n") <= 8 ~ "7_to_8",
       .default = NA_character_
     )
   )
@@ -78,8 +79,8 @@ add_shelter_issue_cat <- function(
   df <- dplyr::mutate(
     df,
     snfi_shelter_issue_n = dplyr::case_when(
-      snfi_shelter_issue_n %in% c(-999, -998) ~ NA_real_,
-      .default = snfi_shelter_issue_n
+      !!rlang::sym("snfi_shelter_issue_n") %in% c(-999, -998) ~ NA_real_,
+      .default = !!rlang::sym("snfi_shelter_issue_n")
     )
   )
   
