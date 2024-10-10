@@ -41,8 +41,8 @@ add_drinking_water_time_threshold_cat(
   df,
   drinking_water_time_cat = "wash_drinking_water_time_cat",
   premises = "premises",
-  under_30min = c("under_30_min", "30min_1hr"),
-  above_30min = "more_than_1hr",
+  under_30min = c("under_30_min"),
+  above_30min = c("30min_1hr", "more_than_1hr"),
   undefined = "undefined"
 )
 
