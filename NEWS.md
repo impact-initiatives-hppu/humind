@@ -1,3 +1,14 @@
+# humind 2024.1.3
+
+This release covers bug fixes.
+
+ - `comp_edu_score_attendance()` now categorizes households correctly when children are not attending school and no protection issue was faced. (#532)
+ - `add_shelter_issue_cat()` do not add -999 or -998 when the shelter issue is Don't know or Prefer not to answer (it keeps NAs) and "Other" is categorized as others and not undefined. (#534)
+ - `add_comp_snfi()` default values were fixed in documentation. (#535)
+ - `add_drinking_water_time_threshold_cat()`: corrected input parameters "under_30min" and "above_30min". (#539)
+ - `add_comp_wash()`: corrected assigned severities for `comp_wash_score_sanitation` among HHs in camps. (#536)
+ 
+
 # humind 2024.1.2
 
 This release covers a hot patch, a new function, and enhancements.
