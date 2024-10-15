@@ -34,8 +34,8 @@ add_comp_wash <- function(
     sanitation_facility_n_ind_levels = c("50_and_above", "20_to_49", "19_and_below"),
     handwashing_facility_jmp_cat = "wash_handwashing_facility_jmp_cat",
     handwashing_facility_jmp_cat_levels = c("no_facility", "limited", "basic", "undefined"), 
-    sanitation_facility_sharing_yn = "wash_sanitation_facility_sharing_yn",
-    sanitation_facility_sharing_yn_levels = c("yes", "no", "dnk", "pnta")
+    sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
+    sharing_sanitation_facility_cat_levels = c("shared", "not_shared", "not_applicable", "undefined")
     ){
 
     #------ Checks
@@ -51,7 +51,7 @@ add_comp_wash <- function(
     are_values_in_set(df, sanitation_facility_cat, sanitation_facility_cat_levels)
     are_values_in_set(df, sanitation_facility_n_ind, sanitation_facility_n_ind_levels)
     are_values_in_set(df, handwashing_facility_jmp_cat, handwashing_facility_jmp_cat_levels)
-    are_values_in_set(df, sanitation_facility_sharing_yn,  sanitation_facility_sharing_yn_levels)
+    are_values_in_set(df, sharing_sanitation_facility_cat,  sharing_sanitation_facility_cat_levels)
 
     # Check lengths
     # Is that necessary? the remaining will be NAes
@@ -130,11 +130,17 @@ add_comp_wash <- function(
             # - Improved and shared with less than 20 people
             !!rlang::sym(setting) == setting_levels[1] &
                 !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_levels[3] &
-                !!rlang::sym(sanitation_facility_n_ind) == sanitation_facility_n_ind_levels[3]  ~ 2,
+                !!rlang::sym(sanitation_facility_n_ind) == sanitation_facility_n_ind_levels[3] &
+                !!rlang::sym(sharing_sanitation_facility_cat) == sharing_sanitation_facility_cat_levels[1]  ~ 2,
             # - Improved and not shared with people outside of the household
             !!rlang::sym(setting) == setting_levels[1] &
               !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_levels[3] &
-              !!rlang::sym(sanitation_facility_sharing_yn) == sanitation_facility_sharing_yn_levels[2]  ~ 1,            
+              !!rlang::sym(sanitation_facility_n_ind) == sanitation_facility_n_ind_levels[3] &
+              !!rlang::sym(sharing_sanitation_facility_cat) == sharing_sanitation_facility_cat_levels[2]  ~ 1,
+            # - Improved and "not applicable" for sharing with people outside of the household
+            !!rlang::sym(setting) == setting_levels[1] &
+              !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_levels[3] &
+              !!rlang::sym(sharing_sanitation_facility_cat) == sharing_sanitation_facility_cat_levels[3]  ~ 1,
             # - Undefined
             !!rlang::sym(setting) == setting_levels[1] &
                 !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_levels[4] ~ NA_real_,
