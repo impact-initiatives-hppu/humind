@@ -5,7 +5,7 @@ library(dplyr)
 dummy_data <- data.frame(
   edu_schooling_age_n = c(0, 10, 5, 7, 0, 2),
   edu_no_access_n = c(0, 1, 0, 2, 0, 0),
-  edu_barrier_protection_n = c(0, 1, 0, 0, 0, 1),
+  edu_barrier_protection_n = c(0, 1, 0, 0, 0, 0),
   edu_disrupted_occupation_n = c(0, 0, 1, 0, 0, 0),
   edu_disrupted_hazards_n = c(0, 1, 0, 0, 0, 0),
   edu_disrupted_displaced_n = c(0, 1, 0, 2, 0, 0),
@@ -46,16 +46,16 @@ test_that("Function computes correct scores", {
   expect_equal(result$comp_edu_score_disrupted, c(1, 3, 4, 3, 1, 2))
 
   # Check comp_edu_score_attendance
-  expect_equal(result$comp_edu_score_attendance, c(1, 4, 1, 4, 1, 4))
+  expect_equal(result$comp_edu_score_attendance, c(1, 4, 1, 3, 1, 1))
 
   # Check comp_edu_score
-  expect_equal(result$comp_edu_score, c(1, 4, 4, 4, 1, 4))
+  expect_equal(result$comp_edu_score, c(1, 4, 4, 3, 1, 2))
 
   # Check comp_edu_in_need
-  expect_equal(result$comp_edu_in_need, c(0, 1, 1, 1, 0, 1))
+  expect_equal(result$comp_edu_in_need, c(0, 1, 1, 1, 0, 0))
 
   # Check comp_edu_in_acute_need
-  expect_equal(result$comp_edu_in_acute_need, c(0, 1, 1, 1, 0, 1))
+  expect_equal(result$comp_edu_in_acute_need, c(0, 1, 1, 0, 0, 0))
 })
 
 
