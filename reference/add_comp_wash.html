@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,7 +28,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>WASH sectoral composite - add score and dummy for in need</h1>
-      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/v2024.1.2/R/add_comp_wash.R" class="external-link"><code>R/add_comp_wash.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/main/R/add_comp_wash.R" class="external-link"><code>R/add_comp_wash.R</code></a></small>
       <div class="d-none name"><code>add_comp_wash.Rd</code></div>
     </div>
 
@@ -55,6 +55,9 @@
 <span>  sanitation_facility_cat_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"unimproved"</span>, <span class="st">"improved"</span>, <span class="st">"undefined"</span><span class="op">)</span>,</span>
 <span>  sanitation_facility_n_ind <span class="op">=</span> <span class="st">"wash_sharing_sanitation_facility_n_ind"</span>,</span>
 <span>  sanitation_facility_n_ind_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"50_and_above"</span>, <span class="st">"20_to_49"</span>, <span class="st">"19_and_below"</span><span class="op">)</span>,</span>
+<span>  sharing_sanitation_facility_cat <span class="op">=</span> <span class="st">"wash_sharing_sanitation_facility_cat"</span>,</span>
+<span>  sharing_sanitation_facility_cat_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"shared"</span>, <span class="st">"not_shared"</span>, <span class="st">"not_applicable"</span>,</span>
+<span>    <span class="st">"undefined"</span><span class="op">)</span>,</span>
 <span>  handwashing_facility_jmp_cat <span class="op">=</span> <span class="st">"wash_handwashing_facility_jmp_cat"</span>,</span>
 <span>  handwashing_facility_jmp_cat_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no_facility"</span>, <span class="st">"limited"</span>, <span class="st">"basic"</span>, <span class="st">"undefined"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -109,11 +112,19 @@
 
 
 <dt id="arg-sanitation-facility-n-ind">sanitation_facility_n_ind<a class="anchor" aria-label="anchor" href="#arg-sanitation-facility-n-ind"></a></dt>
-<dd><p>Column name for number of individuals sharing a sanitation facility.</p></dd>
+<dd><p>Column name for number of individuals using the sanitation facility.</p></dd>
 
 
 <dt id="arg-sanitation-facility-n-ind-levels">sanitation_facility_n_ind_levels<a class="anchor" aria-label="anchor" href="#arg-sanitation-facility-n-ind-levels"></a></dt>
-<dd><p>Levels for number of individuals sharing a sanitation facility.</p></dd>
+<dd><p>Levels for number of individuals using the sanitation facility.</p></dd>
+
+
+<dt id="arg-sharing-sanitation-facility-cat">sharing_sanitation_facility_cat<a class="anchor" aria-label="anchor" href="#arg-sharing-sanitation-facility-cat"></a></dt>
+<dd><p>Column name for sharing a sanitation facility.</p></dd>
+
+
+<dt id="arg-sharing-sanitation-facility-cat-levels">sharing_sanitation_facility_cat_levels<a class="anchor" aria-label="anchor" href="#arg-sharing-sanitation-facility-cat-levels"></a></dt>
+<dd><p>Levels for sharing a sanitation facility.</p></dd>
 
 
 <dt id="arg-handwashing-facility-jmp-cat">handwashing_facility_jmp_cat<a class="anchor" aria-label="anchor" href="#arg-handwashing-facility-jmp-cat"></a></dt>
@@ -134,7 +145,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>
