@@ -13,10 +13,10 @@ df_dummy <- data.frame(
 test_that("comp_snfi function works correctly with default parameters", {
   result <- add_comp_snfi(df_dummy)
   expect_equal(result$comp_snfi_score_shelter_type_cat, c(5, 3, 1, NA, NA))
-  expect_equal(result$comp_snfi_score_shelter_issue_cat, c(4, 3, 2, 1, NA))
+  expect_equal(result$comp_snfi_score_shelter_issue_cat, c(1, 4, 3, 2, NA))
   expect_equal(result$comp_snfi_score_occupancy_cat, c(3, 2, 1, NA, NA))
   expect_equal(result$comp_snfi_score_fds_cannot_cat, c(4, 3, 2, 1, NA))
-  expect_equal(result$comp_snfi_score, c(5, 3, 2, 1, NA))
+  expect_equal(result$comp_snfi_score, c(5, 4, 3, 2, NA))
 })
 
 test_that("comp_snfi handles NA values correctly", {

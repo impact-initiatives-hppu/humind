@@ -10,7 +10,8 @@ add_shelter_issue_cat(
   none = "none",
   issues = c("lack_privacy", "lack_space", "temperature", "ventilation", "leak", "lock",
     "lack_lighting", "difficulty_move"),
-  undefined = c("dnk", "pnta", "other"),
+  undefined = c("dnk", "pnta"),
+  other = c("other"),
   sep = "/"
 )
 }
@@ -24,6 +25,8 @@ add_shelter_issue_cat(
 \item{issues}{Character vector of issues.}
 
 \item{undefined}{Character vector of undefined responses codes (e.g. "Prefer not to answer").}
+
+\item{other}{Character vector of other responses codes (e.g. "Other").}
 
 \item{sep}{Separator for the binary columns.}
 }

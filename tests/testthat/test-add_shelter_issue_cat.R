@@ -66,7 +66,7 @@ test_that("add_shelter_issue_cat handles undefined values", {
   )
 
   df_result <- add_shelter_issue_cat(df)
-  expect_equal(df_result$snfi_shelter_issue_n[1], -999)
+  expect_equal(df_result$snfi_shelter_issue_n[1], NA_real_)
   expect_equal(df_result$snfi_shelter_issue_cat[1], "undefined")
 })
 
