@@ -10,6 +10,7 @@ dummy_data <- data.frame(
   wash_sanitation_facility_jmp_cat = c("safely_managed", "basic", "limited", "open_defecation"),
   wash_sanitation_facility_cat = c("improved", "unimproved", "none", "undefined"),
   wash_sharing_sanitation_facility_n_ind = c("19_and_below", "20_to_49", "50_and_above", NA),
+  wash_sharing_sanitation_facility_cat = c("shared", "shared", "shared", "undefined"),
   wash_handwashing_facility_jmp_cat = c("basic", "limited", "no_facility", "undefined")
 )
 
@@ -28,7 +29,8 @@ undefined_data <- data.frame(
   wash_sanitation_facility_jmp_cat = rep("undefined", 4),
   wash_sanitation_facility_cat = rep("undefined", 4),
   wash_sharing_sanitation_facility_n_ind = rep(NA, 4),
-  wash_handwashing_facility_jmp_cat = rep("undefined", 4)
+  wash_handwashing_facility_jmp_cat = rep("undefined", 4),
+  wash_sharing_sanitation_facility_cat = rep("undefined", 4)
 )
 
 test_that("Function handles all undefined categories", {
@@ -45,7 +47,8 @@ na_data <- data.frame(
   wash_sanitation_facility_jmp_cat = c(NA, "basic", "limited", "open_defecation"),
   wash_sanitation_facility_cat = c("improved", NA, "none", "undefined"),
   wash_sharing_sanitation_facility_n_ind = c("19_and_below", "20_to_49", NA, "50_and_above"),
-  wash_handwashing_facility_jmp_cat = c("basic", "limited", "no_facility", NA)
+  wash_handwashing_facility_jmp_cat = c("basic", "limited", "no_facility", NA),
+  wash_sharing_sanitation_facility_cat = c("shared", "shared", "undefined", "shared")
 )
 
 test_that("Function handles NA values in data", {

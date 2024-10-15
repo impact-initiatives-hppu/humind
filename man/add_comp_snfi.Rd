@@ -9,7 +9,7 @@ add_comp_snfi(
   shelter_type_cat = "snfi_shelter_type_cat",
   shelter_type_cat_levels = c("none", "inadequate", "adequate", "undefined"),
   shelter_issue_cat = "snfi_shelter_issue_cat",
-  shelter_issue_cat_levels = c("none", "7_to_8", "4_to_6", "1_to_3", "undefined"),
+  shelter_issue_cat_levels = c("7_to_8", "4_to_6", "1_to_3", "none", "undefined"),
   occupancy_cat = "hlp_occupancy_cat",
   occupancy_cat_levels = c("high_risk", "medium_risk", "low_risk", "undefined"),
   fds_cannot_cat = "snfi_fds_cannot_cat",
