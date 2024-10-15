@@ -11,11 +11,12 @@
 #' @param sanitation_facility_jmp_cat_levels Levels for sanitation facility JMP category.
 #' @param sanitation_facility_cat Column name for sanitation facility category.
 #' @param sanitation_facility_cat_levels Levels for sanitation facility category.
-#' @param sanitation_facility_n_ind Column name for number of individuals sharing a sanitation facility.
-#' @param sanitation_facility_n_ind_levels Levels for number of individuals sharing a sanitation facility.
+#' @param sanitation_facility_n_ind Column name for number of individuals using the sanitation facility.
+#' @param sanitation_facility_n_ind_levels Levels for number of individuals using the sanitation facility.
+#' @param sharing_sanitation_facility_cat Column name for sharing a sanitation facility.
+#' @param sharing_sanitation_facility_cat_levels Levels for sharing a sanitation facility.
 #' @param handwashing_facility_jmp_cat Column name for handwashing facility JMP category.
 #' @param handwashing_facility_jmp_cat_levels Levels for handwashing facility JMP category.
-#'
 #'
 #' @export
 add_comp_wash <- function(
@@ -32,10 +33,10 @@ add_comp_wash <- function(
     sanitation_facility_cat_levels = c("none", "unimproved", "improved", "undefined"),
     sanitation_facility_n_ind = "wash_sharing_sanitation_facility_n_ind",
     sanitation_facility_n_ind_levels = c("50_and_above", "20_to_49", "19_and_below"),
-    handwashing_facility_jmp_cat = "wash_handwashing_facility_jmp_cat",
-    handwashing_facility_jmp_cat_levels = c("no_facility", "limited", "basic", "undefined"), 
     sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
-    sharing_sanitation_facility_cat_levels = c("shared", "not_shared", "not_applicable", "undefined")
+    sharing_sanitation_facility_cat_levels = c("shared", "not_shared", "not_applicable", "undefined"),
+    handwashing_facility_jmp_cat = "wash_handwashing_facility_jmp_cat",
+    handwashing_facility_jmp_cat_levels = c("no_facility", "limited", "basic", "undefined")
     ){
 
     #------ Checks
