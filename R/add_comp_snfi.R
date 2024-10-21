@@ -4,7 +4,7 @@
 #' @param shelter_type_cat Column name for shelter type.
 #' @param shelter_type_cat_levels Levels for shelter type in that order: none, inadequate, adequate, undefined.
 #' @param shelter_issue_cat Column name for shelter issue.
-#' @param shelter_issue_cat_levels Levels for shelter issue in that order: none, 7_to_8, 4_to_6, 1_to_3, undefined.
+#' @param shelter_issue_cat_levels Levels for shelter issue in that order: none, 7_to_8, 4_to_6, 1_to_3, undefined, other.
 #' @param occupancy_cat Column name for occupancy.
 #' @param occupancy_cat_levels Levels for occupancy in that order: high_risk, medium_risk, low_risk, undefined.
 #' @param fds_cannot_cat Column name for fds cannot.
@@ -16,7 +16,7 @@ add_comp_snfi <- function(
     shelter_type_cat = "snfi_shelter_type_cat",
     shelter_type_cat_levels = c("none", "inadequate", "adequate", "undefined"),
     shelter_issue_cat = "snfi_shelter_issue_cat",
-    shelter_issue_cat_levels = c("7_to_8", "4_to_6", "1_to_3", "none", "undefined"),
+    shelter_issue_cat_levels = c("7_to_8", "4_to_6", "1_to_3", "none", "undefined", "other"),
     occupancy_cat = "hlp_occupancy_cat",
     occupancy_cat_levels = c("high_risk", "medium_risk", "low_risk", "undefined"),
     fds_cannot_cat = "snfi_fds_cannot_cat",
@@ -69,6 +69,7 @@ add_comp_snfi <- function(
       !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_levels[3] ~ 2,
       !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_levels[4] ~ 1,
       !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_levels[5] ~ NA_real_,
+      !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_levels[6] ~ NA_real_,
       .default = NA_real_
     )
   )
