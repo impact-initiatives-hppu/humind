@@ -4,7 +4,7 @@
 #' @param shelter_type_cat Column name for shelter type.
 #' @param shelter_type_cat_levels Levels for shelter type in that order: none, inadequate, adequate, undefined.
 #' @param shelter_issue_cat Column name for shelter issue.
-#' @param shelter_issue_cat_levels Levels for shelter issue in that order: none, 7_to_8, 4_to_6, 1_to_3, undefined, other.
+#' @param shelter_issue_cat_levels Levels for shelter issue in that order: 7_to_8, 4_to_6, 1_to_3, none, undefined, other.
 #' @param occupancy_cat Column name for occupancy.
 #' @param occupancy_cat_levels Levels for occupancy in that order: high_risk, medium_risk, low_risk, undefined.
 #' @param fds_cannot_cat Column name for fds cannot.
