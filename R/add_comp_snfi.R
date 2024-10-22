@@ -42,7 +42,7 @@ add_comp_snfi <- function(
 
   # Check length for each
   if (length(shelter_type_cat_levels) != 4) rlang::abort("shelter_type_cat_levels must be of length 4")
-  if (length(shelter_issue_cat_levels) != 5) rlang::abort("shelter_issue_cat_levels must be of length 5")
+  if (length(shelter_issue_cat_levels) != 6) rlang::abort("shelter_issue_cat_levels must be of length 5")
   if (length(occupancy_cat_levels) != 4) rlang::abort("occupancy_cat_levels must be of length 4")
   if (length(fds_cannot_cat_levels) != 5) rlang::abort("fds_cannot_cat_levels must be of length 5")
 
