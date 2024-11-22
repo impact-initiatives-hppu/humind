@@ -2,10 +2,15 @@
 #'
 #' @param loop A data frame of individual-level data.
 #' @param ind_healthcare_needed The name of the variable that indicates if healthcare is needed.
+#' @param ind_healthcare_needed_no Level for "no" in ind_healthcare_needed.
+#' @param ind_healthcare_needed_yes Level for "yes" in ind_healthcare_needed.
+#' @param ind_healthcare_needed_dnk Level for "don't know" in ind_healthcare_needed.
+#' @param ind_healthcare_needed_pnta Level for "prefer not to answer" in ind_healthcare_needed.
 #' @param ind_healthcare_received The name of the variable that indicates if healthcare is received.
-#' @param yes_value The value indicating "yes" for both needed and received variables.
-#' @param no_value The value indicating "no" for both needed and received variables.
-#' @param undefined_values A vector of values indicating undefined or unknown responses.
+#' @param ind_healthcare_received_no Level for "no" in ind_healthcare_received.
+#' @param ind_healthcare_received_yes Level for "yes" in ind_healthcare_received.
+#' @param ind_healthcare_received_dnk Level for "don't know" in ind_healthcare_received.
+#' @param ind_healthcare_received_pnta Level for "prefer not to answer" in ind_healthcare_received.
 #' @param wgq_dis The name of the variable that indicates if the individual has a disability (usual cut-offs are 3).
 #' @param ind_age The name of the variable that indicates the age of the individual.
 #'
@@ -13,10 +18,15 @@
 add_loop_healthcare_needed_cat <- function(
     loop,
     ind_healthcare_needed = "health_ind_healthcare_needed",
+    ind_healthcare_needed_no = "no",
+    ind_healthcare_needed_yes = "yes",
+    ind_healthcare_needed_dnk = "dnk",
+    ind_healthcare_needed_pnta = "pnta",
     ind_healthcare_received = "health_ind_healthcare_received",
-    yes_value = "yes",
-    no_value = "no",
-    undefined_values = c("dnk", "pnta"),
+    ind_healthcare_received_no = "no",
+    ind_healthcare_received_yes = "yes",
+    ind_healthcare_received_dnk = "dnk",
+    ind_healthcare_received_pnta = "pnta",
     wgq_dis = NULL,
     ind_age = "ind_age"){
 
@@ -26,10 +36,13 @@ add_loop_healthcare_needed_cat <- function(
   if_not_in_stop(loop, c(ind_healthcare_needed, ind_healthcare_received), "loop")
   if (!is.null(wgq_dis)) if_not_in_stop(loop, c(wgq_dis, ind_age), "loop")
 
+  # Create levels vectors
+  ind_healthcare_needed_levels <- c(ind_healthcare_needed_no, ind_healthcare_needed_yes, ind_healthcare_needed_dnk, ind_healthcare_needed_pnta)
+  ind_healthcare_received_levels <- c(ind_healthcare_received_no, ind_healthcare_received_yes, ind_healthcare_received_dnk, ind_healthcare_received_pnta)
+
   # Check that values are in set
-  all_values <- c(yes_value, no_value, undefined_values)
-  are_values_in_set(loop, ind_healthcare_needed, all_values)
-  are_values_in_set(loop, ind_healthcare_received, all_values)
+  are_values_in_set(loop, ind_healthcare_needed, ind_healthcare_needed_levels)
+  are_values_in_set(loop, ind_healthcare_received, ind_healthcare_received_levels)
 
   # Check that wgq_dis have values in set 1 and 0, and if ind_age is below 5, then wgq_dis should be NA
   if (!is.null(wgq_dis)) {
@@ -39,25 +52,44 @@ add_loop_healthcare_needed_cat <- function(
     }
   }
 
-  # Warn if columns already exist
-  existing_columns <- c("health_ind_healthcare_needed_d", "health_ind_healthcare_needed_cat",
-                        "health_ind_healthcare_needed_no", "health_ind_healthcare_needed_yes_unmet",
-                        "health_ind_healthcare_needed_yes_met")
-  for (col in existing_columns) {
-    if (col %in% colnames(loop)) {
-      rlang::warn(paste0(col, " already exists in loop. It will be replaced."))
-    }
+  # Warn if health_ind_healthcare_needed_d exists in loop and will be replaced
+  if ("health_ind_healthcare_needed_d" %in% colnames(loop)) {
+    rlang::warn("health_ind_healthcare_needed_d already exists in loop. It will be replaced.")
   }
 
-  if (!is.null(wgq_dis)) {
-    wgq_columns <- c("health_ind_healthcare_needed_no_wgq_dis",
-                     "health_ind_healthcare_needed_yes_unmet_wgq_dis",
-                     "health_ind_healthcare_needed_yes_met_wgq_dis")
-    for (col in wgq_columns) {
-      if (col %in% colnames(loop)) {
-        rlang::warn(paste0(col, " already exists in loop. It will be replaced."))
-      }
-    }
+  # Warn if health_ind_healthcare_needed_cat
+  if ("health_ind_healthcare_needed_cat" %in% colnames(loop)) {
+    rlang::warn("health_ind_healthcare_needed_cat already exists in loop. It will be replaced.")
+  }
+
+  # Warn if health_ind_healthcare_needed_no exists in loop and will be replaced
+  if ("health_ind_healthcare_needed_no" %in% colnames(loop)) {
+    rlang::warn("health_ind_healthcare_needed_no already exists in loop. It will be replaced.")
+  }
+
+  # Warn if health_ind_healthcare_needed_yes_unmet exists in loop and will be replaced
+  if ("health_ind_healthcare_needed_yes_unmet" %in% colnames(loop)) {
+    rlang::warn("health_ind_healthcare_needed_yes_unmet already exists in loop. It will be replaced.")
+  }
+
+  # Warn if health_ind_healthcare_needed_yes_met exists in loop and will be replaced
+  if ("health_ind_healthcare_needed_yes_met" %in% colnames(loop)) {
+    rlang::warn("health_ind_healthcare_needed_yes_met already exists in loop. It will be replaced.")
+  }
+
+  # Warn if health_ind_healthcare_needed_no_wgq_dis exists in loop and will be replaced
+  if (!is.null(wgq_dis) & "health_ind_healthcare_needed_no_wgq_dis" %in% colnames(loop)) {
+    rlang::warn("health_ind_healthcare_needed_no_wgq_dis already exists in loop. It will be replaced.")
+  }
+
+  # Warn if health_ind_healthcare_needed_yes_unmet_wgq_dis exists in loop and will be replaced
+  if (!is.null(wgq_dis) & "health_ind_healthcare_needed_yes_unmet_wgq_dis" %in% colnames(loop)) {
+    rlang::warn("health_ind_healthcare_needed_yes_unmet_wgq_dis already exists in loop. It will be replaced.")
+  }
+
+  # Warn if health_ind_healthcare_needed_yes_met_wgq_dis exists in loop and will be replaced
+  if (!is.null(wgq_dis) & "health_ind_healthcare_needed_yes_met_wgq_dis" %in% colnames(loop)) {
+    rlang::warn("health_ind_healthcare_needed_yes_met_wgq_dis already exists in loop. It will be replaced.")
   }
 
   #------ Compute
@@ -66,14 +98,14 @@ add_loop_healthcare_needed_cat <- function(
   loop <- dplyr::mutate(
     loop,
     health_ind_healthcare_needed_d = dplyr::case_when(
-      !!rlang::sym(ind_healthcare_needed) == no_value ~ 0,
-      !!rlang::sym(ind_healthcare_needed) == yes_value ~ 1,
-      !!rlang::sym(ind_healthcare_needed) %in% undefined_values ~ NA_real_,
+      !!rlang::sym(ind_healthcare_needed) == ind_healthcare_needed_no ~ 0,
+      !!rlang::sym(ind_healthcare_needed) == ind_healthcare_needed_yes ~ 1,
+      !!rlang::sym(ind_healthcare_needed) %in% c(ind_healthcare_needed_dnk, ind_healthcare_needed_pnta) ~ NA_real_,
       .default = NA_real_),
     health_ind_healthcare_received_d = dplyr::case_when(
-      !!rlang::sym(ind_healthcare_received) == no_value ~ 0,
-      !!rlang::sym(ind_healthcare_received) == yes_value ~ 1,
-      !!rlang::sym(ind_healthcare_received) %in% undefined_values ~ NA_real_,
+      !!rlang::sym(ind_healthcare_received) == ind_healthcare_received_no ~ 0,
+      !!rlang::sym(ind_healthcare_received) == ind_healthcare_received_yes ~ 1,
+      !!rlang::sym(ind_healthcare_received) %in% c(ind_healthcare_received_dnk, ind_healthcare_received_pnta) ~ NA_real_,
       .default = NA_real_)
   )
 
