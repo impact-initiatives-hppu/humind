@@ -173,29 +173,29 @@ add_drinking_water_time_threshold_cat <- function(
 #' @rdname add_drinking_water_source_cat
 #'
 #' @param drinking_water_source_cat Component column: Water source categories.
-#' @param improved_source Response code for improved water source.
-#' @param unimproved_source Response code for unimproved water source.
-#' @param surface_water_source Response code for surface water source.
-#' @param undefined_source Response code for undefined water source.
+#' @param drinking_water_source_cat_improved_source Response code for improved water source.
+#' @param drinking_water_source_cat_unimproved_source Response code for unimproved water source.
+#' @param drinking_water_source_cat_surface_water_source Response code for surface water source.
+#' @param drinking_water_source_cat_undefined_source Response code for undefined water source.
 #' @param drinking_water_time_30min_cat Component column: Time to fetch water, recoded categories.
-#' @param premises_time Response code for water on premises.
-#' @param under_30min_time Response code for under 30 minutes.
-#' @param above_30min_time Response code for above 30 minutes.
-#' @param undefined_time Response code for undefined time.
+#' @param drinking_water_time_30min_cat_premises Response code for water on premises.
+#' @param drinking_water_time_30min_cat_under_30min Response code for under 30 minutes.
+#' @param drinking_water_time_30min_cat_above_30min Response code for above 30 minutes.
+#' @param drinking_water_time_30min_cat_undefined Response code for undefined time.
 #'
 #' @export
 add_drinking_water_quality_jmp_cat <- function(
     df,
     drinking_water_source_cat = "wash_drinking_water_source_cat",
-    improved_source = "improved",
-    unimproved_source = "unimproved",
-    surface_water_source = "surface_water",
-    undefined_source = "undefined",
+    drinking_water_source_cat_improved_source = "improved",
+    drinking_water_source_cat_unimproved_source = "unimproved",
+    drinking_water_source_cat_surface_water_source = "surface_water",
+    drinking_water_source_cat_undefined_source = "undefined",
     drinking_water_time_30min_cat = "wash_drinking_water_time_30min_cat",
-    premises_time = "premises",
-    under_30min_time = "under_30min",
-    above_30min_time = "above_30min",
-    undefined_time = "undefined"){
+    drinking_water_time_30min_cat_premises = "premises",
+    drinking_water_time_30min_cat_under_30min = "under_30min",
+    drinking_water_time_30min_cat_above_30min = "above_30min",
+    drinking_water_time_30min_cat_undefined = "undefined"){
 
   #------ Checks
 
@@ -203,21 +203,21 @@ add_drinking_water_quality_jmp_cat <- function(
   if_not_in_stop(df, c(drinking_water_source_cat, drinking_water_time_30min_cat), "df")
 
   # Check if values are in set
-  are_values_in_set(df, drinking_water_source_cat, c(improved_source, unimproved_source, surface_water_source, undefined_source))
-  are_values_in_set(df, drinking_water_time_30min_cat, c(premises_time, under_30min_time, above_30min_time, undefined_time))
+  are_values_in_set(df, drinking_water_source_cat, c(drinking_water_source_cat_improved_source, drinking_water_source_cat_unimproved_source, drinking_water_source_cat_surface_water_source, drinking_water_source_cat_undefined_source))
+  are_values_in_set(df, drinking_water_time_30min_cat, c(drinking_water_time_30min_cat, drinking_water_time_30min_cat_premises, drinking_water_time_30min_cat_under_30min, drinking_water_time_30min_cat_above_30min, drinking_water_time_30min_cat_undefined))
 
   #------ Recode
 
   df <- dplyr::mutate(
     df,
     wash_drinking_water_quality_jmp_cat = dplyr::case_when(
-      !!rlang::sym(drinking_water_source_cat) == surface_water_source ~ "surface_water",
-      !!rlang::sym(drinking_water_source_cat) == unimproved_source ~ "unimproved",
-      !!rlang::sym(drinking_water_source_cat) == improved_source & !!rlang::sym(drinking_water_time_30min_cat) == above_30min_time ~ "limited",
-      !!rlang::sym(drinking_water_source_cat) == improved_source & !!rlang::sym(drinking_water_time_30min_cat) == under_30min_time ~ "basic",
-      !!rlang::sym(drinking_water_source_cat) == improved_source & !!rlang::sym(drinking_water_time_30min_cat) == premises_time ~ "safely_managed",
-      !!rlang::sym(drinking_water_source_cat) == undefined_source ~ "undefined",
-      !!rlang::sym(drinking_water_time_30min_cat) == undefined_time ~ "undefined",
+      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_surface_water_source ~ "surface_water",
+      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_unimproved_source ~ "unimproved",
+      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_improved_source & !!rlang::sym(drinking_water_time_30min_cat) == drinking_water_time_30min_cat_above_30min ~ "limited",
+      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_improved_source & !!rlang::sym(drinking_water_time_30min_cat) == drinking_water_time_30min_cat_under_30min ~ "basic",
+      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_improved_source & !!rlang::sym(drinking_water_time_30min_cat) == drinking_water_time_30min_cat_premises ~ "safely_managed",
+      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_undefined_source ~ "undefined",
+      !!rlang::sym(drinking_water_time_30min_cat) == drinking_water_time_30min_cat_undefined ~ "undefined",
       .default = NA_character_
     )
   )
