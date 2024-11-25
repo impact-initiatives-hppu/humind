@@ -61,7 +61,7 @@ add_comp_health <- function(
         !!rlang::sym(ind_healthcare_needed_yes_unmet_n) > 0 ~ 3,
         !!rlang::sym(ind_healthcare_needed_yes_met_wgq_dis_n) > 0 ~ 3,
         !!rlang::sym(ind_healthcare_needed_yes_met_n) > 0 ~ 2,
-        !!rlang::sym(ind_healthcare_needed_no_wgq_dis_n) > 0 ~ 2,
+        !!rlang::sym(ind_healthcare_needed_no_wgq_dis_n) > 0 ~ 3,
         !!rlang::sym(ind_healthcare_needed_no_n) > 0 ~ 1,
         .default = NA_real_
       )
