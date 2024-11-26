@@ -74,7 +74,7 @@ add_comp_wash <- function(
     sanitation_facility_jmp_cat_unimproved = "unimproved",
     sanitation_facility_jmp_cat_limited = "limited",
     sanitation_facility_jmp_cat_basic = "basic",
-    sanitation_facility_jmp_catsafely_managed = "safely_managed",
+    sanitation_facility_jmp_cat_safely_managed = "safely_managed",
     sanitation_facility_jmp_cat_undefined = "undefined",
     sanitation_facility_cat = "wash_sanitation_facility_cat",
     sanitation_facility_cat_none = "none",
@@ -245,3 +245,4 @@ add_comp_wash <- function(
   )
 
   return(df)
+}

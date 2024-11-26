@@ -38,6 +38,7 @@ add_comp_snfi <- function(
     shelter_issue_cat_1_to_3 = "1_to_3",
     shelter_issue_cat_none = "none",
     shelter_issue_cat_undefined = "undefined",
+    shelter_issue_cat_other = "other",
     occupancy_cat = "hlp_occupancy_cat",
     occupancy_cat_high_risk = "high_risk",
     occupancy_cat_medium_risk = "medium_risk",
@@ -58,7 +59,7 @@ add_comp_snfi <- function(
 
   # Create levels vectors
   shelter_type_cat_levels <- c(shelter_type_cat_none, shelter_type_cat_inadequate, shelter_type_cat_adequate, shelter_type_cat_undefined)
-  shelter_issue_cat_levels <- c(shelter_issue_cat_7_to_8, shelter_issue_cat_4_to_6, shelter_issue_cat_1_to_3, shelter_issue_cat_none, shelter_issue_cat_undefined)
+  shelter_issue_cat_levels <- c(shelter_issue_cat_7_to_8, shelter_issue_cat_4_to_6, shelter_issue_cat_1_to_3, shelter_issue_cat_none, shelter_issue_cat_undefined, shelter_issue_cat_other)
   occupancy_cat_levels <- c(occupancy_cat_high_risk, occupancy_cat_medium_risk, occupancy_cat_low_risk, occupancy_cat_undefined)
   fds_cannot_cat_levels <- c(fds_cannot_cat_4_to_5, fds_cannot_cat_2_to_3, fds_cannot_cat_1, fds_cannot_cat_none, fds_cannot_cat_undefined)
 
@@ -97,6 +98,7 @@ add_comp_snfi <- function(
       !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_1_to_3 ~ 2,
       !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_none ~ 1,
       !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_undefined ~ NA_real_,
+      !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_other ~ NA_real_,
       .default = NA_real_
     )
   )
