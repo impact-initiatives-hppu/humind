@@ -189,9 +189,9 @@ add_comp_wash <- function(
       !!rlang::sym(setting) == setting_urban &
         !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_unimproved ~ 3,
       !!rlang::sym(setting) == setting_urban &
-        !!rlang::sym(sanitation_facility_jmp_cat) %in% c(sanitation_facility_jmp_cat_limited, sanitation_facility_jmp_cat_basic) ~ 2,
+        !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_limited ~ 2,
       !!rlang::sym(setting) == setting_urban &
-        !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_safely_managed ~ 1,
+        !!rlang::sym(sanitation_facility_jmp_cat) %in% c(sanitation_facility_jmp_cat_safely_managed, sanitation_facility_jmp_cat_basic) ~ 1,
       !!rlang::sym(setting) == setting_urban &
         !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_undefined ~ NA_real_,
       # Rural---uses the JMP categories
