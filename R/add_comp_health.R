@@ -1,4 +1,16 @@
-#' Health composite - add score and dummy for in need
+#' Health Composite Score and Need Indicators
+#'
+#' @title Calculate Health Composite Score and Need Indicators
+#'
+#' @description
+#' This function calculates a health composite score based on healthcare access and needs.
+#' It considers whether individuals needed healthcare, whether they accessed it if needed,
+#' and optionally takes into account disability status. The function then determines if a
+#' household is in need or in acute need of health assistance based on the calculated score.
+#' Prerequisite functions:
+#' add_loop_healthcare_needed_cat.R
+#' add_loop_wgq_ss.R - if WG-SS data collected
+#'
 #'
 #' @param df A data frame.
 #' @param ind_healthcare_needed_no_n Column name for the number of individuals who did not need to access healthcare.
@@ -8,6 +20,11 @@
 #' @param ind_healthcare_needed_no_wgq_dis_n Column name for the number of individuals who did not need to access healthcare and have a disability.
 #' @param ind_healthcare_needed_yes_unmet_wgq_dis_n Column name for the number of individuals who needed to access healthcare but did not and have a disability.
 #' @param ind_healthcare_needed_yes_met_wgq_dis_n Column name for the number of individuals who needed to access healthcare and did and have a disability.
+#'
+#' @return A data frame with additional columns:
+#'   \item{comp_health_score}{Health composite score (1-4)}
+#'   \item{comp_health_in_need}{Binary indicator for being in need of health assistance}
+#'   \item{comp_health_in_acute_need}{Binary indicator for being in acute need of health assistance}
 #'
 #' @export
 add_comp_health <- function(

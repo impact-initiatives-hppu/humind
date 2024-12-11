@@ -1,14 +1,19 @@
-#' Add a correct schooling age to the loop
+#' @title Add Correct Schooling Age to Individual Data
+#'
+#' @description This function adds a corrected age for schooling purposes to individual-level data and creates a dummy variable for school-age children. It also provides an option to aggregate this information to household-level data.
 #'
 #' @param loop A data frame of individual-level data.
-#' @param main A data frame of individual-level data.
-#' @param id_col_loop  Survey unique identifier column name in loop.
-#' @param id_col_main  Survey unique identifier column name in main.
-#' @param survey_start_date  Survey start date column name in main.
-#' @param school_year_start_month  The month when the school year has started.
-#' @param ind_age  The individual age column.
-#' @param month  If not NULL, an integer between 1 and 12 which will be used as the month of data collection for all households/
-#' @return 2 new columns: "edu_ind_age_corrected" with the corrected individual age, and a dummy variable edu_ind_schooling_age_d
+#' @param main A data frame of household-level data.
+#' @param id_col_loop Survey unique identifier column name in loop.
+#' @param id_col_main Survey unique identifier column name in main.
+#' @param survey_start_date Survey start date column name in main.
+#' @param school_year_start_month The month when the school year has started.
+#' @param ind_age The individual age column.
+#' @param month If not NULL, an integer between 1 and 12 which will be used as the month of data collection for all households.
+#'
+#' @return A data frame with additional columns:
+#' \item{edu_ind_age_corrected}{The corrected individual age for schooling purposes}
+#' \item{edu_ind_schooling_age_d}{A dummy variable indicating if the individual is of school age (1) or not (0)}
 #'
 #' @export
 add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_col_main = "uuid", survey_start_date = "start", school_year_start_month = 9, ind_age = "ind_age", month = NULL) {

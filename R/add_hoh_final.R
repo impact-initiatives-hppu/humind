@@ -1,15 +1,20 @@
-#' Head of household final values (from respondent skip logic)
+#' @title Update Head of Household Information
+#'
+#' @description This function updates the head of household (HoH) gender and age information based on whether the respondent is the HoH or not.
+#' If the respondent is the HoH, their gender and age are used; otherwise, the existing HoH information is retained.
 #'
 #' @param df The input dataframe.
-#' @param resp_hoh_yn The column name for whether the respondent is the head of household (hoh) yes/no indicator.
+#' @param resp_hoh_yn The column name for whether the respondent is the head of household (HoH) yes/no indicator.
 #' @param yes The value for 'yes' in the 'resp_hoh_yn' column.
 #' @param no The value for 'no' in the 'resp_hoh_yn' column.
-#' @param hoh_gender The column name for the household (hoh) gender.
-#' @param hoh_age The column name for the household (hoh) age.
+#' @param hoh_gender The column name for the household (HoH) gender.
+#' @param hoh_age The column name for the household (HoH) age.
 #' @param resp_gender The column name for the respondent (resp) gender.
 #' @param resp_age The column name for the respondent (resp) age.
 #'
-#' @return The modified dataframe with updated hoh_gender and hoh_age columns.
+#' @return A modified dataframe with updated columns:
+#' \item{hoh_gender}{Updated head of household gender}
+#' \item{hoh_age}{Updated head of household age}
 #'
 #' @export
 add_hoh_final <- function(df, resp_hoh_yn = "resp_hoh_yn", yes = "yes", no = "no", hoh_gender = "hoh_gender", hoh_age = "hoh_age", resp_gender = "resp_gender", resp_age = "resp_age"){
@@ -24,7 +29,7 @@ add_hoh_final <- function(df, resp_hoh_yn = "resp_hoh_yn", yes = "yes", no = "no
 
   # Check that age columns are numeric
   are_cols_numeric(df, c(hoh_age, resp_age))
-  
+
 
   #------ Compute
 

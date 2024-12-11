@@ -1,11 +1,14 @@
-#' Add quantile intervals
+#' @title Add Quantile Intervals to Income Variable
 #'
-#' [add_quantile_interval()] function calculates weighted income quantiles and classifies households according to these.
+#' @description This function calculates weighted income quantiles and classifies households according to these. It can handle multiple income variables and applies weighted or unweighted quantiles based on the input.
 #'
-#' @param df A dataframe.
+#' @param df A dataframe containing the income variables.
 #' @param vars The variable or variables with income integer values.
-#' @param cut_offs The cut-offs for computaton of quantiles. The default corresponds to the quantiles of the distribution, based on the weighted median.
-#' @param weight The sampling weights.
+#' @param cut_offs The cut-offs for computation of quantiles. The default corresponds to the quantiles of the distribution, based on the weighted median.
+#' @param weight The sampling weights column name. If NULL, unweighted quantiles are calculated.
+#'
+#' @return A dataframe with additional columns:
+#' \item{*_qtl}{For each input variable, a new column is added with the quantile interval classification. The naming format is [original_variable_name]_qtl.}
 #'
 #' @export
 

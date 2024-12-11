@@ -1,4 +1,8 @@
-#' Add healthcare needed category to loop data (incl. WGQ-SS if provided)
+#' @title Add Healthcare Needed Category to Individual Data
+#'
+#' @description This function adds healthcare need categories to individual-level data, including disability information if provided. It creates dummy variables for different healthcare need scenarios and optionally includes disability-specific indicators.
+#' Prerequisite function:
+#' add_loop_wgq_ss.R - if WG-SS data collected
 #'
 #' @param loop A data frame of individual-level data.
 #' @param ind_healthcare_needed The name of the variable that indicates if healthcare is needed.
@@ -13,6 +17,18 @@
 #' @param ind_healthcare_received_pnta Level for "prefer not to answer" in ind_healthcare_received.
 #' @param wgq_dis The name of the variable that indicates if the individual has a disability (usual cut-offs are 3).
 #' @param ind_age The name of the variable that indicates the age of the individual.
+#'
+#'
+#' @return A data frame with additional columns:
+#' \item{health_ind_healthcare_needed_d}{Dummy variable for healthcare needed}
+#' \item{health_ind_healthcare_received_d}{Dummy variable for healthcare received}
+#' \item{health_ind_healthcare_needed_cat}{Categorized healthcare need: "no_need", "yes_unmet_need", or "yes_met_need"}
+#' \item{health_ind_healthcare_needed_no}{Dummy variable for no healthcare need}
+#' \item{health_ind_healthcare_needed_yes_unmet}{Dummy variable for unmet healthcare need}
+#' \item{health_ind_healthcare_needed_yes_met}{Dummy variable for met healthcare need}
+#' \item{health_ind_healthcare_needed_no_wgq_dis}{Dummy variable for no healthcare need with disability (if wgq_dis provided)}
+#' \item{health_ind_healthcare_needed_yes_unmet_wgq_dis}{Dummy variable for unmet healthcare need with disability (if wgq_dis provided)}
+#' \item{health_ind_healthcare_needed_yes_met_wgq_dis}{Dummy variable for met healthcare need with disability (if wgq_dis provided)}
 #'
 #' @export
 add_loop_healthcare_needed_cat <- function(
@@ -171,6 +187,9 @@ add_loop_healthcare_needed_cat <- function(
 
 #' @rdname add_loop_healthcare_needed_cat
 #'
+#' @title Add Healthcare Needed Categories to Main Dataset
+#' @description This function aggregates individual-level healthcare need data to the household level, including disability-specific information if provided.
+#'
 #' @param main A data frame of household-level data.
 #' @param loop A data frame of individual-level data.
 #' @param ind_healthcare_needed_no The binary variable that indicates if healthcare is not needed.
@@ -181,6 +200,14 @@ add_loop_healthcare_needed_cat <- function(
 #' @param ind_healthcare_needed_yes_met_wgq_dis The binary variable that indicates if healthcare is needed and met and the individual has a disability.
 #' @param id_col_main The column name for the unique identifier in the main data frame.
 #' @param id_col_loop The column name for the unique identifier in the loop data frame.
+#'
+#' #' @return A data frame with additional columns:
+#' \item{health_ind_healthcare_needed_no_n}{Count of individuals not needing healthcare}
+#' \item{health_ind_healthcare_needed_yes_unmet_n}{Count of individuals with unmet healthcare needs}
+#' \item{health_ind_healthcare_needed_yes_met_n}{Count of individuals with met healthcare needs}
+#' \item{health_ind_healthcare_needed_no_wgq_dis_n}{Count of individuals with disabilities not needing healthcare (if applicable)}
+#' \item{health_ind_healthcare_needed_yes_unmet_wgq_dis_n}{Count of individuals with disabilities and unmet healthcare needs (if applicable)}
+#' \item{health_ind_healthcare_needed_yes_met_wgq_dis_n}{Count of individuals with disabilities and met healthcare needs (if applicable)}
 #'
 #' @export
 add_loop_healthcare_needed_cat_to_main <- function(

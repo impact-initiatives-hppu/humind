@@ -1,6 +1,6 @@
-#' Combines both shelter types questions and recodes the type of shelter.
-#'
-#' @param df A data frame.
+#' @title Combine and Recode Shelter Types
+#' @description This function combines both shelter types questions and recodes the type of shelter into categories such as "none", "inadequate", "adequate", or "undefined".
+#' @param df A data frame containing shelter type information.
 #' @param shelter_type Component column: Shelter type categories.
 #' @param sl_none Character vector of responses codes for none/sleeping in the open that are skipped.
 #' @param sl_collective_center Character vector of responses codes for collective center that are skipped.
@@ -9,6 +9,8 @@
 #' @param adequate Character vector of responses codes for adequate shelter types.
 #' @param inadequate Character vector of responses codes for inadequate shelter types.
 #' @param undefined Character vector of responses codes for undefined shelter types.
+#' @return A data frame with an additional column:
+#' \item{snfi_shelter_type_cat}{Categorized shelter type: "none", "inadequate", "adequate", or "undefined"}
 #'
 #' @export
 add_shelter_type_cat <- function(

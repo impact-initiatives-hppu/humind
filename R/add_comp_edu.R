@@ -1,4 +1,18 @@
-#' Education sectoral composite - add score and dummy for in need
+#' Education Sectoral Composite
+#'
+#' @title Calculate Education Sectoral Composite Score and Need Indicators
+#'
+#' @description
+#' This function calculates an education sectoral composite score based on various
+#' education-related indicators. It computes scores for disrupted education and
+#' attendance/barriers, combines them into a total score, and determines if a
+#' household is in need or in acute need of educational assistance.
+#' Prerequisite functions:
+#' add_loop_age_dummy.R
+#' add_loop_edu_barrier_protection_d.R
+#' add_loop_edu_disrupted_d.R
+#' add_loop_edu_ind_age_corrected.R
+#'
 #'
 #' @param df A data frame.
 #' @param schooling_age_n Column name for the number of children of schooling age.
@@ -8,6 +22,13 @@
 #' @param hazards_n Column name for the number of children with disrupted education due to hazards.
 #' @param displaced_n Column name for the number of children with disrupted education due to a recent displacement.
 #' @param teacher_n Column name for the number of children with disrupted education due to teachers' absence.
+#'
+#' @return A data frame with additional columns:
+#'   \item{comp_edu_score_disrupted}{Score for disrupted education (1-4)}
+#'   \item{comp_edu_score_attendance}{Score for attendance and barriers (1-4)}
+#'   \item{comp_edu_score}{Total education composite score (max of disrupted and attendance scores)}
+#'   \item{comp_edu_in_need}{Binary indicator for being in need of educational assistance}
+#'   \item{comp_edu_in_acute_need}{Binary indicator for being in acute need of educational assistance}
 #'
 #' @export
 add_comp_edu <- function(

@@ -1,13 +1,28 @@
-#' Drinking water source recoding
+#' Add Drinking Water Quality JMP Category
 #'
-#' [add_drinking_water_source_cat()] recodes the types of water sources, [add_drinking_water_time_cat()] adds the categorical time to fetch water, and [add_drinking_water_time_threshold_cat()] according to a chosen threshold. Finally, [add_drinking_water_quality_jmp_cat] recodes the water source and time to fetch water into a joint JMP category.
+#' @title Add Drinking Water Quality JMP Category
 #'
-#' @param df A data frame.
-#' @param drinking_water_source Component column: Water source types.
-#' @param improved Character vector of responses codes, such as "Protected well" or "Public tap", e.g., c("protected_well", "public_tap").
-#' @param unimproved Character vector of responses codes, such as "Unprotected well" or "Unprotected spring", e.g., c("unprotected_well", "unprotected_spring").
-#' @param surface_water Character vector of responses codes, such as "Lake" or "River, e.g., c("lake", "river").
-#' @param undefined Character vector of responses codes, that do not fit any category, e.g., c("other").
+#' @description This function recodes the water source and time to fetch water into a joint JMP (Joint Monitoring Programme) category.
+#'
+#' @param df A data frame containing the required columns.
+#' @param drinking_water_source_cat Component column: Water source categories.
+#' @param drinking_water_source_cat_improved_source Response code for improved water source.
+#' @param drinking_water_source_cat_unimproved_source Response code for unimproved water source.
+#' @param drinking_water_source_cat_surface_water_source Response code for surface water source.
+#' @param drinking_water_source_cat_undefined_source Response code for undefined water source.
+#' @param drinking_water_time_30min_cat Component column: Time to fetch water, recoded categories.
+#' @param drinking_water_time_30min_cat_premises Response code for water on premises.
+#' @param drinking_water_time_30min_cat_under_30min Response code for under 30 minutes.
+#' @param drinking_water_time_30min_cat_above_30min Response code for above 30 minutes.
+#' @param drinking_water_time_30min_cat_undefined Response code for undefined time.
+#'
+#' @return A data frame with a new column 'wash_drinking_water_quality_jmp_cat' containing:
+#'  \item{limited}{Response indicating limited access to safe drinking water.}
+#'  \item{basic}{Response indicating basic access to safe drinking water.}
+#'  \item{safely_managed}{Response indicating safely managed drinking water.}
+#'  \item{unimproved}{Response indicating unimproved water sources.}
+#'  \item{surface_water}{Response indicating surface water sources.}
+#'  \item{undefined}{Response for undefined categories.}
 #'
 #' @export
 add_drinking_water_source_cat <- function(df,

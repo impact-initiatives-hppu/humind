@@ -1,13 +1,15 @@
-#' Function to add top 3 columns out of numeric variables
-#'
-#' In case of equality, this function takes precedence in the order of 'vars' as factors.
-#'
-#' @param df A data frame.
-#' @param vars A character vector of numeric variable names.
+#' @title Rank Top 3 Variables
+#' @description This function ranks the top 3 numeric variables for each row in a data frame. In case of equality, it takes precedence in the order of 'vars' as factors.
+#' @param df A data frame containing the variables to be ranked.
+#' @param vars A character vector of numeric variable names to be ranked.
 #' @param new_colname_top1 The new column name for the top variable.
 #' @param new_colname_top2 The new column name for the 2nd top variable.
 #' @param new_colname_top3 The new column name for the 3rd top variable.
 #' @param id_col The column name for the unique identifier.
+#' @return A data frame with additional columns:
+#' \item{new_colname_top1}{The name of the top-ranked variable for each row}
+#' \item{new_colname_top2}{The name of the second-ranked variable for each row}
+#' \item{new_colname_top3}{The name of the third-ranked variable for each row}
 #'
 #'
 #' @export

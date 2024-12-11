@@ -1,11 +1,18 @@
-#' Add a variable for child protection barriers to education
+#' @title Add Child Protection Barriers to Education Variable
 #'
-#' [add_loop_edu_barrier_protection_d] adds a dummy variable to the individual-level data frame for all school-aged children, taking 1 if the child faces a protection barrier and 0 otherwise. [add_loop_edu_barrier_protection_d_to_main] aggregates the dummy variable to the household-level data frame.
+#' @description This function adds a dummy variable for child protection barriers to education in individual-level data and aggregates it to household-level data.
+#' Prerequisite functions:
+#' add_loop_edu_ind_age_corrected.R
 #'
 #' @param loop A data frame of individual-level data for the loop.
 #' @param barriers Column name for the child protection barrier category.
 #' @param protection_issues Vector of protection issues RESPONSE CODES.
 #' @param ind_schooling_age_d Column name for the dummy variable of schooling age.
+#'
+#' @return A data frame with an additional column:
+#' \item{edu_ind_barrier_protection_d}{Dummy variable indicating if a school-aged child faces a protection barrier (1) or not (0).}
+#'
+#' @export
 #'
 #' @export
 add_loop_edu_barrier_protection_d <- function(
@@ -45,11 +52,12 @@ add_loop_edu_barrier_protection_d <- function(
 }
 
 #' @rdname add_loop_edu_barrier_protection_d
-#'
 #' @param main A data frame of household-level data.
 #' @param ind_barrier_protection_d Column name for the dummy variable of the child protection barrier category.
 #' @param id_col_main Column name for the unique identifier in the main dataset.
 #' @param id_col_loop Column name for the unique identifier in the loop dataset.
+#' @return A data frame with an additional column:
+#' \item{edu_barrier_protection_n}{Count of school-aged children facing protection barriers in each household.}
 #'
 #' @export
 add_loop_edu_barrier_protection_d_to_main <- function(

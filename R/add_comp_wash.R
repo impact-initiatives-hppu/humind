@@ -1,7 +1,24 @@
-#' WASH sectoral composite - add score and dummy for in need
+#' WASH Sectoral Composite Score Calculator
 #'
-#' @param df A data frame.
-#' @param setting Column name for the setting.
+#' @title Add WASH Sectoral Composite Score and Need Indicator
+#'
+#' @description
+#' Calculates a comprehensive WASH (Water, Sanitation, and Hygiene) composite score
+#' for households across different settings (camp, urban, rural). The function
+#' generates sub-scores for water quantity, water quality, sanitation, and hygiene,
+#' and creates a dummy variable to indicate households in need of WASH assistance.
+#'
+#' The function performs detailed scoring based on multiple WASH-related variables,
+#' applying different scoring logic for camp, urban, and rural settings.
+#'
+#' Prerequisite functions
+#' add_sanitation_facility_cat.R
+#' add_handwashing_facility_cat.R
+#' add_drinking_water_source_cat.R
+#'
+#'
+#' @param df A data frame containing the required WASH-related variables.
+#' @param setting Column name for the setting (camp, urban, or rural).
 #' @param setting_camp Setting value for camp.
 #' @param setting_urban Setting value for urban.
 #' @param setting_rural Setting value for rural.
@@ -46,6 +63,14 @@
 #' @param handwashing_facility_jmp_cat_limited Value for "limited" in handwashing facility JMP category.
 #' @param handwashing_facility_jmp_cat_basic Value for "basic" in handwashing facility JMP category.
 #' @param handwashing_facility_jmp_cat_undefined Value for "undefined" in handwashing facility JMP category.
+#'
+#' @return A data frame with new columns:
+#'  \item{comp_wash_score_water_quantity}{Numeric score for water quantity (1-5).}
+#'  \item{comp_wash_score_water_quality}{Numeric score for water quality (1-5).}
+#'  \item{comp_wash_score_sanitation}{Numeric score for sanitation (1-5).}
+#'  \item{comp_wash_score_hygiene}{Numeric score for hygiene (1-5).}
+#'  \item{comp_wash_score}{Overall WASH composite score (0-20).}
+#'  \item{comp_wash_in_need}{Binary indicator (0 or 1) for households in need of WASH assistance.}
 #'
 #' @export
 add_comp_wash <- function(
