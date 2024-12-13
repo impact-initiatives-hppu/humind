@@ -29,8 +29,16 @@ add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_
   # Check if ind_age is numeric
   are_cols_numeric(loop, ind_age)
 
-  # Check if survey_start_date is a date in main
-  # To do
+  # Check if survey_start_date is in ISO 8601 format
+  is_iso8601 <- function(x) {
+    tryCatch({
+      !is.na(as.Date(x, format = "%Y-%m-%d"))
+    }, error = function(e) FALSE)
+  }
+
+  if (!all(is_iso8601(main[[survey_start_date]]))) {
+    stop("The survey_start_date column is not in ISO 8601 format (YYYY-MM-DD). Please correct the format.")
+  }
 
   #------ Prepare month of data collection var
 
@@ -67,7 +75,7 @@ add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_
   loop <- dplyr::mutate(loop, edu_ind_age_corrected = dplyr::case_when(
     !is.na(!!rlang::sym("month")) & !is.na(!!sym(ind_age)) & (!!rlang::sym("month") - school_year_start_month_adj) > 6 ~ !!rlang::sym(ind_age) - 1,
     .default = !!rlang::sym(ind_age)
-    )
+  )
   )
 
   #Final classification --- NAing with below 5 or under 17
