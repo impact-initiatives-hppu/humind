@@ -1,5 +1,10 @@
 # humind 2024.1.3
 
+This relase covers:
+
+
+# humind 2024.1.3
+
 This release covers bug fixes.
 
  - `comp_edu_score_attendance()` now categorizes households correctly when children are not attending school and no protection issue was faced. (#532)
