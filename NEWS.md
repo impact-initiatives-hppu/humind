@@ -1,7 +1,15 @@
 # humind 2024.1.4
 
-This relase covers:
+This release covers bug fixes, documentation updates, changes to parameters, and additional enhancements:
 
+ - Documentation updates to better describe function purpose, outputs, and prerequisite functions. 
+ - Functions no lover use _levels but instead use separate parameters. (#547)
+ - `add_comp_wash()` per the MSNI framework, the function was updated for the urban categorization "basic which should be score 1 instead of score 2 (#558)
+ - `add_comp_edu()` updates to show comp_edu_score_disrupted as 3 if displaced_n is greater than 0, instead of greater than 1.(#556)
+ - `add_comp_health()` updated so that households with at least one person with a disability have the value 3 for comp_health_score (#550)
+ - `add_loop_edu_ind_age_corrected()` updated to allow custom starting age for education analysis based on country-specific requirements (#549)
+ - `add_comp_snfi()` now correctly categorizes "other"" for snfi_shelter_issue_cat (#545)
+ - `add_loop_edu_ind_age_corrected()` function error message added for date formats not in the ISO 8601 format (#513)
 
 # humind 2024.1.3
 
