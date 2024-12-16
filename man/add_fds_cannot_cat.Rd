@@ -85,13 +85,15 @@ add_fds_cannot_cat(
 }
 \value{
 A data frame with additional columns:
-\item{snfi_fds_cooking}{Standardized categories for cooking tasks}
-\item{snfi_fds_sleeping}{Standardized categories for sleeping tasks}
-\item{snfi_fds_storing}{Standardized categories for storing tasks}
-\item{snfi_fds_personal_hygiene}{Standardized categories for personal hygiene tasks}
-\item{energy_lighting_source}{Standardized categories for lighting source}
-\item{snfi_fds_cannot_n}{Number of tasks that cannot be performed}
-\item{snfi_fds_cannot_cat}{Categorized number of tasks that cannot be performed}
+\itemize{
+\item snfi_fds_cooking: Standardized categories for cooking tasks
+\item snfi_fds_sleeping: Standardized categories for sleeping tasks
+\item snfi_fds_storing: Standardized categories for storing tasks
+\item snfi_fds_personal_hygiene: Standardized categories for personal hygiene tasks
+\item energy_lighting_source: Standardized categories for lighting source
+\item snfi_fds_cannot_n: Number of tasks that cannot be performed
+\item snfi_fds_cannot_cat: Categorized number of tasks that cannot be performed
+}
 }
 \description{
 This function adds categories for functional domestic space tasks based on various input parameters.

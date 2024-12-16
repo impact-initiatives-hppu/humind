@@ -46,13 +46,18 @@ add_income_source_prop(
 }
 \value{
 A data frame with additional columns:
-\item{cm_income_total}{Total income from all sources}
-\item{*_prop}{Proportion of each income source relative to total income (e.g., cm_income_source_salaried_n_prop)}
+\itemize{
+\item cm_income_total: Total income from all sources.
+\item *_prop: Proportion of each income source relative to total income (e.g., cm_income_source_salaried_n_prop).
+}
 }
 \description{
 This function calculates the proportion of each income source relative to the total income. It also computes the total income from all sources.
+
 Prerequisite function:
-add_income_source_zero_to_sl.R
+\itemize{
+\item add_income_source_zero_to_sl.R
+}
 }
 \section{Details on loans}{
 

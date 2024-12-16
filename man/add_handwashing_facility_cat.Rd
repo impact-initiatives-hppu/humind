@@ -117,8 +117,7 @@ add_handwashing_facility_cat(
 \item{facility_reported_remote_soap_type_undefined}{Response codes for undefined types of soap reported in remote cases.}
 }
 \value{
-A data frame with an additional column:
-\item{wash_handwashing_facility_jmp_cat}{Categorized handwashing facilities: "Basic," "Limited," or "No Facility."}
+A data frame with an additional column 'wash_handwashing_facility_jmp_cat': Categorized handwashing facilities: "Basic," "Limited," or "No Facility."
 }
 \description{
 This function categorizes handwashing facilities into "Basic," "Limited," or "No facility" based on survey data.

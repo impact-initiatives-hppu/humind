@@ -30,7 +30,9 @@ add_income_source_zero_to_sl(
 }
 \value{
 A data frame with updated income source columns:
-\item{income_sources}{All specified income source columns are updated to zero when the main income source is skipped, undefined, or none.}
+\itemize{
+\item income_sources: All specified income source columns are updated to zero when the main income source is skipped, undefined, or none.
+}
 }
 \description{
 This function adds zero to income source columns when the main income source was skipped or undefined.

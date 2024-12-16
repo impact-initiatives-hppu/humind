@@ -1,5 +1,3 @@
-#' Add Infrequent Expenditure Type Proportions
-#'
 #' @title Add Infrequent Expenditure Type Proportions
 #'
 #' @description
@@ -8,7 +6,8 @@
 #' data frame representing these proportions.
 #'
 #' Prerequisite function:
-#' add_expenditure_type_zero_infreq.R
+#' 
+#' * add_expenditure_type_zero_infreq.R
 #'
 #' @param df A data frame containing infrequent expenditure data.
 #' @param cm_expenditure_infrequent_shelter Column name for shelter maintenance or repair expenditure amount.
@@ -19,13 +18,14 @@
 #' @param cm_expenditure_infrequent_other Column name for all other infrequent expenditures.
 #'
 #' @return A data frame with additional columns:
-#' \item{cm_expenditure_infrequent_total}{The total infrequent expenditure amount.}
-#' \item{cm_expenditure_infrequent_shelter_prop}{Proportion of shelter maintenance or repair expenditure.}
-#' \item{cm_expenditure_infrequent_nfi_prop}{Proportion of non-food household items expenditure.}
-#' \item{cm_expenditure_infrequent_health_prop}{Proportion of health-related expenditures.}
-#' \item{cm_expenditure_infrequent_education_prop}{Proportion of education-related expenditures.}
-#' \item{cm_expenditure_infrequent_debt_prop}{Proportion of debt repayment expenditure.}
-#' \item{cm_expenditure_infrequent_other_prop}{Proportion of other infrequent expenditures.}
+#' 
+#' * cm_expenditure_infrequent_total: The total infrequent expenditure amount.
+#' * cm_expenditure_infrequent_shelter_prop: Proportion of shelter maintenance or repair expenditure.
+#' * cm_expenditure_infrequent_nfi_prop: Proportion of non-food household items expenditure.
+#' * cm_expenditure_infrequent_health_prop: Proportion of health-related expenditures.
+#' * cm_expenditure_infrequent_education_prop: Proportion of education-related expenditures.
+#' * cm_expenditure_infrequent_debt_prop: Proportion of debt repayment expenditure.
+#' * cm_expenditure_infrequent_other_prop: Proportion of other infrequent expenditures.
 #'
 #' @export
 add_expenditure_type_prop_infreq <- function(

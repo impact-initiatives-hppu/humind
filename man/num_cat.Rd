@@ -37,7 +37,9 @@ num_cat(
 }
 \value{
 A dataframe with an additional column:
-\item{new_colname}{A new column containing the categorized values of the original numeric column}
+\itemize{
+\item new_colname: A new column containing the categorized values of the original numeric column.
+}
 }
 \description{
 This function categorizes a numeric column in a dataframe based on specified breaks and labels. It can handle undefined values and provides options for customizing the categorization process.

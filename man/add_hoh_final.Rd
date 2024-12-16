@@ -34,8 +34,10 @@ add_hoh_final(
 }
 \value{
 A modified dataframe with updated columns:
-\item{hoh_gender}{Updated head of household gender}
-\item{hoh_age}{Updated head of household age}
+\itemize{
+\item hoh_gender: Updated head of household gender.
+\item hoh_age: Updated head of household age.
+}
 }
 \description{
 This function updates the head of household (HoH) gender and age information based on whether the respondent is the HoH or not.

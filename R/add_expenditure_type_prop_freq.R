@@ -1,14 +1,13 @@
-#' Add Frequent Expenditure Type Amount as Proportions of Total Frequent Expenditure
-#'
-#' @title Add Frequent Expenditure Type Proportions
+#' @title Add Frequent Expenditure Type Amount as Proportions of Total Frequent Expenditure
 #'
 #' @description
 #' This function calculates the proportion of each frequent expenditure type
 #' relative to the total frequent expenditure. It adds new columns to the input
 #' data frame representing these proportions.
 #'
-#' #' Prerequisite function:
-#' add_expenditure_type_zero_freq.R
+#' Prerequisite function:
+#' 
+#' * add_expenditure_type_zero_freq.R
 #'
 #' @param df A data frame containing frequent expenditure data.
 #' @param cm_expenditure_frequent_food Column name for food items expenditure amount.
@@ -22,16 +21,17 @@
 #' @param cm_expenditure_frequent_other Column name for all other frequent expenditures.
 #'
 #' @return A data frame with additional columns:
-#' \item{cm_expenditure_frequent_total}{The total frequent expenditure amount.}
-#' \item{cm_expenditure_frequent_food_prop}{Proportion of food expenditure.}
-#' \item{cm_expenditure_frequent_rent_prop}{Proportion of rent expenditure.}
-#' \item{cm_expenditure_frequent_water_prop}{Proportion of water expenditure.}
-#' \item{cm_expenditure_frequent_nfi_prop}{Proportion of non-food items expenditure.}
-#' \item{cm_expenditure_frequent_utilities_prop}{Proportion of utilities expenditure.}
-#' \item{cm_expenditure_frequent_fuel_prop}{Proportion of fuel expenditure.}
-#' \item{cm_expenditure_frequent_transportation_prop}{Proportion of transportation expenditure.}
-#' \item{cm_expenditure_frequent_communication_prop}{Proportion of communication expenditure.}
-#' \item{cm_expenditure_frequent_other_prop}{Proportion of other frequent expenditures.}
+#' 
+#' * cm_expenditure_frequent_total: The total frequent expenditure amount.
+#' * cm_expenditure_frequent_food_prop: Proportion of food expenditure.
+#' * cm_expenditure_frequent_rent_prop: Proportion of rent expenditure.
+#' * cm_expenditure_frequent_water_prop: Proportion of water expenditure.
+#' * cm_expenditure_frequent_nfi_prop: Proportion of non-food items expenditure.
+#' * cm_expenditure_frequent_utilities_prop: Proportion of utilities expenditure.
+#' * cm_expenditure_frequent_fuel_prop: Proportion of fuel expenditure.
+#' * cm_expenditure_frequent_transportation_prop: Proportion of transportation expenditure.
+#' * cm_expenditure_frequent_communication_prop: Proportion of communication expenditure.
+#' * cm_expenditure_frequent_other_prop: Proportion of other frequent expenditures.
 #'
 #' @export
 add_expenditure_type_prop_freq <- function(

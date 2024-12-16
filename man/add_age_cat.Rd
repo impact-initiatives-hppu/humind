@@ -51,13 +51,3 @@ This function provides two main functionalities:
 \item \code{add_age_18_cat()}: Adds age categories and a dummy variable for below and above 18 years old.
 }
 }
-\details{
-Add Age Categories
-}
-\section{Details}{
-
-\itemize{
-\item \code{add_age_18_cat()} adds two columns to the dataframe: one with the categories (below_18, above_18) and one with a dummy variable for below and above 18.
-}
-}
-

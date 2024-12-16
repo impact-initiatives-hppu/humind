@@ -28,14 +28,10 @@ add_expenditure_type_zero_freq(
 \item{expenditure_freq_types}{A character vector. The names of the columns that contain the amount of frequent expenditures types.}
 }
 \value{
-A data frame with updated expenditure columns:
-\item{expenditure_freq_types}{Columns specified in expenditure_freq_types are updated with zeros for skipped entries.}
+A data frame with updated expenditure columns: columns specified in expenditure_freq_types are updated with zeros for skipped entries.
 }
 \description{
 This function adds zero values to frequent expenditure types that were skipped in the survey.
 Frequent expenditures are defined as those with a 30-day recall period. The function also
 ensures that when no expenditure is reported, all expenditure types are set to zero.
-}
-\details{
-Add Zero for Skipped Frequent Expenditure Types
 }

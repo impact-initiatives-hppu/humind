@@ -2,8 +2,10 @@
 #'
 #' @description This function categorizes income sources, counts them by type, and ranks the top 3 income sources.
 #' It also adds categories for emergency, unstable, stable, and other income sources.
+#' 
 #' Prerequisite function:
-#' add_income_source_zero_to_sl.R
+#' 
+#' * add_income_source_zero_to_sl.R
 #'
 #' @param df A data frame containing income source information.
 #' @param emergency A vector of column names containing emergency income sources.
@@ -13,13 +15,13 @@
 #' @param id_col The name of the column containing the unique identifier.
 #'
 #' @return A data frame with additional columns:
-#' \item{cm_income_source_emergency_n}{Count of emergency income sources}
-#' \item{cm_income_source_unstable_n}{Count of unstable income sources}
-#' \item{cm_income_source_stable_n}{Count of stable income sources}
-#' \item{cm_income_source_other_n}{Count of other income sources}
-#' \item{cm_income_source_top1}{Top income source}
-#' \item{cm_income_source_top2}{Second top income source}
-#' \item{cm_income_source_top3}{Third top income source}
+#' * cm_income_source_emergency_n: Count of emergency income sources.
+#' * cm_income_source_unstable_n: Count of unstable income sources.
+#' * cm_income_source_stable_n: Count of stable income sources.
+#' * cm_income_source_other_n: Count of other income sources.
+#' * cm_income_source_top1: Top income source.
+#' * cm_income_source_top2: Second top income source.
+#' * cm_income_source_top3: Third top income source.
 #'
 #' @export
 add_income_source_rank <- function(

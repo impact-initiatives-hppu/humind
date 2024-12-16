@@ -24,13 +24,19 @@ impute_median(df, vars, group = NULL, weighted = FALSE, weight = NULL)
 }
 \value{
 A dataframe with imputed values:
-\item{vars}{The specified variables with missing values replaced}
+\itemize{
+\item vars: The specified variables with missing values replaced.
+}
 
 A dataframe with imputed values:
-\item{vars}{The specified variables with missing values replaced by their respective (weighted) medians}
+\itemize{
+\item vars: The specified variables with missing values replaced by their respective (weighted) medians.
+}
 }
 \description{
 This set of functions replaces missing values in specified variables.
-\code{\link[=impute_value]{impute_value()}} replaces all missing values with a specific value, while
-\code{\link[=impute_median]{impute_median()}} replaces missing values with the (weighted) median of the variable.
+\itemize{
+\item \code{\link[=impute_value]{impute_value()}} replaces all missing values with a specific value, while
+\item \code{\link[=impute_median]{impute_median()}} replaces missing values with the (weighted) median of the variable.
+}
 }

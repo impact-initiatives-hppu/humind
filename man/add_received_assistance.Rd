@@ -43,7 +43,9 @@ add_received_assistance(
 }
 \value{
 A data frame with an additional column:
-\item{aap_received_assistance}{Categorized received assistance: "undefined", "no", "past_30d", "1_3_months", "4_6_months", or "7_12_months"}
+\itemize{
+\item aap_received_assistance: Categorized received assistance: "undefined", "no", "past_30d", "1_3_months", "4_6_months", or "7_12_months".
+}
 }
 \description{
 This function calculates and adds a new column for received assistance based on two input columns: assistance received in the last 12 months and the recall period of the assistance.

@@ -32,8 +32,10 @@ add_shelter_issue_cat(
 }
 \value{
 A data frame with additional columns:
-\item{snfi_shelter_issue_n}{Count of shelter issues}
-\item{snfi_shelter_issue_cat}{Categorized shelter issues: "none", "undefined", "other", "1_to_3", "4_to_6", or "7_to_8"}
+\itemize{
+\item snfi_shelter_issue_n: Count of shelter issues.
+\item snfi_shelter_issue_cat: Categorized shelter issues: "none", "undefined", "other", "1_to_3", "4_to_6", or "7_to_8".
+}
 }
 \description{
 This function calculates the number of shelter issues and categorizes them based on predefined thresholds. It also handles undefined and other responses.

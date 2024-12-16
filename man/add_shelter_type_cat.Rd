@@ -37,7 +37,9 @@ add_shelter_type_cat(
 }
 \value{
 A data frame with an additional column:
-\item{snfi_shelter_type_cat}{Categorized shelter type: "none", "inadequate", "adequate", or "undefined"}
+\itemize{
+\item snfi_shelter_type_cat: Categorized shelter type: "none", "inadequate", "adequate", or "undefined".
+}
 }
 \description{
 This function combines both shelter types questions and recodes the type of shelter into categories such as "none", "inadequate", "adequate", or "undefined".

@@ -18,7 +18,9 @@ is_in_acute_need(df, score, new_colname = NULL)
 }
 \value{
 A dataframe with an additional column:
-\item{new_colname}{A binary variable indicating if the score meets the threshold for being "in need" (1) or not (0)}
+\itemize{
+\item new_colname: A binary variable indicating if the score meets the threshold for being "in need" (1) or not (0).
+}
 }
 \description{
 This set of functions adds new binary variables indicating if a score is above certain thresholds. \code{\link[=is_in_need]{is_in_need()}} adds a variable for scores above 3 (indicating "in need"), while \code{\link[=is_in_acute_need]{is_in_acute_need()}} adds a variable for scores above 4 (indicating "in acute need").

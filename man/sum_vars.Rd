@@ -2,7 +2,7 @@
 % Please edit documentation in R/sum_vars.R
 \name{sum_vars}
 \alias{sum_vars}
-\title{Sum Columns Row-wise - sum_vars}
+\title{Sum Columns Row-wise}
 \usage{
 sum_vars(
   df,
@@ -34,7 +34,9 @@ sum_vars(
 }
 \value{
 A dataframe with an additional column:
-\item{new_colname}{The sum of the specified variables, with imputation applied if specified}
+\itemize{
+\item new_colname: the sum of the specified variables, with imputation applied if specified.
+}
 }
 \description{
 This function sums up specified columns row-wise in a dataframe, with options for imputation of missing values and weighted calculations.

@@ -86,6 +86,3 @@ It provides two main functions:
 \item \code{add_access_to_phone_coverage()}: Recodes the coverage network type and the best type of phone owned in the household.
 }
 }
-\details{
-Access to Phone and Coverage
-}

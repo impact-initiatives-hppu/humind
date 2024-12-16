@@ -5,11 +5,12 @@
 #' based on shelter type, shelter issues, occupancy status, and functional disability
 #' scale (FDS) indicators. It also determines if a household is in need or in acute need
 #' based on the calculated score.
+#' 
 #' Prerequisite functions:
-#' add_shelter_issue_cat.R
-#' add_shelter_type_cat.R
-#' add_occupancy_cat.R
-#' add_fds_cannot_cat.R
+#' * add_shelter_issue_cat.R
+#' * add_shelter_type_cat.R
+#' * add_occupancy_cat.R
+#' * add_fds_cannot_cat.R
 #'
 #'
 #' @param df A data frame containing the required SNFI indicators.
@@ -38,13 +39,13 @@
 #' @param fds_cannot_cat_undefined Level for undefined fds cannot.
 #'
 #' @return A data frame with added columns:
-#'   \item{comp_snfi_score_shelter_type_cat}{Score based on shelter type}
-#'   \item{comp_snfi_score_shelter_issue_cat}{Score based on shelter issues}
-#'   \item{comp_snfi_score_occupancy_cat}{Score based on occupancy status}
-#'   \item{comp_snfi_score_fds_cannot_cat}{Score based on FDS}
-#'   \item{comp_snfi_score}{Overall SNFI composite score}
-#'   \item{comp_snfi_in_need}{Indicator for being in need}
-#'   \item{comp_snfi_in_acute_need}{Indicator for being in acute need}
+#' * comp_snfi_score_shelter_type_cat: Score based on shelter type
+#' * comp_snfi_score_shelter_issue_cat: Score based on shelter issues
+#' * comp_snfi_score_occupancy_cat: Score based on occupancy status
+#' * comp_snfi_score_fds_cannot_cat: Score based on FDS
+#' * comp_snfi_score: Overall SNFI composite score
+#' * comp_snfi_in_need: Indicator for being in need
+#' * comp_snfi_in_acute_need: Indicator for being in acute need
 #'
 #' @export
 add_comp_snfi <- function(

@@ -148,12 +148,14 @@ add_comp_wash(
 }
 \value{
 A data frame with new columns:
-\item{comp_wash_score_water_quantity}{Numeric score for water quantity (1-5).}
-\item{comp_wash_score_water_quality}{Numeric score for water quality (1-5).}
-\item{comp_wash_score_sanitation}{Numeric score for sanitation (1-5).}
-\item{comp_wash_score_hygiene}{Numeric score for hygiene (1-5).}
-\item{comp_wash_score}{Overall WASH composite score (0-20).}
-\item{comp_wash_in_need}{Binary indicator (0 or 1) for households in need of WASH assistance.}
+\itemize{
+\item comp_wash_score_water_quantity: Numeric score for water quantity (1-5).
+\item comp_wash_score_water_quality: Numeric score for water quality (1-5).
+\item comp_wash_score_sanitation: Numeric score for sanitation (1-5).
+\item comp_wash_score_hygiene: Numeric score for hygiene (1-5).
+\item comp_wash_score: Overall WASH composite score (0-20).
+\item comp_wash_in_need: Binary indicator (0 or 1) for households in need of WASH assistance.
+}
 }
 \description{
 Calculates a comprehensive WASH (Water, Sanitation, and Hygiene) composite score
@@ -164,11 +166,10 @@ and creates a dummy variable to indicate households in need of WASH assistance.
 The function performs detailed scoring based on multiple WASH-related variables,
 applying different scoring logic for camp, urban, and rural settings.
 
-Prerequisite functions
-add_sanitation_facility_cat.R
-add_handwashing_facility_cat.R
-add_drinking_water_source_cat.R
+Prerequisite functions:
+\itemize{
+\item add_sanitation_facility_cat.R
+\item add_handwashing_facility_cat.R
+\item add_drinking_water_source_cat.R
 }
-\details{
-WASH Sectoral Composite Score Calculator
 }

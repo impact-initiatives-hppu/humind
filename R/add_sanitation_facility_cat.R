@@ -1,13 +1,17 @@
 #' @title Sanitation Facility Classification
+#' 
 #' @description This set of functions classifies sanitation facilities according to various criteria. It includes functions to categorize sanitation facility types, sharing status, number of individuals sharing, and JMP (Joint Monitoring Programme) classification.
+#' 
 #' @param df A data frame containing sanitation facility information.
 #' @param sanitation_facility Column name for sanitation facility types.
 #' @param improved Character vector of response codes for Improved facilities.
 #' @param unimproved Character vector of response codes for Unimproved facilities.
 #' @param none Character vector of response codes for No sanitation facility/Open defecation.
 #' @param undefined Character vector of response codes that do not fit any category, e.g., c("dnk", "pnta", "other").
+#' 
 #' @return A data frame with an additional column:
-#' \item{wash_sanitation_facility_cat}{Categorized sanitation facility: "none", "unimproved", "improved", or "undefined"}
+#' 
+#' * wash_sanitation_facility_cat: Categorized sanitation facility: "none", "unimproved", "improved", or "undefined".
 #'
 #' @export
 add_sanitation_facility_cat <- function(df,
@@ -45,15 +49,19 @@ add_sanitation_facility_cat <- function(df,
 #' @rdname add_sanitation_facility_cat
 #'
 #' @title Add Sharing Status of Sanitation Facility
+#' 
 #' @description This function recodes the sharing status of sanitation facilities based on user responses. It categorizes whether the facility is shared or not shared and handles cases where the facility was skipped.
+#' 
 #' @param df A data frame containing sharing status information.
 #' @param sharing_sanitation_facility Component column: Number of people with whom the facility is shared.
 #' @param yes Character vector of response codes for Yes.
 #' @param no Character vector of response codes for No.
 #' @param skipped_sanitation_facility Character vector of response codes for skipped sanitation facility.
 #' @param undefined Character vector of response codes indicating undefined responses (e.g., c("dnk", "pnta")).
+#' 
 #' @return A data frame with an additional column:
-#' \item{wash_sharing_sanitation_facility_cat}{Categorized sharing status: "shared", "not_shared", or "not_applicable"}
+#' 
+#' * wash_sharing_sanitation_facility_cat: Categorized sharing status: "shared", "not_shared", or "not_applicable".
 #'
 #' @export
 add_sharing_sanitation_facility_cat <- function(df,
@@ -102,16 +110,19 @@ add_sharing_sanitation_facility_cat <- function(df,
 #' @rdname add_sanitation_facility_cat
 #'
 #' @title Add Number of Households Sharing a Sanitation Facility
+#' 
 #' @description This function calculates the number of households sharing a sanitation facility and categorizes them based on predefined thresholds. It also handles the household size and survey weights in calculations.
+#' 
 #' @param df A data frame containing household-level data.
 #' @param sharing_sanitation_facility_cat Component column: Is the sanitation facility shared?
 #' @param levels Character vector of responses codes including: Shared, Not shared, Not applicable, and Undefined.
 #' @param sanitation_facility_sharing_n Component column: Number of households sharing the sanitation facility.
 #' @param hh_size Column name for household size.
 #' @param weight Column name for survey weights.
-#' @return A data frame with additional columns:
-#' \item{edu_disrupted_occupation_n}{Count of individuals experiencing each type of education disruption (e.g., edu_disrupted_hazards_n)}
-#' \item{wash_sharing_sanitation_n_ind}{Categorized number of individuals sharing a sanitation facility}
+#' 
+#' @return A data frame with an additional column:
+#' 
+#' * wash_sharing_sanitation_n_ind: Categorized number of individuals sharing a sanitation facility.
 #'
 #' @export
 add_sharing_sanitation_facility_n_ind <- function(
@@ -183,14 +194,18 @@ add_sharing_sanitation_facility_n_ind <- function(
 #' @rdname add_sanitation_facility_cat
 #'
 #' @title Combine Sanitation Facility Classification and Sharing Status
+#' 
 #' @description This function combines the previous two functions to recode the sanitation facility into a JMP classification. It also includes information about whether the facility is shared or not shared.
+#' 
 #' @param df A data frame containing both sanitation facility types and sharing status information.
 #' @param sanitation_facility_cat Component column: Sanitation facility types recoded.
 #' @param sanitation_facility_levels Levels: Improved, Unimproved, None, Undefined.
-#' @param sharing_sanitization_cat Component column: Sharing status of sanitation facility recoded.
-#' @param sharing_sanitization_levels Levels: Shared, Not shared, Not applicable, Undefined.
+#' @param sharing_sanitation_facility_cat Component column: Sharing status of sanitation facility recoded.
+#' @param sharing_sanitation_facility_levels Levels: Shared, Not shared, Not applicable, Undefined.
+#' 
 #' @return A data frame with an additional column:
-#' \item{wash_sanitization_jmp_cat}{Categorized JMP classification based on both type and sharing status}
+#' 
+#' * wash_sanitization_jmp_cat: Categorized JMP classification based on both type and sharing status.
 #'
 #' @export
 add_sanitation_facility_jmp_cat <- function(

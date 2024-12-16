@@ -8,7 +8,7 @@
 #' @param weight The sampling weights column name. If NULL, unweighted quantiles are calculated.
 #'
 #' @return A dataframe with additional columns:
-#' \item{*_qtl}{For each input variable, a new column is added with the quantile interval classification. The naming format is [original_variable_name]_qtl.}
+#' * *_qtl: For each input variable, a new column is added with the quantile interval classification. The naming format is 'original_variable_name'_qtl.
 #'
 #' @export
 

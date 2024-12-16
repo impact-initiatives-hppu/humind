@@ -68,7 +68,7 @@ add_sanitation_facility_jmp_cat(
 
 \item{skipped_sanitation_facility}{Character vector of response codes for skipped sanitation facility.}
 
-\item{sharing_sanitation_facility_cat}{Component column: Is the sanitation facility shared?}
+\item{sharing_sanitation_facility_cat}{Component column: Sharing status of sanitation facility recoded.}
 
 \item{levels}{Character vector of responses codes including: Shared, Not shared, Not applicable, and Undefined.}
 
@@ -82,23 +82,28 @@ add_sanitation_facility_jmp_cat(
 
 \item{sanitation_facility_levels}{Levels: Improved, Unimproved, None, Undefined.}
 
-\item{sharing_sanitization_cat}{Component column: Sharing status of sanitation facility recoded.}
-
-\item{sharing_sanitization_levels}{Levels: Shared, Not shared, Not applicable, Undefined.}
+\item{sharing_sanitation_facility_levels}{Levels: Shared, Not shared, Not applicable, Undefined.}
 }
 \value{
 A data frame with an additional column:
-\item{wash_sanitation_facility_cat}{Categorized sanitation facility: "none", "unimproved", "improved", or "undefined"}
+\itemize{
+\item wash_sanitation_facility_cat: Categorized sanitation facility: "none", "unimproved", "improved", or "undefined".
+}
 
 A data frame with an additional column:
-\item{wash_sharing_sanitation_facility_cat}{Categorized sharing status: "shared", "not_shared", or "not_applicable"}
-
-A data frame with additional columns:
-\item{edu_disrupted_occupation_n}{Count of individuals experiencing each type of education disruption (e.g., edu_disrupted_hazards_n)}
-\item{wash_sharing_sanitation_n_ind}{Categorized number of individuals sharing a sanitation facility}
+\itemize{
+\item wash_sharing_sanitation_facility_cat: Categorized sharing status: "shared", "not_shared", or "not_applicable".
+}
 
 A data frame with an additional column:
-\item{wash_sanitization_jmp_cat}{Categorized JMP classification based on both type and sharing status}
+\itemize{
+\item wash_sharing_sanitation_n_ind: Categorized number of individuals sharing a sanitation facility.
+}
+
+A data frame with an additional column:
+\itemize{
+\item wash_sanitization_jmp_cat: Categorized JMP classification based on both type and sharing status.
+}
 }
 \description{
 This set of functions classifies sanitation facilities according to various criteria. It includes functions to categorize sanitation facility types, sharing status, number of individuals sharing, and JMP (Joint Monitoring Programme) classification.

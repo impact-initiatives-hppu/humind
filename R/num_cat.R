@@ -1,5 +1,7 @@
 #' @title Add Categories for a Numeric Variable
+#' 
 #' @description This function categorizes a numeric column in a dataframe based on specified breaks and labels. It can handle undefined values and provides options for customizing the categorization process.
+#' 
 #' @param df A dataframe containing the numeric column to be categorized.
 #' @param num_col The column name to recategorize.
 #' @param breaks A vector of cut points for categorization.
@@ -9,8 +11,10 @@
 #' @param new_colname The name of the new column. If NULL, it's automatically generated.
 #' @param plus_last Logical, whether to add a "+" to the last category.
 #' @param above_last Logical, whether to add a category for values above the last break.
+#' 
 #' @return A dataframe with an additional column:
-#' \item{new_colname}{A new column containing the categorized values of the original numeric column}
+#' 
+#' * new_colname: A new column containing the categorized values of the original numeric column.
 #'
 #' @export
 num_cat <- function(df, num_col, breaks, labels = NULL, int_undefined = c(-999, 999),

@@ -1,5 +1,3 @@
-#' Add Age Categories
-#'
 #' @title Categorize Age and Create Age-Related Variables
 #'
 #' @description
@@ -16,11 +14,8 @@
 #' @param new_colname The name of the new column. If NULL, it adds "_cat" to the age_col (or "_18_cat for `add_age_18_cat()`).
 #'
 #' @return
-#' - For `add_age_cat()`: A dataframe with an additional column containing the age categories.
-#' - For `add_age_18_cat()`: A dataframe with two additional columns: one with categories (below_18, above_18) and one with a dummy variable (0 for below 18, 1 for above 18).
-#'
-#' @section Details:
-#' * `add_age_18_cat()` adds two columns to the dataframe: one with the categories (below_18, above_18) and one with a dummy variable for below and above 18.
+#' * For `add_age_cat()`: A dataframe with an additional column containing the age categories.
+#' * For `add_age_18_cat()`: A dataframe with two additional columns: one with categories (below_18, above_18) and one with a dummy variable (0 for below 18, 1 for above 18).
 #'
 #' @export
 add_age_cat <- function(df, age_col, breaks = c(0, 18, 60, 120), labels = NULL, int_undefined = c(-999, 999), char_undefined = "undefined", new_colname = NULL) {

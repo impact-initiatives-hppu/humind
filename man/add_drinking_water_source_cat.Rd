@@ -10,12 +10,13 @@
 add_drinking_water_source_cat(
   df,
   drinking_water_source = "wash_drinking_water_source",
-  improved = c("piped_dwelling", "piped_compound", "piped_neighbour", "tap", "borehole",
-    "protected_well", "protected_spring", "rainwater_collection", "tank_truck",
-    "cart_tank", "kiosk", "bottled_water", "sachet_water"),
-  unimproved = c("unprotected_well", "unprotected_spring"),
-  surface_water = "surface_water",
-  undefined = c("dnk", "pnta", "other")
+  drinking_water_source_cat_improved = c("piped_dwelling", "piped_compound",
+    "piped_neighbour", "tap", "borehole", "protected_well", "protected_spring",
+    "rainwater_collection", "tank_truck", "cart_tank", "kiosk", "bottled_water",
+    "sachet_water"),
+  drinking_water_source_cat_unimproved = c("unprotected_well", "unprotected_spring"),
+  drinking_water_source_cat_surface_water = "surface_water",
+  drinking_water_source_cat_undefined = c("dnk", "pnta", "other")
 )
 
 add_drinking_water_time_cat(
@@ -39,20 +40,20 @@ add_drinking_water_time_cat(
 
 add_drinking_water_time_threshold_cat(
   df,
-  drinking_water_time_cat = "wash_drinking_water_time_cat",
-  premises = "premises",
-  under_30min = c("under_30_min"),
-  above_30min = c("30min_1hr", "more_than_1hr"),
-  undefined = "undefined"
+  drinking_water_time_30min_cat = "wash_drinking_water_time_cat",
+  drinking_water_time_30min_cat_premises = "premises",
+  drinking_water_time_30min_cat_under_30min = c("under_30_min"),
+  drinking_water_time_30min_cat_above_30min = c("30min_1hr", "more_than_1hr"),
+  drinking_water_time_30min_cat_undefined = "undefined"
 )
 
 add_drinking_water_quality_jmp_cat(
   df,
   drinking_water_source_cat = "wash_drinking_water_source_cat",
-  drinking_water_source_cat_improved_source = "improved",
-  drinking_water_source_cat_unimproved_source = "unimproved",
-  drinking_water_source_cat_surface_water_source = "surface_water",
-  drinking_water_source_cat_undefined_source = "undefined",
+  drinking_water_source_cat_improved = "improved",
+  drinking_water_source_cat_unimproved = "unimproved",
+  drinking_water_source_cat_surface_water = "surface_water",
+  drinking_water_source_cat_undefined = "undefined",
   drinking_water_time_30min_cat = "wash_drinking_water_time_30min_cat",
   drinking_water_time_30min_cat_premises = "premises",
   drinking_water_time_30min_cat_under_30min = "under_30min",
@@ -65,7 +66,13 @@ add_drinking_water_quality_jmp_cat(
 
 \item{drinking_water_source}{Component column: Water source types.}
 
-\item{undefined}{Character vector of responses codes for undefined information, e.g. "Prefer not to answer".}
+\item{drinking_water_source_cat_improved}{Response code for improved water source.}
+
+\item{drinking_water_source_cat_unimproved}{Response code for unimproved water source.}
+
+\item{drinking_water_source_cat_surface_water}{Response code for surface water source.}
+
+\item{drinking_water_source_cat_undefined}{Response code for undefined water source.}
 
 \item{drinking_water_time_yn}{Component column: Time to fetch water, scoping question.}
 
@@ -74,6 +81,8 @@ add_drinking_water_quality_jmp_cat(
 \item{number_minutes}{Character vector of responses codes for number of minutes.}
 
 \item{dnk}{Character vector of responses codes for "Don't know".}
+
+\item{undefined}{Character vector of responses codes for undefined information, e.g. "Prefer not to answer".}
 
 \item{drinking_water_time_int}{Component column: Time to fetch water, integer.}
 
@@ -93,24 +102,6 @@ add_drinking_water_quality_jmp_cat(
 
 \item{skipped_drinking_water_source_undefined}{Character vector of responses codes for skipped water source undefined, e.g. "Don't know" or "Prefer not to answer".}
 
-\item{drinking_water_time_cat}{Component column: Time to fetch water, recoded categories.}
-
-\item{premises}{Character vector of responses codes for water on premises.}
-
-\item{under_30min}{Character vector of responses codes for under 30 min.}
-
-\item{above_30min}{Character vector of responses codes for above 30 min.}
-
-\item{drinking_water_source_cat}{Component column: Water source categories.}
-
-\item{drinking_water_source_cat_improved_source}{Response code for improved water source.}
-
-\item{drinking_water_source_cat_unimproved_source}{Response code for unimproved water source.}
-
-\item{drinking_water_source_cat_surface_water_source}{Response code for surface water source.}
-
-\item{drinking_water_source_cat_undefined_source}{Response code for undefined water source.}
-
 \item{drinking_water_time_30min_cat}{Component column: Time to fetch water, recoded categories.}
 
 \item{drinking_water_time_30min_cat_premises}{Response code for water on premises.}
@@ -120,19 +111,20 @@ add_drinking_water_quality_jmp_cat(
 \item{drinking_water_time_30min_cat_above_30min}{Response code for above 30 minutes.}
 
 \item{drinking_water_time_30min_cat_undefined}{Response code for undefined time.}
+
+\item{drinking_water_source_cat}{Component column: Water source categories.}
 }
 \value{
 A data frame with a new column 'wash_drinking_water_quality_jmp_cat' containing:
-\item{limited}{Response indicating limited access to safe drinking water.}
-\item{basic}{Response indicating basic access to safe drinking water.}
-\item{safely_managed}{Response indicating safely managed drinking water.}
-\item{unimproved}{Response indicating unimproved water sources.}
-\item{surface_water}{Response indicating surface water sources.}
-\item{undefined}{Response for undefined categories.}
+\itemize{
+\item limited: Response indicating limited access to safe drinking water.
+\item basic: Response indicating basic access to safe drinking water.
+\item safely_managed: Response indicating safely managed drinking water.
+\item unimproved: Response indicating unimproved water sources.
+\item surface_water: Response indicating surface water sources.
+\item undefined: Response for undefined categories.
+}
 }
 \description{
 This function recodes the water source and time to fetch water into a joint JMP (Joint Monitoring Programme) category.
-}
-\details{
-Add Drinking Water Quality JMP Category
 }

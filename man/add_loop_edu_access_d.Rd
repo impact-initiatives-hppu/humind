@@ -51,12 +51,17 @@ add_loop_edu_access_d_to_main(
 }
 \value{
 A data frame with additional columns:
-\item{edu_ind_access_d}{Dummy variable indicating access to education (1 if accessed, 0 otherwise).}
-\item{edu_ind_no_access_d}{Dummy variable indicating no access to education (1 if not accessed, 0 otherwise).}
+\itemize{
+\item edu_ind_access_d: Dummy variable indicating access to education (1 if accessed, 0 otherwise).
+\item edu_ind_no_access_d: Dummy variable indicating no access to education (1 if not accessed, 0 otherwise).
+}
 }
 \description{
 This function adds dummy variables to an individual-level dataframe for all school-aged children.
 It creates a variable (\code{edu_ind_access_d}) that indicates whether the child accessed school (1 if accessed, 0 otherwise) and another variable (\code{edu_ind_no_access_d}) that indicates no access to school.
-Prerequisite functions:
-add_loop_edu_ind_age_corrected.R
+
+Prerequisite function:
+\itemize{
+\item add_loop_edu_ind_age_corrected.R
+}
 }

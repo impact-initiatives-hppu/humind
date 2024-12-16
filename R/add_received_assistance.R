@@ -15,7 +15,8 @@
 #' @param date_undefined Vector of undefined responses for the date of received assistance.
 #'
 #' @return A data frame with an additional column:
-#' \item{aap_received_assistance}{Categorized received assistance: "undefined", "no", "past_30d", "1_3_months", "4_6_months", or "7_12_months"}
+#' 
+#' * aap_received_assistance: Categorized received assistance: "undefined", "no", "past_30d", "1_3_months", "4_6_months", or "7_12_months".
 #'
 #' @export
 add_received_assistance <- function(

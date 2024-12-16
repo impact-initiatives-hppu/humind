@@ -2,7 +2,7 @@
 % Please edit documentation in R/value_to_sl.R
 \name{value_to_sl}
 \alias{value_to_sl}
-\title{Add a value to variables that were skipped}
+\title{Add a specific value to variables that were skipped}
 \usage{
 value_to_sl(df, var, undefined = NULL, sl_vars, sl_value, suffix = "")
 }
@@ -20,5 +20,5 @@ value_to_sl(df, var, undefined = NULL, sl_vars, sl_value, suffix = "")
 \item{suffix}{A suffix to add to the new variable names. Default to no suffix (empty string).}
 }
 \description{
-Add a value to variables that were skipped
+Add a specific value to variables that were skipped
 }

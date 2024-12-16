@@ -70,12 +70,14 @@ add_loop_age_gender_dummy_to_main(
 }
 \value{
 Depending on the function used:
-\item{add_loop_age_dummy}{Returns the loop data frame with an additional column for the age dummy variable.}
-\item{add_loop_age_dummy_to_main}{Returns the main data frame with an additional column for the sum of age dummy variables.}
-\item{add_loop_age_gender_dummy}{Returns the loop data frame with an additional column for the age-gender dummy variable.}
-\item{add_loop_age_gender_dummy_to_main}{Returns the main data frame with an additional column for the sum of age-gender dummy variables.}
+\itemize{
+\item add_loop_age_dummy: Returns the loop data frame with an additional column for the age dummy variable.
+\item add_loop_age_dummy_to_main: Returns the main data frame with an additional column for the sum of age dummy variables.
+\item add_loop_age_gender_dummy: Returns the loop data frame with an additional column for the age-gender dummy variable.
+\item add_loop_age_gender_dummy_to_main: Returns the main data frame with an additional column for the sum of age-gender dummy variables.
+}
 }
 \description{
 This set of functions adds dummy variables for age classes and gender in the demographics loop, and optionally sums these dummies to the main dataset.
-It includes four main functions: add_loop_age_dummy(), add_loop_age_dummy_to_main(), add_loop_age_gender_dummy(), and add_loop_age_gender_dummy_to_main().
+It includes four main functions: \code{\link[=add_loop_age_dummy]{add_loop_age_dummy()}}, \code{\link[=add_loop_age_dummy_to_main]{add_loop_age_dummy_to_main()}}, \code{\link[=add_loop_age_gender_dummy]{add_loop_age_gender_dummy()}}, and \code{\link[=add_loop_age_gender_dummy_to_main]{add_loop_age_gender_dummy_to_main()}}.
 }

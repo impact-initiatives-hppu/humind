@@ -22,9 +22,11 @@ add_expenditure_type_infreq_rank(
 }
 \value{
 A data frame with additional columns:
-\item{cm_infreq_expenditure_top1}{The most infrequent expenditure type.}
-\item{cm_infreq_expenditure_top2}{The second most infrequent expenditure type.}
-\item{cm_infreq_expenditure_top3}{The third most infrequent expenditure type.}
+\itemize{
+\item cm_infreq_expenditure_top1: The most infrequent expenditure type.
+\item cm_infreq_expenditure_top2: The second most infrequent expenditure type.
+\item cm_infreq_expenditure_top3: The third most infrequent expenditure type.
+}
 }
 \description{
 This function ranks the top 3 most infrequent expenditure types for each household
@@ -32,7 +34,9 @@ based on the amount spent on various categories. It adds new columns to the inpu
 data frame indicating the top 3 infrequent expenditure types.
 
 Prerequisite function:
-add_expenditure_type_zero_infreq.R
+\itemize{
+\item add_expenditure_type_zero_infreq.R
+}
 }
 \details{
 Rank Top 3 Infrequent Expenditure Types

@@ -28,7 +28,9 @@ add_occupancy_cat(
 }
 \value{
 A data frame with an additional column:
-\item{hlp_occupancy_cat}{Categorized occupancy arrangement: "high_risk", "medium_risk", "low_risk", or "undefined"}
+\itemize{
+\item hlp_occupancy_cat: Categorized occupancy arrangement: "high_risk", "medium_risk", "low_risk", or "undefined".
+}
 }
 \description{
 This function categorizes occupancy arrangements into high, medium, or low risk based on provided criteria.

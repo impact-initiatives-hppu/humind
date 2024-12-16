@@ -30,13 +30,14 @@
 #' @param lighting_source_undefined Vector of undefined responses for lighting source
 #'
 #' @return A data frame with additional columns:
-#' \item{snfi_fds_cooking}{Standardized categories for cooking tasks}
-#' \item{snfi_fds_sleeping}{Standardized categories for sleeping tasks}
-#' \item{snfi_fds_storing}{Standardized categories for storing tasks}
-#' \item{snfi_fds_personal_hygiene}{Standardized categories for personal hygiene tasks}
-#' \item{energy_lighting_source}{Standardized categories for lighting source}
-#' \item{snfi_fds_cannot_n}{Number of tasks that cannot be performed}
-#' \item{snfi_fds_cannot_cat}{Categorized number of tasks that cannot be performed}
+#' 
+#' * snfi_fds_cooking: Standardized categories for cooking tasks
+#' * snfi_fds_sleeping: Standardized categories for sleeping tasks
+#' * snfi_fds_storing: Standardized categories for storing tasks
+#' * snfi_fds_personal_hygiene: Standardized categories for personal hygiene tasks
+#' * energy_lighting_source: Standardized categories for lighting source
+#' * snfi_fds_cannot_n: Number of tasks that cannot be performed
+#' * snfi_fds_cannot_cat: Categorized number of tasks that cannot be performed
 #'
 #' @export
 #'

@@ -22,7 +22,9 @@ add_quantile_interval(
 }
 \value{
 A dataframe with additional columns:
-\item{*_qtl}{For each input variable, a new column is added with the quantile interval classification. The naming format is \link{original_variable_name}_qtl.}
+\itemize{
+\item *_qtl: For each input variable, a new column is added with the quantile interval classification. The naming format is 'original_variable_name'_qtl.
+}
 }
 \description{
 This function calculates weighted income quantiles and classifies households according to these. It can handle multiple income variables and applies weighted or unweighted quantiles based on the input.

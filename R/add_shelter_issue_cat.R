@@ -11,8 +11,9 @@
 #' @param sep Separator for the binary columns.
 #'
 #' @return A data frame with additional columns:
-#' \item{snfi_shelter_issue_n}{Count of shelter issues}
-#' \item{snfi_shelter_issue_cat}{Categorized shelter issues: "none", "undefined", "other", "1_to_3", "4_to_6", or "7_to_8"}
+#' 
+#' * snfi_shelter_issue_n: Count of shelter issues.
+#' * snfi_shelter_issue_cat: Categorized shelter issues: "none", "undefined", "other", "1_to_3", "4_to_6", or "7_to_8".
 #'
 #'@export
 add_shelter_issue_cat <- function(

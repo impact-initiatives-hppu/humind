@@ -1,8 +1,9 @@
 #' @title Add Education Disruption Categories
 #'
-#' @description This function adds education disruption binaries to individual-level data and summarizes them at the household level. It includes two main functions: add_loop_edu_disrupted_d() for individual-level data and add_loop_edu_disrupted_d_to_main() for household-level data.
-#' Prerequisite functions:
-#' add_loop_edu_ind_age_corrected.R
+#' @description This function adds education disruption binaries to individual-level data and summarizes them at the household level. It includes two main functions: [add_loop_edu_disrupted_d()] for individual-level data and [add_loop_edu_disrupted_d_to_main()] for household-level data.
+#' 
+#' Prerequisite function:
+#' * add_loop_edu_ind_age_corrected.R
 #'
 #' @param df A data frame containing individual-level education data.
 #' @param occupation Column name for occupation disruption. NULL if dimension is not present in the data frame.
@@ -13,7 +14,8 @@
 #' @param ind_schooling_age_d Column name for the dummy variable of the schooling age class.
 #'
 #' @return A data frame with additional columns:
-#' \item{*_d}{Binary columns for each disruption type (e.g., edu_disrupted_occupation_d)}
+#' 
+#' * *_d: Binary columns for each disruption type (e.g., edu_disrupted_occupation_d).
 #'
 #' @export
 add_loop_edu_disrupted_d <- function(
@@ -97,7 +99,8 @@ add_loop_edu_disrupted_d <- function(
 #' @param id_col_loop Column name for the unique identifier in the loop dataset.
 #'
 #' @return A data frame with additional columns:
-#' \item{edu_disrupted_*_n}{Count of individuals experiencing each type of education disruption (e.g., edu_disrupted_hazards_n)}
+#' 
+#' * edu_disrupted_*_n: Count of individuals experiencing each type of education disruption (e.g., edu_disrupted_hazards_n).
 #'
 #' @export
 add_loop_edu_disrupted_d_to_main <- function(

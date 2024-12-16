@@ -1,8 +1,10 @@
 #' @title Add Healthcare Needed Category to Individual Data
 #'
 #' @description This function adds healthcare need categories to individual-level data, including disability information if provided. It creates dummy variables for different healthcare need scenarios and optionally includes disability-specific indicators.
+#' 
 #' Prerequisite function:
-#' add_loop_wgq_ss.R - if WG-SS data collected
+#' 
+#' * add_loop_wgq_ss.R - if WG-SS data collected
 #'
 #' @param loop A data frame of individual-level data.
 #' @param ind_healthcare_needed The name of the variable that indicates if healthcare is needed.
@@ -20,15 +22,16 @@
 #'
 #'
 #' @return A data frame with additional columns:
-#' \item{health_ind_healthcare_needed_d}{Dummy variable for healthcare needed}
-#' \item{health_ind_healthcare_received_d}{Dummy variable for healthcare received}
-#' \item{health_ind_healthcare_needed_cat}{Categorized healthcare need: "no_need", "yes_unmet_need", or "yes_met_need"}
-#' \item{health_ind_healthcare_needed_no}{Dummy variable for no healthcare need}
-#' \item{health_ind_healthcare_needed_yes_unmet}{Dummy variable for unmet healthcare need}
-#' \item{health_ind_healthcare_needed_yes_met}{Dummy variable for met healthcare need}
-#' \item{health_ind_healthcare_needed_no_wgq_dis}{Dummy variable for no healthcare need with disability (if wgq_dis provided)}
-#' \item{health_ind_healthcare_needed_yes_unmet_wgq_dis}{Dummy variable for unmet healthcare need with disability (if wgq_dis provided)}
-#' \item{health_ind_healthcare_needed_yes_met_wgq_dis}{Dummy variable for met healthcare need with disability (if wgq_dis provided)}
+#' 
+#' * health_ind_healthcare_needed_d: Dummy variable for healthcare needed.
+#' * health_ind_healthcare_received_d: Dummy variable for healthcare received.
+#' * health_ind_healthcare_needed_cat: Categorized healthcare need: "no_need", "yes_unmet_need", or "yes_met_need".
+#' * health_ind_healthcare_needed_no: Dummy variable for no healthcare need.
+#' * health_ind_healthcare_needed_yes_unmet: Dummy variable for unmet healthcare need.
+#' * health_ind_healthcare_needed_yes_met: Dummy variable for met healthcare need.
+#' * health_ind_healthcare_needed_no_wgq_dis: Dummy variable for no healthcare need with disability (if wgq_dis provided).
+#' * health_ind_healthcare_needed_yes_unmet_wgq_dis: Dummy variable for unmet healthcare need with disability (if wgq_dis provided).
+#' * health_ind_healthcare_needed_yes_met_wgq_dis: Dummy variable for met healthcare need with disability (if wgq_dis provided).
 #'
 #' @export
 add_loop_healthcare_needed_cat <- function(
@@ -201,13 +204,14 @@ add_loop_healthcare_needed_cat <- function(
 #' @param id_col_main The column name for the unique identifier in the main data frame.
 #' @param id_col_loop The column name for the unique identifier in the loop data frame.
 #'
-#' #' @return A data frame with additional columns:
-#' \item{health_ind_healthcare_needed_no_n}{Count of individuals not needing healthcare}
-#' \item{health_ind_healthcare_needed_yes_unmet_n}{Count of individuals with unmet healthcare needs}
-#' \item{health_ind_healthcare_needed_yes_met_n}{Count of individuals with met healthcare needs}
-#' \item{health_ind_healthcare_needed_no_wgq_dis_n}{Count of individuals with disabilities not needing healthcare (if applicable)}
-#' \item{health_ind_healthcare_needed_yes_unmet_wgq_dis_n}{Count of individuals with disabilities and unmet healthcare needs (if applicable)}
-#' \item{health_ind_healthcare_needed_yes_met_wgq_dis_n}{Count of individuals with disabilities and met healthcare needs (if applicable)}
+#' @return A data frame with additional columns:
+#' 
+#' * health_ind_healthcare_needed_no_n: Count of individuals not needing healthcare.
+#' * health_ind_healthcare_needed_yes_unmet_n: Count of individuals with unmet healthcare needs.
+#' * health_ind_healthcare_needed_yes_met_n: Count of individuals with met healthcare needs.
+#' * health_ind_healthcare_needed_no_wgq_dis_n: Count of individuals with disabilities not needing healthcare (if applicable).
+#' * health_ind_healthcare_needed_yes_unmet_wgq_dis_n: Count of individuals with disabilities and unmet healthcare needs (if applicable).
+#' * health_ind_healthcare_needed_yes_met_wgq_dis_n: Count of individuals with disabilities and met healthcare needs (if applicable).
 #'
 #' @export
 add_loop_healthcare_needed_cat_to_main <- function(

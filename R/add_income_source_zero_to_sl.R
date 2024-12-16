@@ -10,7 +10,8 @@
 #' @param income_sources A character vector. The names of the columns that contain the amount of income from various sources.
 #'
 #' @return A data frame with updated income source columns:
-#' \item{income_sources}{All specified income source columns are updated to zero when the main income source is skipped, undefined, or none.}
+#' 
+#' * income_sources: All specified income source columns are updated to zero when the main income source is skipped, undefined, or none.
 #'
 #' @export
 add_income_source_zero_to_sl <- function(

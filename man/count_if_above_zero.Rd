@@ -15,8 +15,10 @@ count_if_above_zero(df, vars, new_colname)
 }
 \value{
 A data frame with additional columns:
-\item{*_d}{Dummy variables for each input column, where * is the original column name}
-\item{new_colname}{A new column containing the count of values above zero across the specified variables}
+\itemize{
+\item "*_d": Dummy variables for each input column, where 'star' is the original column name.
+\item new_colname: A new column containing the count of values above zero across the specified variables.
+}
 }
 \description{
 This function creates dummy variables for each input column, setting 1 if the value is above zero, 0 if it's zero, and NA if it's below zero. It then sums these dummy variables to create a count.

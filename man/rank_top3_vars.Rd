@@ -28,9 +28,11 @@ rank_top3_vars(
 }
 \value{
 A data frame with additional columns:
-\item{new_colname_top1}{The name of the top-ranked variable for each row}
-\item{new_colname_top2}{The name of the second-ranked variable for each row}
-\item{new_colname_top3}{The name of the third-ranked variable for each row}
+\itemize{
+\item new_colname_top1: The name of the top-ranked variable for each row.
+\item new_colname_top2: The name of the second-ranked variable for each row.
+\item new_colname_top3: The name of the third-ranked variable for each row.
+}
 }
 \description{
 This function ranks the top 3 numeric variables for each row in a data frame. In case of equality, it takes precedence in the order of 'vars' as factors.

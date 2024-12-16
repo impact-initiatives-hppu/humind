@@ -61,16 +61,18 @@ add_comp_prot(
 }
 \value{
 A data frame with added columns:
-\item{comp_prot_child_sep_cat}{Score for child separation category}
-\item{comp_prot_score_concern_freq_cope}{Score for concern frequency cope}
-\item{comp_prot_score_concern_freq_displaced}{Score for concern frequency displaced}
-\item{comp_prot_score_concern_hh_freq_kidnapping}{Score for concern household frequency kidnapping}
-\item{comp_prot_score_concern_hh_freq_discrimination}{Score for concern household frequency discrimination}
-\item{comp_prot_risk_always_d}{Indicator for at least one 'Always' response in perceived risks}
-\item{comp_prot_score_concern}{Final concern score}
-\item{comp_prot_score}{Overall protection composite score}
-\item{comp_prot_in_need}{Indicator for protection need}
-\item{comp_prot_in_acute_need}{Indicator for acute protection need}
+\itemize{
+\item comp_prot_child_sep_cat: Score for child separation category
+\item comp_prot_score_concern_freq_cope: Score for concern frequency cope
+\item comp_prot_score_concern_freq_displaced: Score for concern frequency displaced
+\item comp_prot_score_concern_hh_freq_kidnapping: Score for concern household frequency kidnapping
+\item comp_prot_score_concern_hh_freq_discrimination: Score for concern household frequency discrimination
+\item comp_prot_risk_always_d: Indicator for at least one 'Always' response in perceived risks
+\item comp_prot_score_concern: Final concern score
+\item comp_prot_score: Overall protection composite score
+\item comp_prot_in_need: Indicator for protection need
+\item comp_prot_in_acute_need: Indicator for acute protection need
+}
 }
 \description{
 This function calculates a protection composite score based on child separation categories and concern frequencies.

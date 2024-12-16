@@ -31,13 +31,15 @@ add_expenditure_type_prop_infreq(
 }
 \value{
 A data frame with additional columns:
-\item{cm_expenditure_infrequent_total}{The total infrequent expenditure amount.}
-\item{cm_expenditure_infrequent_shelter_prop}{Proportion of shelter maintenance or repair expenditure.}
-\item{cm_expenditure_infrequent_nfi_prop}{Proportion of non-food household items expenditure.}
-\item{cm_expenditure_infrequent_health_prop}{Proportion of health-related expenditures.}
-\item{cm_expenditure_infrequent_education_prop}{Proportion of education-related expenditures.}
-\item{cm_expenditure_infrequent_debt_prop}{Proportion of debt repayment expenditure.}
-\item{cm_expenditure_infrequent_other_prop}{Proportion of other infrequent expenditures.}
+\itemize{
+\item cm_expenditure_infrequent_total: The total infrequent expenditure amount.
+\item cm_expenditure_infrequent_shelter_prop: Proportion of shelter maintenance or repair expenditure.
+\item cm_expenditure_infrequent_nfi_prop: Proportion of non-food household items expenditure.
+\item cm_expenditure_infrequent_health_prop: Proportion of health-related expenditures.
+\item cm_expenditure_infrequent_education_prop: Proportion of education-related expenditures.
+\item cm_expenditure_infrequent_debt_prop: Proportion of debt repayment expenditure.
+\item cm_expenditure_infrequent_other_prop: Proportion of other infrequent expenditures.
+}
 }
 \description{
 This function calculates the proportion of each infrequent expenditure type
@@ -45,8 +47,7 @@ relative to the total infrequent expenditure. It adds new columns to the input
 data frame representing these proportions.
 
 Prerequisite function:
-add_expenditure_type_zero_infreq.R
+\itemize{
+\item add_expenditure_type_zero_infreq.R
 }
-\details{
-Add Infrequent Expenditure Type Proportions
 }

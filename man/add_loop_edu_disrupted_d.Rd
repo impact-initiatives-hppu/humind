@@ -59,13 +59,20 @@ add_loop_edu_disrupted_d_to_main(
 }
 \value{
 A data frame with additional columns:
-\item{*_d}{Binary columns for each disruption type (e.g., edu_disrupted_occupation_d)}
+\itemize{
+\item *_d: Binary columns for each disruption type (e.g., edu_disrupted_occupation_d).
+}
 
 A data frame with additional columns:
-\item{edu_disrupted_*_n}{Count of individuals experiencing each type of education disruption (e.g., edu_disrupted_hazards_n)}
+\itemize{
+\item edu_disrupted_*_n: Count of individuals experiencing each type of education disruption (e.g., edu_disrupted_hazards_n).
+}
 }
 \description{
-This function adds education disruption binaries to individual-level data and summarizes them at the household level. It includes two main functions: add_loop_edu_disrupted_d() for individual-level data and add_loop_edu_disrupted_d_to_main() for household-level data.
-Prerequisite functions:
-add_loop_edu_ind_age_corrected.R
+This function adds education disruption binaries to individual-level data and summarizes them at the household level. It includes two main functions: \code{\link[=add_loop_edu_disrupted_d]{add_loop_edu_disrupted_d()}} for individual-level data and \code{\link[=add_loop_edu_disrupted_d_to_main]{add_loop_edu_disrupted_d_to_main()}} for household-level data.
+
+Prerequisite function:
+\itemize{
+\item add_loop_edu_ind_age_corrected.R
+}
 }

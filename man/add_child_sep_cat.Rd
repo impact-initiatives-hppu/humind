@@ -55,6 +55,3 @@ A dataframe with an additional column 'prot_child_sep_cat' containing the catego
 \description{
 This function adds a new column to the input dataframe that categorizes child separation based on the severity of the reasons provided. It takes into account both the initial yes/no question about child separation and the follow-up question about the reasons for separation.
 }
-\details{
-Add Child Separation Categories
-}

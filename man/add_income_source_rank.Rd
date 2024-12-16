@@ -31,17 +31,22 @@ add_income_source_rank(
 }
 \value{
 A data frame with additional columns:
-\item{cm_income_source_emergency_n}{Count of emergency income sources}
-\item{cm_income_source_unstable_n}{Count of unstable income sources}
-\item{cm_income_source_stable_n}{Count of stable income sources}
-\item{cm_income_source_other_n}{Count of other income sources}
-\item{cm_income_source_top1}{Top income source}
-\item{cm_income_source_top2}{Second top income source}
-\item{cm_income_source_top3}{Third top income source}
+\itemize{
+\item cm_income_source_emergency_n: Count of emergency income sources.
+\item cm_income_source_unstable_n: Count of unstable income sources.
+\item cm_income_source_stable_n: Count of stable income sources.
+\item cm_income_source_other_n: Count of other income sources.
+\item cm_income_source_top1: Top income source.
+\item cm_income_source_top2: Second top income source.
+\item cm_income_source_top3: Third top income source.
+}
 }
 \description{
 This function categorizes income sources, counts them by type, and ranks the top 3 income sources.
 It also adds categories for emergency, unstable, stable, and other income sources.
+
 Prerequisite function:
-add_income_source_zero_to_sl.R
+\itemize{
+\item add_income_source_zero_to_sl.R
+}
 }

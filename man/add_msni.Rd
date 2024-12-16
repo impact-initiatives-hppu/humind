@@ -49,19 +49,24 @@ add_msni(
 }
 \value{
 A data frame with 5 new columns:
-\item{msni_score}{The Multi-Sectoral Needs Index score}
-\item{msni_in_need}{Binary indicator for households in need}
-\item{msni_in_acute_need}{Binary indicator for households in acute need}
-\item{sector_in_need_n}{Number of sectoral needs identified}
-\item{sector_needs_profile}{Profile of sectoral needs identified (NA if no sectoral need is identified)}
+\itemize{
+\item msni_score: The Multi-Sectoral Needs Index score.
+\item msni_in_need: Binary indicator for households in need.
+\item msni_in_acute_need: Binary indicator for households in acute need.
+\item sector_in_need_n: Number of sectoral needs identified.
+\item sector_needs_profile: Profile of sectoral needs identified (NA if no sectoral need is identified).
+}
 }
 \description{
 This function calculates the MSNI score, determines if households are in need or acute need, counts the number of sectoral needs, and creates a sectoral needs profile.
+
 Prerequisite functions:
-add_comp_edu.R
-add_comp_foodsec.R
-add_comp_health.R
-add_comp_prot.R
-add_comp_snfi.R
-add_comp_wash.R
+\itemize{
+\item add_comp_edu.R
+\item add_comp_foodsec.R
+\item add_comp_health.R
+\item add_comp_prot.R
+\item add_comp_snfi.R
+\item add_comp_wash.R
+}
 }
