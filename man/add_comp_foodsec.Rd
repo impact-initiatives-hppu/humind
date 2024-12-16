@@ -2,13 +2,16 @@
 % Please edit documentation in R/add_comp_foodsec.R
 \name{add_comp_foodsec}
 \alias{add_comp_foodsec}
-\title{Food security sectoral composite - add score and dummy for in need}
+\title{Calculate Food Security Sectoral Composite Score and Need Indicators}
 \usage{
 add_comp_foodsec(
   df,
   fc_phase = "fsl_fc_phase",
-  fc_phase_levels = c("Phase 1 FC", "Phase 2 FC", "Phase 3 FC", "Phase 4 FC",
-    "Phase 5 FC")
+  phase1 = "Phase 1 FC",
+  phase2 = "Phase 2 FC",
+  phase3 = "Phase 3 FC",
+  phase4 = "Phase 4 FC",
+  phase5 = "Phase 5 FC"
 )
 }
 \arguments{
@@ -16,8 +19,32 @@ add_comp_foodsec(
 
 \item{fc_phase}{Column name for the food security phase.}
 
-\item{fc_phase_levels}{Levels of the food security phase.}
+\item{phase1}{Label for Phase 1 FC.}
+
+\item{phase2}{Label for Phase 2 FC.}
+
+\item{phase3}{Label for Phase 3 FC.}
+
+\item{phase4}{Label for Phase 4 FC.}
+
+\item{phase5}{Label for Phase 5 FC.}
+}
+\value{
+A data frame with additional columns:
+\item{comp_foodsec_score}{Food security composite score (1-5)}
+\item{comp_foodsec_in_need}{Binary indicator for being in need of food security assistance}
+\item{comp_foodsec_in_acute_need}{Binary indicator for being in acute need of food security assistance}
 }
 \description{
-Food security sectoral composite - add score and dummy for in need
+This function calculates a food security sectoral composite score based on
+the food security phase. It assigns a score from 1 to 5 corresponding to
+the food security phase, and determines if a household is in need or in
+acute need of food security assistance.
+Apply prerequisite food security functions in https://github.com/impact-initiatives/impactR4PHU
+FCS - add_fcs.R
+HHS - add_hhs.R
+rCSI - add_rcsi.R
+}
+\details{
+Food Security Sectoral Composite
 }

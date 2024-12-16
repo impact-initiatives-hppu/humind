@@ -3,7 +3,7 @@
 \name{add_age_cat}
 \alias{add_age_cat}
 \alias{add_age_18_cat}
-\title{Add categories of age}
+\title{Categorize Age and Create Age-Related Variables}
 \usage{
 add_age_cat(
   df,
@@ -34,17 +34,30 @@ add_age_18_cat(
 
 \item{int_undefined}{A vector of values undefined (such as -999, 999) to replace by char_undefined.}
 
-\item{char_undefined}{A character to replace int_undefined values, often values corresponding to Don't know of Pre.}
+\item{char_undefined}{A character to replace int_undefined values, often values corresponding to Don't know or Prefer not to answer.}
 
 \item{new_colname}{The name of the new column. If NULL, it adds "_cat" to the age_col (or "_18_cat for \code{add_age_18_cat()}).}
 }
+\value{
+\itemize{
+\item For \code{add_age_cat()}: A dataframe with an additional column containing the age categories.
+\item For \code{add_age_18_cat()}: A dataframe with two additional columns: one with categories (below_18, above_18) and one with a dummy variable (0 for below 18, 1 for above 18).
+}
+}
 \description{
-\code{\link[=add_age_cat]{add_age_cat()}} adds the age categories and \code{\link[=add_age_18_cat]{add_age_18_cat()}} adds the age categories and a dummy variable for below and above 18.
+This function provides two main functionalities:
+\enumerate{
+\item \code{add_age_cat()}: Adds age categories to a dataframe based on specified breaks.
+\item \code{add_age_18_cat()}: Adds age categories and a dummy variable for below and above 18 years old.
+}
+}
+\details{
+Add Age Categories
 }
 \section{Details}{
 
 \itemize{
-\item \code{\link[=add_age_18_cat]{add_age_18_cat()}} adds two columns to the dataframe: one with the categories (minor, major) and one with a dummy variable for below and above 18.
+\item \code{add_age_18_cat()} adds two columns to the dataframe: one with the categories (below_18, above_18) and one with a dummy variable for below and above 18.
 }
 }
 

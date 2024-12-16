@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_msni.R
 \name{add_msni}
 \alias{add_msni}
-\title{Add MSNI - add score and dummy for in need}
+\title{Add Multi-Sectoral Needs Index (MSNI) Score and Related Indicators}
 \usage{
 add_msni(
   df,
@@ -21,7 +21,7 @@ add_msni(
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing sectoral composite scores and in-need indicators.}
 
 \item{comp_foodsec_score}{Column name for the food security composite score.}
 
@@ -48,8 +48,20 @@ add_msni(
 \item{comp_edu_in_need}{Column name for education in need.}
 }
 \value{
-A data frame with 5 new columns.
+A data frame with 5 new columns:
+\item{msni_score}{The Multi-Sectoral Needs Index score}
+\item{msni_in_need}{Binary indicator for households in need}
+\item{msni_in_acute_need}{Binary indicator for households in acute need}
+\item{sector_in_need_n}{Number of sectoral needs identified}
+\item{sector_needs_profile}{Profile of sectoral needs identified (NA if no sectoral need is identified)}
 }
 \description{
-The output is a data frame with 5 new columns. First the MSNI-related variables: \code{msni_score}, \code{msni_in_need}, and \code{msni_in_acute_need}. The two latter are used for metrics 1 and 2. Second, the number of sectoral needs \code{sector_in_need_n} and the sectoral needs profile \code{sector_needs_profile}. These two are used for metric 3 and 4. \verb{sector needs profile} is NA if no sectoral need is identified.
+This function calculates the MSNI score, determines if households are in need or acute need, counts the number of sectoral needs, and creates a sectoral needs profile.
+Prerequisite functions:
+add_comp_edu.R
+add_comp_foodsec.R
+add_comp_health.R
+add_comp_prot.R
+add_comp_snfi.R
+add_comp_wash.R
 }

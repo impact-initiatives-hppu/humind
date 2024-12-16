@@ -2,7 +2,7 @@
 % Please edit documentation in R/num_cat.R
 \name{num_cat}
 \alias{num_cat}
-\title{Add categories for a numeric variable}
+\title{Add Categories for a Numeric Variable}
 \usage{
 num_cat(
   df,
@@ -17,27 +17,28 @@ num_cat(
 )
 }
 \arguments{
-\item{df}{A dataframe.}
+\item{df}{A dataframe containing the numeric column to be categorized.}
 
 \item{num_col}{The column name to recategorize.}
 
-\item{breaks}{A vector of cut points.}
+\item{breaks}{A vector of cut points for categorization.}
 
-\item{labels}{A vector of labels.}
+\item{labels}{A vector of labels for the categories. If NULL, labels are automatically generated.}
 
-\item{int_undefined}{A vector of values to replace by char_dontknow.}
+\item{int_undefined}{A vector of numeric values to be replaced by char_undefined.}
 
-\item{char_undefined}{A character to replace int_dontknow values.}
+\item{char_undefined}{A character string to replace int_undefined values.}
 
-\item{new_colname}{The name of the new column.}
+\item{new_colname}{The name of the new column. If NULL, it's automatically generated.}
 
 \item{plus_last}{Logical, whether to add a "+" to the last category.}
 
 \item{above_last}{Logical, whether to add a category for values above the last break.}
 }
 \value{
-A dataframe with a new column.
+A dataframe with an additional column:
+\item{new_colname}{A new column containing the categorized values of the original numeric column}
 }
 \description{
-Add categories for a numeric variable
+This function categorizes a numeric column in a dataframe based on specified breaks and labels. It can handle undefined values and provides options for customizing the categorization process.
 }

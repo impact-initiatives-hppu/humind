@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_shelter_type_cat.R
 \name{add_shelter_type_cat}
 \alias{add_shelter_type_cat}
-\title{Combines both shelter types questions and recodes the type of shelter.}
+\title{Combine and Recode Shelter Types}
 \usage{
 add_shelter_type_cat(
   df,
@@ -17,7 +17,7 @@ add_shelter_type_cat(
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing shelter type information.}
 
 \item{shelter_type}{Component column: Shelter type categories.}
 
@@ -35,6 +35,10 @@ add_shelter_type_cat(
 
 \item{undefined}{Character vector of responses codes for undefined shelter types.}
 }
+\value{
+A data frame with an additional column:
+\item{snfi_shelter_type_cat}{Categorized shelter type: "none", "inadequate", "adequate", or "undefined"}
+}
 \description{
-Combines both shelter types questions and recodes the type of shelter.
+This function combines both shelter types questions and recodes the type of shelter into categories such as "none", "inadequate", "adequate", or "undefined".
 }

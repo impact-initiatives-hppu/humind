@@ -3,7 +3,7 @@
 \name{add_access_to_phone_best}
 \alias{add_access_to_phone_best}
 \alias{add_access_to_phone_coverage}
-\title{Access to phone and coverage}
+\title{Add Best Phone Access and Coverage Information}
 \usage{
 add_access_to_phone_best(
   df,
@@ -73,6 +73,19 @@ add_access_to_phone_coverage(
 
 \item{access_to_undefined}{Value for undefined.}
 }
+\value{
+A data frame with an additional column 'etc_access_to_phone_best' containing the recoded best type of phone accessible.
+
+A data frame with an additional column 'etc_access_to_phone_coverage' containing the recoded coverage and phone access information.
+}
 \description{
-\code{\link[=add_access_to_phone_best]{add_access_to_phone_best()}} recodes the best type of phone accessible in the household. \code{\link[=add_access_to_phone_coverage]{add_access_to_phone_coverage()}} recodes the coverage network type and the best type of phone owned in the household.
+This function recodes the best type of phone accessible in the household and the coverage network type.
+It provides two main functions:
+\enumerate{
+\item \code{add_access_to_phone_best()}: Recodes the best type of phone accessible in the household.
+\item \code{add_access_to_phone_coverage()}: Recodes the coverage network type and the best type of phone owned in the household.
+}
+}
+\details{
+Access to Phone and Coverage
 }

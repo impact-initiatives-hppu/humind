@@ -2,17 +2,22 @@
 % Please edit documentation in R/count_if_above_zero.R
 \name{count_if_above_zero}
 \alias{count_if_above_zero}
-\title{Create dummy variables and count across if above zero}
+\title{Create Dummy Variables and Count Across if Above Zero}
 \usage{
 count_if_above_zero(df, vars, new_colname)
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing the columns to be processed.}
 
-\item{vars}{Vector of column names.}
+\item{vars}{Vector of column names to be processed.}
 
-\item{new_colname}{The name of the new column.}
+\item{new_colname}{The name of the new column that will contain the count.}
+}
+\value{
+A data frame with additional columns:
+\item{*_d}{Dummy variables for each input column, where * is the original column name}
+\item{new_colname}{A new column containing the count of values above zero across the specified variables}
 }
 \description{
-Create dummy variables and count across if above zero
+This function creates dummy variables for each input column, setting 1 if the value is above zero, 0 if it's zero, and NA if it's below zero. It then sums these dummy variables to create a count.
 }

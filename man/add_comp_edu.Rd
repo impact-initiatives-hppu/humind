@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_comp_edu.R
 \name{add_comp_edu}
 \alias{add_comp_edu}
-\title{Education sectoral composite - add score and dummy for in need}
+\title{Calculate Education Sectoral Composite Score and Need Indicators}
 \usage{
 add_comp_edu(
   df,
@@ -32,6 +32,25 @@ add_comp_edu(
 
 \item{teacher_n}{Column name for the number of children with disrupted education due to teachers' absence.}
 }
+\value{
+A data frame with additional columns:
+\item{comp_edu_score_disrupted}{Score for disrupted education (1-4)}
+\item{comp_edu_score_attendance}{Score for attendance and barriers (1-4)}
+\item{comp_edu_score}{Total education composite score (max of disrupted and attendance scores)}
+\item{comp_edu_in_need}{Binary indicator for being in need of educational assistance}
+\item{comp_edu_in_acute_need}{Binary indicator for being in acute need of educational assistance}
+}
 \description{
-Education sectoral composite - add score and dummy for in need
+This function calculates an education sectoral composite score based on various
+education-related indicators. It computes scores for disrupted education and
+attendance/barriers, combines them into a total score, and determines if a
+household is in need or in acute need of educational assistance.
+Prerequisite functions:
+add_loop_age_dummy.R
+add_loop_edu_barrier_protection_d.R
+add_loop_edu_disrupted_d.R
+add_loop_edu_ind_age_corrected.R
+}
+\details{
+Education Sectoral Composite
 }

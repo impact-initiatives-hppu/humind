@@ -2,8 +2,7 @@
 % Please edit documentation in R/add_expenditure_type_zero_infreq.R
 \name{add_expenditure_type_zero_infreq}
 \alias{add_expenditure_type_zero_infreq}
-\title{Add zero when the infrequent expenditure type was skipped
-Note: Infrequent expenditure = 6-month recall period}
+\title{Add Zero for Skipped Infrequent Expenditure Types}
 \usage{
 add_expenditure_type_zero_infreq(
   df,
@@ -17,7 +16,7 @@ add_expenditure_type_zero_infreq(
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing expenditure data.}
 
 \item{expenditure_infreq}{A character string. The name of the column that contains the infrequent expenditures.}
 
@@ -27,7 +26,15 @@ add_expenditure_type_zero_infreq(
 
 \item{expenditure_infreq_types}{A character vector. The names of the columns that contain the amount of infrequent expenditures types.}
 }
+\value{
+A data frame with updated expenditure columns:
+\item{expenditure_infreq_types}{Columns specified in expenditure_infreq_types are updated with zeros for skipped entries.}
+}
 \description{
-Add zero when the infrequent expenditure type was skipped
-Note: Infrequent expenditure = 6-month recall period
+This function adds zero values to infrequent expenditure types that were skipped in the survey.
+Infrequent expenditures are defined as those with a 6-month recall period. The function also
+ensures that when no expenditure is reported, all expenditure types are set to zero.
+}
+\details{
+Add Zero for Skipped Infrequent Expenditure Types
 }

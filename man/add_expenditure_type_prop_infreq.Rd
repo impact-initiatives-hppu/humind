@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_expenditure_type_prop_infreq.R
 \name{add_expenditure_type_prop_infreq}
 \alias{add_expenditure_type_prop_infreq}
-\title{Add infrequent expenditure type amount as proportions of total infrequent expenditure}
+\title{Add Infrequent Expenditure Type Proportions}
 \usage{
 add_expenditure_type_prop_infreq(
   df,
@@ -15,7 +15,7 @@ add_expenditure_type_prop_infreq(
 )
 }
 \arguments{
-\item{df}{A data frame}
+\item{df}{A data frame containing infrequent expenditure data.}
 
 \item{cm_expenditure_infrequent_shelter}{Column name for shelter maintenance or repair expenditure amount.}
 
@@ -29,6 +29,24 @@ add_expenditure_type_prop_infreq(
 
 \item{cm_expenditure_infrequent_other}{Column name for all other infrequent expenditures.}
 }
+\value{
+A data frame with additional columns:
+\item{cm_expenditure_infrequent_total}{The total infrequent expenditure amount.}
+\item{cm_expenditure_infrequent_shelter_prop}{Proportion of shelter maintenance or repair expenditure.}
+\item{cm_expenditure_infrequent_nfi_prop}{Proportion of non-food household items expenditure.}
+\item{cm_expenditure_infrequent_health_prop}{Proportion of health-related expenditures.}
+\item{cm_expenditure_infrequent_education_prop}{Proportion of education-related expenditures.}
+\item{cm_expenditure_infrequent_debt_prop}{Proportion of debt repayment expenditure.}
+\item{cm_expenditure_infrequent_other_prop}{Proportion of other infrequent expenditures.}
+}
 \description{
-Add infrequent expenditure type amount as proportions of total infrequent expenditure
+This function calculates the proportion of each infrequent expenditure type
+relative to the total infrequent expenditure. It adds new columns to the input
+data frame representing these proportions.
+
+Prerequisite function:
+add_expenditure_type_zero_infreq.R
+}
+\details{
+Add Infrequent Expenditure Type Proportions
 }

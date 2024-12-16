@@ -2,26 +2,42 @@
 % Please edit documentation in R/add_comp_prot.R
 \name{add_comp_prot}
 \alias{add_comp_prot}
-\title{Protection composite - add score and dummy for in need}
+\title{Add Protection Composite Score and Need Indicators}
 \usage{
 add_comp_prot(
   df,
   child_sep_cat = "prot_child_sep_cat",
-  child_sep_cat_levels = c("none", "at_least_one_very_severe", "at_least_one_severe",
-    "at_least_one_non_severe", "undefined"),
+  child_sep_cat_none = "none",
+  child_sep_cat_very_severe = "at_least_one_very_severe",
+  child_sep_cat_severe = "at_least_one_severe",
+  child_sep_cat_non_severe = "at_least_one_non_severe",
+  child_sep_cat_undefined = "undefined",
   concern_freq_cope = "prot_concern_freq_cope",
   concern_freq_displaced = "prot_concern_freq_displaced",
   concern_hh_freq_kidnapping = "prot_concern_hh_freq_kidnapping",
   concern_hh_freq_discrimination = "prot_concern_hh_freq_discrimination",
-  concern_levels = c("always", "several_times", "once_or_twice", "never", "dnk", "pnta")
+  concern_always = "always",
+  concern_several_times = "several_times",
+  concern_once_or_twice = "once_or_twice",
+  concern_never = "never",
+  concern_dnk = "dnk",
+  concern_pnta = "pnta"
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing the required variables.}
 
 \item{child_sep_cat}{Column name for child separation category.}
 
-\item{child_sep_cat_levels}{Levels for child separation category.}
+\item{child_sep_cat_none}{Level for no child separation.}
+
+\item{child_sep_cat_very_severe}{Level for at least one very severe child separation.}
+
+\item{child_sep_cat_severe}{Level for at least one severe child separation.}
+
+\item{child_sep_cat_non_severe}{Level for at least one non-severe child separation.}
+
+\item{child_sep_cat_undefined}{Level for undefined child separation.}
 
 \item{concern_freq_cope}{Column name for concern frequency cope.}
 
@@ -31,8 +47,32 @@ add_comp_prot(
 
 \item{concern_hh_freq_discrimination}{Column name for concern household frequency discrimination.}
 
-\item{concern_levels}{Levels for concern variables.}
+\item{concern_always}{Level for always concerned.}
+
+\item{concern_several_times}{Level for concerned several times.}
+
+\item{concern_once_or_twice}{Level for concerned once or twice.}
+
+\item{concern_never}{Level for never concerned.}
+
+\item{concern_dnk}{Level for don't know.}
+
+\item{concern_pnta}{Level for prefer not to answer.}
+}
+\value{
+A data frame with added columns:
+\item{comp_prot_child_sep_cat}{Score for child separation category}
+\item{comp_prot_score_concern_freq_cope}{Score for concern frequency cope}
+\item{comp_prot_score_concern_freq_displaced}{Score for concern frequency displaced}
+\item{comp_prot_score_concern_hh_freq_kidnapping}{Score for concern household frequency kidnapping}
+\item{comp_prot_score_concern_hh_freq_discrimination}{Score for concern household frequency discrimination}
+\item{comp_prot_risk_always_d}{Indicator for at least one 'Always' response in perceived risks}
+\item{comp_prot_score_concern}{Final concern score}
+\item{comp_prot_score}{Overall protection composite score}
+\item{comp_prot_in_need}{Indicator for protection need}
+\item{comp_prot_in_acute_need}{Indicator for acute protection need}
 }
 \description{
-Protection composite - add score and dummy for in need
+This function calculates a protection composite score based on child separation categories and concern frequencies.
+It also adds indicators for protection needs and acute protection needs.
 }

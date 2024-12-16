@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_occupancy_cat.R
 \name{add_occupancy_cat}
 \alias{add_occupancy_cat}
-\title{Add the category of occupancy arrangement}
+\title{Add Category of Occupancy Arrangement}
 \usage{
 add_occupancy_cat(
   df,
@@ -14,7 +14,7 @@ add_occupancy_cat(
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing occupancy arrangement data.}
 
 \item{occupancy}{Component column: Occupancy arrangement.}
 
@@ -24,8 +24,12 @@ add_occupancy_cat(
 
 \item{low_risk}{Character vector of low risk occupancy arrangements.}
 
-\item{undefined}{Character vector of undefined responses codes (e.g. "Prefer not to answer").}
+\item{undefined}{Character vector of undefined response codes (e.g. "Prefer not to answer").}
+}
+\value{
+A data frame with an additional column:
+\item{hlp_occupancy_cat}{Categorized occupancy arrangement: "high_risk", "medium_risk", "low_risk", or "undefined"}
 }
 \description{
-Add the category of occupancy arrangement
+This function categorizes occupancy arrangements into high, medium, or low risk based on provided criteria.
 }

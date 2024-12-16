@@ -5,7 +5,7 @@
 \alias{add_drinking_water_time_cat}
 \alias{add_drinking_water_time_threshold_cat}
 \alias{add_drinking_water_quality_jmp_cat}
-\title{Drinking water source recoding}
+\title{Add Drinking Water Quality JMP Category}
 \usage{
 add_drinking_water_source_cat(
   df,
@@ -49,23 +49,21 @@ add_drinking_water_time_threshold_cat(
 add_drinking_water_quality_jmp_cat(
   df,
   drinking_water_source_cat = "wash_drinking_water_source_cat",
-  drinking_water_source_cat_levels = c("improved", "unimproved", "surface_water",
-    "undefined"),
+  drinking_water_source_cat_improved_source = "improved",
+  drinking_water_source_cat_unimproved_source = "unimproved",
+  drinking_water_source_cat_surface_water_source = "surface_water",
+  drinking_water_source_cat_undefined_source = "undefined",
   drinking_water_time_30min_cat = "wash_drinking_water_time_30min_cat",
-  drinking_water_time_30min_cat_levels = c("premises", "under_30min", "above_30min",
-    "undefined")
+  drinking_water_time_30min_cat_premises = "premises",
+  drinking_water_time_30min_cat_under_30min = "under_30min",
+  drinking_water_time_30min_cat_above_30min = "above_30min",
+  drinking_water_time_30min_cat_undefined = "undefined"
 )
 }
 \arguments{
 \item{df}{A data frame.}
 
 \item{drinking_water_source}{Component column: Water source types.}
-
-\item{improved}{Character vector of responses codes, such as "Protected well" or "Public tap", e.g., c("protected_well", "public_tap").}
-
-\item{unimproved}{Character vector of responses codes, such as "Unprotected well" or "Unprotected spring", e.g., c("unprotected_well", "unprotected_spring").}
-
-\item{surface_water}{Character vector of responses codes, such as "Lake" or "River, e.g., c("lake", "river").}
 
 \item{undefined}{Character vector of responses codes for undefined information, e.g. "Prefer not to answer".}
 
@@ -105,12 +103,36 @@ add_drinking_water_quality_jmp_cat(
 
 \item{drinking_water_source_cat}{Component column: Water source categories.}
 
-\item{drinking_water_source_cat_levels}{Character vector of water source categories in that order: Improved, Unimproved, Surface water, Undefined.}
+\item{drinking_water_source_cat_improved_source}{Response code for improved water source.}
+
+\item{drinking_water_source_cat_unimproved_source}{Response code for unimproved water source.}
+
+\item{drinking_water_source_cat_surface_water_source}{Response code for surface water source.}
+
+\item{drinking_water_source_cat_undefined_source}{Response code for undefined water source.}
 
 \item{drinking_water_time_30min_cat}{Component column: Time to fetch water, recoded categories.}
 
-\item{drinking_water_time_30min_cat_levels}{Character vector of time to fetch water categories in that order: Premises, Under 30 min, Above 30 min, Undefined.}
+\item{drinking_water_time_30min_cat_premises}{Response code for water on premises.}
+
+\item{drinking_water_time_30min_cat_under_30min}{Response code for under 30 minutes.}
+
+\item{drinking_water_time_30min_cat_above_30min}{Response code for above 30 minutes.}
+
+\item{drinking_water_time_30min_cat_undefined}{Response code for undefined time.}
+}
+\value{
+A data frame with a new column 'wash_drinking_water_quality_jmp_cat' containing:
+\item{limited}{Response indicating limited access to safe drinking water.}
+\item{basic}{Response indicating basic access to safe drinking water.}
+\item{safely_managed}{Response indicating safely managed drinking water.}
+\item{unimproved}{Response indicating unimproved water sources.}
+\item{surface_water}{Response indicating surface water sources.}
+\item{undefined}{Response for undefined categories.}
 }
 \description{
-\code{\link[=add_drinking_water_source_cat]{add_drinking_water_source_cat()}} recodes the types of water sources, \code{\link[=add_drinking_water_time_cat]{add_drinking_water_time_cat()}} adds the categorical time to fetch water, and \code{\link[=add_drinking_water_time_threshold_cat]{add_drinking_water_time_threshold_cat()}} according to a chosen threshold. Finally, \link{add_drinking_water_quality_jmp_cat} recodes the water source and time to fetch water into a joint JMP category.
+This function recodes the water source and time to fetch water into a joint JMP (Joint Monitoring Programme) category.
+}
+\details{
+Add Drinking Water Quality JMP Category
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_handwashing_facility_cat.R
 \name{add_handwashing_facility_cat}
 \alias{add_handwashing_facility_cat}
-\title{Add handwashing facility category - "Basic," "Limited," or "No facility."}
+\title{Add Handwashing Facility Category}
 \usage{
 add_handwashing_facility_cat(
   df,
@@ -44,78 +44,83 @@ add_handwashing_facility_cat(
 )
 }
 \arguments{
-\item{df}{Data frame containing the survey data.}
+\item{df}{A data frame containing the survey data.}
 
-\item{survey_modality}{Column name for the survey modality - e.g., "survey_modality".}
+\item{survey_modality}{Column name for the survey modality (e.g., "survey_modality").}
 
 \item{survey_modality_in_person}{Options for the in-person survey modality.}
 
 \item{survey_modality_remote}{Options for the remote survey modality.}
 
-\item{facility}{Column name for the observed handwashing facility - e.g., "wash_handwashing_facility".}
+\item{facility}{Column name for the observed handwashing facility (e.g., "wash_handwashing_facility").}
 
-\item{facility_yes}{Response code for yes.}
+\item{facility_yes}{Response code indicating availability (e.g., "available").}
 
-\item{facility_no}{Response code for no.}
+\item{facility_no}{Response code indicating unavailability (e.g., "none").}
 
-\item{facility_no_permission}{Response code for no permission.}
+\item{facility_no_permission}{Response code for cases with no permission to observe.}
 
-\item{facility_undefined}{Response code for undefined.}
+\item{facility_undefined}{Response code for undefined situations.}
 
-\item{facility_observed_water}{Column name for the observed handwashing facility - e.g., "wash_handwashing_facility_observed_water".}
+\item{facility_observed_water}{Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water").}
 
-\item{facility_observed_water_yes}{Response code for yes.}
+\item{facility_observed_water_yes}{Response code indicating water is available.}
 
-\item{facility_observed_water_no}{Response code for no.}
+\item{facility_observed_water_no}{Response code indicating water is not available.}
 
-\item{facility_observed_soap}{Column name for the observed handwashing facility - e.g., "wash_handwashing_facility_observed_soap".}
+\item{facility_observed_soap}{Column name for observed soap availability (e.g., "wash_handwashing_facility_observed_soap").}
 
-\item{facility_observed_soap_yes}{Response code for yes.}
+\item{facility_observed_soap_yes}{Response code indicating soap is available.}
 
-\item{facility_observed_soap_no}{Response code for no.}
+\item{facility_observed_soap_no}{Response code indicating soap is not available.}
 
-\item{facility_observed_soap_alternative}{Response code for alternative.}
+\item{facility_observed_soap_alternative}{Response code for alternative cleaning agents.}
 
-\item{facility_reported}{Column name for the reported handwashing facility.}
+\item{facility_reported}{Column name for reported handwashing facilities (e.g., "wash_handwashing_facility_reported").}
 
-\item{facility_reported_yes}{Response code for yes.}
+\item{facility_reported_yes}{Response codes indicating reported availability (e.g., "fixed_dwelling", "fixed_yard", "mobile").}
 
-\item{facility_reported_no}{Response code for no.}
+\item{facility_reported_no}{Response code indicating reported unavailability (e.g., "none").}
 
-\item{facility_reported_undefined}{Response code for undefined.}
+\item{facility_reported_undefined}{Response codes for undefined reports.}
 
-\item{facility_reported_no_permission_soap}{Column name for the reported handwashing facility.}
+\item{facility_reported_no_permission_soap}{Column name for reported soap availability under no permission conditions.}
 
-\item{facility_reported_no_permission_soap_yes}{Response code for yes.}
+\item{facility_reported_no_permission_soap_yes}{Response codes indicating soap is shown under no permission conditions.}
 
-\item{facility_reported_no_permission_soap_no}{Response code for no.}
+\item{facility_reported_no_permission_soap_no}{Response code indicating soap is not shown under no permission conditions.}
 
-\item{facility_reported_no_permission_soap_undefined}{Response code for undefined.}
+\item{facility_reported_no_permission_soap_undefined}{Response codes for undefined situations under no permission conditions.}
 
-\item{facility_reported_no_permission_soap_type}{Column name for the type of soap reported}
+\item{facility_reported_no_permission_soap_type}{Column name for the type of soap reported under no permission conditions.}
 
-\item{facility_reported_no_permission_soap_type_yes}{Response code for yes.}
+\item{facility_reported_no_permission_soap_type_yes}{Response codes indicating type of soap is shown.}
 
-\item{facility_reported_no_permission_soap_type_no}{Response code for no.}
+\item{facility_reported_no_permission_soap_type_no}{Response code indicating type of soap is not shown.}
 
-\item{facility_reported_no_permission_soap_type_undefined}{Response code for undefined.}
+\item{facility_reported_no_permission_soap_type_undefined}{Response codes for undefined types of soap reported under no permission conditions.}
 
-\item{facility_reported_remote_soap}{Column name for the availability of soap reported in remote cases.}
+\item{facility_reported_remote_soap}{Column name for remote cases reporting soap availability.}
 
-\item{facility_reported_remote_soap_yes}{Response code for yes.}
+\item{facility_reported_remote_soap_yes}{Response code indicating soap is available in remote cases.}
 
-\item{facility_reported_remote_soap_no}{Response code for no.}
+\item{facility_reported_remote_soap_no}{Response code indicating soap is not available in remote cases.}
 
-\item{facility_reported_remote_soap_undefined}{Response code for undefined.}
+\item{facility_reported_remote_soap_undefined}{Response codes for undefined situations in remote cases.}
 
 \item{facility_reported_remote_soap_type}{Column name for the type of soap reported in remote cases.}
 
-\item{facility_reported_remote_soap_type_yes}{Response code for yes.}
+\item{facility_reported_remote_soap_type_yes}{Response codes indicating type of soap is available in remote cases.}
 
-\item{facility_reported_remote_soap_type_no}{Response code for no.}
+\item{facility_reported_remote_soap_type_no}{Response code indicating type of soap is not available in remote cases.}
 
-\item{facility_reported_remote_soap_type_undefined}{Response code for undefined.}
+\item{facility_reported_remote_soap_type_undefined}{Response codes for undefined types of soap reported in remote cases.}
+}
+\value{
+A data frame with an additional column:
+\item{wash_handwashing_facility_jmp_cat}{Categorized handwashing facilities: "Basic," "Limited," or "No Facility."}
 }
 \description{
-Add handwashing facility category - "Basic," "Limited," or "No facility."
+This function categorizes handwashing facilities into "Basic," "Limited," or "No facility" based on survey data.
+It evaluates various parameters related to the availability of handwashing facilities and the presence of soap and water.
 }

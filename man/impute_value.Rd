@@ -3,18 +3,18 @@
 \name{impute_value}
 \alias{impute_value}
 \alias{impute_median}
-\title{Impute missing values}
+\title{Impute Missing Values}
 \usage{
 impute_value(df, vars, value)
 
 impute_median(df, vars, group = NULL, weighted = FALSE, weight = NULL)
 }
 \arguments{
-\item{df}{A dataframe.}
+\item{df}{A dataframe containing the variables to be imputed.}
 
-\item{vars}{A character vector of the variables to replace na with.}
+\item{vars}{A character vector of the variables to replace NA with.}
 
-\item{value}{The value to replace na with.}
+\item{value}{The value to replace NA with.}
 
 \item{group}{A character vector of the grouping variables.}
 
@@ -22,6 +22,15 @@ impute_median(df, vars, group = NULL, weighted = FALSE, weight = NULL)
 
 \item{weight}{The weight variable.}
 }
+\value{
+A dataframe with imputed values:
+\item{vars}{The specified variables with missing values replaced}
+
+A dataframe with imputed values:
+\item{vars}{The specified variables with missing values replaced by their respective (weighted) medians}
+}
 \description{
-\code{\link[=impute_value]{impute_value()}} replaces all missing values by a specific value and \code{\link[=impute_median]{impute_median()}} replaces all missing values by the (weighted) median of the variable.
+This set of functions replaces missing values in specified variables.
+\code{\link[=impute_value]{impute_value()}} replaces all missing values with a specific value, while
+\code{\link[=impute_median]{impute_median()}} replaces missing values with the (weighted) median of the variable.
 }

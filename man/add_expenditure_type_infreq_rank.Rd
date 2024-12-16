@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_expenditure_type_infreq_rank.R
 \name{add_expenditure_type_infreq_rank}
 \alias{add_expenditure_type_infreq_rank}
-\title{Rank top 3 infrequent expenditure types}
+\title{Rank Top 3 Infrequent Expenditure Types}
 \usage{
 add_expenditure_type_infreq_rank(
   df,
@@ -14,12 +14,26 @@ add_expenditure_type_infreq_rank(
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing infrequent expenditure data for households.}
 
 \item{expenditure_infreq_types}{A character vector. The names of the columns that contain the amount of infrequent expenditures types.}
 
 \item{id_col}{The name of the column that contains the unique identifier.}
 }
+\value{
+A data frame with additional columns:
+\item{cm_infreq_expenditure_top1}{The most infrequent expenditure type.}
+\item{cm_infreq_expenditure_top2}{The second most infrequent expenditure type.}
+\item{cm_infreq_expenditure_top3}{The third most infrequent expenditure type.}
+}
 \description{
-Rank top 3 infrequent expenditure types
+This function ranks the top 3 most infrequent expenditure types for each household
+based on the amount spent on various categories. It adds new columns to the input
+data frame indicating the top 3 infrequent expenditure types.
+
+Prerequisite function:
+add_expenditure_type_zero_infreq.R
+}
+\details{
+Rank Top 3 Infrequent Expenditure Types
 }

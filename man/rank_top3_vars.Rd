@@ -2,7 +2,7 @@
 % Please edit documentation in R/rank_top3_vars.R
 \name{rank_top3_vars}
 \alias{rank_top3_vars}
-\title{Function to add top 3 columns out of numeric variables}
+\title{Rank Top 3 Variables}
 \usage{
 rank_top3_vars(
   df,
@@ -14,9 +14,9 @@ rank_top3_vars(
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing the variables to be ranked.}
 
-\item{vars}{A character vector of numeric variable names.}
+\item{vars}{A character vector of numeric variable names to be ranked.}
 
 \item{new_colname_top1}{The new column name for the top variable.}
 
@@ -26,6 +26,12 @@ rank_top3_vars(
 
 \item{id_col}{The column name for the unique identifier.}
 }
+\value{
+A data frame with additional columns:
+\item{new_colname_top1}{The name of the top-ranked variable for each row}
+\item{new_colname_top2}{The name of the second-ranked variable for each row}
+\item{new_colname_top3}{The name of the third-ranked variable for each row}
+}
 \description{
-In case of equality, this function takes precedence in the order of 'vars' as factors.
+This function ranks the top 3 numeric variables for each row in a data frame. In case of equality, it takes precedence in the order of 'vars' as factors.
 }
