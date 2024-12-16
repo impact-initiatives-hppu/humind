@@ -85,11 +85,11 @@ undefined_water_quantity_data <- data.frame(
 
 test_that("Function handles undefined water quantity correctly", {
   result <- add_comp_wash(undefined_water_quantity_data)
-  expect_true(all(is.na(result$comp_wash_score_water_quantity)))
+  expect_equal(result$comp_wash_score_water_quantity, c(NA, NA, 1, 5))
 })
 
 # Test with invalid sanitation facility categories
-invalid_sanitation_data <- dummy_data
+invalid_sanitation_data <- undefined_water_quantity_data
 invalid_sanitation_data$wash_sanitation_facility_jmp_cat <- c("invalid", "basic", "limited", "open_defecation")
 
 test_that("Function handles invalid sanitation facility categories", {
