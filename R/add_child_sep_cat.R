@@ -1,4 +1,9 @@
-#' Add child separation categories
+#' Add Child Separation Categories
+#'
+#' @title Categorize Child Separation Reasons
+#'
+#' @description
+#' This function adds a new column to the input dataframe that categorizes child separation based on the severity of the reasons provided. It takes into account both the initial yes/no question about child separation and the follow-up question about the reasons for separation.
 #'
 #' @param df A data frame.
 #' @param child_sep Child separation yes/no question.
@@ -11,6 +16,13 @@
 #' @param child_sep_reason_very_severe Values of very severe reasons.
 #' @param child_sep_reason_undefined Values of undefined reasons.
 #' @param sep Separator for the child_sep_reason columns.
+#'
+#' @return A dataframe with an additional column 'prot_child_sep_cat' containing the categorized child separation reasons:
+#' - "none": No child separation
+#' - "undefined": Undefined responses or reasons
+#' - "at_least_one_very_severe": At least one very severe reason for separation
+#' - "at_least_one_severe": At least one severe reason for separation
+#' - "at_least_one_non_severe": At least one non-severe reason for separation
 #'
 #' @export
 add_child_sep_cat <- function(

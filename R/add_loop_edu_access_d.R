@@ -1,14 +1,21 @@
-#' Add education access dummy
+#' @title Add Education Access Dummy Variables
 #'
-#' This function adds a dummy variable (edu_ind_access_d) to the individual-level dataframe for all school-aged children, taking 1 if the child accessed school and O otherwise. It also adds a no acces variable (edu_ind_no_access_d).
+#' @description This function adds dummy variables to an individual-level dataframe for all school-aged children.
+#' It creates a variable (`edu_ind_access_d`) that indicates whether the child accessed school (1 if accessed, 0 otherwise) and another variable (`edu_ind_no_access_d`) that indicates no access to school.
+#' Prerequisite functions:
+#' add_loop_edu_ind_age_corrected.R
 #'
 #' @param loop A data frame of individual-level data for the loop.
 #' @param ind_access Column name for education access.
-#' @param yes Value for yes..
-#' @param no Value for no.
-#' @param pnta Value for not applicable.
-#' @param dnk Value for don't know.
-#' @param ind_schooling_age_d Column name for the dummy variable of schooling age.
+#' @param yes Value indicating access to education (e.g., "yes").
+#' @param no Value indicating no access to education (e.g., "no").
+#' @param pnta Value indicating not applicable (e.g., "pnta").
+#' @param dnk Value indicating don't know (e.g., "dnk").
+#' @param ind_schooling_age_d Column name for the dummy variable indicating schooling age.
+#'
+#' @return A data frame with additional columns:
+#' \item{edu_ind_access_d}{Dummy variable indicating access to education (1 if accessed, 0 otherwise).}
+#' \item{edu_ind_no_access_d}{Dummy variable indicating no access to education (1 if not accessed, 0 otherwise).}
 #'
 #' @export
 add_loop_edu_access_d <- function(

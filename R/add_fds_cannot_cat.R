@@ -1,30 +1,42 @@
-#' Add functional domestic space tasks categories
+#' @title Add Functional Domestic Space Tasks Categories
 #'
-#' @param df A data frame
+#' @description This function adds categories for functional domestic space tasks based on various input parameters.
+#' It processes cooking, sleeping, storing, personal hygiene, and lighting tasks, creating new columns with standardized categories and a summary of tasks that cannot be performed.
+#'
+#' @param df A data frame containing the input columns
 #' @param fds_cooking Column name for cooking tasks
 #' @param fds_cooking_cannot Value for cannot perform cooking tasks
 #' @param fds_cooking_can_issues Value for can perform cooking tasks but with issues
 #' @param fds_cooking_can_no_issues Value for can perform cooking tasks without issues
 #' @param fds_cooking_no_need Value for no need to perform cooking tasks
-#' @param fds_cooking_undefined Vector of undefined responses
+#' @param fds_cooking_undefined Vector of undefined responses for cooking tasks
 #' @param fds_sleeping Column name for sleeping tasks
 #' @param fds_sleeping_cannot Value for cannot perform sleeping tasks
 #' @param fds_sleeping_can_issues Value for can perform sleeping tasks but with issues
 #' @param fds_sleeping_can_no_issues Value for can perform sleeping tasks without issues
-#' @param fds_sleeping_undefined Vector of undefined responses
+#' @param fds_sleeping_undefined Vector of undefined responses for sleeping tasks
 #' @param fds_storing Column name for storing tasks
 #' @param fds_storing_cannot Value for cannot perform storing tasks
 #' @param fds_storing_can_issues Value for can perform storing tasks but with issues
 #' @param fds_storing_can_no_issues Value for can perform storing tasks without issues
-#' @param fds_storing_undefined Vector of undefined responses
+#' @param fds_storing_undefined Vector of undefined responses for storing tasks
 #' @param fds_personal_hygiene Column name for personal hygiene tasks
 #' @param fds_personal_hygiene_cannot Value for cannot perform personal hygiene tasks
 #' @param fds_personal_hygiene_can_issues Value for can perform personal hygiene tasks but with issues
 #' @param fds_personal_hygiene_can_no_issues Value for can perform personal hygiene tasks without issues
-#' @param fds_personal_hygiene_undefined Vector of undefined responses
+#' @param fds_personal_hygiene_undefined Vector of undefined responses for personal hygiene tasks
 #' @param lighting_source Column name for lighting source
 #' @param lighting_source_none Value for no lighting source
-#' @param lighting_source_undefined Vector of undefined responses
+#' @param lighting_source_undefined Vector of undefined responses for lighting source
+#'
+#' @return A data frame with additional columns:
+#' \item{snfi_fds_cooking}{Standardized categories for cooking tasks}
+#' \item{snfi_fds_sleeping}{Standardized categories for sleeping tasks}
+#' \item{snfi_fds_storing}{Standardized categories for storing tasks}
+#' \item{snfi_fds_personal_hygiene}{Standardized categories for personal hygiene tasks}
+#' \item{energy_lighting_source}{Standardized categories for lighting source}
+#' \item{snfi_fds_cannot_n}{Number of tasks that cannot be performed}
+#' \item{snfi_fds_cannot_cat}{Categorized number of tasks that cannot be performed}
 #'
 #' @export
 #'
@@ -125,7 +137,7 @@ add_fds_cannot_cat <- function(
 
   #----- Sum across cols if "no_cannot"
   df <- dplyr::mutate(
-    df, 
+    df,
     dplyr::across(
       c("snfi_fds_cooking", "snfi_fds_sleeping", "snfi_fds_storing", "snfi_fds_personal_hygiene"),
       \(x) dplyr::case_when(
@@ -139,7 +151,7 @@ add_fds_cannot_cat <- function(
 
   # Add binary for lighting
   df <- dplyr::mutate(
-    df, 
+    df,
     energy_lighting_source_d = dplyr::case_when(
       energy_lighting_source == "none" ~ 1,
       energy_lighting_source == "undefined" ~ NA_real_,

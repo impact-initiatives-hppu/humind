@@ -1,4 +1,17 @@
-#' Food security sectoral composite - add score and dummy for in need
+#' Food Security Sectoral Composite
+#'
+#' @title Calculate Food Security Sectoral Composite Score and Need Indicators
+#'
+#' @description
+#' This function calculates a food security sectoral composite score based on
+#' the food security phase. It assigns a score from 1 to 5 corresponding to
+#' the food security phase, and determines if a household is in need or in
+#' acute need of food security assistance.
+#' Apply prerequisite food security functions in https://github.com/impact-initiatives/impactR4PHU
+#' FCS - add_fcs.R
+#' HHS - add_hhs.R
+#' rCSI - add_rcsi.R
+#'
 #'
 #' @param df A data frame.
 #' @param fc_phase Column name for the food security phase.
@@ -7,6 +20,11 @@
 #' @param phase3 Label for Phase 3 FC.
 #' @param phase4 Label for Phase 4 FC.
 #' @param phase5 Label for Phase 5 FC.
+#'
+#' @return A data frame with additional columns:
+#'   \item{comp_foodsec_score}{Food security composite score (1-5)}
+#'   \item{comp_foodsec_in_need}{Binary indicator for being in need of food security assistance}
+#'   \item{comp_foodsec_in_acute_need}{Binary indicator for being in acute need of food security assistance}
 #'
 #' @export
 add_comp_foodsec <- function(

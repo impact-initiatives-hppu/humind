@@ -1,10 +1,12 @@
-#' Impute missing values
-#'
-#' [impute_value()] replaces all missing values by a specific value and [impute_median()] replaces all missing values by the (weighted) median of the variable.
-#'
-#' @param df A dataframe.
-#' @param vars A character vector of the variables to replace na with.
-#' @param value The value to replace na with.
+#' @title Impute Missing Values
+#' @description This set of functions replaces missing values in specified variables.
+#' [impute_value()] replaces all missing values with a specific value, while
+#' [impute_median()] replaces missing values with the (weighted) median of the variable.
+#' @param df A dataframe containing the variables to be imputed.
+#' @param vars A character vector of the variables to replace NA with.
+#' @param value The value to replace NA with.
+#' @return A dataframe with imputed values:
+#' \item{vars}{The specified variables with missing values replaced}
 #'
 #' @export
 impute_value <- function(df, vars, value) {
@@ -30,10 +32,11 @@ impute_value <- function(df, vars, value) {
 
 
 #' @rdname impute_value
-#'
 #' @param group A character vector of the grouping variables.
-#' @param weighted  A boolean indicating whether to use the weighted median or not.
+#' @param weighted A boolean indicating whether to use the weighted median or not.
 #' @param weight The weight variable.
+#' @return A dataframe with imputed values:
+#' \item{vars}{The specified variables with missing values replaced by their respective (weighted) medians}
 #'
 #' @export
 impute_median <- function(df, vars, group = NULL, weighted = FALSE, weight = NULL) {

@@ -7,11 +7,20 @@
 #' @param survey_start_date  Survey start date column name in main.
 #' @param school_year_start_month  The month when the school year has started.
 #' @param ind_age  The individual age column.
-#' @param month  If not NULL, an integer between 1 and 12 which will be used as the month of data collection for all households/
+#' @param month  If not NULL, an integer between 1 and 12 which will be used as the month of data collection for all households.
+#' @param schooling_start_age The age at which we assign the value 1 to edu_ind_schooling_age_d. Default is 5.
 #' @return 2 new columns: "edu_ind_age_corrected" with the corrected individual age, and a dummy variable edu_ind_schooling_age_d
 #'
 #' @export
-add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_col_main = "uuid", survey_start_date = "start", school_year_start_month = 9, ind_age = "ind_age", month = NULL) {
+add_loop_edu_ind_age_corrected <- function(loop,
+                                           main,
+                                           id_col_loop = "uuid",
+                                           id_col_main = "uuid",
+                                           survey_start_date = "start",
+                                           school_year_start_month = 9,
+                                           ind_age = "ind_age",
+                                           month = NULL,
+                                           schooling_start_age = 5) {
 
   #------ Initial checks
 
@@ -24,8 +33,16 @@ add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_
   # Check if ind_age is numeric
   are_cols_numeric(loop, ind_age)
 
-  # Check if survey_start_date is a date in main
-  # To do
+  # Check if survey_start_date is in ISO 8601 format
+  is_iso8601 <- function(x) {
+    tryCatch({
+      !is.na(as.Date(x, format = "%Y-%m-%d"))
+    }, error = function(e) FALSE)
+  }
+
+  if (!all(is_iso8601(main[[survey_start_date]]))) {
+    stop("The survey_start_date column is not in ISO 8601 format (YYYY-MM-DD). Please correct the format.")
+  }
 
   #------ Prepare month of data collection var
 
@@ -62,14 +79,14 @@ add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_
   loop <- dplyr::mutate(loop, edu_ind_age_corrected = dplyr::case_when(
     !is.na(!!rlang::sym("month")) & !is.na(!!sym(ind_age)) & (!!rlang::sym("month") - school_year_start_month_adj) > 6 ~ !!rlang::sym(ind_age) - 1,
     .default = !!rlang::sym(ind_age)
-    )
+  )
   )
 
-  #Final classification --- NAing with below 5 or under 17
+  #Final classification --- NAing with below schooling_start_age or under 17
   loop <- dplyr::mutate(
     loop,
     edu_ind_age_corrected = dplyr::case_when(
-      !!rlang::sym("edu_ind_age_corrected") < 5 | !!rlang::sym("edu_ind_age_corrected") > 17 ~ NA_real_,
+      !!rlang::sym("edu_ind_age_corrected") < schooling_start_age | !!rlang::sym("edu_ind_age_corrected") > 17 ~ NA_real_,
       .default = !!rlang::sym("edu_ind_age_corrected")
     )
   )
@@ -79,7 +96,7 @@ add_loop_edu_ind_age_corrected <- function(loop, main, id_col_loop = "uuid", id_
     loop,
     edu_ind_schooling_age_d = dplyr::case_when(
       is.na(!!rlang::sym("edu_ind_age_corrected")) ~ 0,
-      !!rlang::sym("edu_ind_age_corrected") < 5 | !!rlang::sym("edu_ind_age_corrected") > 17 ~ 0,
+      !!rlang::sym("edu_ind_age_corrected") < schooling_start_age | !!rlang::sym("edu_ind_age_corrected") > 17 ~ 0,
       .default = 1
     )
   )

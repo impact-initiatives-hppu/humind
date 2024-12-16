@@ -71,4 +71,28 @@ test_that("Need flags work correctly", {
   expect_true("comp_wash_in_acute_need" %in% colnames(df_result))
 })
 
+# Test with undefined values for `comp_wash_score_water_quantity`
+undefined_water_quantity_data <- data.frame(
+  setting = c("camp", "urban", "rural", "camp"),
+  wash_drinking_water_quantity = c("dnk", "pnta", "never", "always"),
+  wash_drinking_water_quality_jmp_cat = c("basic", "limited", "unimproved", "safely_managed"),
+  wash_sanitation_facility_jmp_cat = c("basic", "limited", "unimproved", "safely_managed"),
+  wash_sanitation_facility_cat = c("improved", "unimproved", "none", "undefined"),
+  wash_sharing_sanitation_facility_n_ind = c("19_and_below", "20_to_49", "50_and_above", NA),
+  wash_sharing_sanitation_facility_cat = c("shared", "shared", "shared", "undefined"),
+  wash_handwashing_facility_jmp_cat = c("basic", "limited", "no_facility", "undefined")
+)
+
+test_that("Function handles undefined water quantity correctly", {
+  result <- add_comp_wash(undefined_water_quantity_data)
+  expect_true(all(is.na(result$comp_wash_score_water_quantity)))
+})
+
+# Test with invalid sanitation facility categories
+invalid_sanitation_data <- dummy_data
+invalid_sanitation_data$wash_sanitation_facility_jmp_cat <- c("invalid", "basic", "limited", "open_defecation")
+
+test_that("Function handles invalid sanitation facility categories", {
+  expect_error(add_comp_wash(invalid_sanitation_data), class = "error")
+})
 
