@@ -1,6 +1,8 @@
-#' Add received assistance (combined calculation)
+#' @title Add Received Assistance (Combined Calculation)
 #'
-#' @param df A data frame.
+#' @description This function calculates and adds a new column for received assistance based on two input columns: assistance received in the last 12 months and the recall period of the assistance.
+#'
+#' @param df A data frame containing assistance information.
 #' @param received_assistance_12m Column name for received assistance in the last 12 months.
 #' @param yes Value for yes.
 #' @param no Value for no.
@@ -11,6 +13,9 @@
 #' @param date_4_6_months Value for received assistance in the last 4-6 months.
 #' @param date_7_12_months Value for received assistance in the last 7-12 months.
 #' @param date_undefined Vector of undefined responses for the date of received assistance.
+#'
+#' @return A data frame with an additional column:
+#' \item{aap_received_assistance}{Categorized received assistance: "undefined", "no", "past_30d", "1_3_months", "4_6_months", or "7_12_months"}
 #'
 #' @export
 add_received_assistance <- function(

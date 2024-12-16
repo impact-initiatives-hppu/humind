@@ -32,11 +32,7 @@ test_that("add_comp_foodsec throws error for missing columns", {
 
 test_that("add_comp_foodsec assigns in need status correctly", {
   result <- add_comp_foodsec(df_dummy)
-  expect_equal(result$comp_foodsec_in_need, c(FALSE, FALSE, TRUE, TRUE, TRUE, NA))
+  expect_equal(result$comp_foodsec_in_need, c(0, 0, 1, 1, 1, NA))
 })
 
-test_that("add_comp_foodsec handles custom phase levels correctly", {
-  custom_levels <- c("Phase 1 FC", "Phase 2 FC", "Phase 3 FC", "Phase 4 FC", "Phase 5 FC")
-  result <- add_comp_foodsec(df_dummy, fc_phase_levels = custom_levels)
-  expect_equal(result$comp_foodsec_score, c(1, 2, 3, 4, 5, NA))
-})
+

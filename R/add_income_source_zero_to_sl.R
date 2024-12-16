@@ -1,10 +1,16 @@
-#' Add zero when the income source was skipped
+#' @title Add Zero to Income Sources When Skipped
 #'
-#' @param df A data frame.
-#' @param income_source A character string. The name of the column that contains the income source.
-#' @param none A character string. The value that indicates that the income source was skipped.
-#' @param undefined A character vector. The values that indicate that the income source was skipped.
-#' @param income_sources A character vector. The names of the columns that contain the amount of income sources.
+#' @description This function adds zero to income source columns when the main income source was skipped or undefined.
+#' It also ensures that all income sources are zero when the main income source is "none".
+#'
+#' @param df A data frame containing income source information.
+#' @param income_source A character string. The name of the column that contains the main income source.
+#' @param none A character string. The value that indicates that no income source was selected.
+#' @param undefined A character vector. The values that indicate that the income source was undefined or skipped.
+#' @param income_sources A character vector. The names of the columns that contain the amount of income from various sources.
+#'
+#' @return A data frame with updated income source columns:
+#' \item{income_sources}{All specified income source columns are updated to zero when the main income source is skipped, undefined, or none.}
 #'
 #' @export
 add_income_source_zero_to_sl <- function(

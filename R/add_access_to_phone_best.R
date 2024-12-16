@@ -1,6 +1,13 @@
-#' Access to phone and coverage
+#' Access to Phone and Coverage
 #'
-#' [add_access_to_phone_best()] recodes the best type of phone accessible in the household. [add_access_to_phone_coverage()] recodes the coverage network type and the best type of phone owned in the household.
+#' @title Add Best Phone Access and Coverage Information
+#'
+#' @description
+#' This function recodes the best type of phone accessible in the household and the coverage network type.
+#' It provides two main functions:
+#' 1. `add_access_to_phone_best()`: Recodes the best type of phone accessible in the household.
+#' 2. `add_access_to_phone_coverage()`: Recodes the coverage network type and the best type of phone owned in the household.
+#'
 #' @param df The input data frame
 #' @param access_to_phone The name of the column that contains the access to phone information.
 #' @param none The value for no phone.
@@ -10,6 +17,8 @@
 #' @param dnk The value for do not know.
 #' @param pnta The value for prefer not to answer.
 #' @param sep Separator for the binary columns.
+#'
+#' @return A data frame with an additional column 'etc_access_to_phone_best' containing the recoded best type of phone accessible.
 #'
 #' @export
 add_access_to_phone_best <- function(
@@ -78,6 +87,7 @@ add_access_to_phone_best <- function(
 #' @param access_to_smartphone Value for smartphone.
 #' @param access_to_undefined Value for undefined.
 #'
+#' @return A data frame with an additional column 'etc_access_to_phone_coverage' containing the recoded coverage and phone access information.
 #'
 #' @export
 add_access_to_phone_coverage <- function(

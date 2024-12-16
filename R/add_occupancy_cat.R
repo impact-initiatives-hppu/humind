@@ -1,11 +1,16 @@
-#' Add the category of occupancy arrangement
+#' @title Add Category of Occupancy Arrangement
 #'
-#' @param df A data frame.
+#' @description This function categorizes occupancy arrangements into high, medium, or low risk based on provided criteria.
+#'
+#' @param df A data frame containing occupancy arrangement data.
 #' @param occupancy Component column: Occupancy arrangement.
 #' @param high_risk Character vector of high risk occupancy arrangements.
 #' @param medium_risk Character vector of medium risk occupancy arrangements.
 #' @param low_risk Character vector of low risk occupancy arrangements.
-#' @param undefined Character vector of undefined responses codes (e.g. "Prefer not to answer").
+#' @param undefined Character vector of undefined response codes (e.g. "Prefer not to answer").
+#'
+#' @return A data frame with an additional column:
+#' \item{hlp_occupancy_cat}{Categorized occupancy arrangement: "high_risk", "medium_risk", "low_risk", or "undefined"}
 #'
 #' @export
 #'

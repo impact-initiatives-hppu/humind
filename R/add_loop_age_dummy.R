@@ -1,12 +1,26 @@
-#' Add a dummy variable for an age class
+#' @title Add Age and Gender Dummy Variables for Demographics Loop
 #'
-#' [add_loop_age_dummy()] adds a dummy variable for an age class in the demographics loop. [add_loop_age_dummy_to_main()] adds the sum of the age dummy variable to the main dataset. [add_loop_age_gender_dummy()] and [add_loop_age_gender_dummy_to_main()] do the same with the gender dimension included.
+#' @description This set of functions adds dummy variables for age classes and gender in the demographics loop, and optionally sums these dummies to the main dataset.
+#' It includes four main functions: add_loop_age_dummy(), add_loop_age_dummy_to_main(), add_loop_age_gender_dummy(), and add_loop_age_gender_dummy_to_main().
 #'
 #' @param loop A data frame of individual-level data.
 #' @param ind_age Column name for individual age.
 #' @param lb Lower bound for the age class.
 #' @param ub Upper bound for the age class.
 #' @param new_colname New column name for the dummy variable. If NULL, then the default is "ind_age_lb_ub" or "ind_dummy_n" or "ind_age_gender_lb_ub" or "ind_age_gender_dummy_n" depending on the function used.
+#' @param main A data frame of household-level data.
+#' @param ind_age_dummy Column name for the dummy variable of the age class.
+#' @param id_col_main Column name for the unique identifier in the main dataset.
+#' @param id_col_loop Column name for the unique identifier in the loop dataset.
+#' @param ind_gender Column name for individual gender.
+#' @param gender Response options of interest, e.g. "Female".
+#' @param ind_age_gender_dummy Column name for the dummy variable of the age-gender class.
+#'
+#' @return Depending on the function used:
+#' \item{add_loop_age_dummy}{Returns the loop data frame with an additional column for the age dummy variable.}
+#' \item{add_loop_age_dummy_to_main}{Returns the main data frame with an additional column for the sum of age dummy variables.}
+#' \item{add_loop_age_gender_dummy}{Returns the loop data frame with an additional column for the age-gender dummy variable.}
+#' \item{add_loop_age_gender_dummy_to_main}{Returns the main data frame with an additional column for the sum of age-gender dummy variables.}
 #'
 #' @export
 add_loop_age_dummy <- function(

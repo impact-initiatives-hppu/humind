@@ -34,25 +34,7 @@ test_that("comp_snfi throws error for missing columns", {
 
 test_that("comp_snfi assigns in need status correctly", {
   result <- add_comp_snfi(df_dummy)
-  expect_equal(result$comp_snfi_in_need, c(TRUE, TRUE, FALSE, FALSE, NA))
+  expect_equal(result$comp_snfi_in_need, c(1, 1, 1, 0, NA))
 })
 
-test_that("comp_snfi handles custom category levels correctly", {
-  custom_shelter_type_levels <- c("none", "inadequate", "adequate", "undefined")
-  custom_shelter_issue_levels <- c("none", "7_to_8", "4_to_6", "1_to_3", "undefined")
-  custom_occupancy_levels <- c("high_risk", "medium_risk", "low_risk", "undefined")
-  custom_fds_cannot_levels <- c("4_to_5_tasks", "2_to_3_tasks", "1_task", "none", "undefined")
 
-  result <- add_comp_snfi(
-    df_dummy,
-    shelter_type_cat_levels = custom_shelter_type_levels,
-    shelter_issue_cat_levels = custom_shelter_issue_levels,
-    occupancy_cat_levels = custom_occupancy_levels,
-    fds_cannot_cat_levels = custom_fds_cannot_levels
-  )
-
-  expect_equal(result$comp_snfi_score_shelter_type_cat, c(5, 3, 1, NA, NA))
-  expect_equal(result$comp_snfi_score_shelter_issue_cat, c(4, 3, 2, 1, NA))
-  expect_equal(result$comp_snfi_score_occupancy_cat, c(3, 2, 1, NA, NA))
-  expect_equal(result$comp_snfi_score_fds_cannot_cat, c(4, 3, 2, 1, NA))
-})

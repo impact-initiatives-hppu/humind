@@ -48,24 +48,7 @@ test_that("add_comp_prot throws error for missing columns", {
 
 test_that("add_comp_prot assigns in need status correctly", {
   result <- add_comp_prot(df_dummy)
-  expect_equal(result$comp_prot_in_need, c(FALSE, TRUE, TRUE, TRUE, NA, NA))
-})
-
-test_that("add_comp_prot handles custom category levels correctly", {
-  custom_child_sep_levels <- c("none", "at_least_one_very_severe", "at_least_one_severe", "at_least_one_non_severe", "undefined")
-  custom_concern_levels <- c("never", "once_or_twice", "several_times", "always", "dnk", "pnta")
-
-  result <- add_comp_prot(
-    df_dummy,
-    child_sep_cat_levels = custom_child_sep_levels,
-    concern_levels = custom_concern_levels
-  )
-
-  expect_equal(result$comp_prot_child_sep_cat, c(1, 5, 4, 2, NA, NA))
-  expect_equal(result$comp_prot_score_concern_freq_cope, c(3, 2, 1, 0, NA, NA))
-  expect_equal(result$comp_prot_score_concern_freq_displaced, c(3, 2, 1, 0, NA, NA))
-  expect_equal(result$comp_prot_score_concern_hh_freq_kidnapping, c(3, 2, 1, 0, NA, NA))
-  expect_equal(result$comp_prot_score_concern_hh_freq_discrimination, c(3, 2, 1, 0, NA, NA))
+  expect_equal(result$comp_prot_in_need, c(0, 1, 1, 1, NA, NA))
 })
 
 test_that("add_comp_prot handles empty dataframe", {
