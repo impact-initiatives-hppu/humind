@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,24 @@
       <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2024.1.4" id="humind-202414">humind 2024.1.4<a class="anchor" aria-label="anchor" href="#humind-202414"></a></h2>
+<p>This release covers bug fixes, documentation updates, changes to parameters, and additional enhancements:</p>
+<ul><li>Documentation updates to better describe function purpose, outputs, and prerequisite functions.</li>
+<li>Functions no lover use _levels but instead use separate parameters. (<a href="https://github.com/impact-initiatives-hppu/humind/issues/547" class="external-link">#547</a>)</li>
+<li>
+<code><a href="../reference/add_comp_wash.html">add_comp_wash()</a></code> per the MSNI framework, the function was updated for the urban categorization “basic which should be score 1 instead of score 2 (<a href="https://github.com/impact-initiatives-hppu/humind/issues/558" class="external-link">#558</a>)</li>
+<li>
+<code><a href="../reference/add_comp_edu.html">add_comp_edu()</a></code> updates to show comp_edu_score_disrupted as 3 if displaced_n is greater than 0, instead of greater than 1.(<a href="https://github.com/impact-initiatives-hppu/humind/issues/556" class="external-link">#556</a>)</li>
+<li>
+<code><a href="../reference/add_comp_health.html">add_comp_health()</a></code> updated so that households with at least one person with a disability have the value 3 for comp_health_score (<a href="https://github.com/impact-initiatives-hppu/humind/issues/550" class="external-link">#550</a>)</li>
+<li>
+<code><a href="../reference/add_loop_edu_ind_age_corrected.html">add_loop_edu_ind_age_corrected()</a></code> updated to allow custom starting age for education analysis based on country-specific requirements (<a href="https://github.com/impact-initiatives-hppu/humind/issues/549" class="external-link">#549</a>)</li>
+<li>
+<code><a href="../reference/add_comp_snfi.html">add_comp_snfi()</a></code> now correctly categorizes “other”” for snfi_shelter_issue_cat (<a href="https://github.com/impact-initiatives-hppu/humind/issues/545" class="external-link">#545</a>)</li>
+<li>
+<code><a href="../reference/add_loop_edu_ind_age_corrected.html">add_loop_edu_ind_age_corrected()</a></code> function error message added for date formats not in the ISO 8601 format (<a href="https://github.com/impact-initiatives-hppu/humind/issues/513" class="external-link">#513</a>)</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2024.1.3" id="humind-202413">humind 2024.1.3<a class="anchor" aria-label="anchor" href="#humind-202413"></a></h2>
 <p>This release covers bug fixes.</p>
