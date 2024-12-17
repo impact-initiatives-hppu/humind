@@ -5,7 +5,7 @@
 \alias{add_sharing_sanitation_facility_cat}
 \alias{add_sharing_sanitation_facility_n_ind}
 \alias{add_sanitation_facility_jmp_cat}
-\title{Sanitation facility classification}
+\title{Sanitation Facility Classification}
 \usage{
 add_sanitation_facility_cat(
   df,
@@ -32,7 +32,10 @@ add_sharing_sanitation_facility_cat(
 add_sharing_sanitation_facility_n_ind(
   df,
   sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
-  levels = c("shared", "not_shared", "not_applicable", "undefined"),
+  sharing_sanitation_facility_cat_shared = "shared",
+  sharing_sanitation_facility_cat_not_shared = "not_shared",
+  sharing_sanitation_facility_cat_not_applicable = "not_applicable",
+  sharing_sanitation_facility_cat_undefined = "undefined",
   sanitation_facility_sharing_n = "wash_sanitation_facility_sharing_n",
   hh_size = "hh_size",
   weight = "weight"
@@ -41,49 +44,91 @@ add_sharing_sanitation_facility_n_ind(
 add_sanitation_facility_jmp_cat(
   df,
   sanitation_facility_cat = "wash_sanitation_facility_cat",
-  sanitation_facility_levels = c("improved", "unimproved", "none", "undefined"),
+  sanitation_facility_cat_improved = "improved",
+  sanitation_facility_cat_unimproved = "unimproved",
+  sanitation_facility_cat_none = "none",
+  sanitation_facility_cat_undefined = "undefined",
   sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
-  sharing_sanitation_facility_levels = c("shared", "not_shared", "not_applicable",
-    "undefined")
+  sharing_sanitation_facility_cat_shared = "shared",
+  sharing_sanitation_facility_cat_not_shared = "not_shared",
+  sharing_sanitation_facility_cat_not_applicable = "not_applicable",
+  sharing_sanitation_facility_cat_undefined = "undefined"
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing both sanitation facility types and sharing status information.}
 
-\item{sanitation_facility}{Component column: Sanitation facility types.}
+\item{sanitation_facility}{Column name for sanitation facility types.}
 
-\item{improved}{Character vector of responses codes for Improved facilities.}
+\item{improved}{Character vector of response codes for Improved facilities.}
 
-\item{unimproved}{Character vector of responses codes for Unimproved facilities.}
+\item{unimproved}{Character vector of response codes for Unimproved facilities.}
 
-\item{none}{Character vector of responses codes for No sanitation facility/Open defecation.}
+\item{none}{Character vector of response codes for No sanitation facility/Open defecation.}
 
-\item{undefined}{Character vector of responses codes, that do not fit any category, e.g., c("dnk", "pnta", "other").}
+\item{undefined}{Character vector of response codes indicating undefined responses (e.g., c("dnk", "pnta")).}
 
 \item{sharing_sanitation_facility}{Component column: Number of people with whom the facility is shared.}
 
-\item{yes}{Character vector of responses codes for Yes.}
+\item{yes}{Character vector of response codes for Yes.}
 
-\item{no}{Character vector of responses codes for No.}
+\item{no}{Character vector of response codes for No.}
 
-\item{skipped_sanitation_facility}{Character vector of responses codes for skipped sanitation facility.}
+\item{skipped_sanitation_facility}{Character vector of response codes for skipped sanitation facility.}
 
 \item{sharing_sanitation_facility_cat}{Component column: Sharing status of sanitation facility recoded.}
 
-\item{levels}{Character vector of responses codes, including first in the following order: Shared, Not shared, Not applicable, and Undefined.}
+\item{sharing_sanitation_facility_cat_shared}{Level: Shared sanitation facility.}
 
-\item{sanitation_facility_sharing_n}{Component column: number of households sharing the sanitation facility.}
+\item{sharing_sanitation_facility_cat_not_shared}{Level: Not shared sanitation facility.}
 
-\item{hh_size}{Column of the household size.}
+\item{sharing_sanitation_facility_cat_not_applicable}{Level: Not applicable sharing status.}
 
-\item{weight}{Column of the survey weights.}
+\item{sharing_sanitation_facility_cat_undefined}{Level: Undefined sharing status.}
+
+\item{sanitation_facility_sharing_n}{Component column: Number of households sharing the sanitation facility.}
+
+\item{hh_size}{Column name for household size.}
+
+\item{weight}{Column name for survey weights.}
 
 \item{sanitation_facility_cat}{Component column: Sanitation facility types recoded.}
 
-\item{sanitation_facility_levels}{Levels: Improved, Unimproved, None, Undefined.}
+\item{sanitation_facility_cat_improved}{Level: Improved sanitation facility.}
 
-\item{sharing_sanitation_facility_levels}{Levels: Shared, Not shared, Not applicable, Undefined.}
+\item{sanitation_facility_cat_unimproved}{Level: Unimproved sanitation facility.}
+
+\item{sanitation_facility_cat_none}{Level: No sanitation facility.}
+
+\item{sanitation_facility_cat_undefined}{Level: Undefined sanitation facility.}
+}
+\value{
+A data frame with an additional column:
+\itemize{
+\item wash_sanitation_facility_cat: Categorized sanitation facility: "none", "unimproved", "improved", or "undefined".
+}
+
+A data frame with an additional column:
+\itemize{
+\item wash_sharing_sanitation_facility_cat: Categorized sharing status: "shared", "not_shared", or "not_applicable".
+}
+
+A data frame with an additional column:
+\itemize{
+\item wash_sharing_sanitation_n_ind: Categorized number of individuals sharing a sanitation facility.
+}
+
+A data frame with an additional column:
+\itemize{
+\item wash_sanitization_jmp_cat: Categorized JMP classification based on both type and sharing status.
+}
 }
 \description{
-\code{\link[=add_sanitation_facility_cat]{add_sanitation_facility_cat()}} recodes the types of sanitation facilities, \code{\link[=add_sharing_sanitation_facility_cat]{add_sharing_sanitation_facility_cat()}} recodes the sharing status of sanitation facility, and \code{\link[=add_sanitation_facility_jmp_cat]{add_sanitation_facility_jmp_cat()}} combines the previous two functions to recode the sanitation facility into a JMP classification. Finally, \code{\link[=add_sharing_sanitation_facility_n_ind]{add_sharing_sanitation_facility_n_ind()}} recodes the number of individuals sharing the sanitation facility.
+This set of functions classifies sanitation facilities according to various criteria. It includes functions to categorize sanitation facility types, sharing status, number of individuals sharing, and JMP (Joint Monitoring Programme) classification.
+
+This function recodes the sharing status of sanitation facilities based on user responses. It categorizes whether the facility is shared or not shared and handles cases where the facility was skipped.
+
+This function calculates the number of households sharing a sanitation facility and categorizes them based on predefined thresholds. It also handles the household size and survey weights in calculations.
+
+This function combines the previous two functions to recode the sanitation facility into a JMP classification. It also includes information about whether the facility is shared or not shared.
 }

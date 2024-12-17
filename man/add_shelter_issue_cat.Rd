@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_shelter_issue_cat.R
 \name{add_shelter_issue_cat}
 \alias{add_shelter_issue_cat}
-\title{Add the number of shelter issues and related category}
+\title{Add Number of Shelter Issues and Related Category}
 \usage{
 add_shelter_issue_cat(
   df,
@@ -16,7 +16,7 @@ add_shelter_issue_cat(
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing shelter issue data.}
 
 \item{shelter_issue}{Component column: Shelter issues.}
 
@@ -30,6 +30,13 @@ add_shelter_issue_cat(
 
 \item{sep}{Separator for the binary columns.}
 }
+\value{
+A data frame with additional columns:
+\itemize{
+\item snfi_shelter_issue_n: Count of shelter issues.
+\item snfi_shelter_issue_cat: Categorized shelter issues: "none", "undefined", "other", "1_to_3", "4_to_6", or "7_to_8".
+}
+}
 \description{
-Add the number of shelter issues and related category
+This function calculates the number of shelter issues and categorizes them based on predefined thresholds. It also handles undefined and other responses.
 }

@@ -1,5 +1,7 @@
-#' @title Sum Columns Row-wise - sum_vars
+#' @title Sum Columns Row-wise
+#' 
 #' @description This function sums up specified columns row-wise in a dataframe, with options for imputation of missing values and weighted calculations.
+#' 
 #' @param df A dataframe containing the columns to be summed.
 #' @param vars A character vector of the columns to sum.
 #' @param new_colname A character vector of the new column name.
@@ -8,8 +10,10 @@
 #' @param weight The weight variable to calculate weighted means or medians.
 #' @param value The value to replace missing values with if imputation is "value".
 #' @param group A character vector of the grouping variables.
+#' 
 #' @return A dataframe with an additional column:
-#' \item{new_colname}{The sum of the specified variables, with imputation applied if specified}
+#' 
+#' * new_colname: the sum of the specified variables, with imputation applied if specified.
 #'
 #' @export
 sum_vars <- function(df, vars, new_colname, imputation = "none", na_rm = FALSE, weight = "weight", value = 0, group = NULL) {

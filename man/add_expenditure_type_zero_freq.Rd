@@ -2,8 +2,7 @@
 % Please edit documentation in R/add_expenditure_type_zero_freq.R
 \name{add_expenditure_type_zero_freq}
 \alias{add_expenditure_type_zero_freq}
-\title{Add zero when the frequent expenditure type was skipped
-Note:Frequent expenditure = 30-day recall period}
+\title{Add Zero for Skipped Frequent Expenditure Types}
 \usage{
 add_expenditure_type_zero_freq(
   df,
@@ -18,7 +17,7 @@ add_expenditure_type_zero_freq(
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing expenditure data.}
 
 \item{expenditure_freq}{A character string. The name of the column that contains the frequent expenditures.}
 
@@ -28,7 +27,11 @@ add_expenditure_type_zero_freq(
 
 \item{expenditure_freq_types}{A character vector. The names of the columns that contain the amount of frequent expenditures types.}
 }
+\value{
+A data frame with updated expenditure columns: columns specified in expenditure_freq_types are updated with zeros for skipped entries.
+}
 \description{
-Add zero when the frequent expenditure type was skipped
-Note:Frequent expenditure = 30-day recall period
+This function adds zero values to frequent expenditure types that were skipped in the survey.
+Frequent expenditures are defined as those with a 30-day recall period. The function also
+ensures that when no expenditure is reported, all expenditure types are set to zero.
 }

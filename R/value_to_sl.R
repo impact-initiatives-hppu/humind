@@ -1,4 +1,4 @@
-#' Add a value to variables that were skipped
+#' Add a specific value to variables that were skipped
 #'
 #' @param df A data frame.
 #' @param var The name of the variable that is used for the skip logic.

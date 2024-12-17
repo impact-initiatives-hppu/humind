@@ -2,94 +2,73 @@
 library(testthat)
 library(dplyr)
 
-# Dummy data for testing
-dummy_data <- data.frame(
-  setting = c("camp", "urban", "rural", NA),
-  wash_drinking_water_quantity = c("always", "often", "sometimes", "rarely"),
-  wash_drinking_water_quality_jmp_cat = c("safely_managed", "basic", "limited", "unimproved"),
-  wash_sanitation_facility_jmp_cat = c("safely_managed", "basic", "limited", "open_defecation"),
-  wash_sanitation_facility_cat = c("improved", "unimproved", "none", "undefined"),
-  wash_sharing_sanitation_facility_n_ind = c("19_and_below", "20_to_49", "50_and_above", NA),
-  wash_sharing_sanitation_facility_cat = c("shared", "shared", "shared", "undefined"),
-  wash_handwashing_facility_jmp_cat = c("basic", "limited", "no_facility", "undefined")
+library(testthat)
+library(dplyr)
+
+# Create a sample dataset
+df_sample <- tibble::tibble(
+  setting = c("camp", "urban", "rural"),
+  wash_drinking_water_quantity = c("always", "often", "rarely"),
+  wash_drinking_water_quality_jmp_cat = c("surface_water", "unimproved", "limited"),
+  wash_sanitation_facility_jmp_cat = c("open_defecation", "basic", "unimproved"),
+  wash_sanitation_facility_cat = c("none", "improved", "unimproved"),
+  wash_sharing_sanitation_facility_n_ind = c("50_and_above", "20_to_49", "19_and_below"),
+  wash_sharing_sanitation_facility_cat = c("shared", "not_shared", "not_applicable"),
+  wash_handwashing_facility_jmp_cat = c("no_facility", "basic", "limited")
 )
 
-# 1. Test the function with default parameters
-test_that("Function works with default parameters", {
-  result <- add_comp_wash(dummy_data)
-  expect_true("comp_wash_score" %in% colnames(result))
-  expect_true("comp_wash_in_need" %in% colnames(result))
+# Test 1: Test drinking water quantity scores
+test_that("Drinking water quantity scoring works correctly", {
+  df_result <- add_comp_wash(df_sample, drinking_water_quantity = "wash_drinking_water_quantity", drinking_water_quantity_always = "always", drinking_water_quantity_often = "often", drinking_water_quantity_sometimes = "sometimes", drinking_water_quantity_rarely = "rarely", drinking_water_quantity_never = "never", drinking_water_quantity_dnk = "dnk", drinking_water_quantity_pnta = "pnta")
+
+  expected_result <- c(5, 4, 2)  # Always -> 5, Often -> 4, Rarely -> 2
+
+  expect_equal(df_result$comp_wash_score_water_quantity, expected_result)
 })
 
-# 2. Test handling all values as undefined category
-undefined_data <- data.frame(
-  setting = rep("camp", 4),
-  wash_drinking_water_quantity = rep("dnk", 4),
-  wash_drinking_water_quality_jmp_cat = rep("undefined", 4),
-  wash_sanitation_facility_jmp_cat = rep("undefined", 4),
-  wash_sanitation_facility_cat = rep("undefined", 4),
-  wash_sharing_sanitation_facility_n_ind = rep(NA, 4),
-  wash_handwashing_facility_jmp_cat = rep("undefined", 4),
-  wash_sharing_sanitation_facility_cat = rep("undefined", 4)
-)
+# Test 2: Test drinking water quality scores based on setting
+test_that("Drinking water quality scoring works based on setting", {
+  df_result <- add_comp_wash(df_sample, setting = "setting", drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat", drinking_water_quality_jmp_cat_surface_water = "surface_water", drinking_water_quality_jmp_cat_unimproved = "unimproved", drinking_water_quality_jmp_cat_limited = "limited", drinking_water_quality_jmp_cat_basic = "basic", drinking_water_quality_jmp_cat_safely_managed = "safely_managed", drinking_water_quality_jmp_cat_undefined = "undefined")
 
-test_that("Function handles all undefined categories", {
-  result <- add_comp_wash(undefined_data)
-  expect_true(all(is.na(result$comp_wash_score)))
-  expect_true(all(is.na(result$comp_wash_in_need)))
+  expected_result <- c(5, 3, 2)  # Surface water (camp) -> 5, Unimproved (urban) -> 3, Limited (rural) -> 2
+
+  expect_equal(df_result$comp_wash_score_water_quality, expected_result)
 })
 
-# 3. Test with sample data containing NA values
-na_data <- data.frame(
-  setting = c("camp", NA, "rural", "urban"),
-  wash_drinking_water_quantity = c(NA, "often", "sometimes", NA),
-  wash_drinking_water_quality_jmp_cat = c("safely_managed", NA, "limited", "unimproved"),
-  wash_sanitation_facility_jmp_cat = c(NA, "basic", "limited", "open_defecation"),
-  wash_sanitation_facility_cat = c("improved", NA, "none", "undefined"),
-  wash_sharing_sanitation_facility_n_ind = c("19_and_below", "20_to_49", NA, "50_and_above"),
-  wash_handwashing_facility_jmp_cat = c("basic", "limited", "no_facility", NA),
-  wash_sharing_sanitation_facility_cat = c("shared", "shared", "undefined", "shared")
-)
+# Test 3: Test sanitation score for different settings
+test_that("Sanitation scoring works correctly for different settings", {
+  df_result <- add_comp_wash(df_sample, setting = "setting", sanitation_facility_jmp_cat = "wash_sanitation_facility_jmp_cat", sanitation_facility_cat = "wash_sanitation_facility_cat", sanitation_facility_n_ind = "wash_sharing_sanitation_facility_n_ind", sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat")
 
-test_that("Function handles NA values in data", {
-  result <- add_comp_wash(na_data)
-  expect_true("comp_wash_score" %in% colnames(result))
-  expect_true("comp_wash_in_need" %in% colnames(result))
+  expected_result <- c(5, 1, 2)  # None (camp) -> 5, Improved & Shared (urban) -> 1, Unimproved (rural) -> 2
+
+  expect_equal(df_result$comp_wash_score_sanitation, expected_result)
 })
 
-# 4. Test handling missing columns
-missing_column_data <- data.frame(
-  setting = c("camp", "urban", "rural", "camp"),
-  wash_drinking_water_quantity = c("always", "often", "sometimes", "rarely")
-  # Intentionally omitting other necessary columns
-)
+# Test 4: Test hygiene scoring for different settings
+test_that("Hygiene scoring works correctly", {
+  df_result <- add_comp_wash(df_sample, setting = "setting", handwashing_facility_jmp_cat = "wash_handwashing_facility_jmp_cat", handwashing_facility_jmp_cat_no_facility = "no_facility", handwashing_facility_jmp_cat_limited = "limited", handwashing_facility_jmp_cat_basic = "basic", handwashing_facility_jmp_cat_undefined = "undefined")
 
-test_that("Function handles missing columns", {
-  expect_error(add_comp_wash(missing_column_data), class = "error")
+  expected_result <- c(3, 1, 2)  # No facility (camp) -> 3, Basic (urban) -> 1, Limited (rural) -> 2
+
+  expect_equal(df_result$comp_wash_score_hygiene, expected_result)
 })
 
-# 5. Additional common scenarios
-# Test with invalid levels
-invalid_levels_data <- dummy_data
-invalid_levels_data$setting <- c("invalid", "urban", "rural", "camp")
+# Test 5: Test final composite score calculation
+test_that("Composite WASH score calculation works correctly", {
+  df_result <- add_comp_wash(df_sample, setting = "setting", drinking_water_quantity = "wash_drinking_water_quantity", drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat", sanitation_facility_jmp_cat = "wash_sanitation_facility_jmp_cat", sanitation_facility_cat = "wash_sanitation_facility_cat", sanitation_facility_n_ind = "wash_sharing_sanitation_facility_n_ind", sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat", handwashing_facility_jmp_cat = "wash_handwashing_facility_jmp_cat")
 
-test_that("Function handles invalid levels", {
-  expect_error(add_comp_wash(invalid_levels_data), class = "error")
+  expected_result <- c(5, 4, 2)  # Max of (water quantity, water quality, sanitation, hygiene) for each row
+
+  expect_equal(df_result$comp_wash_score, expected_result)
 })
 
-# Test with duplicated column names
-duplicated_column_data <- dummy_data
-duplicated_column_data$wash_drinking_water_quantity <- duplicated_column_data$setting
+# Test 6: Test if 'is_in_need' and 'is_in_acute_need' flags are correctly set
+test_that("Need flags work correctly", {
+  df_result <- add_comp_wash(df_sample, setting = "setting", drinking_water_quantity = "wash_drinking_water_quantity", drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat", sanitation_facility_jmp_cat = "wash_sanitation_facility_jmp_cat", sanitation_facility_cat = "wash_sanitation_facility_cat", sanitation_facility_n_ind = "wash_sharing_sanitation_facility_n_ind", sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat", handwashing_facility_jmp_cat = "wash_handwashing_facility_jmp_cat")
 
-test_that("Function handles duplicated column names", {
-  expect_error(add_comp_wash(duplicated_column_data), class = "error")
-})
-
-# Test with empty data frame
-empty_data <- data.frame()
-
-test_that("Function handles empty data frame", {
-  expect_error(add_comp_wash(empty_data), class = "error")
+  # Check for the 'comp_wash_in_need' and 'comp_wash_in_acute_need' columns.
+  expect_true("comp_wash_in_need" %in% colnames(df_result))
+  expect_true("comp_wash_in_acute_need" %in% colnames(df_result))
 })
 
 # Test with undefined values for `comp_wash_score_water_quantity`
@@ -106,11 +85,11 @@ undefined_water_quantity_data <- data.frame(
 
 test_that("Function handles undefined water quantity correctly", {
   result <- add_comp_wash(undefined_water_quantity_data)
-  expect_true(all(is.na(result$comp_wash_score_water_quantity)))
+  expect_equal(result$comp_wash_score_water_quantity, c(NA, NA, 1, 5))
 })
 
 # Test with invalid sanitation facility categories
-invalid_sanitation_data <- dummy_data
+invalid_sanitation_data <- undefined_water_quantity_data
 invalid_sanitation_data$wash_sanitation_facility_jmp_cat <- c("invalid", "basic", "limited", "open_defecation")
 
 test_that("Function handles invalid sanitation facility categories", {

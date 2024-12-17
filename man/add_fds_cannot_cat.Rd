@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_fds_cannot_cat.R
 \name{add_fds_cannot_cat}
 \alias{add_fds_cannot_cat}
-\title{Add functional domestic space tasks categories}
+\title{Add Functional Domestic Space Tasks Categories}
 \usage{
 add_fds_cannot_cat(
   df,
@@ -33,7 +33,7 @@ add_fds_cannot_cat(
 )
 }
 \arguments{
-\item{df}{A data frame}
+\item{df}{A data frame containing the input columns}
 
 \item{fds_cooking}{Column name for cooking tasks}
 
@@ -45,7 +45,7 @@ add_fds_cannot_cat(
 
 \item{fds_cooking_no_need}{Value for no need to perform cooking tasks}
 
-\item{fds_cooking_undefined}{Vector of undefined responses}
+\item{fds_cooking_undefined}{Vector of undefined responses for cooking tasks}
 
 \item{fds_sleeping}{Column name for sleeping tasks}
 
@@ -55,7 +55,7 @@ add_fds_cannot_cat(
 
 \item{fds_sleeping_can_no_issues}{Value for can perform sleeping tasks without issues}
 
-\item{fds_sleeping_undefined}{Vector of undefined responses}
+\item{fds_sleeping_undefined}{Vector of undefined responses for sleeping tasks}
 
 \item{fds_storing}{Column name for storing tasks}
 
@@ -65,7 +65,7 @@ add_fds_cannot_cat(
 
 \item{fds_storing_can_no_issues}{Value for can perform storing tasks without issues}
 
-\item{fds_storing_undefined}{Vector of undefined responses}
+\item{fds_storing_undefined}{Vector of undefined responses for storing tasks}
 
 \item{fds_personal_hygiene}{Column name for personal hygiene tasks}
 
@@ -75,14 +75,27 @@ add_fds_cannot_cat(
 
 \item{fds_personal_hygiene_can_no_issues}{Value for can perform personal hygiene tasks without issues}
 
-\item{fds_personal_hygiene_undefined}{Vector of undefined responses}
+\item{fds_personal_hygiene_undefined}{Vector of undefined responses for personal hygiene tasks}
 
 \item{lighting_source}{Column name for lighting source}
 
 \item{lighting_source_none}{Value for no lighting source}
 
-\item{lighting_source_undefined}{Vector of undefined responses}
+\item{lighting_source_undefined}{Vector of undefined responses for lighting source}
+}
+\value{
+A data frame with additional columns:
+\itemize{
+\item snfi_fds_cooking: Standardized categories for cooking tasks
+\item snfi_fds_sleeping: Standardized categories for sleeping tasks
+\item snfi_fds_storing: Standardized categories for storing tasks
+\item snfi_fds_personal_hygiene: Standardized categories for personal hygiene tasks
+\item energy_lighting_source: Standardized categories for lighting source
+\item snfi_fds_cannot_n: Number of tasks that cannot be performed
+\item snfi_fds_cannot_cat: Categorized number of tasks that cannot be performed
+}
 }
 \description{
-Add functional domestic space tasks categories
+This function adds categories for functional domestic space tasks based on various input parameters.
+It processes cooking, sleeping, storing, personal hygiene, and lighting tasks, creating new columns with standardized categories and a summary of tasks that cannot be performed.
 }

@@ -3,7 +3,7 @@
 \name{add_loop_wgq_ss}
 \alias{add_loop_wgq_ss}
 \alias{add_loop_wgq_ss_to_main}
-\title{Prepare dummy variables for each WG-SS component (individual data)}
+\title{Prepare Washington Group Short Set (WG-SS) Disability Indicators}
 \usage{
 add_loop_wgq_ss(
   loop,
@@ -76,6 +76,27 @@ add_loop_wgq_ss_to_main(
 
 \item{id_col_loop}{Column name for the unique identifier in the loop dataset.}
 }
+\value{
+A data frame with additional columns:
+\itemize{
+\item *_cannot_do_d: Binary indicators for "cannot do" level for each component.
+\item *_lot_of_difficulty_d: Binary indicators for "a lot of difficulty" level for each component.
+\item *_some_difficulty_d: Binary indicators for "some difficulty" level for each component.
+\item *_no_difficulty_d: Binary indicators for "no difficulty" level for each component.
+\item wgq_cannot_do_n: Sum of "cannot do" indicators across all components.
+\item wgq_lot_of_difficulty_n: Sum of "a lot of difficulty" indicators across all components.
+\item wgq_some_difficulty_n: Sum of "some difficulty" indicators across all components.
+\item wgq_no_difficulty_n: Sum of "no difficulty" indicators across all components.
+\item wgq_cannot_do_d: Binary indicator for any "cannot do" across all components.
+\item wgq_lot_of_difficulty_d: Binary indicator for any "a lot of difficulty" across all components.
+\item wgq_some_difficulty_d: Binary indicator for any "some difficulty" across all components.
+\item wgq_no_difficulty_d: Binary indicator for any "no difficulty" across all components.
+\item wgq_dis_4: Disability cut-off 4: any domain coded as "cannot do at all".
+\item wgq_dis_3: Disability cut-off 3: any domain coded as "a lot of difficulty" or "cannot do at all".
+\item wgq_dis_2: Disability cut-off 2: at least 2 domains coded as "some difficulty" or any domain coded as "a lot of difficulty" or "cannot do at all".
+\item wgq_dis_1: Disability cut-off 1: at least one domain coded as "some difficulty", "a lot of difficulty", or "cannot do at all".
+}
+}
 \description{
-\link{add_loop_wgq_ss} prepares dummy variables for each WG-SS component (vision, hearing, mobility, cognition, self-care, communication) and their levels (no difficulty, some difficulty, a lot of difficulty, cannot do at all) and combines them into the sum of domains coded for each level (e.g, wgq_cannot_do_n), and disability binary cut-offs variables (wgq_dis_1, wgq_dis_2, wgq_dis_3, wgq_dis_4).
+This function prepares dummy variables for each WG-SS component (vision, hearing, mobility, cognition, self-care, communication) and their levels (no difficulty, some difficulty, a lot of difficulty, cannot do at all). It combines them into sum scores for each level and creates disability binary cut-offs variables.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_hoh_final.R
 \name{add_hoh_final}
 \alias{add_hoh_final}
-\title{Head of household final values (from respondent skip logic)}
+\title{Update Head of Household Information}
 \usage{
 add_hoh_final(
   df,
@@ -18,23 +18,28 @@ add_hoh_final(
 \arguments{
 \item{df}{The input dataframe.}
 
-\item{resp_hoh_yn}{The column name for whether the respondent is the head of household (hoh) yes/no indicator.}
+\item{resp_hoh_yn}{The column name for whether the respondent is the head of household (HoH) yes/no indicator.}
 
 \item{yes}{The value for 'yes' in the 'resp_hoh_yn' column.}
 
 \item{no}{The value for 'no' in the 'resp_hoh_yn' column.}
 
-\item{hoh_gender}{The column name for the household (hoh) gender.}
+\item{hoh_gender}{The column name for the household (HoH) gender.}
 
-\item{hoh_age}{The column name for the household (hoh) age.}
+\item{hoh_age}{The column name for the household (HoH) age.}
 
 \item{resp_gender}{The column name for the respondent (resp) gender.}
 
 \item{resp_age}{The column name for the respondent (resp) age.}
 }
 \value{
-The modified dataframe with updated hoh_gender and hoh_age columns.
+A modified dataframe with updated columns:
+\itemize{
+\item hoh_gender: Updated head of household gender.
+\item hoh_age: Updated head of household age.
+}
 }
 \description{
-Head of household final values (from respondent skip logic)
+This function updates the head of household (HoH) gender and age information based on whether the respondent is the HoH or not.
+If the respondent is the HoH, their gender and age are used; otherwise, the existing HoH information is retained.
 }

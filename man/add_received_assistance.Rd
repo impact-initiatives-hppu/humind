@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_received_assistance.R
 \name{add_received_assistance}
 \alias{add_received_assistance}
-\title{Add received assistance (combined calculation)}
+\title{Add Received Assistance (Combined Calculation)}
 \usage{
 add_received_assistance(
   df,
@@ -19,7 +19,7 @@ add_received_assistance(
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing assistance information.}
 
 \item{received_assistance_12m}{Column name for received assistance in the last 12 months.}
 
@@ -41,6 +41,12 @@ add_received_assistance(
 
 \item{date_undefined}{Vector of undefined responses for the date of received assistance.}
 }
+\value{
+A data frame with an additional column:
+\itemize{
+\item aap_received_assistance: Categorized received assistance: "undefined", "no", "past_30d", "1_3_months", "4_6_months", or "7_12_months".
+}
+}
 \description{
-Add received assistance (combined calculation)
+This function calculates and adds a new column for received assistance based on two input columns: assistance received in the last 12 months and the recall period of the assistance.
 }

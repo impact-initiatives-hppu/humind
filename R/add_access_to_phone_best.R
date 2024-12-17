@@ -1,5 +1,3 @@
-#' Access to Phone and Coverage
-#'
 #' @title Add Best Phone Access and Coverage Information
 #'
 #' @description

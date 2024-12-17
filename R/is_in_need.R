@@ -1,10 +1,14 @@
 #' @title Add Dummy Variable for 'In Need' Status
+#' 
 #' @description This set of functions adds new binary variables indicating if a score is above certain thresholds. [is_in_need()] adds a variable for scores above 3 (indicating "in need"), while [is_in_acute_need()] adds a variable for scores above 4 (indicating "in acute need").
+#' 
 #' @param df A dataframe containing the score variable.
 #' @param score The variable containing the score on a 1-5 scale.
 #' @param new_colname The name of the new column. If NULL, the function will create a new column with the name 'score_in_need' or 'score_in_acute_need'.
+#' 
 #' @return A dataframe with an additional column:
-#' \item{new_colname}{A binary variable indicating if the score meets the threshold for being "in need" (1) or not (0)}
+#' 
+#' * new_colname: A binary variable indicating if the score meets the threshold for being "in need" (1) or not (0).
 #'
 #' @export
 is_in_need <- function(

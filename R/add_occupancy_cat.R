@@ -10,7 +10,8 @@
 #' @param undefined Character vector of undefined response codes (e.g. "Prefer not to answer").
 #'
 #' @return A data frame with an additional column:
-#' \item{hlp_occupancy_cat}{Categorized occupancy arrangement: "high_risk", "medium_risk", "low_risk", or "undefined"}
+#' 
+#' * hlp_occupancy_cat: Categorized occupancy arrangement: "high_risk", "medium_risk", "low_risk", or "undefined".
 #'
 #' @export
 #'

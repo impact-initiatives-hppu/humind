@@ -2,67 +2,174 @@
 % Please edit documentation in R/add_comp_wash.R
 \name{add_comp_wash}
 \alias{add_comp_wash}
-\title{WASH sectoral composite - add score and dummy for in need}
+\title{Add WASH Sectoral Composite Score and Need Indicator}
 \usage{
 add_comp_wash(
   df,
   setting = "setting",
-  setting_levels = c("camp", "urban", "rural"),
+  setting_camp = "camp",
+  setting_urban = "urban",
+  setting_rural = "rural",
   drinking_water_quantity = "wash_drinking_water_quantity",
-  drinking_water_quantity_levels = c("always", "often", "sometimes", "rarely", "never",
-    "dnk", "pnta"),
+  drinking_water_quantity_always = "always",
+  drinking_water_quantity_often = "often",
+  drinking_water_quantity_sometimes = "sometimes",
+  drinking_water_quantity_rarely = "rarely",
+  drinking_water_quantity_never = "never",
+  drinking_water_quantity_dnk = "dnk",
+  drinking_water_quantity_pnta = "pnta",
   drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat",
-  drinking_water_quality_jmp_cat_levels = c("surface_water", "unimproved", "limited",
-    "basic", "safely_managed", "undefined"),
+  drinking_water_quality_jmp_cat_surface_water = "surface_water",
+  drinking_water_quality_jmp_cat_unimproved = "unimproved",
+  drinking_water_quality_jmp_cat_limited = "limited",
+  drinking_water_quality_jmp_cat_basic = "basic",
+  drinking_water_quality_jmp_cat_safely_managed = "safely_managed",
+  drinking_water_quality_jmp_cat_undefined = "undefined",
   sanitation_facility_jmp_cat = "wash_sanitation_facility_jmp_cat",
-  sanitation_facility_jmp_cat_levels = c("open_defecation", "unimproved", "limited",
-    "basic", "safely_managed", "undefined"),
+  sanitation_facility_jmp_cat_open_defecation = "open_defecation",
+  sanitation_facility_jmp_cat_unimproved = "unimproved",
+  sanitation_facility_jmp_cat_limited = "limited",
+  sanitation_facility_jmp_cat_basic = "basic",
+  sanitation_facility_jmp_cat_safely_managed = "safely_managed",
+  sanitation_facility_jmp_cat_undefined = "undefined",
   sanitation_facility_cat = "wash_sanitation_facility_cat",
-  sanitation_facility_cat_levels = c("none", "unimproved", "improved", "undefined"),
+  sanitation_facility_cat_none = "none",
+  sanitation_facility_cat_unimproved = "unimproved",
+  sanitation_facility_cat_improved = "improved",
+  sanitation_facility_cat_undefined = "undefined",
   sanitation_facility_n_ind = "wash_sharing_sanitation_facility_n_ind",
-  sanitation_facility_n_ind_levels = c("50_and_above", "20_to_49", "19_and_below"),
+  sanitation_facility_n_ind_50_and_above = "50_and_above",
+  sanitation_facility_n_ind_20_to_49 = "20_to_49",
+  sanitation_facility_n_ind_19_and_below = "19_and_below",
   sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
-  sharing_sanitation_facility_cat_levels = c("shared", "not_shared", "not_applicable",
-    "undefined"),
+  sharing_sanitation_facility_cat_shared = "shared",
+  sharing_sanitation_facility_cat_not_shared = "not_shared",
+  sharing_sanitation_facility_cat_not_applicable = "not_applicable",
+  sharing_sanitation_facility_cat_undefined = "undefined",
   handwashing_facility_jmp_cat = "wash_handwashing_facility_jmp_cat",
-  handwashing_facility_jmp_cat_levels = c("no_facility", "limited", "basic", "undefined")
+  handwashing_facility_jmp_cat_no_facility = "no_facility",
+  handwashing_facility_jmp_cat_limited = "limited",
+  handwashing_facility_jmp_cat_basic = "basic",
+  handwashing_facility_jmp_cat_undefined = "undefined"
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing the required WASH-related variables.}
 
-\item{setting}{Column name for the setting.}
+\item{setting}{Column name for the setting (camp, urban, or rural).}
 
-\item{setting_levels}{Levels for the setting in that order: camp, rural, urban.}
+\item{setting_camp}{Setting value for camp.}
+
+\item{setting_urban}{Setting value for urban.}
+
+\item{setting_rural}{Setting value for rural.}
 
 \item{drinking_water_quantity}{Column name for drinking water quantity.}
 
-\item{drinking_water_quantity_levels}{Levels for drinking water quantity.}
+\item{drinking_water_quantity_always}{Value for "always" in drinking water quantity.}
+
+\item{drinking_water_quantity_often}{Value for "often" in drinking water quantity.}
+
+\item{drinking_water_quantity_sometimes}{Value for "sometimes" in drinking water quantity.}
+
+\item{drinking_water_quantity_rarely}{Value for "rarely" in drinking water quantity.}
+
+\item{drinking_water_quantity_never}{Value for "never" in drinking water quantity.}
+
+\item{drinking_water_quantity_dnk}{Value for "don't know" in drinking water quantity.}
+
+\item{drinking_water_quantity_pnta}{Value for "prefer not to answer" in drinking water quantity.}
 
 \item{drinking_water_quality_jmp_cat}{Column name for drinking water quality JMP category.}
 
-\item{drinking_water_quality_jmp_cat_levels}{Levels for drinking water quality JMP category.}
+\item{drinking_water_quality_jmp_cat_surface_water}{Value for "surface water" in drinking water quality JMP category.}
+
+\item{drinking_water_quality_jmp_cat_unimproved}{Value for "unimproved" in drinking water quality JMP category.}
+
+\item{drinking_water_quality_jmp_cat_limited}{Value for "limited" in drinking water quality JMP category.}
+
+\item{drinking_water_quality_jmp_cat_basic}{Value for "basic" in drinking water quality JMP category.}
+
+\item{drinking_water_quality_jmp_cat_safely_managed}{Value for "safely managed" in drinking water quality JMP category.}
+
+\item{drinking_water_quality_jmp_cat_undefined}{Value for "undefined" in drinking water quality JMP category.}
 
 \item{sanitation_facility_jmp_cat}{Column name for sanitation facility JMP category.}
 
-\item{sanitation_facility_jmp_cat_levels}{Levels for sanitation facility JMP category.}
+\item{sanitation_facility_jmp_cat_open_defecation}{Value for "open defecation" in sanitation facility JMP category.}
+
+\item{sanitation_facility_jmp_cat_unimproved}{Value for "unimproved" in sanitation facility JMP category.}
+
+\item{sanitation_facility_jmp_cat_limited}{Value for "limited" in sanitation facility JMP category.}
+
+\item{sanitation_facility_jmp_cat_basic}{Value for "basic" in sanitation facility JMP category.}
+
+\item{sanitation_facility_jmp_cat_safely_managed}{Value for "safely managed" in sanitation facility JMP category.}
+
+\item{sanitation_facility_jmp_cat_undefined}{Value for "undefined" in sanitation facility JMP category.}
 
 \item{sanitation_facility_cat}{Column name for sanitation facility category.}
 
-\item{sanitation_facility_cat_levels}{Levels for sanitation facility category.}
+\item{sanitation_facility_cat_none}{Value for "none" in sanitation facility category.}
+
+\item{sanitation_facility_cat_unimproved}{Value for "unimproved" in sanitation facility category.}
+
+\item{sanitation_facility_cat_improved}{Value for "improved" in sanitation facility category.}
+
+\item{sanitation_facility_cat_undefined}{Value for "undefined" in sanitation facility category.}
 
 \item{sanitation_facility_n_ind}{Column name for number of individuals using the sanitation facility.}
 
-\item{sanitation_facility_n_ind_levels}{Levels for number of individuals using the sanitation facility.}
+\item{sanitation_facility_n_ind_50_and_above}{Value for "50 and above" in number of individuals using the sanitation facility.}
+
+\item{sanitation_facility_n_ind_20_to_49}{Value for "20 to 49" in number of individuals using the sanitation facility.}
+
+\item{sanitation_facility_n_ind_19_and_below}{Value for "19 and below" in number of individuals using the sanitation facility.}
 
 \item{sharing_sanitation_facility_cat}{Column name for sharing a sanitation facility.}
 
-\item{sharing_sanitation_facility_cat_levels}{Levels for sharing a sanitation facility.}
+\item{sharing_sanitation_facility_cat_shared}{Value for "shared" in sharing a sanitation facility.}
+
+\item{sharing_sanitation_facility_cat_not_shared}{Value for "not shared" in sharing a sanitation facility.}
+
+\item{sharing_sanitation_facility_cat_not_applicable}{Value for "not applicable" in sharing a sanitation facility.}
+
+\item{sharing_sanitation_facility_cat_undefined}{Value for "undefined" in sharing a sanitation facility.}
 
 \item{handwashing_facility_jmp_cat}{Column name for handwashing facility JMP category.}
 
-\item{handwashing_facility_jmp_cat_levels}{Levels for handwashing facility JMP category.}
+\item{handwashing_facility_jmp_cat_no_facility}{Value for "no facility" in handwashing facility JMP category.}
+
+\item{handwashing_facility_jmp_cat_limited}{Value for "limited" in handwashing facility JMP category.}
+
+\item{handwashing_facility_jmp_cat_basic}{Value for "basic" in handwashing facility JMP category.}
+
+\item{handwashing_facility_jmp_cat_undefined}{Value for "undefined" in handwashing facility JMP category.}
+}
+\value{
+A data frame with new columns:
+\itemize{
+\item comp_wash_score_water_quantity: Numeric score for water quantity (1-5).
+\item comp_wash_score_water_quality: Numeric score for water quality (1-5).
+\item comp_wash_score_sanitation: Numeric score for sanitation (1-5).
+\item comp_wash_score_hygiene: Numeric score for hygiene (1-5).
+\item comp_wash_score: Overall WASH composite score (0-20).
+\item comp_wash_in_need: Binary indicator (0 or 1) for households in need of WASH assistance.
+}
 }
 \description{
-WASH sectoral composite - add score and dummy for in need
+Calculates a comprehensive WASH (Water, Sanitation, and Hygiene) composite score
+for households across different settings (camp, urban, rural). The function
+generates sub-scores for water quantity, water quality, sanitation, and hygiene,
+and creates a dummy variable to indicate households in need of WASH assistance.
+
+The function performs detailed scoring based on multiple WASH-related variables,
+applying different scoring logic for camp, urban, and rural settings.
+
+Prerequisite functions:
+\itemize{
+\item add_sanitation_facility_cat.R
+\item add_handwashing_facility_cat.R
+\item add_drinking_water_source_cat.R
+}
 }

@@ -13,11 +13,12 @@
 #' @param resp_age The column name for the respondent (resp) age.
 #'
 #' @return A modified dataframe with updated columns:
-#' \item{hoh_gender}{Updated head of household gender}
-#' \item{hoh_age}{Updated head of household age}
+#' 
+#' * hoh_gender: Updated head of household gender.
+#' * hoh_age: Updated head of household age.
 #'
 #' @export
-add_hoh_final <- function(df, resp_hoh_yn = "resp_hoh_yn", yes = "yes", no = "no", hoh_gender = "hoh_gender", hoh_age = "hoh_age", resp_gender = "resp_gender", resp_age = "resp_age"){
+add_hoh_final <- function(df, resp_hoh_yn = "resp_hoh_yn", yes = "yes", no = "no", hoh_gender =  "hoh_gender", hoh_age = "hoh_age", resp_gender = "resp_gender", resp_age = "resp_age"){
 
   #------ Checks
 

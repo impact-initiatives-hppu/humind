@@ -1,13 +1,15 @@
 #' @title Add Multi-Sectoral Needs Index (MSNI) Score and Related Indicators
 #'
 #' @description This function calculates the MSNI score, determines if households are in need or acute need, counts the number of sectoral needs, and creates a sectoral needs profile.
+#' 
 #' Prerequisite functions:
-#' add_comp_edu.R
-#' add_comp_foodsec.R
-#' add_comp_health.R
-#' add_comp_prot.R
-#' add_comp_snfi.R
-#' add_comp_wash.R
+#' 
+#' * add_comp_edu.R
+#' * add_comp_foodsec.R
+#' * add_comp_health.R
+#' * add_comp_prot.R
+#' * add_comp_snfi.R
+#' * add_comp_wash.R
 #'
 #' @param df A data frame containing sectoral composite scores and in-need indicators.
 #' @param comp_foodsec_score Column name for the food security composite score.
@@ -24,11 +26,12 @@
 #' @param comp_edu_in_need Column name for education in need.
 #'
 #' @return A data frame with 5 new columns:
-#' \item{msni_score}{The Multi-Sectoral Needs Index score}
-#' \item{msni_in_need}{Binary indicator for households in need}
-#' \item{msni_in_acute_need}{Binary indicator for households in acute need}
-#' \item{sector_in_need_n}{Number of sectoral needs identified}
-#' \item{sector_needs_profile}{Profile of sectoral needs identified (NA if no sectoral need is identified)}
+#' 
+#' * msni_score: The Multi-Sectoral Needs Index score.
+#' * msni_in_need: Binary indicator for households in need.
+#' * msni_in_acute_need: Binary indicator for households in acute need.
+#' * sector_in_need_n: Number of sectoral needs identified.
+#' * sector_needs_profile: Profile of sectoral needs identified (NA if no sectoral need is identified).
 #'
 #' @export
 add_msni <- function(

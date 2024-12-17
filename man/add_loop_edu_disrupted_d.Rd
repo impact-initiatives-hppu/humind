@@ -3,7 +3,7 @@
 \name{add_loop_edu_disrupted_d}
 \alias{add_loop_edu_disrupted_d}
 \alias{add_loop_edu_disrupted_d_to_main}
-\title{Add education disruption categories}
+\title{Add Education Disruption Categories}
 \usage{
 add_loop_edu_disrupted_d(
   df,
@@ -27,7 +27,7 @@ add_loop_edu_disrupted_d_to_main(
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing individual-level education data.}
 
 \item{occupation}{Column name for occupation disruption. NULL if dimension is not present in the data frame.}
 
@@ -57,6 +57,22 @@ add_loop_edu_disrupted_d_to_main(
 
 \item{id_col_loop}{Column name for the unique identifier in the loop dataset.}
 }
+\value{
+A data frame with additional columns:
+\itemize{
+\item *_d: Binary columns for each disruption type (e.g., edu_disrupted_occupation_d).
+}
+
+A data frame with additional columns:
+\itemize{
+\item edu_disrupted_*_n: Count of individuals experiencing each type of education disruption (e.g., edu_disrupted_hazards_n).
+}
+}
 \description{
-\code{\link[=add_loop_edu_disrupted_d]{add_loop_edu_disrupted_d()}} adds the education disruption and binaries and \code{\link[=add_loop_edu_disrupted_d_to_main]{add_loop_edu_disrupted_d_to_main()}} adds the education disruption summarised binaries and the category to the main dataset.
+This function adds education disruption binaries to individual-level data and summarizes them at the household level. It includes two main functions: \code{\link[=add_loop_edu_disrupted_d]{add_loop_edu_disrupted_d()}} for individual-level data and \code{\link[=add_loop_edu_disrupted_d_to_main]{add_loop_edu_disrupted_d_to_main()}} for household-level data.
+
+Prerequisite function:
+\itemize{
+\item add_loop_edu_ind_age_corrected.R
+}
 }

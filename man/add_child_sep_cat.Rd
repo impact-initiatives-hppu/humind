@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_child_sep_cat.R
 \name{add_child_sep_cat}
 \alias{add_child_sep_cat}
-\title{Add child separation categories}
+\title{Categorize Child Separation Reasons}
 \usage{
 add_child_sep_cat(
   df,
@@ -42,6 +42,16 @@ add_child_sep_cat(
 
 \item{sep}{Separator for the child_sep_reason columns.}
 }
+\value{
+A dataframe with an additional column 'prot_child_sep_cat' containing the categorized child separation reasons:
+\itemize{
+\item "none": No child separation
+\item "undefined": Undefined responses or reasons
+\item "at_least_one_very_severe": At least one very severe reason for separation
+\item "at_least_one_severe": At least one severe reason for separation
+\item "at_least_one_non_severe": At least one non-severe reason for separation
+}
+}
 \description{
-Add child separation categories
+This function adds a new column to the input dataframe that categorizes child separation based on the severity of the reasons provided. It takes into account both the initial yes/no question about child separation and the follow-up question about the reasons for separation.
 }

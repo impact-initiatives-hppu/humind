@@ -2,40 +2,107 @@
 % Please edit documentation in R/add_comp_snfi.R
 \name{add_comp_snfi}
 \alias{add_comp_snfi}
-\title{SNFI sectoral composite - add score and dummy for in need}
+\title{Add SNFI Sectoral Composite Score and Need Indicators}
 \usage{
 add_comp_snfi(
   df,
   shelter_type_cat = "snfi_shelter_type_cat",
-  shelter_type_cat_levels = c("none", "inadequate", "adequate", "undefined"),
+  shelter_type_cat_none = "none",
+  shelter_type_cat_inadequate = "inadequate",
+  shelter_type_cat_adequate = "adequate",
+  shelter_type_cat_undefined = "undefined",
   shelter_issue_cat = "snfi_shelter_issue_cat",
-  shelter_issue_cat_levels = c("7_to_8", "4_to_6", "1_to_3", "none", "undefined"),
+  shelter_issue_cat_7_to_8 = "7_to_8",
+  shelter_issue_cat_4_to_6 = "4_to_6",
+  shelter_issue_cat_1_to_3 = "1_to_3",
+  shelter_issue_cat_none = "none",
+  shelter_issue_cat_undefined = "undefined",
+  shelter_issue_cat_other = "other",
   occupancy_cat = "hlp_occupancy_cat",
-  occupancy_cat_levels = c("high_risk", "medium_risk", "low_risk", "undefined"),
+  occupancy_cat_high_risk = "high_risk",
+  occupancy_cat_medium_risk = "medium_risk",
+  occupancy_cat_low_risk = "low_risk",
+  occupancy_cat_undefined = "undefined",
   fds_cannot_cat = "snfi_fds_cannot_cat",
-  fds_cannot_cat_levels = c("4_to_5_tasks", "2_to_3_tasks", "1_task", "none",
-    "undefined")
+  fds_cannot_cat_4_to_5 = "4_to_5_tasks",
+  fds_cannot_cat_2_to_3 = "2_to_3_tasks",
+  fds_cannot_cat_1 = "1_task",
+  fds_cannot_cat_none = "none",
+  fds_cannot_cat_undefined = "undefined"
 )
 }
 \arguments{
-\item{df}{A data frame.}
+\item{df}{A data frame containing the required SNFI indicators.}
 
 \item{shelter_type_cat}{Column name for shelter type.}
 
-\item{shelter_type_cat_levels}{Levels for shelter type in that order: none, inadequate, adequate, undefined.}
+\item{shelter_type_cat_none}{Level for no shelter.}
+
+\item{shelter_type_cat_inadequate}{Level for inadequate shelter.}
+
+\item{shelter_type_cat_adequate}{Level for adequate shelter.}
+
+\item{shelter_type_cat_undefined}{Level for undefined shelter.}
 
 \item{shelter_issue_cat}{Column name for shelter issue.}
 
-\item{shelter_issue_cat_levels}{Levels for shelter issue in that order: none, 7_to_8, 4_to_6, 1_to_3, undefined.}
+\item{shelter_issue_cat_7_to_8}{Level for 7 to 8 shelter issues.}
+
+\item{shelter_issue_cat_4_to_6}{Level for 4 to 6 shelter issues.}
+
+\item{shelter_issue_cat_1_to_3}{Level for 1 to 3 shelter issues.}
+
+\item{shelter_issue_cat_none}{Level for no shelter issues.}
+
+\item{shelter_issue_cat_undefined}{Level for undefined shelter issues.}
+
+\item{shelter_issue_cat_other}{Level for other shelter issues.}
 
 \item{occupancy_cat}{Column name for occupancy.}
 
-\item{occupancy_cat_levels}{Levels for occupancy in that order: high_risk, medium_risk, low_risk, undefined.}
+\item{occupancy_cat_high_risk}{Level for high risk occupancy.}
+
+\item{occupancy_cat_medium_risk}{Level for medium risk occupancy.}
+
+\item{occupancy_cat_low_risk}{Level for low risk occupancy.}
+
+\item{occupancy_cat_undefined}{Level for undefined occupancy.}
 
 \item{fds_cannot_cat}{Column name for fds cannot.}
 
-\item{fds_cannot_cat_levels}{Levels for fds cannot. in that order: 4_to_5_tasks, 2_to_3_tasks, 1_task, none, undefined.}
+\item{fds_cannot_cat_4_to_5}{Level for 4 to 5 tasks that cannot be done.}
+
+\item{fds_cannot_cat_2_to_3}{Level for 2 to 3 tasks that cannot be done.}
+
+\item{fds_cannot_cat_1}{Level for 1 task that cannot be done.}
+
+\item{fds_cannot_cat_none}{Level for no tasks that cannot be done.}
+
+\item{fds_cannot_cat_undefined}{Level for undefined fds cannot.}
+}
+\value{
+A data frame with added columns:
+\itemize{
+\item comp_snfi_score_shelter_type_cat: Score based on shelter type
+\item comp_snfi_score_shelter_issue_cat: Score based on shelter issues
+\item comp_snfi_score_occupancy_cat: Score based on occupancy status
+\item comp_snfi_score_fds_cannot_cat: Score based on FDS
+\item comp_snfi_score: Overall SNFI composite score
+\item comp_snfi_in_need: Indicator for being in need
+\item comp_snfi_in_acute_need: Indicator for being in acute need
+}
 }
 \description{
-SNFI sectoral composite - add score and dummy for in need
+This function calculates the Shelter, NFI and HLP (SNFI) sectoral composite score
+based on shelter type, shelter issues, occupancy status, and functional disability
+scale (FDS) indicators. It also determines if a household is in need or in acute need
+based on the calculated score.
+
+Prerequisite functions:
+\itemize{
+\item add_shelter_issue_cat.R
+\item add_shelter_type_cat.R
+\item add_occupancy_cat.R
+\item add_fds_cannot_cat.R
+}
 }

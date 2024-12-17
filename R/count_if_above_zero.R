@@ -1,11 +1,15 @@
 #' @title Create Dummy Variables and Count Across if Above Zero
+#' 
 #' @description This function creates dummy variables for each input column, setting 1 if the value is above zero, 0 if it's zero, and NA if it's below zero. It then sums these dummy variables to create a count.
+#' 
 #' @param df A data frame containing the columns to be processed.
 #' @param vars Vector of column names to be processed.
 #' @param new_colname The name of the new column that will contain the count.
+#' 
 #' @return A data frame with additional columns:
-#' \item{*_d}{Dummy variables for each input column, where * is the original column name}
-#' \item{new_colname}{A new column containing the count of values above zero across the specified variables}
+#' 
+#' * "*_d": Dummy variables for each input column, where 'star' is the original column name.
+#' * new_colname: A new column containing the count of values above zero across the specified variables.
 #'
 #' @export
 count_if_above_zero <- function(df, vars, new_colname){

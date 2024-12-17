@@ -8,16 +8,18 @@
 #' data frame indicating the top 3 infrequent expenditure types.
 #'
 #' Prerequisite function:
-#' add_expenditure_type_zero_infreq.R
+#' 
+#' * add_expenditure_type_zero_infreq.R
 #'
 #' @param df A data frame containing infrequent expenditure data for households.
 #' @param expenditure_infreq_types A character vector. The names of the columns that contain the amount of infrequent expenditures types.
 #' @param id_col The name of the column that contains the unique identifier.
 #'
 #' @return A data frame with additional columns:
-#' \item{cm_infreq_expenditure_top1}{The most infrequent expenditure type.}
-#' \item{cm_infreq_expenditure_top2}{The second most infrequent expenditure type.}
-#' \item{cm_infreq_expenditure_top3}{The third most infrequent expenditure type.}
+#' 
+#' * cm_infreq_expenditure_top1: The most infrequent expenditure type.
+#' * cm_infreq_expenditure_top2: The second most infrequent expenditure type.
+#' * cm_infreq_expenditure_top3: The third most infrequent expenditure type.
 #'
 #' @export
 add_expenditure_type_infreq_rank <- function(

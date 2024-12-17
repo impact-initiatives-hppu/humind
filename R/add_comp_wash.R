@@ -1,5 +1,3 @@
-#' WASH Sectoral Composite Score Calculator
-#'
 #' @title Add WASH Sectoral Composite Score and Need Indicator
 #'
 #' @description
@@ -11,10 +9,11 @@
 #' The function performs detailed scoring based on multiple WASH-related variables,
 #' applying different scoring logic for camp, urban, and rural settings.
 #'
-#' Prerequisite functions
-#' add_sanitation_facility_cat.R
-#' add_handwashing_facility_cat.R
-#' add_drinking_water_source_cat.R
+#' Prerequisite functions:
+#' 
+#' * add_sanitation_facility_cat.R
+#' * add_handwashing_facility_cat.R
+#' * add_drinking_water_source_cat.R
 #'
 #'
 #' @param df A data frame containing the required WASH-related variables.
@@ -65,12 +64,13 @@
 #' @param handwashing_facility_jmp_cat_undefined Value for "undefined" in handwashing facility JMP category.
 #'
 #' @return A data frame with new columns:
-#'  \item{comp_wash_score_water_quantity}{Numeric score for water quantity (1-5).}
-#'  \item{comp_wash_score_water_quality}{Numeric score for water quality (1-5).}
-#'  \item{comp_wash_score_sanitation}{Numeric score for sanitation (1-5).}
-#'  \item{comp_wash_score_hygiene}{Numeric score for hygiene (1-5).}
-#'  \item{comp_wash_score}{Overall WASH composite score (0-20).}
-#'  \item{comp_wash_in_need}{Binary indicator (0 or 1) for households in need of WASH assistance.}
+#' 
+#' * comp_wash_score_water_quantity: Numeric score for water quantity (1-5).
+#' * comp_wash_score_water_quality: Numeric score for water quality (1-5).
+#' * comp_wash_score_sanitation: Numeric score for sanitation (1-5).
+#' * comp_wash_score_hygiene: Numeric score for hygiene (1-5).
+#' * comp_wash_score: Overall WASH composite score (0-20).
+#' * comp_wash_in_need: Binary indicator (0 or 1) for households in need of WASH assistance.
 #'
 #' @export
 add_comp_wash <- function(
@@ -214,9 +214,9 @@ add_comp_wash <- function(
       !!rlang::sym(setting) == setting_urban &
         !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_unimproved ~ 3,
       !!rlang::sym(setting) == setting_urban &
-        !!rlang::sym(sanitation_facility_jmp_cat) %in% c(sanitation_facility_jmp_cat_limited, sanitation_facility_jmp_cat_basic) ~ 2,
+        !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_limited ~ 2,
       !!rlang::sym(setting) == setting_urban &
-        !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_safely_managed ~ 1,
+        !!rlang::sym(sanitation_facility_jmp_cat) %in% c(sanitation_facility_jmp_cat_safely_managed, sanitation_facility_jmp_cat_basic) ~ 1,
       !!rlang::sym(setting) == setting_urban &
         !!rlang::sym(sanitation_facility_jmp_cat) == sanitation_facility_jmp_cat_undefined ~ NA_real_,
       # Rural---uses the JMP categories

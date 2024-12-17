@@ -40,8 +40,7 @@
 #' @param facility_reported_remote_soap_type_no Response code indicating type of soap is not available in remote cases.
 #' @param facility_reported_remote_soap_type_undefined Response codes for undefined types of soap reported in remote cases.
 #'
-#' @return A data frame with an additional column:
-#' \item{wash_handwashing_facility_jmp_cat}{Categorized handwashing facilities: "Basic," "Limited," or "No Facility."}
+#' @return A data frame with an additional column 'wash_handwashing_facility_jmp_cat': Categorized handwashing facilities: "Basic," "Limited," or "No Facility."
 #'
 #' @export
 add_handwashing_facility_cat <- function(

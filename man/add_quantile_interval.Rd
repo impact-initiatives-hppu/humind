@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_quantile_interval.R
 \name{add_quantile_interval}
 \alias{add_quantile_interval}
-\title{Add quantile intervals}
+\title{Add Quantile Intervals to Income Variable}
 \usage{
 add_quantile_interval(
   df,
@@ -12,14 +12,20 @@ add_quantile_interval(
 )
 }
 \arguments{
-\item{df}{A dataframe.}
+\item{df}{A dataframe containing the income variables.}
 
 \item{vars}{The variable or variables with income integer values.}
 
-\item{cut_offs}{The cut-offs for computaton of quantiles. The default corresponds to the quantiles of the distribution, based on the weighted median.}
+\item{cut_offs}{The cut-offs for computation of quantiles. The default corresponds to the quantiles of the distribution, based on the weighted median.}
 
-\item{weight}{The sampling weights.}
+\item{weight}{The sampling weights column name. If NULL, unweighted quantiles are calculated.}
+}
+\value{
+A dataframe with additional columns:
+\itemize{
+\item *_qtl: For each input variable, a new column is added with the quantile interval classification. The naming format is 'original_variable_name'_qtl.
+}
 }
 \description{
-\code{\link[=add_quantile_interval]{add_quantile_interval()}} function calculates weighted income quantiles and classifies households according to these.
+This function calculates weighted income quantiles and classifies households according to these. It can handle multiple income variables and applies weighted or unweighted quantiles based on the input.
 }

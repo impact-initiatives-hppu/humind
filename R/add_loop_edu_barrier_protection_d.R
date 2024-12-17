@@ -1,8 +1,10 @@
 #' @title Add Child Protection Barriers to Education Variable
 #'
 #' @description This function adds a dummy variable for child protection barriers to education in individual-level data and aggregates it to household-level data.
-#' Prerequisite functions:
-#' add_loop_edu_ind_age_corrected.R
+#' 
+#' Prerequisite function:
+#' 
+#' * add_loop_edu_ind_age_corrected.R
 #'
 #' @param loop A data frame of individual-level data for the loop.
 #' @param barriers Column name for the child protection barrier category.
@@ -10,7 +12,8 @@
 #' @param ind_schooling_age_d Column name for the dummy variable of schooling age.
 #'
 #' @return A data frame with an additional column:
-#' \item{edu_ind_barrier_protection_d}{Dummy variable indicating if a school-aged child faces a protection barrier (1) or not (0).}
+#' 
+#' * edu_ind_barrier_protection_d: Dummy variable indicating if a school-aged child faces a protection barrier (1) or not (0).
 #'
 #' @export
 #'

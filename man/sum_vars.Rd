@@ -2,7 +2,7 @@
 % Please edit documentation in R/sum_vars.R
 \name{sum_vars}
 \alias{sum_vars}
-\title{Function to sum up columns row-wise.}
+\title{Sum Columns Row-wise}
 \usage{
 sum_vars(
   df,
@@ -16,7 +16,7 @@ sum_vars(
 )
 }
 \arguments{
-\item{df}{A dataframe}
+\item{df}{A dataframe containing the columns to be summed.}
 
 \item{vars}{A character vector of the columns to sum.}
 
@@ -32,6 +32,12 @@ sum_vars(
 
 \item{group}{A character vector of the grouping variables.}
 }
+\value{
+A dataframe with an additional column:
+\itemize{
+\item new_colname: the sum of the specified variables, with imputation applied if specified.
+}
+}
 \description{
-Function to sum up columns row-wise.
+This function sums up specified columns row-wise in a dataframe, with options for imputation of missing values and weighted calculations.
 }

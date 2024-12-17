@@ -1,5 +1,3 @@
-#' Add Child Separation Categories
-#'
 #' @title Categorize Child Separation Reasons
 #'
 #' @description
@@ -18,11 +16,12 @@
 #' @param sep Separator for the child_sep_reason columns.
 #'
 #' @return A dataframe with an additional column 'prot_child_sep_cat' containing the categorized child separation reasons:
-#' - "none": No child separation
-#' - "undefined": Undefined responses or reasons
-#' - "at_least_one_very_severe": At least one very severe reason for separation
-#' - "at_least_one_severe": At least one severe reason for separation
-#' - "at_least_one_non_severe": At least one non-severe reason for separation
+#' 
+#' * "none": No child separation
+#' * "undefined": Undefined responses or reasons
+#' * "at_least_one_very_severe": At least one very severe reason for separation
+#' * "at_least_one_severe": At least one severe reason for separation
+#' * "at_least_one_non_severe": At least one non-severe reason for separation
 #'
 #' @export
 add_child_sep_cat <- function(

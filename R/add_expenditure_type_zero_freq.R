@@ -1,5 +1,3 @@
-#' Add Zero for Skipped Frequent Expenditure Types
-#'
 #' @title Add Zero for Skipped Frequent Expenditure Types
 #'
 #' @description
@@ -13,8 +11,7 @@
 #' @param undefined A character vector. The values that indicate that the frequent expenditures type was skipped.
 #' @param expenditure_freq_types A character vector. The names of the columns that contain the amount of frequent expenditures types.
 #'
-#' @return A data frame with updated expenditure columns:
-#' \item{expenditure_freq_types}{Columns specified in expenditure_freq_types are updated with zeros for skipped entries.}
+#' @return A data frame with updated expenditure columns: columns specified in expenditure_freq_types are updated with zeros for skipped entries.
 #'
 #' @export
 add_expenditure_type_zero_freq <- function(

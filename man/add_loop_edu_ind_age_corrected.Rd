@@ -13,7 +13,8 @@ add_loop_edu_ind_age_corrected(
   survey_start_date = "start",
   school_year_start_month = 9,
   ind_age = "ind_age",
-  month = NULL
+  month = NULL,
+  schooling_start_age = 5
 )
 
 add_loop_edu_ind_schooling_age_d_to_main(
@@ -39,7 +40,9 @@ add_loop_edu_ind_schooling_age_d_to_main(
 
 \item{ind_age}{The individual age column.}
 
-\item{month}{If not NULL, an integer between 1 and 12 which will be used as the month of data collection for all households/}
+\item{month}{If not NULL, an integer between 1 and 12 which will be used as the month of data collection for all households.}
+
+\item{schooling_start_age}{The age at which we assign the value 1 to edu_ind_schooling_age_d. Default is 5.}
 
 \item{ind_schooling_age_d}{Column name for the dummy variable of the schooling age class.}
 }
