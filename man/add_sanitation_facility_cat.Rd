@@ -32,7 +32,10 @@ add_sharing_sanitation_facility_cat(
 add_sharing_sanitation_facility_n_ind(
   df,
   sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
-  levels = c("shared", "not_shared", "not_applicable", "undefined"),
+  sharing_sanitation_facility_cat_shared = "shared",
+  sharing_sanitation_facility_cat_not_shared = "not_shared",
+  sharing_sanitation_facility_cat_not_applicable = "not_applicable",
+  sharing_sanitation_facility_cat_undefined = "undefined",
   sanitation_facility_sharing_n = "wash_sanitation_facility_sharing_n",
   hh_size = "hh_size",
   weight = "weight"
@@ -41,10 +44,15 @@ add_sharing_sanitation_facility_n_ind(
 add_sanitation_facility_jmp_cat(
   df,
   sanitation_facility_cat = "wash_sanitation_facility_cat",
-  sanitation_facility_levels = c("improved", "unimproved", "none", "undefined"),
+  sanitation_facility_cat_improved = "improved",
+  sanitation_facility_cat_unimproved = "unimproved",
+  sanitation_facility_cat_none = "none",
+  sanitation_facility_cat_undefined = "undefined",
   sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
-  sharing_sanitation_facility_levels = c("shared", "not_shared", "not_applicable",
-    "undefined")
+  sharing_sanitation_facility_cat_shared = "shared",
+  sharing_sanitation_facility_cat_not_shared = "not_shared",
+  sharing_sanitation_facility_cat_not_applicable = "not_applicable",
+  sharing_sanitation_facility_cat_undefined = "undefined"
 )
 }
 \arguments{
@@ -70,7 +78,13 @@ add_sanitation_facility_jmp_cat(
 
 \item{sharing_sanitation_facility_cat}{Component column: Sharing status of sanitation facility recoded.}
 
-\item{levels}{Character vector of responses codes including: Shared, Not shared, Not applicable, and Undefined.}
+\item{sharing_sanitation_facility_cat_shared}{Level: Shared sanitation facility.}
+
+\item{sharing_sanitation_facility_cat_not_shared}{Level: Not shared sanitation facility.}
+
+\item{sharing_sanitation_facility_cat_not_applicable}{Level: Not applicable sharing status.}
+
+\item{sharing_sanitation_facility_cat_undefined}{Level: Undefined sharing status.}
 
 \item{sanitation_facility_sharing_n}{Component column: Number of households sharing the sanitation facility.}
 
@@ -80,9 +94,13 @@ add_sanitation_facility_jmp_cat(
 
 \item{sanitation_facility_cat}{Component column: Sanitation facility types recoded.}
 
-\item{sanitation_facility_levels}{Levels: Improved, Unimproved, None, Undefined.}
+\item{sanitation_facility_cat_improved}{Level: Improved sanitation facility.}
 
-\item{sharing_sanitation_facility_levels}{Levels: Shared, Not shared, Not applicable, Undefined.}
+\item{sanitation_facility_cat_unimproved}{Level: Unimproved sanitation facility.}
+
+\item{sanitation_facility_cat_none}{Level: No sanitation facility.}
+
+\item{sanitation_facility_cat_undefined}{Level: Undefined sanitation facility.}
 }
 \value{
 A data frame with an additional column:
