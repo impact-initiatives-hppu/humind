@@ -151,8 +151,39 @@ add_loop_wgq_ss <- function(
       .names = "{.col}_no_difficulty_d"
     )
   )
-
-
+  
+  # Add cannot do or lot of difficulties binaries
+  loop <- dplyr::mutate(
+    loop,
+    dplyr::across(
+      dplyr::all_of(wgq_vars),
+      \(x) dplyr::case_when(
+        ind_age_above_5 == 0 ~ NA_real_,
+        ind_age_above_5 == 1 & x %in% undefined ~ 0,
+        ind_age_above_5 == 1 & x %in% c(cannot_do, lot_of_difficulty) ~ 1,
+        ind_age_above_5 == 1 & x %in% c(no_difficulty, some_difficulty) ~ 0,
+        .default = NA_real_
+      ),
+      .names = "{.col}_cannot_do_or_lot_of_difficulty_d"
+    )
+  )
+  
+  # Add any_difficulty binaries
+  loop <- dplyr::mutate(
+    loop,
+    dplyr::across(
+      dplyr::all_of(wgq_vars),
+      \(x) dplyr::case_when(
+        ind_age_above_5 == 0 ~ NA_real_,
+        ind_age_above_5 == 1 & x %in% undefined ~ 0,
+        ind_age_above_5 == 1 & x %in% c(cannot_do, lot_of_difficulty, some_difficulty) ~ 1,
+        ind_age_above_5 == 1 & x == no_difficulty ~ 0,
+        .default = NA_real_
+      ),
+      .names = "{.col}_any_difficulty_d"
+    )
+  )
+  
   # Add sum of cannot do across all components
   loop <- sum_vars(loop, wgq_vars_cannot_do, "wgq_cannot_do_n", na_rm = FALSE)
 
@@ -165,7 +196,7 @@ add_loop_wgq_ss <- function(
   # Add sum of no difficulty across all components
   loop <- sum_vars(loop, wqg_vars_no_difficulty, "wgq_no_difficulty_n", na_rm = FALSE)
 
-
+  
   # Add binary cannot do across all components
   loop <- dplyr::mutate(
     loop,
@@ -205,7 +236,7 @@ add_loop_wgq_ss <- function(
       .default = NA_real_
     )
   )
-
+  
   # Add final cut-offs - disability 4 - the level of inclusion is any one domain is coded CANNOT DO AT ALL (4)
   loop <- dplyr::mutate(loop, wgq_dis_4 = !!rlang::sym("wgq_cannot_do_d"))
 
