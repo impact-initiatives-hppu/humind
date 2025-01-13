@@ -91,7 +91,7 @@ add_loop_wgq_ss <- function(
   loop <- dplyr::mutate(
     loop,
     dplyr::across(
-      wgq_vars,
+      dplyr::all_of(wgq_vars),
       \(x) dplyr::case_when(
         ind_age_above_5 == 0 ~ NA_real_,
         ind_age_above_5 == 1 & x %in% undefined ~ 0,
@@ -108,7 +108,7 @@ add_loop_wgq_ss <- function(
   loop <- dplyr::mutate(
     loop,
     dplyr::across(
-      wgq_vars,
+      dplyr::all_of(wgq_vars),
       \(x) dplyr::case_when(
         ind_age_above_5 == 0 ~ NA_real_,
         ind_age_above_5 == 1 & x %in% undefined ~ 0,
@@ -124,7 +124,7 @@ add_loop_wgq_ss <- function(
   loop <- dplyr::mutate(
     loop,
     dplyr::across(
-      wgq_vars,
+      dplyr::all_of(wgq_vars),
       \(x) dplyr::case_when(
         ind_age_above_5 == 0 ~ NA_real_,
         ind_age_above_5 == 1 & x %in% undefined ~ 0,
