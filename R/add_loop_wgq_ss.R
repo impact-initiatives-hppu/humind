@@ -154,16 +154,16 @@ add_loop_wgq_ss <- function(
 
 
   # Add sum of cannot do across all components
-  loop <- sum_vars(loop, wgq_vars_cannot_do, "wgq_cannot_do_n", na_rm = TRUE)
+  loop <- sum_vars(loop, wgq_vars_cannot_do, "wgq_cannot_do_n", na_rm = FALSE)
 
   # Add sum of lot of difficulty across all components
-  loop <- sum_vars(loop, wgq_vars_lot_of_difficulty, "wgq_lot_of_difficulty_n", na_rm = TRUE)
+  loop <- sum_vars(loop, wgq_vars_lot_of_difficulty, "wgq_lot_of_difficulty_n", na_rm = FALSE)
 
   # Add sum of some difficulty across all components
-  loop <- sum_vars(loop, wgq_vars_some_difficulty, "wgq_some_difficulty_n", na_rm = TRUE)
+  loop <- sum_vars(loop, wgq_vars_some_difficulty, "wgq_some_difficulty_n", na_rm = FALSE)
 
   # Add sum of no difficulty across all components
-  loop <- sum_vars(loop, wqg_vars_no_difficulty, "wgq_no_difficulty_n", na_rm = TRUE)
+  loop <- sum_vars(loop, wqg_vars_no_difficulty, "wgq_no_difficulty_n", na_rm = FALSE)
 
 
   # Add binary cannot do across all components
