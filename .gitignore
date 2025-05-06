@@ -9,3 +9,6 @@ docs
 inst/doc
 /doc/
 /Meta/
+# Renv
+renv/
+renv.lock
