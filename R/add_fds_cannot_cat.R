@@ -141,7 +141,7 @@ add_fds_cannot_cat <- function(
       c("snfi_fds_cooking", "snfi_fds_sleeping", "snfi_fds_storing", "snfi_fds_personal_hygiene"),
       \(x) dplyr::case_when(
         x %in% c("no_cannot", "no") ~ 1,
-        x %in% c("yes_issues", "yes_no_issues", "no_no_need") ~ 0,
+        x %in% c("yes_issues", "yes_no_issues", "no_no_need", "yes") ~ 0,
         .default = NA_real_
       ),
       .names = "{.col}_d"
