@@ -50,10 +50,9 @@ add_fds_cannot_cat <- function(
     fds_cooking_no_need = "no_no_need",
     fds_cooking_undefined = c("pnta", "dnk"),
     fds_sleeping = "snfi_fds_sleeping",
-    fds_sleeping_cannot = "no_cannot",
-    fds_sleeping_can_issues = "yes_issues",
-    fds_sleeping_can_no_issues = "yes_no_issues",
-    fds_sleeping_undefined = c("pnta", "dnk"),
+    fds_sleeping_cannot = "no",
+    fds_sleeping_can = "yes",
+    fds_sleeping_undefined = c("pnta"),
     fds_storing = "snfi_fds_storing",
     fds_storing_cannot = "no_cannot",
     fds_storing_can_issues = "yes_issues",
@@ -108,9 +107,8 @@ add_fds_cannot_cat <- function(
         .default = NA_character_
       ),
       snfi_fds_sleeping = dplyr::case_when(
-        !!rlang::sym(fds_sleeping) == fds_sleeping_cannot ~ "no_cannot",
-        !!rlang::sym(fds_sleeping) == fds_sleeping_can_issues ~ "yes_issues",
-        !!rlang::sym(fds_sleeping) == fds_sleeping_can_no_issues ~ "yes_no_issues",
+        !!rlang::sym(fds_sleeping) == fds_sleeping_cannot ~ "no",
+        !!rlang::sym(fds_sleeping) == fds_sleeping_can ~ "yes",
         !!rlang::sym(fds_sleeping) %in% fds_sleeping_undefined ~ "undefined",
         .default = NA_character_
       ),
@@ -142,7 +140,7 @@ add_fds_cannot_cat <- function(
     dplyr::across(
       c("snfi_fds_cooking", "snfi_fds_sleeping", "snfi_fds_storing", "snfi_fds_personal_hygiene"),
       \(x) dplyr::case_when(
-        x == "no_cannot" ~ 1,
+        x %in% c("no_cannot", "no") ~ 1,
         x %in% c("yes_issues", "yes_no_issues", "no_no_need") ~ 0,
         .default = NA_real_
       ),
