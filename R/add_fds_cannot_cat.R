@@ -12,8 +12,7 @@
 #' @param fds_cooking_undefined Vector of undefined responses for cooking tasks
 #' @param fds_sleeping Column name for sleeping tasks
 #' @param fds_sleeping_cannot Value for cannot perform sleeping tasks
-#' @param fds_sleeping_can_issues Value for can perform sleeping tasks but with issues
-#' @param fds_sleeping_can_no_issues Value for can perform sleeping tasks without issues
+#' @param fds_sleeping_can Value for can perform sleeping tasks but with issues
 #' @param fds_sleeping_undefined Vector of undefined responses for sleeping tasks
 #' @param fds_storing Column name for storing tasks
 #' @param fds_storing_cannot Value for cannot perform storing tasks
@@ -75,7 +74,7 @@ add_fds_cannot_cat <- function(
 
   # Check if values are in set
   are_values_in_set(df, fds_cooking, c(fds_cooking_cannot, fds_cooking_can_issues, fds_cooking_can_no_issues, fds_cooking_no_need, fds_cooking_undefined))
-  are_values_in_set(df, fds_sleeping, c(fds_sleeping_cannot, fds_sleeping_can_issues, fds_sleeping_can_no_issues, fds_sleeping_undefined))
+  are_values_in_set(df, fds_sleeping, c(fds_sleeping_cannot, fds_sleeping_can, fds_sleeping_undefined))
   are_values_in_set(df, fds_storing, c(fds_storing_cannot, fds_storing_can_issues, fds_storing_can_no_issues, fds_storing_undefined))
   are_values_in_set(df, fds_personal_hygiene, c(fds_personal_hygiene_cannot, fds_personal_hygiene_can_issues, fds_personal_hygiene_can_no_issues, fds_personal_hygiene_undefined))
 
@@ -85,8 +84,7 @@ add_fds_cannot_cat <- function(
   if (length(fds_cooking_can_no_issues) != 1) rlang::abort("fds_cooking_can_no_issues must be of length 1")
   if (length(fds_cooking_no_need) != 1) rlang::abort("fds_cooking_no_need must be of length 1")
   if (length(fds_sleeping_cannot) != 1) rlang::abort("fds_sleeping_cannot must be of length 1")
-  if (length(fds_sleeping_can_issues) != 1) rlang::abort("fds_sleeping_can_issues must be of length 1")
-  if (length(fds_sleeping_can_no_issues) != 1) rlang::abort("fds_sleeping_can_no_issues must be of length 1")
+  if (length(fds_sleeping_can) != 1) rlang::abort("fds_sleeping_can must be of length 1")
   if (length(fds_storing_cannot) != 1) rlang::abort("fds_storing_cannot must be of length 1")
   if (length(fds_storing_can_issues) != 1) rlang::abort("fds_storing_can_issues must be of length 1")
   if (length(fds_storing_can_no_issues) != 1) rlang::abort("fds_storing_can_no_issues must be of length 1")
@@ -141,7 +139,7 @@ add_fds_cannot_cat <- function(
       c("snfi_fds_cooking", "snfi_fds_sleeping", "snfi_fds_storing", "snfi_fds_personal_hygiene"),
       \(x) dplyr::case_when(
         x %in% c("no_cannot", "no") ~ 1,
-        x %in% c("yes_issues", "yes_no_issues", "no_no_need", "yes") ~ 0,
+        x %in% c("yes_issues", "yes_no_issues", "no_no_need",) ~ 0,
         .default = NA_real_
       ),
       .names = "{.col}_d"
