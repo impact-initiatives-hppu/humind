@@ -12,7 +12,7 @@
 #' @param fds_cooking_undefined Vector of undefined responses for cooking tasks
 #' @param fds_sleeping Column name for sleeping tasks
 #' @param fds_sleeping_cannot Value for cannot perform sleeping tasks
-#' @param fds_sleeping_can Value for can perform sleeping tasks but with issues
+#' @param fds_sleeping_can Value for can perform sleeping tasks
 #' @param fds_sleeping_undefined Vector of undefined responses for sleeping tasks
 #' @param fds_storing Column name for storing tasks
 #' @param fds_storing_cannot Value for cannot perform storing tasks

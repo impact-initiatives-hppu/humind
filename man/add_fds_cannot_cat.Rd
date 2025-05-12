@@ -13,10 +13,9 @@ add_fds_cannot_cat(
   fds_cooking_no_need = "no_no_need",
   fds_cooking_undefined = c("pnta", "dnk"),
   fds_sleeping = "snfi_fds_sleeping",
-  fds_sleeping_cannot = "no_cannot",
-  fds_sleeping_can_issues = "yes_issues",
-  fds_sleeping_can_no_issues = "yes_no_issues",
-  fds_sleeping_undefined = c("pnta", "dnk"),
+  fds_sleeping_cannot = "no",
+  fds_sleeping_can = "yes",
+  fds_sleeping_undefined = c("pnta"),
   fds_storing = "snfi_fds_storing",
   fds_storing_cannot = "no_cannot",
   fds_storing_can_issues = "yes_issues",
@@ -51,9 +50,7 @@ add_fds_cannot_cat(
 
 \item{fds_sleeping_cannot}{Value for cannot perform sleeping tasks}
 
-\item{fds_sleeping_can_issues}{Value for can perform sleeping tasks but with issues}
-
-\item{fds_sleeping_can_no_issues}{Value for can perform sleeping tasks without issues}
+\item{fds_sleeping_can}{Value for can perform sleeping tasks}
 
 \item{fds_sleeping_undefined}{Vector of undefined responses for sleeping tasks}
 
