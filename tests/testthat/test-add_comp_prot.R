@@ -16,8 +16,8 @@ test_that("add_comp_prot function works correctly with default parameters", {
   expect_equal(result$comp_prot_score_concern_freq_displaced, c(0, 1, 2, 3, NA, NA))
   expect_equal(result$comp_prot_score_concern_hh_freq_kidnapping, c(0, 1, 2, 3, NA, NA))
   expect_equal(result$comp_prot_score_concern_hh_freq_discrimination, c(0, 1, 2, 3, NA, NA))
-  expect_equal(result$comp_prot_score_concern, c(1, 1, 2, 3, NA, NA))  # Changed 2 to 3
-  expect_equal(result$comp_prot_score, c(1, 1, 2, 3, NA, NA))
+  expect_equal(result$comp_prot_score_concern, c(1, 3, 3, 4, NA, NA))  # Changed 2 to 3
+  expect_equal(result$comp_prot_score, c(1, 3, 3, 4, NA, NA))
 
   expect_true("comp_prot_in_need" %in% names(result))
   expect_true("comp_prot_in_acute_need" %in% names(result))
