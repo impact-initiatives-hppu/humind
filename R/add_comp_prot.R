@@ -1,16 +1,11 @@
 #' @title Add Protection Composite Score and Need Indicators
 #'
 #' @description
-#' This function calculates a protection composite score based on child separation categories and concern frequencies.
+#' This function calculates a protection composite score based on concern frequencies. Change for 2025 - child separation categories was
+#' removed.
 #' It also adds indicators for protection needs and acute protection needs.
 #'
 #' @param df A data frame containing the required variables.
-#' @param child_sep_cat Column name for child separation category.
-#' @param child_sep_cat_none Level for no child separation.
-#' @param child_sep_cat_very_severe Level for at least one very severe child separation.
-#' @param child_sep_cat_severe Level for at least one severe child separation.
-#' @param child_sep_cat_non_severe Level for at least one non-severe child separation.
-#' @param child_sep_cat_undefined Level for undefined child separation.
 #' @param concern_freq_cope Column name for concern frequency cope.
 #' @param concern_freq_displaced Column name for concern frequency displaced.
 #' @param concern_hh_freq_kidnapping Column name for concern household frequency kidnapping.
@@ -23,8 +18,7 @@
 #' @param concern_pnta Level for prefer not to answer.
 #'
 #' @return A data frame with added columns:
-#' 
-#' * comp_prot_child_sep_cat: Score for child separation category
+#'
 #' * comp_prot_score_concern_freq_cope: Score for concern frequency cope
 #' * comp_prot_score_concern_freq_displaced: Score for concern frequency displaced
 #' * comp_prot_score_concern_hh_freq_kidnapping: Score for concern household frequency kidnapping
@@ -38,12 +32,6 @@
 #' @export
 add_comp_prot <- function(
     df,
-    child_sep_cat = "prot_child_sep_cat",
-    child_sep_cat_none = "none",
-    child_sep_cat_very_severe = "at_least_one_very_severe",
-    child_sep_cat_severe = "at_least_one_severe",
-    child_sep_cat_non_severe = "at_least_one_non_severe",
-    child_sep_cat_undefined = "undefined",
     concern_freq_cope = "prot_concern_freq_cope",
     concern_freq_displaced = "prot_concern_freq_displaced",
     concern_hh_freq_kidnapping = "prot_concern_hh_freq_kidnapping",
@@ -58,29 +46,14 @@ add_comp_prot <- function(
   #------ Checks
 
   # Check if the variables are in the data frame
-  if_not_in_stop(df, c(child_sep_cat, concern_freq_cope, concern_freq_displaced, concern_hh_freq_kidnapping, concern_hh_freq_discrimination), "df")
+  if_not_in_stop(df, c(concern_freq_cope, concern_freq_displaced, concern_hh_freq_kidnapping, concern_hh_freq_discrimination), "df")
 
   # Check if values are in set
-  child_sep_cat_levels <- c(child_sep_cat_none, child_sep_cat_very_severe, child_sep_cat_severe, child_sep_cat_non_severe, child_sep_cat_undefined)
   concern_levels <- c(concern_always, concern_several_times, concern_once_or_twice, concern_never, concern_dnk, concern_pnta)
 
-  are_values_in_set(df, child_sep_cat, child_sep_cat_levels)
   are_values_in_set(df, c(concern_freq_cope, concern_freq_displaced, concern_hh_freq_kidnapping, concern_hh_freq_discrimination), concern_levels)
 
   #------ Recode
-
-  # Compute score for separated children
-  df <- dplyr::mutate(
-    df,
-    comp_prot_child_sep_cat = dplyr::case_when(
-      !!rlang::sym(child_sep_cat) %in% child_sep_cat_none ~ 1,
-      !!rlang::sym(child_sep_cat) %in% child_sep_cat_very_severe ~ 5,
-      !!rlang::sym(child_sep_cat) %in% child_sep_cat_severe ~ 4,
-      !!rlang::sym(child_sep_cat) %in% child_sep_cat_non_severe ~ 2,
-      !!rlang::sym(child_sep_cat) %in% child_sep_cat_undefined ~ NA_real_,
-      .default = NA_real_
-    )
-  )
 
   # Compute the score for concerns
   df <- dplyr::mutate(
@@ -156,23 +129,13 @@ add_comp_prot <- function(
   # Compute final concern score
   df <- dplyr::mutate(
     df,
-    comp_prot_score_concern = dplyr::case_when(
+    comp_prot_score = dplyr::case_when(
       comp_prot_score_concern >= 9 ~ 4,
       comp_prot_score_concern >= 4 ~ 3,
       comp_prot_risk_always_d == 1 ~ 3,
       comp_prot_score_concern >= 2 ~ 2,
       comp_prot_score_concern >= 0 ~ 1,
       .default = NA_real_
-    )
-  )
-
-  # Get the score for protection
-  # Compute total score = max
-  df <- dplyr::mutate(
-    df,
-    comp_prot_score = pmax(
-      !!!rlang::syms(c("comp_prot_child_sep_cat", "comp_prot_score_concern")),
-      na.rm = TRUE
     )
   )
 
