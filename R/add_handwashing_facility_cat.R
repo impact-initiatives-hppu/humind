@@ -15,10 +15,6 @@
 #' @param facility_observed_water Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water").
 #' @param facility_observed_water_yes Response code indicating water is available.
 #' @param facility_observed_water_no Response code indicating water is not available.
-#' @param facility_observed_soap Column name for observed soap availability (e.g., "wash_handwashing_facility_observed_soap").
-#' @param facility_observed_soap_yes Response code indicating soap is available.
-#' @param facility_observed_soap_no Response code indicating soap is not available.
-#' @param facility_observed_soap_alternative Response code for alternative cleaning agents.
 #' @param facility_reported Column name for reported handwashing facilities (e.g., "wash_handwashing_facility_reported").
 #' @param facility_reported_yes Response codes indicating reported availability (e.g., "fixed_dwelling", "fixed_yard", "mobile").
 #' @param facility_reported_no Response code indicating reported unavailability (e.g., "none").
@@ -56,10 +52,6 @@ add_handwashing_facility_cat <- function(
   facility_observed_water = "wash_handwashing_facility_observed_water",
   facility_observed_water_yes = "water_available",
   facility_observed_water_no = "water_not_available",
-  facility_observed_soap = "wash_handwashing_facility_observed_soap",
-  facility_observed_soap_yes = "soap_available",
-  facility_observed_soap_no = "soap_not_available",
-  facility_observed_soap_alternative = "alternative_available",
   facility_reported = "wash_handwashing_facility_reported",
   facility_reported_yes = c("fixed_dwelling", "fixed_yard", "mobile"),
   facility_reported_no = c("none"),
@@ -85,13 +77,12 @@ add_handwashing_facility_cat <- function(
   #------ Checks
 
   # Check that variables are in df
-  if_not_in_stop(df, c(survey_modality, facility, facility_observed_water, facility_observed_soap, facility_reported, facility_reported_no_permission_soap, facility_reported_no_permission_soap_type, facility_reported_remote_soap, facility_reported_remote_soap_type), "df")
+  if_not_in_stop(df, c(survey_modality, facility, facility_observed_water, facility_reported, facility_reported_no_permission_soap, facility_reported_no_permission_soap_type, facility_reported_remote_soap, facility_reported_remote_soap_type), "df")
 
   # Checks that values are in set
   are_values_in_set(df, survey_modality, c(survey_modality_in_person, survey_modality_remote))
   are_values_in_set(df, facility, c(facility_yes, facility_no, facility_no_permission, facility_undefined))
   are_values_in_set(df, facility_observed_water, c(facility_observed_water_yes, facility_observed_water_no))
-  are_values_in_set(df, facility_observed_soap, c(facility_observed_soap_yes, facility_observed_soap_no, facility_observed_soap_alternative))
   are_values_in_set(df, facility_reported, c(facility_reported_yes, facility_reported_no, facility_reported_undefined))
   are_values_in_set(df, facility_reported_no_permission_soap, c(facility_reported_no_permission_soap_yes, facility_reported_no_permission_soap_no, facility_reported_no_permission_soap_undefined))
   are_values_in_set(df, facility_reported_no_permission_soap_type, c(facility_reported_no_permission_soap_type_yes, facility_reported_no_permission_soap_type_no, facility_reported_no_permission_soap_type_undefined))
@@ -114,10 +105,6 @@ add_handwashing_facility_cat <- function(
   # - length of facility_undefined
   if (length(facility_undefined) != 1) {
     rlang::abort("facility_undefined should be of length 1.")
-  }
-  # - length 1 of facility_observed_soap_yes
-  if (length(facility_observed_soap_yes) != 1) {
-    rlang::abort("facility_observed_soap_yes should be of length 1.")
   }
   # - length 1 of facility
 
