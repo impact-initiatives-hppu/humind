@@ -30,7 +30,7 @@
 #' @param lighting_source_undefined Vector of undefined responses for lighting source
 #'
 #' @return A data frame with additional columns:
-#' 
+#'
 #' * snfi_fds_cooking: Standardized categories for cooking tasks
 #' * snfi_fds_sleeping: Standardized categories for sleeping tasks
 #' * snfi_fds_storing: Standardized categories for storing tasks
@@ -44,11 +44,10 @@
 add_fds_cannot_cat <- function(
     df,
     fds_cooking = "snfi_fds_cooking",
-    fds_cooking_cannot = "no_cannot",
-    fds_cooking_can_issues = "yes_issues",
-    fds_cooking_can_no_issues = "yes_no_issues",
-    fds_cooking_no_need = "no_no_need",
-    fds_cooking_undefined = c("pnta", "dnk"),
+    fds_cooking_yes = "yes",
+    fds_cooking_no = "no",
+    fds_cooking_no_need = "no_need",
+    fds_cooking_undefined = "pnta",
     fds_sleeping = "snfi_fds_sleeping",
     fds_sleeping_cannot = "no_cannot",
     fds_sleeping_can_issues = "yes_issues",
@@ -75,7 +74,7 @@ add_fds_cannot_cat <- function(
   if_not_in_stop(df, c(fds_cooking, fds_sleeping, fds_storing, fds_personal_hygiene, lighting_source), "df")
 
   # Check if values are in set
-  are_values_in_set(df, fds_cooking, c(fds_cooking_cannot, fds_cooking_can_issues, fds_cooking_can_no_issues, fds_cooking_no_need, fds_cooking_undefined))
+  are_values_in_set(df, fds_cooking, c(fds_cooking, fds_cooking_yes, fds_cooking_no, fds_cooking_no_need, fds_cooking_undefined))
   are_values_in_set(df, fds_sleeping, c(fds_sleeping_cannot, fds_sleeping_can_issues, fds_sleeping_can_no_issues, fds_sleeping_undefined))
   are_values_in_set(df, fds_storing, c(fds_storing_cannot, fds_storing_can_issues, fds_storing_can_no_issues, fds_storing_undefined))
   are_values_in_set(df, fds_personal_hygiene, c(fds_personal_hygiene_cannot, fds_personal_hygiene_can_issues, fds_personal_hygiene_can_no_issues, fds_personal_hygiene_undefined))
@@ -100,11 +99,10 @@ add_fds_cannot_cat <- function(
   df <- dplyr::mutate(
       df,
       snfi_fds_cooking = dplyr::case_when(
+        !!rlang::sym(fds_cooking) == fds_cooking_yes ~ "yes",
         !!rlang::sym(fds_cooking) == fds_cooking_cannot ~ "no_cannot",
-        !!rlang::sym(fds_cooking) == fds_cooking_can_issues ~ "yes_issues",
-        !!rlang::sym(fds_cooking) == fds_cooking_can_no_issues ~ "yes_no_issues",
         !!rlang::sym(fds_cooking) == fds_cooking_no_need ~ "no_no_need",
-        !!rlang::sym(fds_cooking) %in% fds_cooking_undefined ~ "undefined",
+        !!rlang::sym(fds_cooking) == fds_cooking_undefined ~ "undefined",
         .default = NA_character_
       ),
       snfi_fds_sleeping = dplyr::case_when(
@@ -143,7 +141,7 @@ add_fds_cannot_cat <- function(
       c("snfi_fds_cooking", "snfi_fds_sleeping", "snfi_fds_storing", "snfi_fds_personal_hygiene"),
       \(x) dplyr::case_when(
         x == "no_cannot" ~ 1,
-        x %in% c("yes_issues", "yes_no_issues", "no_no_need") ~ 0,
+        x %in% c("yes", "no_no_need") ~ 0,
         .default = NA_real_
       ),
       .names = "{.col}_d"
