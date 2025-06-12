@@ -11,7 +11,7 @@
 #' @param sep Separator for the binary columns.
 #'
 #' @return A data frame with additional columns:
-#' 
+#'
 #' * snfi_shelter_issue_n: Count of shelter issues.
 #' * snfi_shelter_issue_cat: Categorized shelter issues: "none", "undefined", "other", "1_to_3", "4_to_6", or "7_to_8".
 #'
@@ -20,7 +20,7 @@ add_shelter_issue_cat <- function(
     df,
     shelter_issue = "snfi_shelter_issue",
     none = "none",
-    issues = c("lack_privacy", "lack_space", "temperature", "ventilation", "leak", "lock", "lack_lighting", "difficulty_move"),
+    issues = c("lack_privacy", "lack_space", "temperature", "ventilation", "vectors", "no_natural_light", "leak", "lock", "lack_lighting", "difficulty_move", "lack_space_laundry"),
     undefined = c("dnk", "pnta"),
     other = c("other"),
     sep = "/"){
