@@ -5,8 +5,8 @@
 #'
 #' @param df A data frame containing the input columns
 #' @param fds_cooking Column name for cooking tasks
-#' @param fds_cooking_cannot Value for cannot perform cooking tasks
-#' @param fds_cooking_can Value for can perform cooking tasks
+#' @param fds_cooking_cannot Value for facing issues when cooking
+#' @param fds_cooking_can Value for can perform cooking tasks without issues
 #' @param fds_cooking_no_need Value for no need to perform cooking tasks
 #' @param fds_cooking_undefined Vector of undefined responses for cooking tasks
 #' @param fds_sleeping Column name for sleeping tasks
@@ -35,8 +35,8 @@
 add_fds_cannot_cat <- function(
     df,
     fds_cooking = "snfi_fds_cooking",
-    fds_cooking_can = "yes",
-    fds_cooking_cannot = "no",
+    fds_cooking_can = "no",
+    fds_cooking_cannot = "yes",
     fds_cooking_no_need = "no_need",
     fds_cooking_undefined = "pnta",
     fds_sleeping = "snfi_fds_sleeping",
