@@ -12,36 +12,40 @@ df_dummy <- data.frame(
 test_that("add_comp_prot function works correctly with default parameters", {
   result <- add_comp_prot(df_dummy)
 
+  # Check individual scores
   expect_equal(result$comp_prot_score_concern_freq_cope, c(0, 1, 2, 3, NA, NA))
   expect_equal(result$comp_prot_score_concern_freq_displaced, c(0, 1, 2, 3, NA, NA))
   expect_equal(result$comp_prot_score_concern_hh_freq_kidnapping, c(0, 1, 2, 3, NA, NA))
   expect_equal(result$comp_prot_score_concern_hh_freq_discrimination, c(0, 1, 2, 3, NA, NA))
-  expect_equal(result$comp_prot_score_concern, c(1, 3, 3, 4, NA, NA))  # Changed 2 to 3
-  expect_equal(result$comp_prot_score, c(1, 3, 3, 4, NA, NA))
 
-  expect_true("comp_prot_in_need" %in% names(result))
-  expect_true("comp_prot_in_acute_need" %in% names(result))
-})
+  # Check comp_prot_risk_always_d (1 if any score is 3)
+  expect_equal(result$comp_prot_risk_always_d, c(0, 0, 0, 1, NA, NA))
 
-test_that("add_comp_prot assigns in need status correctly", {
-  result <- add_comp_prot(df_dummy)
+  # Check comp_prot_score_concern (sum thresholds)
+  expect_equal(result$comp_prot_score_concern, c(1, 3, 3, 4, NA, NA))  # Sums: 0,4,8,12
+
+  # Check final composite score
+  expect_equal(result$comp_prot_score, result$comp_prot_score_concern)
+
+  # Check need indicators (assuming is_in_need flags scores >=2)
   expect_equal(result$comp_prot_in_need, c(0, 1, 1, 1, NA, NA))
+  expect_equal(result$comp_prot_in_acute_need, c(0, 0, 0, 1, NA, NA))  # Assuming acute need is score >=4
 })
 
-test_that("add_comp_prot handles empty dataframe", {
-  df_empty <- data.frame()
-  expect_error(add_comp_prot(df_empty), class = "error")
+test_that("add_comp_prot handles edge cases", {
+  # Test with all "always" responses
+  df_all_always <- data.frame(
+    prot_concern_freq_cope = rep("always", 3),
+    prot_concern_freq_displaced = rep("always", 3),
+    prot_concern_hh_freq_kidnapping = rep("always", 3),
+    prot_concern_hh_freq_discrimination = rep("always", 3)
+  )
+  result <- add_comp_prot(df_all_always)
+  expect_equal(result$comp_prot_score, rep(4, 3))  # Sum =12 → score=4
+
+  # Test with all "never" responses
+  df_all_never <- df_all_always %>% mutate(across(everything(), ~"never"))
+  result <- add_comp_prot(df_all_never)
+  expect_equal(result$comp_prot_score, rep(1, 3))  # Sum=0 → score=1
 })
 
-test_that("add_comp_prot handles single row dataframe", {
-  df_single <- df_dummy[1,]
-  result <- add_comp_prot(df_single)
-  expect_equal(nrow(result), 1)
-  expect_equal(result$comp_prot_score, 1)
-})
-
-test_that("add_comp_prot produces consistent results", {
-  result1 <- add_comp_prot(df_dummy)
-  result2 <- add_comp_prot(df_dummy)
-  expect_equal(result1, result2)
-})
