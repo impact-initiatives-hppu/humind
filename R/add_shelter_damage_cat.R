@@ -23,10 +23,7 @@ add_shelter_damage_cat <- function(
     snfi_shelter_damage_damaged = c("minor", "damage_windows_doors", "damage_floors", "damage_walls"),
     snfi_shelter_damage_part = "major",
     snfi_shelter_damage_total = "total_collapse",
-    snfi_shelter_damage_undefined = c("dnk", "pnta", "other")
-
-) {
-
+    snfi_shelter_damage_undefined = c("dnk", "pnta", "other")) {
   #------ Checks
 
   # Check if the variable is in the data frame
@@ -50,5 +47,4 @@ add_shelter_damage_cat <- function(
   )
 
   return(df)
-
 }

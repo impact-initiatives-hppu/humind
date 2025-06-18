@@ -5,13 +5,13 @@ library(dplyr)
 # Example test data covering all categories
 test_df <- data.frame(
   snfi_shelter_damage = c(
-    "none",                 # No damage
-    "minor",                # Damaged
+    "none", # No damage
+    "minor", # Damaged
     "damage_windows_doors", # Damaged
-    "major",                # Partial collapse
-    "total_collapse",       # Total collapse
-    "dnk",                  # Undefined
-    "other"                 # Undefined
+    "major", # Partial collapse
+    "total_collapse", # Total collapse
+    "dnk", # Undefined
+    "other" # Undefined
   ),
   stringsAsFactors = FALSE
 )
