@@ -129,7 +129,7 @@ add_comp_prot <- function(
   # Compute final concern score
   df <- dplyr::mutate(
     df,
-    comp_prot_score = dplyr::case_when(
+    comp_prot_score_concern = dplyr::case_when(
       comp_prot_score_concern >= 9 ~ 4,
       comp_prot_score_concern >= 4 ~ 3,
       comp_prot_risk_always_d == 1 ~ 3,
@@ -137,6 +137,14 @@ add_comp_prot <- function(
       comp_prot_score_concern >= 0 ~ 1,
       .default = NA_real_
     )
+  )
+
+
+  # Get the score for protection
+  # Compute total score = comp_prot_score_concern
+  df <- dplyr::mutate(
+    df,
+    comp_prot_score = comp_prot_score_concern
   )
 
   # Is in need?
