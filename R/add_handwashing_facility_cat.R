@@ -87,9 +87,10 @@ add_handwashing_facility_cat <- function(
     rlang::abort("facility_no_permission should be of length 1.")
   }
   # - length of facility_undefined
-  if (length(facility_undefined) != 1) {
-    rlang::abort("facility_undefined should be of length 1.")
+  if (length(facility_undefined) < 1) {
+    rlang::abort("facility_undefined must contain at least one valid response code.")
   }
+
 
 
 df <- dplyr::mutate(
