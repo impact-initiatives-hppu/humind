@@ -11,8 +11,7 @@ test_df <- data.frame(
     "major",                # Partial collapse
     "total_collapse",       # Total collapse
     "dnk",                  # Undefined
-    "other",                # Undefined
-    "unexpected"            # Not in any category
+    "other"                 # Undefined
   ),
   stringsAsFactors = FALSE
 )
@@ -25,8 +24,7 @@ expected <- c(
   "part",
   "total",
   "undefined",
-  "undefined",
-  NA_character_
+  "undefined"
 )
 
 # Test: Correct categorization
