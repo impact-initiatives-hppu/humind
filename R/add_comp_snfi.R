@@ -33,7 +33,7 @@
 #' @param tenure_security_low_risk Level for low risk with security of tenure.
 #' @param tenure_security_undefined Level for undefined with security of tenure.
 #' @param fds_cannot_cat Column name for fds cannot.
-#' @param fds_cannot_cat_4_to_5 Level for 4 to 5 tasks that cannot be done.
+#' @param fds_cannot_cat_4 Level for 4 tasks that cannot be done.
 #' @param fds_cannot_cat_2_to_3 Level for 2 to 3 tasks that cannot be done.
 #' @param fds_cannot_cat_1 Level for 1 task that cannot be done.
 #' @param fds_cannot_cat_none Level for no tasks that cannot be done.
@@ -104,7 +104,7 @@ add_comp_snfi <- function(
   shelter_type_cat_levels <- c(shelter_type_cat_none, shelter_type_cat_inadequate, shelter_type_cat_adequate, shelter_type_cat_undefined)
   shelter_issue_cat_levels <- c(shelter_issue_cat_7_to_8, shelter_issue_cat_4_to_6, shelter_issue_cat_1_to_3, shelter_issue_cat_none, shelter_issue_cat_undefined, shelter_issue_cat_other)
   tenure_security_cat_levels <- c(tenure_security_cat_high_risk, tenure_security_cat_medium_risk, tenure_security_cat_low_risk, tenure_security_cat_undefined)
-  fds_cannot_cat_levels <- c(fds_cannot_cat_4_to_5, fds_cannot_cat_2_to_3, fds_cannot_cat_1, fds_cannot_cat_none, fds_cannot_cat_undefined)
+  fds_cannot_cat_levels <- c(fds_cannot_cat_4, fds_cannot_cat_2_to_3, fds_cannot_cat_1, fds_cannot_cat_none, fds_cannot_cat_undefined)
 
   # Only check shelter damage levels if shelter_damage = TRUE
   if (shelter_damage) {
