@@ -75,7 +75,7 @@ add_comp_snfi <- function(
     tenure_security_cat_low_risk = "low_risk",
     tenure_security_cat_undefined = "undefined",
     fds_cannot_cat = "snfi_fds_cannot_cat",
-    fds_cannot_cat_4_to_5 = "4_to_5_tasks",
+    fds_cannot_cat_4 = "4_tasks",
     fds_cannot_cat_2_to_3 = "2_to_3_tasks",
     fds_cannot_cat_1 = "1_task",
     fds_cannot_cat_none = "none",
@@ -172,7 +172,7 @@ add_comp_snfi <- function(
   df <- dplyr::mutate(
     df,
     comp_snfi_score_fds_cannot_cat = dplyr::case_when(
-      !!rlang::sym(fds_cannot_cat) == fds_cannot_cat_4_to_5 ~ 4,
+      !!rlang::sym(fds_cannot_cat) == fds_cannot_cat_4 ~ 4,
       !!rlang::sym(fds_cannot_cat) == fds_cannot_cat_2_to_3 ~ 3,
       !!rlang::sym(fds_cannot_cat) == fds_cannot_cat_1 ~ 2,
       !!rlang::sym(fds_cannot_cat) == fds_cannot_cat_none ~ 1,
