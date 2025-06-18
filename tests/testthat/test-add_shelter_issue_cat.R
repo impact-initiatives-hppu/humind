@@ -1,116 +1,46 @@
+# Load testthat
 library(testthat)
-library(dplyr)
-library(tibble)
 
-test_that("add_shelter_issue_cat works with default parameters", {
-  df <- tibble::tibble(
-    snfi_shelter_issue = c("temperature", "ventilation", "leak", "lack_privacy", "none"),
-    'snfi_shelter_issue/temperature' = c(1, 0, 0, 0, 0),
-    'snfi_shelter_issue/ventilation' = c(0, 1, 0, 0, 0),
-    'snfi_shelter_issue/leak' = c(0, 0, 1, 0, 0),
-    'snfi_shelter_issue/lack_privacy' = c(0, 0, 0, 1, 0),
-    'snfi_shelter_issue/lack_space' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/lock' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/lack_lighting' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/difficulty_move' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/dnk' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/pnta' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/other' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/none' = c(0, 0, 0, 0, 1)
-  )
+# ---- Test Data ----
+test_df <- data.frame(
+  snfi_shelter_issue = rep(NA, 6),
+  snfi_shelter_issue_lack_privacy       = c(1, 0, 0, 0, 0, 0),
+  snfi_shelter_issue_lack_space         = c(0, 1, 0, 0, 0, 0),
+  snfi_shelter_issue_temperature        = c(0, 1, 1, 0, 0, 0),
+  snfi_shelter_issue_ventilation        = c(0, 0, 1, 0, 0, 0),
+  snfi_shelter_issue_vectors            = c(0, 0, 0, 1, 0, 0),
+  snfi_shelter_issue_no_natural_light   = c(0, 0, 0, 0, 1, 0),
+  snfi_shelter_issue_leak               = c(0, 0, 0, 0, 0, 1),
+  snfi_shelter_issue_lock               = c(0, 0, 0, 0, 0, 0),
+  snfi_shelter_issue_lack_lighting      = c(0, 0, 0, 0, 0, 0),
+  snfi_shelter_issue_difficulty_move    = c(0, 0, 0, 0, 0, 0),
+  snfi_shelter_issue_lack_space_laundry = c(0, 0, 0, 0, 0, 0),
+  snfi_shelter_issue_none               = c(0, 0, 0, 0, 0, 1),
+  snfi_shelter_issue_dnk                = c(0, 0, 0, 1, 0, 0),
+  snfi_shelter_issue_pnta               = c(0, 0, 0, 0, 1, 0),
+  snfi_shelter_issue_other              = c(0, 0, 1, 0, 0, 0)
+)
 
-  df_result <- add_shelter_issue_cat(df)
-  expect_equal(df_result$snfi_shelter_issue_n, c(1, 1, 1, 1, 0))
-  expect_equal(df_result$snfi_shelter_issue_cat, c("1_to_3", "1_to_3", "1_to_3", "1_to_3", "none"))
+# ---- Run the function ----
+result <- add_shelter_issue_cat(
+  df = test_df,
+  shelter_issue = "snfi_shelter_issue",
+  none = "none",
+  issues = c("lack_privacy", "lack_space", "temperature", "ventilation", "vectors",
+             "no_natural_light", "leak", "lock", "lack_lighting", "difficulty_move",
+             "lack_space_laundry"),
+  undefined = c("dnk", "pnta"),
+  other = c("other"),
+  sep = "_"
+)
+
+# ---- Unit Tests ----
+test_that("snfi_shelter_issue_n is calculated correctly", {
+  expect_equal(result$snfi_shelter_issue_n, c(1, 2, NA, NA, NA, 0))
 })
 
-test_that("add_shelter_issue_cat handles NA values", {
-  df <- tibble::tibble(
-    snfi_shelter_issue = c("temperature", "ventilation", "leak", "lack_privacy", "none"),
-    'snfi_shelter_issue/temperature' = c(1, 0, NA, 0, 0),
-    'snfi_shelter_issue/ventilation' = c(0, 1, 0, NA, 0),
-    'snfi_shelter_issue/leak' = c(0, 0, 1, 0, NA),
-    'snfi_shelter_issue/lack_privacy' = c(0, NA, 0, 1, 0),
-    'snfi_shelter_issue/lack_space' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/lock' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/lack_lighting' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/difficulty_move' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/dnk' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/pnta' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/other' = c(0, 0, 0, 0, 0),
-    'snfi_shelter_issue/none' = c(NA, 0, 0, 0, 1)
-  )
-
-  df_result <- add_shelter_issue_cat(df)
-  expect_equal(df_result$snfi_shelter_issue_n, c(1, 1, 1, 1, 0))
-  expect_equal(df_result$snfi_shelter_issue_cat, c("1_to_3", "1_to_3", "1_to_3", "1_to_3", "none"))
+test_that("snfi_shelter_issue_cat is categorized correctly", {
+  expect_equal(result$snfi_shelter_issue_cat,
+               c("1_to_3", "1_to_3", "other", "undefined", "undefined", "none"))
 })
 
-test_that("add_shelter_issue_cat handles undefined values", {
-  df <- tibble::tibble(
-    snfi_shelter_issue = c("pnta", "lack_space", "temperature", "ventilation", "leak", "lock", "lack_lighting", "difficulty_move", "dnk", "other", "none"),
-    'snfi_shelter_issue/lack_space' = c(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/temperature' = c(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/ventilation' = c(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/leak' = c(0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/lock' = c(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/lack_lighting' = c(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
-    'snfi_shelter_issue/difficulty_move' = c(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-    'snfi_shelter_issue/dnk' = c(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
-    'snfi_shelter_issue/other' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-    'snfi_shelter_issue/none' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-    'snfi_shelter_issue/lack_privacy' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/pnta' = c(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-
-
-  )
-
-  df_result <- add_shelter_issue_cat(df)
-  expect_equal(df_result$snfi_shelter_issue_n[1], NA_real_)
-  expect_equal(df_result$snfi_shelter_issue_cat[1], "undefined")
-})
-
-test_that("add_shelter_issue_cat handles multiple issues", {
-  df <- tibble::tibble(
-    snfi_shelter_issue = c("temperature,leak", "lack_space", "temperature", "ventilation", "leak", "lock", "lack_lighting", "difficulty_move", "dnk", "pnta", "other", "none"),
-    'snfi_shelter_issue/lack_space' = c(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/temperature' = c(1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/ventilation' = c(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/leak' = c(1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/lock' = c(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/lack_lighting' = c(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/difficulty_move' = c(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
-    'snfi_shelter_issue/dnk' = c(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-    'snfi_shelter_issue/pnta' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
-    'snfi_shelter_issue/other' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-    'snfi_shelter_issue/none' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-    'snfi_shelter_issue/lack_privacy' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-  )
-
-  df_result <- add_shelter_issue_cat(df)
-  expect_equal(df_result$snfi_shelter_issue_n[1], 2)
-  expect_equal(df_result$snfi_shelter_issue_cat[1], "1_to_3")
-})
-
-test_that("add_shelter_issue_cat handles none values correctly", {
-  df <- tibble::tibble(
-    snfi_shelter_issue = c("lack_privacy", "none", "temperature", "ventilation", "leak", "lock", "lack_lighting", "difficulty_move", "dnk", "pnta", "other"),
-    'snfi_shelter_issue/lack_privacy' = c(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/temperature' = c(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/ventilation' = c(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/leak' = c(0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/lock' = c(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/lack_lighting' = c(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
-    'snfi_shelter_issue/difficulty_move' = c(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-    'snfi_shelter_issue/dnk' = c(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
-    'snfi_shelter_issue/pnta' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-    'snfi_shelter_issue/other' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-    'snfi_shelter_issue/none' = c(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    'snfi_shelter_issue/lack_space' = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-
-  )
-
-  df_result <- add_shelter_issue_cat(df)
-  expect_equal(df_result$snfi_shelter_issue_n[2], 0)
-  expect_equal(df_result$snfi_shelter_issue_cat[2], "none")
-})
