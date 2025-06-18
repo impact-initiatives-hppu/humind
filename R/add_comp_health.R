@@ -5,9 +5,9 @@
 #' It considers whether individuals needed healthcare, whether they accessed it if needed,
 #' and optionally takes into account disability status. The function then determines if a
 #' household is in need or in acute need of health assistance based on the calculated score.
-#' 
+#'
 #' Prerequisite functions:
-#' 
+#'
 #' * add_loop_healthcare_needed_cat.R
 #' * add_loop_wgq_ss.R - if WG-SS data collected
 #'
@@ -22,7 +22,7 @@
 #' @param ind_healthcare_needed_yes_met_wgq_dis_n Column name for the number of individuals who needed to access healthcare and did and have a disability.
 #'
 #' @return A data frame with additional columns:
-#' 
+#'
 #' * comp_health_score: Health composite score (1-4)
 #' * comp_health_in_need: Binary indicator for being in need of health assistance
 #' * comp_health_in_acute_need: Binary indicator for being in acute need of health assistance
@@ -78,8 +78,8 @@ add_comp_health <- function(
         !!rlang::sym(ind_healthcare_needed_yes_unmet_wgq_dis_n) > 0 ~ 4,
         !!rlang::sym(ind_healthcare_needed_yes_unmet_n) > 0 ~ 3,
         !!rlang::sym(ind_healthcare_needed_yes_met_wgq_dis_n) > 0 ~ 3,
-        !!rlang::sym(ind_healthcare_needed_yes_met_n) > 0 ~ 2,
         !!rlang::sym(ind_healthcare_needed_no_wgq_dis_n) > 0 ~ 3,
+        !!rlang::sym(ind_healthcare_needed_yes_met_n) > 0 ~ 2,
         !!rlang::sym(ind_healthcare_needed_no_n) > 0 ~ 1,
         .default = NA_real_
       )
