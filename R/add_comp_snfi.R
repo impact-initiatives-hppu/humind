@@ -55,45 +55,45 @@
 #' * comp_snfi_in_acute_need: Indicator for being in acute need
 #'
 #' @export
-add_comp_snfi <- function(
-    df,
-    shelter_type_cat = "snfi_shelter_type_cat",
-    shelter_type_cat_none = "none",
-    shelter_type_cat_inadequate = "inadequate",
-    shelter_type_cat_adequate = "adequate",
-    shelter_type_cat_undefined = "undefined",
-    shelter_issue_cat = "snfi_shelter_issue_cat",
-    shelter_issue_cat_7_to_8 = "7_to_8",
-    shelter_issue_cat_4_to_6 = "4_to_6",
-    shelter_issue_cat_1_to_3 = "1_to_3",
-    shelter_issue_cat_none = "none",
-    shelter_issue_cat_undefined = "undefined",
-    shelter_issue_cat_other = "other",
-    tenure_security_cat = "hlp_occupancy_cat",
-    tenure_security_cat_high_risk = "high_risk",
-    tenure_security_cat_medium_risk = "medium_risk",
-    tenure_security_cat_low_risk = "low_risk",
-    tenure_security_cat_undefined = "undefined",
-    fds_cannot_cat = "snfi_fds_cannot_cat",
-    fds_cannot_cat_4 = "4_tasks",
-    fds_cannot_cat_2_to_3 = "2_to_3_tasks",
-    fds_cannot_cat_1 = "1_task",
-    fds_cannot_cat_none = "none",
-    fds_cannot_cat_undefined = "undefined",
-    shelter_damage = FALSE,
-    shelter_damage_cat = "snfi_shelter_damage_cat",
-    shelter_damage_cat_none = "none",
-    shelter_damage_cat_damaged = "damaged",
-    shelter_damage_cat_part = "part",
-    shelter_damage_cat_total = "total",
-    shelter_damage_cat_undefined = "undefined"
-
-){
-
+add_comp_snfi <- function(df,
+                          shelter_type_cat = "snfi_shelter_type_cat",
+                          shelter_type_cat_none = "none",
+                          shelter_type_cat_inadequate = "inadequate",
+                          shelter_type_cat_adequate = "adequate",
+                          shelter_type_cat_undefined = "undefined",
+                          shelter_issue_cat = "snfi_shelter_issue_cat",
+                          shelter_issue_cat_7_to_8 = "7_to_8",
+                          shelter_issue_cat_4_to_6 = "4_to_6",
+                          shelter_issue_cat_1_to_3 = "1_to_3",
+                          shelter_issue_cat_none = "none",
+                          shelter_issue_cat_undefined = "undefined",
+                          shelter_issue_cat_other = "other",
+                          tenure_security_cat = "hlp_occupancy_cat",
+                          tenure_security_cat_high_risk = "high_risk",
+                          tenure_security_cat_medium_risk = "medium_risk",
+                          tenure_security_cat_low_risk = "low_risk",
+                          tenure_security_cat_undefined = "undefined",
+                          fds_cannot_cat = "snfi_fds_cannot_cat",
+                          fds_cannot_cat_4 = "4_tasks",
+                          fds_cannot_cat_2_to_3 = "2_to_3_tasks",
+                          fds_cannot_cat_1 = "1_task",
+                          fds_cannot_cat_none = "none",
+                          fds_cannot_cat_undefined = "undefined",
+                          shelter_damage = FALSE,
+                          shelter_damage_cat = "snfi_shelter_damage_cat",
+                          shelter_damage_cat_none = "none",
+                          shelter_damage_cat_damaged = "damaged",
+                          shelter_damage_cat_part = "part",
+                          shelter_damage_cat_total = "total",
+                          shelter_damage_cat_undefined = "undefined") {
   #----- Checks
 
   # Check that columns are in df
-  if_not_in_stop(df, c(shelter_type_cat, shelter_issue_cat, tenure_security_cat, fds_cannot_cat), "df")
+  if_not_in_stop(
+    df,
+    c(shelter_type_cat, shelter_issue_cat, tenure_security_cat, fds_cannot_cat),
+    "df"
+  )
 
   # Only check for shelter damage if shelter_damage = TRUE
   if (shelter_damage) {
@@ -101,20 +101,49 @@ add_comp_snfi <- function(
   }
 
   # Create levels vectors
-  shelter_type_cat_levels <- c(shelter_type_cat_none, shelter_type_cat_inadequate, shelter_type_cat_adequate, shelter_type_cat_undefined)
-  shelter_issue_cat_levels <- c(shelter_issue_cat_7_to_8, shelter_issue_cat_4_to_6, shelter_issue_cat_1_to_3, shelter_issue_cat_none, shelter_issue_cat_undefined, shelter_issue_cat_other)
-  tenure_security_cat_levels <- c(tenure_security_cat_high_risk, tenure_security_cat_medium_risk, tenure_security_cat_low_risk, tenure_security_cat_undefined)
-  fds_cannot_cat_levels <- c(fds_cannot_cat_4, fds_cannot_cat_2_to_3, fds_cannot_cat_1, fds_cannot_cat_none, fds_cannot_cat_undefined)
+  shelter_type_cat_levels <- c(
+    shelter_type_cat_none,
+    shelter_type_cat_inadequate,
+    shelter_type_cat_adequate,
+    shelter_type_cat_undefined
+  )
+  shelter_issue_cat_levels <- c(
+    shelter_issue_cat_7_to_8,
+    shelter_issue_cat_4_to_6,
+    shelter_issue_cat_1_to_3,
+    shelter_issue_cat_none,
+    shelter_issue_cat_undefined,
+    shelter_issue_cat_other
+  )
+  tenure_security_cat_levels <- c(
+    tenure_security_cat_high_risk,
+    tenure_security_cat_medium_risk,
+    tenure_security_cat_low_risk,
+    tenure_security_cat_undefined
+  )
+  fds_cannot_cat_levels <- c(
+    fds_cannot_cat_4,
+    fds_cannot_cat_2_to_3,
+    fds_cannot_cat_1,
+    fds_cannot_cat_none,
+    fds_cannot_cat_undefined
+  )
 
   # Only check shelter damage levels if shelter_damage = TRUE
   if (shelter_damage) {
-    shelter_damage_cat_levels <- c(shelter_damage_cat_none, shelter_damage_cat_damaged, shelter_damage_cat_part, shelter_damage_cat_total, shelter_damage_cat_undefined)
-    }
+    shelter_damage_cat_levels <- c(
+      shelter_damage_cat_none,
+      shelter_damage_cat_damaged,
+      shelter_damage_cat_part,
+      shelter_damage_cat_total,
+      shelter_damage_cat_undefined
+    )
+  }
 
   # Checks that shelter_type_cat are in levels
   are_values_in_set(df, shelter_type_cat, shelter_type_cat_levels)
 
-  #Checks that shelter issues are in levels
+  # Checks that shelter issues are in levels
   are_values_in_set(df, shelter_issue_cat, shelter_issue_cat_levels)
 
   # Checks that tenure security cat are in levels
@@ -125,7 +154,7 @@ add_comp_snfi <- function(
 
   # Check that shelter_damage_cat are in levels
   if (shelter_damage) {
-  are_values_in_set(df, shelter_damage_cat, shelter_damage_cat_levels)
+    are_values_in_set(df, shelter_damage_cat, shelter_damage_cat_levels)
   }
 
   #----- Recode
@@ -163,7 +192,8 @@ add_comp_snfi <- function(
       !!rlang::sym(tenure_security_cat) == tenure_security_cat_high_risk ~ 3,
       !!rlang::sym(tenure_security_cat) == tenure_security_cat_medium_risk ~ 2,
       !!rlang::sym(tenure_security_cat) == tenure_security_cat_low_risk ~ 1,
-      !!rlang::sym(tenure_security_cat) == tenure_security_cat_undefined ~ NA_real_,
+      !!rlang::sym(tenure_security_cat) == tenure_security_cat_undefined ~
+        NA_real_,
       .default = NA_real_
     )
   )
@@ -183,19 +213,19 @@ add_comp_snfi <- function(
 
   # Compute score for shelter damage
   if (shelter_damage) {
-  df <- dplyr::mutate(
-    df,
-    comp_snfi_score_shelter_damage_cat = dplyr::case_when(
-      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_total ~ 4,
-      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_part ~ 3,
-      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_damaged ~ 2,
-      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_none ~ 1,
-      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_undefined ~ NA_real_,
-      .default = NA_real_
+    df <- dplyr::mutate(
+      df,
+      comp_snfi_score_shelter_damage_cat = dplyr::case_when(
+        !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_total ~ 4,
+        !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_part ~ 3,
+        !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_damaged ~ 2,
+        !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_none ~ 1,
+        !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_undefined ~
+          NA_real_,
+        .default = NA_real_
+      )
     )
-  )
   }
-
 
   # Compute total score = max, only include shelter damage score if shelter_damage = TRUE
   comp_vars <- c(
@@ -205,7 +235,11 @@ add_comp_snfi <- function(
     "comp_snfi_score_tenure_security_cat"
   )
   if (shelter_damage) {
-    comp_vars <- append(comp_vars, "comp_snfi_score_shelter_damage_cat", after = 4)
+    comp_vars <- append(
+      comp_vars,
+      "comp_snfi_score_shelter_damage_cat",
+      after = 4
+    )
   }
 
   df <- dplyr::mutate(
@@ -215,7 +249,6 @@ add_comp_snfi <- function(
       na.rm = TRUE
     )
   )
-
 
   # Is in need?
   df <- is_in_need(
