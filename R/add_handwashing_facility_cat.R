@@ -15,7 +15,13 @@
 #' @param facility_observed_water Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water").
 #' @param facility_observed_water_yes Response code indicating water is available.
 #' @param facility_observed_water_no Response code indicating water is not available.
-#' @param facility_observed_water_undefined Response code indicating water is undefined.
+#' @param facility_observed_soap`: Column name for observed soap availability.
+#' @param facility_observed_soap_yes`: Response code indicating soap is available (observed).
+#' @param facility_observed_soap_no`: Response code indicating soap is not available (observed).
+#' @param facility_reported`: Column name for reported handwashing facility (used in remote/no-permission cases).
+#' @param facility_reported_yes`: Response codes indicating facility is available (reported).
+#' @param facility_reported_no`: Response codes indicating no facility is available (reported).
+#' @param facility_reported_undefined`: Response codes for undefined reported facility situations.
 #' @param facility_reported_water Column name for reported water availability under no permission or remote conditions.
 #' @param facility_reported_water_yes Response codes indicating water is available no permission conditions.
 #' @param facility_reported_water_no Response code indicating water is not reported under no permission or remote conditions.
@@ -44,7 +50,7 @@ add_handwashing_facility_cat <- function(
     facility_observed_soap = "wash_soap_observed",
     facility_observed_soap_yes = "yes_soap_shown",
     facility_observed_soap_no = "no",
-    facility_observed_undefined = c("other", "pnta"),
+    facility_observed_soap_undefined = c("other", "pnta"),
     facility_reported = "wash_handwashing_facility_reported",
     facility_reported_yes = c("fixed_dwelling", "fixed_yard", "mobile"),
     facility_reported_no = c("none"),
@@ -66,7 +72,7 @@ add_handwashing_facility_cat <- function(
   are_values_in_set(df, survey_modality, c(survey_modality_in_person, survey_modality_remote))
   are_values_in_set(df, facility, c(facility_yes, facility_no, facility_no_permission, facility_undefined))
   are_values_in_set(df, facility_observed_water, c(facility_observed_water_yes, facility_observed_water_no))
-  are_values_in_set(df, facility_observed_soap, c(facility_observed_soap_yes, facility_observed_soap_no, facility_observed_undefined))
+  are_values_in_set(df, facility_observed_soap, c(facility_observed_soap_yes, facility_observed_soap_no, facility_observed_soap_undefined))
   are_values_in_set(df, facility_reported, c(facility_reported_yes, facility_reported_no, facility_reported_undefined))
   are_values_in_set(df, facility_reported_water, c(facility_reported_water_yes, facility_reported_water_no, facility_reported_water_undefined))
   are_values_in_set(df, facility_reported_soap, c(facility_reported_soap_yes, facility_reported_soap_no, facility_reported_soap_undefined))
