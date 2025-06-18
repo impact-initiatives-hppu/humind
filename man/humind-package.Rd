@@ -14,6 +14,7 @@ This packages provides functions to compose usual humanitarian composite indicat
 Useful links:
 \itemize{
   \item \url{https://github.com/impact-initiatives-hppu/humind}
+  \item \url{https://impact-initiatives-hppu.github.io/humind/}
   \item Report bugs at \url{https://github.com/impact-initiatives-hppu/humind/issues}
 }
 

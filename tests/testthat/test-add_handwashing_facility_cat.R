@@ -2,7 +2,7 @@ library(testthat)
 library(dplyr)
 
 test_that("add_handwashing_facility_cat categorizes correctly", {
-  test_df <- tibble::tibble(
+  test_df <- dplyr::tibble(
     survey_modality = c("in_person", "in_person", "in_person", "in_person", "remote", "remote", "in_person", "in_person"),
     wash_handwashing_facility = c(
       "available_fixed_in_dwelling",
@@ -37,4 +37,3 @@ test_that("add_handwashing_facility_cat categorizes correctly", {
   result_df <- add_handwashing_facility_cat(test_df)
   expect_equal(result_df$wash_handwashing_facility_jmp_cat, expected)
 })
-
