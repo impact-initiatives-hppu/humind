@@ -32,88 +32,121 @@
 #'
 #' @export
 #'
-add_fds_cannot_cat <- function(
-    df,
-    fds_cooking = "snfi_fds_cooking",
-    fds_cooking_can = "no",
-    fds_cooking_cannot = "yes",
-    fds_cooking_no_need = "no_need",
-    fds_cooking_undefined = "pnta",
-    fds_sleeping = "snfi_fds_sleeping",
-    fds_sleeping_can = "yes",
-    fds_sleeping_cannot = "no",
-    fds_sleeping_undefined = "pnta",
-    fds_storing = "snfi_fds_storing",
-    fds_storing_cannot = "no",
-    fds_storing_can = c("yes_issues", "yes_no_issues"),
-    fds_storing_undefined = "pnta",
-    lighting_source = "energy_lighting_source",
-    lighting_source_none = "none",
-    lighting_source_undefined = c("pnta", "dnk")
-){
-
+add_fds_cannot_cat <- function(df,
+                               fds_cooking = "snfi_fds_cooking",
+                               fds_cooking_can = "no",
+                               fds_cooking_cannot = "yes",
+                               fds_cooking_no_need = "no_need",
+                               fds_cooking_undefined = "pnta",
+                               fds_sleeping = "snfi_fds_sleeping",
+                               fds_sleeping_can = "yes",
+                               fds_sleeping_cannot = "no",
+                               fds_sleeping_undefined = "pnta",
+                               fds_storing = "snfi_fds_storing",
+                               fds_storing_cannot = "no",
+                               fds_storing_can = c("yes_issues", "yes_no_issues"),
+                               fds_storing_undefined = "pnta",
+                               lighting_source = "energy_lighting_source",
+                               lighting_source_none = "none",
+                               lighting_source_undefined = c("pnta", "dnk")) {
   #------ Checks
 
   # Check if all columns are present
-  if_not_in_stop(df, c(fds_cooking, fds_sleeping, fds_storing, lighting_source), "df")
+  if_not_in_stop(
+    df,
+    c(fds_cooking, fds_sleeping, fds_storing, lighting_source),
+    "df"
+  )
 
   # Check if values are in set
-  are_values_in_set(df, fds_cooking, c(fds_cooking_can, fds_cooking_cannot, fds_cooking_no_need, fds_cooking_undefined))
-  are_values_in_set(df, fds_sleeping, c(fds_sleeping_cannot, fds_sleeping_can, fds_sleeping_undefined))
+  are_values_in_set(
+    df,
+    fds_cooking,
+    c(
+      fds_cooking_can,
+      fds_cooking_cannot,
+      fds_cooking_no_need,
+      fds_cooking_undefined
+    )
+  )
+  are_values_in_set(
+    df,
+    fds_sleeping,
+    c(fds_sleeping_cannot, fds_sleeping_can, fds_sleeping_undefined)
+  )
 
-  are_values_in_set(df, fds_storing, c(fds_storing_cannot, fds_storing_can, fds_storing_undefined))
+  are_values_in_set(
+    df,
+    fds_storing,
+    c(fds_storing_cannot, fds_storing_can, fds_storing_undefined)
+  )
 
   # Checks if all parameters that are not "undefined" are of length 1
-  if (length(fds_cooking_cannot) != 1) rlang::abort("fds_cooking_cannot must be of length 1")
-  if (length(fds_cooking_can) != 1) rlang::abort("fds_cooking_can must be of length 1")
-  if (length(fds_cooking_no_need) != 1) rlang::abort("fds_cooking_no_need must be of length 1")
-  if (length(fds_sleeping_cannot) != 1) rlang::abort("fds_sleeping_cannot must be of length 1")
-  if (length(fds_sleeping_can) != 1) rlang::abort("fds_sleeping_can must be of length 1")
-  if (length(lighting_source_none) != 1) rlang::abort("lighting_source_none must be of length 1")
+  if (length(fds_cooking_cannot) != 1) {
+    rlang::abort("fds_cooking_cannot must be of length 1")
+  }
+  if (length(fds_cooking_can) != 1) {
+    rlang::abort("fds_cooking_can must be of length 1")
+  }
+  if (length(fds_cooking_no_need) != 1) {
+    rlang::abort("fds_cooking_no_need must be of length 1")
+  }
+  if (length(fds_sleeping_cannot) != 1) {
+    rlang::abort("fds_sleeping_cannot must be of length 1")
+  }
+  if (length(fds_sleeping_can) != 1) {
+    rlang::abort("fds_sleeping_can must be of length 1")
+  }
+  if (length(lighting_source_none) != 1) {
+    rlang::abort("lighting_source_none must be of length 1")
+  }
 
   #----- Prepare dummy
   df <- dplyr::mutate(
-      df,
-      snfi_fds_cooking = dplyr::case_when(
-        !!rlang::sym(fds_cooking) == fds_cooking_can ~ "yes",
-        !!rlang::sym(fds_cooking) == fds_cooking_cannot ~ "no_cannot",
-        !!rlang::sym(fds_cooking) == fds_cooking_no_need ~ "no_no_need",
-        !!rlang::sym(fds_cooking) == fds_cooking_undefined ~ "undefined",
-        .default = NA_character_
-      ),
-      snfi_fds_sleeping = dplyr::case_when(
-        !!rlang::sym(fds_sleeping) == fds_sleeping_cannot ~ "no_cannot",
-        !!rlang::sym(fds_sleeping) == fds_sleeping_can ~ "yes",
-        !!rlang::sym(fds_sleeping) == fds_sleeping_undefined ~ "undefined",
-        .default = NA_character_
-      ),
-      snfi_fds_storing = dplyr::case_when(
-        !!rlang::sym(fds_storing) == fds_storing_cannot ~ "no_cannot",
-        !!rlang::sym(fds_storing) %in% fds_storing_can ~ "yes",
-        !!rlang::sym(fds_storing) == fds_storing_undefined ~ "undefined",
-        .default = NA_character_
-      ),
-      energy_lighting_source = dplyr::case_when(
-        is.na(!!rlang::sym(lighting_source)) ~ NA_character_,
-        !!rlang::sym(lighting_source) %in% lighting_source_undefined ~ "undefined",
-        !!rlang::sym(lighting_source) == lighting_source_none ~ "none",
-        .default = !!rlang::sym(lighting_source)
-      )
+    df,
+    snfi_fds_cooking = dplyr::case_when(
+      !!rlang::sym(fds_cooking) == fds_cooking_can ~ "yes",
+      !!rlang::sym(fds_cooking) == fds_cooking_cannot ~ "no_cannot",
+      !!rlang::sym(fds_cooking) == fds_cooking_no_need ~ "no_no_need",
+      !!rlang::sym(fds_cooking) == fds_cooking_undefined ~ "undefined",
+      .default = NA_character_
+    ),
+    snfi_fds_sleeping = dplyr::case_when(
+      !!rlang::sym(fds_sleeping) == fds_sleeping_cannot ~ "no_cannot",
+      !!rlang::sym(fds_sleeping) == fds_sleeping_can ~ "yes",
+      !!rlang::sym(fds_sleeping) == fds_sleeping_undefined ~ "undefined",
+      .default = NA_character_
+    ),
+    snfi_fds_storing = dplyr::case_when(
+      !!rlang::sym(fds_storing) == fds_storing_cannot ~ "no_cannot",
+      !!rlang::sym(fds_storing) %in% fds_storing_can ~ "yes",
+      !!rlang::sym(fds_storing) == fds_storing_undefined ~ "undefined",
+      .default = NA_character_
+    ),
+    energy_lighting_source = dplyr::case_when(
+      is.na(!!rlang::sym(lighting_source)) ~ NA_character_,
+      !!rlang::sym(lighting_source) %in% lighting_source_undefined ~
+        "undefined",
+      !!rlang::sym(lighting_source) == lighting_source_none ~ "none",
+      .default = !!rlang::sym(lighting_source)
     )
+  )
 
   #----- Sum across cols if "no_cannot"
   df <- dplyr::mutate(
     df,
     dplyr::across(
       c("snfi_fds_cooking", "snfi_fds_sleeping", "snfi_fds_storing"),
-      \(x) dplyr::case_when(
-        x == "no_cannot" ~ 1,
-        x %in% c("yes", "no_no_need") ~ 0,
-        .default = NA_real_
-      ),
+      \(x) {
+        dplyr::case_when(
+          x == "no_cannot" ~ 1,
+          x %in% c("yes", "no_no_need") ~ 0,
+          .default = NA_real_
+        )
+      },
       .names = "{.col}_d"
     )
-    )
+  )
 
   # Add binary for lighting
   df <- dplyr::mutate(
@@ -124,12 +157,17 @@ add_fds_cannot_cat <- function(
       is.na(energy_lighting_source) ~ NA_real_,
       .default = 0
     )
-    )
+  )
 
   df <- sum_vars(
     df,
     new_colname = "snfi_fds_cannot_n",
-    vars = c("snfi_fds_cooking_d", "snfi_fds_sleeping_d", "snfi_fds_storing_d", "energy_lighting_source_d"),
+    vars = c(
+      "snfi_fds_cooking_d",
+      "snfi_fds_sleeping_d",
+      "snfi_fds_storing_d",
+      "energy_lighting_source_d"
+    ),
     na_rm = FALSE,
     imputation = "none"
   )
@@ -144,7 +182,7 @@ add_fds_cannot_cat <- function(
       snfi_fds_cannot_n == 4 ~ "4_tasks",
       .default = NA_character_
     )
-    )
+  )
 
   return(df)
 }
