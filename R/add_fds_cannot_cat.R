@@ -69,7 +69,6 @@ add_fds_cannot_cat <- function(
   if (length(fds_cooking_no_need) != 1) rlang::abort("fds_cooking_no_need must be of length 1")
   if (length(fds_sleeping_cannot) != 1) rlang::abort("fds_sleeping_cannot must be of length 1")
   if (length(fds_sleeping_can) != 1) rlang::abort("fds_sleeping_can must be of length 1")
-  if (length(fds_storing_cannot) != 1) rlang::abort("fds_storing_cannot must be of length 1")
   if (length(lighting_source_none) != 1) rlang::abort("lighting_source_none must be of length 1")
 
   #----- Prepare dummy
@@ -135,14 +134,14 @@ add_fds_cannot_cat <- function(
     imputation = "none"
   )
 
-  #------ Recode to categories cannot perform 0 task, 1task, 2-3 tasks, 4 to 5 tasks
+  #------ Recode to categories cannot perform 0 task, 1task, 2-3 tasks, 4 tasks
   df <- dplyr::mutate(
     df,
     snfi_fds_cannot_cat = dplyr::case_when(
       snfi_fds_cannot_n == 0 ~ "none",
       snfi_fds_cannot_n == 1 ~ "1_task",
       snfi_fds_cannot_n %in% 2:3 ~ "2_to_3_tasks",
-      snfi_fds_cannot_n %in% 4:5 ~ "4_to_5_tasks",
+      snfi_fds_cannot_n == 4 ~ "4_tasks",
       .default = NA_character_
     )
     )
