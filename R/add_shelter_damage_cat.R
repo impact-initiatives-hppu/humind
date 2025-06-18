@@ -40,11 +40,11 @@ add_shelter_damage_cat <- function(
   df <- dplyr::mutate(
     df,
     snfi_shelter_damage_cat = dplyr::case_when(
-      !!rlang::sym(snfi_shelter_damage) == snfi_shelter_damage_none ~ "none",
-      !!rlang::sym(snfi_shelter_damage) %in% snfi_shelter_damage_damaged ~ "damaged",
-      !!rlang::sym(snfi_shelter_damage) == snfi_shelter_damage_part ~ "part",
-      !!rlang::sym(snfi_shelter_damage) == snfi_shelter_damage_total ~ "total",
-      !!rlang::sym(snfi_shelter_damage) %in% snfi_shelter_damage_undefined ~ "undefined",
+      .data[[snfi_shelter_damage]] == snfi_shelter_damage_none ~ "none",
+      .data[[snfi_shelter_damage]] %in% snfi_shelter_damage_damaged ~ "damaged",
+      .data[[snfi_shelter_damage]] == snfi_shelter_damage_part ~ "part",
+      .data[[snfi_shelter_damage]] == snfi_shelter_damage_total ~ "total",
+      .data[[snfi_shelter_damage]] %in% snfi_shelter_damage_undefined ~ "undefined",
       .default = NA_character_
     )
   )
