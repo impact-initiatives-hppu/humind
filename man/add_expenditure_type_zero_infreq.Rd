@@ -12,7 +12,7 @@ add_expenditure_type_zero_infreq(
   expenditure_infreq_types = c("cm_expenditure_infrequent_shelter",
     "cm_expenditure_infrequent_nfi", "cm_expenditure_infrequent_health",
     "cm_expenditure_infrequent_education", "cm_expenditure_infrequent_debt",
-    "cm_expenditure_infrequent_other")
+    "cm_expenditure_infrequent_clothing", "cm_expenditure_infrequent_other")
 )
 }
 \arguments{

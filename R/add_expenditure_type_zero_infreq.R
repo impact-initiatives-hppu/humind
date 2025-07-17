@@ -15,19 +15,20 @@
 #'
 #' @export
 add_expenditure_type_zero_infreq <- function(
-    df,
-    expenditure_infreq = "cm_expenditure_frequent",
-    none = "none",
-    undefined = c("dnk", "pnta"),
-    expenditure_infreq_types = c("cm_expenditure_infrequent_shelter",
-                                 "cm_expenditure_infrequent_nfi",
-                                 "cm_expenditure_infrequent_health",
-                                 "cm_expenditure_infrequent_education",
-                                 "cm_expenditure_infrequent_debt",
-                                 "cm_expenditure_infrequent_other"
-    )
-){
-
+  df,
+  expenditure_infreq = "cm_expenditure_frequent",
+  none = "none",
+  undefined = c("dnk", "pnta"),
+  expenditure_infreq_types = c(
+    "cm_expenditure_infrequent_shelter",
+    "cm_expenditure_infrequent_nfi",
+    "cm_expenditure_infrequent_health",
+    "cm_expenditure_infrequent_education",
+    "cm_expenditure_infrequent_debt",
+    "cm_expenditure_infrequent_clothing",
+    "cm_expenditure_infrequent_other"
+  )
+) {
   #----- Checks
 
   # Check that infrequent expenditure is of length 1
@@ -50,7 +51,8 @@ add_expenditure_type_zero_infreq <- function(
     undefined = undefined,
     sl_vars = expenditure_infreq_types,
     sl_value = 0,
-    suffix = "")
+    suffix = ""
+  )
 
   # Ensure that when expenditure_infreq is "none", all sl_vars are 0
   # Which should be the case already with value_to_sl
@@ -59,15 +61,14 @@ add_expenditure_type_zero_infreq <- function(
     df,
     dplyr::across(
       dplyr::all_of(expenditure_infreq_types),
-      \(x) dplyr::case_when(
-        !!rlang::sym(expenditure_infreq) == none ~ 0,
-        .default = x
-      )
+      \(x) {
+        dplyr::case_when(
+          !!rlang::sym(expenditure_infreq) == none ~ 0,
+          .default = x
+        )
+      }
     )
   )
 
   return(df)
-
-
-
 }
