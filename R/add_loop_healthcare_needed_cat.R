@@ -180,9 +180,6 @@ add_loop_healthcare_needed_cat <- function(
 #' @param ind_healthcare_needed_no The binary variable that indicates if healthcare is not needed.
 #' @param ind_healthcare_needed_yes_unmet The binary variable that indicates if healthcare is needed but unmet.
 #' @param ind_healthcare_needed_yes_met The binary variable that indicates if healthcare is needed and met.
-#' @param ind_healthcare_needed_no_wgq_dis The binary variable that indicates if healthcare is not needed and the individual has a disability.
-#' @param ind_healthcare_needed_yes_unmet_wgq_dis The binary variable that indicates if healthcare is needed but unmet and the individual has a disability.
-#' @param ind_healthcare_needed_yes_met_wgq_dis The binary variable that indicates if healthcare is needed and met and the individual has a disability.
 #' @param id_col_main The column name for the unique identifier in the main data frame.
 #' @param id_col_loop The column name for the unique identifier in the loop data frame.
 #'
@@ -191,9 +188,6 @@ add_loop_healthcare_needed_cat <- function(
 #' * health_ind_healthcare_needed_no_n: Count of individuals not needing healthcare.
 #' * health_ind_healthcare_needed_yes_unmet_n: Count of individuals with unmet healthcare needs.
 #' * health_ind_healthcare_needed_yes_met_n: Count of individuals with met healthcare needs.
-#' * health_ind_healthcare_needed_no_wgq_dis_n: Count of individuals with disabilities not needing healthcare (if applicable).
-#' * health_ind_healthcare_needed_yes_unmet_wgq_dis_n: Count of individuals with disabilities and unmet healthcare needs (if applicable).
-#' * health_ind_healthcare_needed_yes_met_wgq_dis_n: Count of individuals with disabilities and met healthcare needs (if applicable).
 #'
 #' @export
 add_loop_healthcare_needed_cat_to_main <- function(

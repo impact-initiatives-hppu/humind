@@ -64,12 +64,6 @@ add_loop_healthcare_needed_cat_to_main(
 \item{id_col_main}{The column name for the unique identifier in the main data frame.}
 
 \item{id_col_loop}{The column name for the unique identifier in the loop data frame.}
-
-\item{ind_healthcare_needed_no_wgq_dis}{The binary variable that indicates if healthcare is not needed and the individual has a disability.}
-
-\item{ind_healthcare_needed_yes_unmet_wgq_dis}{The binary variable that indicates if healthcare is needed but unmet and the individual has a disability.}
-
-\item{ind_healthcare_needed_yes_met_wgq_dis}{The binary variable that indicates if healthcare is needed and met and the individual has a disability.}
 }
 \value{
 A data frame with additional columns:
@@ -87,9 +81,6 @@ A data frame with additional columns:
 \item health_ind_healthcare_needed_no_n: Count of individuals not needing healthcare.
 \item health_ind_healthcare_needed_yes_unmet_n: Count of individuals with unmet healthcare needs.
 \item health_ind_healthcare_needed_yes_met_n: Count of individuals with met healthcare needs.
-\item health_ind_healthcare_needed_no_wgq_dis_n: Count of individuals with disabilities not needing healthcare (if applicable).
-\item health_ind_healthcare_needed_yes_unmet_wgq_dis_n: Count of individuals with disabilities and unmet healthcare needs (if applicable).
-\item health_ind_healthcare_needed_yes_met_wgq_dis_n: Count of individuals with disabilities and met healthcare needs (if applicable).
 }
 }
 \description{
