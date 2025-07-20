@@ -17,7 +17,6 @@ add_loop_healthcare_needed_cat(
   ind_healthcare_received_yes = "yes",
   ind_healthcare_received_dnk = "dnk",
   ind_healthcare_received_pnta = "pnta",
-  wgq_dis = NULL,
   ind_age = "ind_age"
 )
 
@@ -27,9 +26,6 @@ add_loop_healthcare_needed_cat_to_main(
   ind_healthcare_needed_no = "health_ind_healthcare_needed_no",
   ind_healthcare_needed_yes_unmet = "health_ind_healthcare_needed_yes_unmet",
   ind_healthcare_needed_yes_met = "health_ind_healthcare_needed_yes_met",
-  ind_healthcare_needed_no_wgq_dis = NULL,
-  ind_healthcare_needed_yes_unmet_wgq_dis = NULL,
-  ind_healthcare_needed_yes_met_wgq_dis = NULL,
   id_col_main = "uuid",
   id_col_loop = "uuid"
 )
@@ -57,8 +53,6 @@ add_loop_healthcare_needed_cat_to_main(
 
 \item{ind_healthcare_received_pnta}{Level for "prefer not to answer" in ind_healthcare_received.}
 
-\item{wgq_dis}{The name of the variable that indicates if the individual has a disability (usual cut-offs are 3).}
-
 \item{ind_age}{The name of the variable that indicates the age of the individual.}
 
 \item{main}{A data frame of household-level data.}
@@ -67,15 +61,15 @@ add_loop_healthcare_needed_cat_to_main(
 
 \item{ind_healthcare_needed_yes_met}{The binary variable that indicates if healthcare is needed and met.}
 
+\item{id_col_main}{The column name for the unique identifier in the main data frame.}
+
+\item{id_col_loop}{The column name for the unique identifier in the loop data frame.}
+
 \item{ind_healthcare_needed_no_wgq_dis}{The binary variable that indicates if healthcare is not needed and the individual has a disability.}
 
 \item{ind_healthcare_needed_yes_unmet_wgq_dis}{The binary variable that indicates if healthcare is needed but unmet and the individual has a disability.}
 
 \item{ind_healthcare_needed_yes_met_wgq_dis}{The binary variable that indicates if healthcare is needed and met and the individual has a disability.}
-
-\item{id_col_main}{The column name for the unique identifier in the main data frame.}
-
-\item{id_col_loop}{The column name for the unique identifier in the loop data frame.}
 }
 \value{
 A data frame with additional columns:
@@ -86,9 +80,6 @@ A data frame with additional columns:
 \item health_ind_healthcare_needed_no: Dummy variable for no healthcare need.
 \item health_ind_healthcare_needed_yes_unmet: Dummy variable for unmet healthcare need.
 \item health_ind_healthcare_needed_yes_met: Dummy variable for met healthcare need.
-\item health_ind_healthcare_needed_no_wgq_dis: Dummy variable for no healthcare need with disability (if wgq_dis provided).
-\item health_ind_healthcare_needed_yes_unmet_wgq_dis: Dummy variable for unmet healthcare need with disability (if wgq_dis provided).
-\item health_ind_healthcare_needed_yes_met_wgq_dis: Dummy variable for met healthcare need with disability (if wgq_dis provided).
 }
 
 A data frame with additional columns:
@@ -103,11 +94,6 @@ A data frame with additional columns:
 }
 \description{
 This function adds healthcare need categories to individual-level data, including disability information if provided. It creates dummy variables for different healthcare need scenarios and optionally includes disability-specific indicators.
-
-Prerequisite function:
-\itemize{
-\item add_loop_wgq_ss.R - if WG-SS data collected
-}
 
 This function aggregates individual-level healthcare need data to the household level, including disability-specific information if provided.
 }
