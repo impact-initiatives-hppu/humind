@@ -21,7 +21,7 @@ add_handwashing_facility_cat(
   facility_observed_soap = "wash_soap_observed",
   facility_observed_soap_yes = "yes_soap_shown",
   facility_observed_soap_no = "no",
-  facility_observed_undefined = c("other", "pnta"),
+  facility_observed_soap_undefined = c("other", "pnta"),
   facility_reported = "wash_handwashing_facility_reported",
   facility_reported_yes = c("fixed_dwelling", "fixed_yard", "mobile"),
   facility_reported_no = c("none"),
@@ -47,13 +47,13 @@ add_handwashing_facility_cat(
 
 \item{facility}{Column name for the observed handwashing facility (e.g., "wash_handwashing_facility").}
 
-\item{facility_yes}{Response code indicating availability (e.g., "available").}
+\item{facility_yes}{Response code(s) indicating availability (e.g., "available").}
 
 \item{facility_no}{Response code indicating unavailability (e.g., "none").}
 
 \item{facility_no_permission}{Response code for cases with no permission to observe.}
 
-\item{facility_undefined}{Response code for undefined situations.}
+\item{facility_undefined}{Response code(s) for undefined situations.}
 
 \item{facility_observed_water}{Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water").}
 
@@ -61,23 +61,37 @@ add_handwashing_facility_cat(
 
 \item{facility_observed_water_no}{Response code indicating water is not available.}
 
+\item{facility_observed_soap}{Column name for observed soap availability.}
+
+\item{facility_observed_soap_yes}{Response code indicating soap is available (observed).}
+
+\item{facility_observed_soap_no}{Response code indicating soap is not available (observed).}
+
+\item{facility_observed_soap_undefined}{Response code(s) for undefined observed soap situations.}
+
+\item{facility_reported}{Column name for reported handwashing facility (used in remote/no-permission cases).}
+
+\item{facility_reported_yes}{Response code(s) indicating facility is available (reported).}
+
+\item{facility_reported_no}{Response code(s) indicating no facility is available (reported).}
+
+\item{facility_reported_undefined}{Response code(s) for undefined reported facility situations.}
+
 \item{facility_reported_water}{Column name for reported water availability under no permission or remote conditions.}
 
-\item{facility_reported_water_yes}{Response codes indicating water is available no permission conditions.}
+\item{facility_reported_water_yes}{Response code(s) indicating water is available under no permission or remote conditions.}
 
-\item{facility_reported_water_no}{Response code indicating water is not reported under no permission or remote conditions.}
+\item{facility_reported_water_no}{Response code indicating water is not available under no permission or remote conditions.}
 
-\item{facility_reported_water_undefined}{Response codes for undefined water situations under no permission or remote conditions.}
+\item{facility_reported_water_undefined}{Response code(s) for undefined water situations under no permission or remote conditions.}
 
-\item{facility_reported_soap}{Column name for reported soap availability under no permission conditions or remote conditions.}
+\item{facility_reported_soap}{Column name for reported soap availability under no permission or remote conditions.}
 
-\item{facility_reported_soap_yes}{Response codes indicating soap is reported under no permission or remote conditions.}
+\item{facility_reported_soap_yes}{Response code(s) indicating soap is available under no permission or remote conditions.}
 
-\item{facility_reported_soap_no}{Response code indicating soap is not reported under no permission or remote conditions.}
+\item{facility_reported_soap_no}{Response code indicating soap is not available under no permission or remote conditions.}
 
-\item{facility_reported_soap_undefined}{Response codes for undefined soap situations under no permission or remote conditions.}
-
-\item{facility_observed_water_undefined}{Response code indicating water is undefined.}
+\item{facility_reported_soap_undefined}{Response code(s) for undefined soap situations under no permission or remote conditions.}
 }
 \value{
 A data frame with an additional column 'wash_handwashing_facility_jmp_cat': Categorized handwashing facilities: "Basic," "Limited," or "No Facility."
@@ -85,4 +99,7 @@ A data frame with an additional column 'wash_handwashing_facility_jmp_cat': Cate
 \description{
 This function categorizes handwashing facilities into "Basic," "Limited," or "No facility" based on survey data.
 It evaluates various parameters related to the availability of handwashing facilities and the presence of soap and water.
+}
+\details{
+The function checks for the presence and validity of all required columns and values in the input data frame. It ensures that all parameters are documented and used in the logic. The categorization follows JMP (Joint Monitoring Programme) standards for handwashing facilities.
 }
