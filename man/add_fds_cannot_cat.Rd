@@ -7,26 +7,18 @@
 add_fds_cannot_cat(
   df,
   fds_cooking = "snfi_fds_cooking",
-  fds_cooking_cannot = "no_cannot",
-  fds_cooking_can_issues = "yes_issues",
-  fds_cooking_can_no_issues = "yes_no_issues",
-  fds_cooking_no_need = "no_no_need",
-  fds_cooking_undefined = c("pnta", "dnk"),
+  fds_cooking_can = "no",
+  fds_cooking_cannot = "yes",
+  fds_cooking_no_need = "no_need",
+  fds_cooking_undefined = "pnta",
   fds_sleeping = "snfi_fds_sleeping",
-  fds_sleeping_cannot = "no_cannot",
-  fds_sleeping_can_issues = "yes_issues",
-  fds_sleeping_can_no_issues = "yes_no_issues",
-  fds_sleeping_undefined = c("pnta", "dnk"),
+  fds_sleeping_can = "yes",
+  fds_sleeping_cannot = "no",
+  fds_sleeping_undefined = "pnta",
   fds_storing = "snfi_fds_storing",
-  fds_storing_cannot = "no_cannot",
-  fds_storing_can_issues = "yes_issues",
-  fds_storing_can_no_issues = "yes_no_issues",
-  fds_storing_undefined = c("pnta", "dnk"),
-  fds_personal_hygiene = "snfi_fds_personal_hygiene",
-  fds_personal_hygiene_cannot = "no_cannot",
-  fds_personal_hygiene_can_issues = "yes_issues",
-  fds_personal_hygiene_can_no_issues = "yes_no_issues",
-  fds_personal_hygiene_undefined = c("pnta", "dnk"),
+  fds_storing_cannot = "no",
+  fds_storing_can = c("yes_issues", "yes_no_issues"),
+  fds_storing_undefined = "pnta",
   lighting_source = "energy_lighting_source",
   lighting_source_none = "none",
   lighting_source_undefined = c("pnta", "dnk")
@@ -37,11 +29,9 @@ add_fds_cannot_cat(
 
 \item{fds_cooking}{Column name for cooking tasks}
 
-\item{fds_cooking_cannot}{Value for cannot perform cooking tasks}
+\item{fds_cooking_can}{Value for can perform cooking tasks without issues}
 
-\item{fds_cooking_can_issues}{Value for can perform cooking tasks but with issues}
-
-\item{fds_cooking_can_no_issues}{Value for can perform cooking tasks without issues}
+\item{fds_cooking_cannot}{Value for facing issues when cooking}
 
 \item{fds_cooking_no_need}{Value for no need to perform cooking tasks}
 
@@ -49,11 +39,9 @@ add_fds_cannot_cat(
 
 \item{fds_sleeping}{Column name for sleeping tasks}
 
+\item{fds_sleeping_can}{Value for can perform sleeping tasks}
+
 \item{fds_sleeping_cannot}{Value for cannot perform sleeping tasks}
-
-\item{fds_sleeping_can_issues}{Value for can perform sleeping tasks but with issues}
-
-\item{fds_sleeping_can_no_issues}{Value for can perform sleeping tasks without issues}
 
 \item{fds_sleeping_undefined}{Vector of undefined responses for sleeping tasks}
 
@@ -61,21 +49,9 @@ add_fds_cannot_cat(
 
 \item{fds_storing_cannot}{Value for cannot perform storing tasks}
 
-\item{fds_storing_can_issues}{Value for can perform storing tasks but with issues}
-
-\item{fds_storing_can_no_issues}{Value for can perform storing tasks without issues}
+\item{fds_storing_can}{Value for can perform storing tasks}
 
 \item{fds_storing_undefined}{Vector of undefined responses for storing tasks}
-
-\item{fds_personal_hygiene}{Column name for personal hygiene tasks}
-
-\item{fds_personal_hygiene_cannot}{Value for cannot perform personal hygiene tasks}
-
-\item{fds_personal_hygiene_can_issues}{Value for can perform personal hygiene tasks but with issues}
-
-\item{fds_personal_hygiene_can_no_issues}{Value for can perform personal hygiene tasks without issues}
-
-\item{fds_personal_hygiene_undefined}{Vector of undefined responses for personal hygiene tasks}
 
 \item{lighting_source}{Column name for lighting source}
 
@@ -89,7 +65,6 @@ A data frame with additional columns:
 \item snfi_fds_cooking: Standardized categories for cooking tasks
 \item snfi_fds_sleeping: Standardized categories for sleeping tasks
 \item snfi_fds_storing: Standardized categories for storing tasks
-\item snfi_fds_personal_hygiene: Standardized categories for personal hygiene tasks
 \item energy_lighting_source: Standardized categories for lighting source
 \item snfi_fds_cannot_n: Number of tasks that cannot be performed
 \item snfi_fds_cannot_cat: Categorized number of tasks that cannot be performed
@@ -97,5 +72,5 @@ A data frame with additional columns:
 }
 \description{
 This function adds categories for functional domestic space tasks based on various input parameters.
-It processes cooking, sleeping, storing, personal hygiene, and lighting tasks, creating new columns with standardized categories and a summary of tasks that cannot be performed.
+It processes cooking, sleeping, storing, and lighting tasks, creating new columns with standardized categories and a summary of tasks that cannot be performed.
 }
