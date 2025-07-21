@@ -6,12 +6,6 @@
 \usage{
 add_comp_prot(
   df,
-  child_sep_cat = "prot_child_sep_cat",
-  child_sep_cat_none = "none",
-  child_sep_cat_very_severe = "at_least_one_very_severe",
-  child_sep_cat_severe = "at_least_one_severe",
-  child_sep_cat_non_severe = "at_least_one_non_severe",
-  child_sep_cat_undefined = "undefined",
   concern_freq_cope = "prot_concern_freq_cope",
   concern_freq_displaced = "prot_concern_freq_displaced",
   concern_hh_freq_kidnapping = "prot_concern_hh_freq_kidnapping",
@@ -26,18 +20,6 @@ add_comp_prot(
 }
 \arguments{
 \item{df}{A data frame containing the required variables.}
-
-\item{child_sep_cat}{Column name for child separation category.}
-
-\item{child_sep_cat_none}{Level for no child separation.}
-
-\item{child_sep_cat_very_severe}{Level for at least one very severe child separation.}
-
-\item{child_sep_cat_severe}{Level for at least one severe child separation.}
-
-\item{child_sep_cat_non_severe}{Level for at least one non-severe child separation.}
-
-\item{child_sep_cat_undefined}{Level for undefined child separation.}
 
 \item{concern_freq_cope}{Column name for concern frequency cope.}
 
@@ -62,7 +44,6 @@ add_comp_prot(
 \value{
 A data frame with added columns:
 \itemize{
-\item comp_prot_child_sep_cat: Score for child separation category
 \item comp_prot_score_concern_freq_cope: Score for concern frequency cope
 \item comp_prot_score_concern_freq_displaced: Score for concern frequency displaced
 \item comp_prot_score_concern_hh_freq_kidnapping: Score for concern household frequency kidnapping
@@ -75,6 +56,7 @@ A data frame with added columns:
 }
 }
 \description{
-This function calculates a protection composite score based on child separation categories and concern frequencies.
+This function calculates a protection composite score based on concern frequencies. Change for 2025 - child separation categories was
+removed.
 It also adds indicators for protection needs and acute protection needs.
 }

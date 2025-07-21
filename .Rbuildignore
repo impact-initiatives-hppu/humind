@@ -1,4 +1,5 @@
-^.*.docx$
+^renv$
+^renv\.lock$
 ^.*\.Rproj$
 ^LICENSE\.md$
 ^Meta$
@@ -9,7 +10,8 @@
 ^data-raw$
 ^doc$
 ^docs$
+^.*.docx$
 ^hex-humind\.png
 ^pkgdown$
 ^r_package_documentation\.md
-^scripts-example
+^hex-humind\.png
