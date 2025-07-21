@@ -9,3 +9,7 @@ docs
 inst/doc
 /doc/
 /Meta/
+.Rprofile
+
+# pkgdown folder
+pkgdown/
