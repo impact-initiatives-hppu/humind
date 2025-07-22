@@ -1,7 +1,6 @@
-gen_dummy_sm <- function() {
-  question_name <- "prot_needs_3_movement"
-
-  answer_options <- c(
+dummy_df <- generate_survey_choice_combinations(
+  question_name = "prot_needs_3_movement",
+  answer_options = c(
     "no_changes_feel_unsafe",
     "no_safety_concerns",
     "women_girls_avoid_places",
@@ -16,36 +15,10 @@ gen_dummy_sm <- function() {
     "other_safety_measures",
     "dnk",
     "pnta"
-  )
-
-  sm_names <- stringr::str_glue(
-    "{question_name}/{answer_options}"
-  )
-
-  sim_df <- expand.grid(rep(list(0:1), length(sm_names))) |>
-    rlang::set_names(sm_names) |>
-    as.data.frame()
-
-  sim_df$tot <- rowSums(sim_df)
-
-  mut_ex <- c(
-    "prot_needs_3_movement/dnk",
-    "prot_needs_3_movement/pnta"
-  )
-
-  sim_df <- dplyr::filter(
-    sim_df,
-    `prot_needs_3_movement/dnk` + `prot_needs_3_movement/pnta` <= 1,
-    tot < 14,
-    tot > 0,
-    !(`prot_needs_3_movement/pnta` == 1 & tot > 1),
-    !(`prot_needs_3_movement/dnk` == 1 & tot > 1)
-  )
-  return(sim_df)
-}
-
-dummy_df <- gen_dummy_sm()
-
+  ),
+  stand_alone_opts = c("dnk", "pnta", "no_safety_concerns"),
+  sep = "/"
+)
 
 test_that("column names checked correctly", {
   expect_no_error(
@@ -53,7 +26,7 @@ test_that("column names checked correctly", {
   )
 
   # Should error if the column names are not as expected
-  modified_dummy_sm <- gen_dummy_sm() |>
+  modified_dummy_sm <- dummy_df |>
     dplyr::rename_with(.fn = \(x) stringr::str_replace(x, "/", "_"))
   expect_error(
     add_prot_needs_movement(modified_dummy_sm)
