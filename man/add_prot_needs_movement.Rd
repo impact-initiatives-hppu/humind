@@ -21,7 +21,8 @@ add_prot_needs_movement(
   avoid_fields = "avoid_fields",
   other_safety_measures = "other_safety_measures",
   dnk = "dnk",
-  pnta = "pnta"
+  pnta = "pnta",
+  .keep_weighted = FALSE
 )
 }
 \arguments{
@@ -58,6 +59,8 @@ add_prot_needs_movement(
 \item{dnk}{answer option}
 
 \item{pnta}{answer option}
+
+\item{.keep_weighted}{Logical, whether to keep the weighted columns in the output data frame. Default is FALSE.}
 }
 \value{
 data frame with additional columns:

@@ -17,6 +17,7 @@
 #' @param other_safety_measures answer option
 #' @param dnk answer option
 #' @param pnta answer option
+#' @param .keep_weighted Logical, whether to keep the weighted columns in the output data frame. Default is FALSE.
 #'
 #' @return data frame with additional columns:
 #' * comp_prot_score_prot_needs_3
@@ -39,9 +40,13 @@ add_prot_needs_movement <- function(
   avoid_fields = "avoid_fields",
   other_safety_measures = "other_safety_measures",
   dnk = "dnk",
-  pnta = "pnta"
+  pnta = "pnta",
+  .keep_weighted = FALSE
 ) {
+  # capture all parameters
   params <- as.list(environment())
+
+  # mapping of response → weight
   weights_mapping <- c(
     no_changes_feel_unsafe = 1,
     no_safety_concerns = 0,
@@ -59,45 +64,62 @@ add_prot_needs_movement <- function(
     pnta = NA
   )
 
-  # Renaming the weights_mapping names to match user input
+  # build the raw column names
   user_answer_options <- params[names(weights_mapping)]
   sm_col_names <- stringr::str_glue(
     "{prot_needs_3_movement}{sep}{user_answer_options}"
   )
   names(weights_mapping) <- sm_col_names
 
+  # sanity checks
   if_not_in_stop(df, sm_col_names, "df")
   are_values_in_set(df, sm_col_names, c(0, 1))
 
+  # compute weighted indicators as new columns ending in "_w"
+  weighted_cols <- paste0(sm_col_names, "_w")
   weights_df <- df |>
     dplyr::mutate(
       dplyr::across(
         dplyr::all_of(sm_col_names),
-        \(x) {
-          x * weights_mapping[[dplyr::cur_column()]]
-        }
+        ~ .x * weights_mapping[[dplyr::cur_column()]],
+        .names = "{.col}_w"
       )
     )
+
+  # aggregate into composite scores
   weights_df <- sum_vars(
     weights_df,
-    vars = sm_col_names,
+    vars = weighted_cols,
     new_colname = "comp_prot_score_prot_needs_3",
     na_rm = TRUE
-  )
-  weights_df <- weights_df |>
+  ) |>
     dplyr::mutate(
       comp_prot_score_needs_1 = pmin(
         .data[["comp_prot_score_prot_needs_3"]] + 1,
         4
       )
     )
-  composite_cols <- c("comp_prot_score_needs_1", "comp_prot_score_prot_needs_3")
-  dplyr::bind_cols(
+
+  # decide which new columns to bind back
+  composite_cols <- c(
+    "comp_prot_score_prot_needs_3",
+    "comp_prot_score_needs_1"
+  )
+  if (.keep_weighted) {
+    new_cols <- c(weighted_cols, composite_cols)
+  } else {
+    new_cols <- composite_cols
+  }
+
+  # bind and relocate
+  df <- dplyr::bind_cols(
     df,
-    dplyr::select(weights_df, dplyr::all_of(composite_cols))
+    dplyr::select(weights_df, dplyr::all_of(new_cols))
   ) |>
     dplyr::relocate(
-      dplyr::all_of(composite_cols),
+      dplyr::all_of(new_cols),
       .after = tail(sm_col_names, 1)
     )
+
+  df
 }

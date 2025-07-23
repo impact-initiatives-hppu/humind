@@ -35,39 +35,64 @@ test_that("column names checked correctly", {
   # If the user has a different name for an answer option, by default it should error
   non_default_dummy_sm <- dummy_df |>
     dplyr::rename(`prot_needs_3_movement/dnk2` = `prot_needs_3_movement/dnk`)
-
   expect_error(
     add_prot_needs_movement(non_default_dummy_sm)
   )
 
-  # If the user has a different name for an answer option and provides the changed name, it should not error
+  # If the user provides the renamed answer, it should not error
   expect_no_error(
     add_prot_needs_movement(non_default_dummy_sm, dnk = "dnk2")
   )
 })
 
-test_that("weighting done correctly", {
-  # NOTE: this test is not deterministic, it's closer to a property based test
-  # NOTE: the logic of these tests is to make sure the maximum of each binary
-  # column does not exceed the weight of that column. This relies on the fact
-  # that the values are between 0 and 1
-  res <- add_prot_needs_movement(dummy_df)
-  # The weight for `no_safety_concerns` is 0, in all scenarios the maximum for this column should be 0
-  expect_equal(max(res$`prot_needs_3_movement/no_safety_concerns`), 0)
-  expect_equal(min(res$`prot_needs_3_movement/no_safety_concerns`), 0)
+test_that("._keep_weighted controls whether _w columns appear", {
+  # by default no weighted cols
+  res_def <- add_prot_needs_movement(dummy_df)
+  expect_false(any(grepl("_w$", names(res_def))))
 
-  # The weight for `dnk`, `pnta`, and `other_safety_measures` is NA, in all scenarios the max / min should be NA
-  expect_true(all(is.na(res$`prot_needs_3_movement/dnk`)))
-  expect_true(all(is.na(res$`prot_needs_3_movement/pnta`)))
-  expect_true(all(is.na(res$`prot_needs_3_movement/other_safety_measures`)))
+  # when requested, we get one _w column per raw indicator
+  res_w <- add_prot_needs_movement(dummy_df, .keep_weighted = TRUE)
+  opts <- c(
+    "no_changes_feel_unsafe",
+    "no_safety_concerns",
+    "women_girls_avoid_places",
+    "men_boys_avoid_places",
+    "women_girls_avoid_night",
+    "men_boys_avoid_night",
+    "girls_boys_avoid_school",
+    "different_routes",
+    "avoid_markets",
+    "avoid_public_offices",
+    "avoid_fields",
+    "other_safety_measures",
+    "dnk",
+    "pnta"
+  )
+  expected_w_cols <- paste0("prot_needs_3_movement/", opts, "_w")
+  expect_true(all(expected_w_cols %in% names(res_w)))
+})
+
+test_that("weighting done correctly (in the _w columns)", {
+  res <- add_prot_needs_movement(dummy_df, .keep_weighted = TRUE)
+
+  # The weight for `no_safety_concerns` is 0
+  expect_equal(max(res$`prot_needs_3_movement/no_safety_concerns_w`), 0)
+  expect_equal(min(res$`prot_needs_3_movement/no_safety_concerns_w`), 0)
+
+  # The weight for `dnk`, `pnta`, and `other_safety_measures` is NA
+  expect_true(all(is.na(res$`prot_needs_3_movement/dnk_w`)))
+  expect_true(all(is.na(res$`prot_needs_3_movement/pnta_w`)))
+  expect_true(all(is.na(res$`prot_needs_3_movement/other_safety_measures_w`)))
 })
 
 test_that("composite value calculated correctly", {
   res <- add_prot_needs_movement(dummy_df)
+
+  # composites always present
   expect_true("comp_prot_score_prot_needs_3" %in% names(res))
+  expect_true("comp_prot_score_needs_1" %in% names(res))
 
   # Final composite score should be between 0 and 4
-  max_weight <- 4
-  expect_true(all(res$comp_prot_score_needs_1 <= max_weight))
+  expect_true(all(res$comp_prot_score_needs_1 <= 4))
   expect_true(all(res$comp_prot_score_needs_1 > 0))
 })
