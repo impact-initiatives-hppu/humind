@@ -42,8 +42,6 @@ add_prot_needs_movement <- function(
   pnta = "pnta"
 ) {
   params <- as.list(environment())
-  # TODO: add assertion that all of the names in the mapping are present in the params
-  # NOTE: no_safety_concerns should be mutually exclusive with all other options
   weights_mapping <- c(
     no_changes_feel_unsafe = 1,
     no_safety_concerns = 0,
@@ -61,43 +59,45 @@ add_prot_needs_movement <- function(
     pnta = NA
   )
 
-  # TODO: can be written more elegantly
   # Renaming the weights_mapping names to match user input
   user_answer_options <- params[names(weights_mapping)]
-  names(weights_mapping) <- user_answer_options[names(weights_mapping)]
-
   sm_col_names <- stringr::str_glue(
-    "{prot_needs_3_movement}{sep}{names(weights_mapping)}"
+    "{prot_needs_3_movement}{sep}{user_answer_options}"
   )
-
-  col_name_weight <- weights_mapping
-  names(col_name_weight) <- sm_col_names
+  names(weights_mapping) <- sm_col_names
 
   if_not_in_stop(df, sm_col_names, "df")
   are_values_in_set(df, sm_col_names, c(0, 1))
 
-  df <- dplyr::mutate(
-    df,
-    dplyr::across(
-      .cols = sm_col_names,
-      .fns = \(x) {
-        weight <- col_name_weight[[dplyr::cur_column()]]
-        x * weight
-      }
+  weights_df <- df |>
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::all_of(sm_col_names),
+        \(x) {
+          x * weights_mapping[[dplyr::cur_column()]]
+        }
+      )
     )
-  )
-
-  df <- sum_vars(
-    df,
+  weights_df <- sum_vars(
+    weights_df,
     vars = sm_col_names,
     new_colname = "comp_prot_score_prot_needs_3",
     na_rm = TRUE
   )
-
-  df <- df |>
+  weights_df <- weights_df |>
     dplyr::mutate(
-      comp_prot_score_needs_1 = pmin(comp_prot_score_prot_needs_3 + 1, 4)
+      comp_prot_score_needs_1 = pmin(
+        .data[["comp_prot_score_prot_needs_3"]] + 1,
+        4
+      )
     )
-
-  df
+  composite_cols <- c("comp_prot_score_needs_1", "comp_prot_score_prot_needs_3")
+  dplyr::bind_cols(
+    df,
+    dplyr::select(weights_df, dplyr::all_of(composite_cols))
+  ) |>
+    dplyr::relocate(
+      dplyr::all_of(composite_cols),
+      .after = tail(sm_col_names, 1)
+    )
 }
