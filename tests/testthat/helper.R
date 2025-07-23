@@ -17,7 +17,7 @@ generate_survey_choice_combinations <- function(
     )
   }
   # 1. Build column names
-  cols <- str_glue("{question_name}{sep}{answer_options}")
+  cols <- stringr::str_glue("{question_name}{sep}{answer_options}")
 
   # 2. All binary combos
   df <- expand.grid(rep(list(0:1), length(cols))) %>%
