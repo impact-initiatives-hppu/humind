@@ -104,6 +104,16 @@ test_that("weighted columns follow the expected 0/NA pattern", {
 
 test_that("composite severity is bounded 1–4", {
   res <- add_prot_participation_safe_practices_activities(dummy_df)
-  expect_true(all(res$comp_prot_score_needs_2 >= 1))
-  expect_true(all(res$comp_prot_score_needs_2 <= 4))
+  expect_true("comp_prot_score_needs_2" %in% names(res))
+
+  # Identify rows where DNK or PNTA was chosen on either question
+  flagged <- (dummy_df[[str_glue("{q1}/dnk")]] == 1 |
+    dummy_df[[str_glue("{q1}/pnta")]] == 1 |
+    dummy_df[[str_glue("{q2}/dnk")]] == 1 |
+    dummy_df[[str_glue("{q2}/pnta")]] == 1)
+
+  # Flagged rows should be NA
+  expect_true(all(is.na(res$comp_prot_score_needs_2[flagged])))
+  expect_true(all(res$comp_prot_score_needs_2 >= 1, na.rm = TRUE))
+  expect_true(all(res$comp_prot_score_needs_2 <= 4, na.rm = TRUE))
 })

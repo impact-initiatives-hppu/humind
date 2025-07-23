@@ -144,6 +144,19 @@ add_prot_participation_safe_practices_activities <- function(
           1,
         TRUE ~ NA_real_
       )
+    ) |>
+    # if respondent chose DNK or PNTA on either question, force final to NA
+
+    dplyr::mutate(
+      comp_prot_score_needs_2 = dplyr::if_else(
+        .data[[stringr::str_glue("{prot_needs_2_activities}{sep}{dnk}")]] == 1 |
+          .data[[stringr::str_glue("{prot_needs_2_activities}{sep}{pnta}")]] ==
+            1 |
+          .data[[stringr::str_glue("{prot_needs_2_social}{sep}{dnk}")]] == 1 |
+          .data[[stringr::str_glue("{prot_needs_2_social}{sep}{pnta}")]] == 1,
+        NA_real_,
+        .data[["comp_prot_score_needs_2"]]
+      )
     )
 
   # bind back composite and optionally weighted cols

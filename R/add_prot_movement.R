@@ -98,6 +98,14 @@ add_prot_needs_movement <- function(
         .data[["comp_prot_score_prot_needs_3"]] + 1,
         4
       )
+    ) |>
+    dplyr::mutate(
+      comp_prot_score_needs_1 = dplyr::if_else(
+        .data[[stringr::str_glue("{prot_needs_3_movement}{sep}{dnk}")]] == 1 |
+          .data[[stringr::str_glue("{prot_needs_3_movement}{sep}{pnta}")]] == 1,
+        NA_real_,
+        .data[["comp_prot_score_needs_1"]]
+      )
     )
 
   # decide which new columns to bind back

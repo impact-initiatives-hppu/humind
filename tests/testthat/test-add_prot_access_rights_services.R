@@ -113,14 +113,23 @@ test_that("weighted columns compute raw * weight correctly and group sums are ac
 })
 
 
-test_that("composite severity is bounded 1–4 and non-destructive", {
+test_that("composite severity: NA for DNK/P NTA, 1–4 for others, and non-destructive", {
   res <- add_prot_access_rights_services(dummy_df)
 
-  # Severity bounds
-  expect_true(all(res$comp_prot_score_needs_1 >= 1))
-  expect_true(all(res$comp_prot_score_needs_1 <= 4))
+  # Identify rows where DNK or PNTA was chosen on either question
+  flagged <- (dummy_df[[str_glue("{q1}/dnk")]] == 1 |
+    dummy_df[[str_glue("{q1}/pnta")]] == 1 |
+    dummy_df[[str_glue("{q2}/dnk")]] == 1 |
+    dummy_df[[str_glue("{q2}/pnta")]] == 1)
 
-  # Non-destructive: original columns unchanged
+  # Flagged rows should be NA
+  expect_true(all(is.na(res$comp_prot_score_needs_1[flagged])))
+
+  # Non-flagged rows should be bounded between 1 and 4
+  expect_true(all(res$comp_prot_score_needs_1[!flagged] >= 1, na.rm = TRUE))
+  expect_true(all(res$comp_prot_score_needs_1[!flagged] <= 4, na.rm = TRUE))
+
+  # Non-destructive: ensure original columns are unchanged
   original_cols <- names(dummy_df)
   expect_equal(res[original_cols], dummy_df)
 })

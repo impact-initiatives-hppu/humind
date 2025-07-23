@@ -85,14 +85,19 @@ test_that("weighting done correctly (in the _w columns)", {
   expect_true(all(is.na(res$`prot_needs_3_movement/other_safety_measures_w`)))
 })
 
-test_that("composite value calculated correctly", {
+test_that("composite value calculated correctly and NA for dnk/pnta rows", {
   res <- add_prot_needs_movement(dummy_df)
 
-  # composites always present
   expect_true("comp_prot_score_prot_needs_3" %in% names(res))
   expect_true("comp_prot_score_needs_1" %in% names(res))
 
-  # Final composite score should be between 0 and 4
-  expect_true(all(res$comp_prot_score_needs_1 <= 4))
-  expect_true(all(res$comp_prot_score_needs_1 > 0))
+  dnk_rows <- dummy_df[["prot_needs_3_movement/dnk"]] == 1
+  pnta_rows <- dummy_df[["prot_needs_3_movement/pnta"]] == 1
+  flagged <- dnk_rows | pnta_rows
+
+  good_rows <- !flagged
+  expect_true(all(res$comp_prot_score_needs_1[good_rows] >= 1, na.rm = TRUE))
+  expect_true(all(res$comp_prot_score_needs_1[good_rows] <= 4, na.rm = TRUE))
+
+  expect_true(all(is.na(res$comp_prot_score_needs_1[flagged])))
 })

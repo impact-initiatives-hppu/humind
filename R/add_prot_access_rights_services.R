@@ -136,6 +136,18 @@ add_prot_access_rights_services <- function(
           1,
         TRUE ~ NA_real_
       )
+    ) |>
+    # if respondent chose DNK or PNTA on either question, force final to NA
+    dplyr::mutate(
+      comp_prot_score_needs_1 = dplyr::if_else(
+        .data[[stringr::str_glue("{prot_needs_1_services}{sep}{dnk}")]] == 1 |
+          .data[[stringr::str_glue("{prot_needs_1_services}{sep}{pnta}")]] ==
+            1 |
+          .data[[stringr::str_glue("{prot_needs_1_justice}{sep}{dnk}")]] == 1 |
+          .data[[stringr::str_glue("{prot_needs_1_justice}{sep}{pnta}")]] == 1,
+        NA_real_,
+        .data[["comp_prot_score_needs_1"]]
+      )
     )
 
   comp_cols <- c(
