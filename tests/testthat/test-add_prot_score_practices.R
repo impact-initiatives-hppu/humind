@@ -53,13 +53,13 @@ dummy_social <- generate_survey_choice_combinations(
 # Tests for the composite function
 
 test_that("adds three composite columns without weighted vars", {
-  res <- add_prot_participation_safe_practices_activities(dummy_df)
+  res <- add_prot_score_practices(dummy_df)
 
   expect_true(all(
     c(
       "comp_prot_score_prot_needs_2_activities",
       "comp_prot_score_prot_needs_2_social",
-      "comp_prot_score_needs_2"
+      "comp_prot_score_practices"
     ) %in%
       names(res)
   ))
@@ -69,7 +69,7 @@ test_that("adds three composite columns without weighted vars", {
 
 
 test_that("includes weighted vars when .keep_weighted = TRUE", {
-  res_w <- add_prot_participation_safe_practices_activities(
+  res_w <- add_prot_score_practices(
     dummy_df,
     .keep_weighted = TRUE
   )
@@ -85,7 +85,7 @@ test_that("includes weighted vars when .keep_weighted = TRUE", {
 
 
 test_that("weighted columns follow the expected 0/NA pattern", {
-  res_w <- add_prot_participation_safe_practices_activities(
+  res_w <- add_prot_score_practices(
     dummy_df,
     .keep_weighted = TRUE
   )
@@ -103,8 +103,7 @@ test_that("weighted columns follow the expected 0/NA pattern", {
 
 
 test_that("composite severity is bounded 1–4", {
-  res <- add_prot_participation_safe_practices_activities(dummy_df)
-  expect_true("comp_prot_score_needs_2" %in% names(res))
+  res <- add_prot_score_practices(dummy_df)
 
   # Identify rows where DNK or PNTA was chosen on either question
   flagged <- (dummy_df[[str_glue("{q1}/dnk")]] == 1 |
@@ -114,6 +113,6 @@ test_that("composite severity is bounded 1–4", {
 
   # Flagged rows should be NA
   expect_true(all(is.na(res$comp_prot_score_needs_2[flagged])))
-  expect_true(all(res$comp_prot_score_needs_2 >= 1, na.rm = TRUE))
-  expect_true(all(res$comp_prot_score_needs_2 <= 4, na.rm = TRUE))
+  expect_true(all(res$comp_prot_score_practices >= 1, na.rm = TRUE))
+  expect_true(all(res$comp_prot_score_practices <= 4, na.rm = TRUE))
 })

@@ -29,11 +29,11 @@
 #'   \itemize{
 #'     \item \code{comp_prot_score_prot_needs_2_activities}: weighted sum of activity-related options.
 #'     \item \code{comp_prot_score_prot_needs_2_social}: weighted sum of social-related options.
-#'     \item \code{comp_prot_score_needs_2}: overall severity (1–4) based on combined score.
+#'     \item \code{comp_prot_score_practices}: overall severity (1–4) based on combined score.
 #'   }
 #'  Plus optional weighted columns (suffix "_w") if \code{.keep_weighted = TRUE}.
 #' @export
-add_prot_participation_safe_practices_activities <- function(
+add_prot_score_practices <- function(
   df,
   sep = "/",
   prot_needs_2_activities = "prot_needs_2_activities",
@@ -125,7 +125,7 @@ add_prot_participation_safe_practices_activities <- function(
 
   weights_df <- weights_df |>
     dplyr::mutate(
-      comp_prot_score_needs_2 = dplyr::case_when(
+      comp_prot_score_practices = dplyr::case_when(
         (comp_prot_score_prot_needs_2_activities +
           comp_prot_score_prot_needs_2_social) >=
           4 ~
@@ -148,14 +148,14 @@ add_prot_participation_safe_practices_activities <- function(
     # if respondent chose DNK or PNTA on either question, force final to NA
 
     dplyr::mutate(
-      comp_prot_score_needs_2 = dplyr::if_else(
+      comp_prot_score_practices = dplyr::if_else(
         .data[[stringr::str_glue("{prot_needs_2_activities}{sep}{dnk}")]] == 1 |
           .data[[stringr::str_glue("{prot_needs_2_activities}{sep}{pnta}")]] ==
             1 |
           .data[[stringr::str_glue("{prot_needs_2_social}{sep}{dnk}")]] == 1 |
           .data[[stringr::str_glue("{prot_needs_2_social}{sep}{pnta}")]] == 1,
         NA_real_,
-        .data[["comp_prot_score_needs_2"]]
+        .data[["comp_prot_score_practices"]]
       )
     )
 
@@ -163,7 +163,7 @@ add_prot_participation_safe_practices_activities <- function(
   comp_cols <- c(
     "comp_prot_score_prot_needs_2_activities",
     "comp_prot_score_prot_needs_2_social",
-    "comp_prot_score_needs_2"
+    "comp_prot_score_practices"
   )
   new_cols <- if (.keep_weighted) c(w_cols, comp_cols) else comp_cols
 
