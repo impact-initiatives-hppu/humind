@@ -50,13 +50,13 @@ dummy_df <- expand_grid(
 # Tests for the composite function: Ability to Access Rights and Services
 
 test_that("adds three composite columns without weighted vars", {
-  res <- add_prot_access_rights_services(dummy_df)
+  res <- add_prot_score_rights(dummy_df)
 
   expect_true(all(
     c(
       "comp_prot_score_prot_needs_1_services",
       "comp_prot_score_prot_needs_1_justice",
-      "comp_prot_score_needs_1"
+      "comp_prot_score_rights"
     ) %in%
       names(res)
   ))
@@ -65,7 +65,7 @@ test_that("adds three composite columns without weighted vars", {
 
 
 test_that("includes weighted vars when .keep_weighted = TRUE", {
-  res_w <- add_prot_access_rights_services(dummy_df, .keep_weighted = TRUE)
+  res_w <- add_prot_score_rights(dummy_df, .keep_weighted = TRUE)
 
   raw_cols <- c(
     str_glue("{q1}/{opts1}"),
@@ -77,7 +77,7 @@ test_that("includes weighted vars when .keep_weighted = TRUE", {
 
 
 test_that("weighted columns compute raw * weight correctly and group sums are accurate", {
-  res_w <- add_prot_access_rights_services(dummy_df, .keep_weighted = TRUE)
+  res_w <- add_prot_score_rights(dummy_df, .keep_weighted = TRUE)
 
   # Services weights: all yes_* = 1, no = 0
   expect_equal(
@@ -114,7 +114,7 @@ test_that("weighted columns compute raw * weight correctly and group sums are ac
 
 
 test_that("composite severity: NA for DNK/P NTA, 1–4 for others, and non-destructive", {
-  res <- add_prot_access_rights_services(dummy_df)
+  res <- add_prot_score_rights(dummy_df)
 
   # Identify rows where DNK or PNTA was chosen on either question
   flagged <- (dummy_df[[str_glue("{q1}/dnk")]] == 1 |
@@ -126,8 +126,8 @@ test_that("composite severity: NA for DNK/P NTA, 1–4 for others, and non-destr
   expect_true(all(is.na(res$comp_prot_score_needs_1[flagged])))
 
   # Non-flagged rows should be bounded between 1 and 4
-  expect_true(all(res$comp_prot_score_needs_1[!flagged] >= 1, na.rm = TRUE))
-  expect_true(all(res$comp_prot_score_needs_1[!flagged] <= 4, na.rm = TRUE))
+  expect_true(all(res$comp_prot_score_rights[!flagged] >= 1, na.rm = TRUE))
+  expect_true(all(res$comp_prot_score_rights[!flagged] <= 4, na.rm = TRUE))
 
   # Non-destructive: ensure original columns are unchanged
   original_cols <- names(dummy_df)

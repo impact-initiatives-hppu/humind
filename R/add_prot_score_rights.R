@@ -30,7 +30,7 @@
 #'   * `comp_prot_score_needs_1`: overall severity (1–4) based on combined score.
 #'   Plus optional `_w` columns if `.keep_weighted = TRUE`.
 #' @export
-add_prot_access_rights_services <- function(
+add_prot_score_rights <- function(
   df,
   sep = "/",
   prot_needs_1_services = "prot_needs_1_services",
@@ -139,7 +139,7 @@ add_prot_access_rights_services <- function(
     ) |>
     # if respondent chose DNK or PNTA on either question, force final to NA
     dplyr::mutate(
-      comp_prot_score_needs_1 = dplyr::if_else(
+      comp_prot_score_rights = dplyr::if_else(
         .data[[stringr::str_glue("{prot_needs_1_services}{sep}{dnk}")]] == 1 |
           .data[[stringr::str_glue("{prot_needs_1_services}{sep}{pnta}")]] ==
             1 |
@@ -153,7 +153,7 @@ add_prot_access_rights_services <- function(
   comp_cols <- c(
     "comp_prot_score_prot_needs_1_services",
     "comp_prot_score_prot_needs_1_justice",
-    "comp_prot_score_needs_1"
+    "comp_prot_score_rights"
   )
   new_cols <- if (.keep_weighted) c(w_cols, comp_cols) else comp_cols
 
