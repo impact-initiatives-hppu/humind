@@ -1,4 +1,4 @@
-#' add_prot_needs_movement
+#' add_prot_score_movement
 #'
 #' @param df Data frame containing the survey data.
 #' @param sep Separator for the binary columns, default is "/".
@@ -21,9 +21,9 @@
 #'
 #' @return data frame with additional columns:
 #' * comp_prot_score_prot_needs_3
-#' * comp_prot_score_needs_1
+#' * comp_prot_score_movement
 #' @export
-add_prot_needs_movement <- function(
+add_prot_score_movement <- function(
   df,
   sep = "/",
   prot_needs_3_movement = "prot_needs_3_movement",
@@ -94,24 +94,24 @@ add_prot_needs_movement <- function(
     na_rm = TRUE
   ) |>
     dplyr::mutate(
-      comp_prot_score_needs_1 = pmin(
+      comp_prot_score_movement = pmin(
         .data[["comp_prot_score_prot_needs_3"]] + 1,
         4
       )
     ) |>
     dplyr::mutate(
-      comp_prot_score_needs_1 = dplyr::if_else(
+      comp_prot_score_movement = dplyr::if_else(
         .data[[stringr::str_glue("{prot_needs_3_movement}{sep}{dnk}")]] == 1 |
           .data[[stringr::str_glue("{prot_needs_3_movement}{sep}{pnta}")]] == 1,
         NA_real_,
-        .data[["comp_prot_score_needs_1"]]
+        .data[["comp_prot_score_movement"]]
       )
     )
 
   # decide which new columns to bind back
   composite_cols <- c(
     "comp_prot_score_prot_needs_3",
-    "comp_prot_score_needs_1"
+    "comp_prot_score_movement"
   )
   if (.keep_weighted) {
     new_cols <- c(weighted_cols, composite_cols)
