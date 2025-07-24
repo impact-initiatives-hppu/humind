@@ -96,8 +96,8 @@ test_that("composite value calculated correctly and NA for dnk/pnta rows", {
   flagged <- dnk_rows | pnta_rows
 
   good_rows <- !flagged
-  expect_true(all(res$comp_prot_score_needs_1[good_rows] >= 1, na.rm = TRUE))
-  expect_true(all(res$comp_prot_score_needs_1[good_rows] <= 4, na.rm = TRUE))
+  expect_true(all(res$comp_prot_score_movement[good_rows] >= 1, na.rm = TRUE))
+  expect_true(all(res$comp_prot_score_movement[good_rows] <= 4, na.rm = TRUE))
 
-  expect_true(all(is.na(res$comp_prot_score_needs_1[flagged])))
+  expect_true(all(is.na(res$comp_prot_score_movement[flagged])))
 })
