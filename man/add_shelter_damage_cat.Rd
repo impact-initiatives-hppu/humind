@@ -6,36 +6,53 @@
 \usage{
 add_shelter_damage_cat(
   df,
+  sep = "/",
   snfi_shelter_damage = "snfi_shelter_damage",
-  snfi_shelter_damage_none = "none",
-  snfi_shelter_damage_damaged = c("minor", "damage_windows_doors", "damage_floors",
-    "damage_walls"),
-  snfi_shelter_damage_part = "major",
-  snfi_shelter_damage_total = "total_collapse",
-  snfi_shelter_damage_undefined = c("dnk", "pnta", "other")
+  none = "none",
+  minor = "minor",
+  major = "major",
+  damage_windows_doors = "damage_windows_doors",
+  damage_floors = "damage_floors",
+  damage_walls = "damage_walls",
+  total_collapse = "total_collapse",
+  other = "other",
+  dnk = "dnk",
+  pnta = "pnta"
 )
 }
 \arguments{
-\item{df}{A data frame containing shelter damage arrangement.}
+\item{df}{Data frame containing the survey data.}
 
-\item{snfi_shelter_damage}{The name of the column  containing shelter damage status.}
+\item{sep}{Separator for the binary columns, default is "/".}
 
-\item{snfi_shelter_damage_none}{The value indicating no damage.}
+\item{snfi_shelter_damage}{Column name}
 
-\item{snfi_shelter_damage_damaged}{Values indicating minor damage to roof and other damages.}
+\item{none}{answer option}
 
-\item{snfi_shelter_damage_part}{The value indicating major damage to roof with risk of collapse.}
+\item{minor}{answer option}
 
-\item{snfi_shelter_damage_total}{The value indicating total collapse or destruction.}
+\item{major}{answer option}
 
-\item{snfi_shelter_damage_undefined}{Values indicating undefined or unknown status.}
+\item{damage_windows_doors}{answer option}
+
+\item{damage_floors}{answer option}
+
+\item{damage_walls}{answer option}
+
+\item{total_collapse}{answer option}
+
+\item{other}{answer option}
+
+\item{dnk}{answer option}
+
+\item{pnta}{answer option}
 }
 \value{
 A data frame with an additional column:
 \itemize{
-\item snfi_shelter_damage_cat: Categorized shelter damages: "none", "damaged", "part", "total", or "undefined".
+\item snfi_shelter_damage_cat: Categorized shelter damages: "No damage", "Damaged", "Partial collapse or destruction", "Total collapse or destruction", or "Undefined".
 }
 }
 \description{
-This function categorizes No damage, damaged, partial collapse / partial destruction based on provided criteria.
+This function categorizes the shelter damage category based on provided criteria.
 }
