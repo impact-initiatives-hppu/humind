@@ -47,11 +47,11 @@ add_comp_prot <- function(df) {
 
   dplyr::mutate(
     df,
-    # TODO: Handle NA values
     comp_prot_score = pmax(
       .data[["comp_prot_score_movement"]],
       .data[["comp_prot_score_practices"]],
       .data[["comp_prot_score_rights"]],
+      na.rm = TRUE
     ),
     comp_prot_in_need = as.numeric(.data[["comp_prot_score"]] >= 3),
     comp_prot_in_acute_need = as.numeric(.data[["comp_prot_score"]] >= 4)
