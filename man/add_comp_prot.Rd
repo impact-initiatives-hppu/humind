@@ -2,61 +2,36 @@
 % Please edit documentation in R/add_comp_prot.R
 \name{add_comp_prot}
 \alias{add_comp_prot}
-\title{Add Protection Composite Score and Need Indicators}
+\title{Add overall Protection composite score and need flags}
 \usage{
-add_comp_prot(
-  df,
-  concern_freq_cope = "prot_concern_freq_cope",
-  concern_freq_displaced = "prot_concern_freq_displaced",
-  concern_hh_freq_kidnapping = "prot_concern_hh_freq_kidnapping",
-  concern_hh_freq_discrimination = "prot_concern_hh_freq_discrimination",
-  concern_always = "always",
-  concern_several_times = "several_times",
-  concern_once_or_twice = "once_or_twice",
-  concern_never = "never",
-  concern_dnk = "dnk",
-  concern_pnta = "pnta"
-)
+add_comp_prot(df)
 }
 \arguments{
-\item{df}{A data frame containing the required variables.}
+\item{df}{A \code{data.frame} or \code{tibble} containing numeric columns:
+\itemize{
+\item \code{comp_prot_score_movement} – severity for movement dimension
+\item \code{comp_prot_score_practices} – severity for practices dimension
+\item \code{comp_prot_score_rights} – severity for rights & services dimension
+}
 
-\item{concern_freq_cope}{Column name for concern frequency cope.}
-
-\item{concern_freq_displaced}{Column name for concern frequency displaced.}
-
-\item{concern_hh_freq_kidnapping}{Column name for concern household frequency kidnapping.}
-
-\item{concern_hh_freq_discrimination}{Column name for concern household frequency discrimination.}
-
-\item{concern_always}{Level for always concerned.}
-
-\item{concern_several_times}{Level for concerned several times.}
-
-\item{concern_once_or_twice}{Level for concerned once or twice.}
-
-\item{concern_never}{Level for never concerned.}
-
-\item{concern_dnk}{Level for don't know.}
-
-\item{concern_pnta}{Level for prefer not to answer.}
+If any of these three columns are missing, the function will abort, reminding you to run the corresponding prep functions first.}
 }
 \value{
-A data frame with added columns:
+The input \code{df}, with three new columns:
 \itemize{
-\item comp_prot_score_concern_freq_cope: Score for concern frequency cope
-\item comp_prot_score_concern_freq_displaced: Score for concern frequency displaced
-\item comp_prot_score_concern_hh_freq_kidnapping: Score for concern household frequency kidnapping
-\item comp_prot_score_concern_hh_freq_discrimination: Score for concern household frequency discrimination
-\item comp_prot_risk_always_d: Indicator for at least one 'Always' response in perceived risks
-\item comp_prot_score_concern: Final concern score
-\item comp_prot_score: Overall protection composite score
-\item comp_prot_in_need: Indicator for protection need
-\item comp_prot_in_acute_need: Indicator for acute protection need
+\item \code{comp_prot_score} – overall protection severity (maximum of the three dimensions)
+\item \code{comp_prot_in_need} – binary (0/1): 1 if \code{comp_prot_score >= 3}, else 0
+\item \code{comp_prot_in_acute_need} – binary (0/1): 1 if \code{comp_prot_score >= 4}, else 0
 }
 }
 \description{
-This function calculates a protection composite score based on concern frequencies. Change for 2025 - child separation categories was
-removed.
-It also adds indicators for protection needs and acute protection needs.
+Assumes that per‑dimension severity scores have already been computed and added to \code{df} by earlier functions: \code{\link[=add_prot_score_movement]{add_prot_score_movement()}}, \code{\link[=add_prot_score_practices]{add_prot_score_practices()}}, and \code{\link[=add_prot_score_rights]{add_prot_score_rights()}}.
+This function performs only \strong{Step 4} of the 2025 Protection Composite workflow: it takes the maximum of those three existing columns to create \code{comp_prot_score}, then generates binary “in need” indicators.
+}
+\details{
+\itemize{
+\item \strong{Column checks} via \code{\link[purrr:imap]{purrr::iwalk()}} ensure the three dimension scores exist.
+\item \strong{Computation} uses \code{\link[=pmax]{pmax()}} (with \code{na.rm = FALSE})
+\item \strong{Thresholds} (3 for “in need”, 4 for “acute need”) are currently hard‑coded.
+}
 }

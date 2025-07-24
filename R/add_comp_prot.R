@@ -24,7 +24,7 @@
 #' @importFrom cli cli_abort
 #' @importFrom dplyr mutate
 #' @export
-add_comp_prot_score <- function(df) {
+add_comp_prot <- function(df) {
   composite_func_mapping <- list(
     "comp_prot_score_movement" = "add_prot_score_movement",
     "comp_prot_score_practices" = "add_prot_score_practices",
@@ -53,7 +53,7 @@ add_comp_prot_score <- function(df) {
       .data[["comp_prot_score_practices"]],
       .data[["comp_prot_score_rights"]],
     ),
-    comp_prot_in_need = as.numeric(comp_prot_score >= 3),
-    comp_prot_in_acute_need = as.numeric(comp_prot_score >= 4)
+    comp_prot_in_need = as.numeric(.data[["comp_prot_score"]] >= 3),
+    comp_prot_in_acute_need = as.numeric(.data[["comp_prot_score"]] >= 4)
   )
 }
