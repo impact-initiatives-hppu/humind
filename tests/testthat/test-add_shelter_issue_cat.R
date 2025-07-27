@@ -3,23 +3,33 @@ library(testthat)
 
 # ---- Test Data ----
 test_df <- data.frame(
-  snfi_shelter_issue = rep(NA, 6),
-  snfi_shelter_issue_lack_privacy = c(1, 0, 0, 0, 0, 0),
-  snfi_shelter_issue_lack_space = c(0, 1, 0, 0, 0, 0),
-  snfi_shelter_issue_temperature = c(0, 1, 1, 0, 0, 0),
-  snfi_shelter_issue_ventilation = c(0, 0, 1, 0, 0, 0),
-  snfi_shelter_issue_vectors = c(0, 0, 0, 1, 0, 0),
-  snfi_shelter_issue_no_natural_light = c(0, 0, 0, 0, 1, 0),
-  snfi_shelter_issue_leak = c(0, 0, 0, 0, 0, 1),
-  snfi_shelter_issue_lock = c(0, 0, 0, 0, 0, 0),
-  snfi_shelter_issue_lack_lighting = c(0, 0, 0, 0, 0, 0),
-  snfi_shelter_issue_difficulty_move = c(0, 0, 0, 0, 0, 0),
-  snfi_shelter_issue_lack_space_laundry = c(0, 0, 0, 0, 0, 0),
-  snfi_shelter_issue_none = c(0, 0, 0, 0, 0, 1),
-  snfi_shelter_issue_dnk = c(0, 0, 0, 1, 0, 0),
-  snfi_shelter_issue_pnta = c(0, 0, 0, 0, 1, 0),
-  snfi_shelter_issue_other = c(0, 0, 1, 0, 0, 0)
+  snfi_shelter_issue = rep(NA, 8),
+  "snfi_shelter_issue/lack_privacy" = c(1, 0, 0, 0, 0, 0, 0, 1),
+  "snfi_shelter_issue/lack_space" = c(0, 1, 1, 0, 0, 0, 0, 1),
+  "snfi_shelter_issue/temperature" = c(0, 1, 0, 0, 0, 0, 0, 1),
+  "snfi_shelter_issue/ventilation" = c(0, 0, 1, 0, 0, 0, 0, 1),
+  "snfi_shelter_issue/vectors" = c(0, 0, 0, 1, 0, 0, 0, 1),
+  "snfi_shelter_issue/no_natural_light" = c(0, 0, 0, 1, 0, 0, 0, 1),
+  "snfi_shelter_issue/leak" = c(0, 0, 0, 1, 0, 0, 0, 1),
+  "snfi_shelter_issue/lock" = c(0, 0, 0, 1, 0, 0, 0, 1),
+  "snfi_shelter_issue/lack_lighting" = c(0, 0, 0, 1, 0, 0, 0, 1),
+  "snfi_shelter_issue/difficulty_move" = c(0, 0, 0, 1, 0, 0, 0, 1),
+  "snfi_shelter_issue/lack_space_laundry" = c(0, 0, 0, 1, 0, 0, 0, 1),
+  "snfi_shelter_issue/none" = c(0, 0, 0, 0, 0, 1, 0, 0),
+  "snfi_shelter_issue/dnk" = c(0, 0, 0, 0, 0, 0, 1, 0),
+  "snfi_shelter_issue/pnta" = c(0, 0, 0, 0, 0, 0, 0, 0),
+  "snfi_shelter_issue/other" = c(0, 0, 0, 0, 1, 0, 0, 0),
+  check.names = FALSE
 )
+# ---- Expected Output ----
+# Row 1: 1 issue selected -> "1_to_3"
+# Row 2: 2 issues selected -> "1_to_3"
+# Row 3: 2 issues selected -> "1_to_3"
+# Row 4: 7 issues selected -> "4_to_7"
+# Row 5: 'other' selected -> "other"
+# Row 6: 'none' selected -> "none"
+# Row 7: 'dnk' selected -> "undefined"
+# Row 8: 11 issues selected -> "8_to_11"
 
 # ---- Run the function ----
 result <- add_shelter_issue_cat(
@@ -27,23 +37,37 @@ result <- add_shelter_issue_cat(
   shelter_issue = "snfi_shelter_issue",
   none = "none",
   issues = c(
-    "lack_privacy", "lack_space", "temperature", "ventilation", "vectors",
-    "no_natural_light", "leak", "lock", "lack_lighting", "difficulty_move",
+    "lack_privacy",
+    "lack_space",
+    "temperature",
+    "ventilation",
+    "vectors",
+    "no_natural_light",
+    "leak",
+    "lock",
+    "lack_lighting",
+    "difficulty_move",
     "lack_space_laundry"
   ),
   undefined = c("dnk", "pnta"),
   other = c("other"),
-  sep = "_"
+  sep = "/"
 )
 
 # ---- Unit Tests ----
-test_that("snfi_shelter_issue_n is calculated correctly", {
-  expect_equal(result$snfi_shelter_issue_n, c(1, 2, NA, NA, NA, 0))
-})
-
-test_that("snfi_shelter_issue_cat is categorized correctly", {
+test_that("snfi_shelter_issue_n and snfi_shelter_issue_cat are correct for all scenarios", {
+  expect_equal(result$snfi_shelter_issue_n, c(1, 2, 2, 7, NA, 0, NA, 11))
   expect_equal(
     result$snfi_shelter_issue_cat,
-    c("1_to_3", "1_to_3", "other", "undefined", "undefined", "none")
+    c(
+      "1_to_3",
+      "1_to_3",
+      "1_to_3",
+      "4_to_7",
+      "other",
+      "none",
+      "undefined",
+      "8_to_11"
+    )
   )
 })
