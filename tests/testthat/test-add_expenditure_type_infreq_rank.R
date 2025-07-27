@@ -12,29 +12,48 @@ dummy_data_infreq <- data.frame(
   cm_expenditure_infrequent_health = c(0, 10, 50, 150),
   cm_expenditure_infrequent_education = c(50, 0, 0, 300),
   cm_expenditure_infrequent_debt = c(0, 0, 0, 50),
+  cm_expenditure_infrequent_clothing = c(0, 0, 200, 25),
   cm_expenditure_infrequent_other = c(0, 0, 10, 25)
 )
 
-# 1. Test the function with default parameters
-test_that("add_expenditure_type_zero_infreq function works with default parameters", {
-  result <- add_expenditure_type_zero_infreq(dummy_data_infreq)
+# ---- Run function ----
+result <- add_expenditure_type_infreq_rank(
+  df = dummy_data_infreq,
+  expenditure_infreq_types = c(
+    "cm_expenditure_infrequent_shelter",
+    "cm_expenditure_infrequent_nfi",
+    "cm_expenditure_infrequent_health",
+    "cm_expenditure_infrequent_education",
+    "cm_expenditure_infrequent_debt",
+    "cm_expenditure_infrequent_clothing",
+    "cm_expenditure_infrequent_other"
+  ),
+  id_col = "uuid"
+)
 
-    expected_result <- dummy_data_infreq
+# ---- Expected Results ----
+expected_top1 <- c(
+  "cm_expenditure_infrequent_shelter",
+  "cm_expenditure_infrequent_shelter",
+  "cm_expenditure_infrequent_clothing",
+  "cm_expenditure_infrequent_education"
+)
+expected_top2 <- c(
+  "cm_expenditure_infrequent_education",
+  "cm_expenditure_infrequent_nfi",
+  "cm_expenditure_infrequent_shelter",
+  "cm_expenditure_infrequent_nfi"
+)
+expected_top3 <- c(
+  NA,
+  "cm_expenditure_infrequent_health",
+  "cm_expenditure_infrequent_nfi",
+  "cm_expenditure_infrequent_health"
+)
 
-  expect_equal(result, expected_result)
-})
-
-# 2. Test handling of missing columns
-missing_column_data_infreq <- dummy_data_infreq %>% select(-cm_expenditure_infrequent_shelter)
-
-test_that("add_expenditure_type_zero_infreq function handles missing columns", {
-  expect_error(add_expenditure_type_zero_infreq(missing_column_data_infreq))
-})
-
-# 3. Test that expenditure types are numeric
-non_numeric_data_infreq <- dummy_data_infreq
-non_numeric_data_infreq$cm_expenditure_infrequent_shelter <- as.character(non_numeric_data_infreq$cm_expenditure_infrequent_shelter)
-
-test_that("add_expenditure_type_zero_infreq function checks for numeric expenditure types", {
-  expect_error(add_expenditure_type_zero_infreq(non_numeric_data_infreq))
+# ---- Unit Tests ----
+test_that("Top 3 infrequent expenditure types are correctly ranked for all rows (vectorized)", {
+  expect_equal(result$cm_infreq_expenditure_top1, expected_top1)
+  expect_equal(result$cm_infreq_expenditure_top2, expected_top2)
+  expect_equal(result$cm_infreq_expenditure_top3, expected_top3)
 })
