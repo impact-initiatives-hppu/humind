@@ -8,8 +8,9 @@ add_shelter_issue_cat(
   df,
   shelter_issue = "snfi_shelter_issue",
   none = "none",
-  issues = c("lack_privacy", "lack_space", "temperature", "ventilation", "leak", "lock",
-    "lack_lighting", "difficulty_move"),
+  issues = c("lack_privacy", "lack_space", "temperature", "ventilation", "vectors",
+    "no_natural_light", "leak", "lock", "lack_lighting", "difficulty_move",
+    "lack_space_laundry"),
   undefined = c("dnk", "pnta"),
   other = c("other"),
   sep = "/"

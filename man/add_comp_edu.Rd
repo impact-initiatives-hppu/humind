@@ -9,7 +9,7 @@ add_comp_edu(
   schooling_age_n = "edu_schooling_age_n",
   no_access_n = "edu_no_access_n",
   barrier_protection_n = "edu_barrier_protection_n",
-  occupation_n = "edu_disrupted_occupation_n",
+  attack_n = "edu_disrupted_attack_n",
   hazards_n = "edu_disrupted_hazards_n",
   displaced_n = "edu_disrupted_displaced_n",
   teacher_n = "edu_disrupted_teacher_n"
@@ -24,7 +24,7 @@ add_comp_edu(
 
 \item{barrier_protection_n}{Column name for the number of children with barriers to protection.}
 
-\item{occupation_n}{Column name for the number of children with disrupted education due to the school being occupied by armed groups}
+\item{attack_n}{Column name for the number of children with disrupted education due to the school being occupied by armed groups}
 
 \item{hazards_n}{Column name for the number of children with disrupted education due to hazards.}
 

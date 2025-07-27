@@ -7,7 +7,7 @@
 \usage{
 add_loop_edu_disrupted_d(
   df,
-  occupation = "edu_disrupted_occupation",
+  attack = "edu_disrupted_attack",
   hazards = "edu_disrupted_hazards",
   displaced = "edu_disrupted_displaced",
   teacher = "edu_disrupted_teacher",
@@ -18,7 +18,7 @@ add_loop_edu_disrupted_d(
 add_loop_edu_disrupted_d_to_main(
   main,
   loop,
-  occupation_d = "edu_disrupted_occupation_d",
+  attack_d = "edu_disrupted_attack_d",
   hazards_d = "edu_disrupted_hazards_d",
   displaced_d = "edu_disrupted_displaced_d",
   teacher_d = "edu_disrupted_teacher_d",
@@ -29,7 +29,7 @@ add_loop_edu_disrupted_d_to_main(
 \arguments{
 \item{df}{A data frame containing individual-level education data.}
 
-\item{occupation}{Column name for occupation disruption. NULL if dimension is not present in the data frame.}
+\item{attack}{Column name for attack disruption. NULL if dimension is not present in the data frame.}
 
 \item{hazards}{Column name for hazards disruption.}
 
@@ -45,7 +45,7 @@ add_loop_edu_disrupted_d_to_main(
 
 \item{loop}{A data frame of individual-level data.}
 
-\item{occupation_d}{Column name for the dummy variable of the occupation dimension. NULL if dimension is not present in the data frame.}
+\item{attack_d}{Column name for the dummy variable of the attack dimension. NULL if dimension is not present in the data frame.}
 
 \item{hazards_d}{Column name for the dummy variable of the hazards dimension.}
 
@@ -60,7 +60,7 @@ add_loop_edu_disrupted_d_to_main(
 \value{
 A data frame with additional columns:
 \itemize{
-\item *_d: Binary columns for each disruption type (e.g., edu_disrupted_occupation_d).
+\item *_d: Binary columns for each disruption type (e.g., edu_disrupted_attack_d).
 }
 
 A data frame with additional columns:

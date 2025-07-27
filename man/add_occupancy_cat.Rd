@@ -2,15 +2,19 @@
 % Please edit documentation in R/add_occupancy_cat.R
 \name{add_occupancy_cat}
 \alias{add_occupancy_cat}
-\title{Add Category of Occupancy Arrangement}
+\title{Add Category of Occupancy Arrangement and Tenure Security}
 \usage{
 add_occupancy_cat(
   df,
   occupancy = "hlp_occupancy",
-  high_risk = c("no_agreement"),
-  medium_risk = c("rented", "hosted_free"),
-  low_risk = c("ownership"),
-  undefined = c("dnk", "pnta", "other")
+  occupancy_high_risk = c("no_agreement"),
+  occupancy_medium_risk = c("rented", "hosted_free"),
+  occupancy_low_risk = c("ownership"),
+  occupancy_undefined = c("dnk", "pnta", "other"),
+  eviction = "hlp_risk_eviction",
+  eviction_high_risk = "yes",
+  eviction_low_risk = "no",
+  eviction_undefined = c("dnk", "pnta")
 )
 }
 \arguments{
@@ -18,20 +22,32 @@ add_occupancy_cat(
 
 \item{occupancy}{Component column: Occupancy arrangement.}
 
-\item{high_risk}{Character vector of high risk occupancy arrangements.}
+\item{occupancy_high_risk}{Character vector of high risk occupancy arrangements.}
 
-\item{medium_risk}{Character vector of medium risk occupancy arrangements.}
+\item{occupancy_medium_risk}{Character vector of medium risk occupancy arrangements.}
 
-\item{low_risk}{Character vector of low risk occupancy arrangements.}
+\item{occupancy_low_risk}{Character vector of low risk occupancy arrangements.}
 
-\item{undefined}{Character vector of undefined response codes (e.g. "Prefer not to answer").}
+\item{occupancy_undefined}{Character vector of undefined response codes (e.g. "Prefer not to answer").}
+
+\item{eviction}{Component column: Eviction risk.}
+
+\item{eviction_high_risk}{Character vector of high risk eviction responses.}
+
+\item{eviction_low_risk}{Character vector of low risk eviction responses.}
+
+\item{eviction_undefined}{Character vector of undefined eviction responses.}
 }
 \value{
-A data frame with an additional column:
+A data frame with additional columns:
 \itemize{
 \item hlp_occupancy_cat: Categorized occupancy arrangement: "high_risk", "medium_risk", "low_risk", or "undefined".
+\item hlp_eviction_cat: Categorized eviction risk: "high_risk", "low_risk", or "undefined".
+\item hlp_tenure_security: Maximum risk between hlp_occupancy_cat and hlp_eviction_cat.
 }
 }
 \description{
-This function categorizes occupancy arrangements into high, medium, or low risk based on provided criteria.
+This function categorizes occupancy arrangements and eviction
+risk into high, medium, or low risk, and then creates a new column for
+overall tenure security, taking the maximum risk from both.
 }

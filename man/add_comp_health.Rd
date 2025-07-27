@@ -8,13 +8,7 @@ add_comp_health(
   df,
   ind_healthcare_needed_no_n = "health_ind_healthcare_needed_no_n",
   ind_healthcare_needed_yes_unmet_n = "health_ind_healthcare_needed_yes_unmet_n",
-  ind_healthcare_needed_yes_met_n = "health_ind_healthcare_needed_yes_met_n",
-  wgq_dis = FALSE,
-  ind_healthcare_needed_no_wgq_dis_n = "health_ind_healthcare_needed_no_wgq_dis_n",
-  ind_healthcare_needed_yes_unmet_wgq_dis_n =
-    "health_ind_healthcare_needed_yes_unmet_wgq_dis_n",
-  ind_healthcare_needed_yes_met_wgq_dis_n =
-    "health_ind_healthcare_needed_yes_met_wgq_dis_n"
+  ind_healthcare_needed_yes_met_n = "health_ind_healthcare_needed_yes_met_n"
 )
 }
 \arguments{
@@ -25,14 +19,6 @@ add_comp_health(
 \item{ind_healthcare_needed_yes_unmet_n}{Column name for the number of individuals who needed to access healthcare but did not.}
 
 \item{ind_healthcare_needed_yes_met_n}{Column name for the number of individuals who needed to access healthcare and did.}
-
-\item{wgq_dis}{Logical. If TRUE, the function will consider the disability columns.}
-
-\item{ind_healthcare_needed_no_wgq_dis_n}{Column name for the number of individuals who did not need to access healthcare and have a disability.}
-
-\item{ind_healthcare_needed_yes_unmet_wgq_dis_n}{Column name for the number of individuals who needed to access healthcare but did not and have a disability.}
-
-\item{ind_healthcare_needed_yes_met_wgq_dis_n}{Column name for the number of individuals who needed to access healthcare and did and have a disability.}
 }
 \value{
 A data frame with additional columns:
@@ -51,6 +37,5 @@ household is in need or in acute need of health assistance based on the calculat
 Prerequisite functions:
 \itemize{
 \item add_loop_healthcare_needed_cat.R
-\item add_loop_wgq_ss.R - if WG-SS data collected
 }
 }
