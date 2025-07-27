@@ -32,7 +32,9 @@ Remotes:
 Suggests: 
     knitr,
     rmarkdown,
-    roxygen2
+    roxygen2,
+    testthat (>= 3.0.0)
 LazyData: true
 Config/Needs/website: rmarkdown
 VignetteBuilder: knitr
+Config/testthat/edition: 3
