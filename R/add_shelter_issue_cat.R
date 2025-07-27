@@ -13,28 +13,30 @@
 #' @return A data frame with additional columns:
 #'
 #' * snfi_shelter_issue_n: Count of shelter issues.
-#' * snfi_shelter_issue_cat: Categorized shelter issues: "none", "undefined", "other", "1_to_3", "4_to_6", or "7_to_8".
+#' * snfi_shelter_issue_cat: Categorized shelter issues: "none", "undefined", "other", "1_to_3", "4_to_7", or "8_to_11".
 #'
 #' @export
-add_shelter_issue_cat <- function(df,
-                                  shelter_issue = "snfi_shelter_issue",
-                                  none = "none",
-                                  issues = c(
-                                    "lack_privacy",
-                                    "lack_space",
-                                    "temperature",
-                                    "ventilation",
-                                    "vectors",
-                                    "no_natural_light",
-                                    "leak",
-                                    "lock",
-                                    "lack_lighting",
-                                    "difficulty_move",
-                                    "lack_space_laundry"
-                                  ),
-                                  undefined = c("dnk", "pnta"),
-                                  other = c("other"),
-                                  sep = "/") {
+add_shelter_issue_cat <- function(
+  df,
+  shelter_issue = "snfi_shelter_issue",
+  none = "none",
+  issues = c(
+    "lack_privacy",
+    "lack_space",
+    "temperature",
+    "ventilation",
+    "vectors",
+    "no_natural_light",
+    "leak",
+    "lock",
+    "lack_lighting",
+    "difficulty_move",
+    "lack_space_laundry"
+  ),
+  undefined = c("dnk", "pnta"),
+  other = c("other"),
+  sep = "/"
+) {
   #------ Checks
 
   # Check if the variable is in the data frame
@@ -105,8 +107,8 @@ add_shelter_issue_cat <- function(df,
       !!rlang::sym("snfi_shelter_issue_n") == -999 ~ "undefined",
       !!rlang::sym("snfi_shelter_issue_n") == -998 ~ "other",
       !!rlang::sym("snfi_shelter_issue_n") <= 3 ~ "1_to_3",
-      !!rlang::sym("snfi_shelter_issue_n") <= 6 ~ "4_to_6",
-      !!rlang::sym("snfi_shelter_issue_n") <= 8 ~ "7_to_8",
+      !!rlang::sym("snfi_shelter_issue_n") <= 7 ~ "4_to_7",
+      !!rlang::sym("snfi_shelter_issue_n") <= 11 ~ "8_to_11",
       .default = NA_character_
     )
   )
