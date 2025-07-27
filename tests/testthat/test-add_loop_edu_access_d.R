@@ -64,7 +64,7 @@ invalid_value_loop_data <- dummy_loop_data
 invalid_value_loop_data$edu_ind_schooling_age_d <- 2
 
 test_that("add_loop_edu_access_d_to_main function ensures value checks", {
-  expect_error(add_loop_edu_access_d(invalid_value_loop_data), calss = "error")
+  expect_error(add_loop_edu_access_d(invalid_value_loop_data), class = "error")
   expect_error(
     add_loop_edu_access_d_to_main(dummy_main_data, loop_result),
     class = "error"
