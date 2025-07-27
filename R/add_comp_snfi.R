@@ -21,9 +21,9 @@
 #' @param shelter_type_cat_adequate Level for adequate shelter.
 #' @param shelter_type_cat_undefined Level for undefined shelter.
 #' @param shelter_issue_cat Column name for shelter issue.
-#' @param shelter_issue_cat_7_to_8 Level for 7 to 8 shelter issues.
-#' @param shelter_issue_cat_4_to_6 Level for 4 to 6 shelter issues.
 #' @param shelter_issue_cat_1_to_3 Level for 1 to 3 shelter issues.
+#' @param shelter_issue_cat_4_to_7 Level for 4 to 7 shelter issues.
+#' @param shelter_issue_cat_8_to_11 Level for 8 to 11 shelter issues.
 #' @param shelter_issue_cat_none Level for no shelter issues.
 #' @param shelter_issue_cat_undefined Level for undefined shelter issues.
 #' @param shelter_issue_cat_other Level for other shelter issues.
@@ -55,37 +55,39 @@
 #' * comp_snfi_in_acute_need: Indicator for being in acute need
 #'
 #' @export
-add_comp_snfi <- function(df,
-                          shelter_type_cat = "snfi_shelter_type_cat",
-                          shelter_type_cat_none = "none",
-                          shelter_type_cat_inadequate = "inadequate",
-                          shelter_type_cat_adequate = "adequate",
-                          shelter_type_cat_undefined = "undefined",
-                          shelter_issue_cat = "snfi_shelter_issue_cat",
-                          shelter_issue_cat_7_to_8 = "7_to_8",
-                          shelter_issue_cat_4_to_6 = "4_to_6",
-                          shelter_issue_cat_1_to_3 = "1_to_3",
-                          shelter_issue_cat_none = "none",
-                          shelter_issue_cat_undefined = "undefined",
-                          shelter_issue_cat_other = "other",
-                          tenure_security_cat = "hlp_occupancy_cat",
-                          tenure_security_cat_high_risk = "high_risk",
-                          tenure_security_cat_medium_risk = "medium_risk",
-                          tenure_security_cat_low_risk = "low_risk",
-                          tenure_security_cat_undefined = "undefined",
-                          fds_cannot_cat = "snfi_fds_cannot_cat",
-                          fds_cannot_cat_4 = "4_tasks",
-                          fds_cannot_cat_2_to_3 = "2_to_3_tasks",
-                          fds_cannot_cat_1 = "1_task",
-                          fds_cannot_cat_none = "none",
-                          fds_cannot_cat_undefined = "undefined",
-                          shelter_damage = FALSE,
-                          shelter_damage_cat = "snfi_shelter_damage_cat",
-                          shelter_damage_cat_none = "none",
-                          shelter_damage_cat_damaged = "damaged",
-                          shelter_damage_cat_part = "part",
-                          shelter_damage_cat_total = "total",
-                          shelter_damage_cat_undefined = "undefined") {
+add_comp_snfi <- function(
+  df,
+  shelter_type_cat = "snfi_shelter_type_cat",
+  shelter_type_cat_none = "none",
+  shelter_type_cat_inadequate = "inadequate",
+  shelter_type_cat_adequate = "adequate",
+  shelter_type_cat_undefined = "undefined",
+  shelter_issue_cat = "snfi_shelter_issue_cat",
+  shelter_issue_cat_1_to_3 = "1_to_3",
+  shelter_issue_cat_4_to_7 = "4_to_7",
+  shelter_issue_cat_8_to_11 = "8_to_11",
+  shelter_issue_cat_none = "none",
+  shelter_issue_cat_undefined = "undefined",
+  shelter_issue_cat_other = "other",
+  tenure_security_cat = "hlp_occupancy_cat",
+  tenure_security_cat_high_risk = "high_risk",
+  tenure_security_cat_medium_risk = "medium_risk",
+  tenure_security_cat_low_risk = "low_risk",
+  tenure_security_cat_undefined = "undefined",
+  fds_cannot_cat = "snfi_fds_cannot_cat",
+  fds_cannot_cat_4 = "4_tasks",
+  fds_cannot_cat_2_to_3 = "2_to_3_tasks",
+  fds_cannot_cat_1 = "1_task",
+  fds_cannot_cat_none = "none",
+  fds_cannot_cat_undefined = "undefined",
+  shelter_damage = FALSE,
+  shelter_damage_cat = "snfi_shelter_damage_cat",
+  shelter_damage_cat_none = "none",
+  shelter_damage_cat_damaged = "damaged",
+  shelter_damage_cat_part = "part",
+  shelter_damage_cat_total = "total",
+  shelter_damage_cat_undefined = "undefined"
+) {
   #----- Checks
 
   # Check that columns are in df
@@ -108,8 +110,8 @@ add_comp_snfi <- function(df,
     shelter_type_cat_undefined
   )
   shelter_issue_cat_levels <- c(
-    shelter_issue_cat_7_to_8,
-    shelter_issue_cat_4_to_6,
+    shelter_issue_cat_8_to_11,
+    shelter_issue_cat_4_to_7,
     shelter_issue_cat_1_to_3,
     shelter_issue_cat_none,
     shelter_issue_cat_undefined,
@@ -175,8 +177,8 @@ add_comp_snfi <- function(df,
   df <- dplyr::mutate(
     df,
     comp_snfi_score_shelter_issue_cat = dplyr::case_when(
-      !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_7_to_8 ~ 4,
-      !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_4_to_6 ~ 3,
+      !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_8_to_11 ~ 4,
+      !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_4_to_7 ~ 3,
       !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_1_to_3 ~ 2,
       !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_none ~ 1,
       !!rlang::sym(shelter_issue_cat) == shelter_issue_cat_undefined ~ NA_real_,
