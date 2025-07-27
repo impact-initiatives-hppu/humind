@@ -64,23 +64,6 @@ dummy_data <- tibble(
 )
 
 # ---- Unit Tests ----
-test_that("add_handwashing_facility_cat returns expected column", {
-  result <- add_handwashing_facility_cat(dummy_data)
-  expect_true("wash_handwashing_facility_jmp_cat" %in% colnames(result))
-})
-
-test_that("add_handwashing_facility_cat handles missing values", {
-  df_missing <- dummy_data
-  df_missing$wash_handwashing_facility[1] <- NA
-  result <- add_handwashing_facility_cat(df_missing)
-  expect_true(any(is.na(result$wash_handwashing_facility_jmp_cat)))
-})
-
-test_that("add_handwashing_facility_cat errors on missing columns", {
-  df_missing_col <- dummy_data %>%
-    select(-wash_handwashing_facility_water_reported)
-  expect_error(add_handwashing_facility_cat(df_missing_col), class = "error")
-})
 
 test_that("add_drinking_water_source_cat returns expected column and covers all categories", {
   result <- add_drinking_water_source_cat(dummy_data)
