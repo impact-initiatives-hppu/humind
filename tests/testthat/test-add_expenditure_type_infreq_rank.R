@@ -1,7 +1,3 @@
-# Load necessary libraries
-library(testthat)
-library(dplyr)
-
 # Dummy data for testing
 dummy_data_infreq <- data.frame(
   uuid = 1:4,
@@ -16,43 +12,42 @@ dummy_data_infreq <- data.frame(
   cm_expenditure_infrequent_other = c(0, 0, 10, 25)
 )
 
-# ---- Run function ----
-result <- add_expenditure_type_infreq_rank(
-  df = dummy_data_infreq,
-  expenditure_infreq_types = c(
-    "cm_expenditure_infrequent_shelter",
-    "cm_expenditure_infrequent_nfi",
-    "cm_expenditure_infrequent_health",
-    "cm_expenditure_infrequent_education",
-    "cm_expenditure_infrequent_debt",
-    "cm_expenditure_infrequent_clothing",
-    "cm_expenditure_infrequent_other"
-  ),
-  id_col = "uuid"
-)
-
-# ---- Expected Results ----
-expected_top1 <- c(
-  "cm_expenditure_infrequent_shelter",
-  "cm_expenditure_infrequent_shelter",
-  "cm_expenditure_infrequent_clothing",
-  "cm_expenditure_infrequent_education"
-)
-expected_top2 <- c(
-  "cm_expenditure_infrequent_education",
-  "cm_expenditure_infrequent_nfi",
-  "cm_expenditure_infrequent_shelter",
-  "cm_expenditure_infrequent_nfi"
-)
-expected_top3 <- c(
-  NA,
-  "cm_expenditure_infrequent_health",
-  "cm_expenditure_infrequent_nfi",
-  "cm_expenditure_infrequent_health"
-)
-
 # ---- Unit Tests ----
 test_that("Top 3 infrequent expenditure types are correctly ranked for all rows (vectorized)", {
+  # ---- Run function ----
+  result <- add_expenditure_type_infreq_rank(
+    df = dummy_data_infreq,
+    expenditure_infreq_types = c(
+      "cm_expenditure_infrequent_shelter",
+      "cm_expenditure_infrequent_nfi",
+      "cm_expenditure_infrequent_health",
+      "cm_expenditure_infrequent_education",
+      "cm_expenditure_infrequent_debt",
+      "cm_expenditure_infrequent_clothing",
+      "cm_expenditure_infrequent_other"
+    ),
+    id_col = "uuid"
+  )
+
+  # ---- Expected Results ----
+  expected_top1 <- c(
+    "cm_expenditure_infrequent_shelter",
+    "cm_expenditure_infrequent_shelter",
+    "cm_expenditure_infrequent_clothing",
+    "cm_expenditure_infrequent_education"
+  )
+  expected_top2 <- c(
+    "cm_expenditure_infrequent_education",
+    "cm_expenditure_infrequent_nfi",
+    "cm_expenditure_infrequent_shelter",
+    "cm_expenditure_infrequent_nfi"
+  )
+  expected_top3 <- c(
+    NA,
+    "cm_expenditure_infrequent_health",
+    "cm_expenditure_infrequent_nfi",
+    "cm_expenditure_infrequent_health"
+  )
   expect_equal(result$cm_infreq_expenditure_top1, expected_top1)
   expect_equal(result$cm_infreq_expenditure_top2, expected_top2)
   expect_equal(result$cm_infreq_expenditure_top3, expected_top3)
