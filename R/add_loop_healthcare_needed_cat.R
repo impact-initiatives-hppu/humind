@@ -219,8 +219,6 @@ add_loop_healthcare_needed_cat_to_main <- function(
   # Create new colnames
   vars_n <- paste0(vars, "_n")
 
-  # Same for dis if not null
-
   # Check if all these colnames are in main and throw a warning if they are
   if (vars_n[1] %in% colnames(main)) {
     rlang::warn(paste0(
