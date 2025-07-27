@@ -53,7 +53,10 @@ test_that("add_loop_edu_access_d_to_main function works with default parameters"
 missing_column_main_data <- dummy_main_data %>% select(-uuid)
 
 test_that("add_loop_edu_access_d_to_main function handles missing columns", {
-  expect_error(add_loop_edu_access_d_to_main(missing_column_main_data, dummy_loop_data))
+  expect_error(add_loop_edu_access_d_to_main(
+    missing_column_main_data,
+    dummy_loop_data
+  ))
 })
 
 # 6. Test ensuring value checks in add_loop_edu_access_d_to_main
@@ -62,7 +65,10 @@ invalid_value_loop_data$edu_ind_schooling_age_d <- 2
 
 test_that("add_loop_edu_access_d_to_main function ensures value checks", {
   expect_error(add_loop_edu_access_d(invalid_value_loop_data), calss = "error")
-  expect_error(add_loop_edu_access_d_to_main(dummy_main_data, loop_result), class = "error")
+  expect_error(
+    add_loop_edu_access_d_to_main(dummy_main_data, loop_result),
+    class = "error"
+  )
 })
 
 # 7. Test with edge cases (e.g., all zeros, all ones)
@@ -77,4 +83,3 @@ test_that("add_loop_edu_access_d function handles edge cases", {
   expect_equal(result$edu_ind_access_d[1], NA_real_)
   expect_equal(result$edu_ind_no_access_d[1], NA_real_)
 })
-
