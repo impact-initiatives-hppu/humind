@@ -4,24 +4,96 @@ library(dplyr)
 test_that("add_loop_wgq_ss works with different levels of difficulty", {
   df <- data.frame(
     ind_age = c(10, 12, 7, 6, 20),
-    wgq_vision = c("cannot_do", "some_difficulty", "no_difficulty", "lot_of_difficulty", "pnta"),
-    wgq_hearing = c("lot_of_difficulty", "no_difficulty", "cannot_do", "some_difficulty", "dnk"),
-    wgq_mobility = c("no_difficulty", "lot_of_difficulty", "some_difficulty", "cannot_do", "no_difficulty"),
-    wgq_cognition = c("some_difficulty", "cannot_do", "lot_of_difficulty", "no_difficulty", "no_difficulty"),
-    wgq_self_care = c("cannot_do", "some_difficulty", "no_difficulty", "lot_of_difficulty", "pnta"),
-    wgq_communication = c("lot_of_difficulty", "no_difficulty", "cannot_do", "some_difficulty", "dnk")
+    wgq_vision = c(
+      "cannot_do",
+      "some_difficulty",
+      "no_difficulty",
+      "lot_of_difficulty",
+      "pnta"
+    ),
+    wgq_hearing = c(
+      "lot_of_difficulty",
+      "no_difficulty",
+      "cannot_do",
+      "some_difficulty",
+      "dnk"
+    ),
+    wgq_mobility = c(
+      "no_difficulty",
+      "lot_of_difficulty",
+      "some_difficulty",
+      "cannot_do",
+      "no_difficulty"
+    ),
+    wgq_cognition = c(
+      "some_difficulty",
+      "cannot_do",
+      "lot_of_difficulty",
+      "no_difficulty",
+      "no_difficulty"
+    ),
+    wgq_self_care = c(
+      "cannot_do",
+      "some_difficulty",
+      "no_difficulty",
+      "lot_of_difficulty",
+      "pnta"
+    ),
+    wgq_communication = c(
+      "lot_of_difficulty",
+      "no_difficulty",
+      "cannot_do",
+      "some_difficulty",
+      "dnk"
+    )
   )
 
   result <- add_loop_wgq_ss(df)
 
   expected <- data.frame(
     ind_age = c(10, 12, 7, 6, 20),
-    wgq_vision = c("cannot_do", "some_difficulty", "no_difficulty", "lot_of_difficulty", "pnta"),
-    wgq_hearing = c("lot_of_difficulty", "no_difficulty", "cannot_do", "some_difficulty", "dnk"),
-    wgq_mobility = c("no_difficulty", "lot_of_difficulty", "some_difficulty", "cannot_do", "no_difficulty"),
-    wgq_cognition = c("some_difficulty", "cannot_do", "lot_of_difficulty", "no_difficulty", "no_difficulty"),
-    wgq_self_care = c("cannot_do", "some_difficulty", "no_difficulty", "lot_of_difficulty", "pnta"),
-    wgq_communication = c("lot_of_difficulty", "no_difficulty", "cannot_do", "some_difficulty", "dnk"),
+    wgq_vision = c(
+      "cannot_do",
+      "some_difficulty",
+      "no_difficulty",
+      "lot_of_difficulty",
+      "pnta"
+    ),
+    wgq_hearing = c(
+      "lot_of_difficulty",
+      "no_difficulty",
+      "cannot_do",
+      "some_difficulty",
+      "dnk"
+    ),
+    wgq_mobility = c(
+      "no_difficulty",
+      "lot_of_difficulty",
+      "some_difficulty",
+      "cannot_do",
+      "no_difficulty"
+    ),
+    wgq_cognition = c(
+      "some_difficulty",
+      "cannot_do",
+      "lot_of_difficulty",
+      "no_difficulty",
+      "no_difficulty"
+    ),
+    wgq_self_care = c(
+      "cannot_do",
+      "some_difficulty",
+      "no_difficulty",
+      "lot_of_difficulty",
+      "pnta"
+    ),
+    wgq_communication = c(
+      "lot_of_difficulty",
+      "no_difficulty",
+      "cannot_do",
+      "some_difficulty",
+      "dnk"
+    ),
     ind_age_above_5 = c(1, 1, 1, 1, 1),
     wgq_vision_cannot_do_d = c(1, 0, 0, 0, 0),
     wgq_hearing_cannot_do_d = c(0, 0, 1, 0, 0),
@@ -67,10 +139,34 @@ test_that("add_loop_wgq_ss works with different levels of difficulty", {
 test_that("add_loop_wgq_ss handles missing columns", {
   df <- data.frame(
     ind_age = c(10, 12, 7, 6, 20),
-    wgq_vision = c("cannot_do", "some_difficulty", "no_difficulty", "lot_of_difficulty", "pnta"),
-    wgq_hearing = c("lot_of_difficulty", "no_difficulty", "cannot_do", "some_difficulty", "dnk"),
-    wgq_mobility = c("no_difficulty", "lot_of_difficulty", "some_difficulty", "cannot_do", "no_difficulty"),
-    wgq_cognition = c("some_difficulty", "cannot_do", "lot_of_difficulty", "no_difficulty", "no_difficulty")
+    wgq_vision = c(
+      "cannot_do",
+      "some_difficulty",
+      "no_difficulty",
+      "lot_of_difficulty",
+      "pnta"
+    ),
+    wgq_hearing = c(
+      "lot_of_difficulty",
+      "no_difficulty",
+      "cannot_do",
+      "some_difficulty",
+      "dnk"
+    ),
+    wgq_mobility = c(
+      "no_difficulty",
+      "lot_of_difficulty",
+      "some_difficulty",
+      "cannot_do",
+      "no_difficulty"
+    ),
+    wgq_cognition = c(
+      "some_difficulty",
+      "cannot_do",
+      "lot_of_difficulty",
+      "no_difficulty",
+      "no_difficulty"
+    )
   )
 
   expect_error(add_loop_wgq_ss(df), class = "error")
@@ -79,12 +175,48 @@ test_that("add_loop_wgq_ss handles missing columns", {
 test_that("add_loop_wgq_ss handles invalid values", {
   df <- data.frame(
     ind_age = c(10, 12, 7, 6, 20),
-    wgq_vision = c("cannot_do", "some_difficulty", "no_difficulty", "lot_of_difficulty", "invalid_value"),
-    wgq_hearing = c("lot_of_difficulty", "no_difficulty", "cannot_do", "some_difficulty", "dnk"),
-    wgq_mobility = c("no_difficulty", "lot_of_difficulty", "some_difficulty", "cannot_do", "no_difficulty"),
-    wgq_cognition = c("some_difficulty", "cannot_do", "lot_of_difficulty", "no_difficulty", "no_difficulty"),
-    wgq_self_care = c("cannot_do", "some_difficulty", "no_difficulty", "lot_of_difficulty", "pnta"),
-    wgq_communication = c("lot_of_difficulty", "no_difficulty", "cannot_do", "some_difficulty", "dnk")
+    wgq_vision = c(
+      "cannot_do",
+      "some_difficulty",
+      "no_difficulty",
+      "lot_of_difficulty",
+      "invalid_value"
+    ),
+    wgq_hearing = c(
+      "lot_of_difficulty",
+      "no_difficulty",
+      "cannot_do",
+      "some_difficulty",
+      "dnk"
+    ),
+    wgq_mobility = c(
+      "no_difficulty",
+      "lot_of_difficulty",
+      "some_difficulty",
+      "cannot_do",
+      "no_difficulty"
+    ),
+    wgq_cognition = c(
+      "some_difficulty",
+      "cannot_do",
+      "lot_of_difficulty",
+      "no_difficulty",
+      "no_difficulty"
+    ),
+    wgq_self_care = c(
+      "cannot_do",
+      "some_difficulty",
+      "no_difficulty",
+      "lot_of_difficulty",
+      "pnta"
+    ),
+    wgq_communication = c(
+      "lot_of_difficulty",
+      "no_difficulty",
+      "cannot_do",
+      "some_difficulty",
+      "dnk"
+    )
   )
 
   expect_error(add_loop_wgq_ss(df), class = "error")
