@@ -12,9 +12,9 @@ add_comp_snfi(
   shelter_type_cat_adequate = "adequate",
   shelter_type_cat_undefined = "undefined",
   shelter_issue_cat = "snfi_shelter_issue_cat",
-  shelter_issue_cat_7_to_8 = "7_to_8",
-  shelter_issue_cat_4_to_6 = "4_to_6",
   shelter_issue_cat_1_to_3 = "1_to_3",
+  shelter_issue_cat_4_to_7 = "4_to_7",
+  shelter_issue_cat_8_to_11 = "8_to_11",
   shelter_issue_cat_none = "none",
   shelter_issue_cat_undefined = "undefined",
   shelter_issue_cat_other = "other",
@@ -53,11 +53,11 @@ add_comp_snfi(
 
 \item{shelter_issue_cat}{Column name for shelter issue.}
 
-\item{shelter_issue_cat_7_to_8}{Level for 7 to 8 shelter issues.}
-
-\item{shelter_issue_cat_4_to_6}{Level for 4 to 6 shelter issues.}
-
 \item{shelter_issue_cat_1_to_3}{Level for 1 to 3 shelter issues.}
+
+\item{shelter_issue_cat_4_to_7}{Level for 4 to 7 shelter issues.}
+
+\item{shelter_issue_cat_8_to_11}{Level for 8 to 11 shelter issues.}
 
 \item{shelter_issue_cat_none}{Level for no shelter issues.}
 
