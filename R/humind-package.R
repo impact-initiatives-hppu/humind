@@ -2,6 +2,7 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom rlang :=
+#' @importFrom rlang := .data
+#' @importFrom utils tail
 ## usethis namespace: end
 NULL
