@@ -1,9 +1,9 @@
 #' @title Add Child Protection Barriers to Education Variable
 #'
 #' @description This function adds a dummy variable for child protection barriers to education in individual-level data and aggregates it to household-level data.
-#' 
+#'
 #' Prerequisite function:
-#' 
+#'
 #' * add_loop_edu_ind_age_corrected.R
 #'
 #' @param loop A data frame of individual-level data for the loop.
@@ -12,19 +12,28 @@
 #' @param ind_schooling_age_d Column name for the dummy variable of schooling age.
 #'
 #' @return A data frame with an additional column:
-#' 
+#'
 #' * edu_ind_barrier_protection_d: Dummy variable indicating if a school-aged child faces a protection barrier (1) or not (0).
 #'
 #' @export
 #'
 #' @export
 add_loop_edu_barrier_protection_d <- function(
-    loop,
-    barriers = "edu_barrier",
-    protection_issues = c("protection_at_school", "protection_travel_school", "child_work_home", "child_work_outside", "child_armed_group", "child_marriage", "ban", "enroll_lack_documentation", "discrimination"),
-    ind_schooling_age_d = "edu_ind_schooling_age_d"
-){
-
+  loop,
+  barriers = "edu_barrier",
+  protection_issues = c(
+    "protection_at_school",
+    "protection_travel_school",
+    "child_work_home",
+    "child_work_outside",
+    "child_armed_group",
+    "child_marriage",
+    "ban",
+    "enroll_lack_documentation",
+    "discrimination"
+  ),
+  ind_schooling_age_d = "edu_ind_schooling_age_d"
+) {
   #----- Checks
 
   # Check if the variable is in the data frame
@@ -36,7 +45,9 @@ add_loop_edu_barrier_protection_d <- function(
 
   # Warn if edu_ind_barrier_cat exists in loop and will be replaced
   if ("edu_ind_barrier_child_prot_d" %in% colnames(loop)) {
-    rlang::warn("edu_ind_barrier_child_prot_d already exists in loop. It will be replaced.")
+    rlang::warn(
+      "edu_ind_barrier_child_prot_d already exists in loop. It will be replaced."
+    )
   }
 
   #------ Recode
@@ -47,11 +58,11 @@ add_loop_edu_barrier_protection_d <- function(
     "edu_ind_barrier_protection_d" := dplyr::case_when(
       !!rlang::sym(ind_schooling_age_d) == 0 ~ NA_real_,
       !!rlang::sym(barriers) %in% protection_issues ~ 1,
-      .default = 0)
+      .default = 0
+    )
   )
 
   return(loop)
-
 }
 
 #' @rdname add_loop_edu_barrier_protection_d
@@ -64,12 +75,12 @@ add_loop_edu_barrier_protection_d <- function(
 #'
 #' @export
 add_loop_edu_barrier_protection_d_to_main <- function(
-    main,
-    loop,
-    ind_barrier_protection_d = "edu_ind_barrier_protection_d",
-    id_col_main = "uuid",
-    id_col_loop = "uuid"){
-
+  main,
+  loop,
+  ind_barrier_protection_d = "edu_ind_barrier_protection_d",
+  id_col_main = "uuid",
+  id_col_loop = "uuid"
+) {
   #------ Checks
 
   # Check if the variables are in the data frame
@@ -80,7 +91,10 @@ add_loop_edu_barrier_protection_d_to_main <- function(
   # Check if new_colname exists in the dataframe, if yes throw a warning for replacement
   ind_barrier_protection_d_n <- paste0(ind_barrier_protection_d, "_n")
   if (ind_barrier_protection_d_n %in% colnames(main)) {
-    rlang::warn(paste0(ind_barrier_protection_d_n, " already exists in the data frame. It will be replaced."))
+    rlang::warn(paste0(
+      ind_barrier_protection_d_n,
+      " already exists in the data frame. It will be replaced."
+    ))
   }
 
   #------ Compute
@@ -91,15 +105,21 @@ add_loop_edu_barrier_protection_d_to_main <- function(
   # Sum the dummy variable
   loop <- dplyr::summarize(
     loop,
-    "edu_barrier_protection_n" := sum(!!rlang::sym(ind_barrier_protection_d), na.rm = TRUE)
+    "edu_barrier_protection_n" := sum(
+      !!rlang::sym(ind_barrier_protection_d),
+      na.rm = TRUE
+    )
   )
 
   # Remove columns in main that exists in loop, but the grouping ones
   main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
 
   # Join loop to main
-  main <- dplyr::left_join(main, loop, by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop)))
+  main <- dplyr::left_join(
+    main,
+    loop,
+    by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop))
+  )
 
   return(main)
-
 }
