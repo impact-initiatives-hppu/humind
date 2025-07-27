@@ -73,7 +73,7 @@ invalid_value_loop_data$edu_ind_schooling_age_d <- 2
 test_that("add_loop_edu_barrier_protection_d_to_main function ensures value checks", {
   expect_error(
     loop_result <- add_loop_edu_barrier_protection_d(invalid_value_loop_data),
-    calss = "error"
+    class = "error"
   )
   expect_error(add_loop_edu_barrier_protection_d_to_main(
     dummy_main_data,
