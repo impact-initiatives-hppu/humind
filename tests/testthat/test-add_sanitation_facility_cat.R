@@ -1,9 +1,3 @@
-# tests/testthat/test-sanitation_facility_classification.R
-
-library(testthat)
-library(dplyr)
-
-
 # Sample data for testing
 df <- data.frame(
   wash_sanitation_facility = c("flush_piped_sewer", "flush_piped_sewer", "flush_open_drain", "none", "other", "pit_latrine_wo_slab"),

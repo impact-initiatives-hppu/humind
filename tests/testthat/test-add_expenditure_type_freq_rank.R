@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 # Dummy data for testing
 dummy_data_top3 <- data.frame(
   uuid = 1:4,
@@ -54,4 +51,3 @@ non_numeric_data_top3$cm_expenditure_frequent_food <- as.character(non_numeric_d
 test_that("add_expenditure_type_freq_rank function checks for numeric expenditure types", {
   expect_error(add_expenditure_type_freq_rank(non_numeric_data_top3))
 })
-

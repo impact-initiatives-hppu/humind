@@ -1,8 +1,3 @@
-library(testthat)
-library(dplyr)
-
-
-
 test_that("add_quantile_interval works with default parameters", {
 
   df <- data.frame(
@@ -97,4 +92,3 @@ test_that("add_quantile_interval handles missing weight column", {
   expect_error(add_quantile_interval(df, vars = c("num_col1", "num_col2"), weight = "weights"), class = "error")
 
 })
-

@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 # test_that("add_loop_wgq_ss works with different levels of difficulty", {
 #   df <- data.frame(
 #     ind_age = c(10, 12, 7, 6, 20),

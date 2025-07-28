@@ -1,5 +1,3 @@
-library(tidyr)
-
 # Build dummy data for access to rights and services indicator
 q1 <- "prot_needs_1_services"
 q2 <- "prot_needs_1_justice"

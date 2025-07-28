@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 # Sample data for testing
 df <- data.frame(
   var1 = c(1, 2, 3, NA, 5),

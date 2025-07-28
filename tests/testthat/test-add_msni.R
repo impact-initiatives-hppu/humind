@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 test_that("add_msni works with default parameters", {
   df <- data.frame(
     comp_foodsec_score = c(1, 2, 3, 4, 5),

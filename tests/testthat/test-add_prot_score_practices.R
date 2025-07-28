@@ -1,5 +1,3 @@
-library(tidyr)
-
 q1 <- "prot_needs_2_activities"
 q2 <- "prot_needs_2_social"
 

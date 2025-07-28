@@ -1,9 +1,3 @@
-# tests/testthat/test-count_if_above_zero.R
-
-library(testthat)
-library(dplyr)
-
-
 # Sample data for testing
 df <- data.frame(
   var1 = c(1, 0, -1, 3, 0),
