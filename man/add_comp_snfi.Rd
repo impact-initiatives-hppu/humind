@@ -65,6 +65,16 @@ add_comp_snfi(
 
 \item{shelter_issue_cat_other}{Level for other shelter issues.}
 
+\item{tenure_security_cat}{Column name for security of tenure.}
+
+\item{tenure_security_cat_high_risk}{Level for high risk with security of tenure.}
+
+\item{tenure_security_cat_medium_risk}{Level for medium risk with security of tenure.}
+
+\item{tenure_security_cat_low_risk}{Level for low risk with security of tenure.}
+
+\item{tenure_security_cat_undefined}{Level for undefined with security of tenure.}
+
 \item{fds_cannot_cat}{Column name for fds cannot.}
 
 \item{fds_cannot_cat_4}{Level for 4 tasks that cannot be done.}
@@ -77,7 +87,9 @@ add_comp_snfi(
 
 \item{fds_cannot_cat_undefined}{Level for undefined fds cannot.}
 
-\item{shelter_damage_cat}{Column for shelter damage.}
+\item{shelter_damage}{Column for shelter damage.}
+
+\item{shelter_damage_cat}{Column for shelter damage category.}
 
 \item{shelter_damage_cat_none}{Level name for no shelter damage.}
 
@@ -88,24 +100,14 @@ add_comp_snfi(
 \item{shelter_damage_cat_total}{Level name for total collapse or destruction.}
 
 \item{shelter_damage_cat_undefined}{Level name for undefined or unknown status for shelter damage.}
-
-\item{tenure_security}{Column name for security of tenure.}
-
-\item{tenure_security_high_risk}{Level for high risk with security of tenure.}
-
-\item{tenure_security_medium_risk}{Level for medium risk with security of tenure.}
-
-\item{tenure_security_low_risk}{Level for low risk with security of tenure.}
-
-\item{tenure_security_undefined}{Level for undefined with security of tenure.}
 }
 \value{
 A data frame with added columns:
 \itemize{
-\item comp_snfi_score_shelter_type_cat: Score based on shelter type
-\item comp_snfi_score_shelter_issue_cat: Score based on shelter issues
-\item comp_snfi_score_tenure_security_cat: Score based on security of tenure status
-\item comp_snfi_score_fds_cannot_cat: Score based on FDS
+\item comp_snfi_score_shelter_type_cat Score based on shelter type
+\item comp_snfi_score_shelter_issue_cat Score based on shelter issues
+\item comp_snfi_score_tenure_security_cat Score based on security of tenure status
+\item comp_snfi_score_fds_cannot_cat Score based on FDS
 \item comp_snfi_score: Overall SNFI composite score
 \item comp_snfi_in_need: Indicator for being in need
 \item comp_snfi_in_acute_need: Indicator for being in acute need

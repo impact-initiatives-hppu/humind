@@ -1,7 +1,3 @@
-library(testthat)
-library(dplyr)
-
-
 test_that("impute_value works with default parameters", {
   df <- data.frame(
     var1 = c(1, 2, NA, 4),

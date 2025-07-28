@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 # Sample data frame
 df <- data.frame(
   uuid = 1:3,

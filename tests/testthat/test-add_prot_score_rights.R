@@ -1,5 +1,3 @@
-library(tidyr)
-
 # Build dummy data for access to rights and services indicator
 q1 <- "prot_needs_1_services"
 q2 <- "prot_needs_1_justice"
@@ -43,9 +41,9 @@ dummy_justice <- generate_survey_choice_combinations(
 dummy_df <- expand_grid(
   dummy_services,
   dummy_justice,
-  .name_repair = "unique"
+  .name_repair = "unique_quiet"
 ) |>
-  as_tibble()
+  dplyr::as_tibble()
 
 # Tests for the composite function: Ability to Access Rights and Services
 
@@ -123,7 +121,7 @@ test_that("composite severity: NA for DNK/P NTA, 1–4 for others, and non-destr
     dummy_df[[str_glue("{q2}/pnta")]] == 1)
 
   # Flagged rows should be NA
-  expect_true(all(is.na(res$comp_prot_score_needs_1[flagged])))
+  expect_true(all(is.na(res$comp_prot_score_rights[flagged])))
 
   # Non-flagged rows should be bounded between 1 and 4
   expect_true(all(res$comp_prot_score_rights[!flagged] >= 1, na.rm = TRUE))

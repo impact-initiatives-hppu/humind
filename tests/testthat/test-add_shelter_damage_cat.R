@@ -1,7 +1,3 @@
-# Load required packages
-library(testthat)
-library(dplyr)
-
 # Test data frame with all cases
 df <- data.frame(
   "snfi_shelter_damage/none" = c(1, 0, 0, 0, 0, 0, 0, 0, 0, 0),

@@ -1,9 +1,5 @@
-# Load required libraries
-library(testthat)
-library(dplyr)
-
 # Create dummy data for testing
-df <- tibble(
+df <- dplyr::tibble(
   cm_expenditure_frequent = c("no", "no", "no", "no", "no"),
   cm_expenditure_infrequent = c("shelter", "none", "dnk", "pnta", "education"),
   cm_expenditure_infrequent_shelter = c(500, 0, 0, 0, 0),

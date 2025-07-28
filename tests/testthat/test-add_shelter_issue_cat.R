@@ -1,7 +1,3 @@
-# Load testthat
-library(testthat)
-
-# ---- Test Data ----
 test_df <- data.frame(
   snfi_shelter_issue = rep(NA, 8),
   "snfi_shelter_issue/lack_privacy" = c(1, 0, 0, 0, 0, 0, 0, 1),
@@ -21,41 +17,29 @@ test_df <- data.frame(
   "snfi_shelter_issue/other" = c(0, 0, 0, 0, 1, 0, 0, 0),
   check.names = FALSE
 )
-# ---- Expected Output ----
-# Row 1: 1 issue selected -> "1_to_3"
-# Row 2: 2 issues selected -> "1_to_3"
-# Row 3: 2 issues selected -> "1_to_3"
-# Row 4: 7 issues selected -> "4_to_7"
-# Row 5: 'other' selected -> "other"
-# Row 6: 'none' selected -> "none"
-# Row 7: 'dnk' selected -> "undefined"
-# Row 8: 11 issues selected -> "8_to_11"
 
-# ---- Run the function ----
-result <- add_shelter_issue_cat(
-  df = test_df,
-  shelter_issue = "snfi_shelter_issue",
-  none = "none",
-  issues = c(
-    "lack_privacy",
-    "lack_space",
-    "temperature",
-    "ventilation",
-    "vectors",
-    "no_natural_light",
-    "leak",
-    "lock",
-    "lack_lighting",
-    "difficulty_move",
-    "lack_space_laundry"
-  ),
-  undefined = c("dnk", "pnta"),
-  other = c("other"),
-  sep = "/"
-)
-
-# ---- Unit Tests ----
 test_that("snfi_shelter_issue_n and snfi_shelter_issue_cat are correct for all scenarios", {
+  result <- add_shelter_issue_cat(
+    df = test_df,
+    shelter_issue = "snfi_shelter_issue",
+    none = "none",
+    issues = c(
+      "lack_privacy",
+      "lack_space",
+      "temperature",
+      "ventilation",
+      "vectors",
+      "no_natural_light",
+      "leak",
+      "lock",
+      "lack_lighting",
+      "difficulty_move",
+      "lack_space_laundry"
+    ),
+    undefined = c("dnk", "pnta"),
+    other = c("other"),
+    sep = "/"
+  )
   expect_equal(result$snfi_shelter_issue_n, c(1, 2, 2, 7, NA, 0, NA, 11))
   expect_equal(
     result$snfi_shelter_issue_cat,

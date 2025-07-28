@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 # Dummy data for testing
 dummy_loop_data <- data.frame(
   uuid = c(1, 1, 2, 2, 3, 4),

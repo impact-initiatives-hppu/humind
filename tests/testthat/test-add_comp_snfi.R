@@ -1,8 +1,3 @@
-# test_add_comp_snfi.R
-
-# Load required package
-library(testthat)
-
 # Create mock data
 test_df <- data.frame(
   snfi_shelter_type_cat = c("none", "inadequate", "adequate", "undefined"),

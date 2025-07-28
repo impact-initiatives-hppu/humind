@@ -1,6 +1,3 @@
-library(testthat)
-library(humind)
-
 test_that("Reexport functions are available", {
   expect_true(exists("add_hhs"))
   expect_true(exists("add_fcs"))

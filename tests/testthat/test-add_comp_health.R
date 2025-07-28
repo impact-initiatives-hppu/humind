@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 # Create dummy data
 df_dummy <- data.frame(
   health_ind_healthcare_needed_no_n = c(0, 1, 0, 1, 0),

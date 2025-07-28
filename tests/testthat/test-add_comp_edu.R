@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 # Dummy data for testing
 dummy_data <- data.frame(
   edu_schooling_age_n = c(0, 10, 5, 7, 0, 2),

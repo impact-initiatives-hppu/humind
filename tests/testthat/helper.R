@@ -1,5 +1,6 @@
 library(stringr)
 library(dplyr)
+library(tidyr)
 
 generate_survey_choice_combinations <- function(
   question_name,

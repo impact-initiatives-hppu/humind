@@ -1,5 +1,3 @@
-library(dplyr)
-
 # Example data frame covering all combinations
 example_df <- data.frame(
   hlp_occupancy = c(

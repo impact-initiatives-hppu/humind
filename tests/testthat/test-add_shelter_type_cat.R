@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 test_that("add_shelter_type_cat works with different shelter types", {
   df <- data.frame(
     snfi_shelter_type = c("none", "collective_center", "pnta", "other", "individual_shelter"),

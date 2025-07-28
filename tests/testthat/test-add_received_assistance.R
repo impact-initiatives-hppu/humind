@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 test_that("add_received_assistance works with default parameters", {
   df <- data.frame(
     aap_received_assistance_12m = c("yes", "no", "dnk", "pnta"),

@@ -1,7 +1,3 @@
-library(testthat)
-library(dplyr)
-library(humind)
-
 test_that("Correct column names are added to the output", {
   df <- data.frame(
     cm_income_source_salaried_n = c(100, 200),
@@ -138,4 +134,3 @@ test_that("Throws an error if columns are not numeric", {
 
   expect_error(add_income_source_prop(df), "numeric")
 })
-

@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 # Mock the helper functions if_not_in_stop and are_cols_numeric
 if_not_in_stop <- function(df, cols, df_name) {
   missing_cols <- setdiff(cols, colnames(df))
@@ -125,4 +122,3 @@ test_that("add_loop_age_gender_dummy_to_main works with default parameters", {
 
   expect_equal(result, expected)
 })
-

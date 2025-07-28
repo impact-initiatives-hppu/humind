@@ -1,14 +1,10 @@
-# Load required libraries
-library(testthat)
-library(dplyr)
-
 # Create dummy data for testing
-loop_data <- tibble(
+loop_data <- dplyr::tibble(
   uuid = c("id1", "id2", "id3", "id4"),
   ind_age = c(10, 12, 18, 3)
 )
 
-main_data <- tibble(
+main_data <- dplyr::tibble(
   uuid = c("id1", "id2", "id3", "id4"),
   start = as.Date(c("2023-01-15", "2023-02-20", "2023-03-25", "2023-04-30"))
 )
@@ -25,7 +21,11 @@ test_that("Function handles specific month correctly", {
 })
 
 test_that("Function handles school year start month correctly", {
-  result <- add_loop_edu_ind_age_corrected(loop_data, main_data, school_year_start_month = 1)
+  result <- add_loop_edu_ind_age_corrected(
+    loop_data,
+    main_data,
+    school_year_start_month = 1
+  )
   expect_equal(result$edu_ind_age_corrected, c(10, 12, NA, NA))
 })
 
@@ -58,4 +58,3 @@ test_that("Function calculates number of school-age children correctly", {
   main_result <- add_loop_edu_ind_schooling_age_d_to_main(main_data, result)
   expect_equal(main_result$edu_schooling_age_n, c(1, 1, 0, 0))
 })
-
