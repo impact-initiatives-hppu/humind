@@ -112,7 +112,7 @@ test_that("composite severity is bounded 1–4", {
     dummy_df[[str_glue("{q2}/pnta")]] == 1)
 
   # Flagged rows should be NA
-  expect_true(all(is.na(res$comp_prot_score_needs_2[flagged])))
+  expect_true(all(is.na(res$comp_prot_score_practices[flagged])))
   expect_true(all(res$comp_prot_score_practices >= 1, na.rm = TRUE))
   expect_true(all(res$comp_prot_score_practices <= 4, na.rm = TRUE))
 })
