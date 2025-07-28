@@ -35,7 +35,10 @@ test_that("impute_value handles missing columns", {
     var1 = c(1, 2, NA, 4)
   )
 
-  expect_error(impute_value(df, vars = c("var1", "var2"), value = 0), class = "error")
+  expect_error(
+    impute_value(df, vars = c("var1", "var2"), value = 0),
+    class = "error"
+  )
 })
 
 test_that("impute_median works with default parameters", {

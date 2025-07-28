@@ -40,7 +40,12 @@ test_that("add_expenditure_type_zero_freq function works with default parameters
 
 # 2. Test handling of non-skipped values
 non_skipped_data <- dummy_data
-non_skipped_data$cm_expenditure_frequent <- c("valid", "valid", "valid", "valid")
+non_skipped_data$cm_expenditure_frequent <- c(
+  "valid",
+  "valid",
+  "valid",
+  "valid"
+)
 
 test_that("add_expenditure_type_zero_freq function does not alter non-skipped values", {
   result <- add_expenditure_type_zero_freq(non_skipped_data)
@@ -66,7 +71,12 @@ test_that("add_expenditure_type_zero_freq function handles missing columns", {
 
 # 4. Test correct handling of undefined values
 undefined_value_data <- dummy_data
-undefined_value_data$cm_expenditure_frequent <- c("invalid", "pnta", "none", "valid")
+undefined_value_data$cm_expenditure_frequent <- c(
+  "invalid",
+  "pnta",
+  "none",
+  "valid"
+)
 
 test_that("add_expenditure_type_zero_freq function handles undefined values correctly", {
   result <- add_expenditure_type_zero_freq(undefined_value_data)

@@ -24,16 +24,18 @@
 #' * hlp_tenure_security: Maximum risk between hlp_occupancy_cat and hlp_eviction_cat.
 #'
 #' @export
-add_occupancy_cat <- function(df,
-                              occupancy = "hlp_occupancy",
-                              occupancy_high_risk = c("no_agreement"),
-                              occupancy_medium_risk = c("rented", "hosted_free"),
-                              occupancy_low_risk = c("ownership"),
-                              occupancy_undefined = c("dnk", "pnta", "other"),
-                              eviction = "hlp_risk_eviction",
-                              eviction_high_risk = "yes",
-                              eviction_low_risk = "no",
-                              eviction_undefined = c("dnk", "pnta")) {
+add_occupancy_cat <- function(
+  df,
+  occupancy = "hlp_occupancy",
+  occupancy_high_risk = c("no_agreement"),
+  occupancy_medium_risk = c("rented", "hosted_free"),
+  occupancy_low_risk = c("ownership"),
+  occupancy_undefined = c("dnk", "pnta", "other"),
+  eviction = "hlp_risk_eviction",
+  eviction_high_risk = "yes",
+  eviction_low_risk = "no",
+  eviction_undefined = c("dnk", "pnta")
+) {
   #------ Checks
 
   # Check if the variable is in the data frame

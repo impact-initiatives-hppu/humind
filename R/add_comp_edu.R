@@ -33,14 +33,15 @@
 #'
 #' @export
 add_comp_edu <- function(
-    df,
-    schooling_age_n = "edu_schooling_age_n",
-    no_access_n = "edu_no_access_n",
-    barrier_protection_n = "edu_barrier_protection_n",
-    attack_n = "edu_disrupted_attack_n",
-    hazards_n = "edu_disrupted_hazards_n",
-    displaced_n = "edu_disrupted_displaced_n",
-    teacher_n = "edu_disrupted_teacher_n") {
+  df,
+  schooling_age_n = "edu_schooling_age_n",
+  no_access_n = "edu_no_access_n",
+  barrier_protection_n = "edu_barrier_protection_n",
+  attack_n = "edu_disrupted_attack_n",
+  hazards_n = "edu_disrupted_hazards_n",
+  displaced_n = "edu_disrupted_displaced_n",
+  teacher_n = "edu_disrupted_teacher_n"
+) {
   #------ Checks
 
   # Check if the variables are in the data frame

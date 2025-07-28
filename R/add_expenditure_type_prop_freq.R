@@ -6,7 +6,7 @@
 #' data frame representing these proportions.
 #'
 #' Prerequisite function:
-#' 
+#'
 #' * add_expenditure_type_zero_freq.R
 #'
 #' @param df A data frame containing frequent expenditure data.
@@ -21,7 +21,7 @@
 #' @param cm_expenditure_frequent_other Column name for all other frequent expenditures.
 #'
 #' @return A data frame with additional columns:
-#' 
+#'
 #' * cm_expenditure_frequent_total: The total frequent expenditure amount.
 #' * cm_expenditure_frequent_food_prop: Proportion of food expenditure.
 #' * cm_expenditure_frequent_rent_prop: Proportion of rent expenditure.
@@ -35,31 +35,30 @@
 #'
 #' @export
 add_expenditure_type_prop_freq <- function(
-    df,
-    cm_expenditure_frequent_food = "cm_expenditure_frequent_food",
-    cm_expenditure_frequent_rent = "cm_expenditure_frequent_rent",
-    cm_expenditure_frequent_water = "cm_expenditure_frequent_water",
-    cm_expenditure_frequent_nfi = "cm_expenditure_frequent_nfi",
-    cm_expenditure_frequent_utilities = "cm_expenditure_frequent_utilities",
-    cm_expenditure_frequent_fuel = "cm_expenditure_frequent_fuel",
-    cm_expenditure_frequent_transportation = "cm_expenditure_frequent_transportation",
-    cm_expenditure_frequent_communication = "cm_expenditure_frequent_communication",
-    cm_expenditure_frequent_other = "cm_expenditure_frequent_other"){
-
+  df,
+  cm_expenditure_frequent_food = "cm_expenditure_frequent_food",
+  cm_expenditure_frequent_rent = "cm_expenditure_frequent_rent",
+  cm_expenditure_frequent_water = "cm_expenditure_frequent_water",
+  cm_expenditure_frequent_nfi = "cm_expenditure_frequent_nfi",
+  cm_expenditure_frequent_utilities = "cm_expenditure_frequent_utilities",
+  cm_expenditure_frequent_fuel = "cm_expenditure_frequent_fuel",
+  cm_expenditure_frequent_transportation = "cm_expenditure_frequent_transportation",
+  cm_expenditure_frequent_communication = "cm_expenditure_frequent_communication",
+  cm_expenditure_frequent_other = "cm_expenditure_frequent_other"
+) {
   #------ Checks
 
   # All frequent expenditure types
   expenditure_freq_types <- c(
-      cm_expenditure_frequent_food,
-      cm_expenditure_frequent_rent,
-      cm_expenditure_frequent_water,
-      cm_expenditure_frequent_nfi,
-      cm_expenditure_frequent_utilities,
-      cm_expenditure_frequent_fuel,
-      cm_expenditure_frequent_transportation,
-      cm_expenditure_frequent_communication,
-      cm_expenditure_frequent_other
-
+    cm_expenditure_frequent_food,
+    cm_expenditure_frequent_rent,
+    cm_expenditure_frequent_water,
+    cm_expenditure_frequent_nfi,
+    cm_expenditure_frequent_utilities,
+    cm_expenditure_frequent_fuel,
+    cm_expenditure_frequent_transportation,
+    cm_expenditure_frequent_communication,
+    cm_expenditure_frequent_other
   )
 
   # Check if the columns exist
@@ -67,7 +66,6 @@ add_expenditure_type_prop_freq <- function(
 
   # Check that all frequent expenditure types are here
   if (length(expenditure_freq_types) < 9) {
-
     rlang::abort("Some of the frequent expenditure types are null.")
   }
 
@@ -84,10 +82,16 @@ add_expenditure_type_prop_freq <- function(
     df,
     dplyr::across(
       dplyr::all_of(expenditure_freq_types),
-      \(x) ifelse(!!rlang::sym("cm_expenditure_frequent_total") == 0, NA_real_, x / !!rlang::sym("cm_expenditure_frequent_total")),
-      .names = "{.col}_prop")
+      \(x) {
+        ifelse(
+          !!rlang::sym("cm_expenditure_frequent_total") == 0,
+          NA_real_,
+          x / !!rlang::sym("cm_expenditure_frequent_total")
+        )
+      },
+      .names = "{.col}_prop"
+    )
   )
 
   return(df)
-
 }

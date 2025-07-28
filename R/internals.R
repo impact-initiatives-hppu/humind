@@ -1,12 +1,10 @@
-
 #' @title Stop statement values are not numeric
 #'
 #' @param df A data frame
 #' @param cols A vector of column names (quoted)
 #'
 #' @return A stop statement
-are_cols_numeric <- function(df, cols){
-
+are_cols_numeric <- function(df, cols) {
   #------ Check for missing columns
   if_not_in_stop(df, cols, "df")
 
@@ -41,8 +39,7 @@ are_cols_numeric <- function(df, cols){
 #' @param upper Upper bound
 #'
 #' @return A stop statement
-are_values_in_range <- function(df, cols, lower = 0, upper = 7){
-
+are_values_in_range <- function(df, cols, lower = 0, upper = 7) {
   #------ Only use on numeric columns
   are_cols_numeric(df, cols)
 
@@ -80,8 +77,12 @@ are_values_in_range <- function(df, cols, lower = 0, upper = 7){
 #' @param main_message A main message
 #'
 #' @return A stop statement
-are_values_in_set <- function(df, cols, set, main_message = "All columns must be in the following set: "){
-
+are_values_in_set <- function(
+  df,
+  cols,
+  set,
+  main_message = "All columns must be in the following set: "
+) {
   #------ Check for missing columns
   if_not_in_stop(df, cols, "df")
 
@@ -97,7 +98,6 @@ are_values_in_set <- function(df, cols, set, main_message = "All columns must be
   )
 
   if (any(values_lgl)) {
-
     cols <- cols[values_lgl]
     values_chr <- names(values_lgl)
 
@@ -118,13 +118,15 @@ are_values_in_set <- function(df, cols, set, main_message = "All columns must be
         "The following columns have values out of the set Please check.\n",
         glue::glue_collapse(cols, sep = "\n")
       ),
-      "x" = glue::glue("The values out of the set are:\n", glue::glue_collapse(values_chr, sep = "\n"))
+      "x" = glue::glue(
+        "The values out of the set are:\n",
+        glue::glue_collapse(values_chr, sep = "\n")
+      )
     ))
   }
 
   return(TRUE)
 }
-
 
 
 #' @title Subvec in
@@ -148,8 +150,6 @@ subvec_not_in <- function(vector, set) {
 }
 
 
-
-
 #' @title Stop statement "If not in colnames" with colnames
 #'
 #' @param df A data frame
@@ -159,7 +159,6 @@ subvec_not_in <- function(vector, set) {
 #'
 #' @return A stop statement
 if_not_in_stop <- function(df, cols, df_name, arg = NULL) {
-
   missing_cols <- subvec_not_in(cols, colnames(df))
 
   if (is.null(arg)) {
@@ -170,23 +169,27 @@ if_not_in_stop <- function(df, cols, df_name, arg = NULL) {
     }
   } else {
     if (length(missing_cols) >= 2) {
-      msg <- glue::glue("The following columns from `{arg}` are missing in `{df_name}`: ")
+      msg <- glue::glue(
+        "The following columns from `{arg}` are missing in `{df_name}`: "
+      )
     } else {
-      msg <- glue::glue("The following column from `{arg}` is missing in `{df_name}`: ")
+      msg <- glue::glue(
+        "The following column from `{arg}` is missing in `{df_name}`: "
+      )
     }
   }
   if (length(missing_cols) >= 1) {
     rlang::abort(
-      c("Missing columns",
-        "*" =
-          glue::glue(
-            msg,
-            glue::glue_collapse(
-              missing_cols,
-              sep = ", ",
-              last = ", and "
-            )
+      c(
+        "Missing columns",
+        "*" = glue::glue(
+          msg,
+          glue::glue_collapse(
+            missing_cols,
+            sep = ", ",
+            last = ", and "
           )
+        )
       )
     )
   }

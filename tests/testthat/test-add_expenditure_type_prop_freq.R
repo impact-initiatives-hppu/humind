@@ -21,7 +21,7 @@ test_that("add_expenditure_type_prop_freq function works with default parameters
   expect_true(all(expected_cols %in% colnames(result)))
 
   # Check if proportions are calculated correctly
-  total_expenditure <- rowSums(dummy_data[,-1])
+  total_expenditure <- rowSums(dummy_data[, -1])
   for (col in colnames(dummy_data)[-1]) {
     prop_col <- paste0(col, "_prop")
     expect_equal(result[[prop_col]], dummy_data[[col]] / total_expenditure)
@@ -64,8 +64,8 @@ varying_data <- data.frame(
 
 test_that("add_expenditure_type_prop_freq function handles varying values correctly", {
   result <- add_expenditure_type_prop_freq(varying_data)
-  expect_equal(result$cm_expenditure_frequent_food_prop[1], 2/3)
-  expect_equal(result$cm_expenditure_frequent_rent_prop[2], 4/5)
+  expect_equal(result$cm_expenditure_frequent_food_prop[1], 2 / 3)
+  expect_equal(result$cm_expenditure_frequent_rent_prop[2], 4 / 5)
 })
 
 # 5. Test correct handling of negative values
@@ -74,9 +74,12 @@ negative_value_data[1, -1] <- -100
 
 test_that("add_expenditure_type_prop_freq function handles negative values correctly", {
   result <- add_expenditure_type_prop_freq(negative_value_data)
-  total_expenditure <- rowSums(negative_value_data[,-1])
+  total_expenditure <- rowSums(negative_value_data[, -1])
   for (col in colnames(negative_value_data)[-1]) {
     prop_col <- paste0(col, "_prop")
-    expect_equal(result[[prop_col]], negative_value_data[[col]] / total_expenditure)
+    expect_equal(
+      result[[prop_col]],
+      negative_value_data[[col]] / total_expenditure
+    )
   }
 })

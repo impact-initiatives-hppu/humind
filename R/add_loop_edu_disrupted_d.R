@@ -19,13 +19,14 @@
 #'
 #' @export
 add_loop_edu_disrupted_d <- function(
-    df,
-    attack = "edu_disrupted_attack",
-    hazards = "edu_disrupted_hazards",
-    displaced = "edu_disrupted_displaced",
-    teacher = "edu_disrupted_teacher",
-    levels = c("yes", "no", "dnk", "pnta"),
-    ind_schooling_age_d = "edu_ind_schooling_age_d") {
+  df,
+  attack = "edu_disrupted_attack",
+  hazards = "edu_disrupted_hazards",
+  displaced = "edu_disrupted_displaced",
+  teacher = "edu_disrupted_teacher",
+  levels = c("yes", "no", "dnk", "pnta"),
+  ind_schooling_age_d = "edu_ind_schooling_age_d"
+) {
   #----- Checks
 
   # Check if the variable is in the data frame
@@ -124,14 +125,15 @@ add_loop_edu_disrupted_d <- function(
 #'
 #' @export
 add_loop_edu_disrupted_d_to_main <- function(
-    main,
-    loop,
-    attack_d = "edu_disrupted_attack_d",
-    hazards_d = "edu_disrupted_hazards_d",
-    displaced_d = "edu_disrupted_displaced_d",
-    teacher_d = "edu_disrupted_teacher_d",
-    id_col_main = "uuid",
-    id_col_loop = "uuid") {
+  main,
+  loop,
+  attack_d = "edu_disrupted_attack_d",
+  hazards_d = "edu_disrupted_hazards_d",
+  displaced_d = "edu_disrupted_displaced_d",
+  teacher_d = "edu_disrupted_teacher_d",
+  id_col_main = "uuid",
+  id_col_loop = "uuid"
+) {
   #----- Checks
 
   # Check if the variables are in the data frame

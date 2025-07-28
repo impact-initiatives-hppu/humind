@@ -27,11 +27,17 @@ test_that("are_cols_numeric works with default parameters", {
 })
 
 test_that("are_cols_numeric handles non-numeric columns", {
-  expect_error(humind:::are_cols_numeric(df, c("col1", "col2")), class = "error")
+  expect_error(
+    humind:::are_cols_numeric(df, c("col1", "col2")),
+    class = "error"
+  )
 })
 
 test_that("are_cols_numeric handles missing columns", {
-  expect_error(humind:::are_cols_numeric(df, c("col1", "col6")), class = "error")
+  expect_error(
+    humind:::are_cols_numeric(df, c("col1", "col6")),
+    class = "error"
+  )
 })
 
 test_that("are_cols_numeric handles all NA columns", {
@@ -45,29 +51,57 @@ test_that("are_values_in_range works with default parameters", {
 test_that("are_values_in_range handles values out of range", {
   df_out_of_range <- df
   df_out_of_range$col3[1] <- 10
-  expect_error(humind:::are_values_in_range(df_out_of_range, c("col3")), class = "error")
+  expect_error(
+    humind:::are_values_in_range(df_out_of_range, c("col3")),
+    class = "error"
+  )
 })
 
 test_that("are_values_in_range handles missing columns", {
-  expect_error(humind:::are_values_in_range(df, c("col1", "col6")), class = "error")
+  expect_error(
+    humind:::are_values_in_range(df, c("col1", "col6")),
+    class = "error"
+  )
 })
 
 test_that("are_values_in_set works with default parameters", {
-  expect_true(humind:::are_values_in_set(df, c("col2"), set = c("a", "b", "c", "d", NA)))
+  expect_true(humind:::are_values_in_set(
+    df,
+    c("col2"),
+    set = c("a", "b", "c", "d", NA)
+  ))
 })
 
 test_that("are_values_in_set handles values out of set", {
   df_out_of_set <- df
   df_out_of_set$col2[1] <- "e"
-  expect_error(humind:::are_values_in_set(df_out_of_set, c("col2"), set = c("a", "b", "c", "d", NA)), class = "error")
+  expect_error(
+    humind:::are_values_in_set(
+      df_out_of_set,
+      c("col2"),
+      set = c("a", "b", "c", "d", NA)
+    ),
+    class = "error"
+  )
 })
 
 test_that("are_values_in_set handles missing columns", {
-  expect_error(humind:::are_values_in_set(df, c("col1", "col6"), set = c("a", "b", "c", "d", NA)), class = "error")
+  expect_error(
+    humind:::are_values_in_set(
+      df,
+      c("col1", "col6"),
+      set = c("a", "b", "c", "d", NA)
+    ),
+    class = "error"
+  )
 })
 
 test_that("are_values_in_set handles all NA columns", {
-  expect_true(humind:::are_values_in_set(df_all_na, c("col1", "col2"), set = c("a", "b", "c", "d", NA)))
+  expect_true(humind:::are_values_in_set(
+    df_all_na,
+    c("col1", "col2"),
+    set = c("a", "b", "c", "d", NA)
+  ))
 })
 
 test_that("subvec_in works correctly", {
@@ -79,7 +113,10 @@ test_that("subvec_not_in works correctly", {
 })
 
 test_that("if_not_in_stop handles missing columns correctly", {
-  expect_error(humind:::if_not_in_stop(df, c("col1", "col6"), "df"), class = "error")
+  expect_error(
+    humind:::if_not_in_stop(df, c("col1", "col6"), "df"),
+    class = "error"
+  )
 })
 
 test_that("if_not_in_stop works with all columns present", {
@@ -87,5 +124,8 @@ test_that("if_not_in_stop works with all columns present", {
 })
 
 test_that("if_not_in_stop works with custom argument", {
-  expect_error(humind:::if_not_in_stop(df, c("col1", "col6"), "df", arg = "test_arg"), class = "error")
+  expect_error(
+    humind:::if_not_in_stop(df, c("col1", "col6"), "df", arg = "test_arg"),
+    class = "error"
+  )
 })

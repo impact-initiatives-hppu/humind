@@ -7,7 +7,13 @@ df <- data.frame(
 )
 
 test_that("rank_top3_vars correctly identifies and ranks the top three variables", {
-  result <- rank_top3_vars(df, vars = c("var1", "var2", "var3"), new_colname_top1 = "top1", new_colname_top2 = "top2", new_colname_top3 = "top3")
+  result <- rank_top3_vars(
+    df,
+    vars = c("var1", "var2", "var3"),
+    new_colname_top1 = "top1",
+    new_colname_top2 = "top2",
+    new_colname_top3 = "top3"
+  )
 
   expect_equal(result$top1, c("var1", "var2", "var1"))
   expect_equal(result$top2, c("var2", "var3", "var3"))
@@ -25,7 +31,13 @@ df <- data.frame(
 )
 
 test_that("rank_top3_vars correctly handles ties", {
-  result <- rank_top3_vars(df, vars = c("var1", "var2", "var3", "var4"), new_colname_top1 = "top1", new_colname_top2 = "top2", new_colname_top3 = "top3")
+  result <- rank_top3_vars(
+    df,
+    vars = c("var1", "var2", "var3", "var4"),
+    new_colname_top1 = "top1",
+    new_colname_top2 = "top2",
+    new_colname_top3 = "top3"
+  )
 
   expect_equal(result$top1, c("var1", "var3", "var2"))
   expect_equal(result$top2, c("var2", "var1", "var4"))
@@ -45,7 +57,13 @@ df <- data.frame(
 
 test_that("rank_top3_vars issues a warning when new column names already exist", {
   expect_warning(
-    result <- rank_top3_vars(df, vars = c("var1", "var2", "var3"), new_colname_top1 = "top1", new_colname_top2 = "top2", new_colname_top3 = "top3"),
+    result <- rank_top3_vars(
+      df,
+      vars = c("var1", "var2", "var3"),
+      new_colname_top1 = "top1",
+      new_colname_top2 = "top2",
+      new_colname_top3 = "top3"
+    ),
     "The following variables exist in 'df' and will be replaced: top1"
   )
 
@@ -64,11 +82,23 @@ df <- data.frame(
 )
 
 test_that("rank_top3_vars correctly handles NA values", {
-  result <- rank_top3_vars(df, vars = c("var1", "var2", "var3"), new_colname_top1 = "top1", new_colname_top2 = "top2", new_colname_top3 = "top3")
+  result <- rank_top3_vars(
+    df,
+    vars = c("var1", "var2", "var3"),
+    new_colname_top1 = "top1",
+    new_colname_top2 = "top2",
+    new_colname_top3 = "top3"
+  )
 
   expect_equal(result$top1, c("var1", "var2", "var1"))
   expect_equal(result$top2, c("var3", "var1", "var3"))
   expect_equal(result$top3, c(NA, NA, "var2"))
 })
 
-df_test <- rank_top3_vars(df, vars = c("var1", "var2", "var3"), new_colname_top1 = "top1", new_colname_top2 = "top2", new_colname_top3 = "top3")
+df_test <- rank_top3_vars(
+  df,
+  vars = c("var1", "var2", "var3"),
+  new_colname_top1 = "top1",
+  new_colname_top2 = "top2",
+  new_colname_top3 = "top3"
+)

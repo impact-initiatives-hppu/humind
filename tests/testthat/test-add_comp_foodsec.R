@@ -1,6 +1,13 @@
 # Create dummy data
 df_dummy <- data.frame(
-  fsl_fc_phase = c("Phase 1 FC", "Phase 2 FC", "Phase 3 FC", "Phase 4 FC", "Phase 5 FC", NA)
+  fsl_fc_phase = c(
+    "Phase 1 FC",
+    "Phase 2 FC",
+    "Phase 3 FC",
+    "Phase 4 FC",
+    "Phase 5 FC",
+    NA
+  )
 )
 
 # Define tests

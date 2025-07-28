@@ -15,23 +15,23 @@
 #' @param date_undefined Vector of undefined responses for the date of received assistance.
 #'
 #' @return A data frame with an additional column:
-#' 
+#'
 #' * aap_received_assistance: Categorized received assistance: "undefined", "no", "past_30d", "1_3_months", "4_6_months", or "7_12_months".
 #'
 #' @export
 add_received_assistance <- function(
-    df,
-    received_assistance_12m = "aap_received_assistance_12m",
-    yes = "yes",
-    no = "no",
-    undefined = c("dnk", "pnta"),
-    received_assistance_date = "aap_received_assistance_date",
-    date_past_30d = "past_30d",
-    date_1_3_months = "1_3_months",
-    date_4_6_months = "4_6_months",
-    date_7_12_months = "7_12_months",
-    date_undefined = c("dnk", "pnta")){
-
+  df,
+  received_assistance_12m = "aap_received_assistance_12m",
+  yes = "yes",
+  no = "no",
+  undefined = c("dnk", "pnta"),
+  received_assistance_date = "aap_received_assistance_date",
+  date_past_30d = "past_30d",
+  date_1_3_months = "1_3_months",
+  date_4_6_months = "4_6_months",
+  date_7_12_months = "7_12_months",
+  date_undefined = c("dnk", "pnta")
+) {
   #------ Checks
 
   # Check if vars are in df
@@ -39,7 +39,17 @@ add_received_assistance <- function(
 
   # Check if all values are in set
   are_values_in_set(df, received_assistance_12m, c(yes, no, undefined))
-  are_values_in_set(df, received_assistance_date, c(date_past_30d, date_1_3_months, date_4_6_months, date_7_12_months, date_undefined))
+  are_values_in_set(
+    df,
+    received_assistance_date,
+    c(
+      date_past_30d,
+      date_1_3_months,
+      date_4_6_months,
+      date_7_12_months,
+      date_undefined
+    )
+  )
 
   # Check if yes and no are of length 1
   if (length(yes) != 1 | length(no) != 1) {
@@ -55,16 +65,23 @@ add_received_assistance <- function(
       !!rlang::sym(received_assistance_12m) %in% undefined ~ "undefined",
       !!rlang::sym(received_assistance_date) %in% undefined ~ "undefined",
       !!rlang::sym(received_assistance_12m) == no ~ "no",
-      !!rlang::sym(received_assistance_12m) == yes & !!rlang::sym(received_assistance_date) %in% date_past_30d ~ "past_30d",
-      !!rlang::sym(received_assistance_12m) == yes & !!rlang::sym(received_assistance_date) %in% date_1_3_months ~ "1_3_months",
-      !!rlang::sym(received_assistance_12m) == yes & !!rlang::sym(received_assistance_date) %in% date_4_6_months ~ "4_6_months",
-      !!rlang::sym(received_assistance_12m) == yes & !!rlang::sym(received_assistance_date) %in% date_7_12_months ~ "7_12_months",
+      !!rlang::sym(received_assistance_12m) == yes &
+        !!rlang::sym(received_assistance_date) %in% date_past_30d ~
+        "past_30d",
+      !!rlang::sym(received_assistance_12m) == yes &
+        !!rlang::sym(received_assistance_date) %in% date_1_3_months ~
+        "1_3_months",
+      !!rlang::sym(received_assistance_12m) == yes &
+        !!rlang::sym(received_assistance_date) %in% date_4_6_months ~
+        "4_6_months",
+      !!rlang::sym(received_assistance_12m) == yes &
+        !!rlang::sym(received_assistance_date) %in% date_7_12_months ~
+        "7_12_months",
       .default = NA_character_
     )
   )
 
   return(df)
-
 }
 
 #' Any barriers to accessing humanitarian assistance encountered
@@ -78,13 +95,13 @@ add_received_assistance <- function(
 #' @param dnk The value value that indicates that the person does not know.
 #' @return The data frame with the new variable `aap_barriers_assistance_any_barrier`
 #'
-add_barriers_assistance_any <- function(df,
-                                        barriers_assistance = "aap_barriers_assistance",
-                                        none = "none",
-                                        pnta = "pnta",
-                                        dnk = "dnk"){
-
-
+add_barriers_assistance_any <- function(
+  df,
+  barriers_assistance = "aap_barriers_assistance",
+  none = "none",
+  pnta = "pnta",
+  dnk = "dnk"
+) {
   #------ Checks
 
   ## check that col_barrier is present in dataframe
@@ -100,10 +117,8 @@ add_barriers_assistance_any <- function(df,
       !!rlang::sym(barriers_assistance) %in% c(pnta) ~ "pnta",
       !!rlang::sym(barriers_assistance) %in% c(dnk) ~ "dnk",
       .default = "yes"
-      )
     )
+  )
 
   return(df)
 }
-
-

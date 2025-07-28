@@ -6,7 +6,7 @@
 #' data frame indicating the top 3 expenditure types.
 #'
 #' Prerequisite function:
-#' 
+#'
 #' * add_expenditure_type_zero_freq.R
 #'
 #'
@@ -15,25 +15,27 @@
 #' @param id_col The name of the column that contains the unique identifier.
 #'
 #' @return A data frame with additional columns:
-#' 
+#'
 #' * cm_freq_expenditure_top1: The most frequent expenditure type.
 #' * cm_freq_expenditure_top2: The second most frequent expenditure type.
 #' * cm_freq_expenditure_top3: The third most frequent expenditure type.
 #'
 #' @export
 add_expenditure_type_freq_rank <- function(
-    df,
-    expenditure_freq_types = c("cm_expenditure_frequent_food",
-                               "cm_expenditure_frequent_rent",
-                               "cm_expenditure_frequent_water",
-                               "cm_expenditure_frequent_nfi",
-                               "cm_expenditure_frequent_utilities",
-                               "cm_expenditure_frequent_fuel",
-                               "cm_expenditure_frequent_transportation",
-                               "cm_expenditure_frequent_communication",
-                               "cm_expenditure_frequent_other"),
-    id_col = "uuid"){
-
+  df,
+  expenditure_freq_types = c(
+    "cm_expenditure_frequent_food",
+    "cm_expenditure_frequent_rent",
+    "cm_expenditure_frequent_water",
+    "cm_expenditure_frequent_nfi",
+    "cm_expenditure_frequent_utilities",
+    "cm_expenditure_frequent_fuel",
+    "cm_expenditure_frequent_transportation",
+    "cm_expenditure_frequent_communication",
+    "cm_expenditure_frequent_other"
+  ),
+  id_col = "uuid"
+) {
   #------ Checks
 
   # Check if the columns exist
@@ -41,7 +43,6 @@ add_expenditure_type_freq_rank <- function(
 
   # Check that all frequent expenditure types are here
   if (length(expenditure_freq_types) < 9) {
-
     rlang::abort("Some of the frequent expenditure types are null.")
   }
 
@@ -56,10 +57,8 @@ add_expenditure_type_freq_rank <- function(
     new_colname_top1 = "cm_freq_expenditure_top1",
     new_colname_top2 = "cm_freq_expenditure_top2",
     new_colname_top3 = "cm_freq_expenditure_top3",
-    id_col = id_col)
+    id_col = id_col
+  )
 
   return(df)
-
-
-
 }
