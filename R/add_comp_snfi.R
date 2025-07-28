@@ -27,18 +27,19 @@
 #' @param shelter_issue_cat_none Level for no shelter issues.
 #' @param shelter_issue_cat_undefined Level for undefined shelter issues.
 #' @param shelter_issue_cat_other Level for other shelter issues.
-#' @param tenure_security Column name for security of tenure.
-#' @param tenure_security_high_risk Level for high risk with security of tenure.
-#' @param tenure_security_medium_risk Level for medium risk with security of tenure.
-#' @param tenure_security_low_risk Level for low risk with security of tenure.
-#' @param tenure_security_undefined Level for undefined with security of tenure.
+#' @param tenure_security_cat Column name for security of tenure.
+#' @param tenure_security_cat_high_risk Level for high risk with security of tenure.
+#' @param tenure_security_cat_medium_risk Level for medium risk with security of tenure.
+#' @param tenure_security_cat_low_risk Level for low risk with security of tenure.
+#' @param tenure_security_cat_undefined Level for undefined with security of tenure.
 #' @param fds_cannot_cat Column name for fds cannot.
 #' @param fds_cannot_cat_4 Level for 4 tasks that cannot be done.
 #' @param fds_cannot_cat_2_to_3 Level for 2 to 3 tasks that cannot be done.
 #' @param fds_cannot_cat_1 Level for 1 task that cannot be done.
 #' @param fds_cannot_cat_none Level for no tasks that cannot be done.
 #' @param fds_cannot_cat_undefined Level for undefined fds cannot.
-#' @param shelter_damage_cat Column for shelter damage.
+#' @param shelter_damage Column for shelter damage.
+#' @param shelter_damage_cat Column for shelter damage category.
 #' @param shelter_damage_cat_none Level name for no shelter damage.
 #' @param shelter_damage_cat_damaged Level name for minor damages.
 #' @param shelter_damage_cat_part Level name for roof with risk of collapse.
@@ -46,10 +47,10 @@
 #' @param shelter_damage_cat_undefined Level name for undefined or unknown status for shelter damage.
 #'
 #' @return A data frame with added columns:
-#' * comp_snfi_score_shelter_type_cat: Score based on shelter type
-#' * comp_snfi_score_shelter_issue_cat: Score based on shelter issues
-#' * comp_snfi_score_tenure_security_cat: Score based on security of tenure status
-#' * comp_snfi_score_fds_cannot_cat: Score based on FDS
+#' * comp_snfi_score_shelter_type_cat Score based on shelter type
+#' * comp_snfi_score_shelter_issue_cat Score based on shelter issues
+#' * comp_snfi_score_tenure_security_cat Score based on security of tenure status
+#' * comp_snfi_score_fds_cannot_cat Score based on FDS
 #' * comp_snfi_score: Overall SNFI composite score
 #' * comp_snfi_in_need: Indicator for being in need
 #' * comp_snfi_in_acute_need: Indicator for being in acute need
