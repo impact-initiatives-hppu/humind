@@ -1,5 +1,3 @@
-library(dplyr)
-
 # Sample data for testing
 loop <- data.frame(
   uuid = c(1, 2, 3, 4, 5, 6),
@@ -44,7 +42,10 @@ test_that("healthcare needed categories are calculated correctly", {
 # Test with default parameters for add_loop_healthcare_needed_cat_main
 test_that("add_loop_healthcare_needed_cat_main works with default parameters", {
   loop_result <- add_loop_healthcare_needed_cat(loop)
-  result <- add_loop_healthcare_needed_cat_to_main(main, loop_result)
+  result <- suppressWarnings(add_loop_healthcare_needed_cat_to_main(
+    main,
+    loop_result
+  ))
   expect_true(all(
     c(
       "health_ind_healthcare_needed_no_n",
@@ -80,7 +81,10 @@ test_that("id columns are correctly handled", {
 # Test if main data frame correctly joins with loop data frame
 test_that("main data frame correctly joins with loop data frame", {
   loop_result <- add_loop_healthcare_needed_cat(loop)
-  result <- add_loop_healthcare_needed_cat_to_main(main, loop_result)
+  result <- suppressWarnings(add_loop_healthcare_needed_cat_to_main(
+    main,
+    loop_result
+  ))
   expect_equal(result$health_ind_healthcare_needed_no_n, c(0, 1, 0, 0, 0, 1))
   expect_equal(
     result$health_ind_healthcare_needed_yes_unmet_n,
@@ -97,12 +101,12 @@ test_that("it works if UUID columns are named X_UUID in main, and X_SUB_UUID in 
   main$X_UUID <- c(1, 2, 3, 4, 5, 6)
   loop$X_SUB_UUID <- c(1, 2, 3, 4, 5, 6)
   loop_result <- add_loop_healthcare_needed_cat(loop)
-  result <- add_loop_healthcare_needed_cat_to_main(
+  result <- suppressWarnings(add_loop_healthcare_needed_cat_to_main(
     main,
     loop_result,
     id_col_main = "X_UUID",
     id_col_loop = "X_SUB_UUID"
-  )
+  ))
   expect_equal(result$health_ind_healthcare_needed_no_n, c(0, 1, 0, 0, 0, 1))
   expect_equal(
     result$health_ind_healthcare_needed_yes_unmet_n,
