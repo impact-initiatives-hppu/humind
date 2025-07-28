@@ -19,7 +19,6 @@ indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs).
 Such as:
 
 - Food security indicators (rCSI, LCSI, HHS, FCS).
-- Washington Group Short Set of questions (WG-SS).
 - JMP ladders.
 - Specific indicators related to the MSNI framework.
 
@@ -40,22 +39,8 @@ devtools::install_github("impact-initiatives-hppu/humind")
 Here’s a quick dummy example of how to use `humind`:
 
 ``` r
-#loading the package, check install step above before if not installed!  
 library(humind)
-
-# Example usage (replace with the actual function name based on the desired output, check R directory for each function name)
-dummy_data <- data.frame(
-  dummy_variableA = c(1, 2, 3),
-  dummy_variableB = c(2, 3, 1),
-  dummy_variableC = c(0, 1, 2)
-)
-
-result <- dummy_function(dummy_data)
-print(result)
 ```
-
-For a general information and layout about each functions parameters,
-check the [R Package Documentation](r_package_documentation.md)
 
 ## Issues and Feedback
 
@@ -64,19 +49,12 @@ suggestion, please [open an
 issue](https://github.com/impact-initiatives-hppu/humind/issues/new/choose)
 on our GitHub repository.
 
-## Roadmap
+Currently there are templates for the following types of issues:
 
-We are actively developing `humind`. Expect potential breaking changes
-as we roll out the first version of the package for 2024 MSNAs, based on
-country testing and feedback.
-
-THE PACKAGE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-
-Check our [project
-board](https://github.com/impact-initiatives-hppu/humind/projects) for
-upcoming features and milestones.
+- Bug Reports
+- Feature Requests
+- Documentation Requests
+- Indicator Logic Change
 
 ## License
 
