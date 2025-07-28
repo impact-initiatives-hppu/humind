@@ -1,0 +1,66 @@
+name: "Indicator Logic Change"
+description: Request to add, update, or correct logic for an indicator, scoring, or categorization function
+title: "[Indicator] <short summary of change>"
+labels: ["indicator-logic"]
+
+body:
+  - type: checkboxes
+    id: change_type
+    attributes:
+      label: Type of Change
+      description: Select all that apply
+      options:
+        - label: Add new indicator or composite score
+        - label: Update existing scoring or categorization logic
+        - label: Fix incorrect behavior (e.g., misclassified values, NAs)
+        - label: Refactor or restructure existing function
+        - label: Deprecate/remove obsolete function or logic
+
+  - type: input
+    id: function_name
+    attributes:
+      label: Function(s) Affected
+      placeholder: e.g., add_loop_healthcare_needed_cat, add_comp_snfi
+
+  - type: textarea
+    id: logic_summary
+    attributes:
+      label: Summary of Requested Logic
+      description: What should be calculated, changed, or corrected?
+      placeholder: |
+        Example:
+        The indicator `add_comp_snfi()` currently assigns a score of "1" if either `snfi_shelter_damage` or `snfi_fds_sleeping` equals 1. 
+
+        The updated logic should:
+        - Assign "1" only if both variables equal 1.
+        - Assign "0" if both are 0 or any are missing.
+        - Return `NA` if all inputs are `NA`.
+
+  - type: textarea
+    id: source_guidance
+    attributes:
+      label: Source or Reference
+      description: Link or quote official guidance
+
+  - type: textarea
+    id: inputs
+    attributes:
+      label: Required Input Variables
+      description: List the raw input variables expected by the function
+      placeholder: e.g., snfi_shelter_damage, snfi_fds_sleeping
+
+  - type: textarea
+    id: outputs
+    attributes:
+      label: Expected Output Variables
+      description: What should this function output?
+      placeholder: e.g., comp_snfi_score_cat
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes or Edge Cases
+      placeholder: |
+        Examples:
+        - Special handling of households with missing demographic data
+        - Custom age thresholds for country-specific cases
