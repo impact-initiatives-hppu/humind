@@ -48,7 +48,7 @@ dummy_social <- generate_survey_choice_combinations(
   dummy_social,
   .name_repair = "unique"
 ) |>
-  as_tibble())
+  dplyr::as_tibble())
 
 # Tests for the composite function
 

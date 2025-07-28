@@ -45,7 +45,7 @@ dummy_df <- expand_grid(
   dummy_justice,
   .name_repair = "unique"
 ) |>
-  as_tibble()
+  dplyr::as_tibble()
 
 # Tests for the composite function: Ability to Access Rights and Services
 

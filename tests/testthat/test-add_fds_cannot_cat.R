@@ -1,13 +1,8 @@
-# Load required libraries
-library(dplyr)
-library(testthat)
-library(tibble)
-
 # ---- The function under test (reference, not redefined here) ----
 # add_fds_cannot_cat is assumed to be already available in your environment
 
 # ---- Example data ----
-test_df <- tibble(
+test_df <- dplyr::tibble(
   snfi_fds_cooking = c("no", "yes", "no_need", "pnta", "yes"),
   snfi_fds_sleeping = c("yes", "no", "pnta", "yes", "no"),
   snfi_fds_storing = c("yes_no_issues", "no", "yes_issues", "pnta", "no"),

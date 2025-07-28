@@ -1,11 +1,7 @@
-# Load required libraries
-library(testthat)
-library(dplyr)
-
 # Create a comprehensive dummy data frame for testing
 # Covers all possible options for drinking water source and handwashing facility
 
-dummy_data <- tibble(
+dummy_data <- dplyr::tibble(
   survey_modality = c("in_person", "remote", "in_person", "remote"),
   wash_handwashing_facility = c("available", "no_permission", "none", "other"),
   wash_handwashing_facility_observed_water = c(
