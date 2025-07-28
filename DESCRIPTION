@@ -28,7 +28,7 @@ Imports:
 URL: https://github.com/impact-initiatives-hppu/humind
 BugReports: https://github.com/impact-initiatives-hppu/humind/issues
 Remotes: 
-    gnoblet/impactR.utils,
+    impact-initiatives/impactR.utils,
     impact-initiatives/impactR4PHU
 Suggests: 
     knitr,
