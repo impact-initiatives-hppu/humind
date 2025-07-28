@@ -43,7 +43,7 @@ dummy_justice <- generate_survey_choice_combinations(
 dummy_df <- expand_grid(
   dummy_services,
   dummy_justice,
-  .name_repair = "unique"
+  .name_repair = "unique_quiet"
 ) |>
   dplyr::as_tibble()
 

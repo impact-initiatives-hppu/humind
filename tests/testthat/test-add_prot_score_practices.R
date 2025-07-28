@@ -46,7 +46,7 @@ dummy_social <- generate_survey_choice_combinations(
 (dummy_df <- expand_grid(
   dummy_activities,
   dummy_social,
-  .name_repair = "unique"
+  .name_repair = "unique_quiet"
 ) |>
   dplyr::as_tibble())
 
