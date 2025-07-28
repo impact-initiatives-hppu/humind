@@ -92,8 +92,16 @@ add_shelter_issue_cat <- function(
   df <- dplyr::mutate(
     df,
     snfi_shelter_issue_n = dplyr::case_when(
-      dplyr::if_any(shelter_issue_d_undefined, \(x) x == 1) ~ -999,
-      dplyr::if_any(shelter_issue_d_other, \(x) x == 1) ~ -998,
+      dplyr::if_any(
+        dplyr::all_of(shelter_issue_d_undefined),
+        \(x) x == 1
+      ) ~
+        -999,
+      dplyr::if_any(
+        dplyr::all_of(shelter_issue_d_other),
+        \(x) x == 1
+      ) ~
+        -998,
       !!rlang::sym(shelter_issue_d_none) == 1 ~ 0,
       .default = !!rlang::sym("snfi_shelter_issue_n")
     )
