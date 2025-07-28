@@ -1,80 +1,102 @@
-library(testthat)
 library(dplyr)
 
-test_that("add_occupancy_cat works with default parameters", {
-  df <- data.frame(
-    hlp_occupancy = c("no_agreement", "rented", "ownership", "dnk", "hosted_free", "pnta", "other")
+# Example data frame covering all combinations
+example_df <- data.frame(
+  hlp_occupancy = c(
+    "no_agreement",
+    "rented",
+    "hosted_free",
+    "ownership",
+    "dnk",
+    "pnta",
+    "other",
+    NA
+  ),
+  hlp_risk_eviction = c(
+    "yes",
+    "no",
+    "dnk",
+    "pnta",
+    "yes",
+    "no",
+    NA,
+    "dnk"
   )
+)
 
-  result <- add_occupancy_cat(df)
+# Run function
 
-  expected <- df %>%
-    mutate(hlp_occupancy_cat = case_when(
-      hlp_occupancy == "no_agreement" ~ "high_risk",
-      hlp_occupancy %in% c("rented", "hosted_free") ~ "medium_risk",
-      hlp_occupancy == "ownership" ~ "low_risk",
-      hlp_occupancy %in% c("dnk", "pnta", "other") ~ "undefined",
-      TRUE ~ NA_character_
-    ))
-
-  expect_equal(result, expected)
+# ---- Unit Tests ----
+test_that("hlp_occupancy_cat is correctly assigned for all combinations", {
+  expected <- c(
+    "high_risk",
+    "medium_risk",
+    "medium_risk",
+    "low_risk",
+    "undefined",
+    "undefined",
+    "undefined",
+    NA
+  )
+  result <- add_occupancy_cat(example_df)
+  expect_equal(result$hlp_occupancy_cat, expected)
 })
 
-test_that("add_occupancy_cat handles all categories", {
-  df <- data.frame(
-    hlp_occupancy = c("no_agreement", "rented", "ownership", "dnk", "hosted_free", "pnta", "other")
+test_that("hlp_eviction_cat is correctly assigned for all combinations", {
+  expected <- c(
+    "high_risk",
+    "low_risk",
+    "undefined",
+    "undefined",
+    "high_risk",
+    "low_risk",
+    NA,
+    "undefined"
   )
-
-  result <- add_occupancy_cat(df)
-
-  expected <- df %>%
-    mutate(hlp_occupancy_cat = case_when(
-      hlp_occupancy == "no_agreement" ~ "high_risk",
-      hlp_occupancy %in% c("rented", "hosted_free") ~ "medium_risk",
-      hlp_occupancy == "ownership" ~ "low_risk",
-      hlp_occupancy %in% c("dnk", "pnta", "other") ~ "undefined",
-      TRUE ~ NA_character_
-    ))
-
-  expect_equal(result, expected)
+  result <- add_occupancy_cat(example_df)
+  expect_equal(result$hlp_eviction_cat, expected)
 })
 
-test_that("add_occupancy_cat handles all NA values", {
-  df <- data.frame(
-    hlp_occupancy = c(NA, NA, NA, NA, NA)
+test_that("hlp_tenure_security is correctly assigned for all combinations", {
+  expected <- c(
+    "high_risk",
+    "medium_risk",
+    "medium_risk",
+    "low_risk",
+    "high_risk",
+    "low_risk",
+    "undefined",
+    "undefined"
   )
-
-  result <- add_occupancy_cat(df)
-
-  expected <- df %>%
-    mutate(hlp_occupancy_cat = NA_character_)
-
-  expect_equal(result, expected)
+  result <- add_occupancy_cat(example_df)
+  expect_equal(result$hlp_tenure_security, expected)
 })
 
-test_that("add_occupancy_cat handles missing occupancy column", {
-  df <- data.frame(
-    some_other_col = c("no_agreement", "rented", "ownership", "dnk", "hosted_free")
-  )
-
-  expect_error(add_occupancy_cat(df), class = "error")
+test_that("Function handles missing columns with error", {
+  df_missing <- data.frame(hlp_occupancy = c("no_agreement", "rented"))
+  expect_error(add_occupancy_cat(df_missing), class = "error")
+  df_missing2 <- data.frame(hlp_risk_eviction = c("yes", "no"))
+  expect_error(add_occupancy_cat(df_missing2), class = "error")
 })
 
-#test_that("add_occupancy_cat handles out-of-range values", {
-#  df <- data.frame(
-#    hlp_occupancy = c("unknown", "rented", "ownership", "dnk", "invalid")
-#  )
-#
-#  result <- add_occupancy_cat(df)
-#
-#  expected <- df %>%
-#    mutate(hlp_occupancy_cat = case_when(
-#      hlp_occupancy == "no_agreement" ~ "high_risk",
-#      hlp_occupancy %in% c("rented", "hosted_free") ~ "medium_risk",
-#      hlp_occupancy == "ownership" ~ "low_risk",
-#      hlp_occupancy %in% c("dnk", "pnta", "other") ~ "undefined",
-#      TRUE ~ NA_character_
-#    ))
-#
-#  expect_equal(result, expected)
-#})
+test_that("Function errors on out-of-range values for occupancy or eviction", {
+  df_out <- data.frame(
+    hlp_occupancy = c("unknown", "invalid", NA),
+    hlp_risk_eviction = c("maybe", "unknown", NA)
+  )
+  expect_error(add_occupancy_cat(df_out), class = "error")
+})
+
+# Edge case: all NA
+
+test_that("Function handles all NA values", {
+  df_na <- data.frame(
+    hlp_occupancy = rep(NA, 5),
+    hlp_risk_eviction = rep(NA, 5)
+  )
+  result_na <- add_occupancy_cat(df_na)
+  expected <- rep(NA_character_, 5)
+  expect_equal(result_na$hlp_occupancy_cat, expected)
+  expect_equal(result_na$hlp_eviction_cat, expected)
+  expect_equal(result_na$hlp_tenure_security, expected)
+})
