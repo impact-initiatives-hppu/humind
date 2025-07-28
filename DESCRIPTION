@@ -2,9 +2,11 @@ Package: humind
 Title: Compose MSNA Indicators
 Version: 2024.1.4
 Authors@R: c(
-    person("Guillaume", "Noblet", , "gnoblet@zaclys.net", role = c("aut", "cre")),
-    person("Laith", "Abu-Nawwas", , "laith.abu-nawwas@impact-initiatives.org", role = "aut"),
-    person("Sunhee", "Moraes", , "sunhee.moraes@impact-initiatives.org", role = "aut"),
+    person("Quentin", "VILLOTTA", , "quentin.villotta@impact-initiatives.org", role = c("aut", "cre")),
+    person("Iyed", "GHEDAMSI", , "iyed.ghedamsi@impact-initiatives.org", role = c("aut", "ctb")),
+    person("Mario", "DASILVA", , "mario.fidalgo@impact-initiatives.org", role = c("aut", "ctb")),
+    person("Laith", "Abu-Nawwas", , "laith.abu-nawwas@impact-initiatives.org", role = "ctb"),
+    person("Sunhee", "Moraes", , "sunhee.moraes@impact-initiatives.org", role = "ctb"),
     person("Raphael", "Bacot", , "raphael.bacot@impact-initiatives.org", role = "ctb")
     )
 Description: This packages provides functions to compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP ladders, as well as specific indicators related to the MSNI framework.

@@ -19,16 +19,18 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Guillaume Noblet \email{gnoblet@zaclys.net}
+\strong{Maintainer}: Quentin VILLOTTA \email{quentin.villotta@impact-initiatives.org}
 
 Authors:
 \itemize{
-  \item Laith Abu-Nawwas \email{laith.abu-nawwas@impact-initiatives.org}
-  \item Sunhee Moraes \email{sunhee.moraes@impact-initiatives.org}
+  \item Iyed GHEDAMSI \email{iyed.ghedamsi@impact-initiatives.org} [contributor]
+  \item Mario DASILVA \email{mario.fidalgo@impact-initiatives.org} [contributor]
 }
 
 Other contributors:
 \itemize{
+  \item Laith Abu-Nawwas \email{laith.abu-nawwas@impact-initiatives.org} [contributor]
+  \item Sunhee Moraes \email{sunhee.moraes@impact-initiatives.org} [contributor]
   \item Raphael Bacot \email{raphael.bacot@impact-initiatives.org} [contributor]
 }
 
