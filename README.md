@@ -14,13 +14,15 @@ status](https://www.r-pkg.org/badges/version/humind)](https://CRAN.R-project.org
 coverage](https://codecov.io/gh/impact-initiatives-hppu/humind/branch/main/graph/badge.svg)](https://app.codecov.io/gh/impact-initiatives-hppu/humind?branch=main)
 <!-- badges: end -->
 
-`humind` provides functions to compose usual humanitarian composite
+`humind` provides functions to compose the humanitarian composite
 indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs).
 Such as:
 
+- Specific indicators related to the MSNI framework (e.g., Sectoral Composite
+and MSNI scores).
 - Food security indicators (rCSI, LCSI, HHS, FCS).
-- JMP ladders.
-- Specific indicators related to the MSNI framework.
+- JMP ladder classifications for WASH indicators.
+
 
 The package follows the ‘Step - Composition’ approach of IMPACT R
 framework.
