@@ -67,7 +67,7 @@
 </h2>
 <p>You can install the latest stable version of <code>humind</code> from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"impact-initiatives-hppu/humind@v2025.1.1"</span><span class="op">)</span></span></code></pre></div>
 <p>To confirm that you have the correct version, you should try the following:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -77,7 +77,7 @@
 <div class="section level2">
 <h2 id="id_-guidance-note">📚 Guidance Note<a class="anchor" aria-label="anchor" href="#id_-guidance-note"></a>
 </h2>
-<p>A comprehensive <strong>Guidance Note</strong> is available <a href="https://acted.sharepoint.com/sites/IMPACT-Humanitarian_Planning_Prioritization/SitePages/MSNA%20analysis%20(LSG-MSNi).aspx?xsdata=MDV8MDJ8fDE5ZmZkZDBlMTgyYTQ5MWUxNjUzMDhkZGNlNmVmOGYxfGQyMDBlOTAzMTliMDQ1MmViZDIxZDFhYTAxMTM5MGQ1fDB8MHw2Mzg4OTM2OTgxNzQ3NTIzMzl8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKRFFTSTZJbFJsWVcxelgwRlVVRk5sY25acFkyVmZVMUJQVEU5R0lpd2lWaUk2SWpBdU1DNHdNREF3SWl3aVVDSTZJbGRwYmpNeUlpd2lRVTRpT2lKUGRHaGxjaUlzSWxkVUlqb3hNWDA9fDF8TDJOb1lYUnpMekU1T21FM01HUmpZV0V4TURVNU5qUTVaV0ZpTXpRek1HTmpPR1F3WWpVeU1UQXhRSFJvY21WaFpDNTJNaTl0WlhOellXZGxjeTh4TnpVek56Y3pNREUyTmpjMHw5Y2NhODkyYzY5Yzc0ZmM5YWFkZjA4ZGRjZTZlZjhmMHxjODMwNzNhMzEzYWM0MGQ3ODRjNDhlODNlM2ViNTMyNQ%3D%3D&amp;sdata=UlNiOVVRdGoxSC9QYmg4SW1Hb1ppUmlCNi8wZ2xPMGZkdG8rYzcrU2ptND0%3D&amp;ovuser=d200e903-19b0-452e-bd21-d1aa011390d5%2Cquentin.villotta%40impact-initiatives.org&amp;OR=Teams-HL&amp;CT=1753776647777&amp;clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI1MC8yNTA3MDMxODgwOSIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D" class="external-link">here</a> for all users of the <code>humind</code> package. This document provides essential background on the <strong>MSNI framework</strong> and includes sector-specific guidance. Each sector includes a <strong>“Humind Data Workflow”</strong> section, guiding users through the necessary steps and highlighting the relevant <code>humind</code> package functions to use.</p>
+<p>A comprehensive <strong>Guidance Note</strong> is available <a href="https://acted.sharepoint.com/sites/IMPACT-Humanitarian_Planning_Prioritization/SitePages/MSNA%20analysis%20(LSG-MSNi).aspx?xsdata=MDV8MDJ8fDE5ZmZkZDBlMTgyYTQ5MWUxNjUzMDhkZGNlNmVmOGYxfGQyMDBlOTAzMTliMDQ1MmViZDIxZDFhYTAxMTM5MGQ1fDB8MHw2Mzg4OTM2OTgxNzQ3NTIzMzl8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKRFFTSTZJbFJsWVcxelgwRlVVRk5sY25acFkyVmZVMUJQVEU5R0lpd2lWaUk2SWpBdU1DNHdNREF3SWl3aVVDSTZJbGRwYmpNeUlpd2lRVTRpT2lKUGRHaGxjaUlzSWxkVUlqb3hNWDA9fDF8TDJOb1lYUnpMekU1T21FM01HUmpZV0V4TURVNU5qUTVaV0ZpTXpRek1HTmpPR1F3WWpVeU1UQXhRSFJvY21WaFpDNTJNaTl0WlhOellXZGxjeTh4TnpVek56Y3pNREUyTmpjMHw5Y2NhODkyYzY5Yzc0ZmM5YWFkZjA4ZGRjZTZlZjhmMHxjODMwNzNhMzEzYWM0MGQ3ODRjNDhlODNlM2ViNTMyNQ%3D%3D&amp;sdata=UlNiOVVRdGoxSC9QYmg4SW1Hb1ppUmlCNi8wZ2xPMGZkdG8rYzcrU2ptND0%3D&amp;ovuser=d200e903-19b0-452e-bd21-d1aa011390d5%2Cquentin.villotta%40impact-initiatives.org&amp;OR=Teams-HL&amp;CT=1753776647777&amp;clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI1MC8yNTA3MDMxODgwOSIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D" class="external-link">on SharePoint</a> for all users of the <code>humind</code> package. This document provides essential background on the <strong>MSNI framework</strong> and includes sector-specific guidance. Each sector includes a <strong>“Humind Data Workflow”</strong> section, guiding users through the necessary steps and highlighting the relevant <code>humind</code> package functions to use.</p>
 <blockquote>
 <p>⚠️ <strong>Users are strongly encouraged to thoroughly read this document</strong> — particularly the <em>Data Workflow</em> sections — before starting any implementation work with Humind</p>
 </blockquote>
@@ -119,27 +119,6 @@
 <p><strong>Not sure where your issue fits?</strong><br>
 Open a <strong><a href="https://github.com/impact-initiatives-hppu/humind/issues/new" class="external-link">blank issue</a></strong> and provide as much detail as possible.</p>
 <hr>
-</div>
-<div class="section level2">
-<h2 id="id_️-known-issues">⚠️ Known Issues<a class="anchor" aria-label="anchor" href="#id_%EF%B8%8F-known-issues"></a>
-</h2>
-<div class="section level3">
-<h3 id="github-credentials-error-when-installing-with-devtools">GitHub Credentials Error When Installing with devtools<a class="anchor" aria-label="anchor" href="#github-credentials-error-when-installing-with-devtools"></a>
-</h3>
-<p>When installing the package from GitHub using <code>devtools::install_github()</code>, you may encounter an error such as:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="sc">&gt;</span> devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"impact-initiatives-hppu/humind@v2025.1.1"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>Using GitHub PAT from the git credential store.</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>Error <span class="sc">:</span> Failed to install <span class="st">'unknown package'</span> from GitHub<span class="sc">:</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  HTTP error <span class="fl">401.</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  Bad credentials</span></code></pre></div>
-<p>This issue is typically caused by outdated or incorrect GitHub credentials stored in R. For public repositories, no credentials are required. To resolve this, you can either update your credentials or delete the stored credentials using the following commands:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gitcreds.r-lib.org/" class="external-link">gitcreds</a></span><span class="op">)</span></span>
-<span><span class="fu">gitcreds_delete</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>After updating or deleting the credentials, retry the installation. This should resolve the error for public repositories.</p>
-<hr>
-</div>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
