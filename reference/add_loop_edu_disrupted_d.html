@@ -15,7 +15,7 @@ add_loop_edu_ind_age_corrected.R
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@ add_loop_edu_ind_age_corrected.R
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Add Education Disruption Categories</h1>
-      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/v2024.1.4/R/add_loop_edu_disrupted_d.R" class="external-link"><code>R/add_loop_edu_disrupted_d.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/main/R/add_loop_edu_disrupted_d.R" class="external-link"><code>R/add_loop_edu_disrupted_d.R</code></a></small>
       <div class="d-none name"><code>add_loop_edu_disrupted_d.Rd</code></div>
     </div>
 
@@ -49,7 +49,7 @@ add_loop_edu_ind_age_corrected.R
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_loop_edu_disrupted_d</span><span class="op">(</span></span>
 <span>  <span class="va">df</span>,</span>
-<span>  occupation <span class="op">=</span> <span class="st">"edu_disrupted_occupation"</span>,</span>
+<span>  attack <span class="op">=</span> <span class="st">"edu_disrupted_attack"</span>,</span>
 <span>  hazards <span class="op">=</span> <span class="st">"edu_disrupted_hazards"</span>,</span>
 <span>  displaced <span class="op">=</span> <span class="st">"edu_disrupted_displaced"</span>,</span>
 <span>  teacher <span class="op">=</span> <span class="st">"edu_disrupted_teacher"</span>,</span>
@@ -60,7 +60,7 @@ add_loop_edu_ind_age_corrected.R
 <span><span class="fu">add_loop_edu_disrupted_d_to_main</span><span class="op">(</span></span>
 <span>  <span class="va">main</span>,</span>
 <span>  <span class="va">loop</span>,</span>
-<span>  occupation_d <span class="op">=</span> <span class="st">"edu_disrupted_occupation_d"</span>,</span>
+<span>  attack_d <span class="op">=</span> <span class="st">"edu_disrupted_attack_d"</span>,</span>
 <span>  hazards_d <span class="op">=</span> <span class="st">"edu_disrupted_hazards_d"</span>,</span>
 <span>  displaced_d <span class="op">=</span> <span class="st">"edu_disrupted_displaced_d"</span>,</span>
 <span>  teacher_d <span class="op">=</span> <span class="st">"edu_disrupted_teacher_d"</span>,</span>
@@ -77,8 +77,8 @@ add_loop_edu_ind_age_corrected.R
 <dd><p>A data frame containing individual-level education data.</p></dd>
 
 
-<dt id="arg-occupation">occupation<a class="anchor" aria-label="anchor" href="#arg-occupation"></a></dt>
-<dd><p>Column name for occupation disruption. NULL if dimension is not present in the data frame.</p></dd>
+<dt id="arg-attack">attack<a class="anchor" aria-label="anchor" href="#arg-attack"></a></dt>
+<dd><p>Column name for attack disruption. NULL if dimension is not present in the data frame.</p></dd>
 
 
 <dt id="arg-hazards">hazards<a class="anchor" aria-label="anchor" href="#arg-hazards"></a></dt>
@@ -109,8 +109,8 @@ add_loop_edu_ind_age_corrected.R
 <dd><p>A data frame of individual-level data.</p></dd>
 
 
-<dt id="arg-occupation-d">occupation_d<a class="anchor" aria-label="anchor" href="#arg-occupation-d"></a></dt>
-<dd><p>Column name for the dummy variable of the occupation dimension. NULL if dimension is not present in the data frame.</p></dd>
+<dt id="arg-attack-d">attack_d<a class="anchor" aria-label="anchor" href="#arg-attack-d"></a></dt>
+<dd><p>Column name for the dummy variable of the attack dimension. NULL if dimension is not present in the data frame.</p></dd>
 
 
 <dt id="arg-hazards-d">hazards_d<a class="anchor" aria-label="anchor" href="#arg-hazards-d"></a></dt>
@@ -135,7 +135,7 @@ add_loop_edu_ind_age_corrected.R
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame with additional columns:</p><ul><li><p>*_d: Binary columns for each disruption type (e.g., edu_disrupted_occupation_d).</p></li>
+    <p>A data frame with additional columns:</p><ul><li><p>*_d: Binary columns for each disruption type (e.g., edu_disrupted_attack_d).</p></li>
 </ul><p>A data frame with additional columns:</p><ul><li><p>edu_disrupted_*_n: Count of individuals experiencing each type of education disruption (e.g., edu_disrupted_hazards_n).</p></li>
 </ul></div>
 
@@ -144,11 +144,11 @@ add_loop_edu_ind_age_corrected.R
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Guillaume Noblet, Laith Abu-Nawwas, Sunhee Moraes.</p>
+  <p>Developed by Quentin VILLOTTA, Iyed GHEDAMSI, Mario DASILVA.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>

@@ -8,6 +8,7 @@ add_shelter_issue_cat.R
 add_shelter_type_cat.R
 add_occupancy_cat.R
 add_fds_cannot_cat.R
+OPTIONAL add_shelter_damage_cat.R
 
 "><meta property="og:description" content="This function calculates the Shelter, NFI and HLP (SNFI) sectoral composite score
 based on shelter type, shelter issues, occupancy status, and functional disability
@@ -18,6 +19,7 @@ add_shelter_issue_cat.R
 add_shelter_type_cat.R
 add_occupancy_cat.R
 add_fds_cannot_cat.R
+OPTIONAL add_shelter_damage_cat.R
 
 "><meta property="og:image" content="https://impact-initiatives-hppu.github.io/humind/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -27,7 +29,7 @@ add_fds_cannot_cat.R
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +50,7 @@ add_fds_cannot_cat.R
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Add SNFI Sectoral Composite Score and Need Indicators</h1>
-      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/v2024.1.4/R/add_comp_snfi.R" class="external-link"><code>R/add_comp_snfi.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/main/R/add_comp_snfi.R" class="external-link"><code>R/add_comp_snfi.R</code></a></small>
       <div class="d-none name"><code>add_comp_snfi.Rd</code></div>
     </div>
 
@@ -61,6 +63,7 @@ based on the calculated score.</p>
 <li><p>add_shelter_type_cat.R</p></li>
 <li><p>add_occupancy_cat.R</p></li>
 <li><p>add_fds_cannot_cat.R</p></li>
+<li><p>OPTIONAL add_shelter_damage_cat.R</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -73,23 +76,30 @@ based on the calculated score.</p>
 <span>  shelter_type_cat_adequate <span class="op">=</span> <span class="st">"adequate"</span>,</span>
 <span>  shelter_type_cat_undefined <span class="op">=</span> <span class="st">"undefined"</span>,</span>
 <span>  shelter_issue_cat <span class="op">=</span> <span class="st">"snfi_shelter_issue_cat"</span>,</span>
-<span>  shelter_issue_cat_7_to_8 <span class="op">=</span> <span class="st">"7_to_8"</span>,</span>
-<span>  shelter_issue_cat_4_to_6 <span class="op">=</span> <span class="st">"4_to_6"</span>,</span>
 <span>  shelter_issue_cat_1_to_3 <span class="op">=</span> <span class="st">"1_to_3"</span>,</span>
+<span>  shelter_issue_cat_4_to_7 <span class="op">=</span> <span class="st">"4_to_7"</span>,</span>
+<span>  shelter_issue_cat_8_to_11 <span class="op">=</span> <span class="st">"8_to_11"</span>,</span>
 <span>  shelter_issue_cat_none <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  shelter_issue_cat_undefined <span class="op">=</span> <span class="st">"undefined"</span>,</span>
 <span>  shelter_issue_cat_other <span class="op">=</span> <span class="st">"other"</span>,</span>
-<span>  occupancy_cat <span class="op">=</span> <span class="st">"hlp_occupancy_cat"</span>,</span>
-<span>  occupancy_cat_high_risk <span class="op">=</span> <span class="st">"high_risk"</span>,</span>
-<span>  occupancy_cat_medium_risk <span class="op">=</span> <span class="st">"medium_risk"</span>,</span>
-<span>  occupancy_cat_low_risk <span class="op">=</span> <span class="st">"low_risk"</span>,</span>
-<span>  occupancy_cat_undefined <span class="op">=</span> <span class="st">"undefined"</span>,</span>
+<span>  tenure_security_cat <span class="op">=</span> <span class="st">"hlp_occupancy_cat"</span>,</span>
+<span>  tenure_security_cat_high_risk <span class="op">=</span> <span class="st">"high_risk"</span>,</span>
+<span>  tenure_security_cat_medium_risk <span class="op">=</span> <span class="st">"medium_risk"</span>,</span>
+<span>  tenure_security_cat_low_risk <span class="op">=</span> <span class="st">"low_risk"</span>,</span>
+<span>  tenure_security_cat_undefined <span class="op">=</span> <span class="st">"undefined"</span>,</span>
 <span>  fds_cannot_cat <span class="op">=</span> <span class="st">"snfi_fds_cannot_cat"</span>,</span>
-<span>  fds_cannot_cat_4_to_5 <span class="op">=</span> <span class="st">"4_to_5_tasks"</span>,</span>
+<span>  fds_cannot_cat_4 <span class="op">=</span> <span class="st">"4_tasks"</span>,</span>
 <span>  fds_cannot_cat_2_to_3 <span class="op">=</span> <span class="st">"2_to_3_tasks"</span>,</span>
 <span>  fds_cannot_cat_1 <span class="op">=</span> <span class="st">"1_task"</span>,</span>
 <span>  fds_cannot_cat_none <span class="op">=</span> <span class="st">"none"</span>,</span>
-<span>  fds_cannot_cat_undefined <span class="op">=</span> <span class="st">"undefined"</span></span>
+<span>  fds_cannot_cat_undefined <span class="op">=</span> <span class="st">"undefined"</span>,</span>
+<span>  shelter_damage <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  shelter_damage_cat <span class="op">=</span> <span class="st">"snfi_shelter_damage_cat"</span>,</span>
+<span>  shelter_damage_cat_none <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  shelter_damage_cat_damaged <span class="op">=</span> <span class="st">"damaged"</span>,</span>
+<span>  shelter_damage_cat_part <span class="op">=</span> <span class="st">"part"</span>,</span>
+<span>  shelter_damage_cat_total <span class="op">=</span> <span class="st">"total"</span>,</span>
+<span>  shelter_damage_cat_undefined <span class="op">=</span> <span class="st">"undefined"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -125,16 +135,16 @@ based on the calculated score.</p>
 <dd><p>Column name for shelter issue.</p></dd>
 
 
-<dt id="arg-shelter-issue-cat-to-">shelter_issue_cat_7_to_8<a class="anchor" aria-label="anchor" href="#arg-shelter-issue-cat-to-"></a></dt>
-<dd><p>Level for 7 to 8 shelter issues.</p></dd>
-
-
-<dt id="arg-shelter-issue-cat-to-">shelter_issue_cat_4_to_6<a class="anchor" aria-label="anchor" href="#arg-shelter-issue-cat-to-"></a></dt>
-<dd><p>Level for 4 to 6 shelter issues.</p></dd>
-
-
 <dt id="arg-shelter-issue-cat-to-">shelter_issue_cat_1_to_3<a class="anchor" aria-label="anchor" href="#arg-shelter-issue-cat-to-"></a></dt>
 <dd><p>Level for 1 to 3 shelter issues.</p></dd>
+
+
+<dt id="arg-shelter-issue-cat-to-">shelter_issue_cat_4_to_7<a class="anchor" aria-label="anchor" href="#arg-shelter-issue-cat-to-"></a></dt>
+<dd><p>Level for 4 to 7 shelter issues.</p></dd>
+
+
+<dt id="arg-shelter-issue-cat-to-">shelter_issue_cat_8_to_11<a class="anchor" aria-label="anchor" href="#arg-shelter-issue-cat-to-"></a></dt>
+<dd><p>Level for 8 to 11 shelter issues.</p></dd>
 
 
 <dt id="arg-shelter-issue-cat-none">shelter_issue_cat_none<a class="anchor" aria-label="anchor" href="#arg-shelter-issue-cat-none"></a></dt>
@@ -149,32 +159,32 @@ based on the calculated score.</p>
 <dd><p>Level for other shelter issues.</p></dd>
 
 
-<dt id="arg-occupancy-cat">occupancy_cat<a class="anchor" aria-label="anchor" href="#arg-occupancy-cat"></a></dt>
-<dd><p>Column name for occupancy.</p></dd>
+<dt id="arg-tenure-security-cat">tenure_security_cat<a class="anchor" aria-label="anchor" href="#arg-tenure-security-cat"></a></dt>
+<dd><p>Column name for security of tenure.</p></dd>
 
 
-<dt id="arg-occupancy-cat-high-risk">occupancy_cat_high_risk<a class="anchor" aria-label="anchor" href="#arg-occupancy-cat-high-risk"></a></dt>
-<dd><p>Level for high risk occupancy.</p></dd>
+<dt id="arg-tenure-security-cat-high-risk">tenure_security_cat_high_risk<a class="anchor" aria-label="anchor" href="#arg-tenure-security-cat-high-risk"></a></dt>
+<dd><p>Level for high risk with security of tenure.</p></dd>
 
 
-<dt id="arg-occupancy-cat-medium-risk">occupancy_cat_medium_risk<a class="anchor" aria-label="anchor" href="#arg-occupancy-cat-medium-risk"></a></dt>
-<dd><p>Level for medium risk occupancy.</p></dd>
+<dt id="arg-tenure-security-cat-medium-risk">tenure_security_cat_medium_risk<a class="anchor" aria-label="anchor" href="#arg-tenure-security-cat-medium-risk"></a></dt>
+<dd><p>Level for medium risk with security of tenure.</p></dd>
 
 
-<dt id="arg-occupancy-cat-low-risk">occupancy_cat_low_risk<a class="anchor" aria-label="anchor" href="#arg-occupancy-cat-low-risk"></a></dt>
-<dd><p>Level for low risk occupancy.</p></dd>
+<dt id="arg-tenure-security-cat-low-risk">tenure_security_cat_low_risk<a class="anchor" aria-label="anchor" href="#arg-tenure-security-cat-low-risk"></a></dt>
+<dd><p>Level for low risk with security of tenure.</p></dd>
 
 
-<dt id="arg-occupancy-cat-undefined">occupancy_cat_undefined<a class="anchor" aria-label="anchor" href="#arg-occupancy-cat-undefined"></a></dt>
-<dd><p>Level for undefined occupancy.</p></dd>
+<dt id="arg-tenure-security-cat-undefined">tenure_security_cat_undefined<a class="anchor" aria-label="anchor" href="#arg-tenure-security-cat-undefined"></a></dt>
+<dd><p>Level for undefined with security of tenure.</p></dd>
 
 
 <dt id="arg-fds-cannot-cat">fds_cannot_cat<a class="anchor" aria-label="anchor" href="#arg-fds-cannot-cat"></a></dt>
 <dd><p>Column name for fds cannot.</p></dd>
 
 
-<dt id="arg-fds-cannot-cat-to-">fds_cannot_cat_4_to_5<a class="anchor" aria-label="anchor" href="#arg-fds-cannot-cat-to-"></a></dt>
-<dd><p>Level for 4 to 5 tasks that cannot be done.</p></dd>
+<dt id="arg-fds-cannot-cat-">fds_cannot_cat_4<a class="anchor" aria-label="anchor" href="#arg-fds-cannot-cat-"></a></dt>
+<dd><p>Level for 4 tasks that cannot be done.</p></dd>
 
 
 <dt id="arg-fds-cannot-cat-to-">fds_cannot_cat_2_to_3<a class="anchor" aria-label="anchor" href="#arg-fds-cannot-cat-to-"></a></dt>
@@ -192,13 +202,41 @@ based on the calculated score.</p>
 <dt id="arg-fds-cannot-cat-undefined">fds_cannot_cat_undefined<a class="anchor" aria-label="anchor" href="#arg-fds-cannot-cat-undefined"></a></dt>
 <dd><p>Level for undefined fds cannot.</p></dd>
 
+
+<dt id="arg-shelter-damage">shelter_damage<a class="anchor" aria-label="anchor" href="#arg-shelter-damage"></a></dt>
+<dd><p>Column for shelter damage.</p></dd>
+
+
+<dt id="arg-shelter-damage-cat">shelter_damage_cat<a class="anchor" aria-label="anchor" href="#arg-shelter-damage-cat"></a></dt>
+<dd><p>Column for shelter damage category.</p></dd>
+
+
+<dt id="arg-shelter-damage-cat-none">shelter_damage_cat_none<a class="anchor" aria-label="anchor" href="#arg-shelter-damage-cat-none"></a></dt>
+<dd><p>Level name for no shelter damage.</p></dd>
+
+
+<dt id="arg-shelter-damage-cat-damaged">shelter_damage_cat_damaged<a class="anchor" aria-label="anchor" href="#arg-shelter-damage-cat-damaged"></a></dt>
+<dd><p>Level name for minor damages.</p></dd>
+
+
+<dt id="arg-shelter-damage-cat-part">shelter_damage_cat_part<a class="anchor" aria-label="anchor" href="#arg-shelter-damage-cat-part"></a></dt>
+<dd><p>Level name for roof with risk of collapse.</p></dd>
+
+
+<dt id="arg-shelter-damage-cat-total">shelter_damage_cat_total<a class="anchor" aria-label="anchor" href="#arg-shelter-damage-cat-total"></a></dt>
+<dd><p>Level name for total collapse or destruction.</p></dd>
+
+
+<dt id="arg-shelter-damage-cat-undefined">shelter_damage_cat_undefined<a class="anchor" aria-label="anchor" href="#arg-shelter-damage-cat-undefined"></a></dt>
+<dd><p>Level name for undefined or unknown status for shelter damage.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame with added columns:</p><ul><li><p>comp_snfi_score_shelter_type_cat: Score based on shelter type</p></li>
-<li><p>comp_snfi_score_shelter_issue_cat: Score based on shelter issues</p></li>
-<li><p>comp_snfi_score_occupancy_cat: Score based on occupancy status</p></li>
-<li><p>comp_snfi_score_fds_cannot_cat: Score based on FDS</p></li>
+    <p>A data frame with added columns:</p><ul><li><p>comp_snfi_score_shelter_type_cat Score based on shelter type</p></li>
+<li><p>comp_snfi_score_shelter_issue_cat Score based on shelter issues</p></li>
+<li><p>comp_snfi_score_tenure_security_cat Score based on security of tenure status</p></li>
+<li><p>comp_snfi_score_fds_cannot_cat Score based on FDS</p></li>
 <li><p>comp_snfi_score: Overall SNFI composite score</p></li>
 <li><p>comp_snfi_in_need: Indicator for being in need</p></li>
 <li><p>comp_snfi_in_acute_need: Indicator for being in acute need</p></li>
@@ -209,11 +247,11 @@ based on the calculated score.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Guillaume Noblet, Laith Abu-Nawwas, Sunhee Moraes.</p>
+  <p>Developed by Quentin VILLOTTA, Iyed GHEDAMSI, Mario DASILVA.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>

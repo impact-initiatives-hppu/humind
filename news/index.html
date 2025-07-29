@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,9 +28,89 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/v2024.1.4/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2025.1.1" id="humind-202511">humind 2025.1.1<a class="anchor" aria-label="anchor" href="#humind-202511"></a></h2>
+<p>This release introduces major updates across protection indicators, SNFI and shelter categorization, expenditure scoring, testing framework improvements, dependency management, and documentation. Deprecated WGQ components are fully removed.</p>
+<hr><div class="section level3">
+<h3 id="id_-programmatic-changes-2025-1-1">📖 2025 Programmatic Changes<a class="anchor" aria-label="anchor" href="#id_-programmatic-changes-2025-1-1"></a></h3>
+<ul><li><p><strong>Protection</strong>: complete ravamp, based on a series of new Tier 1 indicators related to Protection Needs.</p></li>
+<li>
+<p><strong>SNFI</strong>:</p>
+<ul><li>Changes to the number of shelter issues and their mapping to the FW (from 8 to 11 total issues).</li>
+<li>Inclusion of one additional indicator to the security of tenure dimension: <code>hlp_eviction_risk.</code>
+</li>
+<li>Hygiene indicator removed from the FDS series - making the total number of domestic tasks (and lighting) equal to 4 instead of 5.</li>
+<li>Optional shelter damages component added.</li>
+</ul></li>
+<li><p><strong>Health</strong>: removal of the WGQs from the framework.</p></li>
+<li><p><strong>WASH</strong>: small changes to incorporate the self-reported hygiene variants (availability of soap &amp; water) and map them to the JMP classifications.</p></li>
+<li><p><strong>Food Security</strong>: new additional step to analyze the impact of livelihood coping strategies on Food Consumption (changes done in <a href="https://github.com/impact-initiatives/impactR4PHU" class="external-link">impactR4PHU</a> and reflected in humind).</p></li>
+<li><p><strong>Education</strong>: small changes to indicator naming to reflect “direct attack on education”. Indicator name was <code>edu_disrupted_occupation</code> and is now called <code>edu_disrupted_attack.</code> <code>edu_disrupted_occupation</code> and is now called <code>edu_disrupted_attack.</code></p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="id_-codebase-changes-2025-1-1">🛠 Codebase Changes<a class="anchor" aria-label="anchor" href="#id_-codebase-changes-2025-1-1"></a></h3>
+<div class="section level4">
+<h4 id="id_-new-features-2025-1-1">🚀 New Features<a class="anchor" aria-label="anchor" href="#id_-new-features-2025-1-1"></a></h4>
+<ul><li>
+<strong>Protection Composite Indicators</strong>
+<ul><li>Added <code>add_comp_prot_score()</code> as main function for computing overall Protection Composite.</li>
+<li>Introduced supporting functions for rights, practices, and participation dimensions.</li>
+</ul></li>
+</ul><hr></div>
+<div class="section level4">
+<h4 id="id_-enhancements-2025-1-1">🔄 Enhancements<a class="anchor" aria-label="anchor" href="#id_-enhancements-2025-1-1"></a></h4>
+<ul><li>
+<strong>SNFI &amp; Shelter Categorization</strong>
+<ul><li>Revised <code><a href="../reference/add_shelter_issue_cat.html">add_shelter_issue_cat()</a></code> logic for better category handling and alignment with 2025 specifications.</li>
+<li>Updated <code><a href="../reference/add_comp_snfi.html">add_comp_snfi()</a></code> for consistent categorization and explicit handling of special cases.</li>
+</ul></li>
+<li>
+<strong>Expenditure Indicators</strong>
+<ul><li>Enhanced infrequent expenditure categorization functions and ranking logic.</li>
+</ul></li>
+<li>
+<strong>Data Integrity</strong>
+<ul><li>Composition functions now preserve original data instead of overwriting with intermediate steps.</li>
+</ul></li>
+</ul><hr></div>
+<div class="section level4">
+<h4 id="id_-bug-fixes-2025-1-1">🛠 Bug Fixes<a class="anchor" aria-label="anchor" href="#id_-bug-fixes-2025-1-1"></a></h4>
+<ul><li>Fixed improper handling of invalid inputs in multiple test cases.</li>
+<li>Addressed warnings triggered by implicit handling of <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max()</a></code> with all-NA vectors.</li>
+</ul><hr></div>
+<div class="section level4">
+<h4 id="id_-testing-2025-1-1">🧪 Testing<a class="anchor" aria-label="anchor" href="#id_-testing-2025-1-1"></a></h4>
+<ul><li>Adopted <code>testthat</code> best practices across test suites.</li>
+<li>Expanded unit tests for:
+<ul><li>Protection composite framework</li>
+<li>Shelter and occupancy categorization</li>
+<li>Expenditure ranking</li>
+</ul></li>
+<li>Standardized warning suppression and ensured expected warnings are captured.</li>
+<li>Removed obsolete tests linked to deprecated WGQ components.</li>
+</ul><hr></div>
+<div class="section level4">
+<h4 id="id_-documentation-2025-1-1">📚 Documentation<a class="anchor" aria-label="anchor" href="#id_-documentation-2025-1-1"></a></h4>
+<ul><li>Completed function documentation for all updated indicators.</li>
+<li>Updated argument descriptions and clarified logic for SNFI and protection functions.</li>
+<li>Removed all references to WGQ components.</li>
+<li>Added Humind 2025 change documentation.</li>
+</ul><hr></div>
+<div class="section level4">
+<h4 id="id_-dependency-management-2025-1-1">📦 Dependency Management<a class="anchor" aria-label="anchor" href="#id_-dependency-management-2025-1-1"></a></h4>
+<ul><li>Removed unused packages and implicit dependency on <code>tibble</code>.</li>
+<li>Now depends on forked <strong>impactR.utils</strong> package.</li>
+</ul><hr></div>
+<div class="section level4">
+<h4 id="id_️-breaking-changes-2025-1-1">⚠️ Breaking Changes<a class="anchor" aria-label="anchor" href="#id_%EF%B8%8F-breaking-changes-2025-1-1"></a></h4>
+<ul><li>Fully removed WGQ-related components and associated tests.</li>
+<li>Deleted obsolete function <code>add_child_sep_cat.R</code>.</li>
+</ul></div>
+</div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2024.1.4" id="humind-202414">humind 2024.1.4<a class="anchor" aria-label="anchor" href="#humind-202414"></a></h2>
 <p>This release covers bug fixes, documentation updates, changes to parameters, and additional enhancements:</p>
@@ -152,11 +232,11 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Guillaume Noblet, Laith Abu-Nawwas, Sunhee Moraes.</p>
+  <p>Developed by Quentin VILLOTTA, Iyed GHEDAMSI, Mario DASILVA.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
