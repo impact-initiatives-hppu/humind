@@ -18,9 +18,10 @@ coverage](https://codecov.io/gh/impact-initiatives-hppu/humind/branch/main/graph
 indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs).
 Such as:
 
+- Specific indicators related to the MSNI framework: Sectoral Composites,
+  MSNI Metrics and all recoding of indicators needed for these.
 - Food security indicators (rCSI, LCSI, HHS, FCS).
-- JMP ladders.
-- Specific indicators related to the MSNI framework.
+- Recoding of WASH indicators to JMP classifications.
 
 The package follows the ‘Step - Composition’ approach of IMPACT R
 framework.
@@ -69,8 +70,9 @@ guiding users through the necessary steps and highlighting the relevant
 
 - **Health**: removal of the WGQs from the framework.
 
-- **WASH**: small changes to incorporate the self-reported variants and
-  map them to the JMP classifications.
+- **WASH**: small changes to incorporate the self-reported hygiene
+  variants (availability of soap & water) and map them to the JMP
+  classifications.
 
 - **Food Security**: new additional step to analyze the impact of
   livelihood coping strategies on Food Consumption (changes done in
