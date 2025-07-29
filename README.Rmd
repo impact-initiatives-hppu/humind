@@ -38,7 +38,14 @@ You can install the latest stable version of `humind` from GitHub:
 
 ``` r
 install.packages("devtools")
-devtools::install_github("impact-initiatives-hppu/humind")
+devtools::install_github("impact-initiatives-hppu/humind@v2025.1.1")
+```
+
+To confirm that you have the correct version, you should try the following:
+
+```r
+packageVersion("humind")
+# v2025.1.1
 ```
 
 ## 📚 Guidance Note
