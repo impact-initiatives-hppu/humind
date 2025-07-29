@@ -102,6 +102,31 @@ Open a **[blank issue](https://github.com/impact-initiatives-hppu/humind/issues/
 
 ---
 
+
+## Known Issues
+
+### GitHub Credentials Error When Installing with devtools
+
+When installing the package from GitHub using `devtools::install_github()`, you may encounter an error such as:
+
+```
+Using GitHub PAT from the git credential store.
+Error : Failed to install 'unknown package' from GitHub:
+  HTTP error 401.
+  Bad credentials
+```
+
+This issue is typically caused by outdated or incorrect GitHub credentials stored in R. For public repositories, no credentials are required. To resolve this, you can either update your credentials or delete the stored credentials using the following commands:
+
+```r
+library(gitcreds)
+gitcreds_delete()
+```
+
+After updating or deleting the credentials, retry the installation. This should resolve the error for public repositories.
+
+---
+
 ## License
 
 `humind` is released under the [MIT License](LICENSE.md).
