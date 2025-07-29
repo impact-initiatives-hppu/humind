@@ -17,7 +17,7 @@
 #' @param undefined Vector of undefined responses, such as Prefer not to answer and Don't know.
 #'
 #' @return A data frame with additional columns:
-#' 
+#'
 #' * *_cannot_do_d: Binary indicators for "cannot do" level for each component.
 #' * *_lot_of_difficulty_d: Binary indicators for "a lot of difficulty" level for each component.
 #' * *_some_difficulty_d: Binary indicators for "some difficulty" level for each component.
@@ -37,20 +37,20 @@
 #'
 #' @export
 add_loop_wgq_ss <- function(
-    loop,
-    ind_age = "ind_age",
-    vision = "wgq_vision",
-    hearing = "wgq_hearing",
-    mobility = "wgq_mobility",
-    cognition = "wgq_cognition",
-    self_care = "wgq_self_care",
-    communication = "wgq_communication",
-    no_difficulty = "no_difficulty",
-    some_difficulty = "some_difficulty",
-    lot_of_difficulty = "lot_of_difficulty",
-    cannot_do = "cannot_do",
-    undefined = c("dnk", "pnta")){
-
+  loop,
+  ind_age = "ind_age",
+  vision = "wgq_vision",
+  hearing = "wgq_hearing",
+  mobility = "wgq_mobility",
+  cognition = "wgq_cognition",
+  self_care = "wgq_self_care",
+  communication = "wgq_communication",
+  no_difficulty = "no_difficulty",
+  some_difficulty = "some_difficulty",
+  lot_of_difficulty = "lot_of_difficulty",
+  cannot_do = "cannot_do",
+  undefined = c("dnk", "pnta")
+) {
   #------ Checks
 
   # Get vars
@@ -62,12 +62,25 @@ add_loop_wgq_ss <- function(
   wqg_vars_no_difficulty <- paste0(wgq_vars, "_no_difficulty_d")
 
   # Check that levels no_diff to cannot_do are of length 1
-  if (length(no_difficulty) != 1 | length(some_difficulty) != 1 | length(lot_of_difficulty) != 1 | length(cannot_do) != 1) {
-    rlang::abort("no_difficulty, some_difficulty, lot_of_difficulty, cannot_do must be of length 1.")
+  if (
+    length(no_difficulty) != 1 |
+      length(some_difficulty) != 1 |
+      length(lot_of_difficulty) != 1 |
+      length(cannot_do) != 1
+  ) {
+    rlang::abort(
+      "no_difficulty, some_difficulty, lot_of_difficulty, cannot_do must be of length 1."
+    )
   }
 
   # Levels
-  levels <- c(no_difficulty, some_difficulty, lot_of_difficulty, cannot_do, undefined)
+  levels <- c(
+    no_difficulty,
+    some_difficulty,
+    lot_of_difficulty,
+    cannot_do,
+    undefined
+  )
 
   # Check if the variables are in the data frame
   if_not_in_stop(loop, ind_age, "loop")
@@ -84,38 +97,45 @@ add_loop_wgq_ss <- function(
     ind_age = ind_age,
     lb = 5,
     ub = 120,
-    new_colname = "ind_age_above_5")
-
+    new_colname = "ind_age_above_5"
+  )
 
   # Add cannot do binaries
   loop <- dplyr::mutate(
     loop,
     dplyr::across(
-      wgq_vars,
-      \(x) dplyr::case_when(
-        ind_age_above_5 == 0 ~ NA_real_,
-        ind_age_above_5 == 1 & x %in% undefined ~ 0,
-        ind_age_above_5 == 1 & x == cannot_do ~ 1,
-        ind_age_above_5 == 1 & x %in% c(no_difficulty, some_difficulty, lot_of_difficulty) ~ 0,
-        .default = NA_real_
-      ),
+      dplyr::all_of(wgq_vars),
+      \(x) {
+        dplyr::case_when(
+          ind_age_above_5 == 0 ~ NA_real_,
+          ind_age_above_5 == 1 & x %in% undefined ~ 0,
+          ind_age_above_5 == 1 & x == cannot_do ~ 1,
+          ind_age_above_5 == 1 &
+            x %in% c(no_difficulty, some_difficulty, lot_of_difficulty) ~
+            0,
+          .default = NA_real_
+        )
+      },
       .names = "{.col}_cannot_do_d"
     )
   )
-
 
   # Add lot of difficulty binaries
   loop <- dplyr::mutate(
     loop,
     dplyr::across(
-      wgq_vars,
-      \(x) dplyr::case_when(
-        ind_age_above_5 == 0 ~ NA_real_,
-        ind_age_above_5 == 1 & x %in% undefined ~ 0,
-        ind_age_above_5 == 1 & x == lot_of_difficulty ~  1,
-        ind_age_above_5 == 1 & x %in% c( no_difficulty, some_difficulty, cannot_do) ~ 0,
-        .default = NA_real_
-      ),
+      dplyr::all_of(wgq_vars),
+      \(x) {
+        dplyr::case_when(
+          ind_age_above_5 == 0 ~ NA_real_,
+          ind_age_above_5 == 1 & x %in% undefined ~ 0,
+          ind_age_above_5 == 1 & x == lot_of_difficulty ~ 1,
+          ind_age_above_5 == 1 &
+            x %in% c(no_difficulty, some_difficulty, cannot_do) ~
+            0,
+          .default = NA_real_
+        )
+      },
       .names = "{.col}_lot_of_difficulty_d"
     )
   )
@@ -124,14 +144,18 @@ add_loop_wgq_ss <- function(
   loop <- dplyr::mutate(
     loop,
     dplyr::across(
-      wgq_vars,
-      \(x) dplyr::case_when(
-        ind_age_above_5 == 0 ~ NA_real_,
-        ind_age_above_5 == 1 & x %in% undefined ~ 0,
-        ind_age_above_5 == 1 & x == some_difficulty ~ 1,
-        ind_age_above_5 == 1 & x %in% c(no_difficulty, lot_of_difficulty, cannot_do) ~ 0,
-        .default = NA_real_
-      ),
+      dplyr::all_of(wgq_vars),
+      \(x) {
+        dplyr::case_when(
+          ind_age_above_5 == 0 ~ NA_real_,
+          ind_age_above_5 == 1 & x %in% undefined ~ 0,
+          ind_age_above_5 == 1 & x == some_difficulty ~ 1,
+          ind_age_above_5 == 1 &
+            x %in% c(no_difficulty, lot_of_difficulty, cannot_do) ~
+            0,
+          .default = NA_real_
+        )
+      },
       .names = "{.col}_some_difficulty_d"
     )
   )
@@ -141,30 +165,85 @@ add_loop_wgq_ss <- function(
     loop,
     dplyr::across(
       dplyr::all_of(wgq_vars),
-      \(x) dplyr::case_when(
-        ind_age_above_5 == 0 ~ NA_real_,
-        ind_age_above_5 == 1 & x %in% undefined ~ 0,
-        ind_age_above_5 == 1 & x == no_difficulty ~ 1,
-        ind_age_above_5 == 1 & x %in% c(some_difficulty, lot_of_difficulty, cannot_do) ~ 0,
-        .default = NA_real_
-      ),
+      \(x) {
+        dplyr::case_when(
+          ind_age_above_5 == 0 ~ NA_real_,
+          ind_age_above_5 == 1 & x %in% undefined ~ 0,
+          ind_age_above_5 == 1 & x == no_difficulty ~ 1,
+          ind_age_above_5 == 1 &
+            x %in% c(some_difficulty, lot_of_difficulty, cannot_do) ~
+            0,
+          .default = NA_real_
+        )
+      },
       .names = "{.col}_no_difficulty_d"
     )
   )
 
+  # Add cannot do or lot of difficulties binaries
+  loop <- dplyr::mutate(
+    loop,
+    dplyr::across(
+      dplyr::all_of(wgq_vars),
+      \(x) {
+        dplyr::case_when(
+          ind_age_above_5 == 0 ~ NA_real_,
+          ind_age_above_5 == 1 & x %in% undefined ~ 0,
+          ind_age_above_5 == 1 & x %in% c(cannot_do, lot_of_difficulty) ~ 1,
+          ind_age_above_5 == 1 & x %in% c(no_difficulty, some_difficulty) ~ 0,
+          .default = NA_real_
+        )
+      },
+      .names = "{.col}_cannot_do_or_lot_of_difficulty_d"
+    )
+  )
+
+  # Add any_difficulty binaries
+  loop <- dplyr::mutate(
+    loop,
+    dplyr::across(
+      dplyr::all_of(wgq_vars),
+      \(x) {
+        dplyr::case_when(
+          ind_age_above_5 == 0 ~ NA_real_,
+          ind_age_above_5 == 1 & x %in% undefined ~ 0,
+          ind_age_above_5 == 1 &
+            x %in% c(cannot_do, lot_of_difficulty, some_difficulty) ~
+            1,
+          ind_age_above_5 == 1 & x == no_difficulty ~ 0,
+          .default = NA_real_
+        )
+      },
+      .names = "{.col}_any_difficulty_d"
+    )
+  )
 
   # Add sum of cannot do across all components
-  loop <- sum_vars(loop, wgq_vars_cannot_do, "wgq_cannot_do_n", na_rm = TRUE)
+  loop <- sum_vars(loop, wgq_vars_cannot_do, "wgq_cannot_do_n", na_rm = FALSE)
 
   # Add sum of lot of difficulty across all components
-  loop <- sum_vars(loop, wgq_vars_lot_of_difficulty, "wgq_lot_of_difficulty_n", na_rm = TRUE)
+  loop <- sum_vars(
+    loop,
+    wgq_vars_lot_of_difficulty,
+    "wgq_lot_of_difficulty_n",
+    na_rm = FALSE
+  )
 
   # Add sum of some difficulty across all components
-  loop <- sum_vars(loop, wgq_vars_some_difficulty, "wgq_some_difficulty_n", na_rm = TRUE)
+  loop <- sum_vars(
+    loop,
+    wgq_vars_some_difficulty,
+    "wgq_some_difficulty_n",
+    na_rm = FALSE
+  )
 
   # Add sum of no difficulty across all components
-  loop <- sum_vars(loop, wqg_vars_no_difficulty, "wgq_no_difficulty_n", na_rm = TRUE)
-
+  loop <- sum_vars(
+    loop,
+    wqg_vars_no_difficulty,
+    "wgq_no_difficulty_n",
+    na_rm = FALSE
+  )
 
   # Add binary cannot do across all components
   loop <- dplyr::mutate(
@@ -210,12 +289,15 @@ add_loop_wgq_ss <- function(
   loop <- dplyr::mutate(loop, wgq_dis_4 = !!rlang::sym("wgq_cannot_do_d"))
 
   # Add final cut-offs - disability 3 -  the level of inclusion is any 1 domain/question is coded A LOT OF DIFFICULTY or CANNOT DO AT ALL.
-  loop <- dplyr::mutate(loop, wgq_dis_3 = dplyr::case_when(
-    wgq_dis_4 == 1 ~ 1,
-    wgq_lot_of_difficulty_d == 1 ~ 1,
-    wgq_dis_4 == 0 & wgq_lot_of_difficulty_d == 0 ~ 0,
-    .default = NA_real_
-  ))
+  loop <- dplyr::mutate(
+    loop,
+    wgq_dis_3 = dplyr::case_when(
+      wgq_dis_4 == 1 ~ 1,
+      wgq_lot_of_difficulty_d == 1 ~ 1,
+      wgq_dis_4 == 0 & wgq_lot_of_difficulty_d == 0 ~ 0,
+      .default = NA_real_
+    )
+  )
 
   # Add final cut-offs - disability 2 -  the level of inclusion is at least 2 domains/questions are coded SOME DIFFICULTY or any 1 domain/question is coded A LOT OF DIFFICULTY or CANNOT DO AT ALL
   loop <- dplyr::mutate(
@@ -258,16 +340,16 @@ add_loop_wgq_ss <- function(
 #'
 #' @export
 add_loop_wgq_ss_to_main <- function(
-    main,
-    loop,
-    wgq_dis_4 = "wgq_dis_4",
-    wgq_dis_3 = "wgq_dis_3",
-    wgq_dis_2 = "wgq_dis_2",
-    wgq_dis_1 = "wgq_dis_1",
-    ind_age_above_5 = "ind_age_above_5",
-    id_col_main = "uuid",
-    id_col_loop = "uuid"){
-
+  main,
+  loop,
+  wgq_dis_4 = "wgq_dis_4",
+  wgq_dis_3 = "wgq_dis_3",
+  wgq_dis_2 = "wgq_dis_2",
+  wgq_dis_1 = "wgq_dis_1",
+  ind_age_above_5 = "ind_age_above_5",
+  id_col_main = "uuid",
+  id_col_loop = "uuid"
+) {
   #------ Checks
 
   # Dis vars
@@ -281,11 +363,11 @@ add_loop_wgq_ss_to_main <- function(
   if_not_in_stop(loop, id_col_loop, "loop")
 
   # Check if value is in set
-  are_values_in_set(loop, wgq_dis, c(0,1))
+  are_values_in_set(loop, wgq_dis, c(0, 1))
 
   # Check if new colname is in main and throw a warning if it is
-   wgq_dis_n <- paste0(wgq_dis, "_n")
-   ind_age_above_5_n <- paste0(ind_age_above_5, "_n")
+  wgq_dis_n <- paste0(wgq_dis, "_n")
+  ind_age_above_5_n <- paste0(ind_age_above_5, "_n")
 
   # Warn if new columns in wgq_dis_n exists in 'main' and will be replaced (lapply wgq_dis_n)
   lapply(wgq_dis_n, \(x) {
@@ -294,11 +376,12 @@ add_loop_wgq_ss_to_main <- function(
     }
   })
 
-
   if (ind_age_above_5_n %in% colnames(main)) {
-    rlang::warn(paste0(ind_age_above_5_n, " already exists in 'main'. It will be replaced."))
+    rlang::warn(paste0(
+      ind_age_above_5_n,
+      " already exists in 'main'. It will be replaced."
+    ))
   }
-
 
   #------ Compute
 
@@ -320,23 +403,33 @@ add_loop_wgq_ss_to_main <- function(
     loop,
     dplyr::across(
       dplyr::all_of(wgq_dis_n),
-      \(x) dplyr::case_when(
-        x >= 1 ~ 1,
-        x == 0 ~ 0,
-        .default = NA_real_),
+      \(x) {
+        dplyr::case_when(
+          x >= 1 ~ 1,
+          x == 0 ~ 0,
+          .default = NA_real_
+        )
+      },
       .names = "{.col}_at_least_one"
-      )
     )
+  )
   # Rename to remove the "_n"
-  loop <- dplyr::rename_with(loop, ~ gsub("_n_at_least_one$", "_at_least_one", .), dplyr::ends_with("_n_at_least_one"))
+  loop <- dplyr::rename_with(
+    loop,
+    ~ gsub("_n_at_least_one$", "_at_least_one", .),
+    dplyr::ends_with("_n_at_least_one")
+  )
 
   # Remove columns in main that exists in loop, but the grouping ones
   main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
 
   # Merge the loop to the main dataset
-  main <- dplyr::left_join(main, loop, by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop)))
+  main <- dplyr::left_join(
+    main,
+    loop,
+    by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop))
+  )
 
   # Return main
   return(main)
-
 }

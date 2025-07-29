@@ -1,11 +1,16 @@
-library(testthat)
-library(dplyr)
-
 # Mock the helper functions if_not_in_stop and are_cols_numeric
 if_not_in_stop <- function(df, cols, df_name) {
   missing_cols <- setdiff(cols, colnames(df))
   if (length(missing_cols) > 0) {
-    stop(paste("The following columns are not present in", df_name, ":", paste(missing_cols, collapse = ", ")), call. = FALSE)
+    stop(
+      paste(
+        "The following columns are not present in",
+        df_name,
+        ":",
+        paste(missing_cols, collapse = ", ")
+      ),
+      call. = FALSE
+    )
   }
 }
 
@@ -18,7 +23,15 @@ are_cols_numeric <- function(df, col) {
 are_values_in_set <- function(df, col, valid_values) {
   invalid_values <- setdiff(unique(df[[col]]), valid_values)
   if (length(invalid_values) > 0) {
-    stop(paste("The following values in", col, "are not valid:", paste(invalid_values, collapse = ", ")), call. = FALSE)
+    stop(
+      paste(
+        "The following values in",
+        col,
+        "are not valid:",
+        paste(invalid_values, collapse = ", ")
+      ),
+      call. = FALSE
+    )
   }
 }
 
@@ -125,4 +138,3 @@ test_that("add_loop_age_gender_dummy_to_main works with default parameters", {
 
   expect_equal(result, expected)
 })
-

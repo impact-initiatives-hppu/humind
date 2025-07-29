@@ -15,21 +15,22 @@
 #'
 #' @export
 add_expenditure_type_zero_freq <- function(
-    df,
-    expenditure_freq = "cm_expenditure_frequent",
-    none = "none",
-    undefined = c("dnk", "pnta"),
-    expenditure_freq_types = c("cm_expenditure_frequent_food",
-                               "cm_expenditure_frequent_rent",
-                               "cm_expenditure_frequent_water",
-                               "cm_expenditure_frequent_nfi",
-                               "cm_expenditure_frequent_utilities",
-                               "cm_expenditure_frequent_fuel",
-                               "cm_expenditure_frequent_transportation",
-                               "cm_expenditure_frequent_communication",
-                               "cm_expenditure_frequent_other")
-){
-
+  df,
+  expenditure_freq = "cm_expenditure_frequent",
+  none = "none",
+  undefined = c("dnk", "pnta"),
+  expenditure_freq_types = c(
+    "cm_expenditure_frequent_food",
+    "cm_expenditure_frequent_rent",
+    "cm_expenditure_frequent_water",
+    "cm_expenditure_frequent_nfi",
+    "cm_expenditure_frequent_utilities",
+    "cm_expenditure_frequent_fuel",
+    "cm_expenditure_frequent_transportation",
+    "cm_expenditure_frequent_communication",
+    "cm_expenditure_frequent_other"
+  )
+) {
   #----- Checks
 
   # Check that frequent expenditure is of length 1
@@ -52,7 +53,8 @@ add_expenditure_type_zero_freq <- function(
     undefined = undefined,
     sl_vars = expenditure_freq_types,
     sl_value = 0,
-    suffix = "")
+    suffix = ""
+  )
 
   # Ensure that when expenditure_freq is "none", all sl_vars are 0
   # Which should be the case already with value_to_sl
@@ -61,14 +63,14 @@ add_expenditure_type_zero_freq <- function(
     df,
     dplyr::across(
       dplyr::all_of(expenditure_freq_types),
-      \(x) dplyr::case_when(
-        !!rlang::sym(expenditure_freq) == none ~ 0,
-        .default = x
-      )
+      \(x) {
+        dplyr::case_when(
+          !!rlang::sym(expenditure_freq) == none ~ 0,
+          .default = x
+        )
+      }
     )
   )
 
   return(df)
-
-
 }

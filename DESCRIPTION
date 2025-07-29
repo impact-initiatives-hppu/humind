@@ -1,10 +1,12 @@
 Package: humind
 Title: Compose MSNA Indicators
-Version: 2024.1.4
+Version: 2025.1.1
 Authors@R: c(
-    person("Guillaume", "Noblet", , "gnoblet@zaclys.net", role = c("aut", "cre")),
-    person("Laith", "Abu-Nawwas", , "laith.abu-nawwas@impact-initiatives.org", role = "aut"),
-    person("Sunhee", "Moraes", , "sunhee.moraes@impact-initiatives.org", role = "aut"),
+    person("Quentin", "VILLOTTA", , "quentin.villotta@impact-initiatives.org", role = c("aut", "cre")),
+    person("Iyed", "GHEDAMSI", , "iyed.ghedamsi@impact-initiatives.org", role = c("aut", "ctb")),
+    person("Mario", "DASILVA", , "mario.fidalgo@impact-initiatives.org", role = c("aut", "ctb")),
+    person("Laith", "Abu-Nawwas", , "laith.abu-nawwas@impact-initiatives.org", role = "ctb"),
+    person("Sunhee", "Moraes", , "sunhee.moraes@impact-initiatives.org", role = "ctb"),
     person("Raphael", "Bacot", , "raphael.bacot@impact-initiatives.org", role = "ctb")
     )
 Description: This packages provides functions to compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP ladders, as well as specific indicators related to the MSNI framework.
@@ -23,16 +25,17 @@ Imports:
     impactR.utils,
     impactR4PHU (>= 0.1.0),
     Hmisc,
-    stringr
+    stringr,
+    cli
 URL: https://github.com/impact-initiatives-hppu/humind
 BugReports: https://github.com/impact-initiatives-hppu/humind/issues
 Remotes: 
-    gnoblet/impactR.utils,
+    impact-initiatives/impactR.utils,
     impact-initiatives/impactR4PHU
 Suggests: 
-    knitr,
     rmarkdown,
-    roxygen2
+    roxygen2,
+    testthat (>= 3.0.0)
 LazyData: true
 Config/Needs/website: rmarkdown
-VignetteBuilder: knitr
+Config/testthat/edition: 3

@@ -1,0 +1,94 @@
+name: Bug report
+description: File a bug report
+title: "[BUG] Brief but specific description of the issue"
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Please complete all fields below. Clear, reproducible reports help us resolve issues faster.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: |
+        What did you expect to happen, and what actually happened?
+        Include any error messages, unexpected output, or screenshots if relevant.
+      placeholder: "I expected to see `...`, but instead I saw `...`."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps_to_reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: |
+        Please provide a minimal, self-contained, and reproducible example.
+        This allows us to quickly verify the bug and find a solution.
+        Include any relevant code snippets or data.
+      placeholder: |
+        1. Run `...`
+        2. With this data `...`
+        3. See error `...`
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: build_tools
+    attributes:
+      label: Build Tools Installed? (Optional)
+      description: "Do you have RTools (Windows) or Xcode Command Line Tools (macOS) installed? This is often required for installing packages from source."
+      options:
+        - label: "I have build tools installed."
+          required: false
+
+  - type: input
+    id: build_tools_version
+    attributes:
+      label: Build Tools Version (if applicable)
+      description: "If you checked the box above, please provide the version of RTools or Xcode."
+      placeholder: "e.g., RTools 4.3, Xcode 15.0"
+
+  - type: input
+    id: system
+    attributes:
+      label: Operating System
+      placeholder: "e.g., macOS 14.2, Windows 11, Ubuntu 22.04"
+
+  - type: textarea
+    id: session_info
+    attributes:
+      label: Session Info
+      description: |
+        To help us debug effectively, please paste the output of `devtools::session_info()` below.
+
+        ```r
+        # Run this command in your R console and paste the output
+        devtools::session_info()
+        ```
+
+        <details>
+        <summary>Don't have {devtools} installed?</summary>
+
+        The `{devtools}` package provides the most detailed information. You can install it by running:
+        ```r
+        install.packages("devtools")
+        ```
+
+        If you prefer not to install a new package, you can use the built-in `sessionInfo()` function instead, although its output is less detailed.
+        ```r
+        # Alternative command
+        sessionInfo()
+        ```
+        </details>
+      render: r
+      placeholder: "<Paste the output of devtools::session_info() here>"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Anything else?
+      description: |
+        Include screenshots, links to related issues, or anything else that might help.

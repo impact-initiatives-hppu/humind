@@ -1,21 +1,21 @@
 #' @title Add Dummy Variable for 'In Need' Status
-#' 
+#'
 #' @description This set of functions adds new binary variables indicating if a score is above certain thresholds. [is_in_need()] adds a variable for scores above 3 (indicating "in need"), while [is_in_acute_need()] adds a variable for scores above 4 (indicating "in acute need").
-#' 
+#'
 #' @param df A dataframe containing the score variable.
 #' @param score The variable containing the score on a 1-5 scale.
 #' @param new_colname The name of the new column. If NULL, the function will create a new column with the name 'score_in_need' or 'score_in_acute_need'.
-#' 
+#'
 #' @return A dataframe with an additional column:
-#' 
+#'
 #' * new_colname: A binary variable indicating if the score meets the threshold for being "in need" (1) or not (0).
 #'
 #' @export
 is_in_need <- function(
-    df,
-    score,
-    new_colname = NULL){
-
+  df,
+  score,
+  new_colname = NULL
+) {
   #------ Checks
 
   # Check that variable is in df
@@ -31,7 +31,10 @@ is_in_need <- function(
 
   # Check if newcolname exists in the dataframe, if yes throw a warning for replacement
   if (new_colname %in% names(df)) {
-    rlang::warn(paste0(new_colname, " already exists in the data frame. It will be replaced."))
+    rlang::warn(paste0(
+      new_colname,
+      " already exists in the data frame. It will be replaced."
+    ))
   }
 
   #------ Create new variable
@@ -46,17 +49,16 @@ is_in_need <- function(
   )
 
   return(df)
-
 }
 
 #' @rdname is_in_need
 #'
 #' @export
 is_in_acute_need <- function(
-    df,
-    score,
-    new_colname = NULL){
-
+  df,
+  score,
+  new_colname = NULL
+) {
   #------ Checks
 
   # Check that variable is in df
@@ -72,7 +74,10 @@ is_in_acute_need <- function(
 
   # Check if newcolname exists in the dataframe, if yes throw a warning for replacement
   if (new_colname %in% names(df)) {
-    rlang::warn(paste0(new_colname, " already exists in the data frame. It will be replaced."))
+    rlang::warn(paste0(
+      new_colname,
+      " already exists in the data frame. It will be replaced."
+    ))
   }
 
   #------ Create new variable, acute need is defined as score 4 or 5.
@@ -87,5 +92,4 @@ is_in_acute_need <- function(
   )
 
   return(df)
-
 }

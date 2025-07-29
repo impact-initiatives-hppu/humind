@@ -1,12 +1,9 @@
-library(testthat)
-library(dplyr)
-
 # Dummy data for testing
 dummy_data <- data.frame(
   edu_schooling_age_n = c(0, 10, 5, 7, 0, 2),
   edu_no_access_n = c(0, 1, 0, 2, 0, 0),
   edu_barrier_protection_n = c(0, 1, 0, 0, 0, 0),
-  edu_disrupted_occupation_n = c(0, 0, 1, 0, 0, 0),
+  edu_disrupted_attack_n = c(0, 0, 1, 0, 0, 0),
   edu_disrupted_hazards_n = c(0, 1, 0, 0, 0, 0),
   edu_disrupted_displaced_n = c(0, 1, 0, 2, 0, 0),
   edu_disrupted_teacher_n = c(0, 0, 0, 0, 0, 1)
@@ -32,7 +29,9 @@ test_that("Function handles missing columns", {
 
 # 3. Test ensuring numeric checks
 non_numeric_data <- dummy_data
-non_numeric_data$edu_no_access_n <- as.character(non_numeric_data$edu_no_access_n)
+non_numeric_data$edu_no_access_n <- as.character(
+  non_numeric_data$edu_no_access_n
+)
 
 test_that("Function ensures numeric checks", {
   expect_error(add_comp_edu(non_numeric_data))
@@ -64,7 +63,7 @@ edge_case_data <- data.frame(
   edu_schooling_age_n = c(0, 1),
   edu_no_access_n = c(0, 1),
   edu_barrier_protection_n = c(0, 1),
-  edu_disrupted_occupation_n = c(0, 1),
+  edu_disrupted_attack_n = c(0, 1),
   edu_disrupted_hazards_n = c(0, 1),
   edu_disrupted_displaced_n = c(0, 1),
   edu_disrupted_teacher_n = c(0, 1)
@@ -83,4 +82,3 @@ test_that("Function handles edge cases", {
   expect_equal(result$comp_edu_score_attendance[2], 4)
   expect_equal(result$comp_edu_score[2], 4)
 })
-

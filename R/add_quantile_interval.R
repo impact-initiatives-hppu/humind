@@ -13,12 +13,11 @@
 #' @export
 
 add_quantile_interval <- function(
-    df,
-    vars,
-    cut_offs = c(0, 0.2, 0.4, 0.6, 0.8, 1),
-    weight = NULL
-){
-
+  df,
+  vars,
+  cut_offs = c(0, 0.2, 0.4, 0.6, 0.8, 1),
+  weight = NULL
+) {
   #------ Checks
 
   # Check if the variable are present
@@ -28,10 +27,14 @@ add_quantile_interval <- function(
   are_cols_numeric(df, vars)
 
   # Check if "weight" is present if not NULL
-  if (!is.null(weight)) if_not_in_stop(df, weight, "df")
+  if (!is.null(weight)) {
+    if_not_in_stop(df, weight, "df")
+  }
 
   # Check if "weight" is numeric if not NULL
-  if (!is.null(weight)) are_cols_numeric(df, weight)
+  if (!is.null(weight)) {
+    are_cols_numeric(df, weight)
+  }
 
   # Warn that vars_qtl will be replaced if they exist
   vars_names <- paste0(vars, "_qtl")
@@ -39,17 +42,25 @@ add_quantile_interval <- function(
     rlang::warn(
       paste0(
         "The following variables already exist and will be replaced:",
-        paste0(vars_names[vars_names %in% names(df)], collapse = ", "))
+        paste0(vars_names[vars_names %in% names(df)], collapse = ", ")
+      )
     )
   }
 
   #------ Calculate quantile intervals
 
   # Iterate the weighted quantile functions over all vars
-  if (!is.null(weight)){
+  if (!is.null(weight)) {
     qtl <- purrr::map(
       dplyr::select(df, dplyr::all_of(vars)),
-      \(x) Hmisc::wtd.quantile(x, weights = df[[weight]], probs = cut_offs, type = "quantile")
+      \(x) {
+        Hmisc::wtd.quantile(
+          x,
+          weights = df[[weight]],
+          probs = cut_offs,
+          type = "quantile"
+        )
+      }
     )
   } else {
     qtl <- purrr::map(
@@ -61,45 +72,43 @@ add_quantile_interval <- function(
   # Iterate to get neat vector of quantile labels for all vars
   qtl_labs <- purrr::imap(
     qtl,
-    \(x, idx) stringr::str_replace_all(
-      paste(names(x)[-length(names(x))], names(x)[-1], sep = "-"),
-      stringr::fixed(" "),
-      "")
+    \(x, idx) {
+      stringr::str_replace_all(
+        paste(names(x)[-length(names(x))], names(x)[-1], sep = "-"),
+        stringr::fixed(" "),
+        ""
+      )
+    }
   )
 
   # Use the num cat function across columns
   l_df_qtl <- purrr::map(
     vars,
     \(x) {
-
       # Is x NA only?
       is_x_na <- all(is.na(df[[x]]))
 
       if (is_x_na) {
-
         int <- dplyr::mutate(
           df,
           "{x}_qtl" := NA_character_
         )
-
       } else {
-
         int <- num_cat(
           df = df,
           num_col = x,
-          breaks =  qtl[[x]],
+          breaks = qtl[[x]],
           labels = qtl_labs[[x]],
           int_undefined = c(-999, 999),
           char_undefined = "Unknown",
           new_colname = paste0(x, "_qtl"),
-          plus_last = FALSE)
-
+          plus_last = FALSE
+        )
       }
 
       int <- dplyr::select(int, !!rlang::sym(paste0(x, "_qtl")))
 
       return(int)
-
     }
   )
 
@@ -113,5 +122,4 @@ add_quantile_interval <- function(
   df <- dplyr::bind_cols(df, df_qtl)
 
   return(df)
-
 }

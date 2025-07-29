@@ -1,10 +1,11 @@
-library(testthat)
-library(dplyr)
-
 # Sample data frame
 df <- data.frame(
   uuid = 1:3,
-  cm_income_source = c("dnk", "cm_income_source_salaried_n cm_income_source_casual_n", "none"),
+  cm_income_source = c(
+    "dnk",
+    "cm_income_source_salaried_n cm_income_source_casual_n",
+    "none"
+  ),
   cm_income_source_salaried_n = c(NA, 500, NA),
   cm_income_source_casual_n = c(NA, 200, NA),
   cm_income_source_own_business_n = NA,
@@ -19,12 +20,19 @@ df <- data.frame(
 )
 
 # Convert all income source columns to numeric
-income_sources <- c("cm_income_source_salaried_n", "cm_income_source_casual_n",
-                    "cm_income_source_own_business_n", "cm_income_source_own_production_n",
-                    "cm_income_source_social_benefits_n", "cm_income_source_rent_n",
-                    "cm_income_source_remittances_n", "cm_income_source_assistance_n",
-                    "cm_income_source_support_friends_n", "cm_income_source_donation_n",
-                    "cm_income_source_other_n")
+income_sources <- c(
+  "cm_income_source_salaried_n",
+  "cm_income_source_casual_n",
+  "cm_income_source_own_business_n",
+  "cm_income_source_own_production_n",
+  "cm_income_source_social_benefits_n",
+  "cm_income_source_rent_n",
+  "cm_income_source_remittances_n",
+  "cm_income_source_assistance_n",
+  "cm_income_source_support_friends_n",
+  "cm_income_source_donation_n",
+  "cm_income_source_other_n"
+)
 
 df[income_sources] <- lapply(df[income_sources], as.numeric)
 
@@ -53,7 +61,11 @@ test_that("add_income_source_zero_to_sl throws error when required columns are m
 # Sample data frame with non-numeric income sources
 df <- data.frame(
   uuid = 1:3,
-  cm_income_source = c("dnk", "cm_income_source_salaried_n cm_income_source_casual_n", "none"),
+  cm_income_source = c(
+    "dnk",
+    "cm_income_source_salaried_n cm_income_source_casual_n",
+    "none"
+  ),
   cm_income_source_salaried_n = c(NA, 500, NA),
   cm_income_source_casual_n = c(NA, 200, NA),
   cm_income_source_own_business_n = NA,
@@ -75,18 +87,18 @@ test_that("add_income_source_zero_to_sl throws error when income_sources are not
 })
 #----------------------------------------------------------------------------------------------
 
- # df_test <- add_income_source_zero_to_sl(df,
- #                                          income_source = "cm_income_source",
- #                                          undefined = c("dnk", "pnta", "none"),
- #                                          income_sources = c("cm_income_source_salaried_n",
- #                                                            "cm_income_source_casual_n",
- #                                                             "cm_income_source_own_business_n",
- #                                                             "cm_income_source_own_production_n",
- #                                                            "cm_income_source_social_benefits_n",
- #                                                             "cm_income_source_rent_n",
- #                                                           "cm_income_source_remittances_n",
- #                                                             "cm_income_source_assistance_n",
- #                                                           "cm_income_source_support_friends_n",
- #                                                             "cm_income_source_donation_n",
- #                                                           "cm_income_source_other_n"))
- #
+# df_test <- add_income_source_zero_to_sl(df,
+#                                          income_source = "cm_income_source",
+#                                          undefined = c("dnk", "pnta", "none"),
+#                                          income_sources = c("cm_income_source_salaried_n",
+#                                                            "cm_income_source_casual_n",
+#                                                             "cm_income_source_own_business_n",
+#                                                             "cm_income_source_own_production_n",
+#                                                            "cm_income_source_social_benefits_n",
+#                                                             "cm_income_source_rent_n",
+#                                                           "cm_income_source_remittances_n",
+#                                                             "cm_income_source_assistance_n",
+#                                                           "cm_income_source_support_friends_n",
+#                                                             "cm_income_source_donation_n",
+#                                                           "cm_income_source_other_n"))
+#

@@ -11,6 +11,7 @@ add_expenditure_type_prop_infreq(
   cm_expenditure_infrequent_health = "cm_expenditure_infrequent_health",
   cm_expenditure_infrequent_education = "cm_expenditure_infrequent_education",
   cm_expenditure_infrequent_debt = "cm_expenditure_infrequent_debt",
+  cm_expenditure_infrequent_clothing = "cm_expenditure_infrequent_clothing",
   cm_expenditure_infrequent_other = "cm_expenditure_infrequent_other"
 )
 }
@@ -27,6 +28,8 @@ add_expenditure_type_prop_infreq(
 
 \item{cm_expenditure_infrequent_debt}{Column containing expenditure amount for debt repayment.}
 
+\item{cm_expenditure_infrequent_clothing}{Column containing expenditure amount for clothing.}
+
 \item{cm_expenditure_infrequent_other}{Column name for all other infrequent expenditures.}
 }
 \value{
@@ -38,6 +41,7 @@ A data frame with additional columns:
 \item cm_expenditure_infrequent_health_prop: Proportion of health-related expenditures.
 \item cm_expenditure_infrequent_education_prop: Proportion of education-related expenditures.
 \item cm_expenditure_infrequent_debt_prop: Proportion of debt repayment expenditure.
+\item cm_expenditure_infrequent_clothing_prop: Proportion of clothing-related expenditure.
 \item cm_expenditure_infrequent_other_prop: Proportion of other infrequent expenditures.
 }
 }

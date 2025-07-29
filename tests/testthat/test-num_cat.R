@@ -1,13 +1,7 @@
-# tests/testthat/test-num_cat.R
-
-library(testthat)
-library(dplyr)
-
 # Dummy data for testing
 dummy_data <- data.frame(
   num_col = c(1, 5, 10, 15, 20, 25, -999, 999, NA),
   num_col2 = c(1, 5, 10, 15, 20, 25, 60, 30, NA)
-
 )
 
 # 1. Test the function with default parameters
@@ -24,7 +18,13 @@ undefined_data <- data.frame(
 
 test_that("Function handles undefined values", {
   breaks <- c(0, 10, 20)
-  result <- num_cat(undefined_data, "num_col", breaks, int_undefined = c(-999, 999), char_undefined = "Unknown")
+  result <- num_cat(
+    undefined_data,
+    "num_col",
+    breaks,
+    int_undefined = c(-999, 999),
+    char_undefined = "Unknown"
+  )
   expect_true(all(result$num_col_cat == "Unknown"))
 })
 
@@ -86,6 +86,11 @@ custom_colname_data <- dummy_data
 
 test_that("Function handles custom new column name", {
   breaks <- c(0, 10, 20)
-  result <- num_cat(custom_colname_data, "num_col", breaks, new_colname = "custom_col")
+  result <- num_cat(
+    custom_colname_data,
+    "num_col",
+    breaks,
+    new_colname = "custom_col"
+  )
   expect_true("custom_col" %in% colnames(result))
 })

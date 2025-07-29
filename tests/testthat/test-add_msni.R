@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 test_that("add_msni works with default parameters", {
   df <- data.frame(
     comp_foodsec_score = c(1, 2, 3, 4, 5),
@@ -21,20 +18,52 @@ test_that("add_msni works with default parameters", {
 
   expected <- df %>%
     mutate(
-      msni_score = pmax(comp_foodsec_score, comp_snfi_score, comp_wash_score, comp_prot_score, comp_health_score, comp_edu_score, na.rm = TRUE),
+      msni_score = pmax(
+        comp_foodsec_score,
+        comp_snfi_score,
+        comp_wash_score,
+        comp_prot_score,
+        comp_health_score,
+        comp_edu_score,
+        na.rm = TRUE
+      ),
       msni_in_need = ifelse(msni_score >= 3, 1, 0),
       msni_in_acute_need = ifelse(msni_score >= 4, 1, 0),
-      sector_in_need_n = comp_foodsec_in_need + comp_snfi_in_need + comp_wash_in_need + comp_prot_in_need + comp_health_in_need + comp_edu_in_need,
+      sector_in_need_n = comp_foodsec_in_need +
+        comp_snfi_in_need +
+        comp_wash_in_need +
+        comp_prot_in_need +
+        comp_health_in_need +
+        comp_edu_in_need,
       sector_needs_profile = purrr::pmap_chr(
-        list(comp_foodsec_in_need, comp_snfi_in_need, comp_wash_in_need, comp_prot_in_need, comp_health_in_need, comp_edu_in_need),
+        list(
+          comp_foodsec_in_need,
+          comp_snfi_in_need,
+          comp_wash_in_need,
+          comp_prot_in_need,
+          comp_health_in_need,
+          comp_edu_in_need
+        ),
         function(foodsec, snfi, wash, prot, health, edu) {
           labels <- c()
-          if (foodsec == 1) labels <- c(labels, "Food security")
-          if (snfi == 1) labels <- c(labels, "SNFI")
-          if (wash == 1) labels <- c(labels, "WASH")
-          if (prot == 1) labels <- c(labels, "Protection")
-          if (health == 1) labels <- c(labels, "Health")
-          if (edu == 1) labels <- c(labels, "Education")
+          if (foodsec == 1) {
+            labels <- c(labels, "Food security")
+          }
+          if (snfi == 1) {
+            labels <- c(labels, "SNFI")
+          }
+          if (wash == 1) {
+            labels <- c(labels, "WASH")
+          }
+          if (prot == 1) {
+            labels <- c(labels, "Protection")
+          }
+          if (health == 1) {
+            labels <- c(labels, "Health")
+          }
+          if (edu == 1) {
+            labels <- c(labels, "Education")
+          }
           paste(labels, collapse = " - ")
         }
       )
@@ -69,15 +98,34 @@ test_that("add_msni handles all possible values", {
       msni_in_acute_need = ifelse(msni_score >= 4, 1, 0),
       sector_in_need_n = c(NA, NA, 6, 6, 6),
       sector_needs_profile = purrr::pmap_chr(
-        list(comp_foodsec_in_need, comp_snfi_in_need, comp_wash_in_need, comp_prot_in_need, comp_health_in_need, comp_edu_in_need),
+        list(
+          comp_foodsec_in_need,
+          comp_snfi_in_need,
+          comp_wash_in_need,
+          comp_prot_in_need,
+          comp_health_in_need,
+          comp_edu_in_need
+        ),
         function(foodsec, snfi, wash, prot, health, edu) {
           labels <- c()
-          if (foodsec == 1) labels <- c(labels, "Food security")
-          if (snfi == 1) labels <- c(labels, "SNFI")
-          if (wash == 1) labels <- c(labels, "WASH")
-          if (prot == 1) labels <- c(labels, "Protection")
-          if (health == 1) labels <- c(labels, "Health")
-          if (edu == 1) labels <- c(labels, "Education")
+          if (foodsec == 1) {
+            labels <- c(labels, "Food security")
+          }
+          if (snfi == 1) {
+            labels <- c(labels, "SNFI")
+          }
+          if (wash == 1) {
+            labels <- c(labels, "WASH")
+          }
+          if (prot == 1) {
+            labels <- c(labels, "Protection")
+          }
+          if (health == 1) {
+            labels <- c(labels, "Health")
+          }
+          if (edu == 1) {
+            labels <- c(labels, "Education")
+          }
           p <- paste(labels, collapse = " - ")
           p <- ifelse(p == "", NA, p)
         }

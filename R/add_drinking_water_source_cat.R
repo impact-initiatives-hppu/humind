@@ -10,44 +10,78 @@
 #' @param drinking_water_source_cat_undefined Response code for undefined water source.
 #'
 #' @return A data frame with a new column 'wash_drinking_water_quality_jmp_cat' containing:
-#' 
+#'
 #' * limited: Response indicating limited access to safe drinking water.
 #' * basic: Response indicating basic access to safe drinking water.
 #' * safely_managed: Response indicating safely managed drinking water.
 #' * unimproved: Response indicating unimproved water sources.
 #' * surface_water: Response indicating surface water sources.
 #' * undefined: Response for undefined categories.
-#' 
+#'
 #' @export
-add_drinking_water_source_cat <- function(df,
-                                  drinking_water_source = "wash_drinking_water_source",
-                                  drinking_water_source_cat_improved = c("piped_dwelling", "piped_compound", "piped_neighbour", "tap", "borehole", "protected_well", "protected_spring", "rainwater_collection", "tank_truck", "cart_tank", "kiosk", "bottled_water", "sachet_water"),
-                                  drinking_water_source_cat_unimproved = c("unprotected_well", "unprotected_spring"),
-                                  drinking_water_source_cat_surface_water = "surface_water",
-                                  drinking_water_source_cat_undefined = c("dnk", "pnta", "other")) {
-
-
+add_drinking_water_source_cat <- function(
+  df,
+  drinking_water_source = "wash_drinking_water_source",
+  drinking_water_source_cat_improved = c(
+    "piped_dwelling",
+    "piped_compound",
+    "piped_neighbour",
+    "tap",
+    "borehole",
+    "protected_well",
+    "protected_spring",
+    "rainwater_collection",
+    "tank_truck",
+    "cart_tank",
+    "kiosk",
+    "bottled_water",
+    "sachet_water"
+  ),
+  drinking_water_source_cat_unimproved = c(
+    "unprotected_well",
+    "unprotected_spring"
+  ),
+  drinking_water_source_cat_surface_water = "surface_water",
+  drinking_water_source_cat_undefined = c("dnk", "pnta", "other")
+) {
   #------ Checks
 
   # Check that variables exist
   if_not_in_stop(df, drinking_water_source, "df")
 
   # Check values set
-  are_values_in_set(df, drinking_water_source, c(drinking_water_source_cat_improved, drinking_water_source_cat_unimproved, drinking_water_source_cat_surface_water, drinking_water_source_cat_undefined))
+  are_values_in_set(
+    df,
+    drinking_water_source,
+    c(
+      drinking_water_source_cat_improved,
+      drinking_water_source_cat_unimproved,
+      drinking_water_source_cat_surface_water,
+      drinking_water_source_cat_undefined
+    )
+  )
 
   #------ Recode water sources
   df <- dplyr::mutate(
     df,
     wash_drinking_water_source_cat = dplyr::case_when(
-      !!rlang::sym(drinking_water_source) %in% drinking_water_source_cat_surface_water ~ "surface_water",
-      !!rlang::sym(drinking_water_source) %in% drinking_water_source_cat_unimproved ~ "unimproved",
-      !!rlang::sym(drinking_water_source) %in% drinking_water_source_cat_improved ~ "improved",
-      !!rlang::sym(drinking_water_source) %in% drinking_water_source_cat_undefined ~ "undefined",
-      .default = NA_character_)
+      !!rlang::sym(drinking_water_source) %in%
+        drinking_water_source_cat_surface_water ~
+        "surface_water",
+      !!rlang::sym(drinking_water_source) %in%
+        drinking_water_source_cat_unimproved ~
+        "unimproved",
+      !!rlang::sym(drinking_water_source) %in%
+        drinking_water_source_cat_improved ~
+        "improved",
+      !!rlang::sym(drinking_water_source) %in%
+        drinking_water_source_cat_undefined ~
+        "undefined",
+      .default = NA_character_
+    )
   )
 
   return(df)
-
 }
 
 
@@ -72,44 +106,68 @@ add_drinking_water_source_cat <- function(df,
 #'
 #' @export
 add_drinking_water_time_cat <- function(
-    df,
-    drinking_water_time_yn = "wash_drinking_water_time_yn",
-    water_on_premises = "water_on_premises",
-    number_minutes = "number_minutes",
-    dnk = "dnk",
-    undefined = "pnta",
-    drinking_water_time_int = "wash_drinking_water_time_int",
-    max = 600,
-    drinking_water_time_sl = "wash_drinking_water_time_sl",
-    sl_under_30_min = "under_30_min",
-    sl_30min_1hr = "30min_1hr",
-    sl_more_than_1hr = "more_than_1hr",
-    sl_undefined = c("dnk", "pnta"),
-    drinking_water_source = "wash_drinking_water_source",
-    skipped_drinking_water_source_premises = "piped_dwelling",
-    skipped_drinking_water_source_undefined = c("dnk", "pnta")
-){
-
+  df,
+  drinking_water_time_yn = "wash_drinking_water_time_yn",
+  water_on_premises = "water_on_premises",
+  number_minutes = "number_minutes",
+  dnk = "dnk",
+  undefined = "pnta",
+  drinking_water_time_int = "wash_drinking_water_time_int",
+  max = 600,
+  drinking_water_time_sl = "wash_drinking_water_time_sl",
+  sl_under_30_min = "under_30_min",
+  sl_30min_1hr = "30min_1hr",
+  sl_more_than_1hr = "more_than_1hr",
+  sl_undefined = c("dnk", "pnta"),
+  drinking_water_source = "wash_drinking_water_source",
+  skipped_drinking_water_source_premises = "piped_dwelling",
+  skipped_drinking_water_source_undefined = c("dnk", "pnta")
+) {
   #------ Checks
 
   # Check if the variable is in the data frame
-  if_not_in_stop(df, c(drinking_water_time_yn, drinking_water_time_int, drinking_water_time_sl, drinking_water_source), "df")
+  if_not_in_stop(
+    df,
+    c(
+      drinking_water_time_yn,
+      drinking_water_time_int,
+      drinking_water_time_sl,
+      drinking_water_source
+    ),
+    "df"
+  )
 
   # Check if int is integer
   are_cols_numeric(df, drinking_water_time_int)
 
   # Check if values are in set
-  are_values_in_set(df, drinking_water_time_yn, c(water_on_premises, number_minutes, dnk, undefined))
-  are_values_in_set(df, drinking_water_time_sl, c(sl_under_30_min, sl_30min_1hr, sl_more_than_1hr, sl_undefined))
+  are_values_in_set(
+    df,
+    drinking_water_time_yn,
+    c(water_on_premises, number_minutes, dnk, undefined)
+  )
+  are_values_in_set(
+    df,
+    drinking_water_time_sl,
+    c(sl_under_30_min, sl_30min_1hr, sl_more_than_1hr, sl_undefined)
+  )
 
   # Check if integer values are above 0 stricly
   if (any(df[[drinking_water_time_int]] <= 0, na.rm = TRUE)) {
-    rlang::abort("The integer values for drinking_water_time_int must be strictly above 0.")
+    rlang::abort(
+      "The integer values for drinking_water_time_int must be strictly above 0."
+    )
   }
 
   # Check that all inputs under_30min, above_30min_1hr, more_than_1hr are of length 1
-  if (length(sl_under_30_min) != 1 | length(sl_30min_1hr) != 1 | length(sl_more_than_1hr) != 1) {
-    rlang::abort("under_30_min, above_30min_1hr, more_than_1hr must be of length 1.")
+  if (
+    length(sl_under_30_min) != 1 |
+      length(sl_30min_1hr) != 1 |
+      length(sl_more_than_1hr) != 1
+  ) {
+    rlang::abort(
+      "under_30_min, above_30min_1hr, more_than_1hr must be of length 1."
+    )
   }
 
   #------ Recode
@@ -118,24 +176,33 @@ add_drinking_water_time_cat <- function(
   df <- dplyr::mutate(
     df,
     wash_drinking_water_time_cat = dplyr::case_when(
-      !!rlang::sym(drinking_water_source) %in% skipped_drinking_water_source_premises ~ "premises",
-      !!rlang::sym(drinking_water_source) %in% skipped_drinking_water_source_undefined ~ "undefined",
+      !!rlang::sym(drinking_water_source) %in%
+        skipped_drinking_water_source_premises ~
+        "premises",
+      !!rlang::sym(drinking_water_source) %in%
+        skipped_drinking_water_source_undefined ~
+        "undefined",
       !!rlang::sym(drinking_water_time_yn) %in% water_on_premises ~ "premises",
-      !!rlang::sym(drinking_water_time_yn) %in% number_minutes ~ dplyr::case_when(
-        !!rlang::sym(drinking_water_time_int) < 30 ~ sl_under_30_min,
-        !!rlang::sym(drinking_water_time_int) >= 30 & !!rlang::sym(drinking_water_time_int) < 60 ~ sl_30min_1hr,
-        !!rlang::sym(drinking_water_time_int) <= 600 ~ sl_more_than_1hr
-      ),
+      !!rlang::sym(drinking_water_time_yn) %in% number_minutes ~
+        dplyr::case_when(
+          !!rlang::sym(drinking_water_time_int) < 30 ~ sl_under_30_min,
+          !!rlang::sym(drinking_water_time_int) >= 30 &
+            !!rlang::sym(drinking_water_time_int) < 60 ~
+            sl_30min_1hr,
+          !!rlang::sym(drinking_water_time_int) <= 600 ~ sl_more_than_1hr
+        ),
       # Fix don't know
       !!rlang::sym(drinking_water_time_yn) %in% undefined ~ "undefined",
-      !!rlang::sym(drinking_water_time_yn) %in% dnk & !!rlang::sym(drinking_water_time_sl) %in% sl_undefined ~ "undefined",
-      !!rlang::sym(drinking_water_time_yn) %in% dnk ~ !!rlang::sym(drinking_water_time_sl),
+      !!rlang::sym(drinking_water_time_yn) %in% dnk &
+        !!rlang::sym(drinking_water_time_sl) %in% sl_undefined ~
+        "undefined",
+      !!rlang::sym(drinking_water_time_yn) %in% dnk ~
+        !!rlang::sym(drinking_water_time_sl),
       .default = NA_character_
     )
   )
 
   return(df)
-
 }
 
 #' @rdname add_drinking_water_source_cat
@@ -148,35 +215,51 @@ add_drinking_water_time_cat <- function(
 #'
 #' @export
 add_drinking_water_time_threshold_cat <- function(
-    df,
-    drinking_water_time_30min_cat = "wash_drinking_water_time_cat",
-    drinking_water_time_30min_cat_premises = "premises",
-    drinking_water_time_30min_cat_under_30min = c("under_30_min"),
-    drinking_water_time_30min_cat_above_30min = c( "30min_1hr", "more_than_1hr"),
-    drinking_water_time_30min_cat_undefined = "undefined"){
-
+  df,
+  drinking_water_time_30min_cat = "wash_drinking_water_time_cat",
+  drinking_water_time_30min_cat_premises = "premises",
+  drinking_water_time_30min_cat_under_30min = c("under_30_min"),
+  drinking_water_time_30min_cat_above_30min = c("30min_1hr", "more_than_1hr"),
+  drinking_water_time_30min_cat_undefined = "undefined"
+) {
   #------ Checks
 
   # Check if the variable is in the data frame
   if_not_in_stop(df, drinking_water_time_30min_cat, "df")
 
   # Check if values are in set
-  are_values_in_set(df, drinking_water_time_30min_cat, c(drinking_water_time_30min_cat_premises, drinking_water_time_30min_cat_under_30min, drinking_water_time_30min_cat_above_30min, drinking_water_time_30min_cat_undefined))
+  are_values_in_set(
+    df,
+    drinking_water_time_30min_cat,
+    c(
+      drinking_water_time_30min_cat_premises,
+      drinking_water_time_30min_cat_under_30min,
+      drinking_water_time_30min_cat_above_30min,
+      drinking_water_time_30min_cat_undefined
+    )
+  )
 
   #------ Recode
   df <- dplyr::mutate(
     df,
     wash_drinking_water_time_30min_cat = dplyr::case_when(
-      !!rlang::sym(drinking_water_time_30min_cat) %in% drinking_water_time_30min_cat_premises ~ "premises",
-      !!rlang::sym(drinking_water_time_30min_cat) %in% drinking_water_time_30min_cat_under_30min ~ "under_30min",
-      !!rlang::sym(drinking_water_time_30min_cat) %in% drinking_water_time_30min_cat_above_30min ~ "above_30min",
-      !!rlang::sym(drinking_water_time_30min_cat) %in% drinking_water_time_30min_cat_undefined ~ "undefined",
+      !!rlang::sym(drinking_water_time_30min_cat) %in%
+        drinking_water_time_30min_cat_premises ~
+        "premises",
+      !!rlang::sym(drinking_water_time_30min_cat) %in%
+        drinking_water_time_30min_cat_under_30min ~
+        "under_30min",
+      !!rlang::sym(drinking_water_time_30min_cat) %in%
+        drinking_water_time_30min_cat_above_30min ~
+        "above_30min",
+      !!rlang::sym(drinking_water_time_30min_cat) %in%
+        drinking_water_time_30min_cat_undefined ~
+        "undefined",
       .default = NA_character_
     )
   )
 
   return(df)
-
 }
 
 #' @rdname add_drinking_water_source_cat
@@ -194,39 +277,82 @@ add_drinking_water_time_threshold_cat <- function(
 #'
 #' @export
 add_drinking_water_quality_jmp_cat <- function(
-    df,
-    drinking_water_source_cat = "wash_drinking_water_source_cat",
-    drinking_water_source_cat_improved = "improved",
-    drinking_water_source_cat_unimproved = "unimproved",
-    drinking_water_source_cat_surface_water = "surface_water",
-    drinking_water_source_cat_undefined = "undefined",
-    drinking_water_time_30min_cat = "wash_drinking_water_time_30min_cat",
-    drinking_water_time_30min_cat_premises = "premises",
-    drinking_water_time_30min_cat_under_30min = "under_30min",
-    drinking_water_time_30min_cat_above_30min = "above_30min",
-    drinking_water_time_30min_cat_undefined = "undefined"){
-
+  df,
+  drinking_water_source_cat = "wash_drinking_water_source_cat",
+  drinking_water_source_cat_improved = "improved",
+  drinking_water_source_cat_unimproved = "unimproved",
+  drinking_water_source_cat_surface_water = "surface_water",
+  drinking_water_source_cat_undefined = "undefined",
+  drinking_water_time_30min_cat = "wash_drinking_water_time_30min_cat",
+  drinking_water_time_30min_cat_premises = "premises",
+  drinking_water_time_30min_cat_under_30min = "under_30min",
+  drinking_water_time_30min_cat_above_30min = "above_30min",
+  drinking_water_time_30min_cat_undefined = "undefined"
+) {
   #------ Checks
 
   # Check if the variables are in the data frame
-  if_not_in_stop(df, c(drinking_water_source_cat, drinking_water_time_30min_cat), "df")
+  if_not_in_stop(
+    df,
+    c(drinking_water_source_cat, drinking_water_time_30min_cat),
+    "df"
+  )
 
   # Check if values are in set
-  are_values_in_set(df, drinking_water_source_cat, c(drinking_water_source_cat_improved, drinking_water_source_cat_unimproved, drinking_water_source_cat_surface_water, drinking_water_source_cat_undefined))
-  are_values_in_set(df, drinking_water_time_30min_cat, c(drinking_water_time_30min_cat, drinking_water_time_30min_cat_premises, drinking_water_time_30min_cat_under_30min, drinking_water_time_30min_cat_above_30min, drinking_water_time_30min_cat_undefined))
+  are_values_in_set(
+    df,
+    drinking_water_source_cat,
+    c(
+      drinking_water_source_cat_improved,
+      drinking_water_source_cat_unimproved,
+      drinking_water_source_cat_surface_water,
+      drinking_water_source_cat_undefined
+    )
+  )
+  are_values_in_set(
+    df,
+    drinking_water_time_30min_cat,
+    c(
+      drinking_water_time_30min_cat,
+      drinking_water_time_30min_cat_premises,
+      drinking_water_time_30min_cat_under_30min,
+      drinking_water_time_30min_cat_above_30min,
+      drinking_water_time_30min_cat_undefined
+    )
+  )
 
   #------ Recode
 
   df <- dplyr::mutate(
     df,
     wash_drinking_water_quality_jmp_cat = dplyr::case_when(
-      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_surface_water ~ "surface_water",
-      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_unimproved ~ "unimproved",
-      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_improved & !!rlang::sym(drinking_water_time_30min_cat) == drinking_water_time_30min_cat_above_30min ~ "limited",
-      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_improved & !!rlang::sym(drinking_water_time_30min_cat) == drinking_water_time_30min_cat_under_30min ~ "basic",
-      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_improved & !!rlang::sym(drinking_water_time_30min_cat) == drinking_water_time_30min_cat_premises ~ "safely_managed",
-      !!rlang::sym(drinking_water_source_cat) == drinking_water_source_cat_undefined ~ "undefined",
-      !!rlang::sym(drinking_water_time_30min_cat) == drinking_water_time_30min_cat_undefined ~ "undefined",
+      !!rlang::sym(drinking_water_source_cat) ==
+        drinking_water_source_cat_surface_water ~
+        "surface_water",
+      !!rlang::sym(drinking_water_source_cat) ==
+        drinking_water_source_cat_unimproved ~
+        "unimproved",
+      !!rlang::sym(drinking_water_source_cat) ==
+        drinking_water_source_cat_improved &
+        !!rlang::sym(drinking_water_time_30min_cat) ==
+          drinking_water_time_30min_cat_above_30min ~
+        "limited",
+      !!rlang::sym(drinking_water_source_cat) ==
+        drinking_water_source_cat_improved &
+        !!rlang::sym(drinking_water_time_30min_cat) ==
+          drinking_water_time_30min_cat_under_30min ~
+        "basic",
+      !!rlang::sym(drinking_water_source_cat) ==
+        drinking_water_source_cat_improved &
+        !!rlang::sym(drinking_water_time_30min_cat) ==
+          drinking_water_time_30min_cat_premises ~
+        "safely_managed",
+      !!rlang::sym(drinking_water_source_cat) ==
+        drinking_water_source_cat_undefined ~
+        "undefined",
+      !!rlang::sym(drinking_water_time_30min_cat) ==
+        drinking_water_time_30min_cat_undefined ~
+        "undefined",
       .default = NA_character_
     )
   )

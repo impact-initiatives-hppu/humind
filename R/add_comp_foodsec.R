@@ -20,21 +20,21 @@
 #' @param phase5 Label for Phase 5 FC.
 #'
 #' @return A data frame with additional columns:
-#' 
+#'
 #' * comp_foodsec_score: Food security composite score (1-5)
 #' * comp_foodsec_in_need: Binary indicator for being in need of food security assistance
 #' * comp_foodsec_in_acute_need: Binary indicator for being in acute need of food security assistance
 #'
 #' @export
 add_comp_foodsec <- function(
-    df,
-    fc_phase = "fsl_fc_phase",
-    phase1 = "Phase 1 FC",
-    phase2 = "Phase 2 FC",
-    phase3 = "Phase 3 FC",
-    phase4 = "Phase 4 FC",
-    phase5 = "Phase 5 FC"){
-
+  df,
+  fc_phase = "fsl_fc_phase",
+  phase1 = "Phase 1 FC",
+  phase2 = "Phase 2 FC",
+  phase3 = "Phase 3 FC",
+  phase4 = "Phase 4 FC",
+  phase5 = "Phase 5 FC"
+) {
   #------ Checks
 
   # Check if fc_phase is in df
@@ -55,7 +55,7 @@ add_comp_foodsec <- function(
       !!rlang::sym(fc_phase) == phase3 ~ 3,
       !!rlang::sym(fc_phase) == phase2 ~ 2,
       !!rlang::sym(fc_phase) == phase1 ~ 1,
-      .default =  NA_real_
+      .default = NA_real_
     )
   )
 
@@ -74,5 +74,4 @@ add_comp_foodsec <- function(
   )
 
   return(df)
-
 }

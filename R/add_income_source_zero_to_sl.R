@@ -10,28 +10,29 @@
 #' @param income_sources A character vector. The names of the columns that contain the amount of income from various sources.
 #'
 #' @return A data frame with updated income source columns:
-#' 
+#'
 #' * income_sources: All specified income source columns are updated to zero when the main income source is skipped, undefined, or none.
 #'
 #' @export
 add_income_source_zero_to_sl <- function(
-    df,
-    income_source = "cm_income_source",
-    none = "none",
-    undefined = c("dnk", "pnta"),
-    income_sources = c("cm_income_source_salaried_n",
-                       "cm_income_source_casual_n",
-                       "cm_income_source_own_business_n",
-                       "cm_income_source_own_production_n",
-                       "cm_income_source_social_benefits_n",
-                       "cm_income_source_rent_n",
-                       "cm_income_source_remittances_n",
-                       "cm_income_source_assistance_n",
-                       "cm_income_source_support_friends_n",
-                       "cm_income_source_donation_n",
-                       "cm_income_source_other_n")
-){
-
+  df,
+  income_source = "cm_income_source",
+  none = "none",
+  undefined = c("dnk", "pnta"),
+  income_sources = c(
+    "cm_income_source_salaried_n",
+    "cm_income_source_casual_n",
+    "cm_income_source_own_business_n",
+    "cm_income_source_own_production_n",
+    "cm_income_source_social_benefits_n",
+    "cm_income_source_rent_n",
+    "cm_income_source_remittances_n",
+    "cm_income_source_assistance_n",
+    "cm_income_source_support_friends_n",
+    "cm_income_source_donation_n",
+    "cm_income_source_other_n"
+  )
+) {
   #----- Checks
 
   # Check that income source is of length 1
@@ -54,7 +55,8 @@ add_income_source_zero_to_sl <- function(
     undefined = undefined,
     sl_vars = income_sources,
     sl_value = 0,
-    suffix = "")
+    suffix = ""
+  )
 
   # Ensure that when income_source is "none", all sl_vars are 0
   # Which should be the case already with value_to_sl
@@ -63,13 +65,14 @@ add_income_source_zero_to_sl <- function(
     df,
     dplyr::across(
       dplyr::all_of(income_sources),
-      \(x) dplyr::case_when(
-        !!rlang::sym(income_source) == none ~ 0,
-        .default = x
-      )
+      \(x) {
+        dplyr::case_when(
+          !!rlang::sym(income_source) == none ~ 0,
+          .default = x
+        )
+      }
     )
   )
 
   return(df)
-
 }

@@ -9,14 +9,13 @@
 #'
 #' @export
 value_to_sl <- function(
-    df,
-    var,
-    undefined = NULL,
-    sl_vars,
-    sl_value,
-    suffix = ""
-){
-
+  df,
+  var,
+  undefined = NULL,
+  sl_vars,
+  sl_value,
+  suffix = ""
+) {
   #------ Checks
 
   # Check that var and sl_vars exists
@@ -25,14 +24,16 @@ value_to_sl <- function(
   #------ Add value
 
   # Add sl_value across sl_vars if sl_vars is NA and var is not "undefined"
-  df <- dplyr:: mutate(
+  df <- dplyr::mutate(
     df,
     dplyr::across(
       dplyr::all_of(sl_vars),
-        \(x) dplyr::case_when(
+      \(x) {
+        dplyr::case_when(
           is.na(x) & !(!!rlang::sym(var) %in% undefined) ~ sl_value,
           .default = x
-        ),
+        )
+      },
       .names = "{.col}{suffix}"
     )
   )

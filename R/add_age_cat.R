@@ -18,8 +18,15 @@
 #' * For `add_age_18_cat()`: A dataframe with two additional columns: one with categories (below_18, above_18) and one with a dummy variable (0 for below 18, 1 for above 18).
 #'
 #' @export
-add_age_cat <- function(df, age_col, breaks = c(0, 18, 60, 120), labels = NULL, int_undefined = c(-999, 999), char_undefined = "undefined", new_colname = NULL) {
-
+add_age_cat <- function(
+  df,
+  age_col,
+  breaks = c(0, 18, 60, 120),
+  labels = NULL,
+  int_undefined = c(-999, 999),
+  char_undefined = "undefined",
+  new_colname = NULL
+) {
   # Use categorize_num function
   df <- num_cat(
     df = df,
@@ -30,7 +37,8 @@ add_age_cat <- function(df, age_col, breaks = c(0, 18, 60, 120), labels = NULL, 
     char_undefined = char_undefined,
     new_colname = new_colname,
     plus_last = TRUE,
-    above_last = TRUE)
+    above_last = TRUE
+  )
 
   return(df)
 }
@@ -38,10 +46,17 @@ add_age_cat <- function(df, age_col, breaks = c(0, 18, 60, 120), labels = NULL, 
 #' @rdname add_age_cat
 #'
 #' @export
-add_age_18_cat <- function(df, age_col, int_undefined = c(-999, 999), char_undefined = "undefined", new_colname = NULL) {
-
+add_age_18_cat <- function(
+  df,
+  age_col,
+  int_undefined = c(-999, 999),
+  char_undefined = "undefined",
+  new_colname = NULL
+) {
   # If new_colname is not provided, create one
-  if (is.null(new_colname)) new_colname <- paste0(age_col, "_18_cat")
+  if (is.null(new_colname)) {
+    new_colname <- paste0(age_col, "_18_cat")
+  }
 
   # Paste "_d" for the new dummy column
   new_colname_d <- paste0(new_colname, "_d")
@@ -49,14 +64,14 @@ add_age_18_cat <- function(df, age_col, int_undefined = c(-999, 999), char_undef
   df <- dplyr::mutate(
     df,
     # Labels class
-    "{new_colname}"  := dplyr::case_when(
-     !!rlang::sym(age_col) %in% int_undefined ~ char_undefined,
-     !!rlang::sym(age_col) < 18 ~ "below_18",
-     !!rlang::sym(age_col) >= 18 ~ "above_18",
-     .default = NA_character_
+    "{new_colname}" := dplyr::case_when(
+      !!rlang::sym(age_col) %in% int_undefined ~ char_undefined,
+      !!rlang::sym(age_col) < 18 ~ "below_18",
+      !!rlang::sym(age_col) >= 18 ~ "above_18",
+      .default = NA_character_
     ),
     # Dummy 1 or 0 column
-    "{new_colname_d}"  := dplyr::case_when(
+    "{new_colname_d}" := dplyr::case_when(
       !!rlang::sym(new_colname) == char_undefined ~ NA_integer_,
       # Replace values below 18 by 1
       !!rlang::sym(new_colname) == "above_18" ~ 1,

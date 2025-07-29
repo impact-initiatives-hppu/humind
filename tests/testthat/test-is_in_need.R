@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 # Example test data
 df <- data.frame(
   score = c(1, 2, 3, 4, 5),
@@ -39,11 +36,8 @@ test_that("is_in_need creates a new column with custom name", {
 
 test_that("is_in_need warns when new column name already exists", {
   df$score_in_need <- rep(0, nrow(df))
-  withCallingHandlers(
+  expect_warning(
     is_in_need(df, "score"),
-    warning = function(w) {
-      expect_match(w$message, "score_in_need already exists in the data frame.")
-    }
+    "score_in_need already exists in the data frame."
   )
 })
-

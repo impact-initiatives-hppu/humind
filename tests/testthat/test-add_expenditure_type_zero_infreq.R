@@ -1,9 +1,5 @@
-# Load required libraries
-library(testthat)
-library(dplyr)
-
 # Create dummy data for testing
-df <- tibble(
+df <- dplyr::tibble(
   cm_expenditure_frequent = c("no", "no", "no", "no", "no"),
   cm_expenditure_infrequent = c("shelter", "none", "dnk", "pnta", "education"),
   cm_expenditure_infrequent_shelter = c(500, 0, 0, 0, 0),
@@ -11,20 +7,41 @@ df <- tibble(
   cm_expenditure_infrequent_health = c(0, 0, 0, 0, 0),
   cm_expenditure_infrequent_education = c(0, 0, 0, 0, 300),
   cm_expenditure_infrequent_debt = c(0, 0, 0, 0, 0),
+  cm_expenditure_infrequent_clothing = c(0, 0, 0, 0, 0),
   cm_expenditure_infrequent_other = c(0, 0, 0, 0, 0)
 )
 
 
 test_that("Function runs with default parameters", {
   result <- add_expenditure_type_zero_infreq(df)
-  expect_true(all(c("cm_expenditure_infrequent_shelter", "cm_expenditure_infrequent_nfi", "cm_expenditure_infrequent_health",
-                    "cm_expenditure_infrequent_education", "cm_expenditure_infrequent_debt", "cm_expenditure_infrequent_other") %in% colnames(result)))
+  expect_true(all(
+    c(
+      "cm_expenditure_infrequent_shelter",
+      "cm_expenditure_infrequent_nfi",
+      "cm_expenditure_infrequent_health",
+      "cm_expenditure_infrequent_education",
+      "cm_expenditure_infrequent_debt",
+      "cm_expenditure_infrequent_clothing",
+      "cm_expenditure_infrequent_other"
+    ) %in%
+      colnames(result)
+  ))
 })
 
 test_that("Function runs with default parameters", {
   result <- add_expenditure_type_zero_infreq(df)
-  expect_true(all(c("cm_expenditure_infrequent_shelter", "cm_expenditure_infrequent_nfi", "cm_expenditure_infrequent_health",
-                    "cm_expenditure_infrequent_education", "cm_expenditure_infrequent_debt", "cm_expenditure_infrequent_other") %in% colnames(result)))
+  expect_true(all(
+    c(
+      "cm_expenditure_infrequent_shelter",
+      "cm_expenditure_infrequent_nfi",
+      "cm_expenditure_infrequent_health",
+      "cm_expenditure_infrequent_education",
+      "cm_expenditure_infrequent_debt",
+      "cm_expenditure_infrequent_clothing",
+      "cm_expenditure_infrequent_other"
+    ) %in%
+      colnames(result)
+  ))
 })
 
 test_that("Function handles 'none' correctly", {
@@ -49,7 +66,7 @@ test_that("Function handles existing values correctly", {
 })
 
 test_that("Function handles missing columns", {
-  df_missing_col <- df %>% select(-cm_expenditure_frequent, -cm_expenditure_infrequent_shelter)
+  df_missing_col <- df %>%
+    select(-cm_expenditure_frequent, -cm_expenditure_infrequent_shelter)
   expect_error(add_expenditure_type_zero_infreq(df_missing_col))
 })
-

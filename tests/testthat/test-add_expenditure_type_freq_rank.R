@@ -1,6 +1,3 @@
-library(testthat)
-library(dplyr)
-
 # Dummy data for testing
 dummy_data_top3 <- data.frame(
   uuid = 1:4,
@@ -21,9 +18,33 @@ test_that("add_expenditure_type_freq_rank function works with default parameters
   result <- add_expenditure_type_freq_rank(dummy_data_top3)
 
   # Check if the top 3 expenditure types are identified correctly
-  expect_equal(result$cm_freq_expenditure_top1, c("cm_expenditure_frequent_rent", "cm_expenditure_frequent_water", "cm_expenditure_frequent_water", "cm_expenditure_frequent_food"))
-  expect_equal(result$cm_freq_expenditure_top2, c("cm_expenditure_frequent_food", "cm_expenditure_frequent_food", "cm_expenditure_frequent_rent", "cm_expenditure_frequent_water"))
-  expect_equal(result$cm_freq_expenditure_top3, c("cm_expenditure_frequent_water", "cm_expenditure_frequent_rent", "cm_expenditure_frequent_food", "cm_expenditure_frequent_rent"))
+  expect_equal(
+    result$cm_freq_expenditure_top1,
+    c(
+      "cm_expenditure_frequent_rent",
+      "cm_expenditure_frequent_water",
+      "cm_expenditure_frequent_water",
+      "cm_expenditure_frequent_food"
+    )
+  )
+  expect_equal(
+    result$cm_freq_expenditure_top2,
+    c(
+      "cm_expenditure_frequent_food",
+      "cm_expenditure_frequent_food",
+      "cm_expenditure_frequent_rent",
+      "cm_expenditure_frequent_water"
+    )
+  )
+  expect_equal(
+    result$cm_freq_expenditure_top3,
+    c(
+      "cm_expenditure_frequent_water",
+      "cm_expenditure_frequent_rent",
+      "cm_expenditure_frequent_food",
+      "cm_expenditure_frequent_rent"
+    )
+  )
 })
 
 # 2. Test handling of tied values
@@ -35,13 +56,38 @@ test_that("add_expenditure_type_freq_rank function handles tied values correctly
   result <- add_expenditure_type_freq_rank(tied_values_data)
 
   # Check if tied values are handled correctly
-  expect_equal(result$cm_freq_expenditure_top1, c("cm_expenditure_frequent_food", "cm_expenditure_frequent_water", "cm_expenditure_frequent_water", "cm_expenditure_frequent_water"))
-  expect_equal(result$cm_freq_expenditure_top2, c("cm_expenditure_frequent_rent", "cm_expenditure_frequent_food", "cm_expenditure_frequent_rent", "cm_expenditure_frequent_food"))
-  expect_equal(result$cm_freq_expenditure_top3, c("cm_expenditure_frequent_water", "cm_expenditure_frequent_rent", "cm_expenditure_frequent_food", "cm_expenditure_frequent_rent"))
+  expect_equal(
+    result$cm_freq_expenditure_top1,
+    c(
+      "cm_expenditure_frequent_food",
+      "cm_expenditure_frequent_water",
+      "cm_expenditure_frequent_water",
+      "cm_expenditure_frequent_water"
+    )
+  )
+  expect_equal(
+    result$cm_freq_expenditure_top2,
+    c(
+      "cm_expenditure_frequent_rent",
+      "cm_expenditure_frequent_food",
+      "cm_expenditure_frequent_rent",
+      "cm_expenditure_frequent_food"
+    )
+  )
+  expect_equal(
+    result$cm_freq_expenditure_top3,
+    c(
+      "cm_expenditure_frequent_water",
+      "cm_expenditure_frequent_rent",
+      "cm_expenditure_frequent_food",
+      "cm_expenditure_frequent_rent"
+    )
+  )
 })
 
 # 3. Test handling of missing columns
-missing_column_data_top3 <- dummy_data_top3 %>% select(-cm_expenditure_frequent_food)
+missing_column_data_top3 <- dummy_data_top3 %>%
+  select(-cm_expenditure_frequent_food)
 
 test_that("add_expenditure_type_freq_rank function handles missing columns", {
   expect_error(add_expenditure_type_freq_rank(missing_column_data_top3))
@@ -49,9 +95,10 @@ test_that("add_expenditure_type_freq_rank function handles missing columns", {
 
 # 4. Test that expenditure types are numeric
 non_numeric_data_top3 <- dummy_data_top3
-non_numeric_data_top3$cm_expenditure_frequent_food <- as.character(non_numeric_data_top3$cm_expenditure_frequent_food)
+non_numeric_data_top3$cm_expenditure_frequent_food <- as.character(
+  non_numeric_data_top3$cm_expenditure_frequent_food
+)
 
 test_that("add_expenditure_type_freq_rank function checks for numeric expenditure types", {
   expect_error(add_expenditure_type_freq_rank(non_numeric_data_top3))
 })
-

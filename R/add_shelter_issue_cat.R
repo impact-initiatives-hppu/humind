@@ -11,20 +11,32 @@
 #' @param sep Separator for the binary columns.
 #'
 #' @return A data frame with additional columns:
-#' 
-#' * snfi_shelter_issue_n: Count of shelter issues.
-#' * snfi_shelter_issue_cat: Categorized shelter issues: "none", "undefined", "other", "1_to_3", "4_to_6", or "7_to_8".
 #'
-#'@export
+#' * snfi_shelter_issue_n: Count of shelter issues.
+#' * snfi_shelter_issue_cat: Categorized shelter issues: "none", "undefined", "other", "1_to_3", "4_to_7", or "8_to_11".
+#'
+#' @export
 add_shelter_issue_cat <- function(
-    df,
-    shelter_issue = "snfi_shelter_issue",
-    none = "none",
-    issues = c("lack_privacy", "lack_space", "temperature", "ventilation", "leak", "lock", "lack_lighting", "difficulty_move"),
-    undefined = c("dnk", "pnta"),
-    other = c("other"),
-    sep = "/"){
-
+  df,
+  shelter_issue = "snfi_shelter_issue",
+  none = "none",
+  issues = c(
+    "lack_privacy",
+    "lack_space",
+    "temperature",
+    "ventilation",
+    "vectors",
+    "no_natural_light",
+    "leak",
+    "lock",
+    "lack_lighting",
+    "difficulty_move",
+    "lack_space_laundry"
+  ),
+  undefined = c("dnk", "pnta"),
+  other = c("other"),
+  sep = "/"
+) {
   #------ Checks
 
   # Check if the variable is in the data frame
@@ -33,18 +45,37 @@ add_shelter_issue_cat <- function(
   # Prep choices
   shelter_issue_d_issues <- paste0(shelter_issue, sep, issues)
   shelter_issue_d_undefined <- paste0(shelter_issue, sep, undefined)
-  shelter_issue_d_other <- paste0(shelter_issue, sep, other) #add this line
+  shelter_issue_d_other <- paste0(shelter_issue, sep, other) # add this line
   shelter_issue_d_none <- paste0(shelter_issue, sep, none)
 
   # Check if columns are in the dataset
-  if_not_in_stop(df, c(shelter_issue_d_issues, shelter_issue_d_undefined,  shelter_issue_d_other, shelter_issue_d_none), "df") #add shelter_issue_d_other
+  if_not_in_stop(
+    df,
+    c(
+      shelter_issue_d_issues,
+      shelter_issue_d_undefined,
+      shelter_issue_d_other,
+      shelter_issue_d_none
+    ),
+    "df"
+  ) # add shelter_issue_d_other
 
   # Check that colimns are in set 0:1
-  are_values_in_set(df, c(shelter_issue_d_issues, shelter_issue_d_undefined,  shelter_issue_d_other, shelter_issue_d_none), c(0, 1)) #add shelter_issue_d_other
-
+  are_values_in_set(
+    df,
+    c(
+      shelter_issue_d_issues,
+      shelter_issue_d_undefined,
+      shelter_issue_d_other,
+      shelter_issue_d_none
+    ),
+    c(0, 1)
+  ) # add shelter_issue_d_other
 
   # Check that none is of length 1
-  if (length(none) != 1) rlang::abort("none must be of length 1")
+  if (length(none) != 1) {
+    rlang::abort("none must be of length 1")
+  }
 
   #------ Recode
 
@@ -61,8 +92,16 @@ add_shelter_issue_cat <- function(
   df <- dplyr::mutate(
     df,
     snfi_shelter_issue_n = dplyr::case_when(
-      dplyr::if_any(shelter_issue_d_undefined, \(x) x == 1) ~ -999,
-      dplyr::if_any(shelter_issue_d_other, \(x) x == 1) ~ -998,
+      dplyr::if_any(
+        dplyr::all_of(shelter_issue_d_undefined),
+        \(x) x == 1
+      ) ~
+        -999,
+      dplyr::if_any(
+        dplyr::all_of(shelter_issue_d_other),
+        \(x) x == 1
+      ) ~
+        -998,
       !!rlang::sym(shelter_issue_d_none) == 1 ~ 0,
       .default = !!rlang::sym("snfi_shelter_issue_n")
     )
@@ -76,8 +115,8 @@ add_shelter_issue_cat <- function(
       !!rlang::sym("snfi_shelter_issue_n") == -999 ~ "undefined",
       !!rlang::sym("snfi_shelter_issue_n") == -998 ~ "other",
       !!rlang::sym("snfi_shelter_issue_n") <= 3 ~ "1_to_3",
-      !!rlang::sym("snfi_shelter_issue_n") <= 6 ~ "4_to_6",
-      !!rlang::sym("snfi_shelter_issue_n") <= 8 ~ "7_to_8",
+      !!rlang::sym("snfi_shelter_issue_n") <= 7 ~ "4_to_7",
+      !!rlang::sym("snfi_shelter_issue_n") <= 11 ~ "8_to_11",
       .default = NA_character_
     )
   )
@@ -92,5 +131,4 @@ add_shelter_issue_cat <- function(
   )
 
   return(df)
-
 }

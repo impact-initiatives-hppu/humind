@@ -14,21 +14,42 @@
 #' * wash_sanitation_facility_cat: Categorized sanitation facility: "none", "unimproved", "improved", or "undefined".
 #'
 #' @export
-add_sanitation_facility_cat <- function(df,
-                                        sanitation_facility = "wash_sanitation_facility",
-                                        improved = c("flush_piped_sewer", "flush_septic_tank", "flush_pit_latrine", "flush_dnk_where", "pit_latrine_slab", "twin_pit_latrine_slab", "ventilated_pit_latrine_slab", "container", "compost"),
-                                        unimproved = c("flush_open_drain", "flush_elsewhere", "pit_latrine_wo_slab", "bucket", "hanging_toilet", "plastic_bag"),
-                                        none = "none",
-                                        undefined = c("other", "dnk", "pnta")
-                                        ) {
-
+add_sanitation_facility_cat <- function(
+  df,
+  sanitation_facility = "wash_sanitation_facility",
+  improved = c(
+    "flush_piped_sewer",
+    "flush_septic_tank",
+    "flush_pit_latrine",
+    "flush_dnk_where",
+    "pit_latrine_slab",
+    "twin_pit_latrine_slab",
+    "ventilated_pit_latrine_slab",
+    "container",
+    "compost"
+  ),
+  unimproved = c(
+    "flush_open_drain",
+    "flush_elsewhere",
+    "pit_latrine_wo_slab",
+    "bucket",
+    "hanging_toilet",
+    "plastic_bag"
+  ),
+  none = "none",
+  undefined = c("other", "dnk", "pnta")
+) {
   #------ Checks
 
   # Check if the variable is in the data frame
   if_not_in_stop(df, sanitation_facility, "df")
 
   # Check values ranges
-  are_values_in_set(df, sanitation_facility, c(improved, unimproved, none, undefined))
+  are_values_in_set(
+    df,
+    sanitation_facility,
+    c(improved, unimproved, none, undefined)
+  )
 
   #------ Recode sanitation facility
   df <- dplyr::mutate(
@@ -38,12 +59,12 @@ add_sanitation_facility_cat <- function(df,
       !!rlang::sym(sanitation_facility) %in% unimproved ~ "unimproved",
       !!rlang::sym(sanitation_facility) %in% improved ~ "improved",
       !!rlang::sym(sanitation_facility) %in% undefined ~ "undefined",
-      .default = NA_character_)
+      .default = NA_character_
+    )
   )
 
   return(df)
 }
-
 
 
 #' @rdname add_sanitation_facility_cat
@@ -64,15 +85,15 @@ add_sanitation_facility_cat <- function(df,
 #' * wash_sharing_sanitation_facility_cat: Categorized sharing status: "shared", "not_shared", or "not_applicable".
 #'
 #' @export
-add_sharing_sanitation_facility_cat <- function(df,
-                                            sharing_sanitation_facility = "wash_sanitation_facility_sharing_yn",
-                                            yes = "yes",
-                                            no = "no",
-                                            undefined = c("dnk", "pnta"),
-                                            sanitation_facility = "wash_sanitation_facility",
-                                            skipped_sanitation_facility = NULL
+add_sharing_sanitation_facility_cat <- function(
+  df,
+  sharing_sanitation_facility = "wash_sanitation_facility_sharing_yn",
+  yes = "yes",
+  no = "no",
+  undefined = c("dnk", "pnta"),
+  sanitation_facility = "wash_sanitation_facility",
+  skipped_sanitation_facility = NULL
 ) {
-
   #------ Check values ranges
   are_values_in_set(df, sharing_sanitation_facility, c(yes, no, undefined))
   if (!is.null(skipped_sanitation_facility)) {
@@ -85,7 +106,8 @@ add_sharing_sanitation_facility_cat <- function(df,
     df <- dplyr::mutate(
       df,
       wash_sharing_sanitation_facility_cat = dplyr::case_when(
-        !!rlang::sym(sanitation_facility) %in% skipped_sanitation_facility ~ "not_applicable",
+        !!rlang::sym(sanitation_facility) %in% skipped_sanitation_facility ~
+          "not_applicable",
         !!rlang::sym(sharing_sanitation_facility) == yes ~ "shared",
         !!rlang::sym(sharing_sanitation_facility) == no ~ "not_shared",
         !!rlang::sym(sharing_sanitation_facility) %in% undefined ~ "undefined",
@@ -129,16 +151,16 @@ add_sharing_sanitation_facility_cat <- function(df,
 #'
 #' @export
 add_sharing_sanitation_facility_n_ind <- function(
-    df,
-    sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
-    sharing_sanitation_facility_cat_shared = "shared",
-    sharing_sanitation_facility_cat_not_shared = "not_shared",
-    sharing_sanitation_facility_cat_not_applicable = "not_applicable",
-    sharing_sanitation_facility_cat_undefined = "undefined",
-    sanitation_facility_sharing_n = "wash_sanitation_facility_sharing_n",
-    hh_size = "hh_size",
-    weight = "weight"){
-
+  df,
+  sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
+  sharing_sanitation_facility_cat_shared = "shared",
+  sharing_sanitation_facility_cat_not_shared = "not_shared",
+  sharing_sanitation_facility_cat_not_applicable = "not_applicable",
+  sharing_sanitation_facility_cat_undefined = "undefined",
+  sanitation_facility_sharing_n = "wash_sanitation_facility_sharing_n",
+  hh_size = "hh_size",
+  weight = "weight"
+) {
   #------ Checks
 
   # Check if the variable is in the data frame
@@ -147,10 +169,12 @@ add_sharing_sanitation_facility_n_ind <- function(
   if_not_in_stop(df, hh_size, "df")
 
   # Create levels vector
-  levels <- c(sharing_sanitation_facility_cat_shared,
-              sharing_sanitation_facility_cat_not_shared,
-              sharing_sanitation_facility_cat_not_applicable,
-              sharing_sanitation_facility_cat_undefined)
+  levels <- c(
+    sharing_sanitation_facility_cat_shared,
+    sharing_sanitation_facility_cat_not_shared,
+    sharing_sanitation_facility_cat_not_applicable,
+    sharing_sanitation_facility_cat_undefined
+  )
 
   # Check if all values of sharing_sanitation_facility_d are in levels
   are_values_in_set(df, sharing_sanitation_facility_cat, levels)
@@ -159,17 +183,25 @@ add_sharing_sanitation_facility_n_ind <- function(
   are_cols_numeric(df, c(sanitation_facility_sharing_n, hh_size))
 
   #------ Calculate the mean household size
-  mean_hh_size <- stats::weighted.mean(df[[hh_size]], df[[weight]], na.rm = TRUE)
+  mean_hh_size <- stats::weighted.mean(
+    df[[hh_size]],
+    df[[weight]],
+    na.rm = TRUE
+  )
 
   #------ Recode the number of people sharing a sanitation facility
   df <- dplyr::mutate(
     df,
     "{sanitation_facility_sharing_n}" := dplyr::case_when(
       # If facility shared
-      !!rlang::sym(sharing_sanitation_facility_cat) == sharing_sanitation_facility_cat_shared ~
-        (!!rlang::sym(sanitation_facility_sharing_n) - 1) * mean_hh_size + !!rlang::sym(hh_size),
+      !!rlang::sym(sharing_sanitation_facility_cat) ==
+        sharing_sanitation_facility_cat_shared ~
+        (!!rlang::sym(sanitation_facility_sharing_n) - 1) *
+          mean_hh_size +
+          !!rlang::sym(hh_size),
       # If facility not shared
-      !!rlang::sym(sharing_sanitation_facility_cat) == sharing_sanitation_facility_cat_not_shared  ~
+      !!rlang::sym(sharing_sanitation_facility_cat) ==
+        sharing_sanitation_facility_cat_not_shared ~
         !!rlang::sym(hh_size),
       .default = NA_real_
     )
@@ -182,7 +214,8 @@ add_sharing_sanitation_facility_n_ind <- function(
       !!rlang::sym(sanitation_facility_sharing_n) >= 50 ~ "50_and_above",
       !!rlang::sym(sanitation_facility_sharing_n) >= 20 ~ "20_to_49",
       !!rlang::sym(sanitation_facility_sharing_n) >= 0 ~ "19_and_below",
-      .default = NA_character_)
+      .default = NA_character_
+    )
   )
 
   return(df)
@@ -213,28 +246,40 @@ add_sharing_sanitation_facility_n_ind <- function(
 #'
 #' @export
 add_sanitation_facility_jmp_cat <- function(
-    df,
-    sanitation_facility_cat = "wash_sanitation_facility_cat",
-    sanitation_facility_cat_improved = "improved",
-    sanitation_facility_cat_unimproved = "unimproved",
-    sanitation_facility_cat_none = "none",
-    sanitation_facility_cat_undefined = "undefined",
-    sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
-    sharing_sanitation_facility_cat_shared = "shared",
-    sharing_sanitation_facility_cat_not_shared = "not_shared",
-    sharing_sanitation_facility_cat_not_applicable = "not_applicable",
-    sharing_sanitation_facility_cat_undefined = "undefined"){
-
+  df,
+  sanitation_facility_cat = "wash_sanitation_facility_cat",
+  sanitation_facility_cat_improved = "improved",
+  sanitation_facility_cat_unimproved = "unimproved",
+  sanitation_facility_cat_none = "none",
+  sanitation_facility_cat_undefined = "undefined",
+  sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
+  sharing_sanitation_facility_cat_shared = "shared",
+  sharing_sanitation_facility_cat_not_shared = "not_shared",
+  sharing_sanitation_facility_cat_not_applicable = "not_applicable",
+  sharing_sanitation_facility_cat_undefined = "undefined"
+) {
   #------ Checks
 
   # Check if vars exist
-  if_not_in_stop(df, c(sanitation_facility_cat, sharing_sanitation_facility_cat), "df")
+  if_not_in_stop(
+    df,
+    c(sanitation_facility_cat, sharing_sanitation_facility_cat),
+    "df"
+  )
 
   # Check values of levels
-  sanitation_levels <- c(sanitation_facility_cat_improved, sanitation_facility_cat_unimproved,
-                         sanitation_facility_cat_none, sanitation_facility_cat_undefined)
-  sharing_levels <- c(sharing_sanitation_facility_cat_shared, sharing_sanitation_facility_cat_not_shared,
-                      sharing_sanitation_facility_cat_not_applicable, sharing_sanitation_facility_cat_undefined)
+  sanitation_levels <- c(
+    sanitation_facility_cat_improved,
+    sanitation_facility_cat_unimproved,
+    sanitation_facility_cat_none,
+    sanitation_facility_cat_undefined
+  )
+  sharing_levels <- c(
+    sharing_sanitation_facility_cat_shared,
+    sharing_sanitation_facility_cat_not_shared,
+    sharing_sanitation_facility_cat_not_applicable,
+    sharing_sanitation_facility_cat_undefined
+  )
   are_values_in_set(df, sanitation_facility_cat, sanitation_levels)
   are_values_in_set(df, sharing_sanitation_facility_cat, sharing_levels)
 
@@ -244,18 +289,33 @@ add_sanitation_facility_jmp_cat <- function(
   df <- dplyr::mutate(
     df,
     wash_sanitation_facility_jmp_cat = dplyr::case_when(
-      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_none ~ "open_defecation",
-      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_unimproved ~ "unimproved",
-      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_improved &
-        !!rlang::sym(sharing_sanitation_facility_cat) == sharing_sanitation_facility_cat_shared ~ "limited",
-      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_improved &
-        !!rlang::sym(sharing_sanitation_facility_cat) == sharing_sanitation_facility_cat_not_shared ~ "basic",
-      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_undefined ~ "undefined",
-      !!rlang::sym(sharing_sanitation_facility_cat) %in% c(sharing_sanitation_facility_cat_not_applicable,
-                                                           sharing_sanitation_facility_cat_undefined) ~ "undefined",
-      .default = NA_character_)
+      !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_none ~
+        "open_defecation",
+      !!rlang::sym(sanitation_facility_cat) ==
+        sanitation_facility_cat_unimproved ~
+        "unimproved",
+      !!rlang::sym(sanitation_facility_cat) ==
+        sanitation_facility_cat_improved &
+        !!rlang::sym(sharing_sanitation_facility_cat) ==
+          sharing_sanitation_facility_cat_shared ~
+        "limited",
+      !!rlang::sym(sanitation_facility_cat) ==
+        sanitation_facility_cat_improved &
+        !!rlang::sym(sharing_sanitation_facility_cat) ==
+          sharing_sanitation_facility_cat_not_shared ~
+        "basic",
+      !!rlang::sym(sanitation_facility_cat) ==
+        sanitation_facility_cat_undefined ~
+        "undefined",
+      !!rlang::sym(sharing_sanitation_facility_cat) %in%
+        c(
+          sharing_sanitation_facility_cat_not_applicable,
+          sharing_sanitation_facility_cat_undefined
+        ) ~
+        "undefined",
+      .default = NA_character_
+    )
   )
 
   return(df)
-
 }

@@ -1,0 +1,44 @@
+name: Documentation request
+description: Request changes, updates, or enhancements to the documentation
+title: "[DOC] Brief description of the change"
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: Please fill out the following to help us improve the documentation.
+
+  - type: textarea
+    id: affected_sections
+    attributes:
+      label: Affected sections
+      description: Which part(s) of the documentation are affected?
+      placeholder: "Specify function name, and parameter name if needed."
+    validations:
+      required: true
+
+  - type: textarea
+    id: change_description
+    attributes:
+      label: Description of change
+      description: What change would you like to see in the documentation?
+      placeholder: "Clear and concise description of the documentation change."
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why is this change necessary?
+      placeholder: "Reason or use case for this documentation update. e.g. MSNI change for 2025"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context
+      description: Provide any additional context, screenshots, or examples.
+      placeholder: "Any other details."
+    validations:
+      required: false

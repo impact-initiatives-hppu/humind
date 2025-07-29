@@ -1,116 +1,76 @@
-library(testthat)
-library(dplyr)
+# ---- The function under test (reference, not redefined here) ----
+# add_fds_cannot_cat is assumed to be already available in your environment
 
-# Sample data for testing
-df <- data.frame(
-  snfi_fds_cooking = c("no_cannot", "yes_issues", "yes_no_issues", "no_no_need", "pnta"),
-  snfi_fds_sleeping = c("yes_no_issues", "no_cannot", "yes_issues", "pnta", "dnk"),
-  snfi_fds_storing = c("no_cannot", "no_cannot", "yes_no_issues", "yes_issues", "pnta"),
-  snfi_fds_personal_hygiene = c("yes_issues", "yes_issues", "no_cannot", "no_cannot", "dnk"),
-  energy_lighting_source = c("none", "other", "candle", "pnta", "dnk")
+# ---- Example data ----
+test_df <- dplyr::tibble(
+  snfi_fds_cooking = c("no", "yes", "no_need", "pnta", "yes"),
+  snfi_fds_sleeping = c("yes", "no", "pnta", "yes", "no"),
+  snfi_fds_storing = c("yes_no_issues", "no", "yes_issues", "pnta", "no"),
+  energy_lighting_source = c("solar", "none", "pnta", "dnk", "none")
 )
 
-test_that("add_fds_cannot_cat works with default parameters", {
-  result <- add_fds_cannot_cat(df)
+# ---- Tests ----
+test_that("add_fds_cannot_cat works as expected", {
+  result <- add_fds_cannot_cat(test_df)
 
-  expected <- data.frame(
-    snfi_fds_cooking = c("no_cannot", "yes_issues", "yes_no_issues", "no_no_need", "undefined"),
-    snfi_fds_sleeping = c("yes_no_issues", "no_cannot", "yes_issues", "undefined", "undefined"),
-    snfi_fds_storing = c("no_cannot", "no_cannot", "yes_no_issues", "yes_issues", "undefined"),
-    snfi_fds_personal_hygiene = c("yes_issues", "yes_issues", "no_cannot", "no_cannot", "undefined"),
-    energy_lighting_source = c("none", "other", "candle", "undefined", "undefined"),
-    snfi_fds_cooking_d = c(1, 0, 0, 0, NA),
-    snfi_fds_sleeping_d = c(0, 1, 0, NA, NA),
-    snfi_fds_storing_d = c(1, 1, 0, 0, NA),
-    snfi_fds_personal_hygiene_d = c(0, 0, 1, 1, NA),
-    energy_lighting_source_d = c(1, 0, 0, NA, NA),
-    snfi_fds_cannot_n = c(3, 2, 1, NA, NA),
-    snfi_fds_cannot_cat = c("2_to_3_tasks", "2_to_3_tasks", "1_task", NA, NA)
+  # Check new columns exist
+  expect_true(all(
+    c(
+      "snfi_fds_cooking",
+      "snfi_fds_sleeping",
+      "snfi_fds_storing",
+      "energy_lighting_source",
+      "snfi_fds_cooking_d",
+      "snfi_fds_sleeping_d",
+      "snfi_fds_storing_d",
+      "energy_lighting_source_d",
+      "snfi_fds_cannot_n",
+      "snfi_fds_cannot_cat"
+    ) %in%
+      names(result)
+  ))
+
+  # Check correct recoding for cooking
+  expect_equal(
+    result$snfi_fds_cooking,
+    c("yes", "no_cannot", "no_no_need", "undefined", "no_cannot")
   )
 
-  expect_equal(result, expected)
+  # Check correct recoding for sleeping
+  expect_equal(
+    result$snfi_fds_sleeping,
+    c("yes", "no_cannot", "undefined", "yes", "no_cannot")
+  )
+
+  # Check correct recoding for storing
+  expect_equal(
+    result$snfi_fds_storing,
+    c("yes", "no_cannot", "yes", "undefined", "no_cannot")
+  )
+
+  # Check correct recoding for lighting
+  expect_equal(
+    result$energy_lighting_source,
+    c("solar", "none", "undefined", "undefined", "none")
+  )
+
+  # Check binary dummy columns
+  expect_equal(result$snfi_fds_cooking_d, c(0, 1, 0, NA, 1))
+  expect_equal(result$snfi_fds_sleeping_d, c(0, 1, NA, 0, 1))
+  expect_equal(result$snfi_fds_storing_d, c(0, 1, 0, NA, 1))
+  expect_equal(result$energy_lighting_source_d, c(0, 1, NA, NA, 1))
+
+  # Check snfi_fds_cannot_n calculation
+  expect_equal(result$snfi_fds_cannot_n, c(0, 4, NA, NA, 4))
+
+  # Check snfi_fds_cannot_cat categorization
+  expect_equal(
+    result$snfi_fds_cannot_cat,
+    c("none", "4_tasks", NA, NA, "4_tasks")
+  )
 })
 
-# Test if undefined and invalid responses are handled correctly
-
-# Define a sample dataframe for testing
-sample_df <- tibble::tibble(
-  snfi_fds_cooking = c("no_cannot", "yes_issues", "yes_no_issues", "no_no_need", "pnta"),
-  snfi_fds_sleeping = c("no_cannot", "yes_issues", "pnta", "yes_no_issues", "dnk"),
-  snfi_fds_storing = c("no_cannot", "yes_no_issues", "yes_issues", "pnta", "dnk"),
-  snfi_fds_personal_hygiene = c("no_cannot", "yes_issues", "yes_no_issues", "no_cannot", "pnta"),
-  energy_lighting_source = c("none", "light", "undefined", "none", "none")
-)
-
-test_that("add_fds_cannot_cat handles undefined and invalid responses", {
-  result <- add_fds_cannot_cat(
-    sample_df,
-    fds_cooking = "snfi_fds_cooking",
-    fds_cooking_cannot = "no_cannot",
-    fds_cooking_can_issues = "yes_issues",
-    fds_cooking_can_no_issues = "yes_no_issues",
-    fds_cooking_no_need = "no_no_need",
-    fds_cooking_undefined = c("pnta", "dnk"),
-    fds_sleeping = "snfi_fds_sleeping",
-    fds_sleeping_cannot = "no_cannot",
-    fds_sleeping_can_issues = "yes_issues",
-    fds_sleeping_can_no_issues = "yes_no_issues",
-    fds_sleeping_undefined = c("pnta", "dnk"),
-    fds_storing = "snfi_fds_storing",
-    fds_storing_cannot = "no_cannot",
-    fds_storing_can_issues = "yes_issues",
-    fds_storing_can_no_issues = "yes_no_issues",
-    fds_storing_undefined = c("pnta", "dnk"),
-    fds_personal_hygiene = "snfi_fds_personal_hygiene",
-    fds_personal_hygiene_cannot = "no_cannot",
-    fds_personal_hygiene_can_issues = "yes_issues",
-    fds_personal_hygiene_can_no_issues = "yes_no_issues",
-    fds_personal_hygiene_undefined = c("pnta", "dnk"),
-    lighting_source = "energy_lighting_source",
-    lighting_source_none = "none",
-    lighting_source_undefined = c("pnta", "dnk")
-  )
-
-  # Check undefined values for specific columns
-  expect_equal(result$snfi_fds_cooking[5], "undefined")  # Undefined cooking response for the 5th row
-  expect_equal(result$snfi_fds_sleeping[3], "undefined")  # Undefined sleeping response for the 3rd row
-  expect_equal(result$energy_lighting_source[3], "undefined")  # Undefined lighting source for the 3rd row
-})
-
-
-test_that("add_fds_cannot_cat handles missing columns", {
-  df <- data.frame(
-    snfi_fds_cooking = c("no_cannot", "yes_issues", "yes_no_issues", "no_no_need", "pnta")
-  )
-
-  expect_error(add_fds_cannot_cat(df), class = "error")
-})
-
-test_that("add_fds_cannot_cat handles non-numeric variables", {
-  df <- data.frame(
-    snfi_fds_cooking = c("no_cannot", "yes_issues", "yes_no_issues", "no_no_need", "pnta"),
-    snfi_fds_sleeping = c("yes_no_issues", "no_cannot", "yes_issues", "pnta", "dnk"),
-    snfi_fds_storing = c("no_cannot", "no_cannot", "yes_no_issues", "yes_issues", "pnta"),
-    snfi_fds_personal_hygiene = c("yes_issues", "yes_issues", "no_cannot", "no_cannot", "dnk"),
-    energy_lighting_source = c("none", "other", "candle", "pnta", "dnk")
-  )
-
-  result <- add_fds_cannot_cat(df)
-
-  expected <- data.frame(
-    snfi_fds_cooking = c("no_cannot", "yes_issues", "yes_no_issues", "no_no_need", "undefined"),
-    snfi_fds_sleeping = c("yes_no_issues", "no_cannot", "yes_issues", "undefined", "undefined"),
-    snfi_fds_storing = c("no_cannot", "no_cannot", "yes_no_issues", "yes_issues", "undefined"),
-    snfi_fds_personal_hygiene = c("yes_issues", "yes_issues", "no_cannot", "no_cannot", "undefined"),
-    energy_lighting_source = c("none", "other", "candle", "undefined", "undefined"),
-    snfi_fds_cooking_d = c(1, 0, 0, 0, NA),
-    snfi_fds_sleeping_d = c(0, 1, 0, NA, NA),
-    snfi_fds_storing_d = c(1, 1, 0, 0, NA),
-    snfi_fds_personal_hygiene_d = c(0, 0, 1, 1, NA),
-    energy_lighting_source_d = c(1, 0, 0, NA, NA),
-    snfi_fds_cannot_n = c(3, 2, 1, NA, NA),
-    snfi_fds_cannot_cat = c("2_to_3_tasks", "2_to_3_tasks", "1_task", NA, NA)
-  )
-
-  expect_equal(result, expected)
+test_that("add_fds_cannot_cat errors if columns missing", {
+  df_missing <- test_df[, -1]
+  expect_error(add_fds_cannot_cat(df_missing), "Missing columns")
 })
