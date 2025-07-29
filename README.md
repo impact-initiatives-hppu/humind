@@ -44,6 +44,35 @@ Here’s a quick dummy example of how to use `humind`:
 library(humind)
 ```
 
+## New Programmatic Changes in 2025:
+
+- Protection: complete ravamp, based on a series of new Tier 1
+  indicators related to Protection Needs.
+
+- SNFI:
+
+  - Changes to the number of shelter issues and their mapping to the FW
+    (from 8 to 11 total issues).
+  - Inclusion of one additional indicator to the security of tenure
+    dimension: `hlp_eviction_risk.`
+  - Hygiene indicator removed from the FDS series - making the total
+    number of domestic tasks (and lighting) equal to 4 instead of 5.
+  - Optional shelter damages component added.
+
+- Health: removal of the WGQs from the framework.
+
+- WASH: small changes to incorporate the self-reported variants and map
+  them to the JMP classifications.
+
+- Food Security: new additional step to analyze the impact of livelihood
+  coping strategies on Food Consumption (changes done in
+  [impactR4PHU](https://github.com/impact-initiatives/impactR4PHU) and
+  reflected in humind).
+
+- Education: small changes to indicator naming to reflect “direct attack
+  on education”. Indicator name was `edu_disrupted_occupation` and is
+  now called `edu_disrupted_attack.`
+
 ## Issues and Feedback
 
 If you encounter any issues or have feedback, and/or new features
