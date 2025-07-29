@@ -13,3 +13,6 @@ inst/doc
 
 # pkgdown folder
 pkgdown/
+
+# Ignore README.HTML
+README.html

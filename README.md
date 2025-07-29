@@ -125,17 +125,22 @@ and provide as much detail as possible.
 
 ------------------------------------------------------------------------
 
-## Known Issues
+## ⚠️ Known Issues
 
 ### GitHub Credentials Error When Installing with devtools
 
 When installing the package from GitHub using
 `devtools::install_github()`, you may encounter an error such as:
 
-    Using GitHub PAT from the git credential store.
-    Error : Failed to install 'unknown package' from GitHub:
-      HTTP error 401.
-      Bad credentials
+``` r
+# install.packages("devtools")
+devtools::install_github("impact-initiatives-hppu/humind@v2025.1.1")
+
+Using GitHub PAT from the git credential store.
+Error : Failed to install 'unknown package' from GitHub:
+  HTTP error 401.
+  Bad credentials
+```
 
 This issue is typically caused by outdated or incorrect GitHub
 credentials stored in R. For public repositories, no credentials are
