@@ -14,15 +14,13 @@ status](https://www.r-pkg.org/badges/version/humind)](https://CRAN.R-project.org
 coverage](https://codecov.io/gh/impact-initiatives-hppu/humind/branch/main/graph/badge.svg)](https://app.codecov.io/gh/impact-initiatives-hppu/humind?branch=main)
 <!-- badges: end -->
 
-`humind` provides functions to compose the humanitarian composite
+`humind` provides functions to compose usual humanitarian composite
 indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs).
 Such as:
 
-- Specific indicators related to the MSNI framework (e.g., Sectoral Composite
-and MSNI scores).
 - Food security indicators (rCSI, LCSI, HHS, FCS).
-- JMP ladder classifications for WASH indicators.
-
+- JMP ladders.
+- Specific indicators related to the MSNI framework.
 
 The package follows the ‘Step - Composition’ approach of IMPACT R
 framework.
@@ -73,19 +71,37 @@ library(humind)
   on education”. Indicator name was `edu_disrupted_occupation` and is
   now called `edu_disrupted_attack.`
 
-## Issues and Feedback
+## 📌 Issues and Feedback
 
-If you encounter any issues or have feedback, and/or new features
-suggestion, please [open an
-issue](https://github.com/impact-initiatives-hppu/humind/issues/new/choose)
-on our GitHub repository.
+To help us respond efficiently, please select the most appropriate
+template when opening an issue:
 
-Currently there are templates for the following types of issues:
+- **[🐛Bug
+  report](https://github.com/impact-initiatives-hppu/humind/issues/new?template=bug_report.yml&labels=bug,triage)**
+  – Use this if you’ve found a **reproducible error or unexpected
+  behavior** in the code. Include clear steps and environment details.
 
-- Bug Reports
-- Feature Requests
-- Documentation Requests
-- Indicator Logic Change
+- **[🧮 Indicator Logic
+  Change](https://github.com/impact-initiatives-hppu/humind/issues/new?template=indicator_logic_change.yml&labels=indicator-logic)**
+  – Use this for **adding, updating, or fixing logic related to
+  indicators, scoring, or categorization** in the code.
+
+- **[✨ Feature
+  request](https://github.com/impact-initiatives-hppu/humind/issues/new?template=feature_request.yml&labels=enhancement)**
+  – Use this to **suggest a new feature or an enhancement** to existing
+  functionality.
+
+- **[📖 Documentation
+  request](https://github.com/impact-initiatives-hppu/humind/issues/new?template=documentation_request.yml&labels=documentation)**
+  – Use this for **incorrect, missing, or unclear documentation** that
+  needs an update.
+
+**Not sure where your issue fits?**  
+Open a **[blank
+issue](https://github.com/impact-initiatives-hppu/humind/issues/new)**
+and provide as much detail as possible.
+
+------------------------------------------------------------------------
 
 ## License
 
