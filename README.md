@@ -133,8 +133,7 @@ When installing the package from GitHub using
 `devtools::install_github()`, you may encounter an error such as:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("impact-initiatives-hppu/humind@v2025.1.1")
+> devtools::install_github("impact-initiatives-hppu/humind@v2025.1.1")
 
 Using GitHub PAT from the git credential store.
 Error : Failed to install 'unknown package' from GitHub:
