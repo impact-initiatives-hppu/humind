@@ -34,6 +34,24 @@ install.packages("devtools")
 devtools::install_github("impact-initiatives-hppu/humind")
 ```
 
+## 📚 Guidance Note
+
+A comprehensive **Guidance Note** is available [on
+SharePoint](https://acted.sharepoint.com/sites/IMPACT-Humanitarian_Planning_Prioritization/SitePages/MSNA%20analysis%20(LSG-MSNi).aspx?xsdata=MDV8MDJ8fDE5ZmZkZDBlMTgyYTQ5MWUxNjUzMDhkZGNlNmVmOGYxfGQyMDBlOTAzMTliMDQ1MmViZDIxZDFhYTAxMTM5MGQ1fDB8MHw2Mzg4OTM2OTgxNzQ3NTIzMzl8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKRFFTSTZJbFJsWVcxelgwRlVVRk5sY25acFkyVmZVMUJQVEU5R0lpd2lWaUk2SWpBdU1DNHdNREF3SWl3aVVDSTZJbGRwYmpNeUlpd2lRVTRpT2lKUGRHaGxjaUlzSWxkVUlqb3hNWDA9fDF8TDJOb1lYUnpMekU1T21FM01HUmpZV0V4TURVNU5qUTVaV0ZpTXpRek1HTmpPR1F3WWpVeU1UQXhRSFJvY21WaFpDNTJNaTl0WlhOellXZGxjeTh4TnpVek56Y3pNREUyTmpjMHw5Y2NhODkyYzY5Yzc0ZmM5YWFkZjA4ZGRjZTZlZjhmMHxjODMwNzNhMzEzYWM0MGQ3ODRjNDhlODNlM2ViNTMyNQ%3D%3D&sdata=UlNiOVVRdGoxSC9QYmg4SW1Hb1ppUmlCNi8wZ2xPMGZkdG8rYzcrU2ptND0%3D&ovuser=d200e903-19b0-452e-bd21-d1aa011390d5%2Cquentin.villotta%40impact-initiatives.org&OR=Teams-HL&CT=1753776647777&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI1MC8yNTA3MDMxODgwOSIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D)
+for all users of the `humind` package. This document provides essential
+background on the **MSNI framework** and includes sector-specific
+guidance. Each sector includes a **“Humind Data Workflow”** section,
+guiding users through the necessary steps and highlighting the relevant
+`humind` package functions to use.
+
+> ⚠️ **Users are strongly encouraged to read this document thoroughly**,
+> especially the *Data Workflow* sections, before coding.
+
+> 📌 *Note: A more technical documentation guide will soon be available,
+> detailing the full MSNI analysis workflow using `humind`, including
+> runnable code examples. This guide will be directly integrated into
+> the GitHub project to streamline the process.*
+
 ## New Programmatic Changes in 2025:
 
 - **Protection**: complete ravamp, based on a series of new Tier 1
