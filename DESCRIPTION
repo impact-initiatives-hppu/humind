@@ -31,7 +31,7 @@ URL: https://github.com/impact-initiatives-hppu/humind
 BugReports: https://github.com/impact-initiatives-hppu/humind/issues
 Remotes: 
     impact-initiatives/impactR.utils,
-    impact-initiatives/impactR4PHU
+    impact-initiatives/impactR4PHU@v2025.1.0-legacy
 Suggests: 
     rmarkdown,
     roxygen2,
