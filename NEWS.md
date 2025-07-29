@@ -12,7 +12,7 @@ removed.
 * Protection: complete ravamp, based on a series of new Tier 1 indicators
 related to Protection Needs.
 
-* SNFI:
+* **SNFI**:
   * Changes to the number of shelter issues and their mapping to the FW (from 8
   to 11 total issues).
   * Inclusion of one additional indicator to the security of tenure dimension:
@@ -21,20 +21,23 @@ related to Protection Needs.
   domestic tasks (and lighting) equal to 4 instead of 5.
   * Optional shelter damages component added.
 
-* Health: removal of the WGQs from the framework.
+* **Health**: removal of the WGQs from the framework.
 
-* WASH: small changes to incorporate the self-reported variants and map them to
+* **WASH**: small changes to incorporate the self-reported variants and map them to
 the JMP classifications.
 
-* Food Security: new additional step to analyze the impact of livelihood coping
+* **Food Securit**y: new additional step to analyze the impact of livelihood coping
 strategies on Food Consumption (changes done in [impactR4PHU](https://github.com/impact-initiatives/impactR4PHU)
 and reflected in humind).
 
-* Education: small changes to indicator naming to reflect "direct attack on
+* **Education**: small changes to indicator naming to reflect "direct attack on
 education". Indicator name was `edu_disrupted_occupation` and is now called
 `edu_disrupted_attack.`
 
-## 🚀 New Features
+
+## 🛠 Codebase Changes
+
+### 🚀 New Features
 
 * **Protection Composite Indicators**
   * Added `add_comp_prot_score()` as main function for computing overall
@@ -43,7 +46,7 @@ education". Indicator name was `edu_disrupted_occupation` and is now called
 
 ---
 
-## 🔄 Enhancements
+### 🔄 Enhancements
 
 * **SNFI & Shelter Categorization**
   * Revised `add_shelter_issue_cat()` logic for better category handling and
@@ -58,14 +61,14 @@ education". Indicator name was `edu_disrupted_occupation` and is now called
 
 ---
 
-## 🛠 Bug Fixes
+### 🛠 Bug Fixes
 
 * Fixed improper handling of invalid inputs in multiple test cases.
 * Addressed warnings triggered by implicit handling of `max()` with all-NA vectors.
 
 ---
 
-## 🧪 Testing
+### 🧪 Testing
 
 * Adopted `testthat` best practices across test suites.
 * Expanded unit tests for:
@@ -77,7 +80,7 @@ education". Indicator name was `edu_disrupted_occupation` and is now called
 
 ---
 
-## 📚 Documentation
+### 📚 Documentation
 
 * Completed function documentation for all updated indicators.
 * Updated argument descriptions and clarified logic for SNFI and protection functions.
@@ -86,14 +89,14 @@ education". Indicator name was `edu_disrupted_occupation` and is now called
 
 ---
 
-## 📦 Dependency Management
+### 📦 Dependency Management
 
 * Removed unused packages and implicit dependency on `tibble`.
 * Now depends on forked **impactR.utils** package.
 
 ---
 
-## ⚠️ Breaking Changes
+### ⚠️ Breaking Changes
 
 * Fully removed WGQ-related components and associated tests.
 * Deleted obsolete function `add_child_sep_cat.R`.

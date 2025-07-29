@@ -34,20 +34,12 @@ install.packages("devtools")
 devtools::install_github("impact-initiatives-hppu/humind")
 ```
 
-## Usage
-
-Here’s a quick dummy example of how to use `humind`:
-
-``` r
-library(humind)
-```
-
 ## New Programmatic Changes in 2025:
 
-- Protection: complete ravamp, based on a series of new Tier 1
+- **Protection**: complete ravamp, based on a series of new Tier 1
   indicators related to Protection Needs.
 
-- SNFI:
+- **SNFI**:
 
   - Changes to the number of shelter issues and their mapping to the FW
     (from 8 to 11 total issues).
@@ -57,19 +49,19 @@ library(humind)
     number of domestic tasks (and lighting) equal to 4 instead of 5.
   - Optional shelter damages component added.
 
-- Health: removal of the WGQs from the framework.
+- **Health**: removal of the WGQs from the framework.
 
-- WASH: small changes to incorporate the self-reported variants and map
-  them to the JMP classifications.
+- **WASH**: small changes to incorporate the self-reported variants and
+  map them to the JMP classifications.
 
-- Food Security: new additional step to analyze the impact of livelihood
-  coping strategies on Food Consumption (changes done in
+- **Food Security**: new additional step to analyze the impact of
+  livelihood coping strategies on Food Consumption (changes done in
   [impactR4PHU](https://github.com/impact-initiatives/impactR4PHU) and
   reflected in humind).
 
-- Education: small changes to indicator naming to reflect “direct attack
-  on education”. Indicator name was `edu_disrupted_occupation` and is
-  now called `edu_disrupted_attack.`
+- **Education**: small changes to indicator naming to reflect “direct
+  attack on education”. Indicator name was `edu_disrupted_occupation`
+  and is now called `edu_disrupted_attack.`
 
 ## 📌 Issues and Feedback
 
