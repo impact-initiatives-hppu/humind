@@ -77,7 +77,7 @@ To help us respond efficiently, please select the most appropriate
 template when opening an issue:
 
 - **[🐛Bug
-  report](https://github.com/impact-initiatives-hppu/humind/issues/new?template=bug_report.yml&labels=bug,triage)**
+  report](https://github.com/impact-initiatives-hppu/humind/issues/new?template=bug-report.yml&labels=bug,triage)**
   – Use this if you’ve found a **reproducible error or unexpected
   behavior** in the code. Include clear steps and environment details.
 

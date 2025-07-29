@@ -81,7 +81,7 @@ education". Indicator name was `edu_disrupted_occupation` and is now called
 
 To help us respond efficiently, please select the most appropriate template when opening an issue:
 
-- **[🐛Bug report](https://github.com/impact-initiatives-hppu/humind/issues/new?template=bug_report.yml&labels=bug,triage)** – Use this if you’ve found a **reproducible error or unexpected behavior** in the code. Include clear steps and environment details.
+- **[🐛Bug report](https://github.com/impact-initiatives-hppu/humind/issues/new?template=bug-report.yml&labels=bug,triage)** – Use this if you’ve found a **reproducible error or unexpected behavior** in the code. Include clear steps and environment details.
 
 - **[🧮 Indicator Logic Change](https://github.com/impact-initiatives-hppu/humind/issues/new?template=indicator_logic_change.yml&labels=indicator-logic)** – Use this for **adding, updating, or fixing logic related to indicators, scoring, or categorization** in the code.
 
