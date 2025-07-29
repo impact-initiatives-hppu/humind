@@ -9,7 +9,7 @@ removed.
 
 ## 📖 Programmatic Changes
 
-* Protection: complete ravamp, based on a series of new Tier 1 indicators
+* **Protection**: complete ravamp, based on a series of new Tier 1 indicators
 related to Protection Needs.
 
 * **SNFI**:
