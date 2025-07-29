@@ -1,3 +1,103 @@
+# humind 2025.1.1
+
+This release introduces major updates across protection indicators, SNFI and
+shelter categorization, expenditure scoring, testing framework improvements,
+dependency management, and documentation. Deprecated WGQ components are fully
+removed.
+
+---
+
+## 📖 Programmatic Changes
+
+* Protection: complete ravamp, based on a series of new Tier 1 indicators
+related to Protection Needs.
+
+* SNFI:
+  * Changes to the number of shelter issues and their mapping to the FW (from 8
+  to 11 total issues).
+  * Inclusion of one additional indicator to the security of tenure dimension:
+  `hlp_eviction_risk.`
+  * Hygiene indicator removed from the FDS series - making the total number of
+  domestic tasks (and lighting) equal to 4 instead of 5.
+  * Optional shelter damages component added.
+
+* Health: removal of the WGQs from the framework.
+
+* WASH: small changes to incorporate the self-reported variants and map them to
+the JMP classifications.
+
+* Food Security: new additional step to analyze the impact of livelihood coping
+strategies on Food Consumption (changes done in [impactR4PHU](https://github.com/impact-initiatives/impactR4PHU)
+and reflected in humind).
+
+* Education: small changes to indicator naming to reflect "direct attack on
+education". Indicator name was `edu_disrupted_occupation` and is now called
+`edu_disrupted_attack.`
+
+## 🚀 New Features
+
+* **Protection Composite Indicators**
+  * Added `add_comp_prot_score()` as main function for computing overall
+  Protection Composite.
+  * Introduced supporting functions for rights, practices, and participation dimensions.
+
+---
+
+## 🔄 Enhancements
+
+* **SNFI & Shelter Categorization**
+  * Revised `add_shelter_issue_cat()` logic for better category handling and
+  alignment with 2025 specifications.
+  * Updated `add_comp_snfi()` for consistent categorization and explicit
+  handling of special cases.
+* **Expenditure Indicators**
+  * Enhanced infrequent expenditure categorization functions and ranking logic.
+* **Data Integrity**
+  * Composition functions now preserve original data instead of overwriting
+  with intermediate steps.
+
+---
+
+## 🛠 Bug Fixes
+
+* Fixed improper handling of invalid inputs in multiple test cases.
+* Addressed warnings triggered by implicit handling of `max()` with all-NA vectors.
+
+---
+
+## 🧪 Testing
+
+* Adopted `testthat` best practices across test suites.
+* Expanded unit tests for:
+  * Protection composite framework
+  * Shelter and occupancy categorization
+  * Expenditure ranking
+* Standardized warning suppression and ensured expected warnings are captured.
+* Removed obsolete tests linked to deprecated WGQ components.
+
+---
+
+## 📚 Documentation
+
+* Completed function documentation for all updated indicators.
+* Updated argument descriptions and clarified logic for SNFI and protection functions.
+* Removed all references to WGQ components.
+* Added Humind 2025 change documentation.
+
+---
+
+## 📦 Dependency Management
+
+* Removed unused packages and implicit dependency on `tibble`.
+* Now depends on forked **impactR.utils** package.
+
+---
+
+## ⚠️ Breaking Changes
+
+* Fully removed WGQ-related components and associated tests.
+* Deleted obsolete function `add_child_sep_cat.R`.
+
 # humind 2024.1.4
 
 This release covers bug fixes, documentation updates, changes to parameters, and additional enhancements:
