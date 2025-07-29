@@ -18,8 +18,9 @@ coverage](https://codecov.io/gh/impact-initiatives-hppu/humind/branch/main/graph
 indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs).
 Such as:
 
-- Specific indicators related to the MSNI framework: Sectoral Composites,
-  MSNI Metrics and all recoding of indicators needed for these.
+- Specific indicators related to the MSNI framework: Sectoral
+  Composites, MSNI Metrics and all recoding of indicators needed for
+  these.
 - Food security indicators (rCSI, LCSI, HHS, FCS).
 - Recoding of WASH indicators to JMP classifications.
 
@@ -45,15 +46,16 @@ guidance. Each sector includes a **“Humind Data Workflow”** section,
 guiding users through the necessary steps and highlighting the relevant
 `humind` package functions to use.
 
-> ⚠️ **Users are strongly encouraged to read this document thoroughly**,
-> especially the *Data Workflow* sections, before coding.
+> ⚠️ **Users are strongly encouraged to thoroughly read this document**
+> — particularly the *Data Workflow* sections — before starting any
+> implementation work with Humind
 
 > 📌 *Note: A more technical documentation guide will soon be available,
 > detailing the full MSNI analysis workflow using `humind`, including
 > runnable code examples. This guide will be directly integrated into
 > the GitHub project to streamline the process.*
 
-## New Programmatic Changes in 2025:
+## 📖 2025 Programmatic Changes
 
 - **Protection**: complete ravamp, based on a series of new Tier 1
   indicators related to Protection Needs.
