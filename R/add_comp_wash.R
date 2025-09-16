@@ -79,7 +79,7 @@ add_comp_wash <- function(
   setting_camp = "camp",
   setting_urban = "urban",
   setting_rural = "rural",
-  drinking_water_quantity = "wash_drinking_water_quantity",
+  drinking_water_quantity = "wash_hwise_drink",
   drinking_water_quantity_always = "always",
   drinking_water_quantity_often = "often",
   drinking_water_quantity_sometimes = "sometimes",
