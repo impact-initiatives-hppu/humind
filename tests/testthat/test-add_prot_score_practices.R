@@ -138,7 +138,7 @@ test_that("sub-dimensions are NA when DNK or PNTA selected", {
 })
 
 
-# test that when na or dnk are selected, the sub dimensions are NA
+# test that when dnk or pnta are selected, the sub dimensions are NA
 test_that("when both sub-dimensions are NA the composite is NA but not otherwise", {
   dnk <- "dnk"
   pnta <- "pnta"
