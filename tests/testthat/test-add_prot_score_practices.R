@@ -103,14 +103,81 @@ test_that("weighted columns follow the expected 0/NA pattern", {
 test_that("composite severity is bounded 1–4", {
   res <- add_prot_score_practices(dummy_df)
 
-  # Identify rows where DNK or PNTA was chosen on either question
-  flagged <- (dummy_df[[str_glue("{q1}/dnk")]] == 1 |
-    dummy_df[[str_glue("{q1}/pnta")]] == 1 |
-    dummy_df[[str_glue("{q2}/dnk")]] == 1 |
-    dummy_df[[str_glue("{q2}/pnta")]] == 1)
-
-  # Flagged rows should be NA
-  expect_true(all(is.na(res$comp_prot_score_practices[flagged])))
   expect_true(all(res$comp_prot_score_practices >= 1, na.rm = TRUE))
   expect_true(all(res$comp_prot_score_practices <= 4, na.rm = TRUE))
+})
+
+
+test_that("sub-dimensions are NA when DNK or PNTA selected", {
+  dnk <- "dnk"
+  pnta <- "pnta"
+  q1 <- "prot_needs_2_activities"
+  q2 <- "prot_needs_2_social"
+
+  res <- add_prot_score_practices(
+    dummy_df,
+    prot_needs_2_activities = q1,
+    prot_needs_2_social = q2,
+    dnk = dnk,
+    pnta = pnta
+  )
+
+  flagged_activities <- (dummy_df[[str_glue("{q1}/{dnk}")]] == 1 |
+    dummy_df[[str_glue("{q1}/{pnta}")]] == 1)
+
+  expect_true(all(is.na(res$comp_prot_score_prot_needs_2_activities[
+    flagged_activities
+  ])))
+
+  flagged_social <- (dummy_df[[str_glue("{q2}/{dnk}")]] == 1 |
+    dummy_df[[str_glue("{q2}/{pnta}")]] == 1)
+
+  expect_true(all(is.na(res$comp_prot_score_prot_needs_2_social[
+    flagged_social
+  ])))
+})
+
+
+# test that when na or dnk are selected, the sub dimensions are NA
+test_that("when both sub-dimensions are NA the composite is NA but not otherwise", {
+  dnk <- "dnk"
+  pnta <- "pnta"
+  q1 <- "prot_needs_2_activities"
+  q2 <- "prot_needs_2_social"
+
+  res <- add_prot_score_practices(
+    dummy_df,
+    prot_needs_2_activities = q1,
+    prot_needs_2_social = q2,
+    dnk = dnk,
+    pnta = pnta
+  )
+
+  flagged_activities <- (dummy_df[[str_glue("{q1}/{dnk}")]] == 1 |
+    dummy_df[[str_glue("{q1}/{pnta}")]] == 1)
+
+  flagged_social <- (dummy_df[[str_glue("{q2}/{dnk}")]] == 1 |
+    dummy_df[[str_glue("{q2}/{pnta}")]] == 1)
+
+  flagged_both <- flagged_activities & flagged_social
+
+  expect_true(all(is.na(res$comp_prot_score_practices[
+    flagged_both
+  ])))
+
+  flagged_only_activities <- flagged_activities & !flagged_social
+
+  expect_true(all(
+    !is.na(res$comp_prot_score_practices[
+      flagged_only_activities
+    ])
+  ))
+
+  flagged_only_social <- !flagged_activities & flagged_social
+
+  expect_true(all(
+    !is.na(res$comp_prot_score_practices[
+      flagged_only_social
+    ])
+  ))
 })

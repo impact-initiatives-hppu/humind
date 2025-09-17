@@ -121,43 +121,46 @@ add_prot_score_practices <- function(
       vars = soc_w,
       new_colname = "comp_prot_score_prot_needs_2_social",
       na_rm = TRUE
+    ) |>
+    dplyr::mutate(
+      comp_prot_score_prot_needs_2_activities = dplyr::case_when(
+        comp_prot_score_prot_needs_2_activities == 0 &
+          (.data[[glue::glue("{prot_needs_2_activities}/{dnk}")]] == 1 |
+            .data[[glue::glue("{prot_needs_2_activities}/{pnta}")]] == 1) ~
+          NA_real_,
+        TRUE ~ comp_prot_score_prot_needs_2_activities
+      ),
+      comp_prot_score_prot_needs_2_social = dplyr::case_when(
+        comp_prot_score_prot_needs_2_social == 0 &
+          (.data[[glue::glue("{prot_needs_2_social}/{dnk}")]] == 1 |
+            .data[[glue::glue("{prot_needs_2_social}/{pnta}")]] == 1) ~
+          NA_real_,
+        TRUE ~ comp_prot_score_prot_needs_2_social
+      )
     )
 
   weights_df <- weights_df |>
     dplyr::mutate(
+      .both_na = is.na(.data[["comp_prot_score_prot_needs_2_activities"]]) &
+        is.na(.data[["comp_prot_score_prot_needs_2_social"]]),
+      .sum = rowSums(
+        cbind(
+          .data[["comp_prot_score_prot_needs_2_activities"]],
+          .data[["comp_prot_score_prot_needs_2_social"]]
+        ),
+        na.rm = TRUE
+      ),
+      .sum = dplyr::if_else(.data[[".both_na"]], NA_real_, .data[[".sum"]]),
       comp_prot_score_practices = dplyr::case_when(
-        (comp_prot_score_prot_needs_2_activities +
-          comp_prot_score_prot_needs_2_social) >=
-          4 ~
-          4,
-        (comp_prot_score_prot_needs_2_activities +
-          comp_prot_score_prot_needs_2_social) >=
-          2 ~
-          3,
-        (comp_prot_score_prot_needs_2_activities +
-          comp_prot_score_prot_needs_2_social) >=
-          1 ~
-          2,
-        (comp_prot_score_prot_needs_2_activities +
-          comp_prot_score_prot_needs_2_social) ==
-          0 ~
-          1,
+        .both_na ~ NA_real_,
+        .sum >= 4 ~ 4,
+        .sum >= 2 ~ 3,
+        .sum >= 1 ~ 2,
+        .sum == 0 ~ 1,
         TRUE ~ NA_real_
       )
     ) |>
-    # if respondent chose DNK or PNTA on either question, force final to NA
-
-    dplyr::mutate(
-      comp_prot_score_practices = dplyr::if_else(
-        .data[[stringr::str_glue("{prot_needs_2_activities}{sep}{dnk}")]] == 1 |
-          .data[[stringr::str_glue("{prot_needs_2_activities}{sep}{pnta}")]] ==
-            1 |
-          .data[[stringr::str_glue("{prot_needs_2_social}{sep}{dnk}")]] == 1 |
-          .data[[stringr::str_glue("{prot_needs_2_social}{sep}{pnta}")]] == 1,
-        NA_real_,
-        .data[["comp_prot_score_practices"]]
-      )
-    )
+    dplyr::select(-dplyr::all_of(c(".sum", ".both_na")))
 
   # bind back composite and optionally weighted cols
   comp_cols <- c(
