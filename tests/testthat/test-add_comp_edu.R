@@ -17,7 +17,7 @@ test_that("Function works with default parameters", {
   expect_true("comp_edu_score_attendance" %in% colnames(result))
   expect_true("comp_edu_score" %in% colnames(result))
   expect_true("comp_edu_in_need" %in% colnames(result))
-  expect_true("comp_edu_in_acute_need" %in% colnames(result))
+  expect_true("comp_edu_in_severe_need" %in% colnames(result))
 })
 
 # 2. Test handling missing columns
@@ -53,8 +53,8 @@ test_that("Function computes correct scores", {
   # Check comp_edu_in_need
   expect_equal(result$comp_edu_in_need, c(0, 1, 1, 1, 0, 0))
 
-  # Check comp_edu_in_acute_need
-  expect_equal(result$comp_edu_in_acute_need, c(0, 1, 1, 0, 0, 0))
+  # Check comp_edu_in_severe_need
+  expect_equal(result$comp_edu_in_severe, c(0, 1, 1, 0, 0, 0))
 })
 
 
