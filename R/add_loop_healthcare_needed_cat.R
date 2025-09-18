@@ -167,17 +167,17 @@ add_loop_healthcare_needed_cat <- function(
       health_ind_healthcare_needed_cat %in%
         c("yes_met_need", "yes_unmet_need") ~
         0,
-      .default = 0
+      .default = NA_real_
     ),
     health_ind_healthcare_needed_yes_unmet = dplyr::case_when(
       health_ind_healthcare_needed_cat == "yes_unmet_need" ~ 1,
       health_ind_healthcare_needed_cat %in% c("no_need", "yes_met_need") ~ 0,
-      .default = 0
+      .default = NA_real_
     ),
     health_ind_healthcare_needed_yes_met = dplyr::case_when(
       health_ind_healthcare_needed_cat == "yes_met_need" ~ 1,
       health_ind_healthcare_needed_cat %in% c("no_need", "yes_unmet_need") ~ 0,
-      .default = 0
+      .default = NA_real_
     )
   )
 

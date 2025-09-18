@@ -139,3 +139,15 @@ test_that("healthcare received NA causes healthcare needed cat to be NA when hea
   )
   expect_true(all(is.na(result$health_ind_healthcare_needed_cat)))
 })
+
+
+test_that("dummy variables are NA when healthcare_received is NA", {
+  result <- suppressWarnings(add_loop_healthcare_needed_cat(exhaustive_loop))
+  flagged <- result$health_ind_healthcare_needed_d == 1 &
+    is.na(result$health_ind_healthcare_received_d)
+  flagged_rows <- result[flagged, ]
+
+  expect_true(all(is.na(flagged_rows$health_ind_healthcare_needed_yes_unmet)))
+
+  expect_true(all(is.na(flagged_rows$health_ind_healthcare_needed_yes_met)))
+})
