@@ -109,6 +109,7 @@ add_loop_healthcare_needed_cat <- function(
   # warn if health_ind_healthcare_needed is 'yes' but health_ind_healthcare_received is NA
   healthcare_needed_received_na <- loop$health_ind_healthcare_needed == "yes" &
     is.na(loop$health_ind_healthcare_received)
+  n_flags <- sum(healthcare_needed_received_na, na.rm = TRUE)
 
   if (
     any(
@@ -116,7 +117,7 @@ add_loop_healthcare_needed_cat <- function(
     )
   ) {
     cli::cli_warn(c(
-      "x" = "{cli::qty(sum(healthcare_needed_received_na))}There {?is/are} {sum(healthcare_needed_received_na)} individual{?s} with healthcare needed as {.val yes} but healthcare received {?is/are} {.val NA}"
+      "x" = "{cli::qty(n_flags)}There {?is/are} {n_flags} individual{?s} with healthcare needed as {.val yes} but healthcare received {?is/are} {.val NA}"
     ))
   }
 
