@@ -54,7 +54,7 @@ is_in_need <- function(
 #' @rdname is_in_need
 #'
 #' @export
-is_in_acute_need <- function(
+is_in_severe_need <- function(
   df,
   score,
   new_colname = NULL

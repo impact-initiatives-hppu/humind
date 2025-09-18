@@ -2,12 +2,12 @@
 % Please edit documentation in R/is_in_need.R
 \name{is_in_need}
 \alias{is_in_need}
-\alias{is_in_acute_need}
+\alias{is_in_severe_need}
 \title{Add Dummy Variable for 'In Need' Status}
 \usage{
 is_in_need(df, score, new_colname = NULL)
 
-is_in_acute_need(df, score, new_colname = NULL)
+is_in_severe_need(df, score, new_colname = NULL)
 }
 \arguments{
 \item{df}{A dataframe containing the score variable.}

@@ -261,7 +261,7 @@ add_comp_snfi <- function(
   )
 
   # Is in acute need?
-  df <- is_in_acute_need(
+  df <- is_in_severe_need(
     df,
     "comp_snfi_score",
     "comp_snfi_in_acute_need"

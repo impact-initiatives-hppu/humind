@@ -481,7 +481,7 @@ add_comp_wash <- function(
   )
 
   # Is in acute need?
-  df <- is_in_acute_need(
+  df <- is_in_severe_need(
     df,
     "comp_wash_score",
     "comp_wash_in_acute_need"

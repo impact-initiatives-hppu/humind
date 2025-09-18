@@ -137,7 +137,7 @@ add_msni <- function(
   )
 
   # Is in acute need?
-  df <- is_in_acute_need(
+  df <- is_in_severe_need(
     df = df,
     score = "msni_score",
     new_colname = "msni_in_acute_need"
