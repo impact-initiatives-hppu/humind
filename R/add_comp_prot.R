@@ -13,12 +13,12 @@
 #' @return The input `df`, with three new columns:
 #' * `comp_prot_score` – overall protection severity (maximum of the three dimensions)
 #' * `comp_prot_in_need` – binary (0/1): 1 if `comp_prot_score >= 3`, else 0
-#' * `comp_prot_in_acute_need` – binary (0/1): 1 if `comp_prot_score >= 4`, else 0
+#' * `comp_prot_in_severe_need` – binary (0/1): 1 if `comp_prot_score >= 4`, else 0
 #'
 #' @details
 #' - **Column checks** via [purrr::iwalk()] ensure the three dimension scores exist.
 #' - **Computation** uses [pmax()] (with `na.rm = FALSE`)
-#' - **Thresholds** (3 for “in need”, 4 for “acute need”) are currently hard‑coded.
+#' - **Thresholds** (3 for “in need”, 4 for “severe need”) are currently hard‑coded.
 #'
 #' @importFrom purrr iwalk
 #' @importFrom cli cli_abort
@@ -54,6 +54,6 @@ add_comp_prot <- function(df) {
       na.rm = TRUE
     ),
     comp_prot_in_need = as.numeric(.data[["comp_prot_score"]] >= 3),
-    comp_prot_in_acute_need = as.numeric(.data[["comp_prot_score"]] >= 4)
+    comp_prot_in_severe_need = as.numeric(.data[["comp_prot_score"]] >= 4)
   )
 }
