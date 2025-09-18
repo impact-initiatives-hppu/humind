@@ -54,7 +54,7 @@ test_that("Function computes correct scores", {
   expect_equal(result$comp_edu_in_need, c(0, 1, 1, 1, 0, 0))
 
   # Check comp_edu_in_severe_need
-  expect_equal(result$comp_edu_in_severe, c(0, 1, 1, 0, 0, 0))
+  expect_equal(result$comp_edu_in_severe_need, c(0, 1, 1, 0, 0, 0))
 })
 
 
