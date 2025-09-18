@@ -113,42 +113,67 @@ add_prot_score_rights <- function(
       vars = jus_w,
       new_colname = "comp_prot_score_prot_needs_1_justice",
       na_rm = TRUE
+    ) |>
+    dplyr::mutate(
+      comp_prot_score_prot_needs_1_services = dplyr::case_when(
+        comp_prot_score_prot_needs_1_services == 0 &
+          (.data[[glue::glue("{prot_needs_1_services}/{dnk}")]] == 1 |
+            .data[[glue::glue("{prot_needs_1_services}/{pnta}")]] == 1) ~
+          NA_real_,
+        TRUE ~ comp_prot_score_prot_needs_1_services
+      ),
+      comp_prot_score_prot_needs_1_justice = dplyr::case_when(
+        comp_prot_score_prot_needs_1_justice == 0 &
+          (.data[[glue::glue("{prot_needs_1_justice}/{dnk}")]] == 1 |
+            .data[[glue::glue("{prot_needs_1_justice}/{pnta}")]] == 1) ~
+          NA_real_,
+        TRUE ~ comp_prot_score_prot_needs_1_justice
+      )
     )
 
   weights_df <- weights_df |>
     dplyr::mutate(
-      comp_prot_score_needs_1 = dplyr::case_when(
-        (comp_prot_score_prot_needs_1_services +
-          comp_prot_score_prot_needs_1_justice) >=
-          4 ~
-          4,
-        (comp_prot_score_prot_needs_1_services +
-          comp_prot_score_prot_needs_1_justice) >=
-          2 ~
-          3,
-        (comp_prot_score_prot_needs_1_services +
-          comp_prot_score_prot_needs_1_justice) >=
-          1 ~
-          2,
-        (comp_prot_score_prot_needs_1_services +
-          comp_prot_score_prot_needs_1_justice) ==
-          0 ~
-          1,
+      .both_na = is.na(.data[["comp_prot_score_prot_needs_1_services"]]) &
+        is.na(.data[["comp_prot_score_prot_needs_1_justice"]]),
+      .sum = rowSums(
+        cbind(
+          .data[["comp_prot_score_prot_needs_1_services"]],
+          .data[["comp_prot_score_prot_needs_1_justice"]]
+        ),
+        na.rm = TRUE
+      ),
+      .sum = dplyr::if_else(.data[[".both_na"]], NA_real_, .data[[".sum"]]),
+      comp_prot_score_rights = dplyr::case_when(
+        .both_na ~ NA_real_,
+        .sum >= 4 ~ 4,
+        .sum >= 2 ~ 3,
+        .sum >= 1 ~ 2,
+        .sum == 0 ~ 1,
         TRUE ~ NA_real_
       )
     ) |>
-    # if respondent chose DNK or PNTA on either question, force final to NA
-    dplyr::mutate(
-      comp_prot_score_rights = dplyr::if_else(
-        .data[[stringr::str_glue("{prot_needs_1_services}{sep}{dnk}")]] == 1 |
-          .data[[stringr::str_glue("{prot_needs_1_services}{sep}{pnta}")]] ==
-            1 |
-          .data[[stringr::str_glue("{prot_needs_1_justice}{sep}{dnk}")]] == 1 |
-          .data[[stringr::str_glue("{prot_needs_1_justice}{sep}{pnta}")]] == 1,
-        NA_real_,
-        .data[["comp_prot_score_needs_1"]]
-      )
-    )
+    dplyr::select(-dplyr::all_of(c(".sum", ".both_na")))
+
+  na_services <- is.na(weights_df$comp_prot_score_prot_needs_1_services)
+  na_justice <- is.na(weights_df$comp_prot_score_prot_needs_1_justice)
+  na_both <- na_services & na_justice
+
+  n_srv <- sum(na_services, na.rm = TRUE)
+  n_jus <- sum(na_justice, na.rm = TRUE)
+  n_both <- sum(na_both, na.rm = TRUE)
+
+  if (n_srv > 0L || n_jus > 0L) {
+    cli::cli_warn(c(
+      "{.strong Missing input scores detected}",
+      "i" = "{.col comp_prot_score_prot_needs_1_services}: {n_srv} NA{cli::qty(n_srv)}.",
+      "i" = "{.col comp_prot_score_prot_needs_1_justice}: {n_jus} NA{cli::qty(n_jus)}.",
+      if (n_both > 0L) {
+        c(
+          "x" = "{n_both} row{?s} ha{?s/ve} both inputs NA; {.col comp_prot_score_rights} will be NA for these row{?s}."
+        )
+      }
+    ))
+  }
 
   comp_cols <- c(
     "comp_prot_score_prot_needs_1_services",

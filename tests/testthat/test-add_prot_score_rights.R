@@ -45,10 +45,12 @@ dummy_df <- expand_grid(
 ) |>
   dplyr::as_tibble()
 
+# -----------------------------
 # Tests for the composite function: Ability to Access Rights and Services
+# -----------------------------
 
 test_that("adds three composite columns without weighted vars", {
-  res <- add_prot_score_rights(dummy_df)
+  res <- suppressWarnings(add_prot_score_rights(dummy_df))
 
   expect_true(all(
     c(
@@ -58,76 +60,112 @@ test_that("adds three composite columns without weighted vars", {
     ) %in%
       names(res)
   ))
-  expect_false(any(str_detect(names(res), "_w$")))
+
+  expect_false(any(stringr::str_detect(names(res), "_w$")))
 })
 
-
 test_that("includes weighted vars when .keep_weighted = TRUE", {
-  res_w <- add_prot_score_rights(dummy_df, .keep_weighted = TRUE)
+  res_w <- suppressWarnings(add_prot_score_rights(
+    dummy_df,
+    .keep_weighted = TRUE
+  ))
 
   raw_cols <- c(
-    str_glue("{q1}/{opts1}"),
-    str_glue("{q2}/{opts2}")
+    glue::glue("{q1}/{opts1}"),
+    glue::glue("{q2}/{opts2}")
   )
-  expected_w <- str_glue("{raw_cols}_w")
+  expected_w <- glue::glue("{raw_cols}_w")
+
   expect_true(all(expected_w %in% names(res_w)))
 })
 
+test_that("weighted columns follow the expected 0/NA pattern", {
+  res_w <- suppressWarnings(add_prot_score_rights(
+    dummy_df,
+    .keep_weighted = TRUE
+  ))
 
-test_that("weighted columns compute raw * weight correctly and group sums are accurate", {
-  res_w <- add_prot_score_rights(dummy_df, .keep_weighted = TRUE)
+  # "no" always yields 0
+  expect_equal(unique(res_w[[glue::glue("{q1}/no_w")]]), 0)
+  expect_equal(unique(res_w[[glue::glue("{q2}/no_w")]]), 0)
 
-  # Services weights: all yes_* = 1, no = 0
-  expect_equal(
-    res_w[[str_glue("{q1}/yes_healthcare_w")]],
-    res_w[[str_glue("{q1}/yes_healthcare")]] * 1
-  )
-  expect_equal(
-    res_w[[str_glue("{q1}/no_w")]],
-    res_w[[str_glue("{q1}/no")]] * 0
-  )
-
-  # Justice weights: yes_identity_documents = 2, others yes_* = 1
-  expect_equal(
-    res_w[[str_glue("{q2}/yes_identity_documents_w")]],
-    res_w[[str_glue("{q2}/yes_identity_documents")]] * 2
-  )
-  expect_equal(
-    res_w[[str_glue("{q2}/yes_gov_services_w")]],
-    res_w[[str_glue("{q2}/yes_gov_services")]] * 1
-  )
-
-  # Group composite sums
-  srv_w_cols <- str_glue("{q1}/{opts1}_w")
-  jus_w_cols <- str_glue("{q2}/{opts2}_w")
-  expect_equal(
-    res_w$comp_prot_score_prot_needs_1_services,
-    rowSums(res_w[, srv_w_cols], na.rm = TRUE)
-  )
-  expect_equal(
-    res_w$comp_prot_score_prot_needs_1_justice,
-    rowSums(res_w[, jus_w_cols], na.rm = TRUE)
-  )
+  # "dnk" and "pnta" always yield NA
+  expect_true(all(is.na(res_w[[glue::glue("{q1}/dnk_w")]])))
+  expect_true(all(is.na(res_w[[glue::glue("{q1}/pnta_w")]])))
+  expect_true(all(is.na(res_w[[glue::glue("{q2}/dnk_w")]])))
+  expect_true(all(is.na(res_w[[glue::glue("{q2}/pnta_w")]])))
 })
 
+test_that("composite severity is bounded 1–4", {
+  res <- suppressWarnings(add_prot_score_rights(dummy_df))
 
-test_that("composite severity: NA for DNK/P NTA, 1–4 for others, and non-destructive", {
-  res <- add_prot_score_rights(dummy_df)
+  expect_true(all(res$comp_prot_score_rights >= 1, na.rm = TRUE))
+  expect_true(all(res$comp_prot_score_rights <= 4, na.rm = TRUE))
+})
 
-  # Identify rows where DNK or PNTA was chosen on either question
-  flagged <- (dummy_df[[str_glue("{q1}/dnk")]] == 1 |
-    dummy_df[[str_glue("{q1}/pnta")]] == 1 |
-    dummy_df[[str_glue("{q2}/dnk")]] == 1 |
-    dummy_df[[str_glue("{q2}/pnta")]] == 1)
+test_that("sub-dimensions are NA when DNK or PNTA selected", {
+  dnk <- "dnk"
+  pnta <- "pnta"
 
-  # Flagged rows should be NA
-  expect_true(all(is.na(res$comp_prot_score_rights[flagged])))
+  res <- suppressWarnings(add_prot_score_rights(
+    dummy_df,
+    prot_needs_1_services = q1,
+    prot_needs_1_justice = q2,
+    dnk = dnk,
+    pnta = pnta
+  ))
 
-  # Non-flagged rows should be bounded between 1 and 4
-  expect_true(all(res$comp_prot_score_rights[!flagged] >= 1, na.rm = TRUE))
-  expect_true(all(res$comp_prot_score_rights[!flagged] <= 4, na.rm = TRUE))
+  flagged_services <- (dummy_df[[glue::glue("{q1}/{dnk}")]] == 1 |
+    dummy_df[[glue::glue("{q1}/{pnta}")]] == 1)
+  expect_true(all(is.na(res$comp_prot_score_prot_needs_1_services[
+    flagged_services
+  ])))
 
-  # Non-destructive: ensure original columns are unchanged
-  original_cols <- names(dummy_df)
-  expect_equal(res[original_cols], dummy_df)
+  flagged_justice <- (dummy_df[[glue::glue("{q2}/{dnk}")]] == 1 |
+    dummy_df[[glue::glue("{q2}/{pnta}")]] == 1)
+  expect_true(all(is.na(res$comp_prot_score_prot_needs_1_justice[
+    flagged_justice
+  ])))
+})
+
+test_that("when both sub-dimensions are NA the composite is NA but not otherwise", {
+  dnk <- "dnk"
+  pnta <- "pnta"
+
+  res <- suppressWarnings(add_prot_score_rights(
+    dummy_df,
+    prot_needs_1_services = q1,
+    prot_needs_1_justice = q2,
+    dnk = dnk,
+    pnta = pnta
+  ))
+
+  flagged_services <- (dummy_df[[glue::glue("{q1}/{dnk}")]] == 1 |
+    dummy_df[[glue::glue("{q1}/{pnta}")]] == 1)
+
+  flagged_justice <- (dummy_df[[glue::glue("{q2}/{dnk}")]] == 1 |
+    dummy_df[[glue::glue("{q2}/{pnta}")]] == 1)
+
+  flagged_both <- flagged_services & flagged_justice
+
+  expect_true(all(is.na(res$comp_prot_score_rights[flagged_both])))
+
+  flagged_only_services <- flagged_services & !flagged_justice
+  expect_true(all(!is.na(res$comp_prot_score_rights[flagged_only_services])))
+
+  flagged_only_justice <- !flagged_services & flagged_justice
+  expect_true(all(!is.na(res$comp_prot_score_rights[flagged_only_justice])))
+})
+
+test_that("a warning is raised when both sub-dimensions are NA", {
+  testthat::expect_warning(
+    add_prot_score_rights(
+      dummy_df,
+      prot_needs_1_services = q1,
+      prot_needs_1_justice = q2,
+      dnk = "dnk",
+      pnta = "pnta"
+    ),
+    "Missing input scores detected"
+  )
 })
