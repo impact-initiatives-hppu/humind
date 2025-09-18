@@ -1,4 +1,4 @@
-# Sample data for testing
+# # Sample data for testing
 loop <- data.frame(
   uuid = c(1, 2, 3, 4, 5, 6),
   health_ind_healthcare_needed = c("yes", "no", "dnk", "pnta", "yes", "no"),
@@ -6,6 +6,7 @@ loop <- data.frame(
   ind_age = c(25, 30, 2, 8, 12, 40),
   stringsAsFactors = FALSE
 )
+
 
 main <- data.frame(
   uuid = c(1, 2, 3, 4, 5, 6),
@@ -116,4 +117,22 @@ test_that("it works if UUID columns are named X_UUID in main, and X_SUB_UUID in 
     result$health_ind_healthcare_needed_yes_met_n,
     c(0, 0, 0, 0, 1, 0)
   )
+})
+
+exhaustive_loop <- tidyr::expand_grid(
+  health_ind_healthcare_needed = c("yes", "no", "dnk", "pnta", NA),
+  health_ind_healthcare_received = c("yes", "no", "dnk", "pnta", NA),
+  ind_age = 2:80
+) |>
+  mutate(uuid = row_number())
+
+
+test_that("healthcare received NA causes healthcare needed cat to be NA when healthcare needed is yes", {
+  test_data <- exhaustive_loop |>
+    filter(
+      health_ind_healthcare_needed == "yes",
+      is.na(health_ind_healthcare_received)
+    )
+  result <- add_loop_healthcare_needed_cat(test_data)
+  expect_true(all(is.na(result$health_ind_healthcare_needed_cat)))
 })
