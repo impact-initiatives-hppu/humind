@@ -162,6 +162,27 @@ add_prot_score_practices <- function(
     ) |>
     dplyr::select(-dplyr::all_of(c(".sum", ".both_na")))
 
+  na_activities <- is.na(weights_df$comp_prot_score_prot_needs_2_activities)
+  na_social <- is.na(weights_df$comp_prot_score_prot_needs_2_social)
+  na_both <- na_activities & na_social
+
+  n_act <- sum(na_activities, na.rm = TRUE)
+  n_soc <- sum(na_social, na.rm = TRUE)
+  n_both <- sum(na_both, na.rm = TRUE)
+
+  if (n_act > 0L || n_soc > 0L) {
+    cli::cli_warn(c(
+      "{.strong Missing input scores detected}",
+      "i" = "{.col comp_prot_score_prot_needs_2_activities}: {n_act} NA{cli::qty(n_act)}.",
+      "i" = "{.col comp_prot_score_prot_needs_2_social}: {n_soc} NA{cli::qty(n_soc)}.",
+      if (n_both > 0L) {
+        c(
+          "x" = "{n_both} row{?s} ha{?s/ve} both inputs NA; {.col comp_prot_score_practices} will be NA for these row{?s}."
+        )
+      }
+    ))
+  }
+
   # bind back composite and optionally weighted cols
   comp_cols <- c(
     "comp_prot_score_prot_needs_2_activities",
