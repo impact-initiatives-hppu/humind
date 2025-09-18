@@ -52,13 +52,13 @@ A data frame with 5 new columns:
 \itemize{
 \item msni_score: The Multi-Sectoral Needs Index score.
 \item msni_in_need: Binary indicator for households in need.
-\item msni_in_acute_need: Binary indicator for households in acute need.
+\item msni_in_severe_need: Binary indicator for households in severe need.
 \item sector_in_need_n: Number of sectoral needs identified.
 \item sector_needs_profile: Profile of sectoral needs identified (NA if no sectoral need is identified).
 }
 }
 \description{
-This function calculates the MSNI score, determines if households are in need or acute need, counts the number of sectoral needs, and creates a sectoral needs profile.
+This function calculates the MSNI score, determines if households are in need or severe need, counts the number of sectoral needs, and creates a sectoral needs profile.
 
 Prerequisite functions:
 \itemize{

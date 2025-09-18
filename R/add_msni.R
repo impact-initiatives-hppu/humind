@@ -1,6 +1,6 @@
 #' @title Add Multi-Sectoral Needs Index (MSNI) Score and Related Indicators
 #'
-#' @description This function calculates the MSNI score, determines if households are in need or acute need, counts the number of sectoral needs, and creates a sectoral needs profile.
+#' @description This function calculates the MSNI score, determines if households are in need or severe need, counts the number of sectoral needs, and creates a sectoral needs profile.
 #'
 #' Prerequisite functions:
 #'
@@ -29,7 +29,7 @@
 #'
 #' * msni_score: The Multi-Sectoral Needs Index score.
 #' * msni_in_need: Binary indicator for households in need.
-#' * msni_in_acute_need: Binary indicator for households in acute need.
+#' * msni_in_severe_need: Binary indicator for households in severe need.
 #' * sector_in_need_n: Number of sectoral needs identified.
 #' * sector_needs_profile: Profile of sectoral needs identified (NA if no sectoral need is identified).
 #'
@@ -136,11 +136,11 @@ add_msni <- function(
     new_colname = "msni_in_need"
   )
 
-  # Is in acute need?
+  # Is in severe need?
   df <- is_in_severe_need(
     df = df,
     score = "msni_score",
-    new_colname = "msni_in_acute_need"
+    new_colname = "msni_in_severe_need"
   )
 
   #------ Add number of sectoral needs

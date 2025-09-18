@@ -14,7 +14,7 @@ is_in_severe_need(df, score, new_colname = NULL)
 
 \item{score}{The variable containing the score on a 1-5 scale.}
 
-\item{new_colname}{The name of the new column. If NULL, the function will create a new column with the name 'score_in_need' or 'score_in_acute_need'.}
+\item{new_colname}{The name of the new column. If NULL, the function will create a new column with the name 'score_in_need' or 'score_in_severe_need'.}
 }
 \value{
 A dataframe with an additional column:
@@ -23,5 +23,5 @@ A dataframe with an additional column:
 }
 }
 \description{
-This set of functions adds new binary variables indicating if a score is above certain thresholds. \code{\link[=is_in_need]{is_in_need()}} adds a variable for scores above 3 (indicating "in need"), while \code{\link[=is_in_acute_need]{is_in_acute_need()}} adds a variable for scores above 4 (indicating "in acute need").
+This set of functions adds new binary variables indicating if a score is above certain thresholds. \code{\link[=is_in_need]{is_in_need()}} adds a variable for scores above 3 (indicating "in need"), while \code{\link[=is_in_severe_need]{is_in_severe_need()}} adds a variable for scores above 4 (indicating "in severe need").
 }
