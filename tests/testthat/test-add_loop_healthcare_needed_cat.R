@@ -129,10 +129,13 @@ exhaustive_loop <- tidyr::expand_grid(
 
 test_that("healthcare received NA causes healthcare needed cat to be NA when healthcare needed is yes", {
   test_data <- exhaustive_loop |>
-    filter(
+    dplyr::filter(
       health_ind_healthcare_needed == "yes",
       is.na(health_ind_healthcare_received)
     )
-  result <- add_loop_healthcare_needed_cat(test_data)
+  result <- expect_warning(
+    add_loop_healthcare_needed_cat(test_data),
+    "healthcare needed.+but healthcare received.+"
+  )
   expect_true(all(is.na(result$health_ind_healthcare_needed_cat)))
 })
