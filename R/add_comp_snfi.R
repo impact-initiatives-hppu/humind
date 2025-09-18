@@ -3,7 +3,7 @@
 #' @description
 #' This function calculates the Shelter, NFI and HLP (SNFI) sectoral composite score
 #' based on shelter type, shelter issues, occupancy status, and functional disability
-#' scale (FDS) indicators. It also determines if a household is in need or in acute need
+#' scale (FDS) indicators. It also determines if a household is in need or in severe need
 #' based on the calculated score.
 #'
 #' Prerequisite functions:
@@ -53,7 +53,7 @@
 #' * comp_snfi_score_fds_cannot_cat Score based on FDS
 #' * comp_snfi_score: Overall SNFI composite score
 #' * comp_snfi_in_need: Indicator for being in need
-#' * comp_snfi_in_acute_need: Indicator for being in acute need
+#' * comp_snfi_in_severe_need: Indicator for being in severe need
 #'
 #' @export
 add_comp_snfi <- function(
@@ -260,11 +260,11 @@ add_comp_snfi <- function(
     "comp_snfi_in_need"
   )
 
-  # Is in acute need?
+  # Is in severe need?
   df <- is_in_severe_need(
     df,
     "comp_snfi_score",
-    "comp_snfi_in_acute_need"
+    "comp_snfi_in_severe_need"
   )
 
   return(df)

@@ -25,7 +25,7 @@ test_that("Output columns are present", {
       "comp_snfi_score_shelter_damage_cat",
       "comp_snfi_score",
       "comp_snfi_in_need",
-      "comp_snfi_in_acute_need"
+      "comp_snfi_in_severe_need"
     ) %in%
       names(result_df)
   ))
