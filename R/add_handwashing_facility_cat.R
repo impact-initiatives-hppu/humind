@@ -60,6 +60,23 @@
 #' **Examples of non-qualifying soap types:** ash, mud, sand, clay, leaves, and other traditional 
 #' or alternative cleaning substances that do not meet soap standards for handwashing hygiene.
 #'
+#' @examples
+#' \dontrun{
+#' # Example: Handling different soap types
+#' data <- data.frame(
+#'   survey_modality = "in_person",
+#'   wash_handwashing_facility = "available_fixed_in_dwelling",
+#'   wash_handwashing_facility_observed_water = "water_available",
+#'   wash_soap_observed = "no",  # Use "no" even if ash/mud is observed
+#'   wash_handwashing_facility_reported = NA,
+#'   wash_handwashing_facility_water_reported = NA,
+#'   wash_soap_reported = NA
+#' )
+#' 
+#' # This will categorize as "limited" because ash/mud/sand doesn't qualify as soap
+#' result <- add_handwashing_facility_cat(data)
+#' }
+#'
 #' @export
 add_handwashing_facility_cat <- function(
   df,
