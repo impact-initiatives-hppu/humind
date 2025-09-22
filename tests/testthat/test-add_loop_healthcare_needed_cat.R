@@ -1,4 +1,4 @@
-# # Sample data for testing
+# Sample data for testing
 loop <- data.frame(
   uuid = c(1, 2, 3, 4, 5, 6),
   health_ind_healthcare_needed = c("yes", "no", "dnk", "pnta", "yes", "no"),

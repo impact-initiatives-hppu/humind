@@ -106,67 +106,60 @@ add_loop_healthcare_needed_cat <- function(
     )
   }
 
-  # warn if health_ind_healthcare_needed is 'yes' but health_ind_healthcare_received is NA
-  healthcare_needed_received_na <- loop$health_ind_healthcare_needed == "yes" &
-    is.na(loop$health_ind_healthcare_received)
-  n_flags <- sum(healthcare_needed_received_na, na.rm = TRUE)
+  # warn if needed == yes but received is NA (use parameterized column names / levels)
 
-  if (
-    any(
-      healthcare_needed_received_na
-    )
-  ) {
+  healthcare_needed_received_na <- !is.na(loop[[ind_healthcare_needed]]) &
+    loop[[ind_healthcare_needed]] == ind_healthcare_needed_yes &
+    is.na(loop[[ind_healthcare_received]])
+  n_flags <- sum(healthcare_needed_received_na, na.rm = TRUE)
+  if (n_flags > 0) {
     cli::cli_warn(c(
       "x" = "{cli::qty(n_flags)}There {?is/are} {n_flags} individual{?s} with healthcare needed as {.val yes} but healthcare received {?is/are} {.val NA}"
     ))
   }
 
   #------ Compute
-
-  # Calculate dummy variables
+  needed_col <- rlang::sym(ind_healthcare_needed)
+  received_col <- rlang::sym(ind_healthcare_received)
+  # Calculate dummy variables (single mutate for performance) and derive category & final dummies
   loop <- dplyr::mutate(
     loop,
+    # Basic needed dummy
     health_ind_healthcare_needed_d = dplyr::case_when(
-      !!rlang::sym(ind_healthcare_needed) == ind_healthcare_needed_no ~ 0,
-      !!rlang::sym(ind_healthcare_needed) == ind_healthcare_needed_yes ~ 1,
-      !!rlang::sym(ind_healthcare_needed) %in%
+      !!needed_col == ind_healthcare_needed_no ~ 0,
+      !!needed_col == ind_healthcare_needed_yes ~ 1,
+      !!needed_col %in%
         c(ind_healthcare_needed_dnk, ind_healthcare_needed_pnta) ~
         NA_real_,
       .default = NA_real_
     ),
+    # Received dummy
     health_ind_healthcare_received_d = dplyr::case_when(
-      !!rlang::sym(ind_healthcare_received) == ind_healthcare_received_no ~ 0,
-      !!rlang::sym(ind_healthcare_received) == ind_healthcare_received_yes ~ 1,
-      !!rlang::sym(ind_healthcare_received) %in%
+      !!received_col == ind_healthcare_received_no ~ 0,
+      !!received_col == ind_healthcare_received_yes ~ 1,
+      !!received_col %in%
         c(ind_healthcare_received_dnk, ind_healthcare_received_pnta) ~
         NA_real_,
       .default = NA_real_
-    )
-  )
-
-  # Add final recoding
-  loop <- dplyr::mutate(
-    loop,
+    ),
+    # Category logic:
+    # - If needed=0 -> no_need (even if received is NA or any value)
+    # - If needed=1 & received=1 -> yes_met_need
+    # - If needed=1 & received=0 o-> yes_unmet_need
+    # - Else NA (e.g needed=1 & received ("ptna", "dnk", NA))
     health_ind_healthcare_needed_cat = dplyr::case_when(
       health_ind_healthcare_needed_d == 0 ~ "no_need",
       health_ind_healthcare_needed_d == 1 &
-        health_ind_healthcare_received_d == 0 ~
-        "yes_unmet_need",
-      health_ind_healthcare_needed_d == 1 &
         health_ind_healthcare_received_d == 1 ~
         "yes_met_need",
+      health_ind_healthcare_needed_d == 1 &
+        health_ind_healthcare_received_d == 0 ~
+        "yes_unmet_need",
       .default = NA_character_
-    )
-  )
-
-  # Add dummy for each (no NA)
-  loop <- dplyr::mutate(
-    loop,
+    ),
     health_ind_healthcare_needed_no = dplyr::case_when(
-      health_ind_healthcare_needed_cat == "no_need" ~ 1,
-      health_ind_healthcare_needed_cat %in%
-        c("yes_met_need", "yes_unmet_need") ~
-        0,
+      health_ind_healthcare_needed_d == 0 ~ 1,
+      health_ind_healthcare_needed_d == 1 ~ 0,
       .default = NA_real_
     ),
     health_ind_healthcare_needed_yes_unmet = dplyr::case_when(
