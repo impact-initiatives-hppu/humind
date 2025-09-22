@@ -17,7 +17,9 @@
 #' @param facility_observed_water_no Response code indicating water is not available.
 #' @param facility_observed_soap Column name for observed soap availability.
 #' @param facility_observed_soap_yes Response code indicating soap is available (observed).
-#' @param facility_observed_soap_no Response code indicating soap is not available (observed).
+#' @param facility_observed_soap_no Response code indicating soap is not available (observed). 
+#'   This should include cases where non-qualifying soap types are observed (e.g., ash, mud, sand, 
+#'   or other substances that do not meet soap standards for handwashing).
 #' @param facility_observed_soap_undefined Response code(s) for undefined observed soap situations.
 #' @param facility_reported Column name for reported handwashing facility (used in remote/no-permission cases).
 #' @param facility_reported_yes Response code(s) indicating facility is available (reported).
@@ -30,12 +32,33 @@
 #' @param facility_reported_soap Column name for reported soap availability under no permission or remote conditions.
 #' @param facility_reported_soap_yes Response code(s) indicating soap is available under no permission or remote conditions.
 #' @param facility_reported_soap_no Response code indicating soap is not available under no permission or remote conditions.
+#'   This should include cases where non-qualifying soap types are reported (e.g., ash, mud, sand, 
+#'   or other substances that do not meet soap standards for handwashing).
 #' @param facility_reported_soap_undefined Response code(s) for undefined soap situations under no permission or remote conditions.
 #'
 #' @return A data frame with an additional column 'wash_handwashing_facility_jmp_cat': Categorized handwashing facilities: "Basic," "Limited," or "No Facility."
 #'
 #' @details
 #' The function checks for the presence and validity of all required columns and values in the input data frame. It ensures that all parameters are documented and used in the logic. The categorization follows JMP (Joint Monitoring Programme) standards for handwashing facilities.
+#'
+#' **Soap Type Considerations:**
+#' 
+#' When categorizing handwashing facilities, only certain substances qualify as "soap" for the purposes of 
+#' meeting JMP standards. Substances such as ash, mud, sand, or other non-soap cleaning agents should be 
+#' treated as "no soap available" even if they are present at the handwashing facility.
+#' 
+#' For observed soap (\code{facility_observed_soap}):
+#' - If actual soap or detergent is observed: use \code{facility_observed_soap_yes} 
+#' - If ash, mud, sand, or similar non-qualifying substances are observed: use \code{facility_observed_soap_no}
+#' - If no cleaning agent is observed: use \code{facility_observed_soap_no}
+#' 
+#' For reported soap (\code{facility_reported_soap}):
+#' - If actual soap or detergent is reported: use \code{facility_reported_soap_yes}
+#' - If ash, mud, sand, or similar non-qualifying substances are reported: use \code{facility_reported_soap_no}
+#' - If no cleaning agent is reported: use \code{facility_reported_soap_no}
+#' 
+#' **Examples of non-qualifying soap types:** ash, mud, sand, clay, leaves, and other traditional 
+#' or alternative cleaning substances that do not meet soap standards for handwashing hygiene.
 #'
 #' @export
 add_handwashing_facility_cat <- function(
