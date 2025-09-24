@@ -157,7 +157,7 @@ test_that("Response codes with multiple answer options do not affect the result 
     facility_reported_soap_no = "no"
   )
 
-  # Did not include 'facility_no' because the code will raise en error
+  # Did not include 'facility_no' because the code will raise an error
   # and it already checks that it is exactly one value
   result_vector <- add_handwashing_facility_cat(
     exhaustive_df,
