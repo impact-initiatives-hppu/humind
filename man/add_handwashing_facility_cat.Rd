@@ -17,10 +17,10 @@ add_handwashing_facility_cat(
   facility_undefined = c("other", "pnta"),
   facility_observed_water = "wash_handwashing_facility_observed_water",
   facility_observed_water_yes = "water_available",
-  facility_observed_water_no = "water_not_available",
+  facility_observed_water_no = c("water_not_available"),
   facility_observed_soap = "wash_soap_observed",
   facility_observed_soap_yes = "yes_soap_shown",
-  facility_observed_soap_no = "no",
+  facility_observed_soap_no = c("no"),
   facility_observed_soap_undefined = c("other", "pnta"),
   facility_reported = "wash_handwashing_facility_reported",
   facility_reported_yes = c("fixed_dwelling", "fixed_yard", "mobile"),
@@ -28,11 +28,11 @@ add_handwashing_facility_cat(
   facility_reported_undefined = c("other", "dnk", "pnta"),
   facility_reported_water = "wash_handwashing_facility_water_reported",
   facility_reported_water_yes = "yes",
-  facility_reported_water_no = "no",
+  facility_reported_water_no = c("no"),
   facility_reported_water_undefined = c("dnk", "pnta"),
   facility_reported_soap = "wash_soap_reported",
   facility_reported_soap_yes = "yes",
-  facility_reported_soap_no = "no",
+  facility_reported_soap_no = c("no"),
   facility_reported_soap_undefined = c("dnk", "pnta")
 )
 }
@@ -59,13 +59,13 @@ add_handwashing_facility_cat(
 
 \item{facility_observed_water_yes}{Response code indicating water is available.}
 
-\item{facility_observed_water_no}{Response code indicating water is not available.}
+\item{facility_observed_water_no}{Response code(s) indicating water is not available.}
 
 \item{facility_observed_soap}{Column name for observed soap availability.}
 
 \item{facility_observed_soap_yes}{Response code indicating soap is available (observed).}
 
-\item{facility_observed_soap_no}{Response code indicating soap is not available (observed).}
+\item{facility_observed_soap_no}{Response code(s) indicating soap is not available (observed).}
 
 \item{facility_observed_soap_undefined}{Response code(s) for undefined observed soap situations.}
 
@@ -81,7 +81,7 @@ add_handwashing_facility_cat(
 
 \item{facility_reported_water_yes}{Response code(s) indicating water is available under no permission or remote conditions.}
 
-\item{facility_reported_water_no}{Response code indicating water is not available under no permission or remote conditions.}
+\item{facility_reported_water_no}{Response code(s) indicating water is not available under no permission or remote conditions.}
 
 \item{facility_reported_water_undefined}{Response code(s) for undefined water situations under no permission or remote conditions.}
 
@@ -89,7 +89,7 @@ add_handwashing_facility_cat(
 
 \item{facility_reported_soap_yes}{Response code(s) indicating soap is available under no permission or remote conditions.}
 
-\item{facility_reported_soap_no}{Response code indicating soap is not available under no permission or remote conditions.}
+\item{facility_reported_soap_no}{Response code(s) indicating soap is not available under no permission or remote conditions.}
 
 \item{facility_reported_soap_undefined}{Response code(s) for undefined soap situations under no permission or remote conditions.}
 }
