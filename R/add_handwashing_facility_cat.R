@@ -165,8 +165,6 @@ add_handwashing_facility_cat <- function(
       !!rlang::sym(survey_modality) %in% survey_modality_in_person &
         !(!!rlang::sym(facility) %in% facility_no_permission) ~
         dplyr::case_when(
-          # Undefined
-          !!rlang::sym(facility) %in% facility_undefined ~ "undefined",
           # No facility, then "no_facility"
           !!rlang::sym(facility) == facility_no ~ "no_facility",
           # Yes facility + Soap and water are available, then "basic"
@@ -184,29 +182,24 @@ add_handwashing_facility_cat <- function(
             "limited",
           TRUE ~ NA_character_
         ),
-      # Option 2: Remote modality or  with no permission
-      !!rlang::sym(survey_modality) %in% survey_modality_remote |
-        !!rlang::sym(facility) %in% facility_no_permission ~
-        dplyr::case_when(
-          # facility reported is undefined, then "undefined"
-          !!rlang::sym(facility_reported) %in% facility_reported_undefined ~
-            "undefined",
-          # No facility + Soap and water are available, then "basic"
-          !!rlang::sym(facility_reported) %in% facility_reported_yes &
-            !!rlang::sym(facility_reported_water) ==
-              facility_reported_water_yes &
-            !!rlang::sym(facility_reported_soap) == facility_reported_soap_yes ~
-            "basic",
-          # No facility + Soap or water is not available, then "limited"
-          !!rlang::sym(facility_reported) %in% facility_reported_no &
-            (!!rlang::sym(facility_reported_water) %in%
-              facility_reported_water_no |
-              !!rlang::sym(facility_reported_soap) %in%
-                facility_reported_soap_no) ~
-            "limited",
-          TRUE ~ NA_character_
-        ),
-      TRUE ~ NA_character_
+      # facility reported is undefined, then "undefined"
+      !!rlang::sym(facility_reported) %in% facility_reported_undefined ~
+        "undefined",
+      # No facility + Soap and water are available, then "basic"
+      !!rlang::sym(facility_reported) %in% facility_reported_yes &
+        !!rlang::sym(facility_reported_water) == facility_reported_water_yes &
+        !!rlang::sym(facility_reported_soap) == facility_reported_soap_yes ~
+        "basic",
+      !!rlang::sym(facility_reported) %in% facility_reported_undefined ~
+        "undefined",
+      !!rlang::sym(facility_reported) %in% facility_reported_yes &
+        !(!!rlang::sym(facility_reported_soap) %in%
+          facility_reported_soap_yes &
+          !!rlang::sym(facility_reported_water) %in%
+            facility_reported_water_yes) ~
+        'limited',
+      !!rlang::sym(facility_reported) %in% facility_reported_no ~ "no_facility",
+      TRUE ~ "WRONG"
     )
   )
 
