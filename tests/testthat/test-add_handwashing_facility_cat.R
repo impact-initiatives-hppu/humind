@@ -170,3 +170,55 @@ test_that("Response codes with multiple answer options do not affect the result 
 
   expect_equal(result_scalar, result_vector)
 })
+
+test_that("answer options in the 'no' vectors get treated as 'no'", {
+  #TODO: expand this to all *_no arguments
+  default_soap_no <- "no"
+  soap_no <- c(default_soap_no, "mud")
+  wash_soap_observed <- c(
+    "yes_soap_shown",
+    soap_no,
+    NA
+  )
+
+  wash_soap_reported <- c(
+    "yes",
+    "yes",
+    soap_no,
+    "dnk",
+    NA
+  )
+  exhaustive_df <- tidyr::expand_grid(
+    survey_modality,
+    wash_handwashing_facility,
+    wash_handwashing_facility_observed_water,
+    wash_soap_observed,
+    wash_handwashing_facility_reported,
+    wash_handwashing_facility_water_reported,
+    wash_soap_reported
+  )
+
+  result <- add_handwashing_facility_cat(
+    exhaustive_df,
+    facility_observed_soap_no = soap_no,
+    facility_reported_soap_no = soap_no
+  )
+
+  exhaustive_df_mutated <- exhaustive_df |>
+    dplyr::mutate(
+      wash_soap_observed = dplyr::case_when(
+        wash_soap_observed %in% soap_no ~ default_soap_no,
+        TRUE ~ wash_soap_observed
+      ),
+      wash_soap_reported = dplyr::case_when(
+        wash_soap_reported %in% soap_no ~ default_soap_no,
+        TRUE ~ wash_soap_reported
+      )
+    )
+  # we check that all else being equal, a change of a 'no' option to a literal 'no' yields the same results
+  result_mutated <- add_handwashing_facility_cat(exhaustive_df_mutated)
+  expect_equal(
+    result$wash_handwashing_facility_jmp_cat,
+    result_mutated$wash_handwashing_facility_jmp_cat
+  )
+})
