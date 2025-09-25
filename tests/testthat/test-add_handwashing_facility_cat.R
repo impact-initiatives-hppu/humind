@@ -70,6 +70,7 @@ test_df <- dplyr::tibble(
     "dnk"
   )
 )
+
 test_that("add_handwashing_facility_cat categorizes correctly", {
   expected <- c(
     "basic",

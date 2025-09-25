@@ -42,3 +42,122 @@ generate_survey_choice_combinations <- function(
 
   df
 }
+
+apply_skip_logic <- function(df) {
+  df %>%
+    mutate(
+      obs_allowed = survey_modality != "remote", # TRUE/FALSE
+      observed_facility_valid = !is.na(wash_handwashing_facility) & # force non-NA
+        wash_handwashing_facility %in%
+          c(
+            "available_fixed_in_dwelling",
+            "available_fixed_in_plot",
+            "available_fixed_or_mobile"
+          ),
+      reported_relevant = (survey_modality == "remote") |
+        (!is.na(wash_handwashing_facility) &
+          wash_handwashing_facility == "no_permission")
+    ) %>%
+    filter(
+      # Q630: observed facility asked iff NOT remote
+      ifelse(
+        obs_allowed,
+        !is.na(wash_handwashing_facility),
+        is.na(wash_handwashing_facility)
+      ),
+
+      # Q631 & Q633: observed water/soap only when in-person AND facility is valid
+      ifelse(
+        obs_allowed & observed_facility_valid,
+        !is.na(wash_handwashing_facility_observed_water) &
+          !is.na(wash_soap_observed),
+        is.na(wash_handwashing_facility_observed_water) &
+          is.na(wash_soap_observed)
+      ),
+
+      # Q583, Q636, Q601: reported branch iff remote OR no_permission
+      ifelse(
+        reported_relevant,
+        !is.na(wash_handwashing_facility_reported) &
+          !is.na(wash_handwashing_facility_water_reported) &
+          !is.na(wash_soap_reported),
+        is.na(wash_handwashing_facility_reported) &
+          is.na(wash_handwashing_facility_water_reported) &
+          is.na(wash_soap_reported)
+      )
+    ) %>%
+    dplyr::select(
+      survey_modality,
+      wash_handwashing_facility,
+      wash_handwashing_facility_observed_water,
+      wash_soap_observed,
+      wash_handwashing_facility_reported,
+      wash_handwashing_facility_water_reported,
+      wash_soap_reported
+    )
+}
+
+gen_wash_df <- function() {
+  survey_modality <- c(
+    "in_person",
+    "remote"
+  )
+
+  wash_handwashing_facility <- c(
+    "available_fixed_in_dwelling",
+    "available_fixed_in_plot",
+    "available_fixed_or_mobile",
+    "none",
+    "no_permission",
+    "other",
+    NA
+  )
+  wash_handwashing_facility_observed_water <- c(
+    "water_available",
+    "water_not_available",
+    "water_available",
+    NA
+  )
+
+  wash_soap_observed <- c(
+    "yes_soap_shown",
+    "no",
+    NA
+  )
+
+  wash_handwashing_facility_reported <- c(
+    "fixed_dwelling",
+    "none",
+    "mobile",
+    "other",
+    NA
+  )
+
+  wash_handwashing_facility_water_reported <- c(
+    "yes",
+    "no",
+    "yes",
+    "dnk",
+    NA
+  )
+
+  wash_soap_reported <- c(
+    "yes",
+    "no",
+    "yes",
+    "dnk",
+    NA
+  )
+
+  exhaustive_df <- tidyr::expand_grid(
+    survey_modality,
+    wash_handwashing_facility,
+    wash_handwashing_facility_observed_water,
+    wash_soap_observed,
+    wash_handwashing_facility_reported,
+    wash_handwashing_facility_water_reported,
+    wash_soap_reported
+  ) |>
+    apply_skip_logic()
+  return(exhaustive_df)
+}
