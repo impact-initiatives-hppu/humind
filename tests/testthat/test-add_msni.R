@@ -28,7 +28,7 @@ test_that("add_msni works with default parameters", {
         na.rm = TRUE
       ),
       msni_in_need = ifelse(msni_score >= 3, 1, 0),
-      msni_in_acute_need = ifelse(msni_score >= 4, 1, 0),
+      msni_in_severe_need = ifelse(msni_score >= 4, 1, 0),
       sector_in_need_n = comp_foodsec_in_need +
         comp_snfi_in_need +
         comp_wash_in_need +
@@ -95,7 +95,7 @@ test_that("add_msni handles all possible values", {
     mutate(
       msni_score = 1:5,
       msni_in_need = ifelse(msni_score >= 3, 1, 0),
-      msni_in_acute_need = ifelse(msni_score >= 4, 1, 0),
+      msni_in_severe_need = ifelse(msni_score >= 4, 1, 0),
       sector_in_need_n = c(NA, NA, 6, 6, 6),
       sector_needs_profile = purrr::pmap_chr(
         list(
@@ -134,8 +134,8 @@ test_that("add_msni handles all possible values", {
 
   expect_equal(result, expected)
 
-  # Additional checks for msni_in_acute_need
-  expect_equal(result$msni_in_acute_need, c(0, 0, 0, 1, 1))
+  # Additional checks for msni_in_severe_need
+  expect_equal(result$msni_in_severe_need, c(0, 0, 0, 1, 1))
 })
 
 

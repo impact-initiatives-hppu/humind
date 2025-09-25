@@ -39,14 +39,14 @@ A data frame with additional columns:
 \item comp_edu_score_attendance: Score for attendance and barriers (1-4)
 \item comp_edu_score: Total education composite score (max of disrupted and attendance scores).
 \item comp_edu_in_need: Binary indicator for being in need of educational assistance.
-\item comp_edu_in_acute_need: Binary indicator for being in acute need of educational assistance.
+\item comp_edu_in_severe_need: Binary indicator for being in severe need of educational assistance.
 }
 }
 \description{
 This function calculates an education sectoral composite score based on various
 education-related indicators. It computes scores for disrupted education and
 attendance/barriers, combines them into a total score, and determines if a
-household is in need or in acute need of educational assistance.
+household is in need or in severe need of educational assistance.
 
 Prerequisite functions:
 \itemize{

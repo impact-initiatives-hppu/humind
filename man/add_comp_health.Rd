@@ -25,14 +25,14 @@ A data frame with additional columns:
 \itemize{
 \item comp_health_score: Health composite score (1-4)
 \item comp_health_in_need: Binary indicator for being in need of health assistance
-\item comp_health_in_acute_need: Binary indicator for being in acute need of health assistance
+\item comp_health_in_severe_need: Binary indicator for being in severe need of health assistance
 }
 }
 \description{
 This function calculates a health composite score based on healthcare access and needs.
 It considers whether individuals needed healthcare, whether they accessed it if needed,
 and optionally takes into account disability status. The function then determines if a
-household is in need or in acute need of health assistance based on the calculated score.
+household is in need or in severe need of health assistance based on the calculated score.
 
 Prerequisite functions:
 \itemize{

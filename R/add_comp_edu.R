@@ -4,7 +4,7 @@
 #' This function calculates an education sectoral composite score based on various
 #' education-related indicators. It computes scores for disrupted education and
 #' attendance/barriers, combines them into a total score, and determines if a
-#' household is in need or in acute need of educational assistance.
+#' household is in need or in severe need of educational assistance.
 #'
 #' Prerequisite functions:
 #'
@@ -29,7 +29,7 @@
 #' * comp_edu_score_attendance: Score for attendance and barriers (1-4)
 #' * comp_edu_score: Total education composite score (max of disrupted and attendance scores).
 #' * comp_edu_in_need: Binary indicator for being in need of educational assistance.
-#' * comp_edu_in_acute_need: Binary indicator for being in acute need of educational assistance.
+#' * comp_edu_in_severe_need: Binary indicator for being in severe need of educational assistance.
 #'
 #' @export
 add_comp_edu <- function(
@@ -130,11 +130,11 @@ add_comp_edu <- function(
     "comp_edu_in_need"
   )
 
-  # Is in acute need?
-  df <- is_in_acute_need(
+  # Is in severe need?
+  df <- is_in_severe_need(
     df,
     "comp_edu_score",
-    "comp_edu_in_acute_need"
+    "comp_edu_in_severe_need"
   )
 
   return(df)

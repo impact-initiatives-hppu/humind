@@ -21,7 +21,7 @@ The input \code{df}, with three new columns:
 \itemize{
 \item \code{comp_prot_score} – overall protection severity (maximum of the three dimensions)
 \item \code{comp_prot_in_need} – binary (0/1): 1 if \code{comp_prot_score >= 3}, else 0
-\item \code{comp_prot_in_acute_need} – binary (0/1): 1 if \code{comp_prot_score >= 4}, else 0
+\item \code{comp_prot_in_severe_need} – binary (0/1): 1 if \code{comp_prot_score >= 4}, else 0
 }
 }
 \description{
@@ -32,6 +32,6 @@ This function performs only \strong{Step 4} of the 2025 Protection Composite wor
 \itemize{
 \item \strong{Column checks} via \code{\link[purrr:imap]{purrr::iwalk()}} ensure the three dimension scores exist.
 \item \strong{Computation} uses \code{\link[=pmax]{pmax()}} (with \code{na.rm = FALSE})
-\item \strong{Thresholds} (3 for “in need”, 4 for “acute need”) are currently hard‑coded.
+\item \strong{Thresholds} (3 for “in need”, 4 for “severe need”) are currently hard‑coded.
 }
 }

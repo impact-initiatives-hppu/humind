@@ -14,10 +14,10 @@
 #' @param facility_undefined Response code(s) for undefined situations.
 #' @param facility_observed_water Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water").
 #' @param facility_observed_water_yes Response code indicating water is available.
-#' @param facility_observed_water_no Response code indicating water is not available.
+#' @param facility_observed_water_no Response code(s) indicating water is not available.
 #' @param facility_observed_soap Column name for observed soap availability.
 #' @param facility_observed_soap_yes Response code indicating soap is available (observed).
-#' @param facility_observed_soap_no Response code indicating soap is not available (observed).
+#' @param facility_observed_soap_no Response code(s) indicating soap is not available (observed).
 #' @param facility_observed_soap_undefined Response code(s) for undefined observed soap situations.
 #' @param facility_reported Column name for reported handwashing facility (used in remote/no-permission cases).
 #' @param facility_reported_yes Response code(s) indicating facility is available (reported).
@@ -25,11 +25,11 @@
 #' @param facility_reported_undefined Response code(s) for undefined reported facility situations.
 #' @param facility_reported_water Column name for reported water availability under no permission or remote conditions.
 #' @param facility_reported_water_yes Response code(s) indicating water is available under no permission or remote conditions.
-#' @param facility_reported_water_no Response code indicating water is not available under no permission or remote conditions.
+#' @param facility_reported_water_no Response code(s) indicating water is not available under no permission or remote conditions.
 #' @param facility_reported_water_undefined Response code(s) for undefined water situations under no permission or remote conditions.
 #' @param facility_reported_soap Column name for reported soap availability under no permission or remote conditions.
 #' @param facility_reported_soap_yes Response code(s) indicating soap is available under no permission or remote conditions.
-#' @param facility_reported_soap_no Response code indicating soap is not available under no permission or remote conditions.
+#' @param facility_reported_soap_no Response code(s) indicating soap is not available under no permission or remote conditions.
 #' @param facility_reported_soap_undefined Response code(s) for undefined soap situations under no permission or remote conditions.
 #'
 #' @return A data frame with an additional column 'wash_handwashing_facility_jmp_cat': Categorized handwashing facilities: "Basic," "Limited," or "No Facility."
@@ -54,10 +54,10 @@ add_handwashing_facility_cat <- function(
   facility_undefined = c("other", "pnta"),
   facility_observed_water = "wash_handwashing_facility_observed_water",
   facility_observed_water_yes = "water_available",
-  facility_observed_water_no = "water_not_available",
+  facility_observed_water_no = c("water_not_available"),
   facility_observed_soap = "wash_soap_observed",
   facility_observed_soap_yes = "yes_soap_shown",
-  facility_observed_soap_no = "no",
+  facility_observed_soap_no = c("no"),
   facility_observed_soap_undefined = c("other", "pnta"),
   facility_reported = "wash_handwashing_facility_reported",
   facility_reported_yes = c("fixed_dwelling", "fixed_yard", "mobile"),
@@ -65,11 +65,11 @@ add_handwashing_facility_cat <- function(
   facility_reported_undefined = c("other", "dnk", "pnta"),
   facility_reported_water = "wash_handwashing_facility_water_reported",
   facility_reported_water_yes = "yes",
-  facility_reported_water_no = "no",
+  facility_reported_water_no = c("no"),
   facility_reported_water_undefined = c("dnk", "pnta"),
   facility_reported_soap = "wash_soap_reported",
   facility_reported_soap_yes = "yes",
-  facility_reported_soap_no = "no",
+  facility_reported_soap_no = c("no"),
   facility_reported_soap_undefined = c("dnk", "pnta")
 ) {
   #------ Checks
@@ -177,9 +177,9 @@ add_handwashing_facility_cat <- function(
             "basic",
           # Yes facility + Soap or water is not available, then "limited"
           !!rlang::sym(facility) %in% facility_yes &
-            (!!rlang::sym(facility_observed_water) ==
+            (!!rlang::sym(facility_observed_water) %in%
               facility_observed_water_no |
-              !!rlang::sym(facility_observed_soap) ==
+              !!rlang::sym(facility_observed_soap) %in%
                 facility_observed_soap_no) ~
             "limited",
           TRUE ~ NA_character_
@@ -199,9 +199,9 @@ add_handwashing_facility_cat <- function(
             "basic",
           # No facility + Soap or water is not available, then "limited"
           !!rlang::sym(facility_reported) %in% facility_reported_no &
-            (!!rlang::sym(facility_reported_water) ==
+            (!!rlang::sym(facility_reported_water) %in%
               facility_reported_water_no |
-              !!rlang::sym(facility_reported_soap) ==
+              !!rlang::sym(facility_reported_soap) %in%
                 facility_reported_soap_no) ~
             "limited",
           TRUE ~ NA_character_

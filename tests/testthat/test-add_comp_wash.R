@@ -116,7 +116,7 @@ test_that("Composite WASH score calculation works correctly", {
   expect_equal(df_result$comp_wash_score, expected_result)
 })
 
-# Test 6: Test if 'is_in_need' and 'is_in_acute_need' flags are correctly set
+# Test 6: Test if 'is_in_need' and 'is_in_severe_need' flags are correctly set
 test_that("Need flags work correctly", {
   df_result <- add_comp_wash(
     df_sample,
@@ -130,9 +130,9 @@ test_that("Need flags work correctly", {
     handwashing_facility_jmp_cat = "wash_handwashing_facility_jmp_cat"
   )
 
-  # Check for the 'comp_wash_in_need' and 'comp_wash_in_acute_need' columns.
+  # Check for the 'comp_wash_in_need' and 'comp_wash_in_severe_need' columns.
   expect_true("comp_wash_in_need" %in% colnames(df_result))
-  expect_true("comp_wash_in_acute_need" %in% colnames(df_result))
+  expect_true("comp_wash_in_severe_need" %in% colnames(df_result))
 })
 
 # Test with undefined values for `comp_wash_score_water_quantity`
