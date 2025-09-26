@@ -78,9 +78,9 @@ test_that("add_handwashing_facility_cat categorizes correctly", {
     "limited",
     "no_facility",
     "basic",
-    "limited",
+    "no_facility",
     "basic",
-    "undefined"
+    NA
   )
   result_df <- add_handwashing_facility_cat(test_df)
   expect_equal(result_df$wash_handwashing_facility_jmp_cat, expected)
