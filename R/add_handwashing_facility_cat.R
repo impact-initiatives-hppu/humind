@@ -175,11 +175,11 @@ add_handwashing_facility_cat <- function(
             "basic",
           # Yes facility + Soap or water is not available, then "limited"
           !!rlang::sym(facility) %in% facility_yes &
-            (!!rlang::sym(facility_observed_water) %in%
-              facility_observed_water_no |
+            !(!!rlang::sym(facility_observed_water) %in%
+              facility_observed_water_no &
               !!rlang::sym(facility_observed_soap) %in%
                 facility_observed_soap_no) ~
-            "limited",
+            'limited',
           TRUE ~ NA_character_
         ),
       # facility reported is undefined, then "undefined"
@@ -190,8 +190,6 @@ add_handwashing_facility_cat <- function(
         !!rlang::sym(facility_reported_water) == facility_reported_water_yes &
         !!rlang::sym(facility_reported_soap) == facility_reported_soap_yes ~
         "basic",
-      !!rlang::sym(facility_reported) %in% facility_reported_undefined ~
-        "undefined",
       !!rlang::sym(facility_reported) %in% facility_reported_yes &
         !(!!rlang::sym(facility_reported_soap) %in%
           facility_reported_soap_yes &
@@ -199,7 +197,7 @@ add_handwashing_facility_cat <- function(
             facility_reported_water_yes) ~
         'limited',
       !!rlang::sym(facility_reported) %in% facility_reported_no ~ "no_facility",
-      TRUE ~ "WRONG"
+      TRUE ~ NA_character_
     )
   )
 
