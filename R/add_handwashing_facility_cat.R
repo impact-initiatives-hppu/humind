@@ -139,67 +139,87 @@ add_handwashing_facility_cat <- function(
   )
 
   # Check lengths
-  # - length of facility_yes
   if (length(facility_yes) < 1) {
     rlang::abort("facility_yes must contain at least one valid response code.")
   }
-  # - length of facility_no
   if (length(facility_no) != 1) {
     rlang::abort("facility_no should be of length 1.")
   }
-  # - length of facility_no_permission
   if (length(facility_no_permission) != 1) {
     rlang::abort("facility_no_permission should be of length 1.")
   }
-  # - length of facility_undefined
   if (length(facility_undefined) < 1) {
     rlang::abort(
       "facility_undefined must contain at least one valid response code."
     )
   }
 
+  #------ Symbol extraction (single source of truth for tidy-eval)
+  survey_modality_sym <- rlang::sym(survey_modality)
+  facility_sym <- rlang::sym(facility)
+  facility_observed_water_sym <- rlang::sym(facility_observed_water)
+  facility_observed_soap_sym <- rlang::sym(facility_observed_soap)
+  facility_reported_sym <- rlang::sym(facility_reported)
+  facility_reported_water_sym <- rlang::sym(facility_reported_water)
+  facility_reported_soap_sym <- rlang::sym(facility_reported_soap)
+
+  # Preserving original columns to remove intermediate calculations later
+  jmp_cat_column <- "wash_handwashing_facility_jmp_cat"
+  cols <- c(names(df), jmp_cat_column)
+
   df <- dplyr::mutate(
     df,
-    wash_handwashing_facility_jmp_cat = dplyr::case_when(
-      # Option 1: In-person modality with permission
-      !!rlang::sym(survey_modality) %in% survey_modality_in_person &
-        !(!!rlang::sym(facility) %in% facility_no_permission) ~
-        dplyr::case_when(
-          # No facility, then "no_facility"
-          !!rlang::sym(facility) == facility_no ~ "no_facility",
-          # Yes facility + Soap and water are available, then "basic"
-          !!rlang::sym(facility) %in% facility_yes &
-            !!rlang::sym(facility_observed_water) ==
-              facility_observed_water_yes &
-            !!rlang::sym(facility_observed_soap) == facility_observed_soap_yes ~
-            "basic",
-          # Yes facility + Soap or water is not available, then "limited"
-          !!rlang::sym(facility) %in% facility_yes &
-            !(!!rlang::sym(facility_observed_water) %in%
-              facility_observed_water_no &
-              !!rlang::sym(facility_observed_soap) %in%
-                facility_observed_soap_no) ~
-            'limited',
-          TRUE ~ NA_character_
-        ),
-      # facility reported is undefined, then "undefined"
-      !!rlang::sym(facility_reported) %in% facility_reported_undefined ~
-        "undefined",
-      # No facility + Soap and water are available, then "basic"
-      !!rlang::sym(facility_reported) %in% facility_reported_yes &
-        !!rlang::sym(facility_reported_water) == facility_reported_water_yes &
-        !!rlang::sym(facility_reported_soap) == facility_reported_soap_yes ~
-        "basic",
-      !!rlang::sym(facility_reported) %in% facility_reported_yes &
-        !(!!rlang::sym(facility_reported_soap) %in%
-          facility_reported_soap_yes &
-          !!rlang::sym(facility_reported_water) %in%
-            facility_reported_water_yes) ~
-        'limited',
-      !!rlang::sym(facility_reported) %in% facility_reported_no ~ "no_facility",
-      TRUE ~ NA_character_
-    )
-  )
+    # Observed allowed only if in-person AND permission
+    .in_person_with_perm = (!!survey_modality_sym %in%
+      survey_modality_in_person) &
+      !(!!facility_sym %in% facility_no_permission),
 
-  return(df)
+    # Reported applies if remote OR (in-person BUT no permission)
+    .reported_applicable = !(!!survey_modality_sym %in%
+      survey_modality_in_person) |
+      ((!!survey_modality_sym %in% survey_modality_in_person) &
+        (!!facility_sym %in% facility_no_permission)),
+
+    # Observed helpers
+    .obs_has_fac = (!!facility_sym %in% facility_yes),
+    .obs_no_fac = (!!facility_sym == facility_no),
+    .obs_basic = .data[[".obs_has_fac"]] &
+      (!!facility_observed_water_sym == facility_observed_water_yes) &
+      (!!facility_observed_soap_sym == facility_observed_soap_yes),
+    .obs_both_absent = (!!facility_observed_water_sym %in%
+      facility_observed_water_no) &
+      (!!facility_observed_soap_sym %in% facility_observed_soap_no),
+
+    # Reported helpers
+    .rep_undefined = (!!facility_reported_sym %in% facility_reported_undefined),
+    .rep_yes = (!!facility_reported_sym %in% facility_reported_yes),
+    .rep_no = (!!facility_reported_sym %in% facility_reported_no),
+    .rep_basic = .data[[".rep_yes"]] &
+      (!!facility_reported_water_sym == facility_reported_water_yes) &
+      (!!facility_reported_soap_sym == facility_reported_soap_yes)
+  ) |>
+    dplyr::mutate(
+      "{jmp_cat_column}" := dplyr::case_when(
+        # OBSERVED path (only for in-person WITH permission)
+        .data[[".in_person_with_perm"]] & .data[[".obs_no_fac"]] ~
+          "no_facility",
+        .data[[".in_person_with_perm"]] & .data[[".obs_basic"]] ~ "basic",
+        .data[[".in_person_with_perm"]] &
+          .data[[".obs_has_fac"]] &
+          !.data[[".obs_both_absent"]] ~
+          "limited",
+
+        # REPORTED path (remote OR in-person without permission)
+        .data[[".reported_applicable"]] & .data[[".rep_undefined"]] ~
+          "undefined",
+        .data[[".reported_applicable"]] & .data[[".rep_basic"]] ~ "basic",
+        .data[[".reported_applicable"]] & .data[[".rep_yes"]] ~ "limited",
+        .data[[".reported_applicable"]] & .data[[".rep_no"]] ~ "no_facility",
+
+        TRUE ~ NA_character_
+      )
+    ) |>
+    dplyr::select(dplyr::all_of(cols))
+
+  df
 }
