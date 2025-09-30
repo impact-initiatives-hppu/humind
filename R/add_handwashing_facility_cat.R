@@ -154,6 +154,56 @@ add_handwashing_facility_cat <- function(
     )
   }
 
+  # ------------------------------------------------------------------------------
+  # Handwashing JMP classification logic (observed vs reported)
+  #
+  # Overview
+  # - We first map user-supplied column names to symbols (*_sym) once (SSOT).
+  # - Then we compute boolean helper flags for:
+  #     * eligibility of the observed path (.in_person_with_perm)
+  #     * eligibility of the reported path (.reported_applicable)
+  #     * observed features (.obs_*)
+  #     * reported features (.rep_*)
+  # - Finally, a single case_when() assigns the category.
+  #
+  # Helper flags (propositions)
+  #   .in_person_with_perm   := in-person modality AND NOT "no_permission"
+  #   .reported_applicable   := remote OR (in-person AND no-permission)
+  #
+  #   Observed:
+  #     .obs_has_fac         := facility ∈ facility_yes
+  #     .obs_no_fac          := facility == facility_no
+  #     .obs_basic           := .obs_has_fac AND water==yes AND soap==yes
+  #     .obs_both_absent     := water ∈ water_no AND soap ∈ soap_no
+  #
+  #   Reported:
+  #     .rep_undefined       := reported_facility ∈ reported_undefined
+  #     .rep_yes             := reported_facility ∈ reported_yes
+  #     .rep_no              := reported_facility ∈ reported_no
+  #     .rep_basic           := .rep_yes AND water==yes AND soap==yes
+  #
+  # Decision tree (text diagram)
+  #
+  #              +-- .in_person_with_perm? -- YES --> [OBSERVED]
+  #              |                                 ├─ .obs_no_fac        → "no_facility"
+  #   start -----+                                 ├─ .obs_basic         → "basic"
+  #              |                                 └─ .obs_has_fac AND NOT .obs_both_absent
+  #              |                                                          → "limited"
+  #              |
+  #              +-- NO ------------------------------> [REPORTED]
+  #                                                    ├─ .rep_undefined  → "undefined"
+  #                                                    ├─ .rep_basic      → "basic"
+  #                                                    ├─ .rep_yes        → "limited"
+  #                                                    └─ .rep_no         → "no_facility"
+  #
+  # Default (no rule matched): NA_character_
+  #
+  # Notes
+  # - Observed path is used only when the enumerator was in-person AND had permission.
+  # - Reported path covers remote interviews OR in-person without permission.
+  # - Intermediate helpers are dropped before returning (see `cols` bookkeeping).
+  # ------------------------------------------------------------------------------
+
   #------ Symbol extraction (single source of truth for tidy-eval)
   survey_modality_sym <- rlang::sym(survey_modality)
   facility_sym <- rlang::sym(facility)
