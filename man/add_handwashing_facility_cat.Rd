@@ -33,7 +33,15 @@ add_handwashing_facility_cat(
   facility_reported_soap = "wash_soap_reported",
   facility_reported_soap_yes = "yes",
   facility_reported_soap_no = c("no"),
-  facility_reported_soap_undefined = c("dnk", "pnta")
+  facility_reported_soap_undefined = c("dnk", "pnta"),
+  soap_type_observed = "wash_soap_observed_type",
+  soap_type_observed_yes = c("soap", "detergent"),
+  soap_type_observed_no = c("ash_mud_sand"),
+  soap_type_observed_undefined = c("dnk", "pnta", "other"),
+  soap_type_reported = "wash_soap_reported_type",
+  soap_type_reported_yes = c("soap", "detergent"),
+  soap_type_reported_no = c("ash_mud_sand"),
+  soap_type_reported_undefined = c("dnk", "pnta", "other")
 )
 }
 \arguments{
@@ -92,6 +100,22 @@ add_handwashing_facility_cat(
 \item{facility_reported_soap_no}{Response code(s) indicating soap is not available under no permission or remote conditions.}
 
 \item{facility_reported_soap_undefined}{Response code(s) for undefined soap situations under no permission or remote conditions.}
+
+\item{soap_type_observed}{Column name for the type of soap (observed).}
+
+\item{soap_type_observed_yes}{Response code(s) indicating soap is observed}
+
+\item{soap_type_observed_no}{Response code(s) indicating soap is NOT observed}
+
+\item{soap_type_observed_undefined}{Response code(s) for undefined situations.}
+
+\item{soap_type_reported}{Column name for the type of soap (reported).}
+
+\item{soap_type_reported_yes}{Response code(s) indicating soap is available.}
+
+\item{soap_type_reported_no}{Response code(s) indicating soap is NOT available.}
+
+\item{soap_type_reported_undefined}{Response code(s) for undefined situations.}
 }
 \value{
 A data frame with an additional column 'wash_handwashing_facility_jmp_cat': Categorized handwashing facilities: "Basic," "Limited," or "No Facility."
