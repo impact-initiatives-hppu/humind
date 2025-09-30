@@ -191,50 +191,6 @@ add_handwashing_facility_cat <- function(
       "facility_undefined must contain at least one valid response code."
     )
   }
-  # ------------------------------------------------------------------------------
-  # JMP handwashing classification — exact branch order used in case_when()
-  #
-  # Path selection flags (precomputed):
-  #   .in_person_with_perm      # in-person AND not "no_permission"
-  #   .reported_applicable      # NOT .in_person_with_perm (remote OR in-person w/o permission)
-  #
-  # Observed-path helpers:
-  #   .obs_has_fac              # facility ∈ facility_yes
-  #   .obs_no_fac               # facility == facility_no
-  #   .obs_basic                # .obs_has_fac AND observed_water==yes AND observed_soap==yes
-  #   .obs_both_absent          # observed_water ∈ water_no AND observed_soap ∈ soap_no
-  #   .soap_type_observed_is_no # soap_type_observed ∈ soap_type_observed_no (e.g. ash_mud_sand)
-  #
-  # Reported-path helpers:
-  #   .rep_undefined            # reported_facility ∈ reported_undefined
-  #   .rep_yes                  # reported_facility ∈ reported_yes
-  #   .rep_no                   # reported_facility ∈ reported_no
-  #   .rep_basic                # .rep_yes AND water_reported==yes AND soap_reported==yes
-  #   .soap_type_reported_is_no # soap_type_reported ∈ soap_type_reported_no (e.g. ash_mud_sand)
-  #
-  # Classification (order matters):
-  #   If .in_person_with_perm (OBSERVED):
-  #     1) .obs_no_fac                                 → "no_facility"
-  #     2) .obs_basic AND .soap_type_observed_is_no    → "limited"   # demote (type not real soap)
-  #     3) .obs_basic                                  → "basic"
-  #     4) .obs_has_fac AND NOT .obs_both_absent       → "limited"
-  #
-  #   Else if .reported_applicable (REPORTED):
-  #     1) .rep_undefined                              → "undefined"
-  #     2) .rep_basic AND .soap_type_reported_is_no    → "limited"   # demote (type not real soap)
-  #     3) .rep_basic                                  → "basic"
-  #     4) .rep_yes                                    → "limited"   # includes cases with NA water/soap
-  #     5) .rep_no                                     → "no_facility"
-  #
-  #   Else                                              → NA_character_
-  #
-  # Notes:
-  # - Soap *type* only ever demotes a would-be "basic" result to "limited", and only
-  #   on the active path (observed vs reported).
-  # - Reported path treats any not-both-YES (including NA) in water/soap as "limited".
-  # ------------------------------------------------------------------------------
-
-  #------ Symbol extraction (single source of truth for tidy-eval)
   survey_modality_sym <- rlang::sym(survey_modality)
   facility_sym <- rlang::sym(facility)
   facility_observed_water_sym <- rlang::sym(facility_observed_water)
@@ -264,7 +220,7 @@ add_handwashing_facility_cat <- function(
 
     # Observed helpers
     .obs_has_fac = (!!facility_sym %in% facility_yes),
-    .obs_no_fac = (!!facility_sym == facility_no),
+    .obs_no_fac = (!!facility_sym %in% facility_no),
     .obs_basic = .data[[".obs_has_fac"]] &
       (!!facility_observed_water_sym == facility_observed_water_yes) &
       (!!facility_observed_soap_sym == facility_observed_soap_yes),
@@ -282,7 +238,11 @@ add_handwashing_facility_cat <- function(
     .soap_type_observed_is_no = !!soap_type_observed_sym %in%
       soap_type_observed_no,
     .soap_type_reported_is_no = !!soap_type_reported_sym %in%
-      soap_type_reported_no
+      soap_type_reported_no,
+    .soap_type_observed_is_undefined = !!soap_type_observed_sym %in%
+      soap_type_observed_undefined,
+    .soap_type_reported_is_undefined = !!soap_type_reported_sym %in%
+      soap_type_reported_undefined
   ) |>
     dplyr::mutate(
       "{jmp_cat_column}" := dplyr::case_when(
@@ -293,18 +253,26 @@ add_handwashing_facility_cat <- function(
           .data[[".obs_basic"]] &
           .data[[".soap_type_observed_is_no"]] ~
           "limited",
+        .data[[".in_person_with_perm"]] &
+          .data[[".obs_basic"]] &
+          .data[[".soap_type_observed_is_undefined"]] ~
+          "limited",
         .data[[".in_person_with_perm"]] & .data[[".obs_basic"]] ~ "basic",
         .data[[".in_person_with_perm"]] &
           .data[[".obs_has_fac"]] &
           !.data[[".obs_both_absent"]] ~
           "limited",
-
+        .data[[".in_person_with_perm"]] & .data[[".obs_has_fac"]] ~ "limited",
         # REPORTED path (remote OR in-person without permission)
         .data[[".reported_applicable"]] & .data[[".rep_undefined"]] ~
           "undefined",
         .data[[".reported_applicable"]] &
           .data[[".rep_basic"]] &
           .data[[".soap_type_reported_is_no"]] ~
+          "limited",
+        .data[[".reported_applicable"]] &
+          .data[[".rep_basic"]] &
+          .data[[".soap_type_reported_is_undefined"]] ~
           "limited",
         .data[[".reported_applicable"]] & .data[[".rep_basic"]] ~ "basic",
         .data[[".reported_applicable"]] & .data[[".rep_yes"]] ~ "limited",
