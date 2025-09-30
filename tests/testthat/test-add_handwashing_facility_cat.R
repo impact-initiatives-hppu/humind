@@ -223,3 +223,12 @@ test_that("answer options in the 'no' vectors get treated as 'no'", {
     result_mutated$wash_handwashing_facility_jmp_cat
   )
 })
+
+test_that("outputs are within allowed set", {
+  out <- add_handwashing_facility_cat(
+    exhaustive_df
+  )$wash_handwashing_facility_jmp_cat
+  expect_true(all(
+    is.na(out) | out %in% c("basic", "limited", "no_facility", "undefined")
+  ))
+})
