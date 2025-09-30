@@ -68,7 +68,10 @@ test_df <- dplyr::tibble(
     "no",
     "yes",
     "dnk"
-  )
+  ),
+  # NEW: defaults keep prior expectations unchanged
+  wash_soap_observed_type = NA_character_,
+  wash_soap_reported_type = NA_character_
 )
 
 test_that("add_handwashing_facility_cat categorizes correctly", {
@@ -137,6 +140,8 @@ wash_soap_reported <- c(
   "dnk",
   NA
 )
+wash_soap_observed_type <- c(NA_character_)
+wash_soap_reported_type <- c(NA_character_)
 
 exhaustive_df <- tidyr::expand_grid(
   survey_modality,
@@ -145,7 +150,9 @@ exhaustive_df <- tidyr::expand_grid(
   wash_soap_observed,
   wash_handwashing_facility_reported,
   wash_handwashing_facility_water_reported,
-  wash_soap_reported
+  wash_soap_reported,
+  wash_soap_observed_type,
+  wash_soap_reported_type,
 )
 
 test_that("Response codes with multiple answer options do not affect the result when provided", {
@@ -196,7 +203,9 @@ test_that("answer options in the 'no' vectors get treated as 'no'", {
     wash_soap_observed,
     wash_handwashing_facility_reported,
     wash_handwashing_facility_water_reported,
-    wash_soap_reported
+    wash_soap_reported,
+    wash_soap_observed_type,
+    wash_soap_reported_type
   )
 
   result <- add_handwashing_facility_cat(
@@ -231,4 +240,96 @@ test_that("outputs are within allowed set", {
   expect_true(all(
     is.na(out) | out %in% c("basic", "limited", "no_facility", "undefined")
   ))
+})
+
+test_that("reported yes + NA water or soap returns 'limited'", {
+  df <- dplyr::tibble(
+    survey_modality = "remote",
+    wash_handwashing_facility = "available_fixed_or_mobile", # irrelevant on reported path
+    wash_handwashing_facility_observed_water = NA,
+    wash_soap_observed = NA,
+    wash_handwashing_facility_reported = "fixed_dwelling", # YES
+    wash_handwashing_facility_water_reported = c(NA, "yes", NA),
+    wash_soap_reported = c("yes", NA, NA),
+    wash_soap_observed_type = NA_character_,
+    wash_soap_reported_type = NA_character_
+  )
+
+  out <- add_handwashing_facility_cat(df)$wash_handwashing_facility_jmp_cat
+  # cases: (NA, yes) -> limited; (yes, NA) -> limited; (NA, NA) -> limited
+  expect_identical(out, c("limited", "limited", "limited"))
+})
+
+test_that("reported ash/mud/sand soap type demotes 'basic' to 'limited'", {
+  df <- dplyr::tibble(
+    survey_modality = "remote",
+    wash_handwashing_facility = "available_fixed_in_plot", # ignored on reported
+    wash_handwashing_facility_observed_water = NA,
+    wash_soap_observed = NA,
+    wash_handwashing_facility_reported = "mobile", # YES
+    wash_handwashing_facility_water_reported = "yes",
+    wash_soap_reported = "yes",
+    wash_soap_observed_type = NA_character_,
+    wash_soap_reported_type = c("soap", "detergent", "ash_mud_sand")
+  )
+
+  # default args already include:
+  #   soap_type_reported_yes = c("soap","detergent")
+  #   soap_type_reported_no  = c("ash_mud_sand")
+  out <- add_handwashing_facility_cat(df)$wash_handwashing_facility_jmp_cat
+  expect_identical(out, c("basic", "basic", "limited"))
+})
+
+test_that("observed ash/mud/sand soap type demotes 'basic' to 'limited'", {
+  df <- dplyr::tibble(
+    survey_modality = "in_person",
+    wash_handwashing_facility = "available_fixed_in_dwelling",
+    wash_handwashing_facility_observed_water = "water_available",
+    wash_soap_observed = "yes_soap_shown",
+    wash_handwashing_facility_reported = NA,
+    wash_handwashing_facility_water_reported = NA,
+    wash_soap_reported = NA,
+    wash_soap_observed_type = "ash_mud_sand",
+    wash_soap_reported_type = NA_character_
+  )
+
+  out <- add_handwashing_facility_cat(
+    df,
+    # allow the observed type column to carry "ash_mud_sand" as a known code
+    soap_type_observed_no = c("no", "ash_mud_sand")
+  )$wash_handwashing_facility_jmp_cat
+
+  expect_identical(out, "limited")
+})
+
+test_that("reported soap type does not affect observed path", {
+  df <- dplyr::tibble(
+    survey_modality = "in_person",
+    wash_handwashing_facility = "available_fixed_in_dwelling",
+    wash_handwashing_facility_observed_water = "water_available",
+    wash_soap_observed = "yes_soap_shown",
+    wash_handwashing_facility_reported = NA,
+    wash_handwashing_facility_water_reported = NA,
+    wash_soap_reported = NA,
+    wash_soap_observed_type = NA_character_,
+    wash_soap_reported_type = "ash_mud_sand" # should NOT leak into observed
+  )
+  out <- add_handwashing_facility_cat(df)$wash_handwashing_facility_jmp_cat
+  expect_identical(out, "basic")
+})
+
+test_that("observed soap type does not affect reported path", {
+  df <- dplyr::tibble(
+    survey_modality = "remote",
+    wash_handwashing_facility = "available_fixed_in_plot",
+    wash_handwashing_facility_observed_water = NA,
+    wash_soap_observed = NA,
+    wash_handwashing_facility_reported = "mobile",
+    wash_handwashing_facility_water_reported = "yes",
+    wash_soap_reported = "yes",
+    wash_soap_observed_type = "ash_mud_sand", # should NOT leak into reported
+    wash_soap_reported_type = "soap"
+  )
+  out <- add_handwashing_facility_cat(df)$wash_handwashing_facility_jmp_cat
+  expect_identical(out, "basic")
 })

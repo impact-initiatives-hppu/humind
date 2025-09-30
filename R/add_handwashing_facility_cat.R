@@ -31,6 +31,14 @@
 #' @param facility_reported_soap_yes Response code(s) indicating soap is available under no permission or remote conditions.
 #' @param facility_reported_soap_no Response code(s) indicating soap is not available under no permission or remote conditions.
 #' @param facility_reported_soap_undefined Response code(s) for undefined soap situations under no permission or remote conditions.
+#' @param soap_type_observed Column name for the type of soap (observed).
+#' @param soap_type_observed_yes Response code(s) indicating soap is observed
+#' @param soap_type_observed_no Response code(s) indicating soap is NOT observed
+#' @param soap_type_observed_undefined Response code(s) for undefined situations.
+#' @param soap_type_reported Column name for the type of soap (reported).
+#' @param soap_type_reported_yes Response code(s) indicating soap is available.
+#' @param soap_type_reported_no Response code(s) indicating soap is NOT available.
+#' @param soap_type_reported_undefined Response code(s) for undefined situations.
 #'
 #' @return A data frame with an additional column 'wash_handwashing_facility_jmp_cat': Categorized handwashing facilities: "Basic," "Limited," or "No Facility."
 #'
@@ -70,7 +78,15 @@ add_handwashing_facility_cat <- function(
   facility_reported_soap = "wash_soap_reported",
   facility_reported_soap_yes = "yes",
   facility_reported_soap_no = c("no"),
-  facility_reported_soap_undefined = c("dnk", "pnta")
+  facility_reported_soap_undefined = c("dnk", "pnta"),
+  soap_type_observed = "wash_soap_observed_type",
+  soap_type_observed_yes = c("soap", "detergent"),
+  soap_type_observed_no = c("ash_mud_sand"),
+  soap_type_observed_undefined = c("dnk", "pnta", "other"),
+  soap_type_reported = "wash_soap_reported_type",
+  soap_type_reported_yes = c("soap", "detergent"),
+  soap_type_reported_no = c("ash_mud_sand"),
+  soap_type_reported_undefined = c("dnk", "pnta", "other")
 ) {
   #------ Checks
 
@@ -84,7 +100,9 @@ add_handwashing_facility_cat <- function(
       facility_observed_soap,
       facility_reported,
       facility_reported_water,
-      facility_reported_soap
+      facility_reported_soap,
+      soap_type_observed,
+      soap_type_reported
     ),
     "df"
   )
@@ -138,6 +156,26 @@ add_handwashing_facility_cat <- function(
     )
   )
 
+  are_values_in_set(
+    df,
+    soap_type_observed,
+    c(
+      soap_type_observed_yes,
+      soap_type_observed_no,
+      soap_type_observed_undefined
+    )
+  )
+
+  are_values_in_set(
+    df,
+    soap_type_reported,
+    c(
+      soap_type_reported_yes,
+      soap_type_reported_no,
+      soap_type_reported_undefined
+    )
+  )
+
   # Check lengths
   if (length(facility_yes) < 1) {
     rlang::abort("facility_yes must contain at least one valid response code.")
@@ -153,55 +191,47 @@ add_handwashing_facility_cat <- function(
       "facility_undefined must contain at least one valid response code."
     )
   }
-
   # ------------------------------------------------------------------------------
-  # Handwashing JMP classification logic (observed vs reported)
+  # JMP handwashing classification — exact branch order used in case_when()
   #
-  # Overview
-  # - We first map user-supplied column names to symbols (*_sym) once (SSOT).
-  # - Then we compute boolean helper flags for:
-  #     * eligibility of the observed path (.in_person_with_perm)
-  #     * eligibility of the reported path (.reported_applicable)
-  #     * observed features (.obs_*)
-  #     * reported features (.rep_*)
-  # - Finally, a single case_when() assigns the category.
+  # Path selection flags (precomputed):
+  #   .in_person_with_perm      # in-person AND not "no_permission"
+  #   .reported_applicable      # NOT .in_person_with_perm (remote OR in-person w/o permission)
   #
-  # Helper flags (propositions)
-  #   .in_person_with_perm   := in-person modality AND NOT "no_permission"
-  #   .reported_applicable   := remote OR (in-person AND no-permission)
+  # Observed-path helpers:
+  #   .obs_has_fac              # facility ∈ facility_yes
+  #   .obs_no_fac               # facility == facility_no
+  #   .obs_basic                # .obs_has_fac AND observed_water==yes AND observed_soap==yes
+  #   .obs_both_absent          # observed_water ∈ water_no AND observed_soap ∈ soap_no
+  #   .soap_type_observed_is_no # soap_type_observed ∈ soap_type_observed_no (e.g. ash_mud_sand)
   #
-  #   Observed:
-  #     .obs_has_fac         := facility ∈ facility_yes
-  #     .obs_no_fac          := facility == facility_no
-  #     .obs_basic           := .obs_has_fac AND water==yes AND soap==yes
-  #     .obs_both_absent     := water ∈ water_no AND soap ∈ soap_no
+  # Reported-path helpers:
+  #   .rep_undefined            # reported_facility ∈ reported_undefined
+  #   .rep_yes                  # reported_facility ∈ reported_yes
+  #   .rep_no                   # reported_facility ∈ reported_no
+  #   .rep_basic                # .rep_yes AND water_reported==yes AND soap_reported==yes
+  #   .soap_type_reported_is_no # soap_type_reported ∈ soap_type_reported_no (e.g. ash_mud_sand)
   #
-  #   Reported:
-  #     .rep_undefined       := reported_facility ∈ reported_undefined
-  #     .rep_yes             := reported_facility ∈ reported_yes
-  #     .rep_no              := reported_facility ∈ reported_no
-  #     .rep_basic           := .rep_yes AND water==yes AND soap==yes
+  # Classification (order matters):
+  #   If .in_person_with_perm (OBSERVED):
+  #     1) .obs_no_fac                                 → "no_facility"
+  #     2) .obs_basic AND .soap_type_observed_is_no    → "limited"   # demote (type not real soap)
+  #     3) .obs_basic                                  → "basic"
+  #     4) .obs_has_fac AND NOT .obs_both_absent       → "limited"
   #
-  # Decision tree (text diagram)
+  #   Else if .reported_applicable (REPORTED):
+  #     1) .rep_undefined                              → "undefined"
+  #     2) .rep_basic AND .soap_type_reported_is_no    → "limited"   # demote (type not real soap)
+  #     3) .rep_basic                                  → "basic"
+  #     4) .rep_yes                                    → "limited"   # includes cases with NA water/soap
+  #     5) .rep_no                                     → "no_facility"
   #
-  #              +-- .in_person_with_perm? -- YES --> [OBSERVED]
-  #              |                                 ├─ .obs_no_fac        → "no_facility"
-  #   start -----+                                 ├─ .obs_basic         → "basic"
-  #              |                                 └─ .obs_has_fac AND NOT .obs_both_absent
-  #              |                                                          → "limited"
-  #              |
-  #              +-- NO ------------------------------> [REPORTED]
-  #                                                    ├─ .rep_undefined  → "undefined"
-  #                                                    ├─ .rep_basic      → "basic"
-  #                                                    ├─ .rep_yes        → "limited"
-  #                                                    └─ .rep_no         → "no_facility"
+  #   Else                                              → NA_character_
   #
-  # Default (no rule matched): NA_character_
-  #
-  # Notes
-  # - Observed path is used only when the enumerator was in-person AND had permission.
-  # - Reported path covers remote interviews OR in-person without permission.
-  # - Intermediate helpers are dropped before returning (see `cols` bookkeeping).
+  # Notes:
+  # - Soap *type* only ever demotes a would-be "basic" result to "limited", and only
+  #   on the active path (observed vs reported).
+  # - Reported path treats any not-both-YES (including NA) in water/soap as "limited".
   # ------------------------------------------------------------------------------
 
   #------ Symbol extraction (single source of truth for tidy-eval)
@@ -212,6 +242,8 @@ add_handwashing_facility_cat <- function(
   facility_reported_sym <- rlang::sym(facility_reported)
   facility_reported_water_sym <- rlang::sym(facility_reported_water)
   facility_reported_soap_sym <- rlang::sym(facility_reported_soap)
+  soap_type_observed_sym <- rlang::sym(soap_type_observed)
+  soap_type_reported_sym <- rlang::sym(soap_type_reported)
 
   # Preserving original columns to remove intermediate calculations later
   jmp_cat_column <- "wash_handwashing_facility_jmp_cat"
@@ -246,13 +278,21 @@ add_handwashing_facility_cat <- function(
     .rep_no = (!!facility_reported_sym %in% facility_reported_no),
     .rep_basic = .data[[".rep_yes"]] &
       (!!facility_reported_water_sym == facility_reported_water_yes) &
-      (!!facility_reported_soap_sym == facility_reported_soap_yes)
+      (!!facility_reported_soap_sym == facility_reported_soap_yes),
+    .soap_type_observed_is_no = !!soap_type_observed_sym %in%
+      soap_type_observed_no,
+    .soap_type_reported_is_no = !!soap_type_reported_sym %in%
+      soap_type_reported_no
   ) |>
     dplyr::mutate(
       "{jmp_cat_column}" := dplyr::case_when(
         # OBSERVED path (only for in-person WITH permission)
         .data[[".in_person_with_perm"]] & .data[[".obs_no_fac"]] ~
           "no_facility",
+        .data[[".in_person_with_perm"]] &
+          .data[[".obs_basic"]] &
+          .data[[".soap_type_observed_is_no"]] ~
+          "limited",
         .data[[".in_person_with_perm"]] & .data[[".obs_basic"]] ~ "basic",
         .data[[".in_person_with_perm"]] &
           .data[[".obs_has_fac"]] &
@@ -262,6 +302,10 @@ add_handwashing_facility_cat <- function(
         # REPORTED path (remote OR in-person without permission)
         .data[[".reported_applicable"]] & .data[[".rep_undefined"]] ~
           "undefined",
+        .data[[".reported_applicable"]] &
+          .data[[".rep_basic"]] &
+          .data[[".soap_type_reported_is_no"]] ~
+          "limited",
         .data[[".reported_applicable"]] & .data[[".rep_basic"]] ~ "basic",
         .data[[".reported_applicable"]] & .data[[".rep_yes"]] ~ "limited",
         .data[[".reported_applicable"]] & .data[[".rep_no"]] ~ "no_facility",
