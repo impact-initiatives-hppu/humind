@@ -90,70 +90,7 @@ test_that("add_handwashing_facility_cat categorizes correctly", {
 })
 
 
-survey_modality <- c(
-  "in_person",
-  "remote"
-)
-
-wash_handwashing_facility <- c(
-  "available_fixed_in_dwelling",
-  "available_fixed_in_plot",
-  "available_fixed_or_mobile",
-  "none",
-  "no_permission",
-  "other"
-)
-wash_handwashing_facility_observed_water <- c(
-  "water_available",
-  "water_not_available",
-  "water_available",
-  NA
-)
-
-wash_soap_observed <- c(
-  "yes_soap_shown",
-  "no",
-  NA
-)
-
-
-wash_handwashing_facility_reported <- c(
-  "fixed_dwelling",
-  "none",
-  "mobile",
-  "other",
-  NA
-)
-
-wash_handwashing_facility_water_reported <- c(
-  "yes",
-  "no",
-  "yes",
-  "dnk",
-  NA
-)
-
-wash_soap_reported <- c(
-  "yes",
-  "no",
-  "yes",
-  "dnk",
-  NA
-)
-wash_soap_observed_type <- c(NA_character_)
-wash_soap_reported_type <- c(NA_character_)
-
-exhaustive_df <- tidyr::expand_grid(
-  survey_modality,
-  wash_handwashing_facility,
-  wash_handwashing_facility_observed_water,
-  wash_soap_observed,
-  wash_handwashing_facility_reported,
-  wash_handwashing_facility_water_reported,
-  wash_soap_reported,
-  wash_soap_observed_type,
-  wash_soap_reported_type,
-)
+exhaustive_df <- generate_wash_df()
 
 test_that("Response codes with multiple answer options do not affect the result when provided", {
   result_scalar <- add_handwashing_facility_cat(
@@ -181,14 +118,62 @@ test_that("Response codes with multiple answer options do not affect the result 
 
 test_that("answer options in the 'no' vectors get treated as 'no'", {
   #TODO: expand this to all *_no arguments
+  #TODO: DRY this test with parametrized helper
   default_soap_no <- "no"
   soap_no <- c(default_soap_no, "mud")
+
+  survey_modality <- c(
+    "in_person",
+    "remote"
+  )
+
+  wash_handwashing_facility <- c(
+    "available_fixed_in_dwelling",
+    "available_fixed_in_plot",
+    "available_fixed_or_mobile",
+    "none",
+    "no_permission",
+    "other",
+    NA_character_ # Can be NA because of skip logic
+  )
+
+  wash_handwashing_facility_observed_water <- c(
+    "water_available",
+    "water_not_available",
+    "water_available",
+    NA
+  )
+
+  wash_handwashing_facility_reported <- c(
+    "fixed_dwelling",
+    "none",
+    "mobile",
+    "other",
+    NA
+  )
+
+  wash_handwashing_facility_water_reported <- c(
+    "yes",
+    "no",
+    "yes",
+    "dnk",
+    NA
+  )
+
+  wash_soap_observed_type <- c(
+    "soap",
+    "detergent",
+    "ash_mud_sand",
+    "other",
+    "dnk",
+    "pnta",
+    NA_character_ # Can be NA because of skip logic
+  )
   wash_soap_observed <- c(
     "yes_soap_shown",
     soap_no,
     NA
   )
-
   wash_soap_reported <- c(
     "yes",
     "yes",
@@ -196,6 +181,18 @@ test_that("answer options in the 'no' vectors get treated as 'no'", {
     "dnk",
     NA
   )
+
+  wash_soap_observed_type <- c(
+    "soap",
+    "detergent",
+    "ash_mud_sand",
+    "other",
+    "dnk",
+    "pnta",
+    NA_character_ # Can be NA because of skip logic
+  )
+
+  wash_soap_reported_type <- wash_soap_observed_type
   exhaustive_df <- tidyr::expand_grid(
     survey_modality,
     wash_handwashing_facility,
@@ -206,7 +203,8 @@ test_that("answer options in the 'no' vectors get treated as 'no'", {
     wash_soap_reported,
     wash_soap_observed_type,
     wash_soap_reported_type
-  )
+  ) |>
+    prune_wash_df()
 
   result <- add_handwashing_facility_cat(
     exhaustive_df,
@@ -332,4 +330,83 @@ test_that("observed soap type does not affect reported path", {
   )
   out <- add_handwashing_facility_cat(df)$wash_handwashing_facility_jmp_cat
   expect_identical(out, "basic")
+})
+
+
+test_that("when soap present but type is undefined the result is limited", {
+  subset_exhaustive_df <- exhaustive_df |>
+    dplyr::filter(
+      survey_modality == "in_person",
+      wash_handwashing_facility %in%
+        c("available_fixed_in_dwelling", "available_fixed_in_plot"),
+      wash_handwashing_facility_observed_water == "water_available",
+      wash_soap_observed == "yes_soap_shown",
+      wash_soap_observed_type == "dnk" # only undefined type
+    )
+
+  out <- add_handwashing_facility_cat(
+    subset_exhaustive_df
+  )$wash_handwashing_facility_jmp_cat
+  expect_true(all(out == "limited"))
+})
+
+
+test_that("undefined soap type with facility is limited not basic", {
+  test_df <- data.frame(
+    stringsAsFactors = FALSE,
+    survey_modality = c(
+      "in_person",
+      "in_person",
+      "in_person",
+      "in_person",
+      "in_person",
+      "in_person",
+      "in_person"
+    ),
+    wash_handwashing_facility = c(
+      "no_permission",
+      "no_permission",
+      "no_permission",
+      "no_permission",
+      "no_permission",
+      "no_permission",
+      "no_permission"
+    ),
+    wash_handwashing_facility_observed_water = c(NA, NA, NA, NA, NA, NA, NA),
+    wash_soap_observed = c(NA, NA, NA, NA, NA, NA, NA),
+    wash_handwashing_facility_reported = c(
+      "fixed_dwelling",
+      "fixed_dwelling",
+      "fixed_dwelling",
+      "fixed_dwelling",
+      "fixed_dwelling",
+      "fixed_dwelling",
+      "fixed_dwelling"
+    ),
+    wash_handwashing_facility_water_reported = c(
+      "yes",
+      "yes",
+      "yes",
+      "yes",
+      "yes",
+      "yes",
+      "no"
+    ),
+    wash_soap_reported = c("yes", "yes", "yes", "yes", "yes", "yes", "yes"),
+    wash_soap_observed_type = c(NA, NA, NA, NA, NA, NA, NA),
+    wash_soap_reported_type = c(
+      "other",
+      "dnk",
+      "pnta",
+      "other",
+      "dnk",
+      "pnta",
+      "other"
+    )
+  )
+
+  out <- add_handwashing_facility_cat(
+    test_df
+  )$wash_handwashing_facility_jmp_cat
+  expect_true(all(out == "limited"))
 })
