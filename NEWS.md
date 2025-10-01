@@ -1,3 +1,93 @@
+# humind (development version)
+
+# humind 2025.1.2
+
+This release introduces major terminology and logic changes across the MSNI framework, WASH, Protection, and Healthcare indicators. Several functions have new required parameters, altered defaults, or renamed outputs — **breaking changes are significant**.
+
+---
+
+## 📖 2025 Programmatic Changes
+
+* **Terminology Migration**  
+  All references to *acute need* are migrated to **severe need**, in line with 2025 guidance.  
+  - Function `is_in_acute_need()` is now **`is_in_severe_need()`**.  
+  - All composite outputs renamed from `*_in_acute_need` → **`*_in_severe_need`** across MSNI, WASH, Health, Food Security, SNFI, Education, and Protection.
+
+* **WASH (Handwashing Facilities)**  
+  - Expanded logic in `add_handwashing_facility_cat()` to incorporate **soap type** (qualifying vs non-qualifying).  
+  - Harmonized observed vs reported classification rules.  
+  - Stricter handling of NA values (reported “yes” with NA → now “limited”).  
+
+* **Healthcare**  
+  - `add_loop_healthcare_needed_cat()` improved to propagate NA correctly and issue explicit warnings.  
+
+* **Protection**  
+  - `add_prot_score_rights()` and `add_prot_score_practices()` reworked NA handling: DNK/PNTA now nullifies **sub-scores** rather than collapsing the entire composite.  
+  - Added diagnostics and warnings for transparency.  
+
+---
+
+## 🛠 Codebase Changes
+
+### 🚀 New Features
+* **WASH**:  
+  - Soap-type support in `add_handwashing_facility_cat()`.  
+  - Vectorized handling of “no” codes for water/soap inputs.  
+* **Protection**:  
+  - Warnings when sub-dimension scores are NA.  
+  - More robust NA handling in rights and practices composites.  
+* **Healthcare**:  
+  - Warning when `needed == yes` and `received == NA`.  
+
+---
+
+### 🔄 Enhancements
+* Harmonized observed/reported classification trees for handwashing facilities.  
+* Row-wise composite score computation for protection.  
+* More explicit documentation of function arguments and classification logic.  
+
+---
+
+### 🛠 Bug Fixes
+* Corrected misclassification in reported handwashing facilities where NA water/soap previously returned NA instead of “limited.”  
+* Fixed inconsistent handling of vector “no” codes in handwashing classification.  
+* Corrected logic in protection composites to avoid premature collapse to NA.  
+
+---
+
+### 🧪 Testing
+* Exhaustive test grids added for handwashing classification (soap-type handling, scalar vs vector inputs).  
+* Regression tests ensure new NA/warning behaviors in protection and healthcare are validated.  
+* Expanded unit tests for new “severe need” naming.  
+
+---
+
+### 📚 Documentation
+* Updated all function documentation to reflect “severe” terminology.  
+* Added detailed decision tree explanation for handwashing facility classification.  
+* Clarified parameter defaults for composite functions.  
+
+---
+
+### ⚠️ Breaking Changes
+
+* **Renames**
+  - `is_in_acute_need()` → **`is_in_severe_need()`**.  
+  - Output columns: all `*_in_acute_need` → **`*_in_severe_need`**.  
+
+* **WASH**
+  - `add_comp_wash()` default parameter for `drinking_water_quantity` now **`wash_hwise_drink`** (was `wash_drinking_water_quantity`).  
+  - `add_handwashing_facility_cat()` requires new **soap type** columns/args and accepts vectorized “no” codes.  
+  - Classification rules: soap type can **demote `basic` → `limited`**, and NA handling has changed.  
+
+* **Protection**
+  - DNK/PNTA handling refined: only sub-dimensions become NA; composites NA only if **both** subs are NA.  
+
+* **Healthcare**
+  - `add_loop_healthcare_needed_cat()` now returns NA with warnings when `needed == yes` and `received == NA`.  
+
+---
+
 # humind 2025.1.1
 
 This release introduces major updates across protection indicators, SNFI and

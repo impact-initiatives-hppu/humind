@@ -14,10 +14,10 @@
 #' @param facility_undefined Response code(s) for undefined situations.
 #' @param facility_observed_water Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water").
 #' @param facility_observed_water_yes Response code indicating water is available.
-#' @param facility_observed_water_no Response code indicating water is not available.
+#' @param facility_observed_water_no Response code(s) indicating water is not available.
 #' @param facility_observed_soap Column name for observed soap availability.
 #' @param facility_observed_soap_yes Response code indicating soap is available (observed).
-#' @param facility_observed_soap_no Response code indicating soap is not available (observed).
+#' @param facility_observed_soap_no Response code(s) indicating soap is not available (observed).
 #' @param facility_observed_soap_undefined Response code(s) for undefined observed soap situations.
 #' @param facility_reported Column name for reported handwashing facility (used in remote/no-permission cases).
 #' @param facility_reported_yes Response code(s) indicating facility is available (reported).
@@ -25,12 +25,20 @@
 #' @param facility_reported_undefined Response code(s) for undefined reported facility situations.
 #' @param facility_reported_water Column name for reported water availability under no permission or remote conditions.
 #' @param facility_reported_water_yes Response code(s) indicating water is available under no permission or remote conditions.
-#' @param facility_reported_water_no Response code indicating water is not available under no permission or remote conditions.
+#' @param facility_reported_water_no Response code(s) indicating water is not available under no permission or remote conditions.
 #' @param facility_reported_water_undefined Response code(s) for undefined water situations under no permission or remote conditions.
 #' @param facility_reported_soap Column name for reported soap availability under no permission or remote conditions.
 #' @param facility_reported_soap_yes Response code(s) indicating soap is available under no permission or remote conditions.
-#' @param facility_reported_soap_no Response code indicating soap is not available under no permission or remote conditions.
+#' @param facility_reported_soap_no Response code(s) indicating soap is not available under no permission or remote conditions.
 #' @param facility_reported_soap_undefined Response code(s) for undefined soap situations under no permission or remote conditions.
+#' @param soap_type_observed Column name for the type of soap (observed).
+#' @param soap_type_observed_yes Response code(s) indicating soap is observed
+#' @param soap_type_observed_no Response code(s) indicating soap is NOT observed
+#' @param soap_type_observed_undefined Response code(s) for undefined situations.
+#' @param soap_type_reported Column name for the type of soap (reported).
+#' @param soap_type_reported_yes Response code(s) indicating soap is available.
+#' @param soap_type_reported_no Response code(s) indicating soap is NOT available.
+#' @param soap_type_reported_undefined Response code(s) for undefined situations.
 #'
 #' @return A data frame with an additional column 'wash_handwashing_facility_jmp_cat': Categorized handwashing facilities: "Basic," "Limited," or "No Facility."
 #'
@@ -54,10 +62,10 @@ add_handwashing_facility_cat <- function(
   facility_undefined = c("other", "pnta"),
   facility_observed_water = "wash_handwashing_facility_observed_water",
   facility_observed_water_yes = "water_available",
-  facility_observed_water_no = "water_not_available",
+  facility_observed_water_no = c("water_not_available"),
   facility_observed_soap = "wash_soap_observed",
   facility_observed_soap_yes = "yes_soap_shown",
-  facility_observed_soap_no = "no",
+  facility_observed_soap_no = c("no"),
   facility_observed_soap_undefined = c("other", "pnta"),
   facility_reported = "wash_handwashing_facility_reported",
   facility_reported_yes = c("fixed_dwelling", "fixed_yard", "mobile"),
@@ -65,12 +73,20 @@ add_handwashing_facility_cat <- function(
   facility_reported_undefined = c("other", "dnk", "pnta"),
   facility_reported_water = "wash_handwashing_facility_water_reported",
   facility_reported_water_yes = "yes",
-  facility_reported_water_no = "no",
+  facility_reported_water_no = c("no"),
   facility_reported_water_undefined = c("dnk", "pnta"),
   facility_reported_soap = "wash_soap_reported",
   facility_reported_soap_yes = "yes",
-  facility_reported_soap_no = "no",
-  facility_reported_soap_undefined = c("dnk", "pnta")
+  facility_reported_soap_no = c("no"),
+  facility_reported_soap_undefined = c("dnk", "pnta"),
+  soap_type_observed = "wash_soap_observed_type",
+  soap_type_observed_yes = c("soap", "detergent"),
+  soap_type_observed_no = c("ash_mud_sand"),
+  soap_type_observed_undefined = c("dnk", "pnta", "other"),
+  soap_type_reported = "wash_soap_reported_type",
+  soap_type_reported_yes = c("soap", "detergent"),
+  soap_type_reported_no = c("ash_mud_sand"),
+  soap_type_reported_undefined = c("dnk", "pnta", "other")
 ) {
   #------ Checks
 
@@ -84,7 +100,9 @@ add_handwashing_facility_cat <- function(
       facility_observed_soap,
       facility_reported,
       facility_reported_water,
-      facility_reported_soap
+      facility_reported_soap,
+      soap_type_observed,
+      soap_type_reported
     ),
     "df"
   )
@@ -138,77 +156,132 @@ add_handwashing_facility_cat <- function(
     )
   )
 
+  are_values_in_set(
+    df,
+    soap_type_observed,
+    c(
+      soap_type_observed_yes,
+      soap_type_observed_no,
+      soap_type_observed_undefined
+    )
+  )
+
+  are_values_in_set(
+    df,
+    soap_type_reported,
+    c(
+      soap_type_reported_yes,
+      soap_type_reported_no,
+      soap_type_reported_undefined
+    )
+  )
+
   # Check lengths
-  # - length of facility_yes
   if (length(facility_yes) < 1) {
     rlang::abort("facility_yes must contain at least one valid response code.")
   }
-  # - length of facility_no
   if (length(facility_no) != 1) {
     rlang::abort("facility_no should be of length 1.")
   }
-  # - length of facility_no_permission
   if (length(facility_no_permission) != 1) {
     rlang::abort("facility_no_permission should be of length 1.")
   }
-  # - length of facility_undefined
   if (length(facility_undefined) < 1) {
     rlang::abort(
       "facility_undefined must contain at least one valid response code."
     )
   }
+  survey_modality_sym <- rlang::sym(survey_modality)
+  facility_sym <- rlang::sym(facility)
+  facility_observed_water_sym <- rlang::sym(facility_observed_water)
+  facility_observed_soap_sym <- rlang::sym(facility_observed_soap)
+  facility_reported_sym <- rlang::sym(facility_reported)
+  facility_reported_water_sym <- rlang::sym(facility_reported_water)
+  facility_reported_soap_sym <- rlang::sym(facility_reported_soap)
+  soap_type_observed_sym <- rlang::sym(soap_type_observed)
+  soap_type_reported_sym <- rlang::sym(soap_type_reported)
+
+  # Preserving original columns to remove intermediate calculations later
+  jmp_cat_column <- "wash_handwashing_facility_jmp_cat"
+  cols <- c(names(df), jmp_cat_column)
 
   df <- dplyr::mutate(
     df,
-    wash_handwashing_facility_jmp_cat = dplyr::case_when(
-      # Option 1: In-person modality with permission
-      !!rlang::sym(survey_modality) %in% survey_modality_in_person &
-        !(!!rlang::sym(facility) %in% facility_no_permission) ~
-        dplyr::case_when(
-          # Undefined
-          !!rlang::sym(facility) %in% facility_undefined ~ "undefined",
-          # No facility, then "no_facility"
-          !!rlang::sym(facility) == facility_no ~ "no_facility",
-          # Yes facility + Soap and water are available, then "basic"
-          !!rlang::sym(facility) %in% facility_yes &
-            !!rlang::sym(facility_observed_water) ==
-              facility_observed_water_yes &
-            !!rlang::sym(facility_observed_soap) == facility_observed_soap_yes ~
-            "basic",
-          # Yes facility + Soap or water is not available, then "limited"
-          !!rlang::sym(facility) %in% facility_yes &
-            (!!rlang::sym(facility_observed_water) ==
-              facility_observed_water_no |
-              !!rlang::sym(facility_observed_soap) ==
-                facility_observed_soap_no) ~
-            "limited",
-          TRUE ~ NA_character_
-        ),
-      # Option 2: Remote modality or  with no permission
-      !!rlang::sym(survey_modality) %in% survey_modality_remote |
-        !!rlang::sym(facility) %in% facility_no_permission ~
-        dplyr::case_when(
-          # facility reported is undefined, then "undefined"
-          !!rlang::sym(facility_reported) %in% facility_reported_undefined ~
-            "undefined",
-          # No facility + Soap and water are available, then "basic"
-          !!rlang::sym(facility_reported) %in% facility_reported_yes &
-            !!rlang::sym(facility_reported_water) ==
-              facility_reported_water_yes &
-            !!rlang::sym(facility_reported_soap) == facility_reported_soap_yes ~
-            "basic",
-          # No facility + Soap or water is not available, then "limited"
-          !!rlang::sym(facility_reported) %in% facility_reported_no &
-            (!!rlang::sym(facility_reported_water) ==
-              facility_reported_water_no |
-              !!rlang::sym(facility_reported_soap) ==
-                facility_reported_soap_no) ~
-            "limited",
-          TRUE ~ NA_character_
-        ),
-      TRUE ~ NA_character_
-    )
-  )
+    # Observed allowed only if in-person AND permission
+    .in_person_with_perm = (!!survey_modality_sym %in%
+      survey_modality_in_person) &
+      !(!!facility_sym %in% facility_no_permission),
 
-  return(df)
+    # Reported applies if remote OR (in-person BUT no permission)
+    .reported_applicable = !(!!survey_modality_sym %in%
+      survey_modality_in_person) |
+      ((!!survey_modality_sym %in% survey_modality_in_person) &
+        (!!facility_sym %in% facility_no_permission)),
+
+    # Observed helpers
+    .obs_has_fac = (!!facility_sym %in% facility_yes),
+    .obs_no_fac = (!!facility_sym %in% facility_no),
+    .obs_basic = .data[[".obs_has_fac"]] &
+      (!!facility_observed_water_sym == facility_observed_water_yes) &
+      (!!facility_observed_soap_sym == facility_observed_soap_yes),
+    .obs_both_absent = (!!facility_observed_water_sym %in%
+      facility_observed_water_no) &
+      (!!facility_observed_soap_sym %in% facility_observed_soap_no),
+
+    # Reported helpers
+    .rep_undefined = (!!facility_reported_sym %in% facility_reported_undefined),
+    .rep_yes = (!!facility_reported_sym %in% facility_reported_yes),
+    .rep_no = (!!facility_reported_sym %in% facility_reported_no),
+    .rep_basic = .data[[".rep_yes"]] &
+      (!!facility_reported_water_sym == facility_reported_water_yes) &
+      (!!facility_reported_soap_sym == facility_reported_soap_yes),
+    .soap_type_observed_is_no = !!soap_type_observed_sym %in%
+      soap_type_observed_no,
+    .soap_type_reported_is_no = !!soap_type_reported_sym %in%
+      soap_type_reported_no,
+    .soap_type_observed_is_undefined = !!soap_type_observed_sym %in%
+      soap_type_observed_undefined,
+    .soap_type_reported_is_undefined = !!soap_type_reported_sym %in%
+      soap_type_reported_undefined
+  ) |>
+    dplyr::mutate(
+      "{jmp_cat_column}" := dplyr::case_when(
+        # OBSERVED path (only for in-person WITH permission)
+        .data[[".in_person_with_perm"]] & .data[[".obs_no_fac"]] ~
+          "no_facility",
+        .data[[".in_person_with_perm"]] &
+          .data[[".obs_basic"]] &
+          .data[[".soap_type_observed_is_no"]] ~
+          "limited",
+        .data[[".in_person_with_perm"]] &
+          .data[[".obs_basic"]] &
+          .data[[".soap_type_observed_is_undefined"]] ~
+          "limited",
+        .data[[".in_person_with_perm"]] & .data[[".obs_basic"]] ~ "basic",
+        .data[[".in_person_with_perm"]] &
+          .data[[".obs_has_fac"]] &
+          !.data[[".obs_both_absent"]] ~
+          "limited",
+        .data[[".in_person_with_perm"]] & .data[[".obs_has_fac"]] ~ "limited",
+        # REPORTED path (remote OR in-person without permission)
+        .data[[".reported_applicable"]] & .data[[".rep_undefined"]] ~
+          "undefined",
+        .data[[".reported_applicable"]] &
+          .data[[".rep_basic"]] &
+          .data[[".soap_type_reported_is_no"]] ~
+          "limited",
+        .data[[".reported_applicable"]] &
+          .data[[".rep_basic"]] &
+          .data[[".soap_type_reported_is_undefined"]] ~
+          "limited",
+        .data[[".reported_applicable"]] & .data[[".rep_basic"]] ~ "basic",
+        .data[[".reported_applicable"]] & .data[[".rep_yes"]] ~ "limited",
+        .data[[".reported_applicable"]] & .data[[".rep_no"]] ~ "no_facility",
+
+        TRUE ~ NA_character_
+      )
+    ) |>
+    dplyr::select(dplyr::all_of(cols))
+
+  df
 }

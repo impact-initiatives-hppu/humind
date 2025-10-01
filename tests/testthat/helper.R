@@ -33,7 +33,7 @@ generate_survey_choice_combinations <- function(
     dplyr::filter(tot >= min_choices, tot <= max_choices)
 
   # 5. Enforce stand‑alone constraints
-  sa_cols <- stringr::str_glue("{question_name}/{stand_alone_opts}")
+  sa_cols <- stringr::str_glue("{question_name}{sep}{stand_alone_opts}")
 
   for (col in sa_cols) {
     df <- df |>
