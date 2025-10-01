@@ -9,7 +9,7 @@ This function performs only Step 4 of the 2025 Protection Composite workflow: it
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@ This function performs only Step 4 of the 2025 Protection Composite workflow: it
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Add overall Protection composite score and need flags</h1>
-      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/v2025.1.1/R/add_comp_prot.R" class="external-link"><code>R/add_comp_prot.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/main/R/add_comp_prot.R" class="external-link"><code>R/add_comp_prot.R</code></a></small>
       <div class="d-none name"><code>add_comp_prot.Rd</code></div>
     </div>
 
@@ -59,14 +59,14 @@ This function performs only <strong>Step 4</strong> of the 2025 Protection Compo
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>The input <code>df</code>, with three new columns:</p><ul><li><p><code>comp_prot_score</code> – overall protection severity (maximum of the three dimensions)</p></li>
 <li><p><code>comp_prot_in_need</code> – binary (0/1): 1 if <code>comp_prot_score &gt;= 3</code>, else 0</p></li>
-<li><p><code>comp_prot_in_acute_need</code> – binary (0/1): 1 if <code>comp_prot_score &gt;= 4</code>, else 0</p></li>
+<li><p><code>comp_prot_in_severe_need</code> – binary (0/1): 1 if <code>comp_prot_score &gt;= 4</code>, else 0</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
 
 <ul><li><p><strong>Column checks</strong> via <code><a href="https://purrr.tidyverse.org/reference/imap.html" class="external-link">purrr::iwalk()</a></code> ensure the three dimension scores exist.</p></li>
 <li><p><strong>Computation</strong> uses <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax()</a></code> (with <code>na.rm = FALSE</code>)</p></li>
-<li><p><strong>Thresholds</strong> (3 for “in need”, 4 for “acute need”) are currently hard‑coded.</p></li>
+<li><p><strong>Thresholds</strong> (3 for “in need”, 4 for “severe need”) are currently hard‑coded.</p></li>
 </ul></div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

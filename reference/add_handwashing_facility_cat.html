@@ -9,7 +9,7 @@ It evaluates various parameters related to the availability of handwashing facil
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@ It evaluates various parameters related to the availability of handwashing facil
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Add Handwashing Facility Category</h1>
-      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/v2025.1.1/R/add_handwashing_facility_cat.R" class="external-link"><code>R/add_handwashing_facility_cat.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/main/R/add_handwashing_facility_cat.R" class="external-link"><code>R/add_handwashing_facility_cat.R</code></a></small>
       <div class="d-none name"><code>add_handwashing_facility_cat.Rd</code></div>
     </div>
 
@@ -54,10 +54,10 @@ It evaluates various parameters related to the availability of handwashing facil
 <span>  facility_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other"</span>, <span class="st">"pnta"</span><span class="op">)</span>,</span>
 <span>  facility_observed_water <span class="op">=</span> <span class="st">"wash_handwashing_facility_observed_water"</span>,</span>
 <span>  facility_observed_water_yes <span class="op">=</span> <span class="st">"water_available"</span>,</span>
-<span>  facility_observed_water_no <span class="op">=</span> <span class="st">"water_not_available"</span>,</span>
+<span>  facility_observed_water_no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"water_not_available"</span><span class="op">)</span>,</span>
 <span>  facility_observed_soap <span class="op">=</span> <span class="st">"wash_soap_observed"</span>,</span>
 <span>  facility_observed_soap_yes <span class="op">=</span> <span class="st">"yes_soap_shown"</span>,</span>
-<span>  facility_observed_soap_no <span class="op">=</span> <span class="st">"no"</span>,</span>
+<span>  facility_observed_soap_no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span><span class="op">)</span>,</span>
 <span>  facility_observed_soap_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other"</span>, <span class="st">"pnta"</span><span class="op">)</span>,</span>
 <span>  facility_reported <span class="op">=</span> <span class="st">"wash_handwashing_facility_reported"</span>,</span>
 <span>  facility_reported_yes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fixed_dwelling"</span>, <span class="st">"fixed_yard"</span>, <span class="st">"mobile"</span><span class="op">)</span>,</span>
@@ -65,12 +65,20 @@ It evaluates various parameters related to the availability of handwashing facil
 <span>  facility_reported_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other"</span>, <span class="st">"dnk"</span>, <span class="st">"pnta"</span><span class="op">)</span>,</span>
 <span>  facility_reported_water <span class="op">=</span> <span class="st">"wash_handwashing_facility_water_reported"</span>,</span>
 <span>  facility_reported_water_yes <span class="op">=</span> <span class="st">"yes"</span>,</span>
-<span>  facility_reported_water_no <span class="op">=</span> <span class="st">"no"</span>,</span>
+<span>  facility_reported_water_no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span><span class="op">)</span>,</span>
 <span>  facility_reported_water_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dnk"</span>, <span class="st">"pnta"</span><span class="op">)</span>,</span>
 <span>  facility_reported_soap <span class="op">=</span> <span class="st">"wash_soap_reported"</span>,</span>
 <span>  facility_reported_soap_yes <span class="op">=</span> <span class="st">"yes"</span>,</span>
-<span>  facility_reported_soap_no <span class="op">=</span> <span class="st">"no"</span>,</span>
-<span>  facility_reported_soap_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dnk"</span>, <span class="st">"pnta"</span><span class="op">)</span></span>
+<span>  facility_reported_soap_no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span><span class="op">)</span>,</span>
+<span>  facility_reported_soap_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dnk"</span>, <span class="st">"pnta"</span><span class="op">)</span>,</span>
+<span>  soap_type_observed <span class="op">=</span> <span class="st">"wash_soap_observed_type"</span>,</span>
+<span>  soap_type_observed_yes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"soap"</span>, <span class="st">"detergent"</span><span class="op">)</span>,</span>
+<span>  soap_type_observed_no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ash_mud_sand"</span><span class="op">)</span>,</span>
+<span>  soap_type_observed_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dnk"</span>, <span class="st">"pnta"</span>, <span class="st">"other"</span><span class="op">)</span>,</span>
+<span>  soap_type_reported <span class="op">=</span> <span class="st">"wash_soap_reported_type"</span>,</span>
+<span>  soap_type_reported_yes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"soap"</span>, <span class="st">"detergent"</span><span class="op">)</span>,</span>
+<span>  soap_type_reported_no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ash_mud_sand"</span><span class="op">)</span>,</span>
+<span>  soap_type_reported_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dnk"</span>, <span class="st">"pnta"</span>, <span class="st">"other"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -123,7 +131,7 @@ It evaluates various parameters related to the availability of handwashing facil
 
 
 <dt id="arg-facility-observed-water-no">facility_observed_water_no<a class="anchor" aria-label="anchor" href="#arg-facility-observed-water-no"></a></dt>
-<dd><p>Response code indicating water is not available.</p></dd>
+<dd><p>Response code(s) indicating water is not available.</p></dd>
 
 
 <dt id="arg-facility-observed-soap">facility_observed_soap<a class="anchor" aria-label="anchor" href="#arg-facility-observed-soap"></a></dt>
@@ -135,7 +143,7 @@ It evaluates various parameters related to the availability of handwashing facil
 
 
 <dt id="arg-facility-observed-soap-no">facility_observed_soap_no<a class="anchor" aria-label="anchor" href="#arg-facility-observed-soap-no"></a></dt>
-<dd><p>Response code indicating soap is not available (observed).</p></dd>
+<dd><p>Response code(s) indicating soap is not available (observed).</p></dd>
 
 
 <dt id="arg-facility-observed-soap-undefined">facility_observed_soap_undefined<a class="anchor" aria-label="anchor" href="#arg-facility-observed-soap-undefined"></a></dt>
@@ -167,7 +175,7 @@ It evaluates various parameters related to the availability of handwashing facil
 
 
 <dt id="arg-facility-reported-water-no">facility_reported_water_no<a class="anchor" aria-label="anchor" href="#arg-facility-reported-water-no"></a></dt>
-<dd><p>Response code indicating water is not available under no permission or remote conditions.</p></dd>
+<dd><p>Response code(s) indicating water is not available under no permission or remote conditions.</p></dd>
 
 
 <dt id="arg-facility-reported-water-undefined">facility_reported_water_undefined<a class="anchor" aria-label="anchor" href="#arg-facility-reported-water-undefined"></a></dt>
@@ -183,11 +191,43 @@ It evaluates various parameters related to the availability of handwashing facil
 
 
 <dt id="arg-facility-reported-soap-no">facility_reported_soap_no<a class="anchor" aria-label="anchor" href="#arg-facility-reported-soap-no"></a></dt>
-<dd><p>Response code indicating soap is not available under no permission or remote conditions.</p></dd>
+<dd><p>Response code(s) indicating soap is not available under no permission or remote conditions.</p></dd>
 
 
 <dt id="arg-facility-reported-soap-undefined">facility_reported_soap_undefined<a class="anchor" aria-label="anchor" href="#arg-facility-reported-soap-undefined"></a></dt>
 <dd><p>Response code(s) for undefined soap situations under no permission or remote conditions.</p></dd>
+
+
+<dt id="arg-soap-type-observed">soap_type_observed<a class="anchor" aria-label="anchor" href="#arg-soap-type-observed"></a></dt>
+<dd><p>Column name for the type of soap (observed).</p></dd>
+
+
+<dt id="arg-soap-type-observed-yes">soap_type_observed_yes<a class="anchor" aria-label="anchor" href="#arg-soap-type-observed-yes"></a></dt>
+<dd><p>Response code(s) indicating soap is observed</p></dd>
+
+
+<dt id="arg-soap-type-observed-no">soap_type_observed_no<a class="anchor" aria-label="anchor" href="#arg-soap-type-observed-no"></a></dt>
+<dd><p>Response code(s) indicating soap is NOT observed</p></dd>
+
+
+<dt id="arg-soap-type-observed-undefined">soap_type_observed_undefined<a class="anchor" aria-label="anchor" href="#arg-soap-type-observed-undefined"></a></dt>
+<dd><p>Response code(s) for undefined situations.</p></dd>
+
+
+<dt id="arg-soap-type-reported">soap_type_reported<a class="anchor" aria-label="anchor" href="#arg-soap-type-reported"></a></dt>
+<dd><p>Column name for the type of soap (reported).</p></dd>
+
+
+<dt id="arg-soap-type-reported-yes">soap_type_reported_yes<a class="anchor" aria-label="anchor" href="#arg-soap-type-reported-yes"></a></dt>
+<dd><p>Response code(s) indicating soap is available.</p></dd>
+
+
+<dt id="arg-soap-type-reported-no">soap_type_reported_no<a class="anchor" aria-label="anchor" href="#arg-soap-type-reported-no"></a></dt>
+<dd><p>Response code(s) indicating soap is NOT available.</p></dd>
+
+
+<dt id="arg-soap-type-reported-undefined">soap_type_reported_undefined<a class="anchor" aria-label="anchor" href="#arg-soap-type-reported-undefined"></a></dt>
+<dd><p>Response code(s) for undefined situations.</p></dd>
 
 </dl></div>
     <div class="section level2">

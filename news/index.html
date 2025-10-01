@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,9 +28,112 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/v2025.1.1/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="humind-development-version">humind (development version)<a class="anchor" aria-label="anchor" href="#humind-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2025.1.2" id="humind-202512">humind 2025.1.2<a class="anchor" aria-label="anchor" href="#humind-202512"></a></h2>
+<p>This release introduces major terminology and logic changes across the MSNI framework, WASH, Protection, and Healthcare indicators. Several functions have new required parameters, altered defaults, or renamed outputs — <strong>breaking changes are significant</strong>.</p>
+<hr><div class="section level3">
+<h3 id="id_-programmatic-changes-2025-1-2">📖 2025 Programmatic Changes<a class="anchor" aria-label="anchor" href="#id_-programmatic-changes-2025-1-2"></a></h3>
+<ul><li>
+<strong>Terminology Migration</strong><br>
+All references to <em>acute need</em> are migrated to <strong>severe need</strong>, in line with 2025 guidance.
+<ul><li>Function <code>is_in_acute_need()</code> is now <strong><code><a href="../reference/is_in_need.html">is_in_severe_need()</a></code></strong>.<br></li>
+<li>All composite outputs renamed from <code>*_in_acute_need</code> → <strong><code>*_in_severe_need</code></strong> across MSNI, WASH, Health, Food Security, SNFI, Education, and Protection.</li>
+</ul></li>
+<li>
+<strong>WASH (Handwashing Facilities)</strong>
+<ul><li>Expanded logic in <code><a href="../reference/add_handwashing_facility_cat.html">add_handwashing_facility_cat()</a></code> to incorporate <strong>soap type</strong> (qualifying vs non-qualifying).<br></li>
+<li>Harmonized observed vs reported classification rules.<br></li>
+<li>Stricter handling of NA values (reported “yes” with NA → now “limited”).</li>
+</ul></li>
+<li>
+<strong>Healthcare</strong>
+<ul><li>
+<code><a href="../reference/add_loop_healthcare_needed_cat.html">add_loop_healthcare_needed_cat()</a></code> improved to propagate NA correctly and issue explicit warnings.</li>
+</ul></li>
+<li>
+<strong>Protection</strong>
+<ul><li>
+<code><a href="../reference/add_prot_score_rights.html">add_prot_score_rights()</a></code> and <code><a href="../reference/add_prot_score_practices.html">add_prot_score_practices()</a></code> reworked NA handling: DNK/PNTA now nullifies <strong>sub-scores</strong> rather than collapsing the entire composite.<br></li>
+<li>Added diagnostics and warnings for transparency.</li>
+</ul></li>
+</ul><hr></div>
+<div class="section level3">
+<h3 id="id_-codebase-changes-2025-1-2">🛠 Codebase Changes<a class="anchor" aria-label="anchor" href="#id_-codebase-changes-2025-1-2"></a></h3>
+<div class="section level4">
+<h4 id="id_-new-features-2025-1-2">🚀 New Features<a class="anchor" aria-label="anchor" href="#id_-new-features-2025-1-2"></a></h4>
+<ul><li>
+<strong>WASH</strong>:
+<ul><li>Soap-type support in <code><a href="../reference/add_handwashing_facility_cat.html">add_handwashing_facility_cat()</a></code>.<br></li>
+<li>Vectorized handling of “no” codes for water/soap inputs.<br></li>
+</ul></li>
+<li>
+<strong>Protection</strong>:
+<ul><li>Warnings when sub-dimension scores are NA.<br></li>
+<li>More robust NA handling in rights and practices composites.<br></li>
+</ul></li>
+<li>
+<strong>Healthcare</strong>:
+<ul><li>Warning when <code>needed == yes</code> and <code>received == NA</code>.</li>
+</ul></li>
+</ul><hr></div>
+<div class="section level4">
+<h4 id="id_-enhancements-2025-1-2">🔄 Enhancements<a class="anchor" aria-label="anchor" href="#id_-enhancements-2025-1-2"></a></h4>
+<ul><li>Harmonized observed/reported classification trees for handwashing facilities.<br></li>
+<li>Row-wise composite score computation for protection.<br></li>
+<li>More explicit documentation of function arguments and classification logic.</li>
+</ul><hr></div>
+<div class="section level4">
+<h4 id="id_-bug-fixes-2025-1-2">🛠 Bug Fixes<a class="anchor" aria-label="anchor" href="#id_-bug-fixes-2025-1-2"></a></h4>
+<ul><li>Corrected misclassification in reported handwashing facilities where NA water/soap previously returned NA instead of “limited.”<br></li>
+<li>Fixed inconsistent handling of vector “no” codes in handwashing classification.<br></li>
+<li>Corrected logic in protection composites to avoid premature collapse to NA.</li>
+</ul><hr></div>
+<div class="section level4">
+<h4 id="id_-testing-2025-1-2">🧪 Testing<a class="anchor" aria-label="anchor" href="#id_-testing-2025-1-2"></a></h4>
+<ul><li>Exhaustive test grids added for handwashing classification (soap-type handling, scalar vs vector inputs).<br></li>
+<li>Regression tests ensure new NA/warning behaviors in protection and healthcare are validated.<br></li>
+<li>Expanded unit tests for new “severe need” naming.</li>
+</ul><hr></div>
+<div class="section level4">
+<h4 id="id_-documentation-2025-1-2">📚 Documentation<a class="anchor" aria-label="anchor" href="#id_-documentation-2025-1-2"></a></h4>
+<ul><li>Updated all function documentation to reflect “severe” terminology.<br></li>
+<li>Added detailed decision tree explanation for handwashing facility classification.<br></li>
+<li>Clarified parameter defaults for composite functions.</li>
+</ul><hr></div>
+<div class="section level4">
+<h4 id="id_️-breaking-changes-2025-1-2">⚠️ Breaking Changes<a class="anchor" aria-label="anchor" href="#id_%EF%B8%8F-breaking-changes-2025-1-2"></a></h4>
+<ul><li>
+<strong>Renames</strong>
+<ul><li>
+<code>is_in_acute_need()</code> → <strong><code><a href="../reference/is_in_need.html">is_in_severe_need()</a></code></strong>.<br></li>
+<li>Output columns: all <code>*_in_acute_need</code> → <strong><code>*_in_severe_need</code></strong>.</li>
+</ul></li>
+<li>
+<strong>WASH</strong>
+<ul><li>
+<code><a href="../reference/add_comp_wash.html">add_comp_wash()</a></code> default parameter for <code>drinking_water_quantity</code> now <strong><code>wash_hwise_drink</code></strong> (was <code>wash_drinking_water_quantity</code>).<br></li>
+<li>
+<code><a href="../reference/add_handwashing_facility_cat.html">add_handwashing_facility_cat()</a></code> requires new <strong>soap type</strong> columns/args and accepts vectorized “no” codes.<br></li>
+<li>Classification rules: soap type can <strong>demote <code>basic</code> → <code>limited</code></strong>, and NA handling has changed.</li>
+</ul></li>
+<li>
+<strong>Protection</strong>
+<ul><li>DNK/PNTA handling refined: only sub-dimensions become NA; composites NA only if <strong>both</strong> subs are NA.</li>
+</ul></li>
+<li>
+<strong>Healthcare</strong>
+<ul><li>
+<code><a href="../reference/add_loop_healthcare_needed_cat.html">add_loop_healthcare_needed_cat()</a></code> now returns NA with warnings when <code>needed == yes</code> and <code>received == NA</code>.</li>
+</ul></li>
+</ul><hr></div>
+</div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2025.1.1" id="humind-202511">humind 2025.1.1<a class="anchor" aria-label="anchor" href="#humind-202511"></a></h2>
 <p>This release introduces major updates across protection indicators, SNFI and shelter categorization, expenditure scoring, testing framework improvements, dependency management, and documentation. Deprecated WGQ components are fully removed.</p>
