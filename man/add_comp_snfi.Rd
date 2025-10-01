@@ -110,13 +110,13 @@ A data frame with added columns:
 \item comp_snfi_score_fds_cannot_cat Score based on FDS
 \item comp_snfi_score: Overall SNFI composite score
 \item comp_snfi_in_need: Indicator for being in need
-\item comp_snfi_in_acute_need: Indicator for being in acute need
+\item comp_snfi_in_severe_need: Indicator for being in severe need
 }
 }
 \description{
 This function calculates the Shelter, NFI and HLP (SNFI) sectoral composite score
 based on shelter type, shelter issues, occupancy status, and functional disability
-scale (FDS) indicators. It also determines if a household is in need or in acute need
+scale (FDS) indicators. It also determines if a household is in need or in severe need
 based on the calculated score.
 
 Prerequisite functions:

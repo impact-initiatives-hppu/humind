@@ -1,10 +1,10 @@
 #' @title Add Dummy Variable for 'In Need' Status
 #'
-#' @description This set of functions adds new binary variables indicating if a score is above certain thresholds. [is_in_need()] adds a variable for scores above 3 (indicating "in need"), while [is_in_acute_need()] adds a variable for scores above 4 (indicating "in acute need").
+#' @description This set of functions adds new binary variables indicating if a score is above certain thresholds. [is_in_need()] adds a variable for scores above 3 (indicating "in need"), while [is_in_severe_need()] adds a variable for scores above 4 (indicating "in severe need").
 #'
 #' @param df A dataframe containing the score variable.
 #' @param score The variable containing the score on a 1-5 scale.
-#' @param new_colname The name of the new column. If NULL, the function will create a new column with the name 'score_in_need' or 'score_in_acute_need'.
+#' @param new_colname The name of the new column. If NULL, the function will create a new column with the name 'score_in_need' or 'score_in_severe_need'.
 #'
 #' @return A dataframe with an additional column:
 #'
@@ -54,7 +54,7 @@ is_in_need <- function(
 #' @rdname is_in_need
 #'
 #' @export
-is_in_acute_need <- function(
+is_in_severe_need <- function(
   df,
   score,
   new_colname = NULL
@@ -69,7 +69,7 @@ is_in_acute_need <- function(
 
   # Create new column name
   if (is.null(new_colname)) {
-    new_colname <- paste0(score, "_in_acute_need")
+    new_colname <- paste0(score, "_in_severe_need")
   }
 
   # Check if newcolname exists in the dataframe, if yes throw a warning for replacement
@@ -80,7 +80,7 @@ is_in_acute_need <- function(
     ))
   }
 
-  #------ Create new variable, acute need is defined as score 4 or 5.
+  #------ Create new variable, severe need is defined as score 4 or 5.
 
   df <- dplyr::mutate(
     df,
