@@ -175,7 +175,7 @@ When installing the package from GitHub using
 `devtools::install_github()`, you may encounter:
 
 ``` r
-> devtools::install_github("impact-initiatives-hppu/humind@v2025.2.0")
+> devtools::install_github("impact-initiatives-hppu/humind@v2025.1.2")
 ...
 Error : Failed to install 'unknown package' from GitHub:
   HTTP error 401.
