@@ -14,30 +14,28 @@ status](https://www.r-pkg.org/badges/version/humind)](https://CRAN.R-project.org
 coverage](https://codecov.io/gh/impact-initiatives-hppu/humind/branch/main/graph/badge.svg)](https://app.codecov.io/gh/impact-initiatives-hppu/humind?branch=main)
 <!-- badges: end -->
 
-`humind` provides functions to compose usual humanitarian composite
-indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs).
-Such as:
+`humind` provides functions to compose common humanitarian composite
+indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs),
+including:
 
-- Specific indicators related to the MSNI framework: Sectoral
-  Composites, MSNI Metrics and all recoding of indicators needed for
-  these.
-- Food security indicators (rCSI, LCSI, HHS, FCS).
-- Recoding of WASH indicators to JMP classifications.
+- MSNI framework indicators: sectoral composites, MSNI metrics, and all
+  required recoding
+- Food security indicators: rCSI, LCSI, HHS, FCS
+- WASH indicator recoding to JMP classifications
 
-The package follows the ‘Step - Composition’ approach of IMPACT R
+The package follows the **Step – Composition** approach of the IMPACT R
 framework.
 
 ## Installation
 
-You can install the latest stable version of `humind` from GitHub:
+Install the latest tagged release from GitHub:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("impact-initiatives-hppu/humind@v2025.1.2")
 ```
 
-To confirm that you have the correct version, you should try the
-following:
+Verify the version:
 
 ``` r
 packageVersion("humind")
@@ -47,123 +45,134 @@ packageVersion("humind")
 ## 📚 Guidance Note
 
 A comprehensive **Guidance Note** is available
-[here](https://acted.sharepoint.com/sites/IMPACT-Humanitarian_Planning_Prioritization/SitePages/MSNA%20analysis%20(LSG-MSNi).aspx)
-for all users of the `humind` package. This document provides essential
-background on the **MSNI framework** and includes sector-specific
-guidance. Each sector includes a **“Humind Data Workflow”** section,
-guiding users through the necessary steps and highlighting the relevant
-`humind` package functions to use.
+[here](https://acted.sharepoint.com/sites/IMPACT-Humanitarian_Planning_Prioritization/SitePages/MSNA%20analysis%20(LSG-MSNi).aspx).  
+It provides essential background on the **MSNI framework** and
+sector-specific guidance. Each sector includes a **“Humind Data
+Workflow”** describing required steps and the relevant `humind`
+functions.
 
-> ⚠️ **Users are strongly encouraged to thoroughly read this document**
-> — particularly the *Data Workflow* sections — before starting any
-> implementation work with Humind.
+> ⚠️ **Read the Guidance Note thoroughly**—especially the *Data
+> Workflow* sections—before implementing analyses with `humind`.
 
-> 📌 *Note: A more technical documentation guide will soon be available,
-> detailing the full MSNI analysis workflow using `humind`, including
-> runnable code examples. This guide will be directly integrated into
-> the GitHub project to streamline the process.*
+> 📌 A technical documentation guide (full MSNI workflow with runnable
+> examples) will be added to this repository.
 
 ------------------------------------------------------------------------
 
 ## 📖 2025 Programmatic Changes
 
-- **Terminology migration**: All references to *acute need* are replaced
-  with **severe need** (functions and outputs).  
+### Cross-cutting
 
-- **Protection**: refined NA handling in rights and practices
-  composites; DNK/PNTA no longer collapse the entire composite, but only
-  nullify the affected sub-scores.  
+- **Terminology migration**: *acute need* → **severe need** (functions
+  and outputs).
 
-- **WASH**: expanded handwashing facility categorization
-  (`add_handwashing_facility_cat()`) with explicit soap-type handling
-  and harmonized observed vs reported rules.  
+### MSNI & Sectoral Composites
 
-- **Healthcare**: warnings and NA propagation in
-  `add_loop_healthcare_needed_cat()` for inconsistent inputs.  
+- Consistent renaming of `*_in_acute_need` → **`*_in_severe_need`**
+  across all domains.
 
-- **MSNI / sectoral composites**: consistent renaming of
-  `*_in_acute_need` → **`*_in_severe_need`** across all domains.  
+### Protection
 
-- **Protection**: complete ravamp, based on a series of new Tier 1
-  indicators related to Protection Needs.
+- Complete **revamp** based on a new series of Tier 1 indicators related
+  to Protection needs.
+- Refined NA handling in rights and practices composites: DNK/PNTA no
+  longer collapse the entire composite; only affected sub-scores are
+  nullified.
 
-- **SNFI**:
+### WASH
 
-  - Changes to the number of shelter issues and their mapping to the FW
-    (from 8 to 11 total issues).
-  - Inclusion of one additional indicator to the security of tenure
-    dimension: `hlp_eviction_risk.`
-  - Hygiene indicator removed from the FDS series - making the total
-    number of domestic tasks (and lighting) equal to 4 instead of 5.
-  - Optional shelter damages component added.
+- Expanded handwashing facility categorization via
+  `add_handwashing_facility_cat()` with explicit soap-type handling and
+  harmonized observed vs. reported rules.
+- Incorporated self-reported hygiene variants (availability of soap &
+  water) and mapped them to JMP classifications.
 
-- **Health**: removal of the WGQs from the framework.
+### Health
 
-- **WASH**: small changes to incorporate the self-reported hygiene
-  variants (availability of soap & water) and map them to the JMP
-  classifications.
+- Warnings and NA propagation in `add_loop_healthcare_needed_cat()` for
+  inconsistent inputs.
+- Removal of the WGQs from the framework.
 
-- **Food Security**: new additional step to analyze the impact of
-  livelihood coping strategies on Food Consumption (changes done in
-  [impactR4PHU](https://github.com/impact-initiatives/impactR4PHU) and
-  reflected in humind).
+### SNFI
 
-- **Education**: small changes to indicator naming to reflect “direct
-  attack on education”. Indicator name was `edu_disrupted_occupation`
-  and is now called `edu_disrupted_attack.`
+- Shelter issues increased **from 8 to 11** and remapped to the
+  framework.
+- Added one indicator to the security of tenure dimension:
+  `hlp_eviction_risk`.
+- Hygiene indicator removed from the FDS series; domestic tasks
+  (incl. lighting) now total **4** (was 5).
+- Optional shelter damages component added.
+
+### Food Security
+
+- New analysis step to assess the impact of livelihood coping strategies
+  on Food Consumption (implemented in
+  [`impactR4PHU`](https://github.com/impact-initiatives/impactR4PHU) and
+  reflected in `humind`).
+
+### Education
+
+- Indicator renamed from `edu_disrupted_occupation` to
+  **`edu_disrupted_attack`** to reflect “direct attack on education”.
 
 ------------------------------------------------------------------------
 
 ## ⚠️ Breaking Changes in 2025.1.2
 
-- **Function rename**
-  - `is_in_acute_need()` → **`is_in_severe_need()`**
-- **Output schema changes**
-  - All `*_in_acute_need` outputs → **`*_in_severe_need`** (MSNI, WASH,
-    Health, FoodSec, SNFI, Edu, Prot).
-- **WASH**
-  - Default parameter in `add_comp_wash()`: `drinking_water_quantity`
-    now defaults to **`wash_hwise_drink`** (was
-    `wash_drinking_water_quantity`).  
-  - `add_handwashing_facility_cat()` requires new soap-type columns/args
-    (`soap_type_observed`, `soap_type_reported`) and accepts vectorized
-    “no” codes.  
-  - Classification rules tightened: non-qualifying or undefined soap
-    types now **demote `basic` → `limited`**; NA handling stricter in
-    reported path.
-- **Protection**
-  - DNK/PNTA handling refined: composites are NA **only if both
-    sub-dimensions are NA**.
-- **Healthcare**
-  - `add_loop_healthcare_needed_cat()` returns NA with warnings when
-    `needed == yes` and `received == NA`.
+**Function rename**
+
+- `is_in_acute_need()` → **`is_in_severe_need()`**
+
+**Output schema**
+
+- All `*_in_acute_need` outputs → **`*_in_severe_need`**  
+  (MSNI, WASH, Health, Food Security, SNFI, Education, Protection).
+
+**WASH**
+
+- `add_comp_wash()` default parameter: `drinking_water_quantity` now
+  defaults to **`wash_hwise_drink`** (was
+  `wash_drinking_water_quantity`).
+- `add_handwashing_facility_cat()` now requires soap-type columns/args
+  (`soap_type_observed`, `soap_type_reported`) and accepts vectorized
+  “no” codes.
+- Classification rules tightened: non-qualifying or undefined soap types
+  **demote `basic` → `limited`**; NA handling stricter in reported path.
+
+**Protection**
+
+- DNK/PNTA handling refined: composites are NA **only if both
+  sub-dimensions are NA**.
+
+**Healthcare**
+
+- `add_loop_healthcare_needed_cat()` returns NA (with warnings) when
+  `needed == yes` and `received == NA`.
 
 ------------------------------------------------------------------------
 
 ## 📌 Issues and Feedback
 
-To help us respond efficiently, please select the most appropriate
-template when opening an issue:
+Choose the appropriate template when opening an issue:
 
 - **[🐛 Bug
   report](https://github.com/impact-initiatives-hppu/humind/issues/new?template=bug-report.yml&labels=bug,triage)**
-  – Use this if you’ve found a **reproducible error or unexpected
-  behavior** in the code.  
+  – Reproducible errors or unexpected behavior.  
 - **[🧮 Indicator Logic
   Change](https://github.com/impact-initiatives-hppu/humind/issues/new?template=indicator_logic_change.yml&labels=indicator-logic)**
-  – Use this for **adding, updating, or fixing logic related to
-  indicators, scoring, or categorization** in the code.  
+  – Add, update, or fix logic for indicators, scoring, or
+  categorization.  
 - **[✨ Feature
   request](https://github.com/impact-initiatives-hppu/humind/issues/new?template=feature_request.yml&labels=enhancement)**
-  – Use this to **suggest a new feature or enhancement**.  
+  – Suggest new features or enhancements.  
 - **[📖 Documentation
   request](https://github.com/impact-initiatives-hppu/humind/issues/new?template=documentation_request.yml&labels=documentation)**
-  – Use this for **incorrect, missing, or unclear documentation**.
+  – Report incorrect, missing, or unclear documentation.
 
-**Not sure where your issue fits?**  
+**Not sure where it fits?**  
 Open a **[blank
 issue](https://github.com/impact-initiatives-hppu/humind/issues/new)**
-and provide as much detail as possible.
+with as much detail as possible.
 
 ------------------------------------------------------------------------
 
@@ -171,8 +180,7 @@ and provide as much detail as possible.
 
 ### GitHub Credentials Error When Installing with devtools
 
-When installing the package from GitHub using
-`devtools::install_github()`, you may encounter:
+When installing with `devtools::install_github()`, you may encounter:
 
 ``` r
 > devtools::install_github("impact-initiatives-hppu/humind@v2025.1.2")
@@ -182,9 +190,9 @@ Error : Failed to install 'unknown package' from GitHub:
   Bad credentials
 ```
 
-This issue is typically caused by outdated or incorrect GitHub
-credentials stored in R. For public repositories, no credentials are
-required. To resolve this, update or delete your stored credentials:
+This is typically caused by outdated or incorrect GitHub credentials
+stored in R. Public repositories do **not** require credentials. To
+resolve:
 
 ``` r
 library(gitcreds)
