@@ -7,6 +7,7 @@ loop <- data.frame(
   stringsAsFactors = FALSE
 )
 
+
 main <- data.frame(
   uuid = c(1, 2, 3, 4, 5, 6),
   stringsAsFactors = FALSE,
@@ -116,4 +117,37 @@ test_that("it works if UUID columns are named X_UUID in main, and X_SUB_UUID in 
     result$health_ind_healthcare_needed_yes_met_n,
     c(0, 0, 0, 0, 1, 0)
   )
+})
+
+exhaustive_loop <- tidyr::expand_grid(
+  health_ind_healthcare_needed = c("yes", "no", "dnk", "pnta", NA),
+  health_ind_healthcare_received = c("yes", "no", "dnk", "pnta", NA),
+  ind_age = 2:80
+) |>
+  mutate(uuid = row_number())
+
+
+test_that("healthcare received NA causes healthcare needed cat to be NA when healthcare needed is yes", {
+  test_data <- exhaustive_loop |>
+    dplyr::filter(
+      health_ind_healthcare_needed == "yes",
+      is.na(health_ind_healthcare_received)
+    )
+  result <- expect_warning(
+    add_loop_healthcare_needed_cat(test_data),
+    "healthcare needed.+but healthcare received.+"
+  )
+  expect_true(all(is.na(result$health_ind_healthcare_needed_cat)))
+})
+
+
+test_that("dummy variables are NA when healthcare_received is NA", {
+  result <- suppressWarnings(add_loop_healthcare_needed_cat(exhaustive_loop))
+  flagged <- result$health_ind_healthcare_needed_d == 1 &
+    is.na(result$health_ind_healthcare_received_d)
+  flagged_rows <- result[flagged, ]
+
+  expect_true(all(is.na(flagged_rows$health_ind_healthcare_needed_yes_unmet)))
+
+  expect_true(all(is.na(flagged_rows$health_ind_healthcare_needed_yes_met)))
 })
