@@ -1,7 +1,7 @@
 # Create a sample dataset
 df_sample <- dplyr::tibble(
   setting = c("camp", "urban", "rural"),
-  wash_drinking_water_quantity = c("always", "often", "rarely"),
+  wash_hwise_drink = c("always", "often", "rarely"),
   wash_drinking_water_quality_jmp_cat = c(
     "surface_water",
     "unimproved",
@@ -30,7 +30,7 @@ df_sample <- dplyr::tibble(
 test_that("Drinking water quantity scoring works correctly", {
   df_result <- add_comp_wash(
     df_sample,
-    drinking_water_quantity = "wash_drinking_water_quantity",
+    drinking_water_quantity = "wash_hwise_drink",
     drinking_water_quantity_always = "always",
     drinking_water_quantity_often = "often",
     drinking_water_quantity_sometimes = "sometimes",
@@ -102,7 +102,7 @@ test_that("Composite WASH score calculation works correctly", {
   df_result <- add_comp_wash(
     df_sample,
     setting = "setting",
-    drinking_water_quantity = "wash_drinking_water_quantity",
+    drinking_water_quantity = "wash_hwise_drink",
     drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat",
     sanitation_facility_jmp_cat = "wash_sanitation_facility_jmp_cat",
     sanitation_facility_cat = "wash_sanitation_facility_cat",
@@ -121,7 +121,7 @@ test_that("Need flags work correctly", {
   df_result <- add_comp_wash(
     df_sample,
     setting = "setting",
-    drinking_water_quantity = "wash_drinking_water_quantity",
+    drinking_water_quantity = "wash_hwise_drink",
     drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat",
     sanitation_facility_jmp_cat = "wash_sanitation_facility_jmp_cat",
     sanitation_facility_cat = "wash_sanitation_facility_cat",
@@ -138,7 +138,7 @@ test_that("Need flags work correctly", {
 # Test with undefined values for `comp_wash_score_water_quantity`
 undefined_water_quantity_data <- data.frame(
   setting = c("camp", "urban", "rural", "camp"),
-  wash_drinking_water_quantity = c("dnk", "pnta", "never", "always"),
+  wash_hwise_drink = c("dnk", "pnta", "never", "always"),
   wash_drinking_water_quality_jmp_cat = c(
     "basic",
     "limited",
