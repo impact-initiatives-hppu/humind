@@ -125,15 +125,15 @@ add_prot_score_practices <- function(
     dplyr::mutate(
       comp_prot_score_prot_needs_2_activities = dplyr::case_when(
         comp_prot_score_prot_needs_2_activities == 0 &
-          (.data[[glue::glue("{prot_needs_2_activities}/{dnk}")]] == 1 |
-            .data[[glue::glue("{prot_needs_2_activities}/{pnta}")]] == 1) ~
+          (.data[[glue::glue("{prot_needs_2_activities}{sep}{dnk}")]] == 1 |
+            .data[[glue::glue("{prot_needs_2_activities}{sep}{pnta}")]] == 1) ~
           NA_real_,
         TRUE ~ comp_prot_score_prot_needs_2_activities
       ),
       comp_prot_score_prot_needs_2_social = dplyr::case_when(
         comp_prot_score_prot_needs_2_social == 0 &
-          (.data[[glue::glue("{prot_needs_2_social}/{dnk}")]] == 1 |
-            .data[[glue::glue("{prot_needs_2_social}/{pnta}")]] == 1) ~
+          (.data[[glue::glue("{prot_needs_2_social}{sep}{dnk}")]] == 1 |
+            .data[[glue::glue("{prot_needs_2_social}{sep}{pnta}")]] == 1) ~
           NA_real_,
         TRUE ~ comp_prot_score_prot_needs_2_social
       )

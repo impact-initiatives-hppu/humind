@@ -45,6 +45,25 @@ dummy_df <- expand_grid(
 ) |>
   dplyr::as_tibble()
 
+test_that("the non-default separator does not affect the behavior", {
+  expect_no_error(
+    suppressWarnings(add_prot_score_rights(
+      dplyr::rename_with(
+        dummy_df,
+        ~ stringr::str_replace(.x, "/", ".")
+      ),
+      sep = "."
+    ))
+  )
+
+  expect_error(
+    suppressWarnings(add_prot_score_rights(
+      dummy_df,
+      sep = "."
+    ))
+  )
+})
+
 # -----------------------------
 # Tests for the composite function: Ability to Access Rights and Services
 # -----------------------------

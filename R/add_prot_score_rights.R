@@ -117,15 +117,15 @@ add_prot_score_rights <- function(
     dplyr::mutate(
       comp_prot_score_prot_needs_1_services = dplyr::case_when(
         comp_prot_score_prot_needs_1_services == 0 &
-          (.data[[glue::glue("{prot_needs_1_services}/{dnk}")]] == 1 |
-            .data[[glue::glue("{prot_needs_1_services}/{pnta}")]] == 1) ~
+          (.data[[glue::glue("{prot_needs_1_services}{sep}{dnk}")]] == 1 |
+            .data[[glue::glue("{prot_needs_1_services}{sep}{pnta}")]] == 1) ~
           NA_real_,
         TRUE ~ comp_prot_score_prot_needs_1_services
       ),
       comp_prot_score_prot_needs_1_justice = dplyr::case_when(
         comp_prot_score_prot_needs_1_justice == 0 &
-          (.data[[glue::glue("{prot_needs_1_justice}/{dnk}")]] == 1 |
-            .data[[glue::glue("{prot_needs_1_justice}/{pnta}")]] == 1) ~
+          (.data[[glue::glue("{prot_needs_1_justice}{sep}{dnk}")]] == 1 |
+            .data[[glue::glue("{prot_needs_1_justice}{sep}{pnta}")]] == 1) ~
           NA_real_,
         TRUE ~ comp_prot_score_prot_needs_1_justice
       )
