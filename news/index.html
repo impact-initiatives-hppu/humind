@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,11 +28,26 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/v2025.1.2/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="humind-development-version">humind (development version)<a class="anchor" aria-label="anchor" href="#humind-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2025.1.3" id="humind-202513">humind 2025.1.3<a class="anchor" aria-label="anchor" href="#humind-202513"></a></h2>
+<p>This release fixes a Protection bug related to choice-column separator handling.</p>
+<hr><div class="section level3">
+<h3 id="id_-codebase-changes-2025-1-3">🛠 Codebase Changes<a class="anchor" aria-label="anchor" href="#id_-codebase-changes-2025-1-3"></a></h3>
+<div class="section level4">
+<h4 id="id_-bug-fixes-2025-1-3">🛠 Bug Fixes<a class="anchor" aria-label="anchor" href="#id_-bug-fixes-2025-1-3"></a></h4>
+<ul><li>Respect the <code>sep</code> argument when constructing choice-column names in <code><a href="../reference/add_prot_score_practices.html">add_prot_score_practices()</a></code> and <code><a href="../reference/add_prot_score_rights.html">add_prot_score_rights()</a></code>. Both <code>/</code> (default) and <code>.</code> separators are supported.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="id_-testing-2025-1-3">🧪 Testing<a class="anchor" aria-label="anchor" href="#id_-testing-2025-1-3"></a></h4>
+<ul><li>Added unit test “the non-default separator does not affect the behavior”</li>
+</ul></div>
+</div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2025.1.2" id="humind-202512">humind 2025.1.2<a class="anchor" aria-label="anchor" href="#humind-202512"></a></h2>
