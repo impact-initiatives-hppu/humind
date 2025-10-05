@@ -1,6 +1,6 @@
 Package: humind
 Title: Compose MSNA Indicators
-Version: 2025.1.2
+Version: 2025.1.3
 Authors@R: c(
     person("Quentin", "VILLOTTA", , "quentin.villotta@impact-initiatives.org", role = c("aut", "cre")),
     person("Iyed", "GHEDAMSI", , "iyed.ghedamsi@impact-initiatives.org", role = c("aut", "ctb")),
