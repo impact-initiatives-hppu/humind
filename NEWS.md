@@ -10,7 +10,7 @@ This release fixes a Protection bug related to choice-column separator handling.
 
 ### 🛠 Bug Fixes
 
-* Protection: respect the `sep` argument when constructing choice-column names in `add_prot_score_practices()` and `add_prot_score_rights()`. Both `/` (default) and `.` separators are supported. Tests updated; no breaking changes.
+* Respect the `sep` argument when constructing choice-column names in `add_prot_score_practices()` and `add_prot_score_rights()`. Both `/` (default) and `.` separators are supported.
 
 ### 🧪 Testing
 

@@ -103,6 +103,7 @@ It provides essential background on the **MSNI framework** and sector-specific g
 ## ⚠️ Breaking Changes 
 
 ### 2025.1.3
+
 No breaking changes
 
 ### 2025.1.2
