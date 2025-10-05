@@ -117,7 +117,13 @@ functions.
 
 ------------------------------------------------------------------------
 
-## ⚠️ Breaking Changes in 2025.1.3
+## ⚠️ Breaking Changes
+
+### 2025.1.3
+
+No breaking changes
+
+### 2025.1.2
 
 **Function rename**
 
