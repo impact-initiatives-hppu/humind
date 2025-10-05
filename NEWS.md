@@ -1,5 +1,13 @@
 # humind (development version)
 
+# humind 2025.1.3
+
+## 🛠 Codebase Changes
+
+### 🛠 Bug Fixes
+
+* Protection: respect the `sep` argument when constructing choice-column names in `add_prot_score_practices()` and `add_prot_score_rights()`. Both `/` (default) and `.` separators are supported. Tests updated; no breaking changes.
+
 # humind 2025.1.2
 
 This release introduces major terminology and logic changes across the MSNI framework, WASH, Protection, and Healthcare indicators. Several functions have new required parameters, altered defaults, or renamed outputs — **breaking changes are significant**.
