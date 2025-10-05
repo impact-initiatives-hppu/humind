@@ -48,6 +48,27 @@ dummy_social <- generate_survey_choice_combinations(
 ) |>
   dplyr::as_tibble())
 
+
+test_that("the non-default separator does not affect the behavior", {
+  expect_no_error(
+    suppressWarnings(add_prot_score_practices(
+      dplyr::rename_with(
+        dummy_df,
+        ~ stringr::str_replace(.x, "/", ".")
+      ),
+      sep = "."
+    ))
+  )
+
+  expect_error(
+    suppressWarnings(add_prot_score_practices(
+      dummy_df,
+      sep = "."
+    ))
+  )
+})
+
+
 # Tests for the composite function
 
 test_that("adds three composite columns without weighted vars", {
