@@ -24,8 +24,8 @@ add_shelter_type_cat <- function(
   sl_collective_center = "collective_center",
   sl_undefined = "pnta",
   shelter_type_individual = "snfi_shelter_type_individual",
-  adequate = c("house", "apartment", "tent"),
-  inadequate = c("makeshift", "unfinished_building"),
+  adequate = c("house", "apartment"),
+  inadequate = c("makeshift", "unfinished_building", "tent"),
   undefined = c("pnta", "other", "dnk")
 ) {
   #------ Checks
