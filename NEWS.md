@@ -1,5 +1,21 @@
 # humind (development version)
 
+# humind 2025.1.4
+
+This release fixes a shelter classification bug affecting tents.
+
+---
+
+## 🛠 Codebase Changes
+
+### 🛠 Bug Fixes
+
+* Reclassify `tent` as an **inadequate** shelter type in `add_shelter_type_cat()` (was incorrectly grouped with adequate shelters).
+
+### 🧪 Testing
+
+* Updated and expanded regression tests to cover tent -> `inadequate` scenarios, including the priority-rule edge cases.
+
 # humind 2025.1.3
 
 This release fixes a Protection bug related to choice-column separator handling.
