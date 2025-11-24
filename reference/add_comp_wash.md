@@ -1,0 +1,279 @@
+# Add WASH Sectoral Composite Score and Need Indicator
+
+Calculates a comprehensive WASH (Water, Sanitation, and Hygiene)
+composite score for households across different settings (camp, urban,
+rural). The function generates sub-scores for water quantity, water
+quality, sanitation, and hygiene, and creates a dummy variable to
+indicate households in need of WASH assistance.
+
+The function performs detailed scoring based on multiple WASH-related
+variables, applying different scoring logic for camp, urban, and rural
+settings.
+
+Prerequisite functions:
+
+- add_sanitation_facility_cat.R
+
+- add_handwashing_facility_cat.R
+
+- add_drinking_water_source_cat.R
+
+## Usage
+
+``` r
+add_comp_wash(
+  df,
+  setting = "setting",
+  setting_camp = "camp",
+  setting_urban = "urban",
+  setting_rural = "rural",
+  drinking_water_quantity = "wash_hwise_drink",
+  drinking_water_quantity_always = "always",
+  drinking_water_quantity_often = "often",
+  drinking_water_quantity_sometimes = "sometimes",
+  drinking_water_quantity_rarely = "rarely",
+  drinking_water_quantity_never = "never",
+  drinking_water_quantity_dnk = "dnk",
+  drinking_water_quantity_pnta = "pnta",
+  drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat",
+  drinking_water_quality_jmp_cat_surface_water = "surface_water",
+  drinking_water_quality_jmp_cat_unimproved = "unimproved",
+  drinking_water_quality_jmp_cat_limited = "limited",
+  drinking_water_quality_jmp_cat_basic = "basic",
+  drinking_water_quality_jmp_cat_safely_managed = "safely_managed",
+  drinking_water_quality_jmp_cat_undefined = "undefined",
+  sanitation_facility_jmp_cat = "wash_sanitation_facility_jmp_cat",
+  sanitation_facility_jmp_cat_open_defecation = "open_defecation",
+  sanitation_facility_jmp_cat_unimproved = "unimproved",
+  sanitation_facility_jmp_cat_limited = "limited",
+  sanitation_facility_jmp_cat_basic = "basic",
+  sanitation_facility_jmp_cat_safely_managed = "safely_managed",
+  sanitation_facility_jmp_cat_undefined = "undefined",
+  sanitation_facility_cat = "wash_sanitation_facility_cat",
+  sanitation_facility_cat_none = "none",
+  sanitation_facility_cat_unimproved = "unimproved",
+  sanitation_facility_cat_improved = "improved",
+  sanitation_facility_cat_undefined = "undefined",
+  sanitation_facility_n_ind = "wash_sharing_sanitation_facility_n_ind",
+  sanitation_facility_n_ind_50_and_above = "50_and_above",
+  sanitation_facility_n_ind_20_to_49 = "20_to_49",
+  sanitation_facility_n_ind_19_and_below = "19_and_below",
+  sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
+  sharing_sanitation_facility_cat_shared = "shared",
+  sharing_sanitation_facility_cat_not_shared = "not_shared",
+  sharing_sanitation_facility_cat_not_applicable = "not_applicable",
+  sharing_sanitation_facility_cat_undefined = "undefined",
+  handwashing_facility_jmp_cat = "wash_handwashing_facility_jmp_cat",
+  handwashing_facility_jmp_cat_no_facility = "no_facility",
+  handwashing_facility_jmp_cat_limited = "limited",
+  handwashing_facility_jmp_cat_basic = "basic",
+  handwashing_facility_jmp_cat_undefined = "undefined"
+)
+```
+
+## Arguments
+
+- df:
+
+  A data frame containing the required WASH-related variables.
+
+- setting:
+
+  Column name for the setting (camp, urban, or rural).
+
+- setting_camp:
+
+  Setting value for camp.
+
+- setting_urban:
+
+  Setting value for urban.
+
+- setting_rural:
+
+  Setting value for rural.
+
+- drinking_water_quantity:
+
+  Column name for drinking water quantity.
+
+- drinking_water_quantity_always:
+
+  Value for "always" in drinking water quantity.
+
+- drinking_water_quantity_often:
+
+  Value for "often" in drinking water quantity.
+
+- drinking_water_quantity_sometimes:
+
+  Value for "sometimes" in drinking water quantity.
+
+- drinking_water_quantity_rarely:
+
+  Value for "rarely" in drinking water quantity.
+
+- drinking_water_quantity_never:
+
+  Value for "never" in drinking water quantity.
+
+- drinking_water_quantity_dnk:
+
+  Value for "don't know" in drinking water quantity.
+
+- drinking_water_quantity_pnta:
+
+  Value for "prefer not to answer" in drinking water quantity.
+
+- drinking_water_quality_jmp_cat:
+
+  Column name for drinking water quality JMP category.
+
+- drinking_water_quality_jmp_cat_surface_water:
+
+  Value for "surface water" in drinking water quality JMP category.
+
+- drinking_water_quality_jmp_cat_unimproved:
+
+  Value for "unimproved" in drinking water quality JMP category.
+
+- drinking_water_quality_jmp_cat_limited:
+
+  Value for "limited" in drinking water quality JMP category.
+
+- drinking_water_quality_jmp_cat_basic:
+
+  Value for "basic" in drinking water quality JMP category.
+
+- drinking_water_quality_jmp_cat_safely_managed:
+
+  Value for "safely managed" in drinking water quality JMP category.
+
+- drinking_water_quality_jmp_cat_undefined:
+
+  Value for "undefined" in drinking water quality JMP category.
+
+- sanitation_facility_jmp_cat:
+
+  Column name for sanitation facility JMP category.
+
+- sanitation_facility_jmp_cat_open_defecation:
+
+  Value for "open defecation" in sanitation facility JMP category.
+
+- sanitation_facility_jmp_cat_unimproved:
+
+  Value for "unimproved" in sanitation facility JMP category.
+
+- sanitation_facility_jmp_cat_limited:
+
+  Value for "limited" in sanitation facility JMP category.
+
+- sanitation_facility_jmp_cat_basic:
+
+  Value for "basic" in sanitation facility JMP category.
+
+- sanitation_facility_jmp_cat_safely_managed:
+
+  Value for "safely managed" in sanitation facility JMP category.
+
+- sanitation_facility_jmp_cat_undefined:
+
+  Value for "undefined" in sanitation facility JMP category.
+
+- sanitation_facility_cat:
+
+  Column name for sanitation facility category.
+
+- sanitation_facility_cat_none:
+
+  Value for "none" in sanitation facility category.
+
+- sanitation_facility_cat_unimproved:
+
+  Value for "unimproved" in sanitation facility category.
+
+- sanitation_facility_cat_improved:
+
+  Value for "improved" in sanitation facility category.
+
+- sanitation_facility_cat_undefined:
+
+  Value for "undefined" in sanitation facility category.
+
+- sanitation_facility_n_ind:
+
+  Column name for number of individuals using the sanitation facility.
+
+- sanitation_facility_n_ind_50_and_above:
+
+  Value for "50 and above" in number of individuals using the sanitation
+  facility.
+
+- sanitation_facility_n_ind_20_to_49:
+
+  Value for "20 to 49" in number of individuals using the sanitation
+  facility.
+
+- sanitation_facility_n_ind_19_and_below:
+
+  Value for "19 and below" in number of individuals using the sanitation
+  facility.
+
+- sharing_sanitation_facility_cat:
+
+  Column name for sharing a sanitation facility.
+
+- sharing_sanitation_facility_cat_shared:
+
+  Value for "shared" in sharing a sanitation facility.
+
+- sharing_sanitation_facility_cat_not_shared:
+
+  Value for "not shared" in sharing a sanitation facility.
+
+- sharing_sanitation_facility_cat_not_applicable:
+
+  Value for "not applicable" in sharing a sanitation facility.
+
+- sharing_sanitation_facility_cat_undefined:
+
+  Value for "undefined" in sharing a sanitation facility.
+
+- handwashing_facility_jmp_cat:
+
+  Column name for handwashing facility JMP category.
+
+- handwashing_facility_jmp_cat_no_facility:
+
+  Value for "no facility" in handwashing facility JMP category.
+
+- handwashing_facility_jmp_cat_limited:
+
+  Value for "limited" in handwashing facility JMP category.
+
+- handwashing_facility_jmp_cat_basic:
+
+  Value for "basic" in handwashing facility JMP category.
+
+- handwashing_facility_jmp_cat_undefined:
+
+  Value for "undefined" in handwashing facility JMP category.
+
+## Value
+
+A data frame with new columns:
+
+- comp_wash_score_water_quantity: Numeric score for water quantity
+  (1-5).
+
+- comp_wash_score_water_quality: Numeric score for water quality (1-5).
+
+- comp_wash_score_sanitation: Numeric score for sanitation (1-5).
+
+- comp_wash_score_hygiene: Numeric score for hygiene (1-5).
+
+- comp_wash_score: Overall WASH composite score (0-20).
+
+- comp_wash_in_need: Binary indicator (0 or 1) for households in need of
+  WASH assistance.
