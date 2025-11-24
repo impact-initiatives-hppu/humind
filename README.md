@@ -32,14 +32,14 @@ Install the latest tagged release from GitHub:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("impact-initiatives-hppu/humind@v2025.1.3")
+devtools::install_github("impact-initiatives-hppu/humind@v2025.1.4")
 ```
 
 Verify the version:
 
 ``` r
 packageVersion("humind")
-# v2025.1.3
+# v2025.1.4
 ```
 
 ## 📚 Guidance Note
@@ -119,6 +119,10 @@ functions.
 
 ## ⚠️ Breaking Changes
 
+### 2025.1.4
+
+No breaking changes
+
 ### 2025.1.3
 
 No breaking changes
@@ -189,7 +193,7 @@ with as much detail as possible.
 When installing with `devtools::install_github()`, you may encounter:
 
 ``` r
-> devtools::install_github("impact-initiatives-hppu/humind@v2025.1.3")
+> devtools::install_github("impact-initiatives-hppu/humind@v2025.1.4")
 ...
 Error : Failed to install 'unknown package' from GitHub:
   HTTP error 401.
