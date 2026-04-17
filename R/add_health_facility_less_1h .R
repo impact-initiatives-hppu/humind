@@ -36,7 +36,7 @@ add_health_facility_less_1h <- function(
 
   dplyr::mutate(
     df,
-    health_facility_distance_less_1hour = dplyr::case_when(
+    health_facility_less_1h = dplyr::case_when(
       .data[[health_facility_time]] == undefined ~ NA_real_,
       .data[[health_facility_time]] < 0 ~ NA_real_,
       .data[[health_facility_time]] < 60 ~ 1,
