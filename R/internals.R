@@ -57,7 +57,7 @@ are_values_in_range <- function(df, cols, lower = 0, upper = 7) {
 
   if (any(ranges)) {
     rlang::abort(c(
-      glue::glue("All columns must be between {lower} and {upper}."),
+      glue::glue("All values must be between {lower} and {upper}."),
       "i" = glue::glue(
         "The following columns have values outside the range Please check.\n",
         glue::glue_collapse(cols, sep = "\n")
