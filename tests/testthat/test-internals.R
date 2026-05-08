@@ -82,6 +82,27 @@ test_that("are_values_in_range throws error when any column has values out of ra
   )
 })
 
+test_that("are_values_in_range throws error if bounds are not numeric", {
+  # Test with character input
+  expect_error(
+    humind:::are_values_in_range(df, c("col1"), lower = "five", upper = 7),
+    "must be numeric"
+  )
+
+  # Test with list input
+  expect_error(
+    humind:::are_values_in_range(df, c("col1"), lower = 0, upper = list(7)),
+    "must be numeric"
+  )
+})
+
+test_that("are_values_in_range throws error if lower > upper", {
+  expect_error(
+    humind:::are_values_in_range(df, c("col1"), lower = 10, upper = 5),
+    "lower.*cannot be greater than upper"
+  )
+})
+
 test_that("are_values_in_set works with default parameters", {
   expect_true(humind:::are_values_in_set(
     df,
