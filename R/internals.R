@@ -20,7 +20,7 @@ are_cols_numeric <- function(df, cols) {
 
   if (!all(classes)) {
     rlang::abort(c(
-      "All columns must be numeric.",
+      "All values must be numeric.",
       "i" = glue::glue(
         "The following columns are not numeric. Please check.\n",
         glue::glue_collapse(cols, sep = "\n")
@@ -81,7 +81,7 @@ are_values_in_set <- function(
   df,
   cols,
   set,
-  main_message = "All columns must be in the following set: "
+  main_message = "All values must be in the following set: "
 ) {
   #------ Check for missing columns
   if_not_in_stop(df, cols, "df")
