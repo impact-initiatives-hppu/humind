@@ -22,6 +22,15 @@ df_non_numeric <- data.frame(
   col2 = c(1, 2, 3)
 )
 
+# Test data setup
+df_wrong_range <- data.frame(
+  col1 = c(1, 2, 3, 4, NA),
+  col2 = c("a", "b", "c", "d", NA),
+  col3 = c(7, 8, 9, 10, NA),
+  col4 = c(3, 4, 5, 6, NA),
+  col5 = c(NA, NA, NA, NA, NA)
+)
+
 test_that("are_cols_numeric works with default parameters", {
   expect_true(humind:::are_cols_numeric(df, c("col1", "col3", "col4")))
 })
@@ -45,7 +54,7 @@ test_that("are_cols_numeric handles all NA columns", {
 })
 
 test_that("are_values_in_range works with default parameters", {
-  expect_true(humind:::are_values_in_range(df, c("col1", "col3", "col4")))
+  expect_true(humind:::are_values_in_range(df, c("col1", "col4")))
 })
 
 test_that("are_values_in_range handles values out of range", {
@@ -61,6 +70,15 @@ test_that("are_values_in_range handles missing columns", {
   expect_error(
     humind:::are_values_in_range(df, c("col1", "col6")),
     class = "error"
+  )
+})
+
+test_that("are_values_in_range throws error when any column has values out of range", {
+  # col1 is within range (0-7), but col3 contains values > 7 (specifically 8, 9, 10)
+  # The function should detect the invalid values in col3 and throw an error
+  expect_error(
+    humind:::are_values_in_range(df_wrong_range, c("col1", "col3")),
+    "outside the range"
   )
 })
 
