@@ -171,13 +171,13 @@ test_that("if_not_in_stop stops when input is not a data.frame", {
 
 test_that("is_df handles non-data.frame input", {
   expect_error(
-    humind:::is_df("not_a_df", "test_arg"),
+    is_df("not_a_df", "test_arg"),
     class = "error",
     regexp = "Input test_arg must be a data.frame."
   )
 })
 
 test_that("is_df works with data.frame input", {
-  expect_true(humind:::is_df(df, "test_arg"))
-  expect_silent(humind:::is_df(df, "test_arg"))
+  expect_true(is_df(df, "test_arg"))
+  expect_silent(is_df(df, "test_arg"))
 })
