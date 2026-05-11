@@ -1,3 +1,41 @@
+#' @title Stop statement values are not integer
+#'
+#' @description This stop statement checks that specified columns are integer or numeric with all integer values (to not be too restrictive as the aim is not much to ensure integer values but not integer type).
+#'
+#'
+#' @param df A data frame
+#' @param cols A vector of column names (quoted)
+#'
+#' @return A stop statement
+are_cols_integer <- function(df, cols) {
+  #------ Check for missing columns
+  if_not_in_stop(df, cols, "df")
+
+  classes <- purrr::map_lgl(
+    dplyr::select(
+      df,
+      dplyr::all_of(cols)
+    ),
+    \(x) is.integer(x) || (is.numeric(x) && all(x == floor(x), na.rm = TRUE))
+  )
+
+  cols <- cols[!classes]
+
+  if (!all(classes)) {
+    cli::cli_abort(
+      c(
+        "All columns must be integer or numeric with all integer values.",
+        "i" = glue::glue(
+          "The following columns are not integer or numeric with all integer values. Please check.\n",
+          glue::glue_collapse(cols, sep = "\n")
+        )
+      )
+    )
+  }
+
+  return(TRUE)
+}
+
 #' @title Stop statement values are not numeric
 #'
 #' @param df A data frame

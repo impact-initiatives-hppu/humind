@@ -24,6 +24,40 @@ df_non_numeric <- data.frame(
 
 
 ########################
+### are_cols_integer
+########################
+
+test_that("are_cols_integer returns TRUE for integer columns", {
+  df_int <- data.frame(col1 = 1L:4L, col2 = 5L:8L)
+  expect_true(humind:::are_cols_integer(df_int, c("col1", "col2")))
+})
+
+test_that("are_cols_integer returns TRUE for numeric columns with all integer values", {
+  df_num_int <- data.frame(col1 = c(1.0, 2.0, 3.0), col2 = c(4.0, 5.0, 6.0))
+  expect_true(humind:::are_cols_integer(df_num_int, c("col1", "col2")))
+})
+
+test_that("are_cols_integer errors for numeric columns with non-integer values", {
+  df_float <- data.frame(col1 = c(1.1, 2.0, 3.0))
+  expect_error(humind:::are_cols_integer(df_float, "col1"), class = "error")
+})
+
+test_that("are_cols_integer errors for character columns", {
+  df_chr <- data.frame(col1 = c("a", "b", "c"))
+  expect_error(humind:::are_cols_integer(df_chr, "col1"), class = "error")
+})
+
+test_that("are_cols_integer errors for missing columns", {
+  df_int <- data.frame(col1 = 1L:3L)
+  expect_error(humind:::are_cols_integer(df_int, c("col1", "col_missing")), class = "error")
+})
+
+test_that("are_cols_integer handles NA values without error", {
+  df_na <- data.frame(col1 = c(1L, NA_integer_, 3L))
+  expect_true(humind:::are_cols_integer(df_na, "col1"))
+})
+
+########################
 ### are_cols_numeric
 ########################
 
