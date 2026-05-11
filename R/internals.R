@@ -159,10 +159,10 @@ subvec_not_in <- function(vector, set) {
 #'
 #' @return A stop statement
 if_not_in_stop <- function(df, cols, df_name, arg = NULL) {
-  missing_cols <- subvec_not_in(cols, colnames(df))
-
   # check that df is a data frame
   is_df(df, df_name)
+
+  missing_cols <- subvec_not_in(cols, colnames(df))
 
   # prepare message
   if (is.null(arg)) {
@@ -211,7 +211,7 @@ is_df <- function(df, arg = NULL) {
     cli::cli_abort(
       c(
         "Input {arg} must be a data.frame.",
-        "i" = glue::glue("Input is of class: {class(df)}.")
+        "i" = "Input is of class: {class(df)}."
       )
     )
   }
