@@ -12,10 +12,9 @@ test_that("values at or above 60 minutes are coded 0", {
   expect_equal(result$health_facility_less_1h[4:6], c(0, 0, 0))
 })
 
-test_that("fractional values are handled correctly", {
+test_that("fractional (non-integer) values raise an error", {
   df_frac <- dplyr::tibble(health_facility_time = c(59.9, 60.0, 60.1))
-  result <- add_health_facility_less_1h(df_frac)
-  expect_equal(result$health_facility_less_1h, c(1, 0, 0))
+  expect_error(add_health_facility_less_1h(df_frac), class = "error")
 })
 
 test_that("NA inputs produce NA output", {

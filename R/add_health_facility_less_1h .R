@@ -1,13 +1,13 @@
+# ANA
+# 2025 Indicator ID: IND160
+# 2026 Metric ID: TBD
+
 #' @title Add Indicator for Access to Health Facility in Less Than One Hour
 #'
 #' @description
-#' Adds a binary variable (`1`/`0`) for whether a household reports access to
-#' the nearest functional health facility in less than one hour on foot
-#' (ANA IND160).
+#' Adds a binary variable (`1`/`0`) for whether a household reports access to the nearest functional health facility in less than one hour on foot.
 #'
-#' Values are expected to be non-negative reals (minutes) or a negative
-#' undefined code. Any negative value (including the default `-999`) is
-#' recoded to `NA`.
+#' Values are expected to be non-negative integers or reals with no floating point (minutes) or a negative undefined code. Any negative value (including the default `-999`) is recoded to `NA`.
 #'
 #' @param df A data frame.
 #' @param health_facility_time Column name for travel time (in minutes) to
@@ -29,8 +29,11 @@ add_health_facility_less_1h <- function(
 ) {
   #------ Checks
 
-  if_not_in_stop(df, health_facility_time, "df") # nolint: object_usage_linter.
-  are_cols_numeric(df, health_facility_time) # nolint: object_usage_linter.
+  # health_facility_time column exists and is integer
+  are_cols_integer(
+    df,
+    health_facility_time
+  )
 
   #------ Compute
 
