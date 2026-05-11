@@ -64,6 +64,9 @@
 #' * `fsl_cari_coping_capacity_score`: Mean of FES and LCSI scores, or `NA`.
 #' * `fsl_cari_score`: Final CARI score `(current_status + coping_capacity) / 2`,
 #'   a numeric value in \[1, 4\], or `NA`.
+#' * `fsl_cari_cat`: Integer category 1–4 derived from `fsl_cari_score` by
+#'   round-half-up (< 1.5 → 1, \[1.5, 2.5) → 2, \[2.5, 3.5) → 3, >= 3.5 → 4),
+#'   or `NA`.
 #'
 #' @export
 add_cari <- function(
@@ -159,6 +162,19 @@ add_cari <- function(
     fsl_cari_score = (
       .data[["fsl_cari_current_status_score"]] + .data[["fsl_cari_coping_capacity_score"]]
     ) / 2
+  )
+
+  #------ Compute final CARI category (round half-up)
+
+  df <- dplyr::mutate(
+    df,
+    fsl_cari_cat = dplyr::case_when(
+      is.na(.data[["fsl_cari_score"]]) ~ NA_integer_,
+      .data[["fsl_cari_score"]] < 1.5 ~ 1L,
+      .data[["fsl_cari_score"]] < 2.5 ~ 2L,
+      .data[["fsl_cari_score"]] < 3.5 ~ 3L,
+      .default = 4L
+    )
   )
 
   return(df)

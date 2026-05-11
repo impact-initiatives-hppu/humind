@@ -298,3 +298,69 @@ test_that("fsl_cari_score is in range 1-4 for all valid inputs", {
   result <- add_cari(df)
   expect_true(all(result$fsl_cari_score >= 1 & result$fsl_cari_score <= 4))
 })
+
+# ---- add_cari: fsl_cari_cat ----
+
+test_that("add_cari returns fsl_cari_cat column", {
+  result <- add_cari(make_base_df())
+  expect_true("fsl_cari_cat" %in% colnames(result))
+})
+
+test_that("fsl_cari_cat is integer type", {
+  result <- add_cari(make_base_df())
+  expect_type(result$fsl_cari_cat, "integer")
+})
+
+test_that("fsl_cari_cat is 1 when score < 1.5", {
+  # CS=1, CC=1 → score=1.0 → cat=1
+  result <- add_cari(make_base_df(
+    cm_expenditure_frequent_food_prop = 0.3,
+    fsl_lcsi_cat = "None"
+  ))
+  expect_equal(result$fsl_cari_cat, 1L)
+})
+
+test_that("fsl_cari_cat is 2 when score in [1.5, 2.5)", {
+  # CS=1, CC=2 → score=1.5 → cat=2
+  result <- add_cari(make_base_df(
+    cm_expenditure_frequent_food_prop = 0.55,
+    fsl_lcsi_cat = "Stress"
+  ))
+  expect_equal(result$fsl_cari_cat, 2L)
+})
+
+test_that("fsl_cari_cat is 3 when score in [2.5, 3.5)", {
+  # CS=4, CC=1 → score=2.5 → cat=3
+  result <- add_cari(make_base_df(
+    fsl_fcs_cat = "Poor", fsl_rcsi_score = 0,
+    cm_expenditure_frequent_food_prop = 0.3,
+    fsl_lcsi_cat = "None"
+  ))
+  expect_equal(result$fsl_cari_cat, 3L)
+})
+
+test_that("fsl_cari_cat is 4 when score >= 3.5", {
+  # CS=4, CC=3 → score=3.5 → cat=4
+  result <- add_cari(make_base_df(
+    fsl_fcs_cat = "Poor", fsl_rcsi_score = 0,
+    cm_expenditure_frequent_food_prop = 0.67,
+    fsl_lcsi_cat = "Crisis"
+  ))
+  expect_equal(result$fsl_cari_cat, 4L)
+})
+
+test_that("all four fsl_cari_cat values are produced across representative inputs", {
+  df <- dplyr::tibble(
+    fsl_fcs_cat    = c("Acceptable", "Acceptable", "Poor", "Poor"),
+    fsl_rcsi_score = c(0, 0, 0, 0),
+    cm_expenditure_frequent_food_prop = c(0.3, 0.55, 0.3, 0.67),
+    fsl_lcsi_cat   = c("None", "Stress", "None", "Crisis")
+  )
+  result <- add_cari(df)
+  expect_equal(result$fsl_cari_cat, c(1L, 2L, 3L, 4L))
+})
+
+test_that("fsl_cari_cat is NA when fsl_cari_score is NA", {
+  result <- add_cari(make_base_df(fsl_lcsi_cat = NA_character_))
+  expect_true(is.na(result$fsl_cari_cat))
+})
