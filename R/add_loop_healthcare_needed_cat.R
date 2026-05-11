@@ -13,6 +13,9 @@
 #' @param ind_healthcare_received_yes Level for "yes" in ind_healthcare_received.
 #' @param ind_healthcare_received_dnk Level for "don't know" in ind_healthcare_received.
 #' @param ind_healthcare_received_pnta Level for "prefer not to answer" in ind_healthcare_received.
+#' @param ind_healthcare_type The name of the variable that indicates the type of healthcare which was seek.
+#' @param ind_healthcare_type_lifesaving Character vector of levels in ind_healthcare_type that indicate life-saving healthcare.
+#' @param sep Separator for the binary columns.
 #' @param ind_age The name of the variable that indicates the age of the individual.
 #'
 #'
@@ -24,6 +27,7 @@
 #' * health_ind_healthcare_needed_no: Dummy variable for no healthcare need.
 #' * health_ind_healthcare_needed_yes_unmet: Dummy variable for unmet healthcare need.
 #' * health_ind_healthcare_needed_yes_met: Dummy variable for met healthcare need.
+#' * health_ind_healthcare_needed_lifesaving_yes_unmet: Dummy variable for unmet lifesaving healthcare need (only when `ind_healthcare_type` column is present in `loop`).
 #'
 #' @export
 add_loop_healthcare_needed_cat <- function(
@@ -38,6 +42,16 @@ add_loop_healthcare_needed_cat <- function(
   ind_healthcare_received_yes = "yes",
   ind_healthcare_received_dnk = "dnk",
   ind_healthcare_received_pnta = "pnta",
+  ind_healthcare_type = "health_ind_healthcare_needed_type",
+  ind_healthcare_type_lifesaving = c(
+    "consultation_acute",
+    "consultation_chronic",
+    "trauma",
+    "emergency_surgery",
+    "natal_services",
+    "safe_delivery"
+  ),
+  sep = "/",
   ind_age = "ind_age"
 ) {
   #------ Checks
@@ -107,7 +121,6 @@ add_loop_healthcare_needed_cat <- function(
   }
 
   # warn if needed == yes but received is NA (use parameterized column names / levels)
-
   healthcare_needed_received_na <- !is.na(loop[[ind_healthcare_needed]]) &
     loop[[ind_healthcare_needed]] == ind_healthcare_needed_yes &
     is.na(loop[[ind_healthcare_received]])
@@ -118,13 +131,42 @@ add_loop_healthcare_needed_cat <- function(
     ))
   }
 
+  # Check if ind_healthcare_type is in the data frame; if not, warn and skip lifesaving
+  has_healthcare_type <- ind_healthcare_type %in% colnames(loop)
+  if (!has_healthcare_type) {
+    rlang::warn(glue::glue(
+      "Variable ind_healthcare_type: {ind_healthcare_type} does not exist in `loop`. Calculation of lifesaving (unmet) health needs is skipped."
+    ))
+  } else {
+    ind_healthcare_type_d_lifesaving <- paste0(
+      ind_healthcare_type,
+      sep,
+      ind_healthcare_type_lifesaving
+    )
+
+    # Check if columns are in the dataset and in 0:1 set
+    are_values_in_set(
+      loop,
+      ind_healthcare_type_d_lifesaving,
+      c(0, 1)
+    )
+
+    # Warn for existing "health_ind_healthcare_needed_lifesaving_yes_unmet"
+    if ("health_ind_healthcare_needed_lifesaving_yes_unmet" %in% colnames(loop)) {
+      rlang::warn(
+        "health_ind_healthcare_needed_lifesaving_yes_unmet already exists in loop. It will be replaced."
+      )
+    }
+  }
+
+
   #------ Compute
   needed_col <- rlang::sym(ind_healthcare_needed)
   received_col <- rlang::sym(ind_healthcare_received)
   # Calculate dummy variables (single mutate for performance) and derive category & final dummies
   loop <- dplyr::mutate(
     loop,
-    # Basic needed dummy
+    # Needed dummy
     health_ind_healthcare_needed_d = dplyr::case_when(
       !!needed_col == ind_healthcare_needed_no ~ 0,
       !!needed_col == ind_healthcare_needed_yes ~ 1,
@@ -145,8 +187,8 @@ add_loop_healthcare_needed_cat <- function(
     # Category logic:
     # - If needed=0 -> no_need (even if received is NA or any value)
     # - If needed=1 & received=1 -> yes_met_need
-    # - If needed=1 & received=0 o-> yes_unmet_need
-    # - Else NA (e.g needed=1 & received ("ptna", "dnk", NA))
+    # - If needed=1 & received=0 -> yes_unmet_need
+    # - Else NA (e.g needed=1 & received ("pnta", "dnk", NA))
     health_ind_healthcare_needed_cat = dplyr::case_when(
       health_ind_healthcare_needed_d == 0 ~ "no_need",
       health_ind_healthcare_needed_d == 1 &
@@ -174,6 +216,24 @@ add_loop_healthcare_needed_cat <- function(
     )
   )
 
+  # Option: life-saving type of healthcare
+  if (has_healthcare_type) {
+    loop <- dplyr::mutate(
+      loop,
+      # 1 if individual had unmet need AND sought at least one lifesaving type
+      "health_ind_healthcare_needed_lifesaving_yes_unmet" := dplyr::case_when(
+        health_ind_healthcare_needed_yes_unmet == 1 &
+          dplyr::if_any(
+            dplyr::all_of(ind_healthcare_type_d_lifesaving),
+            \(x) x == 1
+          ) ~ 1,
+        health_ind_healthcare_needed_yes_unmet == 1 ~ 0,
+        health_ind_healthcare_needed_yes_unmet == 0 ~ 0,
+        .default = NA_real_
+      )
+    )
+  }
+
   return(loop)
 }
 
@@ -188,6 +248,7 @@ add_loop_healthcare_needed_cat <- function(
 #' @param ind_healthcare_needed_no The binary variable that indicates if healthcare is not needed.
 #' @param ind_healthcare_needed_yes_unmet The binary variable that indicates if healthcare is needed but unmet.
 #' @param ind_healthcare_needed_yes_met The binary variable that indicates if healthcare is needed and met.
+#' @param ind_healthcare_needed_lifesaving_yes_unmet The binary variable that indicates if a life-saving healthcare is needed and unmet.
 #' @param id_col_main The column name for the unique identifier in the main data frame.
 #' @param id_col_loop The column name for the unique identifier in the loop data frame.
 #'
@@ -196,6 +257,7 @@ add_loop_healthcare_needed_cat <- function(
 #' * health_ind_healthcare_needed_no_n: Count of individuals not needing healthcare.
 #' * health_ind_healthcare_needed_yes_unmet_n: Count of individuals with unmet healthcare needs.
 #' * health_ind_healthcare_needed_yes_met_n: Count of individuals with met healthcare needs.
+#' * health_ind_healthcare_needed_lifesaving_yes_unmet_n: Count of individuals with unmet lifesaving healthcare needs (only when the column is present in `loop`).
 #'
 #' @export
 add_loop_healthcare_needed_cat_to_main <- function(
@@ -204,6 +266,7 @@ add_loop_healthcare_needed_cat_to_main <- function(
   ind_healthcare_needed_no = "health_ind_healthcare_needed_no",
   ind_healthcare_needed_yes_unmet = "health_ind_healthcare_needed_yes_unmet",
   ind_healthcare_needed_yes_met = "health_ind_healthcare_needed_yes_met",
+  ind_healthcare_needed_lifesaving_yes_unmet = "health_ind_healthcare_needed_lifesaving_yes_unmet",
   id_col_main = "uuid",
   id_col_loop = "uuid"
 ) {
@@ -247,6 +310,22 @@ add_loop_healthcare_needed_cat_to_main <- function(
     ))
   }
 
+  # If lifesaving column exists in loop, add it to aggregation; otherwise warn
+  if (!ind_healthcare_needed_lifesaving_yes_unmet %in% colnames(loop)) {
+    rlang::warn(glue::glue(
+      "Variable {ind_healthcare_needed_lifesaving_yes_unmet} does not exist in loop. Calculation of lifesaving (unmet) health needs is skipped."
+    ))
+  } else {
+    if (paste0(ind_healthcare_needed_lifesaving_yes_unmet, "_n") %in% colnames(main)) {
+      rlang::warn(paste0(
+        paste0(ind_healthcare_needed_lifesaving_yes_unmet, "_n"),
+        " already exists in 'main'. It will be replaced."
+      ))
+    }
+    are_values_in_set(loop, ind_healthcare_needed_lifesaving_yes_unmet, c(0, 1))
+    vars <- c(vars, ind_healthcare_needed_lifesaving_yes_unmet)
+  }
+
   #------ Compute
 
   # Group loop by id_col_loop
@@ -270,8 +349,6 @@ add_loop_healthcare_needed_cat_to_main <- function(
   cols_from_loop_in_main <- intersect(colnames(loop), colnames(main))
   cols_from_loop_in_main <- setdiff(cols_from_loop_in_main, cols_uuids)
   main <- dplyr::select(main, -dplyr::all_of(cols_from_loop_in_main))
-  # Need a change of behavior of df_diff towards: if it exists, keep them and no need to remove from df_b
-  # main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
 
   # Join the data
   main <- dplyr::left_join(
