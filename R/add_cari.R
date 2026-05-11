@@ -2,18 +2,29 @@
 
 #' @title Add CARI Indicators
 #'
-#' @description Computes the Current Status domain of the Consolidated Approach
-#' for Reporting Indicators of Food Security (CARI). Combines the Food
-#' Consumption Score category (`fsl_fcs_cat`) and the reduced Coping Strategies
-#' Index score (`fsl_rcsi_score`) into a categorical score:
+#' @description Computes CARI domain indicators for the Consolidated Approach
+#' for Reporting Indicators of Food Security (CARI).
 #'
-#' * **"food_secure"**: Acceptable FCS and rCSI score < 4
-#' * **"marginally_food_secure"**: Acceptable FCS and rCSI score >= 4
-#' * **"moderately_food_insecure"**: Borderline FCS (rCSI not considered)
-#' * **"severely_food_insecure"**: Poor FCS (rCSI not considered)
+#' **Current Status** combines the Food Consumption Score category
+#' (`fsl_fcs_cat`) and the reduced Coping Strategies Index score
+#' (`fsl_rcsi_score`) into an integer score 1–4:
 #'
-#' Prerequisite: run `add_fcs()` (from `impactR4PHU`) and `add_rcsi()` (from
-#' `impactR4PHU`) before calling this function.
+#' * **1** (food secure): Acceptable FCS and rCSI score < 4
+#' * **2** (marginally food secure): Acceptable FCS and rCSI score >= 4
+#' * **3** (moderately food insecure): Borderline FCS (rCSI not considered)
+#' * **4** (severely food insecure): Poor FCS (rCSI not considered)
+#'
+#' **Food Expenditure Share (FES)** is the proportion of food expenditure
+#' relative to total expenditure (output of `add_expenditure_type_prop()`),
+#' scored 1–4:
+#'
+#' * **1**: FES < 50%
+#' * **2**: FES in \[50%, 65%)
+#' * **3**: FES in \[65%, 75%)
+#' * **4**: FES >= 75%
+#'
+#' Prerequisite: run `add_fcs()` and `add_rcsi()` (from `impactR4PHU`) and
+#' `add_expenditure_type_prop()` before calling this function.
 #'
 #' @param df A data frame.
 #' @param fcs_cat Column name for the FCS category.
@@ -21,12 +32,16 @@
 #' @param fcs_cat_borderline Level for Borderline food consumption.
 #' @param fcs_cat_poor Level for Poor food consumption.
 #' @param rcsi_score Column name for the rCSI score.
+#' @param cm_expenditure_frequent_food_prop Column name for the food expenditure
+#'   proportion relative to total expenditure (output of
+#'   `add_expenditure_type_prop()`).
 #'
-#' @return A data frame with one additional column:
+#' @return A data frame with additional columns:
 #'
-#' * `fsl_cari_current_status_cat`: One of `"food_secure"`,
-#'   `"marginally_food_secure"`, `"moderately_food_insecure"`,
-#'   `"severely_food_insecure"`, or `NA`.
+#' * `fsl_cari_current_status_score`: Integer score 1–4, or `NA`.
+#' * `fsl_cari_fes_prop`: Food expenditure share, equal to
+#'   `cm_expenditure_frequent_food_prop`, or `NA` if that column is `NA`.
+#' * `fsl_cari_fes_score`: Integer score 1–4, or `NA`.
 #'
 #' @export
 add_cari <- function(
@@ -35,11 +50,16 @@ add_cari <- function(
   fcs_cat_acceptable = "Acceptable",
   fcs_cat_borderline = "Borderline",
   fcs_cat_poor = "Poor",
-  rcsi_score = "fsl_rcsi_score"
+  rcsi_score = "fsl_rcsi_score",
+  cm_expenditure_frequent_food_prop = "cm_expenditure_frequent_food_prop"
 ) {
   #------ Checks
 
-  if_not_in_stop(df, c(fcs_cat, rcsi_score), "df")
+  if_not_in_stop(
+    df,
+    c(fcs_cat, rcsi_score, cm_expenditure_frequent_food_prop),
+    "df"
+  )
 
   are_values_in_set(
     df,
@@ -49,20 +69,39 @@ add_cari <- function(
 
   are_values_in_range(df, rcsi_score, lower = 0, upper = 56)
 
-  #------ Compute
-
-  dplyr::mutate(
+  are_values_in_range(
     df,
-    fsl_cari_current_status_cat = dplyr::case_when(
-      .data[[fcs_cat]] == fcs_cat_acceptable & .data[[rcsi_score]] < 4 ~
-        "food_secure",
-      .data[[fcs_cat]] == fcs_cat_acceptable & .data[[rcsi_score]] >= 4 ~
-        "marginally_food_secure",
-      .data[[fcs_cat]] == fcs_cat_borderline ~
-        "moderately_food_insecure",
-      .data[[fcs_cat]] == fcs_cat_poor ~
-        "severely_food_insecure",
-      .default = NA_character_
+    cm_expenditure_frequent_food_prop,
+    lower = 0,
+    upper = 1
+  )
+
+  #------ Compute current status
+
+  df <- dplyr::mutate(
+    df,
+    fsl_cari_current_status_score = dplyr::case_when(
+      .data[[fcs_cat]] == fcs_cat_acceptable & .data[[rcsi_score]] < 4 ~ 1L,
+      .data[[fcs_cat]] == fcs_cat_acceptable & .data[[rcsi_score]] >= 4 ~ 2L,
+      .data[[fcs_cat]] == fcs_cat_borderline ~ 3L,
+      .data[[fcs_cat]] == fcs_cat_poor ~ 4L,
+      .default = NA_integer_
     )
   )
+
+  #------ Compute Food Expenditure Share (FES)
+
+  df <- dplyr::mutate(
+    df,
+    fsl_cari_fes_prop = .data[[cm_expenditure_frequent_food_prop]],
+    fsl_cari_fes_score = dplyr::case_when(
+      is.na(.data[["fsl_cari_fes_prop"]]) ~ NA_integer_,
+      .data[["fsl_cari_fes_prop"]] < 0.50 ~ 1L,
+      .data[["fsl_cari_fes_prop"]] < 0.65 ~ 2L,
+      .data[["fsl_cari_fes_prop"]] < 0.75 ~ 3L,
+      .default = 4L
+    )
+  )
+
+  return(df)
 }
