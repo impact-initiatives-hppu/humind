@@ -31,6 +31,10 @@
 #' * **3** (crisis): Crisis coping strategies applied
 #' * **4** (emergency): Emergency coping strategies applied
 #'
+#' The **final CARI score** is the simple average of Current Status and Coping
+#' Capacity: `(CS + CC) / 2`, where CC is the simple average of the FES and
+#' LCSI scores.
+#'
 #' Prerequisite: run `add_fcs()`, `add_rcsi()`, and `add_lcsi()` (from
 #' `impactR4PHU`) and `add_expenditure_type_prop()` before calling this
 #' function.
@@ -57,6 +61,9 @@
 #'   `cm_expenditure_frequent_food_prop`), or `NA`.
 #' * `fsl_cari_fes_score`: Integer score 1–4, or `NA`.
 #' * `fsl_cari_lcsi_score`: Integer score 1–4, or `NA`.
+#' * `fsl_cari_coping_capacity_score`: Mean of FES and LCSI scores, or `NA`.
+#' * `fsl_cari_score`: Final CARI score `(current_status + coping_capacity) / 2`,
+#'   a numeric value in \[1, 4\], or `NA`.
 #'
 #' @export
 add_cari <- function(
@@ -140,6 +147,18 @@ add_cari <- function(
       .data[[lcsi_cat]] == lcsi_cat_emergency ~ 4L,
       .default = NA_integer_
     )
+  )
+
+  #------ Compute Coping Capacity and final CARI score
+
+  df <- dplyr::mutate(
+    df,
+    fsl_cari_coping_capacity_score = (
+      .data[["fsl_cari_fes_score"]] + .data[["fsl_cari_lcsi_score"]]
+    ) / 2,
+    fsl_cari_score = (
+      .data[["fsl_cari_current_status_score"]] + .data[["fsl_cari_coping_capacity_score"]]
+    ) / 2
   )
 
   return(df)

@@ -222,3 +222,79 @@ test_that("add_cari errors on missing lcsi column", {
 test_that("add_cari errors on invalid lcsi values", {
   expect_error(add_cari(make_base_df(fsl_lcsi_cat = "Unknown")))
 })
+
+# ---- add_cari: fsl_cari_coping_capacity_score and fsl_cari_score ----
+
+test_that("add_cari returns fsl_cari_coping_capacity_score and fsl_cari_score columns", {
+  result <- add_cari(make_base_df())
+  expect_true("fsl_cari_coping_capacity_score" %in% colnames(result))
+  expect_true("fsl_cari_score" %in% colnames(result))
+})
+
+test_that("fsl_cari_coping_capacity_score is mean of FES and LCSI scores", {
+  # FES score 2 (prop=0.55), LCSI score 3 (Crisis) → CC = (2+3)/2 = 2.5
+  result <- add_cari(make_base_df(
+    cm_expenditure_frequent_food_prop = 0.55,
+    fsl_lcsi_cat = "Crisis"
+  ))
+  expect_equal(result$fsl_cari_coping_capacity_score, 2.5)
+})
+
+test_that("fsl_cari_score is (CS + CC) / 2 — scenario CS=4, CC=2.5 → 3.25", {
+  # CS=4 (Poor FCS), FES score 3, LCSI score 2 → CC=2.5, score=(4+2.5)/2=3.25
+  result <- add_cari(make_base_df(
+    fsl_fcs_cat = "Poor",
+    fsl_rcsi_score = 0,
+    cm_expenditure_frequent_food_prop = 0.67, # FES score 3
+    fsl_lcsi_cat = "Stress"                   # LCSI score 2
+  ))
+  expect_equal(result$fsl_cari_score, 3.25)
+})
+
+test_that("fsl_cari_score — scenario CS=4, CC=3 → 3.5", {
+  # CS=4 (Poor FCS), FES score 3, LCSI score 3 → CC=3, score=(4+3)/2=3.5
+  result <- add_cari(make_base_df(
+    fsl_fcs_cat = "Poor",
+    fsl_rcsi_score = 0,
+    cm_expenditure_frequent_food_prop = 0.67, # FES score 3
+    fsl_lcsi_cat = "Crisis"                   # LCSI score 3
+  ))
+  expect_equal(result$fsl_cari_score, 3.5)
+})
+
+test_that("fsl_cari_score — CS=1, CC=2 → 1.5", {
+  # CS=1 (Acceptable FCS + rCSI<4), FES score 2, LCSI score 2 → CC=2, score=1.5
+  result <- add_cari(make_base_df(
+    fsl_fcs_cat = "Acceptable",
+    fsl_rcsi_score = 0,
+    cm_expenditure_frequent_food_prop = 0.55, # FES score 2
+    fsl_lcsi_cat = "Stress"                   # LCSI score 2
+  ))
+  expect_equal(result$fsl_cari_score, 1.5)
+})
+
+test_that("fsl_cari_score is NA when CS is NA", {
+  result <- add_cari(make_base_df(fsl_fcs_cat = NA_character_))
+  expect_true(is.na(result$fsl_cari_score))
+})
+
+test_that("fsl_cari_score is NA when CC is NA", {
+  result <- add_cari(make_base_df(fsl_lcsi_cat = NA_character_))
+  expect_true(is.na(result$fsl_cari_score))
+})
+
+test_that("fsl_cari_score is numeric type", {
+  result <- add_cari(make_base_df())
+  expect_type(result$fsl_cari_score, "double")
+})
+
+test_that("fsl_cari_score is in range 1-4 for all valid inputs", {
+  df <- make_base_df(
+    fsl_fcs_cat = c("Acceptable", "Acceptable", "Borderline", "Poor"),
+    fsl_rcsi_score = c(0, 4, 0, 0),
+    cm_expenditure_frequent_food_prop = c(0.3, 0.6, 0.7, 0.8),
+    fsl_lcsi_cat = c("None", "Stress", "Crisis", "Emergency")
+  )
+  result <- add_cari(df)
+  expect_true(all(result$fsl_cari_score >= 1 & result$fsl_cari_score <= 4))
+})
