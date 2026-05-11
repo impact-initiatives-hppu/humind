@@ -23,8 +23,17 @@
 #' * **3**: FES in \[65%, 75%)
 #' * **4**: FES >= 75%
 #'
-#' Prerequisite: run `add_fcs()` and `add_rcsi()` (from `impactR4PHU`) and
-#' `add_expenditure_type_prop()` before calling this function.
+#' **LCSI** is the Livelihood Coping Strategy category (output of `add_lcsi()`
+#' from `impactR4PHU`), scored 1–4:
+#'
+#' * **1** (none): No coping strategies applied
+#' * **2** (stress): Stress coping strategies applied
+#' * **3** (crisis): Crisis coping strategies applied
+#' * **4** (emergency): Emergency coping strategies applied
+#'
+#' Prerequisite: run `add_fcs()`, `add_rcsi()`, and `add_lcsi()` (from
+#' `impactR4PHU`) and `add_expenditure_type_prop()` before calling this
+#' function.
 #'
 #' @param df A data frame.
 #' @param fcs_cat Column name for the FCS category.
@@ -35,13 +44,19 @@
 #' @param cm_expenditure_frequent_food_prop Column name for the food expenditure
 #'   proportion relative to total expenditure (output of
 #'   `add_expenditure_type_prop()`).
+#' @param lcsi_cat Column name for the LCSI category (output of `add_lcsi()`).
+#' @param lcsi_cat_none Level for no coping strategies applied.
+#' @param lcsi_cat_stress Level for stress coping strategies applied.
+#' @param lcsi_cat_crisis Level for crisis coping strategies applied.
+#' @param lcsi_cat_emergency Level for emergency coping strategies applied.
 #'
 #' @return A data frame with additional columns:
 #'
 #' * `fsl_cari_current_status_score`: Integer score 1–4, or `NA`.
-#' * `fsl_cari_fes_prop`: Food expenditure share, equal to
-#'   `cm_expenditure_frequent_food_prop`, or `NA` if that column is `NA`.
+#' * `fsl_cari_fes_prop`: Food expenditure share (copy of
+#'   `cm_expenditure_frequent_food_prop`), or `NA`.
 #' * `fsl_cari_fes_score`: Integer score 1–4, or `NA`.
+#' * `fsl_cari_lcsi_score`: Integer score 1–4, or `NA`.
 #'
 #' @export
 add_cari <- function(
@@ -51,13 +66,18 @@ add_cari <- function(
   fcs_cat_borderline = "Borderline",
   fcs_cat_poor = "Poor",
   rcsi_score = "fsl_rcsi_score",
-  cm_expenditure_frequent_food_prop = "cm_expenditure_frequent_food_prop"
+  cm_expenditure_frequent_food_prop = "cm_expenditure_frequent_food_prop",
+  lcsi_cat = "fsl_lcsi_cat",
+  lcsi_cat_none = "None",
+  lcsi_cat_stress = "Stress",
+  lcsi_cat_crisis = "Crisis",
+  lcsi_cat_emergency = "Emergency"
 ) {
   #------ Checks
 
   if_not_in_stop(
     df,
-    c(fcs_cat, rcsi_score, cm_expenditure_frequent_food_prop),
+    c(fcs_cat, rcsi_score, cm_expenditure_frequent_food_prop, lcsi_cat),
     "df"
   )
 
@@ -74,6 +94,12 @@ add_cari <- function(
     cm_expenditure_frequent_food_prop,
     lower = 0,
     upper = 1
+  )
+
+  are_values_in_set(
+    df,
+    lcsi_cat,
+    c(lcsi_cat_none, lcsi_cat_stress, lcsi_cat_crisis, lcsi_cat_emergency)
   )
 
   #------ Compute current status
@@ -100,6 +126,19 @@ add_cari <- function(
       .data[["fsl_cari_fes_prop"]] < 0.65 ~ 2L,
       .data[["fsl_cari_fes_prop"]] < 0.75 ~ 3L,
       .default = 4L
+    )
+  )
+
+  #------ Compute LCSI score
+
+  df <- dplyr::mutate(
+    df,
+    fsl_cari_lcsi_score = dplyr::case_when(
+      .data[[lcsi_cat]] == lcsi_cat_none ~ 1L,
+      .data[[lcsi_cat]] == lcsi_cat_stress ~ 2L,
+      .data[[lcsi_cat]] == lcsi_cat_crisis ~ 3L,
+      .data[[lcsi_cat]] == lcsi_cat_emergency ~ 4L,
+      .default = NA_integer_
     )
   )
 
