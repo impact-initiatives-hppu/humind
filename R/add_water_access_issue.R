@@ -4,27 +4,19 @@
 
 #' @title Add Physical Water Access Issue Indicator
 #'
-#' @description
-#' Computes a binary variable (`wash_water_access_issue_physical_d`) that is
-#' `1` if the household reported any physical barrier to accessing water points
-#' (too far, difficult to use, disability-related barriers, or excessive waiting
-#' time), `0` if none were reported, and `NA` if the response was ambiguous
-#' (dnk/pnta/other) or the household has no water source (`wash_drinking_water_source = 'none'`).
+#' @description Computes a binary variable (`wash_water_access_issue_physical_d`) that is `1L` if the household reported any physical barrier to accessing water points (too far, difficult to use, disability-related barriers, safety concerns, or excessive waiting time), `0L` if none were reported, and `NA` if the response was ambiguous (dnk/pnta/other) or the household has no water source (`wash_drinking_water_source = 'none'`).
 #'
 #' @param df A data frame.
 #' @param water_access_issue Base name of the select_multiple variable.
-#' @param physical Character vector of responses that indicate physical access
-#'   barriers.
+#' @param physical Character vector of responses that indicate physical access barriers.
 #' @param undefined Character vector of undefined responses (dnk, pnta, other).
 #' @param water_source Column name for the water source type.
 #' @param none Response code for no water source.
-#' @param sep Separator between the base name and response code in binary
-#'   column names.
+#' @param sep Separator between the base name and response code in binary column names.
 #'
 #' @return A data frame with one additional column:
 #'
-#' * `wash_water_access_issue_physical_d`: `1` if any physical barrier is
-#'   reported; `0` if none; `NA` if undefined response or no water source.
+#' * `wash_water_access_issue_physical_d`: `1L` if any physical barrier is reported; `0L` if none; `NA` if undefined response or no water source.
 #'
 #' @family water_access_issue
 #' @export
@@ -35,6 +27,8 @@ add_water_access_issue_physical <- function(
     "waterpoints_too_far",
     "waterpoints_difficult_use",
     "disability_no_access_waterpoints",
+    "safety_concerns_waterpoints",
+    "safety_concerns_travel_waterpoints",
     "excessive_waiting_time_waterpoints"
   ),
   undefined = c("dnk", "pnta", "other"),
@@ -56,10 +50,10 @@ add_water_access_issue_physical <- function(
   df <- dplyr::mutate(
     df,
     wash_water_access_issue_physical_d = dplyr::case_when(
-      .data[[water_source]] %in% none ~ NA_real_,
-      dplyr::if_any(dplyr::all_of(d_undefined), \(x) x == 1) ~ NA_real_,
-      dplyr::if_any(dplyr::all_of(d_physical), \(x) x == 1) ~ 1,
-      .default = 0
+      .data[[water_source]] %in% none ~ NA_integer_,
+      dplyr::if_any(dplyr::all_of(d_undefined), \(x) x == 1) ~ NA_integer_,
+      dplyr::if_any(dplyr::all_of(d_physical), \(x) x == 1) ~ 1L,
+      .default = 0L
     )
   )
 
@@ -71,21 +65,13 @@ add_water_access_issue_physical <- function(
 #'
 #' @title Add Financial Water Access Issue Indicator
 #'
-#' @description
-#' Computes a binary variable (`wash_water_access_issue_financial_d`) that is
-#' `1` if the household reported any financial barrier to accessing water
-#' (water not available at market, too expensive, or insufficient storage
-#' containers), `0` if none were reported, and `NA` if the response was
-#' ambiguous (dnk/pnta/other) or the household has no water source
-#' (`wash_drinking_water_source = 'none'`).
+#' @description Computes a binary variable (`wash_water_access_issue_financial_d`) that is `1L` if the household reported any financial barrier to accessing water (water not available at market, too expensive, or insufficient storage containers), `0L` if none were reported, and `NA` if the response was ambiguous (dnk/pnta/other) or the household has no water source (`wash_drinking_water_source = 'none'`).
 #'
-#' @param financial Character vector of responses that indicate financial access
-#'   barriers.
+#' @param financial Character vector of responses that indicate financial access barriers.
 #'
 #' @return A data frame with one additional column:
 #'
-#' * `wash_water_access_issue_financial_d`: `1` if any financial barrier is
-#'   reported; `0` if none; `NA` if undefined response or no water source.
+#' * `wash_water_access_issue_financial_d`: `1L` if any financial barrier is reported; `0L` if none; `NA` if undefined response or no water source.
 #'
 #' @family water_access_issue
 #' @export
@@ -116,10 +102,10 @@ add_water_access_issue_financial <- function(
   df <- dplyr::mutate(
     df,
     wash_water_access_issue_financial_d = dplyr::case_when(
-      .data[[water_source]] %in% none ~ NA_real_,
-      dplyr::if_any(dplyr::all_of(d_undefined), \(x) x == 1) ~ NA_real_,
-      dplyr::if_any(dplyr::all_of(d_financial), \(x) x == 1) ~ 1,
-      .default = 0
+      .data[[water_source]] %in% none ~ NA_integer_,
+      dplyr::if_any(dplyr::all_of(d_undefined), \(x) x == 1) ~ NA_integer_,
+      dplyr::if_any(dplyr::all_of(d_financial), \(x) x == 1) ~ 1L,
+      .default = 0L
     )
   )
 

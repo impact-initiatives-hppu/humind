@@ -3,6 +3,8 @@ make_df <- function(
   too_far = 0L,
   difficult_use = 0L,
   disability = 0L,
+  safety = 0L,
+  safety_travel = 0L,
   waiting_time = 0L,
   not_available = 0L,
   too_expensive = 0L,
@@ -18,6 +20,8 @@ make_df <- function(
     `wash_water_access_issue/waterpoints_too_far` = too_far,
     `wash_water_access_issue/waterpoints_difficult_use` = difficult_use,
     `wash_water_access_issue/disability_no_access_waterpoints` = disability,
+    `wash_water_access_issue/safety_concerns_waterpoints` = safety,
+    `wash_water_access_issue/safety_concerns_travel_waterpoints` = safety_travel,
     `wash_water_access_issue/excessive_waiting_time_waterpoints` = waiting_time,
     `wash_water_access_issue/water_not_available_market` = not_available,
     `wash_water_access_issue/water_too_expensive` = too_expensive,
@@ -29,27 +33,37 @@ make_df <- function(
   )
 }
 
-# ---- add_water_access_issue_physical ----
+
+#########################################
+### add_water_access_issue_physical
+#########################################
 
 test_that("add_water_access_issue_physical returns wash_water_access_issue_physical_d", {
   result <- add_water_access_issue_physical(make_df())
   expect_true("wash_water_access_issue_physical_d" %in% colnames(result))
 })
 
-test_that("add_water_access_issue_physical is 0 when no physical option selected", {
+test_that("output is integer type", {
   result <- add_water_access_issue_physical(make_df())
-  expect_equal(result$wash_water_access_issue_physical_d, 0)
+  expect_type(result$wash_water_access_issue_physical_d, "integer")
 })
 
-test_that("add_water_access_issue_physical is 1 for each physical option individually", {
+test_that("add_water_access_issue_physical is 0L when no physical option selected", {
+  result <- add_water_access_issue_physical(make_df())
+  expect_equal(result$wash_water_access_issue_physical_d, 0L)
+})
+
+test_that("add_water_access_issue_physical is 1L for each physical option individually", {
   df <- dplyr::bind_rows(
     make_df(too_far = 1L),
     make_df(difficult_use = 1L),
     make_df(disability = 1L),
+    make_df(safety = 1L),
+    make_df(safety_travel = 1L),
     make_df(waiting_time = 1L)
   )
   result <- add_water_access_issue_physical(df)
-  expect_equal(result$wash_water_access_issue_physical_d, rep(1, 4))
+  expect_equal(result$wash_water_access_issue_physical_d, rep(1L, 6))
 })
 
 test_that("add_water_access_issue_physical is NA for each undefined option", {
@@ -80,26 +94,34 @@ test_that("add_water_access_issue_physical errors when a dummy column is missing
   expect_error(add_water_access_issue_physical(df))
 })
 
-# ---- add_water_access_issue_financial ----
+
+#########################################
+### add_water_access_issue_financial
+#########################################
 
 test_that("add_water_access_issue_financial returns wash_water_access_issue_financial_d", {
   result <- add_water_access_issue_financial(make_df())
   expect_true("wash_water_access_issue_financial_d" %in% colnames(result))
 })
 
-test_that("add_water_access_issue_financial is 0 when no financial option selected", {
+test_that("output is integer type", {
   result <- add_water_access_issue_financial(make_df())
-  expect_equal(result$wash_water_access_issue_financial_d, 0)
+  expect_type(result$wash_water_access_issue_financial_d, "integer")
 })
 
-test_that("add_water_access_issue_financial is 1 for each financial option individually", {
+test_that("add_water_access_issue_financial is 0L when no financial option selected", {
+  result <- add_water_access_issue_financial(make_df())
+  expect_equal(result$wash_water_access_issue_financial_d, 0L)
+})
+
+test_that("add_water_access_issue_financial is 1L for each financial option individually", {
   df <- dplyr::bind_rows(
     make_df(not_available = 1L),
     make_df(too_expensive = 1L),
     make_df(no_containers = 1L)
   )
   result <- add_water_access_issue_financial(df)
-  expect_equal(result$wash_water_access_issue_financial_d, rep(1, 3))
+  expect_equal(result$wash_water_access_issue_financial_d, rep(1L, 3))
 })
 
 test_that("add_water_access_issue_financial is NA for each undefined option", {
