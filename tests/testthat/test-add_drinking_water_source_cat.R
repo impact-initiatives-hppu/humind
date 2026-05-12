@@ -128,39 +128,58 @@ test_that("add_drinking_water_unimproved_no_treatment adds expected column", {
   )
 })
 
-test_that("is 1 when source is unimproved and no treatment", {
+test_that("output is integer type", {
+  result <- add_drinking_water_unimproved_no_treatment(make_df_treatment())
+  expect_type(result$wash_drinking_water_unimproved_no_treatment_d, "integer")
+})
+
+test_that("is 1L when source is unimproved and no treatment", {
   result <- add_drinking_water_unimproved_no_treatment(
     make_df_treatment(source_cat = "unimproved", safer_yn = "no")
   )
-  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, 1)
+  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, 1L)
 })
 
-test_that("is 1 when source is surface_water and no treatment", {
+test_that("is 1L when source is surface_water and no treatment", {
   result <- add_drinking_water_unimproved_no_treatment(
     make_df_treatment(source_cat = "surface_water", safer_yn = "no")
   )
-  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, 1)
+  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, 1L)
 })
 
-test_that("is 0 when source is improved regardless of treatment", {
+test_that("is 0L when source is improved regardless of treatment", {
   df <- dplyr::bind_rows(
     make_df_treatment(source_cat = "improved", safer_yn = "yes"),
     make_df_treatment(source_cat = "improved", safer_yn = "no")
   )
   result <- add_drinking_water_unimproved_no_treatment(df)
-  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, c(0, 0))
+  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, c(0L, 0L))
 })
 
-test_that("is 0 when source is unimproved but household treats water", {
+test_that("is 0L when source is unimproved but household treats water", {
   result <- add_drinking_water_unimproved_no_treatment(
     make_df_treatment(source_cat = "unimproved", safer_yn = "yes")
   )
-  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, 0)
+  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, 0L)
 })
 
 test_that("is NA when source category is undefined", {
   result <- add_drinking_water_unimproved_no_treatment(
     make_df_treatment(source_cat = "undefined", safer_yn = "no")
+  )
+  expect_true(is.na(result$wash_drinking_water_unimproved_no_treatment_d))
+})
+
+test_that("is NA when source category is NA", {
+  result <- add_drinking_water_unimproved_no_treatment(
+    make_df_treatment(source_cat = NA_character_, safer_yn = "no")
+  )
+  expect_true(is.na(result$wash_drinking_water_unimproved_no_treatment_d))
+})
+
+test_that("is NA when safer_yn is NA", {
+  result <- add_drinking_water_unimproved_no_treatment(
+    make_df_treatment(source_cat = "unimproved", safer_yn = NA_character_)
   )
   expect_true(is.na(result$wash_drinking_water_unimproved_no_treatment_d))
 })

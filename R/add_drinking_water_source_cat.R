@@ -393,7 +393,11 @@ add_drinking_water_unimproved_no_treatment <- function(
   are_values_in_set(
     df,
     drinking_water_safer_yn,
-    c(drinking_water_safer_yes, drinking_water_safer_no, drinking_water_safer_undefined)
+    c(
+      drinking_water_safer_yes,
+      drinking_water_safer_no,
+      drinking_water_safer_undefined
+    )
   )
 
   #------ Compute
@@ -401,11 +405,15 @@ add_drinking_water_unimproved_no_treatment <- function(
   df <- dplyr::mutate(
     df,
     wash_drinking_water_unimproved_no_treatment_d = dplyr::case_when(
-      .data[[drinking_water_source_cat]] == "undefined" ~ NA_real_,
-      .data[[drinking_water_safer_yn]] %in% drinking_water_safer_undefined ~ NA_real_,
-      .data[[drinking_water_source_cat]] %in% unimproved &
-        .data[[drinking_water_safer_yn]] == drinking_water_safer_no ~ 1,
-      .default = 0
+      is.na(.data[[drinking_water_source_cat]]) ~ NA_integer_,
+      is.na(.data[[drinking_water_safer_yn]]) ~ NA_integer_,
+      .data[[drinking_water_source_cat]] == "undefined" ~ NA_integer_,
+      .data[[drinking_water_safer_yn]] %in%
+        drinking_water_safer_undefined ~ NA_integer_,
+      .data[[drinking_water_source_cat]] %in%
+        unimproved &
+        .data[[drinking_water_safer_yn]] == drinking_water_safer_no ~ 1L,
+      .default = 0L
     )
   )
 
