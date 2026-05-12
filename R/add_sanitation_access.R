@@ -24,9 +24,6 @@ add_sanitation_access_issue_physical <- function(
     df,
     sanitation_access_issue = "wash_sanitation_access_issue",
     physical = c(
-        "lack_sanitation_facilities_crowded",
-        "sanitation_not_functioning_full",
-        "sanitation_unclean_unhygienic",
         "sanitation_not_private",
         "sanitation_too_far",
         "sanitation_difficult_access",

@@ -1,8 +1,5 @@
 # Helper: one row with all dummy columns; override any param to set a specific scenario
 make_df <- function(
-  crowded = 0L,
-  not_functioning = 0L,
-  unclean = 0L,
   not_private = 0L,
   too_far = 0L,
   difficult_access = 0L,
@@ -18,9 +15,6 @@ make_df <- function(
   dplyr::tibble(
     wash_sanitation_facility = facility,
     wash_sanitation_access_issue = "no_problem",
-    `wash_sanitation_access_issue/lack_sanitation_facilities_crowded` = crowded,
-    `wash_sanitation_access_issue/sanitation_not_functioning_full` = not_functioning,
-    `wash_sanitation_access_issue/sanitation_unclean_unhygienic` = unclean,
     `wash_sanitation_access_issue/sanitation_not_private` = not_private,
     `wash_sanitation_access_issue/sanitation_too_far` = too_far,
     `wash_sanitation_access_issue/sanitation_difficult_access` = difficult_access,
@@ -57,9 +51,6 @@ test_that("add_sanitation_access_issue_physical is 0L when no physical option se
 
 test_that("add_sanitation_access_issue_physical is 1L for each physical option individually", {
   df <- dplyr::bind_rows(
-    make_df(crowded = 1L),
-    make_df(not_functioning = 1L),
-    make_df(unclean = 1L),
     make_df(not_private = 1L),
     make_df(too_far = 1L),
     make_df(difficult_access = 1L),
@@ -67,7 +58,7 @@ test_that("add_sanitation_access_issue_physical is 1L for each physical option i
     make_df(disabilities = 1L)
   )
   result <- add_sanitation_access_issue_physical(df)
-  expect_equal(result$wash_sanitation_access_issue_physical_d, rep(1L, 8))
+  expect_equal(result$wash_sanitation_access_issue_physical_d, rep(1L, 5))
 })
 
 test_that("add_sanitation_access_issue_physical is NA for each undefined option", {
