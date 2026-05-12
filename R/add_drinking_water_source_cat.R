@@ -359,3 +359,55 @@ add_drinking_water_quality_jmp_cat <- function(
 
   return(df)
 }
+
+#' @rdname add_drinking_water_source_cat
+#'
+#' @description `add_drinking_water_unimproved_no_treatment()` flags households that rely on an unimproved or surface water source **and** report not treating their drinking water. The flag is `NA` when either the water source category or the treatment response is undefined. Prerequisite: `add_drinking_water_source_cat()` must have been run first so that `wash_drinking_water_source_cat` is present in `df`.
+#'
+#' @param drinking_water_source_cat Column name for the recoded water source category (output of `add_drinking_water_source_cat()`).
+#' @param unimproved Character vector of source category codes considered unimproved (including surface water).
+#' @param drinking_water_safer_yn Column name for the water treatment scoping question (`select_one l_yn_dnk_pnta`).
+#' @param drinking_water_safer_yes Response code for household treats water.
+#' @param drinking_water_safer_no Response code for household does not treat water.
+#' @param drinking_water_safer_undefined Character vector of undefined response codes for the treatment question.
+#'
+#' @return A data frame with one additional column:
+#'
+#' * `wash_drinking_water_unimproved_no_treatment_d`: `1` if unimproved/surface water source and no treatment; `0` otherwise; `NA` if source category or treatment response is undefined.
+#'
+#' @export
+add_drinking_water_unimproved_no_treatment <- function(
+  df,
+  drinking_water_source_cat = "wash_drinking_water_source_cat",
+  unimproved = c("unimproved", "surface_water"),
+  drinking_water_safer_yn = "wash_drinking_water_safer_yn",
+  drinking_water_safer_yes = "yes",
+  drinking_water_safer_no = "no",
+  drinking_water_safer_undefined = c("dnk", "pnta")
+) {
+  #------ Checks
+
+  if_not_in_stop(df, drinking_water_source_cat, "df")
+  if_not_in_stop(df, drinking_water_safer_yn, "df")
+
+  are_values_in_set(
+    df,
+    drinking_water_safer_yn,
+    c(drinking_water_safer_yes, drinking_water_safer_no, drinking_water_safer_undefined)
+  )
+
+  #------ Compute
+
+  df <- dplyr::mutate(
+    df,
+    wash_drinking_water_unimproved_no_treatment_d = dplyr::case_when(
+      .data[[drinking_water_source_cat]] == "undefined" ~ NA_real_,
+      .data[[drinking_water_safer_yn]] %in% drinking_water_safer_undefined ~ NA_real_,
+      .data[[drinking_water_source_cat]] %in% unimproved &
+        .data[[drinking_water_safer_yn]] == drinking_water_safer_no ~ 1,
+      .default = 0
+    )
+  )
+
+  return(df)
+}
