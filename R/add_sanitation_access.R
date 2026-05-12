@@ -4,7 +4,7 @@
 
 #' @title Add Physical Sanitation Access Issue
 #'
-#' @description Computes a binary variable (`wash_sanitation_access_issue_physical_d`) that is 1 if the household reported any physical challenge in accessing sanitation facilities (too far, difficult to use, disability-related barriers or safety concerns), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other) or the household has no sanitation facility (`wash_sanitation_facility = 'none'`).
+#' @description Computes a binary variable (`wash_sanitation_access_issue_physical_d`) that is 1 if the household reported any physical challenge in accessing sanitation facilities (too crowded, not functioning, unclean, not private, too far, difficult to reach, dangerous, or disability-related barriers), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other) or the household has no sanitation facility (`wash_sanitation_facility = 'none'`).
 #'
 #' @param df A data frame.
 #' @param sanitation_access_issue Base name of the select_multiple variable.
@@ -16,7 +16,7 @@
 #'
 #' @return A data frame with one additional column:
 #'
-#' * wash_sanitation_access_issue_physical_d which takes 1 if any physical challenge is reported; 0 if no physical challenge is reported; NA if undefined response or no facility.
+#' * wash_sanitation_access_issue_physical_d which takes 1L if any physical challenge is reported; 0L if no physical challenge is reported; NA if undefined response or no facility.
 #'
 #' @family sanitation_access_issue
 #' @export
@@ -24,11 +24,14 @@ add_sanitation_access_issue_physical <- function(
     df,
     sanitation_access_issue = "wash_sanitation_access_issue",
     physical = c(
-        "waterpoints_too_far",
-        "waterpoints_difficult_use",
-        "disability_no_access_waterpoints",
-        "safety_concerns_waterpoints",
-        "safety_concerns_travel_waterpoints"
+        "lack_sanitation_facilities_crowded",
+        "sanitation_not_functioning_full",
+        "sanitation_unclean_unhygienic",
+        "sanitation_not_private",
+        "sanitation_too_far",
+        "sanitation_difficult_access",
+        "sanitation_dangerous_access",
+        "disabilities_no_access_sanitation"
     ),
     undefined = c("dnk", "pnta", "other"),
     sanitation_facility = "wash_sanitation_facility",
@@ -51,10 +54,10 @@ add_sanitation_access_issue_physical <- function(
     df <- dplyr::mutate(
         df,
         wash_sanitation_access_issue_physical_d = dplyr::case_when(
-            .data[[sanitation_facility]] %in% none ~ NA_real_,
-            dplyr::if_any(dplyr::all_of(d_undefined), \(x) x == 1) ~ NA_real_,
-            dplyr::if_any(dplyr::all_of(d_physical), \(x) x == 1) ~ 1,
-            .default = 0
+            .data[[sanitation_facility]] %in% none ~ NA_integer_,
+            dplyr::if_any(dplyr::all_of(d_undefined), \(x) x == 1) ~ NA_integer_,
+            dplyr::if_any(dplyr::all_of(d_physical), \(x) x == 1) ~ 1L,
+            .default = 0L
         )
     )
 
@@ -66,14 +69,13 @@ add_sanitation_access_issue_physical <- function(
 #'
 #' @title Add Social Sanitation Access Issue Indicator
 #'
-#' @description Computes a binary variable (`wash_sanitation_access_issue_social_d`)
-#' that is 1 if the household reported any social challenge in accessing sanitation facilities (certain groups lacking access or no gender segregation), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other) or the household has no sanitation facility (`wash_sanitation_facility = 'none'`).
+#' @description Computes a binary variable (`wash_sanitation_access_issue_social_d`) that is 1 if the household reported any social challenge in accessing sanitation facilities (gender segregation or group exclusion), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other) or the household has no sanitation facility (`wash_sanitation_facility = 'none'`).
 #'
 #' @param social Character vector of responses that indicate social access challenges.
 #'
 #' @return A data frame with one additional column:
 #'
-#' * wash_sanitation_access_issue_social_d which takes 1 if any social challenge is reported; 0 if no social challenge is reported; NA if undefined response or no facility.
+#' * wash_sanitation_access_issue_social_d which takes 1L if any social challenge is reported; 0L if no social challenge is reported; NA if undefined response or no facility.
 #'
 #' @family sanitation_access_issue
 #' @export
@@ -81,8 +83,8 @@ add_sanitation_access_issue_social <- function(
     df,
     sanitation_access_issue = "wash_sanitation_access_issue",
     social = c(
-        "groups_no_access_waterpoints",
-        "not_segregated_gender"
+        "sanitation_not_segregated_gender",
+        "groups_no_access_sanitation"
     ),
     undefined = c("dnk", "pnta", "other"),
     sanitation_facility = "wash_sanitation_facility",
@@ -105,10 +107,10 @@ add_sanitation_access_issue_social <- function(
     df <- dplyr::mutate(
         df,
         wash_sanitation_access_issue_social_d = dplyr::case_when(
-            .data[[sanitation_facility]] %in% none ~ NA_real_,
-            dplyr::if_any(dplyr::all_of(d_undefined), \(x) x == 1) ~ NA_real_,
-            dplyr::if_any(dplyr::all_of(d_social), \(x) x == 1) ~ 1,
-            .default = 0
+            .data[[sanitation_facility]] %in% none ~ NA_integer_,
+            dplyr::if_any(dplyr::all_of(d_undefined), \(x) x == 1) ~ NA_integer_,
+            dplyr::if_any(dplyr::all_of(d_social), \(x) x == 1) ~ 1L,
+            .default = 0L
         )
     )
 
