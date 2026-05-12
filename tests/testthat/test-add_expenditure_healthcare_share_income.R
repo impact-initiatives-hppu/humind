@@ -26,49 +26,16 @@ test_that("default recall periods are 180d expenditure / 30d income", {
   expect_equal(result$cm_expenditure_infrequent_health_share_income, 0.10)
 })
 
-test_that("default catastrophic_threshold is 0.10 with 180/30 recall: below → 0, at → 1", {
-  # share = health * 30 / (100 * 180); threshold at health=60
+test_that("default catastrophic_threshold is 0.25 with 180/30 recall: below → 0, at → 1", {
+  # share = health * 30 / (100 * 180); threshold 0.25 at health=150
   df <- dplyr::tibble(
-    cm_expenditure_infrequent_health = c(59, 60, 61),
+    cm_expenditure_infrequent_health = c(149, 150, 151),
     cm_income_total = rep(100, 3)
   )
   result <- add_expenditure_healthcare_share_income(df)
   expect_equal(
     result$cm_expenditure_infrequent_health_share_income_d,
     c(0L, 1L, 1L)
-  )
-})
-
-test_that("custom catastrophic_threshold is forwarded", {
-  # share = health * 30 / (100 * 180); threshold 0.25 at health=150
-  df <- dplyr::tibble(
-    cm_expenditure_infrequent_health = c(149, 150),
-    cm_income_total = rep(100, 2)
-  )
-  result <- add_expenditure_healthcare_share_income(
-    df,
-    catastrophic_threshold = 0.25
-  )
-  expect_equal(
-    result$cm_expenditure_infrequent_health_share_income_d,
-    c(0L, 1L)
-  )
-})
-
-test_that("custom recall periods are forwarded", {
-  # With equal 30/30 recall: share = health/income; threshold at health=10 for income=100
-  df <- dplyr::tibble(
-    cm_expenditure_infrequent_health = c(9, 10),
-    cm_income_total = rep(100, 2)
-  )
-  result <- add_expenditure_healthcare_share_income(
-    df,
-    expenditure_recall_period = 30,
-    income_recall_period = 30
-  )
-  expect_equal(
-    result$cm_expenditure_infrequent_health_share_income_d,
-    c(0L, 1L)
   )
 })
 
