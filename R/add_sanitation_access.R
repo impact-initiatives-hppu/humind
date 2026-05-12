@@ -18,6 +18,7 @@
 #'
 #' * wash_sanitation_access_issue_physical_d which takes 1 if any physical challenge is reported; 0 if no physical challenge is reported; NA if undefined response or no facility.
 #'
+#' @family sanitation_access_issue
 #' @export
 add_sanitation_access_issue_physical <- function(
     df,
@@ -74,6 +75,7 @@ add_sanitation_access_issue_physical <- function(
 #'
 #' * wash_sanitation_access_issue_social_d which takes 1 if any social challenge is reported; 0 if no social challenge is reported; NA if undefined response or no facility.
 #'
+#' @family sanitation_access_issue
 #' @export
 add_sanitation_access_issue_social <- function(
     df,
