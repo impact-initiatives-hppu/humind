@@ -29,6 +29,7 @@
 #' * `cm_expenditure_frequent_water_share_income_d`: `1L` if catastrophic
 #'   (share >= 0.05), `0L` otherwise, `NA` if share is `NA`.
 #'
+#' @family expenditure_share_income
 #' @export
 add_expenditure_water_share_income <- function(
   df,

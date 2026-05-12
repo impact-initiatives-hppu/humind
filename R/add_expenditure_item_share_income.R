@@ -26,6 +26,7 @@
 #' * `{expenditure_type}_share_income`: Recall-normalised share of expenditure relative to income, or `NA` if income is 0 or `NA`.
 #' * `{expenditure_type}_share_income_d`: `1L` if share >= `catastrophic_threshold`, `0L` if below, `NA_integer_` if share is `NA`.
 #'
+#' @family expenditure_share_income
 #' @export
 add_expenditure_type_share_income <- function(
   df,

@@ -29,6 +29,7 @@
 #' * `cm_expenditure_infrequent_health_share_income_d`: `1L` if catastrophic
 #'   (share >= 0.25), `0L` otherwise, `NA` if share is `NA`.
 #'
+#' @family expenditure_share_income
 #' @export
 add_expenditure_healthcare_share_income <- function(
   df,
