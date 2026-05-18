@@ -157,7 +157,7 @@ test_that("if_not_in_stop stops when input is not a data.frame", {
       "not_a_df",
       c("col1", "col6"),
       "df",
-      df_name = "test_arg"
+      "test_arg"
     ),
     class = "error",
     regexp = "test_arg must be a data.frame"
