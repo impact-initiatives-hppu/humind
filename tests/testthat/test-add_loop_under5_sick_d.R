@@ -234,7 +234,7 @@ test_that("add_loop_under5_sick_d: multiple respiratory cols. Any is 1, then res
   expect_equal(result$nut_ind_under5_sick_yes_watery_d, 0)
 })
 
-test_that("add_loop_under5_sick_d: multiple respiratory cols. Alll are 0, then respiratory is 0", {
+test_that("add_loop_under5_sick_d: multiple respiratory cols. All are 0, then respiratory is 0", {
   loop <- dplyr::tibble(
     uuid = "hh1",
     nut_ind_under5_sick_yn = "yes",
