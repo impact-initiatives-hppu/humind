@@ -205,7 +205,7 @@ if_not_in_stop <- function(df, cols, df_name, arg = NULL) {
 #' @param df A data frame
 #' @param arg Default to NULL.
 #'
-#' @return A stop statement
+#' @return `invisible(TRUE)` if `df` is a data frame, otherwise a stop statement.
 is_df <- function(df, arg = NULL) {
   if (!is.data.frame(df)) {
     cli::cli_abort(
