@@ -162,8 +162,8 @@ add_loop_under5_sick_d <- function(
 #' @return A data frame with additional columns:
 #'
 #' * nut_ind_under5_sick_yes_d_n: Count of under-5 sick individuals per household.
-#' * nut_ind_under5_sick_yes_respiratory_d_n: Count with respiratory symptom per household.
-#' * nut_ind_under5_sick_yes_watery_d_n: Count with watery diarrhoea symptom per household.
+#' * nut_ind_under5_sick_yes_respiratory_d_n: Count of under-5 with respiratory infection symptom per household.
+#' * nut_ind_under5_sick_yes_watery_d_n: Count of under-5 with watery diarrhoea symptom per household.
 #'
 #' @export
 add_loop_under5_sick_d_to_main <- function(
