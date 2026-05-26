@@ -130,6 +130,21 @@ test_that("add_food_source_d: warning if output col already exists", {
   expect_warning(add_food_source_d(df))
 })
 
+test_that("add_food_source_d: warning if fsl_food_source_unstable_d already exists", {
+  df <- dplyr::tibble(
+    uuid = "hh1",
+    `fsl_source_food/assistance_in_kind` = 0,
+    `fsl_source_food/assistance_cva` = 0,
+    `fsl_source_food/gathering` = 0,
+    `fsl_source_food/exchange` = 0,
+    `fsl_source_food/borrow` = 0,
+    `fsl_source_food/gift` = 0,
+    `fsl_source_food/begging` = 0,
+    fsl_food_source_unstable_d = 99
+  )
+  expect_warning(add_food_source_d(df))
+})
+
 test_that("add_food_source_d: sep parameter works", {
   df <- dplyr::tibble(
     uuid = "hh1",
