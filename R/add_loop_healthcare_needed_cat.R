@@ -13,7 +13,7 @@
 #' @param ind_healthcare_received_yes Level for "yes" in ind_healthcare_received.
 #' @param ind_healthcare_received_dnk Level for "don't know" in ind_healthcare_received.
 #' @param ind_healthcare_received_pnta Level for "prefer not to answer" in ind_healthcare_received.
-#' @param ind_healthcare_type The name of the variable that indicates the type of healthcare which was seek.
+#' @param ind_healthcare_type The name of the variable that indicates the type of healthcare which was sought.
 #' @param ind_healthcare_type_lifesaving Character vector of levels in ind_healthcare_type that indicate life-saving healthcare.
 #' @param sep Separator for the binary columns.
 #' @param ind_age The name of the variable that indicates the age of the individual.
