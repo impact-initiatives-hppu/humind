@@ -1,6 +1,6 @@
-#' ANA
-#' 2025 INDICATOR ID: IND052 and IND053
-#' 2026 METRIC ID: TBD
+# ANA
+# 2025 INDICATOR ID: IND052 and IND053
+# 2026 METRIC ID: TBD
 
 #' @title Add Food Source Dummy Variables
 #'
@@ -70,7 +70,8 @@ add_food_source_d <- function(
       .default = NA_real_
     ),
     fsl_food_source_unstable_d = dplyr::case_when(
-      rowSums(dplyr::pick(dplyr::all_of(unstable_cols)) == 1, na.rm = TRUE) > 0 ~ 1,
+      rowSums(dplyr::pick(dplyr::all_of(unstable_cols)) == 1, na.rm = TRUE) >
+        0 ~ 1,
       rowSums(is.na(dplyr::pick(dplyr::all_of(unstable_cols)))) == 0 ~ 0,
       .default = NA_real_
     )
