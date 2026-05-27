@@ -56,7 +56,8 @@ add_sanitation_access_issue_physical <- function(
                 x == 1
             }) ~ NA_integer_,
             dplyr::if_any(dplyr::all_of(d_physical), \(x) x == 1) ~ 1L,
-            .default = 0L
+            dplyr::if_all(dplyr::all_of(d_physical), \(x) x == 0) ~ 0L,
+            .default = NA_integer_
         )
     )
 
@@ -111,7 +112,8 @@ add_sanitation_access_issue_social <- function(
                 x == 1
             }) ~ NA_integer_,
             dplyr::if_any(dplyr::all_of(d_social), \(x) x == 1) ~ 1L,
-            .default = 0L
+            dplyr::if_all(dplyr::all_of(d_social), \(x) x == 0) ~ 0L,
+            .default = NA_integer_
         )
     )
 
