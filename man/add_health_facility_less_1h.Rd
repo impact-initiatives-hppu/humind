@@ -4,35 +4,21 @@
 \alias{add_health_facility_less_1h}
 \title{Add Indicator for Access to Health Facility in Less Than One Hour}
 \usage{
-add_health_facility_less_1h(
-  df,
-  health_facility_time = "health_facility_time",
-  undefined = -999
-)
+add_health_facility_less_1h(df, health_facility_time = "health_facility_time")
 }
 \arguments{
 \item{df}{A data frame.}
 
-\item{health_facility_time}{Column name for travel time (in minutes) to
-the nearest functional health facility.}
-
-\item{undefined}{The value representing an undefined response
-(default: \code{-999}).}
+\item{health_facility_time}{Column name for travel time (in minutes) to the nearest functional health facility.}
 }
 \value{
 A data frame with one additional column:
 \itemize{
-\item \code{health_facility_distance_less_1hour}: Binary indicator — \code{1} if travel
-time is strictly less than 60 minutes, \code{0} if 60 minutes or more,
-\code{NA} for missing or negative values.
+\item \code{health_facility_less_1h}: \code{1L} if travel time is strictly less than 60 minutes, \code{0L} if 60 minutes or more, \code{NA_integer_} for missing values.
 }
 }
 \description{
-Adds a binary variable (\code{1}/\code{0}) for whether a household reports access to
-the nearest functional health facility in less than one hour on foot
-(ANA IND160).
+Adds a binary variable (\code{1L}/\code{0L}) for whether a household reports access to the nearest functional health facility in less than one hour on foot.
 
-Values are expected to be non-negative reals (minutes) or a negative
-undefined code. Any negative value (including the default \code{-999}) is
-recoded to \code{NA}.
+Values must be non-negative integers. Any negative value (including undefined codes such as -999) will raise an error listing the unique offending values — recode or remove them before calling this function.
 }
