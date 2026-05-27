@@ -6,7 +6,7 @@
 #'
 #' @description For each livestock type, creates a binary (1/0/NA) dummy indicating whether the household experienced a significant decrease (greater than `threshold`) in livestock size between last year and now. Also produces a composite dummy that is 1 if any livestock type shows a significant decrease.
 #'
-#' If the required columns for a livestock type are absent from `df`, a warning is issued and the corresponding dummy is set to NA for all rows (no error).
+#' If the required columns for a livestock type are absent from `df`, an error is thrown.
 #'
 #' @param df A data frame of household-level data.
 #' @param livestock Character vector of livestock type names. Column names are built as `<prefix><type><n_now_suffix>` and `<prefix><type><n_ly_suffix>`.

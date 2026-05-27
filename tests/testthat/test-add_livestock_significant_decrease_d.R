@@ -79,15 +79,14 @@ test_that("add_livestock_significant_decrease_d: n_ly NA then NA", {
 })
 
 test_that("add_livestock_significant_decrease_d: missing livestock cols errors", {
-  # Assumes are_values_in_range filters missing columns before checking
   df <- dplyr::tibble(uuid = "hh1", fsl_sheep_n_now = 3, fsl_sheep_n_ly = 10)
 
   expect_error(
-    result <- add_livestock_significant_decrease_d(
+    add_livestock_significant_decrease_d(
       df,
       livestock = c("sheep", "goat")
     ),
-    " The following columns are missing in"
+    "missing in"
   )
 })
 
