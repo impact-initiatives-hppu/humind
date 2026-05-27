@@ -1,6 +1,6 @@
 # ANA
-#' 2025 INDICATOR ID: IND143 and 144
-#' 2026 METRIC ID: TBD
+# 2025 INDICATOR ID: IND143 and 144
+# 2026 METRIC ID: TBD
 
 #' @title Add Physical Sanitation Access Issue
 #'
@@ -52,7 +52,9 @@ add_sanitation_access_issue_physical <- function(
         df,
         wash_sanitation_access_issue_physical_d = dplyr::case_when(
             .data[[sanitation_facility]] %in% none ~ NA_integer_,
-            dplyr::if_any(dplyr::all_of(d_undefined), \(x) x == 1) ~ NA_integer_,
+            dplyr::if_any(dplyr::all_of(d_undefined), \(x) {
+                x == 1
+            }) ~ NA_integer_,
             dplyr::if_any(dplyr::all_of(d_physical), \(x) x == 1) ~ 1L,
             .default = 0L
         )
@@ -105,7 +107,9 @@ add_sanitation_access_issue_social <- function(
         df,
         wash_sanitation_access_issue_social_d = dplyr::case_when(
             .data[[sanitation_facility]] %in% none ~ NA_integer_,
-            dplyr::if_any(dplyr::all_of(d_undefined), \(x) x == 1) ~ NA_integer_,
+            dplyr::if_any(dplyr::all_of(d_undefined), \(x) {
+                x == 1
+            }) ~ NA_integer_,
             dplyr::if_any(dplyr::all_of(d_social), \(x) x == 1) ~ 1L,
             .default = 0L
         )
