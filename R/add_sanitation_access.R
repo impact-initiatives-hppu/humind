@@ -4,7 +4,7 @@
 
 #' @title Add Physical Sanitation Access Issue
 #'
-#' @description Computes a binary variable (`wash_sanitation_access_issue_physical_d`) that is 1 if the household reported any physical challenge in accessing sanitation facilities (too crowded, not functioning, unclean, not private, too far, difficult to reach, dangerous, or disability-related barriers), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other) or the household has no sanitation facility (`wash_sanitation_facility = 'none'`).
+#' @description Computes a binary variable (`wash_sanitation_access_issue_physical_d`) that is 1 if the household reported any physical challenge in accessing sanitation facilities (not private, too far, difficult to reach, dangerous, or disability-related barriers), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other) or the household has no sanitation facility (`wash_sanitation_facility = 'none'`).
 #'
 #' @param df A data frame.
 #' @param sanitation_access_issue Base name of the select_multiple variable.
