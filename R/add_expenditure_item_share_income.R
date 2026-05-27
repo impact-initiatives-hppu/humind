@@ -1,7 +1,7 @@
-#' @title Add Expenditure Item Share of Income and Catastrophic Spending Flag
+#' @title Add Expenditure Type Share of Income and Catastrophic Spending Flag
 #'
 #' @description
-#' Calculates the share of a single expenditure item relative to total income normalising both to the same recall period before computing the ratio, and flags households where that share meets or exceeds the catastrophic threshold.
+#' Calculates the share of a single expenditure type relative to total income normalising both to the same recall period before computing the ratio, and flags households where that share meets or exceeds the catastrophic threshold.
 #'
 #' The share is computed as: `(expenditure * income_recall_period) / (income * expenditure_recall_period)`
 #'
