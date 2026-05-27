@@ -48,7 +48,7 @@ add_expenditure_type_share_income <- function(
     upper = Inf
   )
 
-  # income_recall_period and expenditure_recall_period must be single stricly positive numeric values
+  # income_recall_period and expenditure_recall_period must be single strictly positive numeric values
   if (
     !is.numeric(expenditure_recall_period) ||
       length(expenditure_recall_period) != 1 ||
