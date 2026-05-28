@@ -17,7 +17,8 @@
 #' @param health_pregnancy_2years_no Response code for no.
 #' @param health_pregnancy_2years_undefined Character vector of undefined response codes (dnk, pnta).
 #' @param health_birth_assistance Column name for who assisted with the delivery.
-#' @param health_birth_assistance_skilled Character vector of response codes for skilled health personnel.
+#' @param health_birth_assistance_skilled Character vector of response codes for skilled health personnel (doctor, nurse, or midwife).
+#' @param health_birth_assistance_lessskilled Character vector of response codes for less-skilled birth assistance (traditional birth attendant, relative/friend, or none).
 #' @param health_birth_assistance_undefined Character vector of undefined response codes (dnk, pnta, other).
 #'
 #' @return A data frame with two additional columns:
@@ -39,11 +40,20 @@ add_loop_skilled_birth_attendance <- function(
   health_pregnancy_2years_undefined = c("dnk", "pnta"),
   health_birth_assistance = "health_birth_assistance",
   health_birth_assistance_skilled = c("doctor", "nurse", "midwife"),
+  health_birth_assistance_lessskilled = c(
+    "traditional_birth_attendant",
+    "relative_friend",
+    "none"
+  ),
   health_birth_assistance_undefined = c("dnk", "pnta", "other")
 ) {
   #------ Checks
 
-  if_not_in_stop(loop, c(ind_gender, ind_age, health_pregnancy_2years_yn, health_birth_assistance), "loop")
+  if_not_in_stop(
+    loop,
+    c(ind_gender, ind_age, health_pregnancy_2years_yn, health_birth_assistance),
+    "loop"
+  )
   are_cols_numeric(loop, ind_age)
   are_values_in_set(
     loop,
@@ -55,24 +65,48 @@ add_loop_skilled_birth_attendance <- function(
     )
   )
 
+  are_values_in_set(
+    loop,
+    health_birth_assistance,
+    c(
+      health_birth_assistance_skilled,
+      health_birth_assistance_lessskilled,
+      health_birth_assistance_undefined
+    )
+  )
+
   #------ Compute
 
   loop <- dplyr::mutate(
     loop,
-    health_ind_live_birth_2years_d = dplyr::case_when(
+    # gender and age dummy
+    health_ind_gender_female_above_age_d = case_when(
       is.na(.data[[ind_gender]]) | is.na(.data[[ind_age]]) ~ NA_integer_,
       .data[[ind_gender]] != ind_gender_female ~ 0L,
       .data[[ind_age]] < ind_age_min | .data[[ind_age]] > ind_age_max ~ 0L,
-      .data[[health_pregnancy_2years_yn]] %in% health_pregnancy_2years_undefined ~ NA_integer_,
-      .data[[health_pregnancy_2years_yn]] == health_pregnancy_2years_yes ~ 1L,
-      .default = 0L
+      .default = 1L
     ),
+    # live_birth in last 2 years dummy
+    health_ind_live_birth_2years_d = dplyr::case_when(
+      is.na(.data[["health_ind_gender_female_above_age_d"]]) ~ NA_integer_,
+      .data[["health_ind_gender_female_above_age_d"]] == 0L ~ 0L,
+      .data[[health_pregnancy_2years_yn]] %in%
+        health_pregnancy_2years_undefined ~ NA_integer_,
+      .data[[health_pregnancy_2years_yn]] == health_pregnancy_2years_yes ~ 1L,
+      .data[[health_pregnancy_2years_yn]] == health_pregnancy_2years_no ~ 0L,
+      .default = NA_integer_
+    ),
+    # skilled birth attendance dummy
     health_ind_skilled_birth_attendance_d = dplyr::case_when(
       is.na(.data[["health_ind_live_birth_2years_d"]]) ~ NA_integer_,
-      .data[["health_ind_live_birth_2years_d"]] == 0L ~ NA_integer_,
-      .data[[health_birth_assistance]] %in% health_birth_assistance_undefined ~ NA_integer_,
-      .data[[health_birth_assistance]] %in% health_birth_assistance_skilled ~ 1L,
-      .default = 0L
+      .data[["health_ind_live_birth_2years_d"]] == 0L ~ 0L,
+      .data[[health_birth_assistance]] %in%
+        health_birth_assistance_undefined ~ NA_integer_,
+      .data[[health_birth_assistance]] %in%
+        health_birth_assistance_skilled ~ 1L,
+      .data[[health_birth_assistance]] %in%
+        health_birth_assistance_lessskilled ~ 0L,
+      .default = NA_integer_
     )
   )
 
@@ -115,27 +149,43 @@ add_loop_skilled_birth_attendance_to_main <- function(
   if_not_in_stop(loop, id_col_loop, "loop")
   are_values_in_set(loop, vars, c(0, 1))
 
-  vars_n <- paste0(vars, "_n")
+  vars_n <- c(
+    "health_ind_live_birth_2years_n",
+    "health_ind_skilled_birth_attendance_n"
+  )
   if (vars_n[1] %in% colnames(main)) {
-    rlang::warn(paste0(vars_n[1], " already exists in 'main'. It will be replaced."))
+    rlang::warn(paste0(
+      vars_n[1],
+      " already exists in 'main'. It will be replaced."
+    ))
   }
   if (vars_n[2] %in% colnames(main)) {
-    rlang::warn(paste0(vars_n[2], " already exists in 'main'. It will be replaced."))
+    rlang::warn(paste0(
+      vars_n[2],
+      " already exists in 'main'. It will be replaced."
+    ))
   }
 
   #------ Compute
 
   loop_vars <- dplyr::summarize(
-    dplyr::group_by(loop, !!rlang::sym(id_col_loop)),
-    dplyr::across(
-      dplyr::all_of(vars),
-      \(x) sum(x, na.rm = TRUE),
-      .names = "{.col}_n"
-    )
+    loop,
+    health_ind_live_birth_2years_n = sum(
+      .data[[ind_live_birth_2years]],
+      na.rm = FALSE
+    ),
+    health_ind_skilled_birth_attendance_n = sum(
+      .data[[ind_skilled_birth_attendance]],
+      na.rm = FALSE
+    ),
+    .by = dplyr::all_of(id_col_loop)
   )
 
   cols_uuids <- c(id_col_main, id_col_loop)
-  cols_from_loop_in_main <- setdiff(intersect(colnames(loop_vars), colnames(main)), cols_uuids)
+  cols_from_loop_in_main <- setdiff(
+    intersect(colnames(loop_vars), colnames(main)),
+    cols_uuids
+  )
   main <- dplyr::select(main, -dplyr::all_of(cols_from_loop_in_main))
 
   main <- dplyr::left_join(

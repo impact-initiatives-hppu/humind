@@ -38,27 +38,47 @@ test_that("output columns are integer type", {
 })
 
 test_that("live_birth_2years_d is 1L for female aged 15-49 with yes", {
-  result <- add_loop_skilled_birth_attendance(make_loop(gender = "female", age = 25, pregnancy_yn = "yes"))
+  result <- add_loop_skilled_birth_attendance(make_loop(
+    gender = "female",
+    age = 25,
+    pregnancy_yn = "yes"
+  ))
   expect_equal(result$health_ind_live_birth_2years_d, 1L)
 })
 
 test_that("live_birth_2years_d is 0L for female aged 15-49 with no", {
-  result <- add_loop_skilled_birth_attendance(make_loop(gender = "female", age = 25, pregnancy_yn = "no"))
+  result <- add_loop_skilled_birth_attendance(make_loop(
+    gender = "female",
+    age = 25,
+    pregnancy_yn = "no"
+  ))
   expect_equal(result$health_ind_live_birth_2years_d, 0L)
 })
 
 test_that("live_birth_2years_d is 0L for male", {
-  result <- add_loop_skilled_birth_attendance(make_loop(gender = "male", age = 25, pregnancy_yn = "yes"))
+  result <- add_loop_skilled_birth_attendance(make_loop(
+    gender = "male",
+    age = 25,
+    pregnancy_yn = "yes"
+  ))
   expect_equal(result$health_ind_live_birth_2years_d, 0L)
 })
 
 test_that("live_birth_2years_d is 0L for female outside reproductive age (below 15)", {
-  result <- add_loop_skilled_birth_attendance(make_loop(gender = "female", age = 10, pregnancy_yn = "yes"))
+  result <- add_loop_skilled_birth_attendance(make_loop(
+    gender = "female",
+    age = 10,
+    pregnancy_yn = "yes"
+  ))
   expect_equal(result$health_ind_live_birth_2years_d, 0L)
 })
 
 test_that("live_birth_2years_d is 0L for female outside reproductive age (above 49)", {
-  result <- add_loop_skilled_birth_attendance(make_loop(gender = "female", age = 55, pregnancy_yn = "yes"))
+  result <- add_loop_skilled_birth_attendance(make_loop(
+    gender = "female",
+    age = 55,
+    pregnancy_yn = "yes"
+  ))
   expect_equal(result$health_ind_live_birth_2years_d, 0L)
 })
 
@@ -104,7 +124,7 @@ test_that("skilled_birth_attendance_d is 0L for non-skilled personnel", {
   df <- dplyr::bind_rows(
     make_loop(birth_assistance = "traditional_birth_attendant"),
     make_loop(birth_assistance = "relative_friend"),
-    make_loop(birth_assistance = "no_one")
+    make_loop(birth_assistance = "none")
   )
   result <- add_loop_skilled_birth_attendance(df)
   expect_equal(result$health_ind_skilled_birth_attendance_d, c(0L, 0L, 0L))
@@ -120,9 +140,15 @@ test_that("skilled_birth_attendance_d is NA when birth_assistance is undefined",
   expect_true(all(is.na(result$health_ind_skilled_birth_attendance_d)))
 })
 
-test_that("skilled_birth_attendance_d is NA when no live birth (live_birth_d = 0L)", {
+test_that("skilled_birth_attendance_d is 0 when gender is not female", {
+  result <- add_loop_skilled_birth_attendance(make_loop(gender = "male"))
+  expect_equal(result$health_ind_skilled_birth_attendance_d, 0L)
+  expect_equal(result$health_ind_live_birth_2years_d, 0L)
+})
+
+test_that("skilled_birth_attendance_d is 0 when no live birth (live_birth_d = 0L)", {
   result <- add_loop_skilled_birth_attendance(make_loop(pregnancy_yn = "no"))
-  expect_true(is.na(result$health_ind_skilled_birth_attendance_d))
+  expect_true(result$health_ind_skilled_birth_attendance_d == 0L)
 })
 
 test_that("skilled_birth_attendance_d is NA when live_birth_d is NA", {
@@ -143,8 +169,8 @@ test_that("errors when required columns are missing", {
 test_that("adds _n columns to main", {
   loop <- add_loop_skilled_birth_attendance(make_loop())
   result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
-  expect_true("health_ind_live_birth_2years_d_n" %in% colnames(result))
-  expect_true("health_ind_skilled_birth_attendance_d_n" %in% colnames(result))
+  expect_true("health_ind_live_birth_2years_n" %in% colnames(result))
+  expect_true("health_ind_skilled_birth_attendance_n" %in% colnames(result))
 })
 
 test_that("counts are correct for a single household", {
@@ -152,13 +178,45 @@ test_that("counts are correct for a single household", {
     make_loop(pregnancy_yn = "yes", birth_assistance = "doctor"),
     make_loop(pregnancy_yn = "yes", birth_assistance = "nurse"),
     make_loop(pregnancy_yn = "no", birth_assistance = "doctor")
-  ) |> add_loop_skilled_birth_attendance()
+  ) |>
+    add_loop_skilled_birth_attendance()
   result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
-  expect_equal(result$health_ind_live_birth_2years_d_n, 2L)
-  expect_equal(result$health_ind_skilled_birth_attendance_d_n, 2L)
+  expect_equal(result$health_ind_live_birth_2years_n, 2L)
+  expect_equal(result$health_ind_skilled_birth_attendance_n, 2L)
 })
 
 test_that("errors when loop is missing required columns", {
   loop <- dplyr::tibble(uuid = "hh1")
   expect_error(add_loop_skilled_birth_attendance_to_main(make_main(), loop))
+})
+
+test_that("NA when undefined responses for pregnancy_yn", {
+  loop <- dplyr::bind_rows(
+    make_loop(pregnancy_yn = "dnk"),
+    make_loop(pregnancy_yn = "pnta")
+  ) |>
+    add_loop_skilled_birth_attendance()
+  expect_equal(loop$health_ind_live_birth_2years_d, c(NA_integer_, NA_integer_))
+})
+
+test_that("aggregates to NA when there are undefined responses for pregnancy_yn", {
+  loop <- dplyr::bind_rows(
+    make_loop(pregnancy_yn = "dnk"),
+    make_loop(pregnancy_yn = "pnta")
+  ) |>
+    add_loop_skilled_birth_attendance()
+  result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
+  expect_equal(result$health_ind_live_birth_2years_n, NA_integer_)
+  expect_equal(result$health_ind_skilled_birth_attendance_n, NA_integer_)
+})
+
+test_that("aggregates to 0 when there are no live births", {
+  loop <- dplyr::bind_rows(
+    make_loop(pregnancy_yn = "no"),
+    make_loop(pregnancy_yn = "no")
+  ) |>
+    add_loop_skilled_birth_attendance()
+  result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
+  expect_equal(result$health_ind_live_birth_2years_n, 0L)
+  expect_equal(result$health_ind_skilled_birth_attendance_n, 0L)
 })
