@@ -20,7 +20,7 @@ are_cols_numeric <- function(df, cols) {
 
   if (!all(classes)) {
     rlang::abort(c(
-      "All columns must be numeric.",
+      "All values must be numeric.",
       "i" = glue::glue(
         "The following columns are not numeric. Please check.\n",
         glue::glue_collapse(cols, sep = "\n")
@@ -40,6 +40,26 @@ are_cols_numeric <- function(df, cols) {
 #'
 #' @return A stop statement
 are_values_in_range <- function(df, cols, lower = 0, upper = 7) {
+  #------ Checks
+
+  # lower and upper must be numeric
+  if (!is.numeric(lower)) {
+    rlang::abort("lower must be numeric.")
+  }
+  if (!is.numeric(upper)) {
+    rlang::abort("upper must be numeric.")
+  }
+
+  # upper must be greater than lower
+  if (lower > upper) {
+    rlang::abort(c(
+      glue::glue(
+        "Invalid range: lower ({lower}) cannot be greater than upper ({upper})."
+      ),
+      "i" = "Please ensure the lower bound is less than or equal to the upper bound."
+    ))
+  }
+
   #------ Only use on numeric columns
   are_cols_numeric(df, cols)
 
@@ -55,9 +75,9 @@ are_values_in_range <- function(df, cols, lower = 0, upper = 7) {
 
   cols <- cols[ranges]
 
-  if (all(ranges)) {
+  if (any(ranges)) {
     rlang::abort(c(
-      glue::glue("All columns must be between {lower} and {upper}."),
+      glue::glue("All values must be between {lower} and {upper}."),
       "i" = glue::glue(
         "The following columns have values outside the range Please check.\n",
         glue::glue_collapse(cols, sep = "\n")
@@ -81,7 +101,7 @@ are_values_in_set <- function(
   df,
   cols,
   set,
-  main_message = "All columns must be in the following set: "
+  main_message = "All values must be in the following set: "
 ) {
   #------ Check for missing columns
   if_not_in_stop(df, cols, "df")
