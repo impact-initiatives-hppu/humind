@@ -24,7 +24,7 @@ add_livestock_significant_decrease_d(
 
 \item{n_ly_suffix}{Suffix for the last-year count column. Default \code{"_n_ly"}.}
 
-\item{threshold}{Proportion decrease threshold above which a decrease is considered significant. Default \code{0.5} (i.e. increase of 50\% or more).}
+\item{threshold}{Proportion decrease threshold above which a decrease is considered significant. Default \code{0.5} (i.e. decrease of 50\% or more).}
 }
 \value{
 A data frame with additional columns:

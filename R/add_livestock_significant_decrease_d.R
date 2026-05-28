@@ -13,7 +13,7 @@
 #' @param prefix Column name prefix. Default `"fsl_"`.
 #' @param n_now_suffix Suffix for the current count column. Default `"_n_now"`.
 #' @param n_ly_suffix Suffix for the last-year count column. Default `"_n_ly"`.
-#' @param threshold Proportion decrease threshold above which a decrease is considered significant. Default `0.5` (i.e. increase of 50% or more).
+#' @param threshold Proportion decrease threshold above which a decrease is considered significant. Default `0.5` (i.e. decrease of 50% or more).
 #'
 #' @return A data frame with additional columns:
 #'
