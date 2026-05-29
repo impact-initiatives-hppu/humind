@@ -163,6 +163,13 @@ test_that("is 0L when source is unimproved but household treats water", {
   expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, 0L)
 })
 
+test_that("is 0L when source is surface_water but household treats water", {
+  result <- add_drinking_water_unimproved_no_treatment(
+    make_df_treatment(source_cat = "surface_water", safer_yn = "yes")
+  )
+  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, 0L)
+})
+
 test_that("is NA when source category is undefined", {
   result <- add_drinking_water_unimproved_no_treatment(
     make_df_treatment(source_cat = "undefined", safer_yn = "no")
@@ -194,6 +201,11 @@ test_that("is NA when safer_yn is dnk or pnta (undefined)", {
     drinking_water_safer_undefined = c("dnk", "pnta")
   )
   expect_true(all(is.na(result$wash_drinking_water_unimproved_no_treatment_d)))
+})
+
+test_that("errors when drinking_water_source_cat contains unexpected value", {
+  df <- make_df_treatment(source_cat = "unexpected_value", safer_yn = "no")
+  expect_error(add_drinking_water_unimproved_no_treatment(df))
 })
 
 test_that("errors when drinking_water_source_cat column is missing", {

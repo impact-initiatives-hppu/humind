@@ -5,6 +5,7 @@
 \alias{add_drinking_water_time_cat}
 \alias{add_drinking_water_time_threshold_cat}
 \alias{add_drinking_water_quality_jmp_cat}
+\alias{add_drinking_water_unimproved_no_treatment}
 \title{Add Drinking Water Quality JMP Category}
 \usage{
 add_drinking_water_source_cat(
@@ -60,19 +61,32 @@ add_drinking_water_quality_jmp_cat(
   drinking_water_time_30min_cat_above_30min = "above_30min",
   drinking_water_time_30min_cat_undefined = "undefined"
 )
+
+add_drinking_water_unimproved_no_treatment(
+  df,
+  drinking_water_source_cat = "wash_drinking_water_source_cat",
+  drinking_water_source_cat_improved = "improved",
+  drinking_water_source_cat_unimproved = "unimproved",
+  drinking_water_source_cat_surface_water = "surface_water",
+  drinking_water_source_cat_undefined = "undefined",
+  drinking_water_safer_yn = "wash_drinking_water_safer_yn",
+  drinking_water_safer_yes = "yes",
+  drinking_water_safer_no = "no",
+  drinking_water_safer_undefined = c("dnk", "pnta")
+)
 }
 \arguments{
 \item{df}{A data frame.}
 
 \item{drinking_water_source}{Component column: Water source types.}
 
-\item{drinking_water_source_cat_improved}{Response code for improved water source.}
+\item{drinking_water_source_cat_improved}{Response code for improved water source category.}
 
-\item{drinking_water_source_cat_unimproved}{Response code for unimproved water source.}
+\item{drinking_water_source_cat_unimproved}{Response code for unimproved water source category.}
 
-\item{drinking_water_source_cat_surface_water}{Response code for surface water source.}
+\item{drinking_water_source_cat_surface_water}{Response code for surface water source category.}
 
-\item{drinking_water_source_cat_undefined}{Response code for undefined water source.}
+\item{drinking_water_source_cat_undefined}{Response code for undefined water source category.}
 
 \item{drinking_water_time_yn}{Component column: Time to fetch water, scoping question.}
 
@@ -112,7 +126,15 @@ add_drinking_water_quality_jmp_cat(
 
 \item{drinking_water_time_30min_cat_undefined}{Response code for undefined time.}
 
-\item{drinking_water_source_cat}{Component column: Water source categories.}
+\item{drinking_water_source_cat}{Column name for the recoded water source category (output of \code{add_drinking_water_source_cat()}).}
+
+\item{drinking_water_safer_yn}{Column name for the water treatment scoping question (\verb{select_one l_yn_dnk_pnta}).}
+
+\item{drinking_water_safer_yes}{Response code for household treats water.}
+
+\item{drinking_water_safer_no}{Response code for household does not treat water.}
+
+\item{drinking_water_safer_undefined}{Character vector of undefined response codes for the treatment question.}
 }
 \value{
 A data frame with a new column 'wash_drinking_water_quality_jmp_cat' containing:
@@ -124,7 +146,14 @@ A data frame with a new column 'wash_drinking_water_quality_jmp_cat' containing:
 \item surface_water: Response indicating surface water sources.
 \item undefined: Response for undefined categories.
 }
+
+A data frame with one additional column:
+\itemize{
+\item \code{wash_drinking_water_unimproved_no_treatment_d}: \code{1L} if unimproved/surface water source and no treatment; \code{0L} if improved source or unimproved/surface water with treatment; \code{NA_integer_} if source category or treatment response is \code{NA} or undefined.
+}
 }
 \description{
 This function recodes the water source and time to fetch water into a joint JMP (Joint Monitoring Programme) category.
+
+\code{add_drinking_water_unimproved_no_treatment()} flags households that rely on an unimproved or surface water source \strong{and} report not treating their drinking water. The flag is \code{NA} when either the water source category or the treatment response is undefined. Prerequisite: \code{add_drinking_water_source_cat()} must have been run first so that \code{wash_drinking_water_source_cat} is present in \code{df}.
 }
