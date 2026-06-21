@@ -1,6 +1,7 @@
 #' @title Add Category of Shelter damage (Optional SNFI dimension)
 #'
-#' @description This function categorizes the shelter damage category based on provided criteria.
+#' @description This function categorizes the shelter damage category based on
+#' provided criteria.
 #'
 #' @param df Data frame containing the survey data.
 #' @param sep Separator for the binary columns, default is "/".
@@ -18,7 +19,8 @@
 #'
 #' @return A data frame with an additional column:
 #'
-#' * snfi_shelter_damage_cat: Categorized shelter damages: "No damage", "Damaged", "Partial collapse or destruction", "Total collapse or destruction", or "Undefined".
+#' * snfi_shelter_damage_cat: Categorized shelter damages: "none", "damaged",
+#'   "part", "total", or "undefined".
 #'
 #' @export
 #'
@@ -38,7 +40,7 @@ add_shelter_damage_cat <- function(
   pnta = "pnta"
 ) {
   # Option answers list
-  user_answer_options <- c(
+  user_answer_options <- c( # nolint: object_usage_linter.
     none = none,
     minor = minor,
     major = major,
@@ -57,42 +59,43 @@ add_shelter_damage_cat <- function(
   )
 
   # sanity checks
-  if_not_in_stop(df, ssd_col_names, "df")
-  are_values_in_set(df, ssd_col_names, c(0, 1))
+  if_not_in_stop(df, ssd_col_names, "df") # nolint: object_usage_linter.
+  are_values_in_set(df, ssd_col_names, c(0, 1)) # nolint: object_usage_linter.
 
   #------ Recode
 
   # Define answer sets for each category (column suffixes)
-  snfi_shelter_damage_none <- none
-  snfi_shelter_damage_damaged <- c(
+  snfi_shelter_damage_none <- none # nolint: object_usage_linter.
+  snfi_shelter_damage_damaged <- c( # nolint: object_usage_linter.
     minor,
     damage_windows_doors,
     damage_floors,
     damage_walls
   )
-  snfi_shelter_damage_partial <- major
-  snfi_shelter_damage_total <- total_collapse
-  # Undifined categories
+  snfi_shelter_damage_partial <- major # nolint: object_usage_linter.
+  snfi_shelter_damage_total <- total_collapse # nolint: object_usage_linter.
+  # nolint next line: object_usage_linter.
   snfi_shelter_damage_undefined <- c(dnk, pnta, other)
 
   # Build full column names for each category
   col_none <- stringr::str_glue(
     "{snfi_shelter_damage}{sep}{snfi_shelter_damage_none}"
   )
-  col_damaged <- stringr::str_glue(
+  col_damaged <- stringr::str_glue( # nolint: object_usage_linter.
     "{snfi_shelter_damage}{sep}{snfi_shelter_damage_damaged}"
   )
-  col_part <- stringr::str_glue(
+  col_part <- stringr::str_glue( # nolint: object_usage_linter.
     "{snfi_shelter_damage}{sep}{snfi_shelter_damage_partial}"
   )
-  col_total <- stringr::str_glue(
+  col_total <- stringr::str_glue( # nolint: object_usage_linter.
     "{snfi_shelter_damage}{sep}{snfi_shelter_damage_total}"
   )
-  col_undefined <- stringr::str_glue(
+  col_undefined <- stringr::str_glue( # nolint: object_usage_linter.
     "{snfi_shelter_damage}{sep}{snfi_shelter_damage_undefined}"
   )
 
-  # Constraint check: cannot select "no damage" or "don't know" or "prefer not to answer" with any other option
+  # Constraint check: cannot select "no damage", "don't know", or
+  # "prefer not to answer" with any other option
   # Build a logical vector for each constraint column
 
   dnk_col <- stringr::str_glue("{snfi_shelter_damage}{sep}{dnk}")
@@ -118,7 +121,11 @@ add_shelter_damage_cat <- function(
     viol_rows <- which(violation)
     percent <- round(100 * n_viol / nrow(df), 1)
     warning(sprintf(
-      "%d row(s) (%.1f%%) violate the constraint: cannot select 'no damage', 'don't know', or 'prefer not to answer' with any other option. Row indices: %s",
+      paste0(
+        "%d row(s) (%.1f%%) violate the constraint: cannot select ",
+        "'no damage', 'don't know', or 'prefer not to answer' with ",
+        "any other option. Row indices: %s"
+      ),
       n_viol,
       percent,
       paste(viol_rows, collapse = ", ")
@@ -130,17 +137,15 @@ add_shelter_damage_cat <- function(
   df <- dplyr::mutate(
     df,
     snfi_shelter_damage_cat = dplyr::case_when(
-      rowSums(dplyr::across(dplyr::all_of(col_total)) == 1) > 0 ~
-        "Total collapse or destruction",
-      rowSums(dplyr::across(dplyr::all_of(col_part)) == 1) > 0 ~
-        "Partial collapse or destruction",
-      rowSums(dplyr::across(dplyr::all_of(col_damaged)) == 1) > 0 ~ "Damaged",
-      rowSums(dplyr::across(dplyr::all_of(col_none)) == 1) > 0 ~ "No damage",
+      rowSums(dplyr::across(dplyr::all_of(col_total)) == 1) > 0 ~ "total",
+      rowSums(dplyr::across(dplyr::all_of(col_part)) == 1) > 0 ~ "part",
+      rowSums(dplyr::across(dplyr::all_of(col_damaged)) == 1) > 0 ~ "damaged",
+      rowSums(dplyr::across(dplyr::all_of(col_none)) == 1) > 0 ~ "none",
       rowSums(dplyr::across(dplyr::all_of(col_undefined)) == 1) > 0 ~
-        "Undefined",
+        "undefined",
       TRUE ~ NA_character_
     )
   )
 
-  return(df)
+  df
 }
