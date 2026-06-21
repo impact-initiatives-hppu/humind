@@ -50,9 +50,11 @@ add_shelter_damage_cat(
 \value{
 A data frame with an additional column:
 \itemize{
-\item snfi_shelter_damage_cat: Categorized shelter damages: "No damage", "Damaged", "Partial collapse or destruction", "Total collapse or destruction", or "Undefined".
+\item snfi_shelter_damage_cat: Categorized shelter damages: "none", "damaged",
+"part", "total", or "undefined".
 }
 }
 \description{
-This function categorizes the shelter damage category based on provided criteria.
+This function categorizes the shelter damage category based on
+provided criteria.
 }
