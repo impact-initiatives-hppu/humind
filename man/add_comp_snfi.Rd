@@ -102,8 +102,6 @@ tenure.}
 
 \item{shelter_damage_cat_undefined}{Level name for undefined or unknown
 status for shelter damage.}
-
-\item{shelter_damage}{Column for shelter damage.}
 }
 \value{
 A data frame with added columns:
@@ -113,6 +111,7 @@ A data frame with added columns:
 \item comp_snfi_score_tenure_security_cat Score based on security of tenure
 status
 \item comp_snfi_score_fds_cannot_cat Score based on FDS
+\item comp_snfi_score_shelter_damage_cat Score based on shelter damage
 \item comp_snfi_score: Overall SNFI composite score
 \item comp_snfi_in_need: Indicator for being in need
 \item comp_snfi_in_severe_need: Indicator for being in severe need

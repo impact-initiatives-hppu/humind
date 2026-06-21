@@ -42,7 +42,6 @@
 #' @param fds_cannot_cat_1 Level for 1 task that cannot be done.
 #' @param fds_cannot_cat_none Level for no tasks that cannot be done.
 #' @param fds_cannot_cat_undefined Level for undefined fds cannot.
-#' @param shelter_damage Column for shelter damage.
 #' @param shelter_damage_cat Column for shelter damage category.
 #' @param shelter_damage_cat_none Level name for no shelter damage.
 #' @param shelter_damage_cat_damaged Level name for minor damages.
@@ -57,6 +56,7 @@
 #' * comp_snfi_score_tenure_security_cat Score based on security of tenure
 #'   status
 #' * comp_snfi_score_fds_cannot_cat Score based on FDS
+#' * comp_snfi_score_shelter_damage_cat Score based on shelter damage
 #' * comp_snfi_score: Overall SNFI composite score
 #' * comp_snfi_in_need: Indicator for being in need
 #' * comp_snfi_in_severe_need: Indicator for being in severe need
