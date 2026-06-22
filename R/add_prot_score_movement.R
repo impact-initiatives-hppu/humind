@@ -6,9 +6,15 @@
 #' @param no_changes_feel_unsafe answer option
 #' @param no_safety_concerns answer option
 #' @param women_girls_avoid_places answer option
-#' @param men_boys_avoid_places answer option
+#' @param men_avoid_places answer option
+#' @param boys_avoid_places answer option
 #' @param women_girls_avoid_night answer option
-#' @param men_boys_avoid_night answer option
+#' @param men_avoid_night answer option
+#' @param boys_avoid_night answer option
+#' @param weight_men_avoid_places numeric weight for `men_avoid_places`,
+#'   default 1. Must be 0, 1, or 2.
+#' @param weight_men_avoid_night numeric weight for `men_avoid_night`,
+#'   default 1. Must be 0, 1, or 2.
 #' @param girls_boys_avoid_school answer option
 #' @param different_routes answer option
 #' @param avoid_markets answer option
@@ -17,7 +23,8 @@
 #' @param other_safety_measures answer option
 #' @param dnk answer option
 #' @param pnta answer option
-#' @param .keep_weighted Logical, whether to keep the weighted columns in the output data frame. Default is FALSE.
+#' @param .keep_weighted Logical, whether to keep the weighted columns in
+#'   the output data frame. Default is FALSE.
 #'
 #' @return data frame with additional columns:
 #' * comp_prot_score_prot_needs_3
@@ -30,9 +37,13 @@ add_prot_score_movement <- function(
   no_changes_feel_unsafe = "no_changes_feel_unsafe",
   no_safety_concerns = "no_safety_concerns",
   women_girls_avoid_places = "women_girls_avoid_places",
-  men_boys_avoid_places = "men_boys_avoid_places",
+  men_avoid_places = "men_avoid_places",
+  boys_avoid_places = "boys_avoid_places",
   women_girls_avoid_night = "women_girls_avoid_night",
-  men_boys_avoid_night = "men_boys_avoid_night",
+  men_avoid_night = "men_avoid_night",
+  boys_avoid_night = "boys_avoid_night",
+  weight_men_avoid_places = 1,
+  weight_men_avoid_night = 1,
   girls_boys_avoid_school = "girls_boys_avoid_school",
   different_routes = "different_routes",
   avoid_markets = "avoid_markets",
@@ -46,14 +57,30 @@ add_prot_score_movement <- function(
   # capture all parameters
   params <- as.list(environment())
 
+  # validate flexible weights
+  if (
+    !is.numeric(weight_men_avoid_places) ||
+      !weight_men_avoid_places %in% 0:2
+  ) {
+    cli::cli_abort("{.arg weight_men_avoid_places} must be 0, 1, or 2.")
+  }
+  if (
+    !is.numeric(weight_men_avoid_night) ||
+      !weight_men_avoid_night %in% 0:2
+  ) {
+    cli::cli_abort("{.arg weight_men_avoid_night} must be 0, 1, or 2.")
+  }
+
   # mapping of response → weight
   weights_mapping <- c(
     no_changes_feel_unsafe = 1,
     no_safety_concerns = 0,
     women_girls_avoid_places = 2,
-    men_boys_avoid_places = 2,
+    men_avoid_places = weight_men_avoid_places,
+    boys_avoid_places = 2,
     women_girls_avoid_night = 1,
-    men_boys_avoid_night = 1,
+    men_avoid_night = weight_men_avoid_night,
+    boys_avoid_night = 2,
     girls_boys_avoid_school = 2,
     different_routes = 2,
     avoid_markets = 2,

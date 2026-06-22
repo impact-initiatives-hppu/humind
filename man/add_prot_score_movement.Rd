@@ -11,9 +11,13 @@ add_prot_score_movement(
   no_changes_feel_unsafe = "no_changes_feel_unsafe",
   no_safety_concerns = "no_safety_concerns",
   women_girls_avoid_places = "women_girls_avoid_places",
-  men_boys_avoid_places = "men_boys_avoid_places",
+  men_avoid_places = "men_avoid_places",
+  boys_avoid_places = "boys_avoid_places",
   women_girls_avoid_night = "women_girls_avoid_night",
-  men_boys_avoid_night = "men_boys_avoid_night",
+  men_avoid_night = "men_avoid_night",
+  boys_avoid_night = "boys_avoid_night",
+  weight_men_avoid_places = 1,
+  weight_men_avoid_night = 1,
   girls_boys_avoid_school = "girls_boys_avoid_school",
   different_routes = "different_routes",
   avoid_markets = "avoid_markets",
@@ -38,11 +42,19 @@ add_prot_score_movement(
 
 \item{women_girls_avoid_places}{answer option}
 
-\item{men_boys_avoid_places}{answer option}
+\item{men_avoid_places}{answer option}
+
+\item{boys_avoid_places}{answer option}
 
 \item{women_girls_avoid_night}{answer option}
 
-\item{men_boys_avoid_night}{answer option}
+\item{men_avoid_night}{answer option}
+
+\item{boys_avoid_night}{answer option}
+
+\item{weight_men_avoid_places}{numeric weight for \code{men_avoid_places}, default 1. Must be 0, 1, or 2.}
+
+\item{weight_men_avoid_night}{numeric weight for \code{men_avoid_night}, default 1. Must be 0, 1, or 2.}
 
 \item{girls_boys_avoid_school}{answer option}
 
