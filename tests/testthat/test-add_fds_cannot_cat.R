@@ -33,19 +33,19 @@ test_that("add_fds_cannot_cat works as expected", {
   # Check correct recoding for cooking
   expect_equal(
     result$snfi_fds_cooking,
-    c("yes", "no_cannot", "no_no_need", "undefined", "no_cannot")
+    c("yes", "no", "no_no_need", "undefined", "no")
   )
 
   # Check correct recoding for sleeping
   expect_equal(
     result$snfi_fds_sleeping,
-    c("yes", "no_cannot", "undefined", "yes", "no_cannot")
+    c("yes", "no", "undefined", "yes", "no")
   )
 
   # Check correct recoding for storing
   expect_equal(
     result$snfi_fds_storing,
-    c("yes", "no_cannot", "yes", "undefined", "no_cannot")
+    c("yes", "no", "yes", "undefined", "no")
   )
 
   # Check correct recoding for lighting
