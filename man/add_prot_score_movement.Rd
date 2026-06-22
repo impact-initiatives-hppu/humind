@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_prot_score_movement.R
 \name{add_prot_score_movement}
 \alias{add_prot_score_movement}
-\title{add_prot_score_movement}
+\title{Compute protection severity score for freedom of movement}
 \usage{
 add_prot_score_movement(
   df,
@@ -34,7 +34,7 @@ add_prot_score_movement(
 
 \item{sep}{Separator for the binary columns, default is "/".}
 
-\item{prot_needs_3_movement}{Column name}
+\item{prot_needs_3_movement}{Column name of the select-multiple question.}
 
 \item{no_changes_feel_unsafe}{answer option}
 
@@ -52,9 +52,11 @@ add_prot_score_movement(
 
 \item{boys_avoid_night}{answer option}
 
-\item{weight_men_avoid_places}{numeric weight for \code{men_avoid_places}, default 1. Must be 0, 1, or 2.}
+\item{weight_men_avoid_places}{numeric weight for \code{men_avoid_places},
+default 1. Must be 0, 1, or 2.}
 
-\item{weight_men_avoid_night}{numeric weight for \code{men_avoid_night}, default 1. Must be 0, 1, or 2.}
+\item{weight_men_avoid_night}{numeric weight for \code{men_avoid_night},
+default 1. Must be 0, 1, or 2.}
 
 \item{girls_boys_avoid_school}{answer option}
 
@@ -72,7 +74,8 @@ add_prot_score_movement(
 
 \item{pnta}{answer option}
 
-\item{.keep_weighted}{Logical, whether to keep the weighted columns in the output data frame. Default is FALSE.}
+\item{.keep_weighted}{Logical, whether to keep the weighted columns in
+the output data frame. Default is FALSE.}
 }
 \value{
 data frame with additional columns:
@@ -82,5 +85,5 @@ data frame with additional columns:
 }
 }
 \description{
-add_prot_score_movement
+Compute protection severity score for freedom of movement
 }

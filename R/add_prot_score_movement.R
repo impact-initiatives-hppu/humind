@@ -1,20 +1,20 @@
-#' add_prot_score_movement
+#' Compute protection severity score for freedom of movement
 #'
 #' @param df Data frame containing the survey data.
 #' @param sep Separator for the binary columns, default is "/".
-#' @param prot_needs_3_movement Column name
+#' @param prot_needs_3_movement Column name of the select-multiple question.
 #' @param no_changes_feel_unsafe answer option
 #' @param no_safety_concerns answer option
 #' @param women_girls_avoid_places answer option
 #' @param men_avoid_places answer option
+#' @param weight_men_avoid_places numeric weight for `men_avoid_places`,
+#'   default 1. Must be 0, 1, or 2.
 #' @param boys_avoid_places answer option
 #' @param women_girls_avoid_night answer option
 #' @param men_avoid_night answer option
-#' @param boys_avoid_night answer option
-#' @param weight_men_avoid_places numeric weight for `men_avoid_places`,
-#'   default 1. Must be 0, 1, or 2.
 #' @param weight_men_avoid_night numeric weight for `men_avoid_night`,
 #'   default 1. Must be 0, 1, or 2.
+#' @param boys_avoid_night answer option
 #' @param girls_boys_avoid_school answer option
 #' @param different_routes answer option
 #' @param avoid_markets answer option
