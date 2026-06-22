@@ -91,11 +91,22 @@ test_that("weighting done correctly (in the _w columns)", {
 
 test_that("comp_prot_score_movement maps raw sum to correct 1-4 severity", {
   all_opts <- c(
-    "no_changes_feel_unsafe", "no_safety_concerns", "women_girls_avoid_places",
-    "men_avoid_places", "boys_avoid_places", "women_girls_avoid_night",
-    "men_avoid_night", "boys_avoid_night", "girls_boys_avoid_school",
-    "different_routes", "avoid_markets", "avoid_public_offices", "avoid_fields",
-    "other_safety_measures", "dnk", "pnta"
+    "no_changes_feel_unsafe",
+    "no_safety_concerns",
+    "women_girls_avoid_places",
+    "men_avoid_places",
+    "boys_avoid_places",
+    "women_girls_avoid_night",
+    "men_avoid_night",
+    "boys_avoid_night",
+    "girls_boys_avoid_school",
+    "different_routes",
+    "avoid_markets",
+    "avoid_public_offices",
+    "avoid_fields",
+    "other_safety_measures",
+    "dnk",
+    "pnta"
   )
   all_cols <- paste0("prot_needs_3_movement/", all_opts)
   base_row <- setNames(
@@ -124,6 +135,30 @@ test_that("comp_prot_score_movement maps raw sum to correct 1-4 severity", {
   r4$`prot_needs_3_movement/women_girls_avoid_places` <- 1L
   r4$`prot_needs_3_movement/boys_avoid_places` <- 1L
   expect_equal(add_prot_score_movement(r4)$comp_prot_score_movement, 4)
+})
+
+test_that("flexible weight params reject invalid values and accept valid ones", {
+  for (invalid in list(3, -1, 1.5, "a", NULL, NA)) {
+    expect_error(
+      add_prot_score_movement(dummy_df, weight_men_avoid_places = invalid),
+      regexp = "weight_men_avoid_places"
+    )
+    expect_error(
+      add_prot_score_movement(dummy_df, weight_men_avoid_night = invalid),
+      regexp = "weight_men_avoid_night"
+    )
+  }
+
+  for (valid in list(0, 1, 2)) {
+    expect_no_error(add_prot_score_movement(
+      dummy_df,
+      weight_men_avoid_places = valid
+    ))
+    expect_no_error(add_prot_score_movement(
+      dummy_df,
+      weight_men_avoid_night = valid
+    ))
+  }
 })
 
 test_that("composite value calculated correctly and NA for dnk/pnta rows", {
