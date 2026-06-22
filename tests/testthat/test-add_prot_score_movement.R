@@ -89,6 +89,43 @@ test_that("weighting done correctly (in the _w columns)", {
   expect_true(all(is.na(res$`prot_needs_3_movement/other_safety_measures_w`)))
 })
 
+test_that("comp_prot_score_movement maps raw sum to correct 1-4 severity", {
+  all_opts <- c(
+    "no_changes_feel_unsafe", "no_safety_concerns", "women_girls_avoid_places",
+    "men_avoid_places", "boys_avoid_places", "women_girls_avoid_night",
+    "men_avoid_night", "boys_avoid_night", "girls_boys_avoid_school",
+    "different_routes", "avoid_markets", "avoid_public_offices", "avoid_fields",
+    "other_safety_measures", "dnk", "pnta"
+  )
+  all_cols <- paste0("prot_needs_3_movement/", all_opts)
+  base_row <- setNames(
+    as.data.frame(matrix(0L, 1L, length(all_cols))),
+    all_cols
+  )
+
+  # sum = 0 (no_safety_concerns weight 0) -> score 1
+  r0 <- base_row
+  r0$`prot_needs_3_movement/no_safety_concerns` <- 1L
+  expect_equal(add_prot_score_movement(r0)$comp_prot_score_movement, 1)
+
+  # sum = 1 (different_routes weight 1) -> score 2
+  r1 <- base_row
+  r1$`prot_needs_3_movement/different_routes` <- 1L
+  expect_equal(add_prot_score_movement(r1)$comp_prot_score_movement, 2)
+
+  # sum = 3 (no_changes_feel_unsafe=1 + women_girls_avoid_places=2) -> score 3
+  r3 <- base_row
+  r3$`prot_needs_3_movement/no_changes_feel_unsafe` <- 1L
+  r3$`prot_needs_3_movement/women_girls_avoid_places` <- 1L
+  expect_equal(add_prot_score_movement(r3)$comp_prot_score_movement, 3)
+
+  # sum = 4 (women_girls_avoid_places=2 + boys_avoid_places=2) -> score 4
+  r4 <- base_row
+  r4$`prot_needs_3_movement/women_girls_avoid_places` <- 1L
+  r4$`prot_needs_3_movement/boys_avoid_places` <- 1L
+  expect_equal(add_prot_score_movement(r4)$comp_prot_score_movement, 4)
+})
+
 test_that("composite value calculated correctly and NA for dnk/pnta rows", {
   res <- add_prot_score_movement(dummy_df)
 
