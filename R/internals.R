@@ -154,13 +154,32 @@ subvec_not_in <- function(vector, set) {
 #'
 #' @param df A data frame
 #' @param cols A vector of column names (quoted)
-#' @param df_name Provide the tibble name as a character string
-#' @param arg Default to NULL.
+#' @param df_name Name of the data frame as it appears in the caller (e.g.
+#'   `"df"`, `"loop"`). Used in error messages to identify the container.
+#' @param arg Name of the caller's parameter that supplied `cols` (e.g.
+#'   `"ind_age"`). When provided, the missing-column error reads "columns from
+#'   `{arg}` are missing in `{df_name}`", and the non-data.frame error labels
+#'   the input as `{arg}` instead of `{df_name}`. Defaults to `NULL`.
 #'
-#' @return A stop statement
+#' @return `invisible(NULL)` if all `cols` are present in `df`, otherwise
+#'   stops with an informative error.
+#'
+#' @examples
+#' \dontrun{
+#' my_data <- data.frame(a = 1, b = 2)
+#'
+#' # All columns present: returns invisibly
+#' if_not_in_stop(my_data, c("a", "b"), "my_data")
+#'
+#' # Missing column with arg: error names both the parameter and the data frame
+#' if_not_in_stop(my_data, c("a", "c"), "my_data", arg = "ind_age")
+#'
+#' # Non-data.frame with arg: error labels the input using arg
+#' if_not_in_stop("not_a_df", c("a"), "my_data", arg = "ind_age")
+#' }
 if_not_in_stop <- function(df, cols, df_name, arg = NULL) {
   # check that df is a data frame
-  is_df(df, df_name)
+  is_df(df, arg %||% df_name)
 
   missing_cols <- subvec_not_in(cols, colnames(df))
 
@@ -203,9 +222,23 @@ if_not_in_stop <- function(df, cols, df_name, arg = NULL) {
 #' @title Stop statement "If input is not a data.frame"
 #'
 #' @param df A data frame
-#' @param arg Default to NULL.
+#' @param arg Label for `df` in the error message — typically the name of the
+#'   function parameter that received `df`. When `NULL`, the message reads
+#'   "Input  must be a data.frame." so callers should always pass a label.
 #'
-#' @return `invisible(TRUE)` if `df` is a data frame, otherwise a stop statement.
+#' @return `invisible(TRUE)` if `df` is a data frame, otherwise stops with an
+#'   informative error.
+#'
+#' @examples
+#' \dontrun{
+#' my_data <- data.frame(a = 1, b = 2)
+#'
+#' # Valid data frame: returns invisible TRUE
+#' is_df(my_data, "my_data")
+#'
+#' # Non-data.frame: error labels the input using arg
+#' is_df("not_a_df", "my_data")
+#' }
 is_df <- function(df, arg = NULL) {
   if (!is.data.frame(df)) {
     cli::cli_abort(

@@ -11,13 +11,37 @@ if_not_in_stop(df, cols, df_name, arg = NULL)
 
 \item{cols}{A vector of column names (quoted)}
 
-\item{df_name}{Provide the tibble name as a character string}
+\item{df_name}{Name of the data frame as it appears in the caller (e.g.
+\code{"df"}, \code{"loop"}). Used in error messages to identify the container.}
 
-\item{arg}{Default to NULL.}
+\item{arg}{Name of the caller's parameter that supplied \code{cols} (e.g.
+\code{"ind_age"}). When provided, the missing-column error reads "columns from
+\code{{arg}} are missing in \code{{df_name}}", and the non-data.frame error labels
+the input as \code{{arg}} instead of \code{{df_name}}. Defaults to \code{NULL}.}
 }
 \value{
-A stop statement
+\code{invisible(NULL)} if all \code{cols} are present in \code{df}, otherwise
+stops with an informative error.
 }
 \description{
 Stop statement "If not in colnames" with colnames
+}
+\examples{
+\dontrun{
+my_data <- data.frame(a = 1, b = 2)
+
+# All columns present: returns invisibly
+if_not_in_stop(my_data, c("a", "b"), "my_data")
+
+# Missing column with arg:
+if_not_in_stop(my_data, c("a", "c"), "my_data", arg = "ind_age")
+#> Error: Missing columns
+#> * The following column from `ind_age` is missing in `my_data`: c
+
+# Non-data.frame with arg:
+if_not_in_stop("not_a_df", c("a"), "my_data", arg = "ind_age")
+#> Error in `is_df()`:
+#> ! Input ind_age must be a data.frame.
+#> i Input is of class: character.
+}
 }
