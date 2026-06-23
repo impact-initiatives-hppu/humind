@@ -58,16 +58,10 @@ add_prot_score_movement <- function(
   params <- as.list(environment())
 
   # validate flexible weights
-  if (
-    !is.numeric(weight_men_avoid_places) ||
-      !weight_men_avoid_places %in% 0:2
-  ) {
+  if (!checkmate::test_choice(weight_men_avoid_places, choices = 0:2)) {
     cli::cli_abort("{.arg weight_men_avoid_places} must be 0, 1, or 2.")
   }
-  if (
-    !is.numeric(weight_men_avoid_night) ||
-      !weight_men_avoid_night %in% 0:2
-  ) {
+  if (!checkmate::test_choice(weight_men_avoid_night, choices = 0:2)) {
     cli::cli_abort("{.arg weight_men_avoid_night} must be 0, 1, or 2.")
   }
 
