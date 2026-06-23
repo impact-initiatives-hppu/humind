@@ -14,7 +14,6 @@ License: MIT + file LICENSE
 Depends: R (>= 4.1.0)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Imports: 
     dplyr (>= 1.1.0),
     glue,
@@ -28,7 +27,8 @@ Imports:
     stringr,
     cli,
     checkmate
-URL: https://github.com/impact-initiatives-hppu/humind
+URL: https://github.com/impact-initiatives-hppu/humind,
+    https://impact-initiatives-hppu.github.io/humind
 BugReports: https://github.com/impact-initiatives-hppu/humind/issues
 Remotes: 
     impact-initiatives/impactR.utils,
@@ -40,3 +40,4 @@ Suggests:
 LazyData: true
 Config/Needs/website: rmarkdown
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0
