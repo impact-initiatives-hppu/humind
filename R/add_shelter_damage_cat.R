@@ -1,4 +1,4 @@
-#' @title Add Category of Shelter damage (Optional SNFI dimension)
+#' @title Add Category of Shelter damage (SNFI dimension)
 #'
 #' @description This function categorizes the shelter damage category based on
 #' provided criteria.
@@ -40,7 +40,8 @@ add_shelter_damage_cat <- function(
   pnta = "pnta"
 ) {
   # Option answers list
-  user_answer_options <- c( # nolint: object_usage_linter.
+  user_answer_options <- c(
+    # nolint: object_usage_linter.
     none = none,
     minor = minor,
     major = major,
@@ -66,7 +67,8 @@ add_shelter_damage_cat <- function(
 
   # Define answer sets for each category (column suffixes)
   snfi_shelter_damage_none <- none # nolint: object_usage_linter.
-  snfi_shelter_damage_damaged <- c( # nolint: object_usage_linter.
+  snfi_shelter_damage_damaged <- c(
+    # nolint: object_usage_linter.
     minor,
     damage_windows_doors,
     damage_floors,
@@ -74,23 +76,26 @@ add_shelter_damage_cat <- function(
   )
   snfi_shelter_damage_partial <- major # nolint: object_usage_linter.
   snfi_shelter_damage_total <- total_collapse # nolint: object_usage_linter.
-  # nolint next line: object_usage_linter.
-  snfi_shelter_damage_undefined <- c(dnk, pnta, other)
+  snfi_shelter_damage_undefined <- c(dnk, pnta, other) # nolint: object_usage_linter.
 
   # Build full column names for each category
   col_none <- stringr::str_glue(
     "{snfi_shelter_damage}{sep}{snfi_shelter_damage_none}"
   )
-  col_damaged <- stringr::str_glue( # nolint: object_usage_linter.
+  col_damaged <- stringr::str_glue(
+    # nolint: object_usage_linter.
     "{snfi_shelter_damage}{sep}{snfi_shelter_damage_damaged}"
   )
-  col_part <- stringr::str_glue( # nolint: object_usage_linter.
+  col_part <- stringr::str_glue(
+    # nolint: object_usage_linter.
     "{snfi_shelter_damage}{sep}{snfi_shelter_damage_partial}"
   )
-  col_total <- stringr::str_glue( # nolint: object_usage_linter.
+  col_total <- stringr::str_glue(
+    # nolint: object_usage_linter.
     "{snfi_shelter_damage}{sep}{snfi_shelter_damage_total}"
   )
-  col_undefined <- stringr::str_glue( # nolint: object_usage_linter.
+  col_undefined <- stringr::str_glue(
+    # nolint: object_usage_linter.
     "{snfi_shelter_damage}{sep}{snfi_shelter_damage_undefined}"
   )
 

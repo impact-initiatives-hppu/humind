@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_shelter_damage_cat.R
 \name{add_shelter_damage_cat}
 \alias{add_shelter_damage_cat}
-\title{Add Category of Shelter damage (Optional SNFI dimension)}
+\title{Add Category of Shelter damage (SNFI dimension)}
 \usage{
 add_shelter_damage_cat(
   df,
