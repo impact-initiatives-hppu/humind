@@ -9,11 +9,28 @@ is_df(df, arg = NULL)
 \arguments{
 \item{df}{A data frame}
 
-\item{arg}{Default to NULL.}
+\item{arg}{Label for \code{df} in the error message — typically the name of the
+function parameter that received \code{df}. When \code{NULL}, the message reads
+"Input  must be a data.frame." so callers should always pass a label.}
 }
 \value{
-\code{invisible(TRUE)} if \code{df} is a data frame, otherwise a stop statement.
+\code{invisible(TRUE)} if \code{df} is a data frame, otherwise stops with an
+informative error.
 }
 \description{
 Stop statement "If input is not a data.frame"
+}
+\examples{
+\dontrun{
+my_data <- data.frame(a = 1, b = 2)
+
+# Valid data frame: returns invisible TRUE
+is_df(my_data, "my_data")
+
+# Non-data.frame:
+is_df("not_a_df", "my_data")
+#> Error in `is_df()`:
+#> ! Input my_data must be a data.frame.
+#> i Input is of class: character.
+}
 }
