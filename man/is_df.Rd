@@ -27,10 +27,7 @@ my_data <- data.frame(a = 1, b = 2)
 # Valid data frame: returns invisible TRUE
 is_df(my_data, "my_data")
 
-# Non-data.frame:
+# Non-data.frame: error labels the input using arg
 is_df("not_a_df", "my_data")
-#> Error in `is_df()`:
-#> ! Input my_data must be a data.frame.
-#> i Input is of class: character.
 }
 }

@@ -59,7 +59,7 @@ test_that("Drinking water quality scoring works based on setting", {
     drinking_water_quality_jmp_cat_undefined = "undefined"
   )
 
-  expected_result <- c(5, 3, 2) # Surface water (camp) -> 5, Unimproved (urban) -> 3, Limited (rural) -> 2
+  expected_result <- c(4, 3, 2) # Surface water (camp) -> 4, Unimproved (urban) -> 3, Limited (rural) -> 2
 
   expect_equal(df_result$comp_wash_score_water_quality, expected_result)
 })
@@ -193,4 +193,104 @@ invalid_sanitation_data$wash_sanitation_facility_jmp_cat <- c(
 
 test_that("Function handles invalid sanitation facility categories", {
   expect_error(add_comp_wash(invalid_sanitation_data), class = "error")
+})
+
+# Data for 2026 scoring change tests
+df_2026_water_quality <- data.frame(
+  setting = c("camp", "camp", "camp", "camp", "urban", "rural"),
+  wash_hwise_drink = c(
+    "always",
+    "always",
+    "always",
+    "always",
+    "always",
+    "always"
+  ),
+  wash_drinking_water_quality_jmp_cat = c(
+    "surface_water",
+    "unimproved",
+    "limited",
+    "basic",
+    "basic",
+    "unimproved"
+  ),
+  wash_sanitation_facility_jmp_cat = c(
+    "basic",
+    "basic",
+    "basic",
+    "basic",
+    "basic",
+    "basic"
+  ),
+  wash_sanitation_facility_cat = c(
+    "improved",
+    "improved",
+    "improved",
+    "improved",
+    "improved",
+    "improved"
+  ),
+  wash_sharing_sanitation_facility_n_ind = c(
+    "19_and_below",
+    "19_and_below",
+    "19_and_below",
+    "19_and_below",
+    "19_and_below",
+    "19_and_below"
+  ),
+  wash_sharing_sanitation_facility_cat = c(
+    "not_shared",
+    "not_shared",
+    "not_shared",
+    "not_shared",
+    "not_shared",
+    "not_shared"
+  ),
+  wash_handwashing_facility_jmp_cat = c(
+    "basic",
+    "basic",
+    "basic",
+    "basic",
+    "basic",
+    "basic"
+  )
+)
+
+# Test 7: 2026 update — comp_wash_score_water_quality camp and urban scores
+test_that("2026: camp water quality scores shifted down (surface_water=4, unimproved=3, limited=2, basic=1)", {
+  df_result <- add_comp_wash(
+    df_2026_water_quality,
+    setting = "setting",
+    drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat"
+  )
+
+  expected_result <- c(4, 3, 2, 1, 1, 3) # camp: surface_water=4, unimproved=3, limited=2, basic=1; urban: basic=1; rural: unimproved=3
+
+  expect_equal(df_result$comp_wash_score_water_quality, expected_result)
+})
+
+# Data for 2026 rural open defecation sanitation test
+df_2026_sanitation_rural <- data.frame(
+  setting = "rural",
+  wash_hwise_drink = "always",
+  wash_drinking_water_quality_jmp_cat = "basic",
+  wash_sanitation_facility_jmp_cat = "open_defecation",
+  wash_sanitation_facility_cat = "none",
+  wash_sharing_sanitation_facility_n_ind = "19_and_below",
+  wash_sharing_sanitation_facility_cat = "not_shared",
+  wash_handwashing_facility_jmp_cat = "basic"
+)
+
+# Test 8: 2026 update — rural open defecation sanitation score
+test_that("2026: rural open_defecation sanitation scores 3 (not 4)", {
+  df_result <- add_comp_wash(
+    df_2026_sanitation_rural,
+    setting = "setting",
+    sanitation_facility_jmp_cat = "wash_sanitation_facility_jmp_cat",
+    sanitation_facility_cat = "wash_sanitation_facility_cat",
+    sanitation_facility_n_ind = "wash_sharing_sanitation_facility_n_ind",
+    sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat"
+  )
+
+  expect_equal(df_result$comp_wash_score_sanitation, 3)
 })

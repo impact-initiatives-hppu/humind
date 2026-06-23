@@ -16,6 +16,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{impactR4PHU}{\code{\link[impactR4PHU:add_fclcm_phase]{add_fclcm_phase()}}, \code{\link[impactR4PHU:add_fcm_phase]{add_fcm_phase()}}, \code{\link[impactR4PHU:add_fcs]{add_fcs()}}, \code{\link[impactR4PHU:add_hhs]{add_hhs()}}, \code{\link[impactR4PHU:add_lcsi]{add_lcsi()}}, \code{\link[impactR4PHU:add_rcsi]{add_rcsi()}}}
+  \item{impactR4PHU}{\code{\link[impactR4PHU]{add_fclcm_phase}}, \code{\link[impactR4PHU]{add_fcm_phase}}, \code{\link[impactR4PHU]{add_fcs}}, \code{\link[impactR4PHU]{add_hhs}}, \code{\link[impactR4PHU]{add_lcsi}}, \code{\link[impactR4PHU]{add_rcsi}}}
 }}
 

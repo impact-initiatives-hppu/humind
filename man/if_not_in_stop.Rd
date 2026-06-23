@@ -33,15 +33,10 @@ my_data <- data.frame(a = 1, b = 2)
 # All columns present: returns invisibly
 if_not_in_stop(my_data, c("a", "b"), "my_data")
 
-# Missing column with arg:
+# Missing column with arg: error names both the parameter and the data frame
 if_not_in_stop(my_data, c("a", "c"), "my_data", arg = "ind_age")
-#> Error: Missing columns
-#> * The following column from `ind_age` is missing in `my_data`: c
 
-# Non-data.frame with arg:
+# Non-data.frame with arg: error labels the input using arg
 if_not_in_stop("not_a_df", c("a"), "my_data", arg = "ind_age")
-#> Error in `is_df()`:
-#> ! Input ind_age must be a data.frame.
-#> i Input is of class: character.
 }
 }
