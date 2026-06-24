@@ -186,5 +186,5 @@ add_fds_cannot_cat <- function(
     )
   )
 
-  return(df)
+  df
 }

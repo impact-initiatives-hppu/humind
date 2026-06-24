@@ -40,7 +40,7 @@ add_age_cat <- function(
     above_last = TRUE
   )
 
-  return(df)
+  df
 }
 
 #' @rdname add_age_cat
@@ -81,5 +81,5 @@ add_age_18_cat <- function(
     )
   )
 
-  return(df)
+  df
 }

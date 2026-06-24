@@ -72,5 +72,5 @@ add_expenditure_type_zero_freq <- function(
     )
   )
 
-  return(df)
+  df
 }

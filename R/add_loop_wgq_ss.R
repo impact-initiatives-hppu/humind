@@ -323,7 +323,7 @@ add_loop_wgq_ss <- function(
     )
   )
 
-  return(loop)
+  loop
 }
 
 
@@ -431,5 +431,5 @@ add_loop_wgq_ss_to_main <- function(
   )
 
   # Return main
-  return(main)
+  main
 }

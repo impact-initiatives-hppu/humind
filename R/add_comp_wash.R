@@ -487,5 +487,5 @@ add_comp_wash <- function(
     "comp_wash_in_severe_need"
   )
 
-  return(df)
+  df
 }

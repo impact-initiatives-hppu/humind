@@ -62,7 +62,7 @@ add_loop_edu_barrier_protection_d <- function(
     )
   )
 
-  return(loop)
+  loop
 }
 
 #' @rdname add_loop_edu_barrier_protection_d
@@ -121,5 +121,5 @@ add_loop_edu_barrier_protection_d_to_main <- function(
     by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop))
   )
 
-  return(main)
+  main
 }

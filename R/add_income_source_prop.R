@@ -106,5 +106,5 @@ add_income_source_prop <- function(
     )
   )
 
-  return(df)
+  df
 }

@@ -29,7 +29,7 @@ impute_value <- function(df, vars, value) {
     dplyr::across(dplyr::all_of(vars), \(x) tidyr::replace_na(x, value))
   )
 
-  return(df)
+  df
 }
 
 
@@ -122,5 +122,5 @@ impute_median <- function(
   # Convert back to a dataframe as dplyr usually returns a tibble by default
   df <- as.data.frame(df)
 
-  return(df)
+  df
 }

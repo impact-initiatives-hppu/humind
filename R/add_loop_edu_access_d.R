@@ -82,7 +82,7 @@ add_loop_edu_access_d <- function(
     )
   )
 
-  return(loop)
+  loop
 }
 
 #' @rdname add_loop_edu_access_d
@@ -153,5 +153,5 @@ add_loop_edu_access_d_to_main <- function(
   )
 
   # Return main
-  return(main)
+  main
 }

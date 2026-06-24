@@ -63,7 +63,7 @@ add_sanitation_facility_cat <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 
@@ -126,7 +126,7 @@ add_sharing_sanitation_facility_cat <- function(
     )
   }
 
-  return(df)
+  df
 }
 
 #' @rdname add_sanitation_facility_cat
@@ -218,7 +218,7 @@ add_sharing_sanitation_facility_n_ind <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 
@@ -317,5 +317,5 @@ add_sanitation_facility_jmp_cat <- function(
     )
   )
 
-  return(df)
+  df
 }

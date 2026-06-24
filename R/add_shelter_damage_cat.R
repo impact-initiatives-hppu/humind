@@ -142,5 +142,5 @@ add_shelter_damage_cat <- function(
     )
   )
 
-  return(df)
+  df
 }

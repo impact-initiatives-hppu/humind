@@ -267,5 +267,5 @@ add_comp_snfi <- function(
     "comp_snfi_in_severe_need"
   )
 
-  return(df)
+  df
 }

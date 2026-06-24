@@ -105,7 +105,7 @@ add_loop_edu_disrupted_d <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 #' @rdname add_loop_edu_disrupted_d
@@ -215,5 +215,5 @@ add_loop_edu_disrupted_d_to_main <- function(
     by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop))
   )
 
-  return(main)
+  main
 }

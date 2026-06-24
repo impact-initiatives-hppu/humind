@@ -73,5 +73,5 @@ add_comp_foodsec <- function(
     "comp_foodsec_in_severe_need"
   )
 
-  return(df)
+  df
 }

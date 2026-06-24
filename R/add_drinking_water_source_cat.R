@@ -81,7 +81,7 @@ add_drinking_water_source_cat <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 
@@ -202,7 +202,7 @@ add_drinking_water_time_cat <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 #' @rdname add_drinking_water_source_cat
@@ -259,7 +259,7 @@ add_drinking_water_time_threshold_cat <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 #' @rdname add_drinking_water_source_cat
@@ -357,5 +357,5 @@ add_drinking_water_quality_jmp_cat <- function(
     )
   )
 
-  return(df)
+  df
 }

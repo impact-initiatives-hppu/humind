@@ -174,7 +174,7 @@ add_loop_healthcare_needed_cat <- function(
     )
   )
 
-  return(loop)
+  loop
 }
 
 
@@ -280,5 +280,5 @@ add_loop_healthcare_needed_cat_to_main <- function(
     by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop))
   )
 
-  return(main)
+  main
 }

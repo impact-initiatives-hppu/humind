@@ -129,7 +129,7 @@ add_loop_edu_ind_age_corrected <- function(
     )
   )
 
-  return(loop)
+  loop
 }
 
 #' @rdname add_loop_edu_ind_age_corrected
@@ -183,5 +183,5 @@ add_loop_edu_ind_schooling_age_d_to_main <- function(
     by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop))
   )
 
-  return(main)
+  main
 }

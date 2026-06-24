@@ -63,7 +63,7 @@ add_loop_age_dummy <- function(
     )
   )
 
-  return(loop)
+  loop
 }
 
 #' @rdname add_loop_age_dummy
@@ -126,7 +126,7 @@ add_loop_age_dummy_to_main <- function(
   )
 
   # Return main
-  return(main)
+  main
 }
 
 #' @rdname add_loop_age_dummy
@@ -179,7 +179,7 @@ add_loop_age_gender_dummy <- function(
     )
   )
 
-  return(loop)
+  loop
 }
 
 #' @rdname add_loop_age_dummy
@@ -238,5 +238,5 @@ add_loop_age_gender_dummy_to_main <- function(
   )
 
   # Return main
-  return(main)
+  main
 }

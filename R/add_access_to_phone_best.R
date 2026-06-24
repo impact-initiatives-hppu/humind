@@ -74,7 +74,7 @@ add_access_to_phone_best <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 #' @rdname add_access_to_phone_best
@@ -184,5 +184,5 @@ add_access_to_phone_coverage <- function(
     )
   )
 
-  return(df)
+  df
 }
