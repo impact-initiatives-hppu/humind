@@ -271,9 +271,6 @@ test_that("reported ash/mud/sand soap type demotes 'basic' to 'limited'", {
     wash_soap_reported_type = c("soap", "detergent", "ash_mud_sand")
   )
 
-  # default args already include:
-  #   soap_type_reported_yes = c("soap","detergent")
-  #   soap_type_reported_no  = c("ash_mud_sand")
   out <- add_handwashing_facility_cat(df)$wash_handwashing_facility_jmp_cat
   expect_identical(out, c("basic", "basic", "limited"))
 })

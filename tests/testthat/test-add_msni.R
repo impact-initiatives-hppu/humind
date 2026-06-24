@@ -138,25 +138,6 @@ test_that("add_msni handles all possible values", {
   expect_equal(result$msni_in_severe_need, c(0, 0, 0, 1, 1))
 })
 
-
-#test_that("add_msni handles all NA values", {
-#  df <- data.frame(
-#    comp_foodsec_score = c(NA, NA, NA, NA, NA),
-#    comp_snfi_score = c(NA, NA, NA, NA, NA),
-#    comp_wash_score = c(NA, NA, NA, NA, NA),
-#    comp_prot_score = c(NA, NA, NA, NA, NA),
-#    comp_health_score = c(NA, NA, NA, NA, NA),
-#    comp_edu_score = c(NA, NA, NA, NA, NA)
-#  )
-#
-#  result <- humind:::add_msni(df)
-#
-#  expected <- df %>%
-#    mutate(msni_score = NA, msni_in_need = NA)
-#
-#  expect_equal(result, expected)
-#})
-
 test_that("add_msni handles missing columns", {
   df <- data.frame(
     comp_foodsec_score = c(1, 2, 3, 4, 5),

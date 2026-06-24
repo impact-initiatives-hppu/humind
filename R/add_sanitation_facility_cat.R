@@ -99,7 +99,6 @@ add_sharing_sanitation_facility_cat <- function(
   if (!is.null(skipped_sanitation_facility)) {
     are_values_in_set(df, sanitation_facility, skipped_sanitation_facility)
   }
-  # are_cols_numeric(df, sharing_sanitation_facility)
 
   # If sanitation_facility was skipped because of sharing_sanitation_facility, then recode sharing_sanitation_facility to "no"
   if (!is.null(skipped_sanitation_facility)) {

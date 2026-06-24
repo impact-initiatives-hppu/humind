@@ -91,9 +91,6 @@ add_loop_edu_ind_age_corrected <- function(
     school_year_start_month
   )
 
-  # we should add a test that it's numeric instead
-  # roster[[age_col]] <- as.numeric(roster[[age_col]])
-
   # Apply the age correction based on the month difference, handling NA in month or age
   loop <- dplyr::mutate(
     loop,

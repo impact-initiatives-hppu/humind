@@ -91,16 +91,6 @@ impute_median <- function(
     rlang::abort(
       "Weighted median has not been implemented yet. Please use 'FALSE'."
     )
-    # df <- dplyr::mutate(
-    #   df,
-    #   dplyr::across(
-    #     dplyr::all_of(vars),
-    #     \(x) tidyr::replace_na(
-    #       x,
-    #       limma::weighted.median(x, w = !!rlang::sym(weight), na.rm = TRUE)
-    #     )
-    #   )
-    # )
   } else {
     df <- dplyr::mutate(
       df,
