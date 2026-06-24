@@ -1,5 +1,5 @@
-^renv$
-^renv\.lock$
+.pre-commit-config.yaml
+^.*.docx$
 ^.*\.Rproj$
 ^LICENSE\.md$
 ^Meta$
@@ -10,8 +10,9 @@
 ^data-raw$
 ^doc$
 ^docs$
-^.*.docx$
+^hex-humind\.png
 ^hex-humind\.png
 ^pkgdown$
 ^r_package_documentation\.md
-^hex-humind\.png
+^renv$
+^renv\.lock$
