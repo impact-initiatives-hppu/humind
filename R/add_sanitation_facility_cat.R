@@ -197,8 +197,8 @@ add_sharing_sanitation_facility_n_ind <- function(
       !!rlang::sym(sharing_sanitation_facility_cat) ==
         sharing_sanitation_facility_cat_shared ~
         (!!rlang::sym(sanitation_facility_sharing_n) - 1) *
-          mean_hh_size +
-          !!rlang::sym(hh_size),
+        mean_hh_size +
+        !!rlang::sym(hh_size),
       # If facility not shared
       !!rlang::sym(sharing_sanitation_facility_cat) ==
         sharing_sanitation_facility_cat_not_shared ~
