@@ -131,7 +131,7 @@ removed.
 
 ## 📖 2025 Programmatic Changes
 
-* **Protection**: complete ravamp, based on a series of new Tier 1 indicators
+* **Protection**: complete revamp, based on a series of new Tier 1 indicators
 related to Protection Needs. 
 
 * **SNFI**:
@@ -277,7 +277,7 @@ Provides functions to compose usual humanitarian composite indicators related to
    * JMP ladders.
    * Specific indicators related to the MSNI framework.
 
-The package follows the ‘Step-Composition’ approach of IMPACT R framework.
+The package follows the 'Step-Composition' approach of IMPACT R framework.
 
 
 # humind 0.1.900
