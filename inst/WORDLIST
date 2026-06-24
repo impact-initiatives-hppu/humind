@@ -97,6 +97,7 @@ py
 qtl
 quentin
 raphael
+Rbuildignore
 rcsi
 rCSI
 readxl
@@ -106,6 +107,7 @@ rmarkdown
 roxygen
 Roxygen
 roxygenize
+Rprofile
 RTools
 runnable
 sanitization
@@ -139,5 +141,6 @@ WORDLIST
 Xcode
 xlsx
 yaml
+yml
 yn
 ️
