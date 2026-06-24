@@ -1,7 +1,5 @@
-^.*.docx$
 ^.*\.Rproj$
 ^LICENSE\.md$
-^Meta$
 ^README\.Rmd$
 ^\.Rprofile$
 ^\.Rproj\.user$
@@ -9,11 +7,7 @@
 ^\.lintr$
 ^\.pre-commit-config\.yaml$
 ^_pkgdown\.yml$
-^data-raw$
-^doc$
 ^docs$
-^hex-humind\.png
 ^pkgdown$
-^r_package_documentation\.md
 ^renv$
 ^renv\.lock$
