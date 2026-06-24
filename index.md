@@ -17,6 +17,7 @@ framework.
 Install the latest tagged release from GitHub:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("impact-initiatives-hppu/humind@v2025.1.4")
 ```
@@ -24,6 +25,7 @@ devtools::install_github("impact-initiatives-hppu/humind@v2025.1.4")
 Verify the version:
 
 ``` r
+
 packageVersion("humind")
 # v2025.1.4
 ```
@@ -194,6 +196,7 @@ stored in R. Public repositories do **not** require credentials. To
 resolve:
 
 ``` r
+
 library(gitcreds)
 gitcreds_delete()
 ```

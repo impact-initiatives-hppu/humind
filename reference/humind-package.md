@@ -22,6 +22,8 @@ Useful links:
 
 Authors:
 
+- Quentin VILLOTTA <quentin.villotta@impact-initiatives.org>
+
 - Iyed GHEDAMSI <iyed.ghedamsi@impact-initiatives.org> \[contributor\]
 
 - Mario DASILVA <mario.fidalgo@impact-initiatives.org> \[contributor\]

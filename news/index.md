@@ -174,7 +174,7 @@ components are fully removed.
 
 ### 📖 2025 Programmatic Changes
 
-- **Protection**: complete ravamp, based on a series of new Tier 1
+- **Protection**: complete revamp, based on a series of new Tier 1
   indicators related to Protection Needs.
 
 - **SNFI**:
@@ -467,7 +467,7 @@ framework.
 - Added: HWISE functions.
   ([\#16](https://github.com/impact-initiatives-hppu/humind/issues/16))
 - Updated: to dplyr v1.1.0 with the
-  [`dplyr::case_when()`](https://dplyr.tidyverse.org/reference/case_when.html)
+  [`dplyr::case_when()`](https://dplyr.tidyverse.org/reference/case-and-replace-when.html)
   revamp. (#)
 - Modified: dependency know goes to `impactR.utils` and not `impactR`.
   (#)

@@ -17,16 +17,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/impact-initiatives-hppu/humind/blob/v2025.1.4/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/impact-initiatives-hppu/humind/blob/dev2026.2.0/DESCRIPTION)
 
-VILLOTTA Q, GHEDAMSI I, DASILVA M (2025). *humind: Compose MSNA
+VILLOTTA Q, GHEDAMSI I, DASILVA M (2026). *humind: Compose MSNA
 Indicators*. R package version 2025.1.4,
-<https://github.com/impact-initiatives-hppu/humind>.
+<https://impact-initiatives-hppu.github.io/humind>.
 
     @Manual{,
       title = {humind: Compose MSNA Indicators},
       author = {Quentin VILLOTTA and Iyed GHEDAMSI and Mario DASILVA},
-      year = {2025},
+      year = {2026},
       note = {R package version 2025.1.4},
-      url = {https://github.com/impact-initiatives-hppu/humind},
+      url = {https://impact-initiatives-hppu.github.io/humind},
     }
