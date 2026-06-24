@@ -63,9 +63,9 @@ add_loop_wgq_ss <- function(
 
   # Check that levels no_diff to cannot_do are of length 1
   if (
-    length(no_difficulty) != 1 |
-      length(some_difficulty) != 1 |
-      length(lot_of_difficulty) != 1 |
+    length(no_difficulty) != 1 ||
+      length(some_difficulty) != 1 ||
+      length(lot_of_difficulty) != 1 ||
       length(cannot_do) != 1
   ) {
     rlang::abort(

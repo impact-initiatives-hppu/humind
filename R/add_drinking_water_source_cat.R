@@ -161,8 +161,8 @@ add_drinking_water_time_cat <- function(
 
   # Check that all inputs under_30min, above_30min_1hr, more_than_1hr are of length 1
   if (
-    length(sl_under_30_min) != 1 |
-      length(sl_30min_1hr) != 1 |
+    length(sl_under_30_min) != 1 ||
+      length(sl_30min_1hr) != 1 ||
       length(sl_more_than_1hr) != 1
   ) {
     rlang::abort(
