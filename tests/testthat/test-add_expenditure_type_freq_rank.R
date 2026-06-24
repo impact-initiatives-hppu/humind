@@ -86,7 +86,7 @@ test_that("add_expenditure_type_freq_rank function handles tied values correctly
 })
 
 # 3. Test handling of missing columns
-missing_column_data_top3 <- dummy_data_top3 %>%
+missing_column_data_top3 <- dummy_data_top3 |>
   select(-cm_expenditure_frequent_food)
 
 test_that("add_expenditure_type_freq_rank function handles missing columns", {

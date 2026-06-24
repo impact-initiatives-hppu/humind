@@ -37,7 +37,7 @@ test_that("Function handles missing age values", {
 })
 
 test_that("Function handles missing columns", {
-  loop_data_missing_col <- loop_data %>%
+  loop_data_missing_col <- loop_data |>
     select(-ind_age)
   expect_error(add_loop_edu_ind_age_corrected(loop_data_missing_col, main_data))
 })

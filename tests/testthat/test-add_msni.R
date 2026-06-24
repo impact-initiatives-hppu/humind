@@ -16,7 +16,7 @@ test_that("add_msni works with default parameters", {
 
   result <- humind:::add_msni(df)
 
-  expected <- df %>%
+  expected <- df |>
     mutate(
       msni_score = pmax(
         comp_foodsec_score,
@@ -91,7 +91,7 @@ test_that("add_msni handles all possible values", {
 
   result <- humind:::add_msni(df)
 
-  expected <- df %>%
+  expected <- df |>
     mutate(
       msni_score = 1:5,
       msni_in_need = ifelse(msni_score >= 3, 1, 0),

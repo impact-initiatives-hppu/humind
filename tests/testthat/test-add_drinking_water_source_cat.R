@@ -76,16 +76,16 @@ test_that("add_drinking_water_time_cat returns expected column", {
 })
 
 test_that("add_drinking_water_quality_jmp_cat returns expected column", {
-  df <- dummy_data %>%
-    add_drinking_water_source_cat() %>%
-    add_drinking_water_time_cat() %>%
+  df <- dummy_data |>
+    add_drinking_water_source_cat() |>
+    add_drinking_water_time_cat() |>
     add_drinking_water_time_threshold_cat()
   result <- add_drinking_water_quality_jmp_cat(df)
   expect_true("wash_drinking_water_quality_jmp_cat" %in% colnames(result))
 })
 
 test_that("add_drinking_water_source_cat handles undefined drinking water source", {
-  df_undefined <- dummy_data %>% mutate(wash_drinking_water_source = "other")
+  df_undefined <- dummy_data |> mutate(wash_drinking_water_source = "other")
   result <- add_drinking_water_source_cat(df_undefined)
   expect_equal(unique(result$wash_drinking_water_source_cat), "undefined")
 })

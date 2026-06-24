@@ -26,7 +26,7 @@ test_that("add_loop_edu_barrier_protection_d function works with default paramet
 })
 
 # 2. Test handling missing columns in add_loop_edu_barrier_protection_d
-missing_column_data <- dummy_loop_data %>% select(-edu_barrier)
+missing_column_data <- dummy_loop_data |> select(-edu_barrier)
 
 test_that("add_loop_edu_barrier_protection_d function handles missing columns", {
   expect_error(add_loop_edu_barrier_protection_d(missing_column_data))
@@ -53,7 +53,7 @@ test_that("add_loop_edu_barrier_protection_d_to_main function works with default
 })
 
 # 5. Test handling missing columns in add_loop_edu_barrier_protection_d_to_main
-missing_column_main_data <- dummy_main_data %>% select(-uuid)
+missing_column_main_data <- dummy_main_data |> select(-uuid)
 
 test_that("add_loop_edu_barrier_protection_d_to_main function handles missing columns", {
   expect_error(add_loop_edu_barrier_protection_d_to_main(

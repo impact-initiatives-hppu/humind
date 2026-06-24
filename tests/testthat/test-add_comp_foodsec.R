@@ -30,7 +30,7 @@ test_that("add_comp_foodsec handles NA values correctly", {
 
 test_that("add_comp_foodsec throws error for missing columns", {
   df_test <- df_dummy
-  df_test <- df_test %>% select(-fsl_fc_phase)
+  df_test <- df_test |> select(-fsl_fc_phase)
   expect_error(add_comp_foodsec(df_test), class = "error")
 })
 

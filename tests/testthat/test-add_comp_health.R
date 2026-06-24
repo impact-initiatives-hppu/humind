@@ -23,7 +23,7 @@ test_that("add_comp_health handles non-numeric values correctly", {
 
 test_that("add_comp_health throws error for missing columns", {
   df_test <- df_dummy
-  df_test <- df_test %>% select(-health_ind_healthcare_needed_no_n)
+  df_test <- df_test |> select(-health_ind_healthcare_needed_no_n)
   expect_error(add_comp_health(df_test), class = "error")
 })
 

@@ -32,7 +32,7 @@ test_that("add_loop_edu_disrupted_d function works with default parameters", {
 })
 
 # 2. Test handling missing columns in add_loop_edu_disrupted_d
-missing_column_data <- dummy_loop_data %>% select(-edu_disrupted_attack)
+missing_column_data <- dummy_loop_data |> select(-edu_disrupted_attack)
 
 test_that("add_loop_edu_disrupted_d function handles missing columns", {
   expect_error(add_loop_edu_disrupted_d(missing_column_data))
@@ -66,7 +66,7 @@ test_that("add_loop_edu_disrupted_d_to_main function works with default paramete
 })
 
 # 5. Test handling missing columns in add_loop_edu_disrupted_d_to_main
-missing_column_main_data <- dummy_main_data %>% select(-uuid)
+missing_column_main_data <- dummy_main_data |> select(-uuid)
 
 test_that("add_loop_edu_disrupted_d_to_main function handles missing columns", {
   expect_error(add_loop_edu_disrupted_d_to_main(
