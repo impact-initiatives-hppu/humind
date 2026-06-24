@@ -5,13 +5,11 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/impact-initiatives-hppu/humind/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/impact-initiatives-hppu/humind/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/impact-initiatives-hppu/humind/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/impact-initiatives-hppu/humind/actions/workflows/check-standard.yaml)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/humind)](https://CRAN.R-project.org/package=humind)
 [![Codecov test
-coverage](https://codecov.io/gh/impact-initiatives-hppu/humind/branch/main/graph/badge.svg)](https://app.codecov.io/gh/impact-initiatives-hppu/humind?branch=main)
+coverage](https://codecov.io/gh/impact-initiatives-hppu/humind/branch/dev2026.2.0/graph/badge.svg)](https://app.codecov.io/gh/impact-initiatives-hppu/humind?branch=dev2026.2.0)
 <!-- badges: end -->
 
 `humind` provides functions to compose common humanitarian composite
