@@ -26,7 +26,8 @@ Imports:
     Hmisc,
     stringr,
     cli
-URL: https://github.com/impact-initiatives-hppu/humind
+URL: https://impact-initiatives-hppu.github.io/humind,
+     https://github.com/impact-initiatives-hppu/humind
 BugReports: https://github.com/impact-initiatives-hppu/humind/issues
 Remotes: 
     impact-initiatives/impactR.utils,
