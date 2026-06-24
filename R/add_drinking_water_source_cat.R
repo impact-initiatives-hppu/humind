@@ -359,3 +359,94 @@ add_drinking_water_quality_jmp_cat <- function(
 
   return(df)
 }
+
+#' @rdname add_drinking_water_source_cat
+#'
+#' @description `add_drinking_water_unimproved_no_treatment()` flags households that rely on an unimproved or surface water source **and** report not treating their drinking water. The flag is `NA` when either the water source category or the treatment response is undefined. Prerequisite: `add_drinking_water_source_cat()` must have been run first so that `wash_drinking_water_source_cat` is present in `df`.
+#'
+#' @param drinking_water_source_cat Column name for the recoded water source category (output of `add_drinking_water_source_cat()`).
+#' @param drinking_water_source_cat_improved Response code for improved water source category.
+#' @param drinking_water_source_cat_unimproved Response code for unimproved water source category.
+#' @param drinking_water_source_cat_surface_water Response code for surface water source category.
+#' @param drinking_water_source_cat_undefined Response code for undefined water source category.
+#' @param drinking_water_safer_yn Column name for the water treatment scoping question (`select_one l_yn_dnk_pnta`).
+#' @param drinking_water_safer_yes Response code for household treats water.
+#' @param drinking_water_safer_no Response code for household does not treat water.
+#' @param drinking_water_safer_undefined Character vector of undefined response codes for the treatment question.
+#'
+#' @return A data frame with one additional column:
+#'
+#' * `wash_drinking_water_unimproved_no_treatment_d`: `1L` if unimproved/surface water source and no treatment; `0L` if improved source or unimproved/surface water with treatment; `NA_integer_` if source category or treatment response is `NA` or undefined.
+#'
+#' @export
+add_drinking_water_unimproved_no_treatment <- function(
+  df,
+  drinking_water_source_cat = "wash_drinking_water_source_cat",
+  drinking_water_source_cat_improved = "improved",
+  drinking_water_source_cat_unimproved = "unimproved",
+  drinking_water_source_cat_surface_water = "surface_water",
+  drinking_water_source_cat_undefined = "undefined",
+  drinking_water_safer_yn = "wash_drinking_water_safer_yn",
+  drinking_water_safer_yes = "yes",
+  drinking_water_safer_no = "no",
+  drinking_water_safer_undefined = c("dnk", "pnta")
+) {
+  #------ Checks
+
+  if_not_in_stop(df, drinking_water_source_cat, "df")
+  if_not_in_stop(df, drinking_water_safer_yn, "df")
+
+  are_values_in_set(
+    df,
+    drinking_water_source_cat,
+    c(
+      drinking_water_source_cat_improved,
+      drinking_water_source_cat_unimproved,
+      drinking_water_source_cat_surface_water,
+      drinking_water_source_cat_undefined
+    )
+  )
+  are_values_in_set(
+    df,
+    drinking_water_safer_yn,
+    c(
+      drinking_water_safer_yes,
+      drinking_water_safer_no,
+      drinking_water_safer_undefined
+    )
+  )
+
+  #------ Compute
+
+  df <- dplyr::mutate(
+    df,
+    wash_drinking_water_unimproved_no_treatment_d = dplyr::case_when(
+      is.na(.data[[drinking_water_source_cat]]) ~ NA_integer_,
+      is.na(.data[[drinking_water_safer_yn]]) ~ NA_integer_,
+      .data[[drinking_water_source_cat]] ==
+        drinking_water_source_cat_undefined ~ NA_integer_,
+      .data[[drinking_water_safer_yn]] %in%
+        drinking_water_safer_undefined ~ NA_integer_,
+      # 1L: unimproved or surface water AND no treatment
+      .data[[drinking_water_source_cat]] %in%
+        c(
+          drinking_water_source_cat_unimproved,
+          drinking_water_source_cat_surface_water
+        ) &
+        .data[[drinking_water_safer_yn]] == drinking_water_safer_no ~ 1L,
+      # 0L: improved source — condition not met regardless of treatment
+      .data[[drinking_water_source_cat]] ==
+        drinking_water_source_cat_improved ~ 0L,
+      # 0L: unimproved/surface water but household treats water
+      .data[[drinking_water_source_cat]] %in%
+        c(
+          drinking_water_source_cat_unimproved,
+          drinking_water_source_cat_surface_water
+        ) &
+        .data[[drinking_water_safer_yn]] == drinking_water_safer_yes ~ 0L,
+      .default = NA_integer_
+    )
+  )
+
+  return(df)
+}

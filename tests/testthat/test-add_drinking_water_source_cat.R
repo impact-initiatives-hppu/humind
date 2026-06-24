@@ -59,7 +59,10 @@ dummy_data <- dplyr::tibble(
   )
 )
 
-# ---- Unit Tests ----
+
+#########################################
+### add_drinking_water_source_cat
+#########################################
 
 test_that("add_drinking_water_source_cat returns expected column and covers all categories", {
   result <- add_drinking_water_source_cat(dummy_data)
@@ -70,10 +73,32 @@ test_that("add_drinking_water_source_cat returns expected column and covers all 
   )
 })
 
+test_that("add_drinking_water_source_cat handles undefined drinking water source", {
+  df_undefined <- dummy_data %>% mutate(wash_drinking_water_source = "other")
+  result <- add_drinking_water_source_cat(df_undefined)
+  expect_equal(unique(result$wash_drinking_water_source_cat), "undefined")
+})
+
+
+#########################################
+### add_drinking_water_time_cat
+#########################################
+
 test_that("add_drinking_water_time_cat returns expected column", {
   result <- add_drinking_water_time_cat(dummy_data)
   expect_true("wash_drinking_water_time_cat" %in% colnames(result))
 })
+
+test_that("add_drinking_water_time_cat errors on invalid integer values", {
+  df_invalid <- dummy_data
+  df_invalid$wash_drinking_water_time_int[2] <- -5
+  expect_error(add_drinking_water_time_cat(df_invalid), class = "error")
+})
+
+
+#########################################
+### add_drinking_water_quality_jmp_cat
+#########################################
 
 test_that("add_drinking_water_quality_jmp_cat returns expected column", {
   df <- dummy_data %>%
@@ -84,14 +109,111 @@ test_that("add_drinking_water_quality_jmp_cat returns expected column", {
   expect_true("wash_drinking_water_quality_jmp_cat" %in% colnames(result))
 })
 
-test_that("add_drinking_water_source_cat handles undefined drinking water source", {
-  df_undefined <- dummy_data %>% mutate(wash_drinking_water_source = "other")
-  result <- add_drinking_water_source_cat(df_undefined)
-  expect_equal(unique(result$wash_drinking_water_source_cat), "undefined")
+
+#########################################
+### add_drinking_water_unimproved_no_treatment
+#########################################
+
+make_df_treatment <- function(source_cat = "improved", safer_yn = "yes") {
+  dplyr::tibble(
+    wash_drinking_water_source_cat = source_cat,
+    wash_drinking_water_safer_yn = safer_yn
+  )
+}
+
+test_that("add_drinking_water_unimproved_no_treatment adds expected column", {
+  result <- add_drinking_water_unimproved_no_treatment(make_df_treatment())
+  expect_true(
+    "wash_drinking_water_unimproved_no_treatment_d" %in% colnames(result)
+  )
 })
 
-test_that("add_drinking_water_time_cat errors on invalid integer values", {
-  df_invalid <- dummy_data
-  df_invalid$wash_drinking_water_time_int[2] <- -5
-  expect_error(add_drinking_water_time_cat(df_invalid), class = "error")
+test_that("output is integer type", {
+  result <- add_drinking_water_unimproved_no_treatment(make_df_treatment())
+  expect_type(result$wash_drinking_water_unimproved_no_treatment_d, "integer")
+})
+
+test_that("is 1L when source is unimproved and no treatment", {
+  result <- add_drinking_water_unimproved_no_treatment(
+    make_df_treatment(source_cat = "unimproved", safer_yn = "no")
+  )
+  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, 1L)
+})
+
+test_that("is 1L when source is surface_water and no treatment", {
+  result <- add_drinking_water_unimproved_no_treatment(
+    make_df_treatment(source_cat = "surface_water", safer_yn = "no")
+  )
+  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, 1L)
+})
+
+test_that("is 0L when source is improved regardless of treatment", {
+  df <- dplyr::bind_rows(
+    make_df_treatment(source_cat = "improved", safer_yn = "yes"),
+    make_df_treatment(source_cat = "improved", safer_yn = "no")
+  )
+  result <- add_drinking_water_unimproved_no_treatment(df)
+  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, c(0L, 0L))
+})
+
+test_that("is 0L when source is unimproved but household treats water", {
+  result <- add_drinking_water_unimproved_no_treatment(
+    make_df_treatment(source_cat = "unimproved", safer_yn = "yes")
+  )
+  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, 0L)
+})
+
+test_that("is 0L when source is surface_water but household treats water", {
+  result <- add_drinking_water_unimproved_no_treatment(
+    make_df_treatment(source_cat = "surface_water", safer_yn = "yes")
+  )
+  expect_equal(result$wash_drinking_water_unimproved_no_treatment_d, 0L)
+})
+
+test_that("is NA when source category is undefined", {
+  result <- add_drinking_water_unimproved_no_treatment(
+    make_df_treatment(source_cat = "undefined", safer_yn = "no")
+  )
+  expect_true(is.na(result$wash_drinking_water_unimproved_no_treatment_d))
+})
+
+test_that("is NA when source category is NA", {
+  result <- add_drinking_water_unimproved_no_treatment(
+    make_df_treatment(source_cat = NA_character_, safer_yn = "no")
+  )
+  expect_true(is.na(result$wash_drinking_water_unimproved_no_treatment_d))
+})
+
+test_that("is NA when safer_yn is NA", {
+  result <- add_drinking_water_unimproved_no_treatment(
+    make_df_treatment(source_cat = "unimproved", safer_yn = NA_character_)
+  )
+  expect_true(is.na(result$wash_drinking_water_unimproved_no_treatment_d))
+})
+
+test_that("is NA when safer_yn is dnk or pnta (undefined)", {
+  df <- dplyr::bind_rows(
+    make_df_treatment(source_cat = "unimproved", safer_yn = "dnk"),
+    make_df_treatment(source_cat = "unimproved", safer_yn = "pnta")
+  )
+  result <- add_drinking_water_unimproved_no_treatment(
+    df,
+    drinking_water_safer_undefined = c("dnk", "pnta")
+  )
+  expect_true(all(is.na(result$wash_drinking_water_unimproved_no_treatment_d)))
+})
+
+test_that("errors when drinking_water_source_cat contains unexpected value", {
+  df <- make_df_treatment(source_cat = "unexpected_value", safer_yn = "no")
+  expect_error(add_drinking_water_unimproved_no_treatment(df))
+})
+
+test_that("errors when drinking_water_source_cat column is missing", {
+  df <- dplyr::tibble(wash_drinking_water_safer_yn = "no")
+  expect_error(add_drinking_water_unimproved_no_treatment(df))
+})
+
+test_that("errors when drinking_water_safer_yn column is missing", {
+  df <- dplyr::tibble(wash_drinking_water_source_cat = "unimproved")
+  expect_error(add_drinking_water_unimproved_no_treatment(df))
 })
