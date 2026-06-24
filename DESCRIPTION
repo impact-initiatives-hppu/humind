@@ -35,7 +35,6 @@ Suggests:
     rmarkdown,
     roxygen2,
     testthat (>= 3.0.0)
-LazyData: true
 Config/Needs/website: rmarkdown
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.0.0
