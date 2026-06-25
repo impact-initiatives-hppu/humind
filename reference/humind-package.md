@@ -10,6 +10,8 @@ the MSNI framework.
 
 Useful links:
 
+- <https://impact-initiatives-hppu.github.io/humind>
+
 - <https://github.com/impact-initiatives-hppu/humind>
 
 - Report bugs at
