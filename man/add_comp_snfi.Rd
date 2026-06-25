@@ -113,9 +113,9 @@ A data frame with added columns:
 }
 \description{
 This function calculates the Shelter, NFI and HLP (SNFI) sectoral composite score
-based on shelter type, shelter issues, occupancy status, and functional disability
-scale (FDS) indicators. It also determines if a household is in need or in severe need
-based on the calculated score.
+based on shelter type, shelter issues, occupancy status, shelter damage, and functional
+disability scale (FDS) indicators. It also determines if a household is in need or in
+severe need based on the calculated score.
 
 Prerequisite functions:
 \itemize{

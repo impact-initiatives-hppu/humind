@@ -1,4 +1,4 @@
-#' @title Add Category of Shelter damage (Optional SNFI dimension)
+#' @title Add Category of Shelter damage (SNFI dimension)
 #'
 #' @description This function categorizes the shelter damage category based on provided criteria.
 #'

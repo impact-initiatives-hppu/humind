@@ -44,3 +44,8 @@ test_that("Composite scores are correct", {
 test_that("Composite max score is correct", {
   expect_equal(result_df$comp_snfi_score, c(5, 3, 2, 1))
 })
+
+test_that("add_comp_snfi errors when shelter damage category is missing", {
+  df_missing <- test_df[, setdiff(names(test_df), "snfi_shelter_damage_cat")]
+  expect_error(add_comp_snfi(df_missing))
+})
