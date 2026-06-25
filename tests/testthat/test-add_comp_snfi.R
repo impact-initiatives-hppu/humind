@@ -10,8 +10,7 @@ test_df <- data.frame(
 
 # Run the function
 result_df <- add_comp_snfi(
-  df = test_df,
-  shelter_damage = TRUE
+  df = test_df
 )
 
 # Begin tests
