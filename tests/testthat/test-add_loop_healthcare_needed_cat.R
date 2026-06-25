@@ -151,3 +151,96 @@ test_that("dummy variables are NA when healthcare_received is NA", {
 
   expect_true(all(is.na(flagged_rows$health_ind_healthcare_needed_yes_met)))
 })
+
+# ---- Lifesaving feature ----
+
+test_that("lifesaving column is skipped with warning when ind_healthcare_type is absent", {
+  loop <- dplyr::tibble(
+    uuid = 1:2,
+    health_ind_healthcare_needed = c("yes", "no"),
+    health_ind_healthcare_received = c("no", "no")
+  )
+  expect_warning(
+    result <- add_loop_healthcare_needed_cat(loop),
+    "does not exist"
+  )
+  expect_false("health_ind_healthcare_needed_lifesaving_yes_unmet" %in% colnames(result))
+})
+
+test_that("lifesaving column is computed when ind_healthcare_type exists", {
+  loop <- dplyr::tibble(
+    uuid = 1:5,
+    health_ind_healthcare_needed = c("yes", "yes", "yes", "no", "yes"),
+    health_ind_healthcare_received = c("no", "no", "yes", "no", "no"),
+    health_ind_healthcare_needed_type = c("a", "a", "a", NA, "a"),
+    `health_ind_healthcare_needed_type/consultation_acute` = c(1L, 0L, 1L, 0L, 0L),
+    `health_ind_healthcare_needed_type/consultation_chronic` = c(0L, 0L, 0L, 0L, 0L),
+    `health_ind_healthcare_needed_type/trauma` = c(0L, 0L, 0L, 0L, 0L),
+    `health_ind_healthcare_needed_type/emergency_surgery` = c(0L, 0L, 0L, 0L, 0L),
+    `health_ind_healthcare_needed_type/natal_services` = c(0L, 0L, 0L, 0L, 0L),
+    `health_ind_healthcare_needed_type/safe_delivery` = c(0L, 1L, 0L, 0L, 0L),
+    .name_repair = "minimal"
+  )
+  result <- add_loop_healthcare_needed_cat(loop)
+  expect_true("health_ind_healthcare_needed_lifesaving_yes_unmet" %in% colnames(result))
+  # uuid 1: unmet + lifesaving type → 1
+  # uuid 2: unmet + lifesaving type → 1
+  # uuid 3: met need → unmet=0 → 0
+  # uuid 4: no need → unmet=0 → 0
+  # uuid 5: unmet + no lifesaving type → 0
+  expect_equal(result$health_ind_healthcare_needed_lifesaving_yes_unmet, c(1, 1, 0, 0, 0))
+})
+
+test_that("lifesaving column is NA when healthcare need is DNK/PNTA", {
+  loop <- dplyr::tibble(
+    uuid = 1:2,
+    health_ind_healthcare_needed = c("dnk", "pnta"),
+    health_ind_healthcare_received = c("no", "no"),
+    health_ind_healthcare_needed_type = c(NA_character_, NA_character_),
+    `health_ind_healthcare_needed_type/consultation_acute` = c(0L, 0L),
+    `health_ind_healthcare_needed_type/consultation_chronic` = c(0L, 0L),
+    `health_ind_healthcare_needed_type/trauma` = c(0L, 0L),
+    `health_ind_healthcare_needed_type/emergency_surgery` = c(0L, 0L),
+    `health_ind_healthcare_needed_type/natal_services` = c(0L, 0L),
+    `health_ind_healthcare_needed_type/safe_delivery` = c(0L, 0L),
+    .name_repair = "minimal"
+  )
+  result <- add_loop_healthcare_needed_cat(loop)
+  expect_true(all(is.na(result$health_ind_healthcare_needed_lifesaving_yes_unmet)))
+})
+
+test_that("add_loop_healthcare_needed_cat_to_main aggregates lifesaving column when present", {
+  loop_base <- dplyr::tibble(
+    uuid = 1:3,
+    health_ind_healthcare_needed = c("yes", "yes", "no"),
+    health_ind_healthcare_received = c("no", "yes", "no"),
+    health_ind_healthcare_needed_type = c("a", "a", NA_character_),
+    `health_ind_healthcare_needed_type/consultation_acute` = c(1L, 0L, 0L),
+    `health_ind_healthcare_needed_type/consultation_chronic` = c(0L, 0L, 0L),
+    `health_ind_healthcare_needed_type/trauma` = c(0L, 0L, 0L),
+    `health_ind_healthcare_needed_type/emergency_surgery` = c(0L, 0L, 0L),
+    `health_ind_healthcare_needed_type/natal_services` = c(0L, 0L, 0L),
+    `health_ind_healthcare_needed_type/safe_delivery` = c(0L, 0L, 0L),
+    .name_repair = "minimal"
+  )
+  main <- dplyr::tibble(uuid = 1:3)
+  loop_result <- add_loop_healthcare_needed_cat(loop_base)
+  result <- add_loop_healthcare_needed_cat_to_main(main, loop_result)
+  expect_true("health_ind_healthcare_needed_lifesaving_yes_unmet_n" %in% colnames(result))
+  expect_equal(result$health_ind_healthcare_needed_lifesaving_yes_unmet_n, c(1, 0, 0))
+})
+
+test_that("add_loop_healthcare_needed_cat_to_main skips lifesaving with warning when column absent", {
+  loop_base <- dplyr::tibble(
+    uuid = 1:2,
+    health_ind_healthcare_needed = c("yes", "no"),
+    health_ind_healthcare_received = c("no", "no")
+  )
+  main <- dplyr::tibble(uuid = 1:2)
+  loop_result <- suppressWarnings(add_loop_healthcare_needed_cat(loop_base))
+  expect_warning(
+    result <- add_loop_healthcare_needed_cat_to_main(main, loop_result),
+    "does not exist"
+  )
+  expect_false("health_ind_healthcare_needed_lifesaving_yes_unmet_n" %in% colnames(result))
+})
