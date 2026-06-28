@@ -13,7 +13,6 @@ repos:
         - tidyr
         - Hmisc
         - impact-initiatives/impactR.utils
-        - impact-initiatives/impactR4PHU@v2025.1.0-legacy
     # codemeta must be above use-tidy-description when both are used
     # -   id: codemeta-description-updated
     -   id: use-tidy-description

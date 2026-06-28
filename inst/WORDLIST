@@ -1,3 +1,4 @@
+️
 aap
 abu
 Abu
@@ -12,8 +13,8 @@ ci
 cli
 CMD
 Codebase
-Codecov
 codecov
+Codecov
 codemeta
 colname
 counselling
@@ -29,14 +30,17 @@ dnk
 DNK
 dplyr
 edu
+fc
 FC
 FCLC
 fclcm
 FCLCM
+fcm
 fcs
 FCS
 fds
 FDS
+FEWSNET
 fidalgo
 FIES
 fonctions
@@ -48,6 +52,7 @@ GHEDAMSI
 github
 handwashing
 Handwashing
+hdds
 HDDS
 hhs
 HHs
@@ -73,8 +78,8 @@ justfile
 laith
 Laith
 LazyData
-LCSI
 lcsi
+LCSI
 Lifecycle
 lightbulbs
 lintr
@@ -157,4 +162,3 @@ xlsx
 yaml
 yml
 yn
-️
