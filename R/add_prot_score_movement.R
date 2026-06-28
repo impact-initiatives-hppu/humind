@@ -118,9 +118,9 @@ add_prot_score_movement <- function(
   ) |>
     dplyr::mutate(
       comp_prot_score_movement = dplyr::case_when(
-        .data[["comp_prot_score_prot_needs_3"]] >= 4 ~ 4,
-        .data[["comp_prot_score_prot_needs_3"]] >= 2 ~ 3,
-        .data[["comp_prot_score_prot_needs_3"]] >= 1 ~ 2,
+        .data[["comp_prot_score_prot_needs_3"]] >= 3 ~ 4,
+        .data[["comp_prot_score_prot_needs_3"]] == 2 ~ 3,
+        .data[["comp_prot_score_prot_needs_3"]] == 1 ~ 2,
         .data[["comp_prot_score_prot_needs_3"]] == 0 ~ 1,
         TRUE ~ NA_real_
       )

@@ -119,14 +119,13 @@ test_that("scoring thresholds are correct", {
 
   sum_0 <- non_flagged$comp_prot_score_prot_needs_3 == 0
   sum_1 <- non_flagged$comp_prot_score_prot_needs_3 == 1
-  sum_2_3 <- non_flagged$comp_prot_score_prot_needs_3 >= 2 &
-    non_flagged$comp_prot_score_prot_needs_3 < 4
-  sum_4plus <- non_flagged$comp_prot_score_prot_needs_3 >= 4
+  sum_2 <- non_flagged$comp_prot_score_prot_needs_3 == 2
+  sum_3plus <- non_flagged$comp_prot_score_prot_needs_3 >= 3
 
   expect_true(all(non_flagged$comp_prot_score_movement[sum_0] == 1))
   expect_true(all(non_flagged$comp_prot_score_movement[sum_1] == 2))
-  expect_true(all(non_flagged$comp_prot_score_movement[sum_2_3] == 3))
-  expect_true(all(non_flagged$comp_prot_score_movement[sum_4plus] == 4))
+  expect_true(all(non_flagged$comp_prot_score_movement[sum_2] == 3))
+  expect_true(all(non_flagged$comp_prot_score_movement[sum_3plus] == 4))
 })
 
 test_that("flexible weights are applied correctly", {
