@@ -33,11 +33,11 @@
 add_comp_foodsec <- function(
   df,
   fclcm_phase = "fclcm_phase",
-  phase1 = "Phase 1 FCLCM",
-  phase2 = "Phase 2 FCLCM",
-  phase3 = "Phase 3 FCLCM",
-  phase4 = "Phase 4 FCLCM",
-  phase5 = "Phase 5 FCLCM"
+  phase1 = "Phase 1 FCLC",
+  phase2 = "Phase 2 FCLC",
+  phase3 = "Phase 3 FCLC",
+  phase4 = "Phase 4 FCLC",
+  phase5 = "Phase 5 FCLC"
 ) {
   #------ Checks
 
