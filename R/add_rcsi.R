@@ -134,8 +134,8 @@ add_rcsi <- function(
     fsl_rcsi_mealnb
   )
 
-  .dataset <- .dataset %>%
-    dplyr::mutate_at(dplyr::vars(rcs_columns), as.numeric) %>%
+  .dataset <- .dataset |>
+    dplyr::mutate_at(dplyr::vars(rcs_columns), as.numeric) |>
     dplyr::mutate(
       rcsi_lessquality_weighted = ifelse(
         is.na(!!rlang::sym(fsl_rcsi_lessquality)),
@@ -163,13 +163,13 @@ add_rcsi <- function(
         !!rlang::sym(fsl_rcsi_mealnb) * 1
       ),
       fsl_rcsi_score = rowSums(dplyr::across(
-        c(
-          rcsi_lessquality_weighted,
-          rcsi_borrow_weighted,
-          rcsi_mealsize_weighted,
-          rcsi_mealadult_weighted,
-          rcsi_mealnb_weighted
-        ),
+        all_of(c(
+          "rcsi_lessquality_weighted",
+          "rcsi_borrow_weighted",
+          "rcsi_mealsize_weighted",
+          "rcsi_mealadult_weighted",
+          "rcsi_mealnb_weighted"
+        )),
         .fns = as.numeric
       )),
       fsl_rcsi_cat = dplyr::case_when(
@@ -179,5 +179,5 @@ add_rcsi <- function(
         TRUE ~ NA
       )
     )
-  return(.dataset)
+  .dataset
 }

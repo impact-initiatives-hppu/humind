@@ -104,7 +104,7 @@ add_lcsi <- function(
   if (!all(.dataset[[fsl_lcsi_stress2]] %in% c(lcsi_cat_values, NA))) {
     stop(sprintf(
       "Wrong values in %s: %s ",
-      lcsi_stress2,
+      fsl_lcsi_stress2,
       paste0(
         unique(.dataset[[fsl_lcsi_stress2]][
           !.dataset[[fsl_lcsi_stress2]] %in% c(lcsi_cat_values, NA)
@@ -210,7 +210,7 @@ add_lcsi <- function(
     ))
   }
 
-  .dataset <- .dataset %>%
+  .dataset <- .dataset |>
     dplyr::mutate(
       fsl_lcsi_stress_yes = dplyr::case_when(
         is.na(!!rlang::sym(fsl_lcsi_stress1)) ~ NA,
@@ -307,5 +307,5 @@ add_lcsi <- function(
       )
     )
 
-  return(.dataset)
+  .dataset
 }

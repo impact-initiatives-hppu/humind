@@ -177,11 +177,11 @@ add_hhs <- function(
     ))
   }
 
-  .dataset_with_calculation <- .dataset %>%
+  .dataset_with_calculation <- .dataset |>
     dplyr::mutate_at(
       c(fsl_hhs_nofoodhh, fsl_hhs_sleephungry, fsl_hhs_alldaynight),
       ~ dplyr::case_when(.x == yes_answer ~ 1, .x == no_answer ~ 0)
-    ) %>%
+    ) |>
     dplyr::mutate_at(
       c(
         fsl_hhs_nofoodhh_freq,
@@ -193,8 +193,8 @@ add_hhs <- function(
         .x == often_answer ~ 2,
         TRUE ~ 0
       )
-    ) %>%
-    dplyr::rowwise() %>%
+    ) |>
+    dplyr::rowwise() |>
     dplyr::mutate(
       fsl_hhs_comp1 = !!rlang::sym(fsl_hhs_nofoodhh) *
         !!rlang::sym(fsl_hhs_nofoodhh_freq),
@@ -202,11 +202,11 @@ add_hhs <- function(
         !!rlang::sym(fsl_hhs_sleephungry_freq),
       fsl_hhs_comp3 = !!rlang::sym(fsl_hhs_alldaynight) *
         !!rlang::sym(fsl_hhs_alldaynight_freq)
-    ) %>%
-    dplyr::ungroup() %>%
+    ) |>
+    dplyr::ungroup() |>
     dplyr::mutate(
-      fsl_hhs_score = rowSums(.[grep("^fsl_hhs_comp\\d$", names(.))])
-    ) %>%
+      fsl_hhs_score = rowSums(dplyr::pick(matches("^fsl_hhs_comp\\d$")))
+    ) |>
     dplyr::mutate(
       fsl_hhs_cat_ipc = dplyr::case_when(
         fsl_hhs_score == 0 ~ "None",
@@ -222,7 +222,7 @@ add_hhs <- function(
         TRUE ~ NA
       )
     )
-  columns_to_export <- .dataset_with_calculation %>%
+  columns_to_export <- .dataset_with_calculation |>
     dplyr::rename_at(
       c(
         fsl_hhs_nofoodhh,
@@ -233,31 +233,33 @@ add_hhs <- function(
         fsl_hhs_alldaynight_freq
       ),
       ~ paste0(.x, "_recoded")
-    ) %>%
+    ) |>
     dplyr::select(
-      paste0(fsl_hhs_nofoodhh, "_recoded"),
-      paste0(fsl_hhs_nofoodhh_freq, "_recoded"),
-      paste0(fsl_hhs_sleephungry, "_recoded"),
-      paste0(fsl_hhs_sleephungry_freq, "_recoded"),
-      paste0(fsl_hhs_alldaynight, "_recoded"),
-      paste0(fsl_hhs_alldaynight_freq, "_recoded"),
-      fsl_hhs_comp1,
-      fsl_hhs_comp2,
-      fsl_hhs_comp3,
-      fsl_hhs_score,
-      fsl_hhs_cat_ipc,
-      fsl_hhs_cat
+      dplyr::all_of(c(
+        paste0(fsl_hhs_nofoodhh, "_recoded"),
+        paste0(fsl_hhs_nofoodhh_freq, "_recoded"),
+        paste0(fsl_hhs_sleephungry, "_recoded"),
+        paste0(fsl_hhs_sleephungry_freq, "_recoded"),
+        paste0(fsl_hhs_alldaynight, "_recoded"),
+        paste0(fsl_hhs_alldaynight_freq, "_recoded"),
+        "fsl_hhs_comp1",
+        "fsl_hhs_comp2",
+        "fsl_hhs_comp3",
+        "fsl_hhs_score",
+        "fsl_hhs_cat_ipc",
+        "fsl_hhs_cat"
+      ))
     )
 
   for (i in names(columns_to_export)) {
     if (i %in% names(.dataset)) {
-      .dataset <- .dataset %>%
+      .dataset <- .dataset |>
         dplyr::select(-i)
     }
   }
 
-  .dataset <- .dataset %>%
+  .dataset <- .dataset |>
     cbind(columns_to_export)
 
-  return(.dataset)
+  .dataset
 }

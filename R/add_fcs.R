@@ -182,8 +182,8 @@ add_fcs <- function(
     ))
   }
 
-  .dataset <- .dataset %>%
-    dplyr::mutate_at(dplyr::vars(fcs_vars), as.numeric) %>%
+  .dataset <- .dataset |>
+    dplyr::mutate_at(dplyr::vars(fcs_vars), as.numeric) |>
     dplyr::mutate(
       fcs_weight_cereal1 = ifelse(
         is.na(!!rlang::sym(fsl_fcs_cereal)),
@@ -225,24 +225,24 @@ add_fcs <- function(
         NA,
         !!rlang::sym(fsl_fcs_sugar) * 0.5
       )
-    ) %>%
+    ) |>
     dplyr::mutate(
       fsl_fcs_score = rowSums(dplyr::across(
-        c(
-          fcs_weight_cereal1,
-          fcs_weight_legume2,
-          fcs_weight_dairy3,
-          fcs_weight_meat4,
-          fcs_weight_veg5,
-          fcs_weight_fruit6,
-          fcs_weight_oil7,
-          fcs_weight_sugar8
-        ),
+        all_of(c(
+          "fcs_weight_cereal1",
+          "fcs_weight_legume2",
+          "fcs_weight_dairy3",
+          "fcs_weight_meat4",
+          "fcs_weight_veg5",
+          "fcs_weight_fruit6",
+          "fcs_weight_oil7",
+          "fcs_weight_sugar8"
+        )),
         .fns = as.numeric
       ))
     )
   if (cutoffs == "normal") {
-    .dataset <- .dataset %>%
+    .dataset <- .dataset |>
       dplyr::mutate(
         fsl_fcs_cat = dplyr::case_when(
           fsl_fcs_score < 21.5 ~ "Poor",
@@ -252,7 +252,7 @@ add_fcs <- function(
         )
       )
   } else if (cutoffs == "alternative") {
-    .dataset <- .dataset %>%
+    .dataset <- .dataset |>
       dplyr::mutate(
         fsl_fcs_cat = dplyr::case_when(
           fsl_fcs_score <= 28 ~ "Poor",
@@ -262,5 +262,5 @@ add_fcs <- function(
         )
       )
   }
-  return(.dataset)
+  .dataset
 }
