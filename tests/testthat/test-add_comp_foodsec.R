@@ -1,11 +1,11 @@
 # Create dummy data
 df_dummy <- data.frame(
-  fsl_fc_phase = c(
-    "Phase 1 FC",
-    "Phase 2 FC",
-    "Phase 3 FC",
-    "Phase 4 FC",
-    "Phase 5 FC",
+  fclcm_phase = c(
+    "Phase 1 FCLCM",
+    "Phase 2 FCLCM",
+    "Phase 3 FCLCM",
+    "Phase 4 FCLCM",
+    "Phase 5 FCLCM",
     NA
   )
 )
@@ -18,7 +18,7 @@ test_that("add_comp_foodsec function works correctly with default parameters", {
 
 test_that("add_comp_foodsec handles undefined values correctly", {
   df_test <- df_dummy
-  df_test$fsl_fc_phase <- "undefined"
+  df_test$fclcm_phase <- "undefined"
   expect_error(add_comp_foodsec(df_test), class = "error")
 })
 
@@ -30,7 +30,7 @@ test_that("add_comp_foodsec handles NA values correctly", {
 
 test_that("add_comp_foodsec throws error for missing columns", {
   df_test <- df_dummy
-  df_test <- df_test |> select(-fsl_fc_phase)
+  df_test <- df_test |> select(-fclcm_phase)
   expect_error(add_comp_foodsec(df_test), class = "error")
 })
 
