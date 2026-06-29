@@ -279,7 +279,7 @@ add_comp_wash <- function(
       !!rlang::sym(setting) == setting_urban &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           c(
-            drinking_water_quality_jmp_cat_limited,
+            drinking_water_quality_jmp_cat_limited
           ) ~
         2,
       !!rlang::sym(setting) == setting_urban &
@@ -306,7 +306,7 @@ add_comp_wash <- function(
       !!rlang::sym(setting) == setting_rural &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           c(
-            drinking_water_quality_jmp_cat_unimproved,
+            drinking_water_quality_jmp_cat_unimproved
           ) ~
         3,
       !!rlang::sym(setting) == setting_rural &
