@@ -250,19 +250,19 @@ add_comp_wash <- function(
       !!rlang::sym(setting) == setting_camp &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           drinking_water_quality_jmp_cat_surface_water ~
-        5,
-      !!rlang::sym(setting) == setting_camp &
-        !!rlang::sym(drinking_water_quality_jmp_cat) %in%
-          drinking_water_quality_jmp_cat_unimproved ~
         4,
       !!rlang::sym(setting) == setting_camp &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
-          drinking_water_quality_jmp_cat_limited ~
+          drinking_water_quality_jmp_cat_unimproved ~
         3,
       !!rlang::sym(setting) == setting_camp &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
-          drinking_water_quality_jmp_cat_basic ~
+          drinking_water_quality_jmp_cat_limited ~
         2,
+      !!rlang::sym(setting) == setting_camp &
+        !!rlang::sym(drinking_water_quality_jmp_cat) %in%
+          drinking_water_quality_jmp_cat_basic ~
+        1,
       !!rlang::sym(setting) == setting_camp &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           drinking_water_quality_jmp_cat_undefined ~
@@ -280,9 +280,14 @@ add_comp_wash <- function(
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           c(
             drinking_water_quality_jmp_cat_limited,
-            drinking_water_quality_jmp_cat_basic
           ) ~
         2,
+      !!rlang::sym(setting) == setting_urban &
+        !!rlang::sym(drinking_water_quality_jmp_cat) %in%
+          c(
+            drinking_water_quality_jmp_cat_basic # Grouped with safely managed, which is set to 1 at the begnning of the conditional branch
+          ) ~
+        1,
       !!rlang::sym(setting) == setting_urban &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           drinking_water_quality_jmp_cat_undefined ~
@@ -295,10 +300,15 @@ add_comp_wash <- function(
       !!rlang::sym(setting) == setting_rural &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           c(
-            drinking_water_quality_jmp_cat_unimproved,
             drinking_water_quality_jmp_cat_limited
           ) ~
         2,
+      !!rlang::sym(setting) == setting_rural &
+        !!rlang::sym(drinking_water_quality_jmp_cat) %in%
+          c(
+            drinking_water_quality_jmp_cat_unimproved,
+          ) ~
+        3,
       !!rlang::sym(setting) == setting_rural &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           drinking_water_quality_jmp_cat_basic ~
@@ -399,7 +409,7 @@ add_comp_wash <- function(
         !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_none &
         !!rlang::sym(sanitation_facility_jmp_cat) ==
           sanitation_facility_jmp_cat_open_defecation ~
-        4,
+        3,
       !!rlang::sym(setting) == setting_rural &
         !!rlang::sym(sanitation_facility_jmp_cat) %in%
           c(
