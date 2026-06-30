@@ -1,7 +1,7 @@
 # Create a sample dataset
 df_sample <- dplyr::tibble(
   setting = c("camp", "urban", "rural"),
-  wash_hwise_drink = c("always", "often", "rarely"),
+  comp_wash_score_water_quantity = c(5, 4, 2),
   wash_drinking_water_quality_jmp_cat = c(
     "surface_water",
     "unimproved",
@@ -26,23 +26,10 @@ df_sample <- dplyr::tibble(
   wash_handwashing_facility_jmp_cat = c("no_facility", "basic", "limited")
 )
 
-# Test 1: Test drinking water quantity scores
-test_that("Drinking water quantity scoring works correctly", {
-  df_result <- add_comp_wash(
-    df_sample,
-    drinking_water_quantity = "wash_hwise_drink",
-    drinking_water_quantity_always = "always",
-    drinking_water_quantity_often = "often",
-    drinking_water_quantity_sometimes = "sometimes",
-    drinking_water_quantity_rarely = "rarely",
-    drinking_water_quantity_never = "never",
-    drinking_water_quantity_dnk = "dnk",
-    drinking_water_quantity_pnta = "pnta"
-  )
-
-  expected_result <- c(5, 4, 2) # Always -> 5, Often -> 4, Rarely -> 2
-
-  expect_equal(df_result$comp_wash_score_water_quantity, expected_result)
+# Test 1: comp_wash_score_water_quantity is passed through from add_hwise()
+test_that("comp_wash_score_water_quantity is taken from the pre-computed input column", {
+  df_result <- add_comp_wash(df_sample)
+  expect_equal(df_result$comp_wash_score_water_quantity, c(5, 4, 2))
 })
 
 # Test 2: Test drinking water quality scores based on setting
@@ -99,17 +86,7 @@ test_that("Hygiene scoring works correctly", {
 
 # Test 5: Test final composite score calculation
 test_that("Composite WASH score calculation works correctly", {
-  df_result <- add_comp_wash(
-    df_sample,
-    setting = "setting",
-    drinking_water_quantity = "wash_hwise_drink",
-    drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat",
-    sanitation_facility_jmp_cat = "wash_sanitation_facility_jmp_cat",
-    sanitation_facility_cat = "wash_sanitation_facility_cat",
-    sanitation_facility_n_ind = "wash_sharing_sanitation_facility_n_ind",
-    sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
-    handwashing_facility_jmp_cat = "wash_handwashing_facility_jmp_cat"
-  )
+  df_result <- add_comp_wash(df_sample)
 
   expected_result <- c(5, 4, 2) # Max of (water quantity, water quality, sanitation, hygiene) for each row
 
@@ -118,17 +95,7 @@ test_that("Composite WASH score calculation works correctly", {
 
 # Test 6: Test if 'is_in_need' and 'is_in_severe_need' flags are correctly set
 test_that("Need flags work correctly", {
-  df_result <- add_comp_wash(
-    df_sample,
-    setting = "setting",
-    drinking_water_quantity = "wash_hwise_drink",
-    drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat",
-    sanitation_facility_jmp_cat = "wash_sanitation_facility_jmp_cat",
-    sanitation_facility_cat = "wash_sanitation_facility_cat",
-    sanitation_facility_n_ind = "wash_sharing_sanitation_facility_n_ind",
-    sharing_sanitation_facility_cat = "wash_sharing_sanitation_facility_cat",
-    handwashing_facility_jmp_cat = "wash_handwashing_facility_jmp_cat"
-  )
+  df_result <- add_comp_wash(df_sample)
 
   # Check for the 'comp_wash_in_need' and 'comp_wash_in_severe_need' columns.
   expect_true("comp_wash_in_need" %in% colnames(df_result))
@@ -138,7 +105,7 @@ test_that("Need flags work correctly", {
 # Test with undefined values for `comp_wash_score_water_quantity`
 undefined_water_quantity_data <- data.frame(
   setting = c("camp", "urban", "rural", "camp"),
-  wash_hwise_drink = c("dnk", "pnta", "never", "always"),
+  comp_wash_score_water_quantity = c(NA, NA, 1, 5),
   wash_drinking_water_quality_jmp_cat = c(
     "basic",
     "limited",
@@ -180,6 +147,48 @@ undefined_water_quantity_data <- data.frame(
 test_that("Function handles undefined water quantity correctly", {
   result <- add_comp_wash(undefined_water_quantity_data)
   expect_equal(result$comp_wash_score_water_quantity, c(NA, NA, 1, 5))
+})
+
+test_that("integration: add_hwise() |> add_comp_wash() produces correct comp_wash_score", {
+  df <- dplyr::tibble(
+    setting = c("camp", "urban", "rural"),
+    wash_hwise_drink = c("always", "often", "rarely"),
+    wash_hwise_hands = c("always", "sometimes", "never"),
+    wash_hwise_plans = c("always", "sometimes", "never"),
+    wash_hwise_worry = c("always", "often", "never"),
+    wash_drinking_water_quality_jmp_cat = c(
+      "surface_water",
+      "unimproved",
+      "limited"
+    ),
+    wash_sanitation_facility_jmp_cat = c(
+      "open_defecation",
+      "basic",
+      "unimproved"
+    ),
+    wash_sanitation_facility_cat = c("none", "improved", "unimproved"),
+    wash_sharing_sanitation_facility_n_ind = c(
+      "50_and_above",
+      "20_to_49",
+      "19_and_below"
+    ),
+    wash_sharing_sanitation_facility_cat = c(
+      "shared",
+      "not_shared",
+      "not_applicable"
+    ),
+    wash_handwashing_facility_jmp_cat = c("no_facility", "basic", "limited")
+  )
+
+  result <- df |> add_hwise() |> add_comp_wash()
+
+  # always+always+always+always = 12 -> severity 5 (camp)
+  # often+sometimes+sometimes+often = 3+2+2+3 = 10 -> severity 4 (urban)
+  # rarely+never+never+never = 1+0+0+0 = 1 -> severity 1 (rural)
+  expect_equal(result$hwise4_score, c(12, 10, 1))
+  expect_equal(result$comp_wash_score_water_quantity, c(5, 4, 1))
+
+  expect_equal(result$comp_wash_score, c(5, 4, 2))
 })
 
 # Test with invalid sanitation facility categories
