@@ -97,6 +97,20 @@ add_hwise <- function(
     )
   }
 
+  are_values_in_set(
+    .df,
+    c(wash_hwise_drink, wash_hwise_hands, wash_hwise_plans, wash_hwise_worry),
+    c(
+      hwise_never,
+      hwise_rarely,
+      hwise_sometimes,
+      hwise_often,
+      hwise_always,
+      hwise_dnk,
+      hwise_pnta
+    )
+  )
+
   hwise_mapping <- dplyr::tribble(
     ~from           , ~to      ,
     hwise_never     ,        0 ,

@@ -288,3 +288,13 @@ test_that("add_hwise recodes correctly when non-default hwise_* params are suppl
   expect_equal(result$wash_hwise_worry, expected_recode)
   expect_equal(result$hwise4_score, c(0, 4, 8, 12, 12, NA, NA))
 })
+
+test_that("add_hwise errors when data contains values outside the hwise_* response set", {
+  df <- dplyr::tibble(
+    wash_hwise_drink = c("never", "TYPO"),
+    wash_hwise_hands = c("never", "rarely"),
+    wash_hwise_plans = c("never", "rarely"),
+    wash_hwise_worry = c("never", "rarely")
+  )
+  expect_error(add_hwise(df), class = "error")
+})
