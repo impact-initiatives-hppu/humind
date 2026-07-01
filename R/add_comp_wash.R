@@ -22,7 +22,7 @@
 #' @param setting_camp Setting value for camp.
 #' @param setting_urban Setting value for urban.
 #' @param setting_rural Setting value for rural.
-#' @param comp_wash_score_water_quantity Column name for the pre-computed HWISE water
+#' @param comp_hwash_score Column name for the pre-computed HWISE water
 #'   quantity severity score (1–5), as produced by [add_hwise()].
 #' @param drinking_water_quality_jmp_cat Column name for drinking water quality JMP category.
 #' @param drinking_water_quality_jmp_cat_surface_water Value for "surface water" in drinking water quality JMP category.
@@ -74,7 +74,7 @@ add_comp_wash <- function(
   setting_camp = "camp",
   setting_urban = "urban",
   setting_rural = "rural",
-  comp_wash_score_water_quantity = "comp_wash_score_water_quantity",
+  comp_hwash_score = "comp_wash_score_water_quantity",
   drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat",
   drinking_water_quality_jmp_cat_surface_water = "surface_water",
   drinking_water_quality_jmp_cat_unimproved = "unimproved",
@@ -116,7 +116,7 @@ add_comp_wash <- function(
     df,
     c(
       setting,
-      comp_wash_score_water_quantity,
+      comp_hwash_score,
       drinking_water_quality_jmp_cat,
       sanitation_facility_jmp_cat,
       sanitation_facility_cat,
@@ -128,6 +128,7 @@ add_comp_wash <- function(
 
   # Check if values are in set
   are_values_in_set(df, setting, c(setting_camp, setting_urban, setting_rural))
+  are_values_in_set(df, comp_hwash_score, 1:5)
   are_values_in_set(
     df,
     drinking_water_quality_jmp_cat,
@@ -420,7 +421,7 @@ add_comp_wash <- function(
     df,
     comp_wash_score = pmax(
       !!!rlang::syms(c(
-        comp_wash_score_water_quantity,
+        comp_hwash_score,
         "comp_wash_score_water_quality",
         "comp_wash_score_sanitation",
         "comp_wash_score_hygiene"

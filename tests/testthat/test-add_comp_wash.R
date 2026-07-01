@@ -232,7 +232,13 @@ test_that("comp_wash_score respects a non-default comp_wash_score_water_quantity
     wash_handwashing_facility_jmp_cat = c("no_facility", "basic", "limited")
   )
 
-  result <- add_comp_wash(df, comp_wash_score_water_quantity = "my_water_qty")
+  result <- add_comp_wash(df, comp_hwash_score = "my_water_qty")
 
   expect_equal(result$comp_wash_score, c(5, 4, 2))
+})
+
+test_that("add_comp_wash errors when water quantity score is out of 1-5 range", {
+  df <- df_sample
+  df$comp_wash_score_water_quantity <- c(6, 4, 2)
+  expect_error(add_comp_wash(df), class = "error")
 })
