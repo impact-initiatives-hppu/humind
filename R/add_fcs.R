@@ -185,7 +185,7 @@ add_fcs <- function(
   }
 
   .dataset <- .dataset |>
-    dplyr::mutate_at(dplyr::vars(fcs_vars), as.numeric) |>
+    dplyr::mutate(dplyr::across(dplyr::all_of(fcs_vars), as.numeric)) |>
     dplyr::mutate(
       fcs_weight_cereal1 = ifelse(
         is.na(!!rlang::sym(fsl_fcs_cereal)),
