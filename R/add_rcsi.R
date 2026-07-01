@@ -136,7 +136,7 @@ add_rcsi <- function(
   )
 
   .dataset <- .dataset |>
-    dplyr::mutate_at(dplyr::vars(rcs_columns), as.numeric) |>
+    dplyr::mutate(dplyr::across(dplyr::all_of(rcs_columns), as.numeric)) |>
     dplyr::mutate(
       rcsi_lessquality_weighted = ifelse(
         is.na(!!rlang::sym(fsl_rcsi_lessquality)),
