@@ -51,12 +51,12 @@ add_lcsi(
 
 \item{exhausted_val}{A character value in the dataset associated with "No, haven't used in the last 30 days because I've exhausted this coping strategy in the last 6 or 12 months."}
 
-\item{not_applicable_val}{A character value in the dataset associated with "This coping strategy is not applicable for the household.}
+\item{not_applicable_val}{A character value in the dataset associated with "This coping strategy is not applicable for the household."}
 }
 \value{
 Returns a dataframe with added columns for LCSI indicators.
 \itemize{
-\item fsl_csi_x_yes : 1 means one of the of the x strategies was used (\emph{yes_val})
+\item fsl_lcsi_x_yes : 1 means one of the of the x strategies was used (\emph{yes_val})
 \item fsl_lcsi_x_exhaust: 1 means one of the x strategies was exhausted and could not be used (\emph{exhausted_val})
 \item fsl_lcsi_x: 1 means one of the x strategies was if either used (\emph{yes_val}) or exhausted (\emph{exhausted_val})
 Where x is stress, crisis or emergency

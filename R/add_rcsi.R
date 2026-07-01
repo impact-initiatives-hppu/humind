@@ -7,7 +7,8 @@
 #' @param fsl_rcsi_mealadult Column representing question- During the last 7 days, were there days (and, if so, how many) when your household had to restrict consumption by adults in order for small children to eat to cope with a lack of food or money to buy it?
 #' @param fsl_rcsi_mealnb Column representing question - During the last 7 days, were there days (and, if so, how many) when your household had to reduce number of meals eaten in a day to cope with a lack of food or money to buy it?
 #' @return
-#' A dataset with one additional column.
+#' A dataset with 7 additional columns: 5 weighted strategy columns
+#' (`rcsi_*_weighted`), `fsl_rcsi_score`, and `fsl_rcsi_cat`.
 #' @export
 #' @importFrom rlang :=
 #' @examples
@@ -50,13 +51,13 @@ add_rcsi <- function(
 
   if ("fsl_rcsi_score" %in% names(.dataset)) {
     warning(
-      "There is already a variable called rcsi_score in your dataset, it will be overwritten"
+      "There is already a variable called fsl_rcsi_score in your dataset, it will be overwritten"
     )
   }
 
   if ("fsl_rcsi_cat" %in% names(.dataset)) {
     warning(
-      "There is already a variable called rcsi_cat in your dataset, it will be overwritten"
+      "There is already a variable called fsl_rcsi_cat in your dataset, it will be overwritten"
     )
   }
   rcsi_values <- c(0, 1, 2, 3, 4, 5, 6, 7)

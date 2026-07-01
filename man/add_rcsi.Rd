@@ -27,7 +27,8 @@ add_rcsi(
 \item{fsl_rcsi_mealnb}{Column representing question - During the last 7 days, were there days (and, if so, how many) when your household had to reduce number of meals eaten in a day to cope with a lack of food or money to buy it?}
 }
 \value{
-A dataset with one additional column.
+A dataset with 7 additional columns: 5 weighted strategy columns
+(\verb{rcsi_*_weighted}), \code{fsl_rcsi_score}, and \code{fsl_rcsi_cat}.
 }
 \description{
 Add indicator for reduced Household CSI Score(rcsi)

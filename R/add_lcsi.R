@@ -16,10 +16,10 @@
 #' @param yes_val A character value in the dataset associated with "Yes, used this coping strategy in the last 30 days."
 #' @param no_val A character value in the dataset associated with "No, have not used this coping strategy in the last 30 days."
 #' @param exhausted_val A character value in the dataset associated with "No, haven't used in the last 30 days because I've exhausted this coping strategy in the last 6 or 12 months."
-#' @param not_applicable_val A character value in the dataset associated with "This coping strategy is not applicable for the household.
+#' @param not_applicable_val A character value in the dataset associated with "This coping strategy is not applicable for the household."
 #'
 #' @return Returns a dataframe with added columns for LCSI indicators.
-#' - fsl_csi_x_yes : 1 means one of the of the x strategies was used (*yes_val*)
+#' - fsl_lcsi_x_yes : 1 means one of the of the x strategies was used (*yes_val*)
 #' - fsl_lcsi_x_exhaust: 1 means one of the x strategies was exhausted and could not be used (*exhausted_val*)
 #' - fsl_lcsi_x: 1 means one of the x strategies was if either used (*yes_val*) or exhausted (*exhausted_val*)
 #' Where x is stress, crisis or emergency

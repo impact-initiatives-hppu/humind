@@ -42,6 +42,8 @@ add_fcs <- function(
   fsl_fcs_sugar = "fsl_fcs_sugar",
   fsl_fcs_oil = "fsl_fcs_oil"
 ) {
+  cutoffs <- match.arg(cutoffs)
+
   ## Throw an error if a dataset wasn't provided as a first argument
   if (!is.data.frame(.dataset)) {
     stop("First argument should be a dataset")
