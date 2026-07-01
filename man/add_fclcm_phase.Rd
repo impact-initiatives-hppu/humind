@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_fclcm_phase.R
 \name{add_fclcm_phase}
 \alias{add_fclcm_phase}
-\title{Calculating FEWSNET Food Consumption-Livelihood Coping Matrix}
+\title{Calculating the Food Consumption-Livelihood Coping Matrix}
 \usage{
 add_fclcm_phase(
   .dataset,
@@ -48,7 +48,7 @@ add_fclcm_phase(
 Returns a dataframe with a additional column for FCLC phase.
 }
 \description{
-Calculating FEWSNET Food Consumption-Livelihood Coping Matrix
+Calculating the Food Consumption-Livelihood Coping Matrix
 }
 \examples{
 test_df <- data.frame(

@@ -1,4 +1,4 @@
-#' Calculating FEWSNET Food Consumption-Livelihood Coping Matrix
+#' Calculating the Food Consumption-Livelihood Coping Matrix
 #'
 #' @param .dataset Main Dataset
 #' @param fc_phase_var Column name containing food consumption phase.
