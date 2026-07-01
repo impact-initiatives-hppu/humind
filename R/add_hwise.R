@@ -98,14 +98,14 @@ add_hwise <- function(
   }
 
   hwise_mapping <- dplyr::tribble(
-    ~from       , ~to ,
-    "never"     ,   0 ,
-    "rarely"    ,   1 ,
-    "sometimes" ,   2 ,
-    "often"     ,   3 ,
-    "always"    ,   3 ,
-    "dnk"       , NA  ,
-    "pnta"      , NA
+    ~from           , ~to      ,
+    hwise_never     ,        0 ,
+    hwise_rarely    ,        1 ,
+    hwise_sometimes ,        2 ,
+    hwise_often     ,        3 ,
+    hwise_always    ,        3 ,
+    hwise_dnk       , NA_real_ ,
+    hwise_pnta      , NA_real_
   )
 
   hwise_cols <- rlang::syms(

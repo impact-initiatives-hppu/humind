@@ -420,7 +420,7 @@ add_comp_wash <- function(
     df,
     comp_wash_score = pmax(
       !!!rlang::syms(c(
-        "comp_wash_score_water_quantity",
+        comp_wash_score_water_quantity,
         "comp_wash_score_water_quality",
         "comp_wash_score_sanitation",
         "comp_wash_score_hygiene"

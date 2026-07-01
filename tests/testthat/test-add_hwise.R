@@ -231,3 +231,60 @@ test_that("add_hwise recodes all hwise columns to correct numeric scores", {
   expect_equal(result$wash_hwise_plans, expected)
   expect_equal(result$wash_hwise_worry, expected)
 })
+
+test_that("add_hwise recodes correctly when non-default hwise_* params are supplied", {
+  df <- dplyr::tibble(
+    wash_hwise_drink = c(
+      "jamais",
+      "rarement",
+      "parfois",
+      "souvent",
+      "toujours",
+      "nsp",
+      "prnr"
+    ),
+    wash_hwise_hands = c(
+      "jamais",
+      "rarement",
+      "parfois",
+      "souvent",
+      "toujours",
+      "nsp",
+      "prnr"
+    ),
+    wash_hwise_plans = c(
+      "jamais",
+      "rarement",
+      "parfois",
+      "souvent",
+      "toujours",
+      "nsp",
+      "prnr"
+    ),
+    wash_hwise_worry = c(
+      "jamais",
+      "rarement",
+      "parfois",
+      "souvent",
+      "toujours",
+      "nsp",
+      "prnr"
+    )
+  )
+
+  result <- add_hwise(
+    df,
+    hwise_never = "jamais",
+    hwise_rarely = "rarement",
+    hwise_sometimes = "parfois",
+    hwise_often = "souvent",
+    hwise_always = "toujours",
+    hwise_dnk = "nsp",
+    hwise_pnta = "prnr"
+  )
+
+  expected_recode <- c(0, 1, 2, 3, 3, NA_real_, NA_real_)
+  expect_equal(result$wash_hwise_drink, expected_recode)
+  expect_equal(result$wash_hwise_worry, expected_recode)
+  expect_equal(result$hwise4_score, c(0, 4, 8, 12, 12, NA, NA))
+})

@@ -203,3 +203,36 @@ invalid_sanitation_data$wash_sanitation_facility_jmp_cat <- c(
 test_that("Function handles invalid sanitation facility categories", {
   expect_error(add_comp_wash(invalid_sanitation_data), class = "error")
 })
+
+test_that("comp_wash_score respects a non-default comp_wash_score_water_quantity column name", {
+  df <- dplyr::tibble(
+    setting = c("camp", "urban", "rural"),
+    my_water_qty = c(5L, 4L, 2L),
+    wash_drinking_water_quality_jmp_cat = c(
+      "surface_water",
+      "unimproved",
+      "limited"
+    ),
+    wash_sanitation_facility_jmp_cat = c(
+      "open_defecation",
+      "basic",
+      "unimproved"
+    ),
+    wash_sanitation_facility_cat = c("none", "improved", "unimproved"),
+    wash_sharing_sanitation_facility_n_ind = c(
+      "50_and_above",
+      "20_to_49",
+      "19_and_below"
+    ),
+    wash_sharing_sanitation_facility_cat = c(
+      "shared",
+      "not_shared",
+      "not_applicable"
+    ),
+    wash_handwashing_facility_jmp_cat = c("no_facility", "basic", "limited")
+  )
+
+  result <- add_comp_wash(df, comp_wash_score_water_quantity = "my_water_qty")
+
+  expect_equal(result$comp_wash_score, c(5, 4, 2))
+})
