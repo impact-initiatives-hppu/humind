@@ -10,14 +10,7 @@ add_comp_wash(
   setting_camp = "camp",
   setting_urban = "urban",
   setting_rural = "rural",
-  drinking_water_quantity = "wash_hwise_drink",
-  drinking_water_quantity_always = "always",
-  drinking_water_quantity_often = "often",
-  drinking_water_quantity_sometimes = "sometimes",
-  drinking_water_quantity_rarely = "rarely",
-  drinking_water_quantity_never = "never",
-  drinking_water_quantity_dnk = "dnk",
-  drinking_water_quantity_pnta = "pnta",
+  comp_hwash_score = "comp_wash_score_water_quantity",
   drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat",
   drinking_water_quality_jmp_cat_surface_water = "surface_water",
   drinking_water_quality_jmp_cat_unimproved = "unimproved",
@@ -64,21 +57,8 @@ add_comp_wash(
 
 \item{setting_rural}{Setting value for rural.}
 
-\item{drinking_water_quantity}{Column name for drinking water quantity.}
-
-\item{drinking_water_quantity_always}{Value for "always" in drinking water quantity.}
-
-\item{drinking_water_quantity_often}{Value for "often" in drinking water quantity.}
-
-\item{drinking_water_quantity_sometimes}{Value for "sometimes" in drinking water quantity.}
-
-\item{drinking_water_quantity_rarely}{Value for "rarely" in drinking water quantity.}
-
-\item{drinking_water_quantity_never}{Value for "never" in drinking water quantity.}
-
-\item{drinking_water_quantity_dnk}{Value for "don't know" in drinking water quantity.}
-
-\item{drinking_water_quantity_pnta}{Value for "prefer not to answer" in drinking water quantity.}
+\item{comp_hwash_score}{Column name for the pre-computed HWISE water
+quantity severity score (1–5), as produced by \code{\link[=add_hwise]{add_hwise()}}.}
 
 \item{drinking_water_quality_jmp_cat}{Column name for drinking water quality JMP category.}
 
@@ -168,8 +148,9 @@ applying different scoring logic for camp, urban, and rural settings.
 
 Prerequisite functions:
 \itemize{
-\item add_sanitation_facility_cat.R
-\item add_handwashing_facility_cat.R
-\item add_drinking_water_source_cat.R
+\item \code{\link[=add_hwise]{add_hwise()}}
+\item \code{\link[=add_sanitation_facility_cat]{add_sanitation_facility_cat()}}
+\item \code{\link[=add_handwashing_facility_cat]{add_handwashing_facility_cat()}}
+\item \code{\link[=add_drinking_water_source_cat]{add_drinking_water_source_cat()}}
 }
 }
