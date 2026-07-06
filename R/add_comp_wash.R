@@ -11,9 +11,10 @@
 #'
 #' Prerequisite functions:
 #'
-#' * add_sanitation_facility_cat.R
-#' * add_handwashing_facility_cat.R
-#' * add_drinking_water_source_cat.R
+#' * [add_hwise()]
+#' * [add_sanitation_facility_cat()]
+#' * [add_handwashing_facility_cat()]
+#' * [add_drinking_water_source_cat()]
 #'
 #'
 #' @param df A data frame containing the required WASH-related variables.
@@ -21,14 +22,8 @@
 #' @param setting_camp Setting value for camp.
 #' @param setting_urban Setting value for urban.
 #' @param setting_rural Setting value for rural.
-#' @param drinking_water_quantity Column name for drinking water quantity.
-#' @param drinking_water_quantity_always Value for "always" in drinking water quantity.
-#' @param drinking_water_quantity_often Value for "often" in drinking water quantity.
-#' @param drinking_water_quantity_sometimes Value for "sometimes" in drinking water quantity.
-#' @param drinking_water_quantity_rarely Value for "rarely" in drinking water quantity.
-#' @param drinking_water_quantity_never Value for "never" in drinking water quantity.
-#' @param drinking_water_quantity_dnk Value for "don't know" in drinking water quantity.
-#' @param drinking_water_quantity_pnta Value for "prefer not to answer" in drinking water quantity.
+#' @param comp_hwash_score Column name for the pre-computed HWISE water
+#'   quantity severity score (1–5), as produced by [add_hwise()].
 #' @param drinking_water_quality_jmp_cat Column name for drinking water quality JMP category.
 #' @param drinking_water_quality_jmp_cat_surface_water Value for "surface water" in drinking water quality JMP category.
 #' @param drinking_water_quality_jmp_cat_unimproved Value for "unimproved" in drinking water quality JMP category.
@@ -79,14 +74,7 @@ add_comp_wash <- function(
   setting_camp = "camp",
   setting_urban = "urban",
   setting_rural = "rural",
-  drinking_water_quantity = "wash_hwise_drink",
-  drinking_water_quantity_always = "always",
-  drinking_water_quantity_often = "often",
-  drinking_water_quantity_sometimes = "sometimes",
-  drinking_water_quantity_rarely = "rarely",
-  drinking_water_quantity_never = "never",
-  drinking_water_quantity_dnk = "dnk",
-  drinking_water_quantity_pnta = "pnta",
+  comp_hwash_score = "comp_wash_score_water_quantity",
   drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat",
   drinking_water_quality_jmp_cat_surface_water = "surface_water",
   drinking_water_quality_jmp_cat_unimproved = "unimproved",
@@ -128,7 +116,7 @@ add_comp_wash <- function(
     df,
     c(
       setting,
-      drinking_water_quantity,
+      comp_hwash_score,
       drinking_water_quality_jmp_cat,
       sanitation_facility_jmp_cat,
       sanitation_facility_cat,
@@ -140,19 +128,7 @@ add_comp_wash <- function(
 
   # Check if values are in set
   are_values_in_set(df, setting, c(setting_camp, setting_urban, setting_rural))
-  are_values_in_set(
-    df,
-    drinking_water_quantity,
-    c(
-      drinking_water_quantity_always,
-      drinking_water_quantity_often,
-      drinking_water_quantity_sometimes,
-      drinking_water_quantity_rarely,
-      drinking_water_quantity_never,
-      drinking_water_quantity_dnk,
-      drinking_water_quantity_pnta
-    )
-  )
+  are_values_in_set(df, comp_hwash_score, 1:5)
   are_values_in_set(
     df,
     drinking_water_quality_jmp_cat,
@@ -222,25 +198,6 @@ add_comp_wash <- function(
   # Dimensions - sub-composites
   df <- dplyr::mutate(
     df,
-    comp_wash_score_water_quantity = dplyr::case_when(
-      !!rlang::sym(drinking_water_quantity) %in%
-        drinking_water_quantity_always ~
-        5,
-      !!rlang::sym(drinking_water_quantity) %in% drinking_water_quantity_often ~
-        4,
-      !!rlang::sym(drinking_water_quantity) %in%
-        drinking_water_quantity_sometimes ~
-        3,
-      !!rlang::sym(drinking_water_quantity) %in%
-        drinking_water_quantity_rarely ~
-        2,
-      !!rlang::sym(drinking_water_quantity) %in% drinking_water_quantity_never ~
-        1,
-      !!rlang::sym(drinking_water_quantity) %in%
-        c(drinking_water_quantity_dnk, drinking_water_quantity_pnta) ~
-        NA_real_,
-      .default = NA_real_
-    ),
     comp_wash_score_water_quality = dplyr::case_when(
       # Safely managed is always 1
       !!rlang::sym(drinking_water_quality_jmp_cat) %in%
@@ -250,19 +207,19 @@ add_comp_wash <- function(
       !!rlang::sym(setting) == setting_camp &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           drinking_water_quality_jmp_cat_surface_water ~
-        5,
-      !!rlang::sym(setting) == setting_camp &
-        !!rlang::sym(drinking_water_quality_jmp_cat) %in%
-          drinking_water_quality_jmp_cat_unimproved ~
         4,
       !!rlang::sym(setting) == setting_camp &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
-          drinking_water_quality_jmp_cat_limited ~
+          drinking_water_quality_jmp_cat_unimproved ~
         3,
       !!rlang::sym(setting) == setting_camp &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
-          drinking_water_quality_jmp_cat_basic ~
+          drinking_water_quality_jmp_cat_limited ~
         2,
+      !!rlang::sym(setting) == setting_camp &
+        !!rlang::sym(drinking_water_quality_jmp_cat) %in%
+          drinking_water_quality_jmp_cat_basic ~
+        1,
       !!rlang::sym(setting) == setting_camp &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           drinking_water_quality_jmp_cat_undefined ~
@@ -279,10 +236,15 @@ add_comp_wash <- function(
       !!rlang::sym(setting) == setting_urban &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           c(
-            drinking_water_quality_jmp_cat_limited,
-            drinking_water_quality_jmp_cat_basic
+            drinking_water_quality_jmp_cat_limited
           ) ~
         2,
+      !!rlang::sym(setting) == setting_urban &
+        !!rlang::sym(drinking_water_quality_jmp_cat) %in%
+          c(
+            drinking_water_quality_jmp_cat_basic # Grouped with safely managed, which is set to 1 at the begnning of the conditional branch
+          ) ~
+        1,
       !!rlang::sym(setting) == setting_urban &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           drinking_water_quality_jmp_cat_undefined ~
@@ -295,10 +257,15 @@ add_comp_wash <- function(
       !!rlang::sym(setting) == setting_rural &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           c(
-            drinking_water_quality_jmp_cat_unimproved,
             drinking_water_quality_jmp_cat_limited
           ) ~
         2,
+      !!rlang::sym(setting) == setting_rural &
+        !!rlang::sym(drinking_water_quality_jmp_cat) %in%
+          c(
+            drinking_water_quality_jmp_cat_unimproved
+          ) ~
+        3,
       !!rlang::sym(setting) == setting_rural &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           drinking_water_quality_jmp_cat_basic ~
@@ -399,7 +366,7 @@ add_comp_wash <- function(
         !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_none &
         !!rlang::sym(sanitation_facility_jmp_cat) ==
           sanitation_facility_jmp_cat_open_defecation ~
-        4,
+        3,
       !!rlang::sym(setting) == setting_rural &
         !!rlang::sym(sanitation_facility_jmp_cat) %in%
           c(
@@ -464,7 +431,7 @@ add_comp_wash <- function(
     df,
     comp_wash_score = pmax(
       !!!rlang::syms(c(
-        "comp_wash_score_water_quantity",
+        comp_hwash_score,
         "comp_wash_score_water_quality",
         "comp_wash_score_sanitation",
         "comp_wash_score_hygiene"
