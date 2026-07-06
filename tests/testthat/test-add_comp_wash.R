@@ -46,7 +46,7 @@ test_that("Drinking water quality scoring works based on setting", {
     drinking_water_quality_jmp_cat_undefined = "undefined"
   )
 
-  expected_result <- c(5, 3, 2) # Surface water (camp) -> 5, Unimproved (urban) -> 3, Limited (rural) -> 2
+  expected_result <- c(4, 3, 2) # Surface water (camp) -> 4, Unimproved (urban) -> 3, Limited (rural) -> 2
 
   expect_equal(df_result$comp_wash_score_water_quality, expected_result)
 })
@@ -189,6 +189,45 @@ test_that("integration: add_hwise() |> add_comp_wash() produces correct comp_was
   expect_equal(result$comp_wash_score_water_quantity, c(5, 4, 1))
 
   expect_equal(result$comp_wash_score, c(5, 4, 2))
+})
+
+# Test data for 2026 new logic verification
+new_logic_data <- data.frame(
+  setting = c("camp", "camp", "camp", "urban", "rural", "rural"),
+  comp_wash_score_water_quantity = rep(5L, 6),
+  wash_drinking_water_quality_jmp_cat = c(
+    "basic",
+    "limited",
+    "unimproved",
+    "basic",
+    "unimproved",
+    "safely_managed"
+  ),
+  wash_sanitation_facility_jmp_cat = c(
+    rep("basic", 5),
+    "open_defecation"
+  ),
+  wash_sanitation_facility_cat = c(
+    rep("improved", 5),
+    "none"
+  ),
+  wash_sharing_sanitation_facility_n_ind = rep("19_and_below", 6),
+  wash_sharing_sanitation_facility_cat = rep("not_shared", 6),
+  wash_handwashing_facility_jmp_cat = rep("basic", 6)
+)
+
+test_that("Water quality 2026 new logic is correctly implemented", {
+  result <- add_comp_wash(new_logic_data)
+
+  expected <- c(1, 2, 3, 1, 3, 1)
+
+  expect_equal(result$comp_wash_score_water_quality, expected)
+})
+
+test_that("Rural sanitation open_defecation 2026 new logic is correctly implemented", {
+  result <- add_comp_wash(new_logic_data)
+
+  expect_equal(result$comp_wash_score_sanitation[6], 3)
 })
 
 # Test with invalid sanitation facility categories
