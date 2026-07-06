@@ -6,28 +6,28 @@
 \usage{
 add_comp_foodsec(
   df,
-  fc_phase = "fsl_fc_phase",
-  phase1 = "Phase 1 FC",
-  phase2 = "Phase 2 FC",
-  phase3 = "Phase 3 FC",
-  phase4 = "Phase 4 FC",
-  phase5 = "Phase 5 FC"
+  fclcm_phase = "fclcm_phase",
+  phase1 = "Phase 1 FCLC",
+  phase2 = "Phase 2 FCLC",
+  phase3 = "Phase 3 FCLC",
+  phase4 = "Phase 4 FCLC",
+  phase5 = "Phase 5 FCLC"
 )
 }
 \arguments{
 \item{df}{A data frame.}
 
-\item{fc_phase}{Column name for the food security phase.}
+\item{fclcm_phase}{Column name for the FCLCM phase.}
 
-\item{phase1}{Label for Phase 1 FC.}
+\item{phase1}{Label for Phase 1 FCLC.}
 
-\item{phase2}{Label for Phase 2 FC.}
+\item{phase2}{Label for Phase 2 FCLC.}
 
-\item{phase3}{Label for Phase 3 FC.}
+\item{phase3}{Label for Phase 3 FCLC.}
 
-\item{phase4}{Label for Phase 4 FC.}
+\item{phase4}{Label for Phase 4 FCLC.}
 
-\item{phase5}{Label for Phase 5 FC.}
+\item{phase5}{Label for Phase 5 FCLC.}
 }
 \value{
 A data frame with additional columns:
@@ -39,11 +39,17 @@ A data frame with additional columns:
 }
 \description{
 This function calculates a food security sectoral composite score based on
-the food security phase. It assigns a score from 1 to 5 corresponding to
-the food security phase, and determines if a household is in need or in
+the FCLCM phase. It assigns a score from 1 to 5 corresponding to
+the FCLCM phase, and determines if a household is in need or in
 severe need of food security assistance.
-Apply prerequisite food security functions re-exported from https://github.com/impact-initiatives/impactR4PHU
-FCS - add_fcs.R
-HHS - add_hhs.R
-rCSI - add_rcsi.R
+
+Prerequisite food security functions
+must be run before this function:
+\itemize{
+\item add_fcs()
+\item add_hhs()
+\item add_rcsi()
+\item add_lcsi()
+\item add_fclcm_phase()
+}
 }

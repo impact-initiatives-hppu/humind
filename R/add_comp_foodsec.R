@@ -2,22 +2,26 @@
 #'
 #' @description
 #' This function calculates a food security sectoral composite score based on
-#' the food security phase. It assigns a score from 1 to 5 corresponding to
-#' the food security phase, and determines if a household is in need or in
+#' the FCLCM phase. It assigns a score from 1 to 5 corresponding to
+#' the FCLCM phase, and determines if a household is in need or in
 #' severe need of food security assistance.
-#' Apply prerequisite food security functions re-exported from https://github.com/impact-initiatives/impactR4PHU
-#' FCS - add_fcs.R
-#' HHS - add_hhs.R
-#' rCSI - add_rcsi.R
+#'
+#' Prerequisite food security functions
+#' must be run before this function:
+#' - add_fcs()
+#' - add_hhs()
+#' - add_rcsi()
+#' - add_lcsi()
+#' - add_fclcm_phase()
 #'
 #'
 #' @param df A data frame.
-#' @param fc_phase Column name for the food security phase.
-#' @param phase1 Label for Phase 1 FC.
-#' @param phase2 Label for Phase 2 FC.
-#' @param phase3 Label for Phase 3 FC.
-#' @param phase4 Label for Phase 4 FC.
-#' @param phase5 Label for Phase 5 FC.
+#' @param fclcm_phase Column name for the FCLCM phase.
+#' @param phase1 Label for Phase 1 FCLC.
+#' @param phase2 Label for Phase 2 FCLC.
+#' @param phase3 Label for Phase 3 FCLC.
+#' @param phase4 Label for Phase 4 FCLC.
+#' @param phase5 Label for Phase 5 FCLC.
 #'
 #' @return A data frame with additional columns:
 #'
@@ -28,21 +32,21 @@
 #' @export
 add_comp_foodsec <- function(
   df,
-  fc_phase = "fsl_fc_phase",
-  phase1 = "Phase 1 FC",
-  phase2 = "Phase 2 FC",
-  phase3 = "Phase 3 FC",
-  phase4 = "Phase 4 FC",
-  phase5 = "Phase 5 FC"
+  fclcm_phase = "fclcm_phase",
+  phase1 = "Phase 1 FCLC",
+  phase2 = "Phase 2 FCLC",
+  phase3 = "Phase 3 FCLC",
+  phase4 = "Phase 4 FCLC",
+  phase5 = "Phase 5 FCLC"
 ) {
   #------ Checks
 
-  # Check if fc_phase is in df
-  if_not_in_stop(df, fc_phase, "df")
+  # Check if fclcm_phase is in df
+  if_not_in_stop(df, fclcm_phase, "df")
 
   # Check if all phases are in df
-  fc_phase_levels <- c(phase1, phase2, phase3, phase4, phase5)
-  are_values_in_set(df, fc_phase, fc_phase_levels)
+  fclcm_phase_levels <- c(phase1, phase2, phase3, phase4, phase5)
+  are_values_in_set(df, fclcm_phase, fclcm_phase_levels)
 
   #------ Score
 
@@ -50,11 +54,11 @@ add_comp_foodsec <- function(
   df <- dplyr::mutate(
     df,
     comp_foodsec_score = dplyr::case_when(
-      !!rlang::sym(fc_phase) == phase5 ~ 5,
-      !!rlang::sym(fc_phase) == phase4 ~ 4,
-      !!rlang::sym(fc_phase) == phase3 ~ 3,
-      !!rlang::sym(fc_phase) == phase2 ~ 2,
-      !!rlang::sym(fc_phase) == phase1 ~ 1,
+      !!rlang::sym(fclcm_phase) == phase5 ~ 5,
+      !!rlang::sym(fclcm_phase) == phase4 ~ 4,
+      !!rlang::sym(fclcm_phase) == phase3 ~ 3,
+      !!rlang::sym(fclcm_phase) == phase2 ~ 2,
+      !!rlang::sym(fclcm_phase) == phase1 ~ 1,
       .default = NA_real_
     )
   )
