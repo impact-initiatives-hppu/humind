@@ -213,9 +213,9 @@ add_comp_snfi <- function(
   df <- dplyr::mutate(
     df,
     comp_snfi_score_shelter_damage_cat = dplyr::case_when(
-      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_total ~ 4,
-      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_part ~ 3,
-      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_damaged ~ 2,
+      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_total ~ 5,
+      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_part ~ 4,
+      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_damaged ~ 3,
       !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_none ~ 1,
       !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_undefined ~
         NA_real_,
