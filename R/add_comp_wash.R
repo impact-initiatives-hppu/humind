@@ -131,6 +131,7 @@ add_comp_wash <- function(
       sanitation_facility_jmp_cat,
       sanitation_facility_cat,
       sanitation_facility_n_ind,
+      sharing_sanitation_facility_cat,
       handwashing_facility_jmp_cat
     ),
     "df"
