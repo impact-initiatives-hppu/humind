@@ -93,11 +93,15 @@ add_comp_snfi <- function(
   # Check that columns are in df
   if_not_in_stop(
     df,
-    c(shelter_type_cat, shelter_issue_cat, tenure_security_cat, fds_cannot_cat),
+    c(
+      shelter_type_cat,
+      shelter_issue_cat,
+      tenure_security_cat,
+      fds_cannot_cat,
+      shelter_damage_cat
+    ),
     "df"
   )
-
-  if_not_in_stop(df, shelter_damage_cat, "df")
 
   # Create levels vectors
   shelter_type_cat_levels <- c(
