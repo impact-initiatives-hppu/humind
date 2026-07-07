@@ -149,7 +149,7 @@ undefined_water_quantity_data <- data.frame(
     "basic",
     "limited",
     "unimproved",
-    "safely_managed"
+    "basic"
   ),
   wash_sanitation_facility_cat = c(
     "improved",
