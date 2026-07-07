@@ -152,6 +152,7 @@ add_comp_snfi <- function(
   # Check that fds_cannot_cat are in levels
   are_values_in_set(df, fds_cannot_cat, fds_cannot_cat_levels)
 
+  # Check that shelter_damage_cat are in levels
   are_values_in_set(df, shelter_damage_cat, shelter_damage_cat_levels)
 
   #----- Recode
