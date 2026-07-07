@@ -187,3 +187,20 @@ test_that("weight parameters are validated", {
     "must be a single number between 0 and 2"
   )
 })
+
+test_that("score is NA when only other_safety_measures is selected", {
+  edge_case <- dummy_df |>
+    dplyr::filter(tot == 1, `prot_needs_3_movement/other_safety_measures` == 1)
+
+  res <- add_prot_score_movement(edge_case)
+
+  expect_true(all(is.na(res$comp_prot_score_movement)))
+
+  # when co existing with another option the score should not be NA (cannot be with pnta or dnk anyway)
+  edge_case <- dummy_df |>
+    dplyr::filter(tot == 2, `prot_needs_3_movement/other_safety_measures` == 1)
+
+  res <- add_prot_score_movement(edge_case)
+
+  expect_false(any(is.na(res$comp_prot_score_movement)))
+})

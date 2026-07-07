@@ -109,6 +109,14 @@ add_prot_score_movement <- function(
       )
     )
 
+  # These columns need to result in an NA score for comp_prot_score_prot_needs_3
+
+  dnk_col <- stringr::str_glue("{prot_needs_3_movement}{sep}{dnk}")
+  pnta_col <- stringr::str_glue("{prot_needs_3_movement}{sep}{pnta}")
+  other_safety_measures_col <- stringr::str_glue(
+    "{prot_needs_3_movement}{sep}{other_safety_measures}"
+  )
+
   # aggregate into composite scores
   weights_df <- sum_vars(
     weights_df,
@@ -126,11 +134,12 @@ add_prot_score_movement <- function(
       )
     ) |>
     dplyr::mutate(
-      comp_prot_score_movement = dplyr::if_else(
-        .data[[stringr::str_glue("{prot_needs_3_movement}{sep}{dnk}")]] == 1 |
-          .data[[stringr::str_glue("{prot_needs_3_movement}{sep}{pnta}")]] == 1,
-        NA_real_,
-        .data[["comp_prot_score_movement"]]
+      comp_prot_score_movement = dplyr::case_when(
+        .data[[dnk_col]] == 1 ~ NA_real_,
+        .data[[pnta_col]] == 1 ~ NA_real_,
+        .data[[other_safety_measures_col]] == 1 &
+          .data[["comp_prot_score_prot_needs_3"]] == 0 ~ NA_real_,
+        .default = .data[["comp_prot_score_movement"]]
       )
     )
 
