@@ -109,7 +109,7 @@ add_prot_score_movement <- function(
       )
     )
 
-  # These columns need to result in an NA score for comp_prot_score_prot_needs_3
+  # These columns need to result in an NA score for comp_prot_score_movement
 
   dnk_col <- stringr::str_glue("{prot_needs_3_movement}{sep}{dnk}")
   pnta_col <- stringr::str_glue("{prot_needs_3_movement}{sep}{pnta}")
