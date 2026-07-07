@@ -204,3 +204,20 @@ test_that("score is NA when only other_safety_measures is selected", {
 
   expect_false(any(is.na(res$comp_prot_score_movement)))
 })
+
+
+test_that("score is not affected by `other_safety_measures` if not only selection", {
+  edge_case <- dummy_df |>
+    dplyr::filter(tot > 1, `prot_needs_3_movement/other_safety_measures` == 1)
+
+  res <- add_prot_score_movement(edge_case)
+  edge_case2 <- edge_case |>
+    dplyr::mutate(`prot_needs_3_movement/other_safety_measures` = 0)
+
+  res2 <- add_prot_score_movement(edge_case2)
+  score_cols <- c("comp_prot_score_prot_needs_3", "comp_prot_score_movement")
+  expect_equal(
+    dplyr::select(res, dplyr::all_of(score_cols)),
+    dplyr::select(res2, dplyr::all_of(score_cols))
+  )
+})
