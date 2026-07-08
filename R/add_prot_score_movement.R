@@ -6,9 +6,11 @@
 #' @param no_changes_feel_unsafe answer option
 #' @param no_safety_concerns answer option
 #' @param women_girls_avoid_places answer option
-#' @param men_boys_avoid_places answer option
+#' @param men_avoid_places answer option
+#' @param boys_avoid_places answer option
 #' @param women_girls_avoid_night answer option
-#' @param men_boys_avoid_night answer option
+#' @param men_avoid_night answer option
+#' @param boys_avoid_night answer option
 #' @param girls_boys_avoid_school answer option
 #' @param different_routes answer option
 #' @param avoid_markets answer option
@@ -17,6 +19,8 @@
 #' @param other_safety_measures answer option
 #' @param dnk answer option
 #' @param pnta answer option
+#' @param men_avoid_places_weight Numeric weight for `men_avoid_places` (0–2). Default is 1.
+#' @param men_avoid_night_weight Numeric weight for `men_avoid_night` (0–2). Default is 1.
 #' @param .keep_weighted Logical, whether to keep the weighted columns in the output data frame. Default is FALSE.
 #'
 #' @return data frame with additional columns:
@@ -30,9 +34,11 @@ add_prot_score_movement <- function(
   no_changes_feel_unsafe = "no_changes_feel_unsafe",
   no_safety_concerns = "no_safety_concerns",
   women_girls_avoid_places = "women_girls_avoid_places",
-  men_boys_avoid_places = "men_boys_avoid_places",
+  men_avoid_places = "men_avoid_places",
+  boys_avoid_places = "boys_avoid_places",
   women_girls_avoid_night = "women_girls_avoid_night",
-  men_boys_avoid_night = "men_boys_avoid_night",
+  men_avoid_night = "men_avoid_night",
+  boys_avoid_night = "boys_avoid_night",
   girls_boys_avoid_school = "girls_boys_avoid_school",
   different_routes = "different_routes",
   avoid_markets = "avoid_markets",
@@ -41,21 +47,38 @@ add_prot_score_movement <- function(
   other_safety_measures = "other_safety_measures",
   dnk = "dnk",
   pnta = "pnta",
+  men_avoid_places_weight = 1,
+  men_avoid_night_weight = 1,
   .keep_weighted = FALSE
 ) {
   # capture all parameters
   params <- as.list(environment())
+
+  if (!checkmate::test_number(men_avoid_places_weight, lower = 0, upper = 2)) {
+    cli::cli_abort(
+      "{.arg men_avoid_places_weight} must be a single number between 0 and 2,
+       not {.val {men_avoid_places_weight}}."
+    )
+  }
+  if (!checkmate::test_number(men_avoid_night_weight, lower = 0, upper = 2)) {
+    cli::cli_abort(
+      "{.arg men_avoid_night_weight} must be a single number between 0 and 2,
+       not {.val {men_avoid_night_weight}}."
+    )
+  }
 
   # mapping of response → weight
   weights_mapping <- c(
     no_changes_feel_unsafe = 1,
     no_safety_concerns = 0,
     women_girls_avoid_places = 2,
-    men_boys_avoid_places = 2,
-    women_girls_avoid_night = 1,
-    men_boys_avoid_night = 1,
+    men_avoid_places = men_avoid_places_weight,
+    boys_avoid_places = 2,
+    women_girls_avoid_night = 2,
+    men_avoid_night = men_avoid_night_weight,
+    boys_avoid_night = 2,
     girls_boys_avoid_school = 2,
-    different_routes = 2,
+    different_routes = 1,
     avoid_markets = 2,
     avoid_public_offices = 2,
     avoid_fields = 2,
@@ -86,6 +109,14 @@ add_prot_score_movement <- function(
       )
     )
 
+  # These columns need to result in an NA score for comp_prot_score_movement
+
+  dnk_col <- stringr::str_glue("{prot_needs_3_movement}{sep}{dnk}")
+  pnta_col <- stringr::str_glue("{prot_needs_3_movement}{sep}{pnta}")
+  other_safety_measures_col <- stringr::str_glue(
+    "{prot_needs_3_movement}{sep}{other_safety_measures}"
+  )
+
   # aggregate into composite scores
   weights_df <- sum_vars(
     weights_df,
@@ -94,17 +125,21 @@ add_prot_score_movement <- function(
     na_rm = TRUE
   ) |>
     dplyr::mutate(
-      comp_prot_score_movement = pmin(
-        .data[["comp_prot_score_prot_needs_3"]] + 1,
-        4
+      comp_prot_score_movement = dplyr::case_when(
+        .data[["comp_prot_score_prot_needs_3"]] >= 3 ~ 4,
+        .data[["comp_prot_score_prot_needs_3"]] == 2 ~ 3,
+        .data[["comp_prot_score_prot_needs_3"]] == 1 ~ 2,
+        .data[["comp_prot_score_prot_needs_3"]] == 0 ~ 1,
+        TRUE ~ NA_real_
       )
     ) |>
     dplyr::mutate(
-      comp_prot_score_movement = dplyr::if_else(
-        .data[[stringr::str_glue("{prot_needs_3_movement}{sep}{dnk}")]] == 1 |
-          .data[[stringr::str_glue("{prot_needs_3_movement}{sep}{pnta}")]] == 1,
-        NA_real_,
-        .data[["comp_prot_score_movement"]]
+      comp_prot_score_movement = dplyr::case_when(
+        .data[[dnk_col]] == 1 ~ NA_real_,
+        .data[[pnta_col]] == 1 ~ NA_real_,
+        .data[[other_safety_measures_col]] == 1 &
+          .data[["comp_prot_score_prot_needs_3"]] == 0 ~ NA_real_,
+        .default = .data[["comp_prot_score_movement"]]
       )
     )
 

@@ -23,7 +23,6 @@ add_comp_wash(
   sanitation_facility_jmp_cat_unimproved = "unimproved",
   sanitation_facility_jmp_cat_limited = "limited",
   sanitation_facility_jmp_cat_basic = "basic",
-  sanitation_facility_jmp_cat_safely_managed = "safely_managed",
   sanitation_facility_jmp_cat_undefined = "undefined",
   sanitation_facility_cat = "wash_sanitation_facility_cat",
   sanitation_facility_cat_none = "none",
@@ -83,8 +82,6 @@ quantity severity score (1–5), as produced by \code{\link[=add_hwise]{add_hwis
 \item{sanitation_facility_jmp_cat_limited}{Value for "limited" in sanitation facility JMP category.}
 
 \item{sanitation_facility_jmp_cat_basic}{Value for "basic" in sanitation facility JMP category.}
-
-\item{sanitation_facility_jmp_cat_safely_managed}{Value for "safely managed" in sanitation facility JMP category.}
 
 \item{sanitation_facility_jmp_cat_undefined}{Value for "undefined" in sanitation facility JMP category.}
 

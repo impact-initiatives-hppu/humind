@@ -29,7 +29,6 @@ add_comp_snfi(
   fds_cannot_cat_1 = "1_task",
   fds_cannot_cat_none = "none",
   fds_cannot_cat_undefined = "undefined",
-  shelter_damage = FALSE,
   shelter_damage_cat = "snfi_shelter_damage_cat",
   shelter_damage_cat_none = "none",
   shelter_damage_cat_damaged = "damaged",
@@ -87,8 +86,6 @@ add_comp_snfi(
 
 \item{fds_cannot_cat_undefined}{Level for undefined fds cannot.}
 
-\item{shelter_damage}{Column for shelter damage.}
-
 \item{shelter_damage_cat}{Column for shelter damage category.}
 
 \item{shelter_damage_cat_none}{Level name for no shelter damage.}
@@ -108,6 +105,7 @@ A data frame with added columns:
 \item comp_snfi_score_shelter_issue_cat Score based on shelter issues
 \item comp_snfi_score_tenure_security_cat Score based on security of tenure status
 \item comp_snfi_score_fds_cannot_cat Score based on FDS
+\item comp_snfi_score_shelter_damage_cat Score based on shelter damage
 \item comp_snfi_score: Overall SNFI composite score
 \item comp_snfi_in_need: Indicator for being in need
 \item comp_snfi_in_severe_need: Indicator for being in severe need
@@ -115,9 +113,9 @@ A data frame with added columns:
 }
 \description{
 This function calculates the Shelter, NFI and HLP (SNFI) sectoral composite score
-based on shelter type, shelter issues, occupancy status, and functional disability
-scale (FDS) indicators. It also determines if a household is in need or in severe need
-based on the calculated score.
+based on shelter type, shelter issues, occupancy status, shelter damage, and functional
+disability scale (FDS) indicators. It also determines if a household is in need or in
+severe need based on the calculated score.
 
 Prerequisite functions:
 \itemize{
@@ -125,6 +123,6 @@ Prerequisite functions:
 \item add_shelter_type_cat.R
 \item add_occupancy_cat.R
 \item add_fds_cannot_cat.R
-\item OPTIONAL add_shelter_damage_cat.R
+\item add_shelter_damage_cat.R
 }
 }

@@ -15,16 +15,16 @@ df <- data.frame(
 
 # Expected output for each row (worst case scenario)
 expected <- c(
-  "No damage", # 1. only none
-  "Damaged", # 2. only minor
-  "Partial collapse or destruction", # 3. minor + major (major should take precedence)
-  "Total collapse or destruction", # 4. major + damage_windows_doors + total_collapse (total should take precedence)
-  "Damaged", # 5. minor + damage_windows_doors + damage_floors
-  "Damaged", # 6. minor + damage_walls
-  "Total collapse or destruction", # 7. major + total_collapse (total should take precedence)
-  "Damaged", # 8. damage_windows_doors + damage_floors + damage_walls + other (should be Damaged, Undefined is ignored)
-  "Total collapse or destruction", # 9. damage_floors + damage_walls + total_collapse (total should take precedence)
-  "Undefined" # 10. only dnk
+  "none", # 1. only none
+  "damaged", # 2. only minor
+  "part", # 3. minor + major (major should take precedence)
+  "total", # 4. major + damage_windows_doors + total_collapse (total should take precedence)
+  "damaged", # 5. minor + damage_windows_doors + damage_floors
+  "damaged", # 6. minor + damage_walls
+  "total", # 7. major + total_collapse (total should take precedence)
+  "damaged", # 8. damage_windows_doors + damage_floors + damage_walls + other (should be damaged, undefined is ignored)
+  "total", # 9. damage_floors + damage_walls + total_collapse (total should take precedence)
+  "undefined" # 10. only dnk
 )
 
 test_that("add_shelter_damage_cat worst case scenario is respected", {
@@ -53,7 +53,7 @@ test_that("add_shelter_damage_cat returns NA or Undefined if no response selecte
   df_zeros <- as.data.frame(matrix(0, nrow = 2, ncol = ncol(df)))
   colnames(df_zeros) <- colnames(df)
   result <- add_shelter_damage_cat(df_zeros)
-  expect_true(all(result$snfi_shelter_damage_cat %in% c(NA, "Undefined")))
+  expect_true(all(result$snfi_shelter_damage_cat %in% c(NA, "undefined")))
 })
 
 # 2. Multiple codes in the same category set to 1 (e.g. two 'damaged' columns)
@@ -67,7 +67,7 @@ test_that("add_shelter_damage_cat handles multiple codes in the same category", 
     )
   ] <- 1
   result <- add_shelter_damage_cat(df_multi)
-  expect_true(result$snfi_shelter_damage_cat[1] == "Damaged")
+  expect_true(result$snfi_shelter_damage_cat[1] == "damaged")
 })
 
 # 3. NA in some columns
