@@ -189,6 +189,8 @@ test_that("integration: add_hwise() |> add_comp_wash() produces correct comp_was
   expect_equal(result$comp_wash_score_water_quantity, c(5, 4, 1))
 
   expect_equal(result$comp_wash_score, c(5, 4, 2))
+})
+
 # Test data for 2026 new logic verification
 new_logic_data <- data.frame(
   setting = c("camp", "camp", "camp", "urban", "rural", "rural"),
