@@ -194,7 +194,7 @@ test_that("integration: add_hwise() |> add_comp_wash() produces correct comp_was
 # Test data for 2026 new logic verification
 new_logic_data <- data.frame(
   setting = c("camp", "camp", "camp", "urban", "rural", "rural"),
-  wash_hwise_drink = rep("always", 6),
+  comp_wash_score_water_quantity = rep(1, 6),
   wash_drinking_water_quality_jmp_cat = c(
     "basic",
     "limited",
