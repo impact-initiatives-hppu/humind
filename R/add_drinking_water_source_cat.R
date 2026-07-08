@@ -313,7 +313,6 @@ add_drinking_water_quality_jmp_cat <- function(
     df,
     drinking_water_time_30min_cat,
     c(
-      drinking_water_time_30min_cat,
       drinking_water_time_30min_cat_premises,
       drinking_water_time_30min_cat_under_30min,
       drinking_water_time_30min_cat_above_30min,
