@@ -232,7 +232,7 @@ test_that("comp_wash_score respects a non-default comp_wash_score_water_quantity
     wash_handwashing_facility_jmp_cat = c("no_facility", "basic", "limited")
   )
 
-  result <- add_comp_wash(df, comp_hwash_score = "my_water_qty")
+  result <- add_comp_wash(df, comp_wash_hwise_score = "my_water_qty")
 
   expect_equal(result$comp_wash_score, c(5, 4, 2))
 })

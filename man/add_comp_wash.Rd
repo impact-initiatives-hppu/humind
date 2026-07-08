@@ -10,7 +10,7 @@ add_comp_wash(
   setting_camp = "camp",
   setting_urban = "urban",
   setting_rural = "rural",
-  comp_hwash_score = "comp_wash_score_water_quantity",
+  comp_wash_hwise_score = "comp_wash_score_water_quantity",
   drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat",
   drinking_water_quality_jmp_cat_surface_water = "surface_water",
   drinking_water_quality_jmp_cat_unimproved = "unimproved",
@@ -57,7 +57,7 @@ add_comp_wash(
 
 \item{setting_rural}{Setting value for rural.}
 
-\item{comp_hwash_score}{Column name for the pre-computed HWISE water
+\item{comp_wash_hwise_score}{Column name for the pre-computed HWISE water
 quantity severity score (1–5), as produced by \code{\link[=add_hwise]{add_hwise()}}.}
 
 \item{drinking_water_quality_jmp_cat}{Column name for drinking water quality JMP category.}
