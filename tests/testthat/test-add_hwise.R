@@ -173,7 +173,11 @@ test_that("property: often and always are interchangeable", {
       ~ dplyr::if_else(.x == "often", "always", .x)
     )
   )
-  expect_identical(add_hwise(exhaustive_hwise_df), add_hwise(df_always))
+  composite_cols <- c("hwise4_score", "comp_wash_score_water_quantity")
+  expect_identical(
+    add_hwise(exhaustive_hwise_df)[composite_cols],
+    add_hwise(df_always)[composite_cols]
+  )
 })
 
 test_that("property: no NAs in score or severity when na.rm = TRUE", {
@@ -182,7 +186,7 @@ test_that("property: no NAs in score or severity when na.rm = TRUE", {
   expect_false(anyNA(result$comp_wash_score_water_quantity))
 })
 
-test_that("add_hwise recodes all hwise columns to correct numeric scores", {
+test_that("add_hwise recodes all hwise columns to correct numeric scores in _score columns", {
   df <- dplyr::tibble(
     wash_hwise_drink = c(
       "never",
@@ -224,12 +228,68 @@ test_that("add_hwise recodes all hwise columns to correct numeric scores", {
 
   expected <- c(0, 1, 2, 3, 3, NA, NA)
 
+  result <- add_hwise(df, .keep_recoded = TRUE)
+
+  expect_equal(result$wash_hwise_drink_score, expected)
+  expect_equal(result$wash_hwise_hands_score, expected)
+  expect_equal(result$wash_hwise_plans_score, expected)
+  expect_equal(result$wash_hwise_worry_score, expected)
+
+  # raw columns are untouched
+  expect_equal(result$wash_hwise_drink, df$wash_hwise_drink)
+  expect_equal(result$wash_hwise_hands, df$wash_hwise_hands)
+  expect_equal(result$wash_hwise_plans, df$wash_hwise_plans)
+  expect_equal(result$wash_hwise_worry, df$wash_hwise_worry)
+})
+
+test_that("add_hwise preserves raw HWISE columns and omits _score columns by default", {
+  df <- dplyr::tibble(
+    wash_hwise_drink = c("never", "rarely", "sometimes"),
+    wash_hwise_hands = c("never", "rarely", "sometimes"),
+    wash_hwise_plans = c("never", "rarely", "sometimes"),
+    wash_hwise_worry = c("never", "rarely", "sometimes")
+  )
+
   result <- add_hwise(df)
 
-  expect_equal(result$wash_hwise_drink, expected)
-  expect_equal(result$wash_hwise_hands, expected)
-  expect_equal(result$wash_hwise_plans, expected)
-  expect_equal(result$wash_hwise_worry, expected)
+  expect_equal(result$wash_hwise_drink, df$wash_hwise_drink)
+  expect_equal(result$wash_hwise_hands, df$wash_hwise_hands)
+  expect_equal(result$wash_hwise_plans, df$wash_hwise_plans)
+  expect_equal(result$wash_hwise_worry, df$wash_hwise_worry)
+  expect_false(any(
+    c(
+      "wash_hwise_drink_score",
+      "wash_hwise_hands_score",
+      "wash_hwise_plans_score",
+      "wash_hwise_worry_score"
+    ) %in%
+      names(result)
+  ))
+})
+
+test_that(".keep_recoded controls whether _score columns appear", {
+  df <- dplyr::tibble(
+    wash_hwise_drink = c("never", "rarely"),
+    wash_hwise_hands = c("never", "rarely"),
+    wash_hwise_plans = c("never", "rarely"),
+    wash_hwise_worry = c("never", "rarely")
+  )
+
+  expected_score_cols <- paste0(
+    c(
+      "wash_hwise_drink",
+      "wash_hwise_hands",
+      "wash_hwise_plans",
+      "wash_hwise_worry"
+    ),
+    "_score"
+  )
+
+  res_def <- add_hwise(df)
+  expect_false(any(expected_score_cols %in% names(res_def)))
+
+  res_keep <- add_hwise(df, .keep_recoded = TRUE)
+  expect_true(all(expected_score_cols %in% names(res_keep)))
 })
 
 test_that("add_hwise recodes correctly when non-default hwise_* params are supplied", {
@@ -280,12 +340,15 @@ test_that("add_hwise recodes correctly when non-default hwise_* params are suppl
     hwise_often = "souvent",
     hwise_always = "toujours",
     hwise_dnk = "nsp",
-    hwise_pnta = "prnr"
+    hwise_pnta = "prnr",
+    .keep_recoded = TRUE
   )
 
   expected_recode <- c(0, 1, 2, 3, 3, NA_real_, NA_real_)
-  expect_equal(result$wash_hwise_drink, expected_recode)
-  expect_equal(result$wash_hwise_worry, expected_recode)
+  expect_equal(result$wash_hwise_drink_score, expected_recode)
+  expect_equal(result$wash_hwise_worry_score, expected_recode)
+  expect_equal(result$wash_hwise_drink, df$wash_hwise_drink)
+  expect_equal(result$wash_hwise_worry, df$wash_hwise_worry)
   expect_equal(result$hwise4_score, c(0, 4, 8, 12, 12, NA, NA))
 })
 

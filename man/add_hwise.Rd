@@ -17,7 +17,8 @@ add_hwise(
   hwise_always = "always",
   hwise_dnk = "dnk",
   hwise_pnta = "pnta",
-  na.rm = FALSE
+  na.rm = FALSE,
+  .keep_recoded = FALSE
 )
 }
 \arguments{
@@ -55,11 +56,15 @@ for all of your needs?"}}
 
 \item{na.rm}{Logical. If \code{TRUE}, \code{dnk}/\code{pnta} responses are treated as 0
 when summing the total score. Default \code{FALSE}.}
+
+\item{.keep_recoded}{Logical, whether to keep the recoded numeric HWISE
+columns (ending in \verb{_score}) in the output data frame. Default is FALSE.}
 }
 \value{
-\code{.df} with three new columns:
+\code{.df} with new columns:
 \itemize{
-\item The four HWISE columns recoded to numeric scores (0–3, NA for dnk/pnta).
+\item The four HWISE columns recoded to numeric scores (0–3, NA for dnk/pnta),
+suffixed with \verb{_score} (only kept in the output if \code{.keep_recoded = TRUE}).
 \item \code{hwise4_score}: row sum of the four recoded columns (0–12).
 \item \code{comp_wash_score_water_quantity}: WASH severity score (1–5):
 1 = score 0–3, 2 = 4–6, 3 = 7–8, 4 = 9–10, 5 = 11+.
@@ -78,7 +83,12 @@ df <- dplyr::tibble(
   wash_hwise_worry = c("never",     "sometimes", "always")
 )
 
-add_hwise(df)
+result <- add_hwise(df)
+dplyr::select(result, hwise4_score, comp_wash_score_water_quantity)
+
+# keep the per-item recoded scores (ending in `_score`)
+result_recoded <- add_hwise(df, .keep_recoded = TRUE)
+dplyr::select(result_recoded, dplyr::matches("_score$"))
 }
 \seealso{
 \code{\link[=add_comp_wash]{add_comp_wash()}}
