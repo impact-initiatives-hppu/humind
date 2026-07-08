@@ -45,9 +45,11 @@
 <span>  no_changes_feel_unsafe <span class="op">=</span> <span class="st">"no_changes_feel_unsafe"</span>,</span>
 <span>  no_safety_concerns <span class="op">=</span> <span class="st">"no_safety_concerns"</span>,</span>
 <span>  women_girls_avoid_places <span class="op">=</span> <span class="st">"women_girls_avoid_places"</span>,</span>
-<span>  men_boys_avoid_places <span class="op">=</span> <span class="st">"men_boys_avoid_places"</span>,</span>
+<span>  men_avoid_places <span class="op">=</span> <span class="st">"men_avoid_places"</span>,</span>
+<span>  boys_avoid_places <span class="op">=</span> <span class="st">"boys_avoid_places"</span>,</span>
 <span>  women_girls_avoid_night <span class="op">=</span> <span class="st">"women_girls_avoid_night"</span>,</span>
-<span>  men_boys_avoid_night <span class="op">=</span> <span class="st">"men_boys_avoid_night"</span>,</span>
+<span>  men_avoid_night <span class="op">=</span> <span class="st">"men_avoid_night"</span>,</span>
+<span>  boys_avoid_night <span class="op">=</span> <span class="st">"boys_avoid_night"</span>,</span>
 <span>  girls_boys_avoid_school <span class="op">=</span> <span class="st">"girls_boys_avoid_school"</span>,</span>
 <span>  different_routes <span class="op">=</span> <span class="st">"different_routes"</span>,</span>
 <span>  avoid_markets <span class="op">=</span> <span class="st">"avoid_markets"</span>,</span>
@@ -56,6 +58,8 @@
 <span>  other_safety_measures <span class="op">=</span> <span class="st">"other_safety_measures"</span>,</span>
 <span>  dnk <span class="op">=</span> <span class="st">"dnk"</span>,</span>
 <span>  pnta <span class="op">=</span> <span class="st">"pnta"</span>,</span>
+<span>  men_avoid_places_weight <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  men_avoid_night_weight <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  .keep_weighted <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -88,7 +92,11 @@
 <dd><p>answer option</p></dd>
 
 
-<dt id="arg-men-boys-avoid-places">men_boys_avoid_places<a class="anchor" aria-label="anchor" href="#arg-men-boys-avoid-places"></a></dt>
+<dt id="arg-men-avoid-places">men_avoid_places<a class="anchor" aria-label="anchor" href="#arg-men-avoid-places"></a></dt>
+<dd><p>answer option</p></dd>
+
+
+<dt id="arg-boys-avoid-places">boys_avoid_places<a class="anchor" aria-label="anchor" href="#arg-boys-avoid-places"></a></dt>
 <dd><p>answer option</p></dd>
 
 
@@ -96,7 +104,11 @@
 <dd><p>answer option</p></dd>
 
 
-<dt id="arg-men-boys-avoid-night">men_boys_avoid_night<a class="anchor" aria-label="anchor" href="#arg-men-boys-avoid-night"></a></dt>
+<dt id="arg-men-avoid-night">men_avoid_night<a class="anchor" aria-label="anchor" href="#arg-men-avoid-night"></a></dt>
+<dd><p>answer option</p></dd>
+
+
+<dt id="arg-boys-avoid-night">boys_avoid_night<a class="anchor" aria-label="anchor" href="#arg-boys-avoid-night"></a></dt>
 <dd><p>answer option</p></dd>
 
 
@@ -130,6 +142,14 @@
 
 <dt id="arg-pnta">pnta<a class="anchor" aria-label="anchor" href="#arg-pnta"></a></dt>
 <dd><p>answer option</p></dd>
+
+
+<dt id="arg-men-avoid-places-weight">men_avoid_places_weight<a class="anchor" aria-label="anchor" href="#arg-men-avoid-places-weight"></a></dt>
+<dd><p>Numeric weight for <code>men_avoid_places</code> (0–2). Default is 1.</p></dd>
+
+
+<dt id="arg-men-avoid-night-weight">men_avoid_night_weight<a class="anchor" aria-label="anchor" href="#arg-men-avoid-night-weight"></a></dt>
+<dd><p>Numeric weight for <code>men_avoid_night</code> (0–2). Default is 1.</p></dd>
 
 
 <dt id="arg--keep-weighted">.keep_weighted<a class="anchor" aria-label="anchor" href="#arg--keep-weighted"></a></dt>
