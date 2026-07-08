@@ -2,16 +2,16 @@
 #'
 #' @description
 #' This function calculates the Shelter, NFI and HLP (SNFI) sectoral composite score
-#' based on shelter type, shelter issues, occupancy status, and functional disability
-#' scale (FDS) indicators. It also determines if a household is in need or in severe need
-#' based on the calculated score.
+#' based on shelter type, shelter issues, occupancy status, shelter damage, and functional
+#' disability scale (FDS) indicators. It also determines if a household is in need or in
+#' severe need based on the calculated score.
 #'
 #' Prerequisite functions:
 #' * add_shelter_issue_cat.R
 #' * add_shelter_type_cat.R
 #' * add_occupancy_cat.R
 #' * add_fds_cannot_cat.R
-#' * OPTIONAL add_shelter_damage_cat.R
+#' * add_shelter_damage_cat.R
 #'
 #'
 #' @param df A data frame containing the required SNFI indicators.
@@ -38,7 +38,6 @@
 #' @param fds_cannot_cat_1 Level for 1 task that cannot be done.
 #' @param fds_cannot_cat_none Level for no tasks that cannot be done.
 #' @param fds_cannot_cat_undefined Level for undefined fds cannot.
-#' @param shelter_damage Column for shelter damage.
 #' @param shelter_damage_cat Column for shelter damage category.
 #' @param shelter_damage_cat_none Level name for no shelter damage.
 #' @param shelter_damage_cat_damaged Level name for minor damages.
@@ -51,6 +50,7 @@
 #' * comp_snfi_score_shelter_issue_cat Score based on shelter issues
 #' * comp_snfi_score_tenure_security_cat Score based on security of tenure status
 #' * comp_snfi_score_fds_cannot_cat Score based on FDS
+#' * comp_snfi_score_shelter_damage_cat Score based on shelter damage
 #' * comp_snfi_score: Overall SNFI composite score
 #' * comp_snfi_in_need: Indicator for being in need
 #' * comp_snfi_in_severe_need: Indicator for being in severe need
@@ -81,7 +81,6 @@ add_comp_snfi <- function(
   fds_cannot_cat_1 = "1_task",
   fds_cannot_cat_none = "none",
   fds_cannot_cat_undefined = "undefined",
-  shelter_damage = FALSE,
   shelter_damage_cat = "snfi_shelter_damage_cat",
   shelter_damage_cat_none = "none",
   shelter_damage_cat_damaged = "damaged",
@@ -94,14 +93,15 @@ add_comp_snfi <- function(
   # Check that columns are in df
   if_not_in_stop(
     df,
-    c(shelter_type_cat, shelter_issue_cat, tenure_security_cat, fds_cannot_cat),
+    c(
+      shelter_type_cat,
+      shelter_issue_cat,
+      tenure_security_cat,
+      fds_cannot_cat,
+      shelter_damage_cat
+    ),
     "df"
   )
-
-  # Only check for shelter damage if shelter_damage = TRUE
-  if (shelter_damage) {
-    if_not_in_stop(df, shelter_damage_cat, "df")
-  }
 
   # Create levels vectors
   shelter_type_cat_levels <- c(
@@ -132,16 +132,13 @@ add_comp_snfi <- function(
     fds_cannot_cat_undefined
   )
 
-  # Only check shelter damage levels if shelter_damage = TRUE
-  if (shelter_damage) {
-    shelter_damage_cat_levels <- c(
-      shelter_damage_cat_none,
-      shelter_damage_cat_damaged,
-      shelter_damage_cat_part,
-      shelter_damage_cat_total,
-      shelter_damage_cat_undefined
-    )
-  }
+  shelter_damage_cat_levels <- c(
+    shelter_damage_cat_none,
+    shelter_damage_cat_damaged,
+    shelter_damage_cat_part,
+    shelter_damage_cat_total,
+    shelter_damage_cat_undefined
+  )
 
   # Checks that shelter_type_cat are in levels
   are_values_in_set(df, shelter_type_cat, shelter_type_cat_levels)
@@ -156,9 +153,7 @@ add_comp_snfi <- function(
   are_values_in_set(df, fds_cannot_cat, fds_cannot_cat_levels)
 
   # Check that shelter_damage_cat are in levels
-  if (shelter_damage) {
-    are_values_in_set(df, shelter_damage_cat, shelter_damage_cat_levels)
-  }
+  are_values_in_set(df, shelter_damage_cat, shelter_damage_cat_levels)
 
   #----- Recode
 
@@ -215,35 +210,27 @@ add_comp_snfi <- function(
   )
 
   # Compute score for shelter damage
-  if (shelter_damage) {
-    df <- dplyr::mutate(
-      df,
-      comp_snfi_score_shelter_damage_cat = dplyr::case_when(
-        !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_total ~ 4,
-        !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_part ~ 3,
-        !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_damaged ~ 2,
-        !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_none ~ 1,
-        !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_undefined ~
-          NA_real_,
-        .default = NA_real_
-      )
+  df <- dplyr::mutate(
+    df,
+    comp_snfi_score_shelter_damage_cat = dplyr::case_when(
+      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_total ~ 5,
+      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_part ~ 4,
+      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_damaged ~ 3,
+      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_none ~ 1,
+      !!rlang::sym(shelter_damage_cat) == shelter_damage_cat_undefined ~
+        NA_real_,
+      .default = NA_real_
     )
-  }
+  )
 
-  # Compute total score = max, only include shelter damage score if shelter_damage = TRUE
+  # Compute total score = max
   comp_vars <- c(
     "comp_snfi_score_shelter_type_cat",
     "comp_snfi_score_shelter_issue_cat",
     "comp_snfi_score_fds_cannot_cat",
-    "comp_snfi_score_tenure_security_cat"
+    "comp_snfi_score_tenure_security_cat",
+    "comp_snfi_score_shelter_damage_cat"
   )
-  if (shelter_damage) {
-    comp_vars <- append(
-      comp_vars,
-      "comp_snfi_score_shelter_damage_cat",
-      after = 4
-    )
-  }
 
   df <- dplyr::mutate(
     df,
