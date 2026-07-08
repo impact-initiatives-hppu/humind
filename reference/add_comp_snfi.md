@@ -2,8 +2,9 @@
 
 This function calculates the Shelter, NFI and HLP (SNFI) sectoral
 composite score based on shelter type, shelter issues, occupancy status,
-and functional disability scale (FDS) indicators. It also determines if
-a household is in need or in severe need based on the calculated score.
+shelter damage, and functional disability scale (FDS) indicators. It
+also determines if a household is in need or in severe need based on the
+calculated score.
 
 Prerequisite functions:
 
@@ -15,7 +16,7 @@ Prerequisite functions:
 
 - add_fds_cannot_cat.R
 
-- OPTIONAL add_shelter_damage_cat.R
+- add_shelter_damage_cat.R
 
 ## Usage
 
@@ -45,7 +46,6 @@ add_comp_snfi(
   fds_cannot_cat_1 = "1_task",
   fds_cannot_cat_none = "none",
   fds_cannot_cat_undefined = "undefined",
-  shelter_damage = FALSE,
   shelter_damage_cat = "snfi_shelter_damage_cat",
   shelter_damage_cat_none = "none",
   shelter_damage_cat_damaged = "damaged",
@@ -153,10 +153,6 @@ add_comp_snfi(
 
   Level for undefined fds cannot.
 
-- shelter_damage:
-
-  Column for shelter damage.
-
 - shelter_damage_cat:
 
   Column for shelter damage category.
@@ -193,6 +189,8 @@ A data frame with added columns:
   status
 
 - comp_snfi_score_fds_cannot_cat Score based on FDS
+
+- comp_snfi_score_shelter_damage_cat Score based on shelter damage
 
 - comp_snfi_score: Overall SNFI composite score
 

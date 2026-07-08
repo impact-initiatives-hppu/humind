@@ -1,4 +1,4 @@
-# Add Category of Shelter damage (Optional SNFI dimension)
+# Add Category of Shelter damage (SNFI dimension)
 
 This function categorizes the shelter damage category based on provided
 criteria.
@@ -81,6 +81,5 @@ add_shelter_damage_cat(
 
 A data frame with an additional column:
 
-- snfi_shelter_damage_cat: Categorized shelter damages: "No damage",
-  "Damaged", "Partial collapse or destruction", "Total collapse or
-  destruction", or "Undefined".
+- snfi_shelter_damage_cat: Categorized shelter damages: "none",
+  "damaged", "part", "total", or "undefined".
