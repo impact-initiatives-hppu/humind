@@ -112,8 +112,8 @@ test_that("scoring thresholds are correct", {
   # For rows with a known raw sum, verify the composite score
   # sum = 0 then comp_prot_score_movement = 1
   # sum = 1 then comp_prot_score_movement = 2
-  # sum >= 2 and < 4 then comp_prot_score_movement = 3
-  # sum >= 4 then comp_prot_score_movement = 4
+  # sum = 2 then comp_prot_score_movement = 3
+  # sum >= 3 then comp_prot_score_movement = 4
 
   non_flagged <- res[!is.na(res$comp_prot_score_movement), ]
 
