@@ -47,7 +47,6 @@ add_comp_wash(
   sanitation_facility_jmp_cat_unimproved = "unimproved",
   sanitation_facility_jmp_cat_limited = "limited",
   sanitation_facility_jmp_cat_basic = "basic",
-  sanitation_facility_jmp_cat_safely_managed = "safely_managed",
   sanitation_facility_jmp_cat_undefined = "undefined",
   sanitation_facility_cat = "wash_sanitation_facility_cat",
   sanitation_facility_cat_none = "none",
@@ -172,10 +171,6 @@ add_comp_wash(
 - sanitation_facility_jmp_cat_basic:
 
   Value for "basic" in sanitation facility JMP category.
-
-- sanitation_facility_jmp_cat_safely_managed:
-
-  Value for "safely managed" in sanitation facility JMP category.
 
 - sanitation_facility_jmp_cat_undefined:
 
