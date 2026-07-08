@@ -71,9 +71,11 @@ suffixed with \verb{_score} (only kept in the output if \code{.keep_recoded = TR
 }
 }
 \description{
-Recodes the four HWISE survey items (water quantity) to numeric
-scores, computes the total \code{hwise4_score} (0–12), and maps it to a WASH
-component score for water quantity (\code{comp_wash_score_water_quantity}, 1–5).
+Computes the total \code{hwise4_score} (0–12) from the four HWISE
+survey items (water quantity), and maps it to a WASH component score
+for water quantity (\code{comp_wash_score_water_quantity}, 1–5). The four
+items are internally recoded to numeric scores but are only exposed in
+the output (as \verb{_score}-suffixed columns) when \code{.keep_recoded = TRUE}.
 }
 \examples{
 df <- dplyr::tibble(

@@ -1,8 +1,10 @@
 #' @title Add Household Water Insecurity Experiences (HWISE) Score
 #'
-#' @description Recodes the four HWISE survey items (water quantity) to numeric
-#'   scores, computes the total `hwise4_score` (0–12), and maps it to a WASH
-#'   component score for water quantity (`comp_wash_score_water_quantity`, 1–5).
+#' @description Computes the total `hwise4_score` (0–12) from the four HWISE
+#'   survey items (water quantity), and maps it to a WASH component score
+#'   for water quantity (`comp_wash_score_water_quantity`, 1–5). The four
+#'   items are internally recoded to numeric scores but are only exposed in
+#'   the output (as `_score`-suffixed columns) when `.keep_recoded = TRUE`.
 #'
 #' @param .df A data frame containing the four HWISE columns.
 #' @param wash_hwise_drink Column name for: *"In the last 4 weeks, how
