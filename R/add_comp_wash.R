@@ -19,7 +19,7 @@
 #'
 #' @param df A data frame containing the required WASH-related variables.
 #' @param setting Column name for the setting (camp, urban, or rural).
-#' @param setting_camp Setting value for camp.
+#' @param setting_camp Setting value(s) for camp.
 #' @param setting_urban Setting value for urban.
 #' @param setting_rural Setting value for rural.
 #' @param comp_wash_hwise_score Column name for the pre-computed HWISE water
@@ -70,7 +70,7 @@
 add_comp_wash <- function(
   df,
   setting = "setting",
-  setting_camp = "camp",
+  setting_camp = c("camp_formal", "camp_informal"),
   setting_urban = "urban",
   setting_rural = "rural",
   comp_wash_hwise_score = "comp_wash_score_water_quantity",
@@ -202,23 +202,23 @@ add_comp_wash <- function(
         drinking_water_quality_jmp_cat_safely_managed ~
         1,
       # Camp
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           drinking_water_quality_jmp_cat_surface_water ~
         4,
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           drinking_water_quality_jmp_cat_unimproved ~
         3,
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           drinking_water_quality_jmp_cat_limited ~
         2,
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           drinking_water_quality_jmp_cat_basic ~
         1,
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(drinking_water_quality_jmp_cat) %in%
           drinking_water_quality_jmp_cat_undefined ~
         NA_real_,
@@ -278,30 +278,30 @@ add_comp_wash <- function(
     comp_wash_score_sanitation = dplyr::case_when(
       # Camp---does not use the JMP categories
       # - Open defecation
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(sanitation_facility_cat) == sanitation_facility_cat_none ~
         5,
       # - Unimproved
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(sanitation_facility_cat) ==
           sanitation_facility_cat_unimproved ~
         4,
       # - Improved and shared with more than 50 people
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(sanitation_facility_cat) ==
           sanitation_facility_cat_improved &
         !!rlang::sym(sanitation_facility_n_ind) ==
           sanitation_facility_n_ind_50_and_above ~
         4,
       # - Improved and shared with between 20 and 49 people
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(sanitation_facility_cat) ==
           sanitation_facility_cat_improved &
         !!rlang::sym(sanitation_facility_n_ind) ==
           sanitation_facility_n_ind_20_to_49 ~
         3,
       # - Improved and shared with less than 20 people
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(sanitation_facility_cat) ==
           sanitation_facility_cat_improved &
         !!rlang::sym(sanitation_facility_n_ind) ==
@@ -310,7 +310,7 @@ add_comp_wash <- function(
           sharing_sanitation_facility_cat_shared ~
         2,
       # - Improved and not shared with people outside of the household
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(sanitation_facility_cat) ==
           sanitation_facility_cat_improved &
         !!rlang::sym(sanitation_facility_n_ind) ==
@@ -319,19 +319,19 @@ add_comp_wash <- function(
           sharing_sanitation_facility_cat_not_shared ~
         1,
       # - Improved and "not applicable" for sharing with people outside of the household
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(sanitation_facility_cat) ==
           sanitation_facility_cat_improved &
         !!rlang::sym(sharing_sanitation_facility_cat) ==
           sharing_sanitation_facility_cat_not_applicable ~
         1,
       # - Undefined
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(sanitation_facility_cat) ==
           sanitation_facility_cat_undefined ~
         NA_real_,
       # - Missing sanitation_facility_n_ind
-      !!rlang::sym(setting) == setting_camp &
+      !!rlang::sym(setting) %in% setting_camp &
         is.na(!!rlang::sym(sanitation_facility_n_ind)) ~
         NA_real_,
       # Urban---uses the JMP categories
