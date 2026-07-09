@@ -14,7 +14,7 @@ test_df <- dplyr::tibble(
     "available_fixed_in_plot",
     "available_fixed_in_plot",
     "none",
-    "available_fixed_or_mobile",
+    "available_mobile",
     "none",
     "no_permission",
     "other"
@@ -29,15 +29,15 @@ test_df <- dplyr::tibble(
     NA,
     "water_available"
   ),
-  wash_soap_observed = c(
-    "yes_soap_shown",
-    "yes_soap_shown",
-    "no",
-    "yes_soap_shown",
+  wash_soap_observed_yn = c(
+    "soap_available",
+    "soap_available",
+    "soap_not_available",
+    "soap_available",
     NA,
     NA,
     NA,
-    "yes_soap_shown"
+    "soap_available"
   ),
   wash_handwashing_facility_reported = c(
     NA,
@@ -49,7 +49,7 @@ test_df <- dplyr::tibble(
     "mobile",
     "other"
   ),
-  wash_handwashing_facility_water_reported = c(
+  wash_handwashing_facility_water_reported_yn = c(
     NA,
     NA,
     NA,
@@ -59,7 +59,7 @@ test_df <- dplyr::tibble(
     "yes",
     "dnk"
   ),
-  wash_soap_reported = c(
+  wash_soap_reported_yn = c(
     NA,
     NA,
     NA,
@@ -96,7 +96,7 @@ test_that("Response codes with multiple answer options do not affect the result 
   result_scalar <- add_handwashing_facility_cat(
     exhaustive_df,
     facility_observed_water_no = "water_not_available",
-    facility_observed_soap_no = "no",
+    facility_observed_soap_no = "soap_not_available",
     facility_reported_no = "none",
     facility_reported_water_no = "no",
     facility_reported_soap_no = "no"
@@ -107,7 +107,7 @@ test_that("Response codes with multiple answer options do not affect the result 
   result_vector <- add_handwashing_facility_cat(
     exhaustive_df,
     facility_observed_water_no = c("water_not_available", "indifferent"),
-    facility_observed_soap_no = c("no", "indifferent"),
+    facility_observed_soap_no = c("soap_not_available", "indifferent"),
     facility_reported_no = c("none", "indifferent"),
     facility_reported_water_no = c("no", "indifferent"),
     facility_reported_soap_no = c("no", "indifferent")
@@ -119,8 +119,10 @@ test_that("Response codes with multiple answer options do not affect the result 
 test_that("answer options in the 'no' vectors get treated as 'no'", {
   #TODO: expand this to all *_no arguments
   #TODO: DRY this test with parametrized helper
-  default_soap_no <- "no"
-  soap_no <- c(default_soap_no, "mud")
+  default_obs_soap_no <- "soap_not_available"
+  default_rep_soap_no <- "no"
+  obs_soap_no <- c(default_obs_soap_no, "mud")
+  rep_soap_no <- c(default_rep_soap_no, "mud")
 
   survey_modality <- c(
     "in_person",
@@ -130,7 +132,7 @@ test_that("answer options in the 'no' vectors get treated as 'no'", {
   wash_handwashing_facility <- c(
     "available_fixed_in_dwelling",
     "available_fixed_in_plot",
-    "available_fixed_or_mobile",
+    "available_mobile",
     "none",
     "no_permission",
     "other",
@@ -152,7 +154,7 @@ test_that("answer options in the 'no' vectors get treated as 'no'", {
     NA
   )
 
-  wash_handwashing_facility_water_reported <- c(
+  wash_handwashing_facility_water_reported_yn <- c(
     "yes",
     "no",
     "yes",
@@ -169,15 +171,15 @@ test_that("answer options in the 'no' vectors get treated as 'no'", {
     "pnta",
     NA_character_ # Can be NA because of skip logic
   )
-  wash_soap_observed <- c(
-    "yes_soap_shown",
-    soap_no,
+  wash_soap_observed_yn <- c(
+    "soap_available",
+    obs_soap_no,
     NA
   )
-  wash_soap_reported <- c(
+  wash_soap_reported_yn <- c(
     "yes",
     "yes",
-    soap_no,
+    rep_soap_no,
     "dnk",
     NA
   )
@@ -197,10 +199,10 @@ test_that("answer options in the 'no' vectors get treated as 'no'", {
     survey_modality,
     wash_handwashing_facility,
     wash_handwashing_facility_observed_water,
-    wash_soap_observed,
+    wash_soap_observed_yn,
     wash_handwashing_facility_reported,
-    wash_handwashing_facility_water_reported,
-    wash_soap_reported,
+    wash_handwashing_facility_water_reported_yn,
+    wash_soap_reported_yn,
     wash_soap_observed_type,
     wash_soap_reported_type
   ) |>
@@ -208,19 +210,19 @@ test_that("answer options in the 'no' vectors get treated as 'no'", {
 
   result <- add_handwashing_facility_cat(
     exhaustive_df,
-    facility_observed_soap_no = soap_no,
-    facility_reported_soap_no = soap_no
+    facility_observed_soap_no = obs_soap_no,
+    facility_reported_soap_no = rep_soap_no
   )
 
   exhaustive_df_mutated <- exhaustive_df |>
     dplyr::mutate(
-      wash_soap_observed = dplyr::case_when(
-        wash_soap_observed %in% soap_no ~ default_soap_no,
-        TRUE ~ wash_soap_observed
+      wash_soap_observed_yn = dplyr::case_when(
+        wash_soap_observed_yn %in% obs_soap_no ~ default_obs_soap_no,
+        TRUE ~ wash_soap_observed_yn
       ),
-      wash_soap_reported = dplyr::case_when(
-        wash_soap_reported %in% soap_no ~ default_soap_no,
-        TRUE ~ wash_soap_reported
+      wash_soap_reported_yn = dplyr::case_when(
+        wash_soap_reported_yn %in% rep_soap_no ~ default_rep_soap_no,
+        TRUE ~ wash_soap_reported_yn
       )
     )
   # we check that all else being equal, a change of a 'no' option to a literal 'no' yields the same results
@@ -243,12 +245,12 @@ test_that("outputs are within allowed set", {
 test_that("reported yes + NA water or soap returns 'limited'", {
   df <- dplyr::tibble(
     survey_modality = "remote",
-    wash_handwashing_facility = "available_fixed_or_mobile", # irrelevant on reported path
+    wash_handwashing_facility = "available_mobile", # irrelevant on reported path
     wash_handwashing_facility_observed_water = NA,
-    wash_soap_observed = NA,
+    wash_soap_observed_yn = NA,
     wash_handwashing_facility_reported = "fixed_dwelling", # YES
-    wash_handwashing_facility_water_reported = c(NA, "yes", NA),
-    wash_soap_reported = c("yes", NA, NA),
+    wash_handwashing_facility_water_reported_yn = c(NA, "yes", NA),
+    wash_soap_reported_yn = c("yes", NA, NA),
     wash_soap_observed_type = NA_character_,
     wash_soap_reported_type = NA_character_
   )
@@ -263,10 +265,10 @@ test_that("reported ash/mud/sand soap type demotes 'basic' to 'limited'", {
     survey_modality = "remote",
     wash_handwashing_facility = "available_fixed_in_plot", # ignored on reported
     wash_handwashing_facility_observed_water = NA,
-    wash_soap_observed = NA,
+    wash_soap_observed_yn = NA,
     wash_handwashing_facility_reported = "mobile", # YES
-    wash_handwashing_facility_water_reported = "yes",
-    wash_soap_reported = "yes",
+    wash_handwashing_facility_water_reported_yn = "yes",
+    wash_soap_reported_yn = "yes",
     wash_soap_observed_type = NA_character_,
     wash_soap_reported_type = c("soap", "detergent", "ash_mud_sand")
   )
@@ -280,10 +282,10 @@ test_that("observed ash/mud/sand soap type demotes 'basic' to 'limited'", {
     survey_modality = "in_person",
     wash_handwashing_facility = "available_fixed_in_dwelling",
     wash_handwashing_facility_observed_water = "water_available",
-    wash_soap_observed = "yes_soap_shown",
+    wash_soap_observed_yn = "soap_available",
     wash_handwashing_facility_reported = NA,
-    wash_handwashing_facility_water_reported = NA,
-    wash_soap_reported = NA,
+    wash_handwashing_facility_water_reported_yn = NA,
+    wash_soap_reported_yn = NA,
     wash_soap_observed_type = "ash_mud_sand",
     wash_soap_reported_type = NA_character_
   )
@@ -302,10 +304,10 @@ test_that("reported soap type does not affect observed path", {
     survey_modality = "in_person",
     wash_handwashing_facility = "available_fixed_in_dwelling",
     wash_handwashing_facility_observed_water = "water_available",
-    wash_soap_observed = "yes_soap_shown",
+    wash_soap_observed_yn = "soap_available",
     wash_handwashing_facility_reported = NA,
-    wash_handwashing_facility_water_reported = NA,
-    wash_soap_reported = NA,
+    wash_handwashing_facility_water_reported_yn = NA,
+    wash_soap_reported_yn = NA,
     wash_soap_observed_type = NA_character_,
     wash_soap_reported_type = "ash_mud_sand" # should NOT leak into observed
   )
@@ -318,10 +320,10 @@ test_that("observed soap type does not affect reported path", {
     survey_modality = "remote",
     wash_handwashing_facility = "available_fixed_in_plot",
     wash_handwashing_facility_observed_water = NA,
-    wash_soap_observed = NA,
+    wash_soap_observed_yn = NA,
     wash_handwashing_facility_reported = "mobile",
-    wash_handwashing_facility_water_reported = "yes",
-    wash_soap_reported = "yes",
+    wash_handwashing_facility_water_reported_yn = "yes",
+    wash_soap_reported_yn = "yes",
     wash_soap_observed_type = "ash_mud_sand", # should NOT leak into reported
     wash_soap_reported_type = "soap"
   )
@@ -337,7 +339,7 @@ test_that("when soap present but type is undefined the result is limited", {
       wash_handwashing_facility %in%
         c("available_fixed_in_dwelling", "available_fixed_in_plot"),
       wash_handwashing_facility_observed_water == "water_available",
-      wash_soap_observed == "yes_soap_shown",
+      wash_soap_observed_yn == "soap_available",
       wash_soap_observed_type == "dnk" # only undefined type
     )
 
@@ -370,7 +372,7 @@ test_that("undefined soap type with facility is limited not basic", {
       "no_permission"
     ),
     wash_handwashing_facility_observed_water = c(NA, NA, NA, NA, NA, NA, NA),
-    wash_soap_observed = c(NA, NA, NA, NA, NA, NA, NA),
+    wash_soap_observed_yn = c(NA, NA, NA, NA, NA, NA, NA),
     wash_handwashing_facility_reported = c(
       "fixed_dwelling",
       "fixed_dwelling",
@@ -380,7 +382,7 @@ test_that("undefined soap type with facility is limited not basic", {
       "fixed_dwelling",
       "fixed_dwelling"
     ),
-    wash_handwashing_facility_water_reported = c(
+    wash_handwashing_facility_water_reported_yn = c(
       "yes",
       "yes",
       "yes",
@@ -389,7 +391,7 @@ test_that("undefined soap type with facility is limited not basic", {
       "yes",
       "no"
     ),
-    wash_soap_reported = c("yes", "yes", "yes", "yes", "yes", "yes", "yes"),
+    wash_soap_reported_yn = c("yes", "yes", "yes", "yes", "yes", "yes", "yes"),
     wash_soap_observed_type = c(NA, NA, NA, NA, NA, NA, NA),
     wash_soap_reported_type = c(
       "other",
