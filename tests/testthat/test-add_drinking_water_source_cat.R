@@ -90,6 +90,37 @@ test_that("add_drinking_water_source_cat handles undefined drinking water source
   expect_equal(unique(result$wash_drinking_water_source_cat), "undefined")
 })
 
+test_that("add_drinking_water_source_cat recodes improved sources correctly", {
+  improved_sources <- dplyr::tibble(
+    wash_drinking_water_source = c(
+      "piped_dwelling",
+      "piped_compound",
+      "piped_neighbour",
+      "tap",
+      "borehole",
+      "protected_well",
+      "well_spring",
+      "rainwater_collection",
+      "tank_truck",
+      "cart_tank",
+      "kiosk",
+      "bottled_water",
+      "sachet_water"
+    )
+  )
+  result <- add_drinking_water_source_cat(improved_sources)
+  expect_setequal(
+    result$wash_drinking_water_source_cat,
+    rep("improved", nrow(improved_sources))
+  )
+})
+
+test_that("add_drinking_water_source_cat errors on unknown source value", {
+  df_unknown <- dummy_data |>
+    dplyr::mutate(wash_drinking_water_source = "protected_spring")
+  expect_error(add_drinking_water_source_cat(df_unknown), class = "error")
+})
+
 test_that("add_drinking_water_time_cat errors on invalid integer values", {
   df_invalid <- dummy_data
   df_invalid$wash_drinking_water_time_int[2] <- -5
