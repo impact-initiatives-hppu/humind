@@ -12,7 +12,7 @@ main_data <- dplyr::tibble(
 test_that("Function runs with default parameters", {
   result <- add_loop_edu_ind_age_corrected(loop_data, main_data)
   expect_true("edu_ind_age_corrected" %in% colnames(result))
-  expect_true("edu_ind_schooling_age_d" %in% colnames(result))
+  expect_true("edu_ind_age_schooling" %in% colnames(result))
 })
 
 test_that("Function handles specific month correctly", {
@@ -44,7 +44,7 @@ test_that("Function handles missing columns", {
 
 test_that("Function calculates schooling age dummy variable correctly", {
   result <- add_loop_edu_ind_age_corrected(loop_data, main_data)
-  expect_equal(result$edu_ind_schooling_age_d, c(1, 1, 0, 0))
+  expect_equal(result$edu_ind_age_schooling, c(1, 1, 0, 0))
 })
 
 test_that("Function adds correct columns to main data frame", {

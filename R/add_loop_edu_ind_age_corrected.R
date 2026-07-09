@@ -8,8 +8,8 @@
 #' @param school_year_start_month  The month when the school year has started.
 #' @param ind_age  The individual age column.
 #' @param month  If not NULL, an integer between 1 and 12 which will be used as the month of data collection for all households.
-#' @param schooling_start_age The age at which we assign the value 1 to edu_ind_schooling_age_d. Default is 5.
-#' @return 2 new columns: "edu_ind_age_corrected" with the corrected individual age, and a dummy variable edu_ind_schooling_age_d
+#' @param schooling_start_age The age at which we assign the value 1 to edu_ind_age_schooling. Default is 5.
+#' @return 2 new columns: "edu_ind_age_corrected" with the corrected individual age, and a dummy variable edu_ind_age_schooling
 #'
 #' @export
 add_loop_edu_ind_age_corrected <- function(
@@ -117,7 +117,7 @@ add_loop_edu_ind_age_corrected <- function(
   # Add a dummy variable, 1 if the individual is a school child, 0 otherwise
   loop <- dplyr::mutate(
     loop,
-    edu_ind_schooling_age_d = dplyr::case_when(
+    edu_ind_age_schooling = dplyr::case_when(
       is.na(!!rlang::sym("edu_ind_age_corrected")) ~ 0,
       !!rlang::sym("edu_ind_age_corrected") < schooling_start_age |
         !!rlang::sym("edu_ind_age_corrected") > 17 ~
@@ -141,7 +141,7 @@ add_loop_edu_ind_age_corrected <- function(
 add_loop_edu_ind_schooling_age_d_to_main <- function(
   main,
   loop,
-  ind_schooling_age_d = "edu_ind_schooling_age_d",
+  ind_schooling_age_d = "edu_ind_age_schooling",
   id_col_main = "uuid",
   id_col_loop = "uuid"
 ) {

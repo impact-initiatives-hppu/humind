@@ -25,7 +25,7 @@ add_loop_edu_disrupted_d <- function(
   displaced = "edu_disrupted_displaced",
   teacher = "edu_disrupted_teacher",
   levels = c("yes", "no", "dnk", "pnta"),
-  ind_schooling_age_d = "edu_ind_schooling_age_d"
+  ind_schooling_age_d = "edu_ind_age_schooling"
 ) {
   #----- Checks
 
@@ -94,7 +94,7 @@ add_loop_edu_disrupted_d <- function(
       dplyr::all_of(cols),
       \(x) {
         dplyr::case_when(
-          !!rlang::sym("ind_schooling_age_d") == 0 ~ NA_real_,
+          !!rlang::sym(ind_schooling_age_d) == 0 ~ NA_real_,
           x == levels[1] ~ 1,
           x == levels[2] ~ 0,
           x %in% levels[3:4] ~ NA_real_,

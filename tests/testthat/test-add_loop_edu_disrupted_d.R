@@ -5,7 +5,7 @@ dummy_loop_data <- data.frame(
   edu_disrupted_hazards = c("no", "yes", "yes", "dnk", "pnta", "yes"),
   edu_disrupted_displaced = c("dnk", "pnta", "no", "yes", "no", "yes"),
   edu_disrupted_teacher = c("pnta", "dnk", "yes", "no", "yes", "no"),
-  edu_ind_schooling_age_d = c(1, 1, 1, 1, 0, 1)
+  edu_ind_age_schooling = c(1, 1, 1, 1, 0, 1)
 )
 
 dummy_main_data <- data.frame(
@@ -31,6 +31,16 @@ test_that("add_loop_edu_disrupted_d function works with default parameters", {
   expect_equal(result$edu_disrupted_teacher_d[1], NA_real_)
 })
 
+# 1b. Individuals outside schooling age must be NA'd out regardless of their raw disruption answer
+test_that("add_loop_edu_disrupted_d NAs out individuals not of schooling age", {
+  result <- add_loop_edu_disrupted_d(dummy_loop_data)
+  not_schooling_age <- dummy_loop_data$edu_ind_age_schooling == 0
+  expect_true(all(is.na(result$edu_disrupted_attack_d[not_schooling_age])))
+  expect_true(all(is.na(result$edu_disrupted_hazards_d[not_schooling_age])))
+  expect_true(all(is.na(result$edu_disrupted_displaced_d[not_schooling_age])))
+  expect_true(all(is.na(result$edu_disrupted_teacher_d[not_schooling_age])))
+})
+
 # 2. Test handling missing columns in add_loop_edu_disrupted_d
 missing_column_data <- dummy_loop_data |> select(-edu_disrupted_attack)
 
@@ -40,7 +50,7 @@ test_that("add_loop_edu_disrupted_d function handles missing columns", {
 
 # 3. Test ensuring value checks in add_loop_edu_disrupted_d
 invalid_value_data <- dummy_loop_data
-invalid_value_data$edu_ind_schooling_age_d <- 2
+invalid_value_data$edu_ind_age_schooling <- 2
 
 test_that("add_loop_edu_disrupted_d function ensures value checks", {
   expect_error(add_loop_edu_disrupted_d(invalid_value_data))
@@ -78,7 +88,7 @@ test_that("add_loop_edu_disrupted_d_to_main function handles missing columns", {
 # 6. Test ensuring value checks in add_loop_edu_disrupted_d_to_main
 test_that("add_loop_edu_disrupted_d_to_main function ensures value checks", {
   invalid_value_loop_data <- dummy_loop_data
-  invalid_value_loop_data$edu_ind_schooling_age_d <- 2
+  invalid_value_loop_data$edu_ind_age_schooling <- 2
   expect_error(loop_result <- add_loop_edu_disrupted_d(invalid_value_loop_data))
 
   invalid_value_loop_data <- add_loop_edu_disrupted_d(dummy_loop_data)
@@ -96,7 +106,7 @@ edge_case_loop_data <- data.frame(
   edu_disrupted_hazards = c("no", "no"),
   edu_disrupted_displaced = c("no", "no"),
   edu_disrupted_teacher = c("no", "no"),
-  edu_ind_schooling_age_d = c(1, 1)
+  edu_ind_age_schooling = c(1, 1)
 )
 
 test_that("add_loop_edu_disrupted_d function handles edge cases", {
