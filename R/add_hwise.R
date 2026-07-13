@@ -26,8 +26,6 @@
 #' @param hwise_always Response code for "Always (more than 20 days)" (scored 3).
 #' @param hwise_dnk Response code for "Don't know" (scored NA).
 #' @param hwise_pnta Response code for "Prefer not to answer" (scored NA).
-#' @param na.rm Logical. If `TRUE`, `dnk`/`pnta` responses are treated as 0
-#'   when summing the total score. Default `FALSE`.
 #' @param .keep_recoded Logical, whether to keep the recoded numeric HWISE
 #'   columns (ending in `_score`) in the output data frame. Default is FALSE.
 #'
@@ -70,7 +68,6 @@ add_hwise <- function(
   hwise_always = "always",
   hwise_dnk = "dnk",
   hwise_pnta = "pnta",
-  na.rm = FALSE,
   .keep_recoded = FALSE
 ) {
   # Check variable presence in the data frame
@@ -153,8 +150,7 @@ add_hwise <- function(
         .names = "{.col}_score"
       ),
       hwise4_score = rowSums(
-        dplyr::pick(dplyr::all_of(recoded_cols)),
-        na.rm = na.rm
+        dplyr::pick(dplyr::all_of(recoded_cols))
       ),
       comp_wash_score_water_quantity = dplyr::case_when(
         hwise4_score >= 11 ~ 5,

@@ -101,7 +101,7 @@ test_that("add_hwise comp_wash_score_water_quantity maps score to correct severi
   )
 })
 
-test_that("add_hwise hwise4_score is NA when dnk/pnta present and na.rm = FALSE", {
+test_that("add_hwise hwise4_score is NA when dnk/pnta present", {
   df <- dplyr::tibble(
     wash_hwise_drink = c("never", "never"),
     wash_hwise_hands = c("never", "never"),
@@ -109,24 +109,10 @@ test_that("add_hwise hwise4_score is NA when dnk/pnta present and na.rm = FALSE"
     wash_hwise_worry = c("dnk", "pnta")
   )
 
-  result <- add_hwise(df, na.rm = FALSE)
+  result <- add_hwise(df)
 
   expect_true(all(is.na(result$hwise4_score)))
   expect_true(all(is.na(result$comp_wash_score_water_quantity)))
-})
-
-test_that("add_hwise hwise4_score treats dnk/pnta as 0 when na.rm = TRUE", {
-  df <- dplyr::tibble(
-    wash_hwise_drink = c("rarely"),
-    wash_hwise_hands = c("rarely"),
-    wash_hwise_plans = c("rarely"),
-    wash_hwise_worry = c("dnk")
-  )
-
-  result <- add_hwise(df, na.rm = TRUE)
-
-  expect_equal(result$hwise4_score, 3)
-  expect_equal(result$comp_wash_score_water_quantity, 1)
 })
 
 exhaustive_hwise_df <- generate_hwise_df()
@@ -148,7 +134,7 @@ test_that("property: hwise4_score is NA iff comp_wash_score_water_quantity is NA
   expect_identical(is.na(score), is.na(sev))
 })
 
-test_that("property: hwise4_score is NA iff at least one column is dnk/pnta (na.rm = FALSE)", {
+test_that("property: hwise4_score is NA iff at least one column is dnk/pnta", {
   na_codes <- c("dnk", "pnta")
   has_na_code <- apply(exhaustive_hwise_df, 1, function(row) {
     any(row %in% na_codes)
@@ -178,12 +164,6 @@ test_that("property: often and always are interchangeable", {
     add_hwise(exhaustive_hwise_df)[composite_cols],
     add_hwise(df_always)[composite_cols]
   )
-})
-
-test_that("property: no NAs in score or severity when na.rm = TRUE", {
-  result <- add_hwise(exhaustive_hwise_df, na.rm = TRUE)
-  expect_false(anyNA(result$hwise4_score))
-  expect_false(anyNA(result$comp_wash_score_water_quantity))
 })
 
 test_that("add_hwise recodes all hwise columns to correct numeric scores in _score columns", {

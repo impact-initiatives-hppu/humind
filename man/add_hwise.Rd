@@ -17,7 +17,6 @@ add_hwise(
   hwise_always = "always",
   hwise_dnk = "dnk",
   hwise_pnta = "pnta",
-  na.rm = FALSE,
   .keep_recoded = FALSE
 )
 }
@@ -53,9 +52,6 @@ for all of your needs?"}}
 \item{hwise_dnk}{Response code for "Don't know" (scored NA).}
 
 \item{hwise_pnta}{Response code for "Prefer not to answer" (scored NA).}
-
-\item{na.rm}{Logical. If \code{TRUE}, \code{dnk}/\code{pnta} responses are treated as 0
-when summing the total score. Default \code{FALSE}.}
 
 \item{.keep_recoded}{Logical, whether to keep the recoded numeric HWISE
 columns (ending in \verb{_score}) in the output data frame. Default is FALSE.}
