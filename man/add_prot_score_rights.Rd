@@ -10,12 +10,16 @@ add_prot_score_rights(
   prot_needs_1_services = "prot_needs_1_services",
   yes_healthcare = "yes_healthcare",
   yes_schools = "yes_schools",
+  yes_therapeutic_services = "yes_therapeutic_services",
+  yes_edu_facilities = "yes_edu_facilities",
+  yes_social_services = "yes_social_services",
   yes_gov_services = "yes_gov_services",
   yes_other_services = "yes_other_services",
   prot_needs_1_justice = "prot_needs_1_justice",
   yes_identity_documents = "yes_identity_documents",
   yes_counselling_legal = "yes_counselling_legal",
   yes_property_docs = "yes_property_docs",
+  yes_birth_certificates = "yes_birth_certificates",
   yes_gov_services_justice = "yes_gov_services",
   yes_other_services_justice = "yes_other_services",
   no = "no",
@@ -35,6 +39,12 @@ add_prot_score_rights(
 
 \item{yes_schools}{Answer option name for "Yes, accessing schools". Default: "yes_schools".}
 
+\item{yes_therapeutic_services}{Answer option name for "Yes, therapeutic centres". Default: "yes_therapeutic_services".}
+
+\item{yes_edu_facilities}{Answer option name for "Yes, education facilities". Default: "yes_edu_facilities".}
+
+\item{yes_social_services}{Answer option name for "Yes, social services including referral services, and safe spaces for children". Default: "yes_social_services".}
+
 \item{yes_gov_services}{Answer option name for "Yes, accessing governmental services". Default: "yes_gov_services".}
 
 \item{yes_other_services}{Answer option name for "Yes, accessing other services". Default: "yes_other_services".}
@@ -46,6 +56,8 @@ add_prot_score_rights(
 \item{yes_counselling_legal}{Answer option name for "Yes, individual counselling or legal assistance". Default: "yes_counselling_legal".}
 
 \item{yes_property_docs}{Answer option name for "Yes, accessing house, land and property documentation". Default: "yes_property_docs".}
+
+\item{yes_birth_certificates}{Answer option name for "Yes, accessing birth certificates". Default: "yes_birth_certificates".}
 
 \item{yes_gov_services_justice}{Answer option name for "Yes, accessing governmental services". Default: "yes_gov_services".}
 

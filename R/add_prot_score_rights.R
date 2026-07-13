@@ -9,6 +9,9 @@
 #' @param prot_needs_1_services Base name of services question. Default: "prot_needs_1_services".
 #' @param yes_healthcare Answer option name for "Yes, accessing healthcare". Default: "yes_healthcare".
 #' @param yes_schools Answer option name for "Yes, accessing schools". Default: "yes_schools".
+#' @param yes_therapeutic_services Answer option name for "Yes, therapeutic centres". Default: "yes_therapeutic_services".
+#' @param yes_edu_facilities Answer option name for "Yes, education facilities". Default: "yes_edu_facilities".
+#' @param yes_social_services Answer option name for "Yes, social services including referral services, and safe spaces for children". Default: "yes_social_services".
 #' @param yes_gov_services Answer option name for "Yes, accessing governmental services". Default: "yes_gov_services".
 #' @param yes_other_services Answer option name for "Yes, accessing other services". Default: "yes_other_services".
 #'
@@ -16,6 +19,7 @@
 #' @param yes_identity_documents Answer option name for "Yes, accessing identity and civil documents services". Default: "yes_identity_documents".
 #' @param yes_counselling_legal Answer option name for "Yes, individual counselling or legal assistance". Default: "yes_counselling_legal".
 #' @param yes_property_docs Answer option name for "Yes, accessing house, land and property documentation". Default: "yes_property_docs".
+#' @param yes_birth_certificates Answer option name for "Yes, accessing birth certificates". Default: "yes_birth_certificates".
 #' @param yes_gov_services_justice Answer option name for "Yes, accessing governmental services". Default: "yes_gov_services".
 #' @param yes_other_services_justice Answer option name for "Yes, accessing other services". Default: "yes_other_services".
 #'
@@ -36,12 +40,16 @@ add_prot_score_rights <- function(
   prot_needs_1_services = "prot_needs_1_services",
   yes_healthcare = "yes_healthcare",
   yes_schools = "yes_schools",
+  yes_therapeutic_services = "yes_therapeutic_services",
+  yes_edu_facilities = "yes_edu_facilities",
+  yes_social_services = "yes_social_services",
   yes_gov_services = "yes_gov_services",
   yes_other_services = "yes_other_services",
   prot_needs_1_justice = "prot_needs_1_justice",
   yes_identity_documents = "yes_identity_documents",
   yes_counselling_legal = "yes_counselling_legal",
   yes_property_docs = "yes_property_docs",
+  yes_birth_certificates = "yes_birth_certificates",
   yes_gov_services_justice = "yes_gov_services",
   yes_other_services_justice = "yes_other_services",
   no = "no",
@@ -53,8 +61,11 @@ add_prot_score_rights <- function(
   params <- as.list(environment())
 
   weights_srv <- c(
-    yes_healthcare = 1,
-    yes_schools = 1,
+    yes_healthcare = 2,
+    yes_schools = 2,
+    yes_therapeutic_services = 1,
+    yes_edu_facilities = 2,
+    yes_social_services = 1,
     yes_gov_services = 1,
     yes_other_services = 1,
     no = 0,
@@ -72,6 +83,7 @@ add_prot_score_rights <- function(
     yes_identity_documents = 2,
     yes_counselling_legal = 1,
     yes_property_docs = 1,
+    yes_birth_certificates = 1,
     yes_gov_services_justice = 1,
     yes_other_services_justice = 1,
     no = 0,
