@@ -46,6 +46,8 @@
   : Add Handwashing Facility Category
 - [`add_hoh_final()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hoh_final.md)
   : Update Head of Household Information
+- [`add_hwise()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hwise.md)
+  : Add Household Water Insecurity Experiences (HWISE) Score
 - [`add_income_source_prop()`](https://impact-initiatives-hppu.github.io/humind/reference/add_income_source_prop.md)
   : Add Income Source Amounts as Proportions of Total Income
 - [`add_income_source_rank()`](https://impact-initiatives-hppu.github.io/humind/reference/add_income_source_rank.md)

@@ -12,11 +12,13 @@ settings.
 
 Prerequisite functions:
 
-- add_sanitation_facility_cat.R
+- [`add_hwise()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hwise.md)
 
-- add_handwashing_facility_cat.R
+- [`add_sanitation_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
 
-- add_drinking_water_source_cat.R
+- [`add_handwashing_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_handwashing_facility_cat.md)
+
+- [`add_drinking_water_source_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
 
 ## Usage
 
@@ -27,14 +29,7 @@ add_comp_wash(
   setting_camp = "camp",
   setting_urban = "urban",
   setting_rural = "rural",
-  drinking_water_quantity = "wash_hwise_drink",
-  drinking_water_quantity_always = "always",
-  drinking_water_quantity_often = "often",
-  drinking_water_quantity_sometimes = "sometimes",
-  drinking_water_quantity_rarely = "rarely",
-  drinking_water_quantity_never = "never",
-  drinking_water_quantity_dnk = "dnk",
-  drinking_water_quantity_pnta = "pnta",
+  comp_wash_hwise_score = "comp_wash_score_water_quantity",
   drinking_water_quality_jmp_cat = "wash_drinking_water_quality_jmp_cat",
   drinking_water_quality_jmp_cat_surface_water = "surface_water",
   drinking_water_quality_jmp_cat_unimproved = "unimproved",
@@ -92,37 +87,11 @@ add_comp_wash(
 
   Setting value for rural.
 
-- drinking_water_quantity:
+- comp_wash_hwise_score:
 
-  Column name for drinking water quantity.
-
-- drinking_water_quantity_always:
-
-  Value for "always" in drinking water quantity.
-
-- drinking_water_quantity_often:
-
-  Value for "often" in drinking water quantity.
-
-- drinking_water_quantity_sometimes:
-
-  Value for "sometimes" in drinking water quantity.
-
-- drinking_water_quantity_rarely:
-
-  Value for "rarely" in drinking water quantity.
-
-- drinking_water_quantity_never:
-
-  Value for "never" in drinking water quantity.
-
-- drinking_water_quantity_dnk:
-
-  Value for "don't know" in drinking water quantity.
-
-- drinking_water_quantity_pnta:
-
-  Value for "prefer not to answer" in drinking water quantity.
+  Column name for the pre-computed HWISE water quantity severity score
+  (1–5), as produced by
+  [`add_hwise()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hwise.md).
 
 - drinking_water_quality_jmp_cat:
 
