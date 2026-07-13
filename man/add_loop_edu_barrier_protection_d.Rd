@@ -10,7 +10,7 @@ add_loop_edu_barrier_protection_d(
   barriers = "edu_barrier",
   protection_issues = c("protection_at_school", "protection_travel_school",
     "child_work_home", "child_work_outside", "child_armed_group", "child_marriage",
-    "ban", "enroll_lack_documentation", "discrimination"),
+    "child_pregnancy", "ban", "enroll_lack_documentation", "discrimination"),
   ind_schooling_age_d = "edu_ind_schooling_age_d"
 )
 
