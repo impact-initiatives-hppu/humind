@@ -20,8 +20,8 @@ add_loop_wgq_ss(
   communication = "wgq_communication",
   no_difficulty = "no_difficulty",
   some_difficulty = "some_difficulty",
-  lot_of_difficulty = "lot_of_difficulty",
-  cannot_do = "cannot_do",
+  lot_of_difficulty = "a_lot_of_difficulty",
+  cannot_do = "cannot_do_at_all",
   undefined = c("dnk", "pnta")
 )
 
