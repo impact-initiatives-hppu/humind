@@ -29,7 +29,7 @@ add_drinking_water_source_cat <- function(
     "tap",
     "borehole",
     "protected_well",
-    "protected_spring",
+    "well_spring",
     "rainwater_collection",
     "tank_truck",
     "cart_tank",
