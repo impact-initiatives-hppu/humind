@@ -252,10 +252,18 @@ License](https://impact-initiatives-hppu.github.io/humind/LICENSE.md).
   : Add Zero for Skipped Frequent Expenditure Types
 - [`add_expenditure_type_zero_infreq()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_zero_infreq.md)
   : Add Zero for Skipped Infrequent Expenditure Types
+- [`add_fclcm_phase()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fclcm_phase.md)
+  : Calculating the Food Consumption-Livelihood Coping Matrix
+- [`add_fcm_phase()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fcm_phase.md)
+  : Add the food consumption matrix to the dataset
+- [`add_fcs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fcs.md)
+  : add_fcs
 - [`add_fds_cannot_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fds_cannot_cat.md)
   : Add Functional Domestic Space Tasks Categories
 - [`add_handwashing_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_handwashing_facility_cat.md)
   : Add Handwashing Facility Category
+- [`add_hhs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hhs.md)
+  : Add the household hunger scale to the dataset
 - [`add_hoh_final()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hoh_final.md)
   : Update Head of Household Information
 - [`add_hwise()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hwise.md)
@@ -266,6 +274,8 @@ License](https://impact-initiatives-hppu.github.io/humind/LICENSE.md).
   : Add Income Source Categories, Count, and Ranking Top 3
 - [`add_income_source_zero_to_sl()`](https://impact-initiatives-hppu.github.io/humind/reference/add_income_source_zero_to_sl.md)
   : Add Zero to Income Sources When Skipped
+- [`add_lcsi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_lcsi.md)
+  : Add LCSI
 - [`add_loop_age_dummy()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_age_dummy.md)
   [`add_loop_age_dummy_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_age_dummy.md)
   [`add_loop_age_gender_dummy()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_age_dummy.md)
@@ -302,6 +312,8 @@ License](https://impact-initiatives-hppu.github.io/humind/LICENSE.md).
   : Add composite score for Ability to Access Rights and Services
 - [`add_quantile_interval()`](https://impact-initiatives-hppu.github.io/humind/reference/add_quantile_interval.md)
   : Add Quantile Intervals to Income Variable
+- [`add_rcsi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_rcsi.md)
+  : Add indicator for reduced Household CSI Score(rcsi)
 - [`add_received_assistance()`](https://impact-initiatives-hppu.github.io/humind/reference/add_received_assistance.md)
   : Add Received Assistance (Combined Calculation)
 - [`add_sanitation_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)

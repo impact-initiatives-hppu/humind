@@ -1,24 +1,33 @@
 # Calculate Food Security Sectoral Composite Score and Need Indicators
 
 This function calculates a food security sectoral composite score based
-on the food security phase. It assigns a score from 1 to 5 corresponding
-to the food security phase, and determines if a household is in need or
-in severe need of food security assistance. Apply prerequisite food
-security functions re-exported from
-https://github.com/impact-initiatives/impactR4PHU FCS - add_fcs.R HHS -
-add_hhs.R rCSI - add_rcsi.R
+on the FCLCM phase. It assigns a score from 1 to 5 corresponding to the
+FCLCM phase, and determines if a household is in need or in severe need
+of food security assistance.
+
+Prerequisite food security functions must be run before this function:
+
+- add_fcs()
+
+- add_hhs()
+
+- add_rcsi()
+
+- add_lcsi()
+
+- add_fclcm_phase()
 
 ## Usage
 
 ``` r
 add_comp_foodsec(
   df,
-  fc_phase = "fsl_fc_phase",
-  phase1 = "Phase 1 FC",
-  phase2 = "Phase 2 FC",
-  phase3 = "Phase 3 FC",
-  phase4 = "Phase 4 FC",
-  phase5 = "Phase 5 FC"
+  fclcm_phase = "fclcm_phase",
+  phase1 = "Phase 1 FCLC",
+  phase2 = "Phase 2 FCLC",
+  phase3 = "Phase 3 FCLC",
+  phase4 = "Phase 4 FCLC",
+  phase5 = "Phase 5 FCLC"
 )
 ```
 
@@ -28,29 +37,29 @@ add_comp_foodsec(
 
   A data frame.
 
-- fc_phase:
+- fclcm_phase:
 
-  Column name for the food security phase.
+  Column name for the FCLCM phase.
 
 - phase1:
 
-  Label for Phase 1 FC.
+  Label for Phase 1 FCLC.
 
 - phase2:
 
-  Label for Phase 2 FC.
+  Label for Phase 2 FCLC.
 
 - phase3:
 
-  Label for Phase 3 FC.
+  Label for Phase 3 FCLC.
 
 - phase4:
 
-  Label for Phase 4 FC.
+  Label for Phase 4 FCLC.
 
 - phase5:
 
-  Label for Phase 5 FC.
+  Label for Phase 5 FCLC.
 
 ## Value
 

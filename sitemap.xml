@@ -21,13 +21,18 @@
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_prop_infreq.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_zero_freq.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_zero_infreq.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_fclcm_phase.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_fcm_phase.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_fcs.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_fds_cannot_cat.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_handwashing_facility_cat.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_hhs.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_hoh_final.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_hwise.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_income_source_prop.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_income_source_rank.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_income_source_zero_to_sl.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_lcsi.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_age_dummy.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_access_d.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_barrier_protection_d.html</loc></url>
@@ -41,6 +46,7 @@
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_prot_score_practices.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_prot_score_rights.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_quantile_interval.html</loc></url>
+<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_rcsi.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_received_assistance.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/add_shelter_damage_cat.html</loc></url>
@@ -57,7 +63,6 @@
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/is_in_need.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/num_cat.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/rank_top3_vars.html</loc></url>
-<url><loc>https://impact-initiatives-hppu.github.io/humind/reference/reexports.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/subvec_in.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/subvec_not_in.html</loc></url>
 <url><loc>https://impact-initiatives-hppu.github.io/humind/reference/sum_vars.html</loc></url>
