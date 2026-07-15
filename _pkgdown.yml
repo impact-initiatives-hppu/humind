@@ -1,3 +1,127 @@
 url: https://impact-initiatives-hppu.github.io/humind/
 template:
   bootstrap: 5
+
+reference:
+- title: Education
+  desc: Education access, disruption, and protection-barrier indicators, and the education composite score.
+  contents:
+  - add_loop_edu_ind_age_corrected
+  - add_loop_edu_ind_schooling_age_d_to_main
+  - add_loop_edu_access_d
+  - add_loop_edu_access_d_to_main
+  - add_loop_edu_barrier_protection_d
+  - add_loop_edu_barrier_protection_d_to_main
+  - add_loop_edu_disrupted_d
+  - add_loop_edu_disrupted_d_to_main
+  - add_comp_edu
+
+- title: Food Security
+  desc: Food consumption, coping strategies, and hunger scale indicators, and the food security composite score.
+  contents:
+  - add_fcs
+  - add_hhs
+  - add_rcsi
+  - add_lcsi
+  - add_fcm_phase
+  - add_fclcm_phase
+  - add_comp_foodsec
+
+- title: Health
+  desc: Healthcare access and needs indicators, and the health composite score.
+  contents:
+  - add_loop_healthcare_needed_cat
+  - add_loop_healthcare_needed_cat_to_main
+  - add_comp_health
+
+- title: Shelter, Settlement & NFI (SNFI)
+  desc: Shelter type, damage, and occupancy indicators, and the SNFI composite score.
+  contents:
+  - add_shelter_type_cat
+  - add_shelter_issue_cat
+  - add_shelter_damage_cat
+  - add_occupancy_cat
+  - add_fds_cannot_cat
+  - add_comp_snfi
+
+- title: WASH
+  desc: Drinking water, sanitation, and hygiene indicators, and the WASH composite score.
+  contents:
+  - add_drinking_water_source_cat
+  - add_drinking_water_time_cat
+  - add_drinking_water_time_threshold_cat
+  - add_drinking_water_quality_jmp_cat
+  - add_sanitation_facility_cat
+  - add_sharing_sanitation_facility_cat
+  - add_sharing_sanitation_facility_n_ind
+  - add_sanitation_facility_jmp_cat
+  - add_handwashing_facility_cat
+  - add_hwise
+  - add_comp_wash
+
+- title: Protection
+  desc: Protection risk and Washington Group indicators, and the protection composite score.
+  contents:
+  - add_prot_score_movement
+  - add_prot_score_practices
+  - add_prot_score_rights
+  - add_loop_wgq_ss
+  - add_loop_wgq_ss_to_main
+  - add_comp_prot
+
+- title: Multi-Sectoral Needs Index (MSNI)
+  desc: Combines sectoral composite scores into the overall MSNI.
+  contents:
+  - add_msni
+
+- title: Economic Vulnerability
+  desc: Income source and expenditure indicators.
+  contents:
+  - add_income_source_zero_to_sl
+  - add_income_source_prop
+  - add_income_source_rank
+  - add_expenditure_type_zero_freq
+  - add_expenditure_type_zero_infreq
+  - add_expenditure_type_prop_freq
+  - add_expenditure_type_prop_infreq
+  - add_expenditure_type_freq_rank
+  - add_expenditure_type_infreq_rank
+
+- title: Demographics & Household Characteristics
+  desc: Household composition, head of household, phone access, and assistance indicators.
+  contents:
+  - add_age_cat
+  - add_age_18_cat
+  - add_loop_age_dummy
+  - add_loop_age_dummy_to_main
+  - add_loop_age_gender_dummy
+  - add_loop_age_gender_dummy_to_main
+  - add_hoh_final
+  - add_access_to_phone_best
+  - add_access_to_phone_coverage
+  - add_received_assistance
+
+- title: Utilities & Helpers
+  desc: Generic building blocks used across sectors.
+  contents:
+  - add_quantile_interval
+  - count_if_above_zero
+  - impute_median
+  - impute_value
+  - is_in_need
+  - is_in_severe_need
+  - num_cat
+  - rank_top3_vars
+  - sum_vars
+  - value_to_sl
+
+- title: Internal
+  desc: Unexported helpers, documented for contributors.
+  contents:
+  - add_barriers_assistance_any
+  - are_cols_numeric
+  - are_values_in_range
+  - are_values_in_set
+  - if_not_in_stop
+  - subvec_in
+  - subvec_not_in

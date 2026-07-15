@@ -24,6 +24,7 @@ CSI
 ctb
 DASILVA
 deps
+desc
 dev
 devtools
 dnk
@@ -105,6 +106,7 @@ nfi
 NFI
 NONINFRINGEMENT
 NSE
+num
 oldrel
 param
 PHU
@@ -141,9 +143,11 @@ severities
 sl
 snfi
 SNFI
+ss
 stringr
 sublicense
 Subvec
+subvec
 sunhee
 Sunhee
 testthat
