@@ -21,14 +21,14 @@ add_drinking_water_source_cat(
 add_drinking_water_time_cat(
   df,
   drinking_water_time_yn = "wash_drinking_water_time_yn",
-  water_on_premises = "water_on_premises",
+  water_on_premises = c("water_in_dwelling", "water_in_plot"),
   number_minutes = "number_minutes",
   dnk = "dnk",
   undefined = "pnta",
   drinking_water_time_int = "wash_drinking_water_time_int",
   max = 600,
   drinking_water_time_sl = "wash_drinking_water_time_sl",
-  sl_under_30_min = "under_30_min",
+  sl_under_30_min = c("5min_or_less", "5min_15min", "15min_30min"),
   sl_30min_1hr = "30min_1hr",
   sl_more_than_1hr = "more_than_1hr",
   sl_undefined = c("dnk", "pnta"),
@@ -122,7 +122,8 @@ add_drinking_water_quality_jmp_cat(
 
 - sl_under_30_min:
 
-  Response code for under 30 minutes.
+  Response code for under 30 minutes. Must be one of c("5min_or_less",
+  "5min_15min", "15min_30min").
 
 - sl_30min_1hr:
 

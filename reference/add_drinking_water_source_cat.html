@@ -53,14 +53,14 @@
 <span><span class="fu">add_drinking_water_time_cat</span><span class="op">(</span></span>
 <span>  <span class="va">df</span>,</span>
 <span>  drinking_water_time_yn <span class="op">=</span> <span class="st">"wash_drinking_water_time_yn"</span>,</span>
-<span>  water_on_premises <span class="op">=</span> <span class="st">"water_on_premises"</span>,</span>
+<span>  water_on_premises <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"water_in_dwelling"</span>, <span class="st">"water_in_plot"</span><span class="op">)</span>,</span>
 <span>  number_minutes <span class="op">=</span> <span class="st">"number_minutes"</span>,</span>
 <span>  dnk <span class="op">=</span> <span class="st">"dnk"</span>,</span>
 <span>  undefined <span class="op">=</span> <span class="st">"pnta"</span>,</span>
 <span>  drinking_water_time_int <span class="op">=</span> <span class="st">"wash_drinking_water_time_int"</span>,</span>
 <span>  max <span class="op">=</span> <span class="fl">600</span>,</span>
 <span>  drinking_water_time_sl <span class="op">=</span> <span class="st">"wash_drinking_water_time_sl"</span>,</span>
-<span>  sl_under_30_min <span class="op">=</span> <span class="st">"under_30_min"</span>,</span>
+<span>  sl_under_30_min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"5min_or_less"</span>, <span class="st">"5min_15min"</span>, <span class="st">"15min_30min"</span><span class="op">)</span>,</span>
 <span>  sl_30min_1hr <span class="op">=</span> <span class="st">"30min_1hr"</span>,</span>
 <span>  sl_more_than_1hr <span class="op">=</span> <span class="st">"more_than_1hr"</span>,</span>
 <span>  sl_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dnk"</span>, <span class="st">"pnta"</span><span class="op">)</span>,</span>
@@ -154,7 +154,8 @@
 
 
 <dt id="arg-sl-under-min">sl_under_30_min<a class="anchor" aria-label="anchor" href="#arg-sl-under-min"></a></dt>
-<dd><p>Response code for under 30 minutes.</p></dd>
+<dd><p>Response code for under 30 minutes. Must be one of
+c("5min_or_less", "5min_15min", "15min_30min").</p></dd>
 
 
 <dt id="arg-sl-min-hr">sl_30min_1hr<a class="anchor" aria-label="anchor" href="#arg-sl-min-hr"></a></dt>
