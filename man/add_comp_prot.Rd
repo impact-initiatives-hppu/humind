@@ -2,36 +2,32 @@
 % Please edit documentation in R/add_comp_prot.R
 \name{add_comp_prot}
 \alias{add_comp_prot}
-\title{Add overall Protection composite score and need flags}
+\title{Add Protection Sectoral Composite Score and Need Indicators}
 \usage{
 add_comp_prot(df)
 }
 \arguments{
-\item{df}{A \code{data.frame} or \code{tibble} containing numeric columns:
-\itemize{
-\item \code{comp_prot_score_movement} – severity for movement dimension
-\item \code{comp_prot_score_practices} – severity for practices dimension
-\item \code{comp_prot_score_rights} – severity for rights & services dimension
-}
-
-If any of these three columns are missing, the function will abort, reminding you to run the corresponding prep functions first.}
+\item{df}{A data frame containing the movement, practices, and rights & services dimension scores.}
 }
 \value{
-The input \code{df}, with three new columns:
+A data frame with additional columns:
 \itemize{
-\item \code{comp_prot_score} – overall protection severity (maximum of the three dimensions)
-\item \code{comp_prot_in_need} – binary (0/1): 1 if \code{comp_prot_score >= 3}, else 0
-\item \code{comp_prot_in_severe_need} – binary (0/1): 1 if \code{comp_prot_score >= 4}, else 0
+\item comp_prot_score: Protection composite score (maximum of the three dimension scores)
+\item comp_prot_in_need: Binary indicator for being in need of protection assistance
+\item comp_prot_in_severe_need: Binary indicator for being in severe need of protection assistance
 }
 }
 \description{
-Assumes that per‑dimension severity scores have already been computed and added to \code{df} by earlier functions: \code{\link[=add_prot_score_movement]{add_prot_score_movement()}}, \code{\link[=add_prot_score_practices]{add_prot_score_practices()}}, and \code{\link[=add_prot_score_rights]{add_prot_score_rights()}}.
-This function performs only \strong{Step 4} of the 2025 Protection Composite workflow: it takes the maximum of those three existing columns to create \code{comp_prot_score}, then generates binary “in need” indicators.
-}
-\details{
+This function calculates a protection sectoral composite score based on the
+movement, practices, and rights & services dimension scores. It takes the
+maximum of the three dimension scores as the overall protection severity,
+and determines if a household is in need or in severe need of protection
+assistance based on the calculated score.
+
+Prerequisite functions:
 \itemize{
-\item \strong{Column checks} via \code{\link[purrr:iwalk]{purrr::iwalk()}} ensure the three dimension scores exist.
-\item \strong{Computation} uses \code{\link[=pmax]{pmax()}} (with \code{na.rm = FALSE})
-\item \strong{Thresholds} (3 for “in need”, 4 for “severe need”) are currently hard‑coded.
+\item \code{\link[=add_prot_score_movement]{add_prot_score_movement()}}
+\item \code{\link[=add_prot_score_practices]{add_prot_score_practices()}}
+\item \code{\link[=add_prot_score_rights]{add_prot_score_rights()}}
 }
 }
