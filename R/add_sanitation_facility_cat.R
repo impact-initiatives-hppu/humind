@@ -30,11 +30,11 @@ add_sanitation_facility_cat <- function(
   ),
   unimproved = c(
     "flush_open_drain",
-    "flush_elsewhere",
     "pit_latrine_wo_slab",
     "bucket",
     "hanging_toilet",
-    "plastic_bag"
+    "twin_pit_latrine_wo_slab",
+    "other_container"
   ),
   none = "none",
   undefined = c("other", "dnk", "pnta")

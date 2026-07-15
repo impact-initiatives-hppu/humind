@@ -29,7 +29,7 @@ add_drinking_water_source_cat <- function(
     "tap",
     "borehole",
     "protected_well",
-    "protected_spring",
+    "well_spring",
     "rainwater_collection",
     "tank_truck",
     "cart_tank",
@@ -96,7 +96,8 @@ add_drinking_water_source_cat <- function(
 #' @param drinking_water_time_int Component column: Time to fetch water, integer.
 #' @param max Integer, the maximum value for the time to fetch water.
 #' @param drinking_water_time_sl Component column: Time to fetch water, simple choice.
-#' @param sl_under_30_min Response code for under 30 minutes.
+#' @param sl_under_30_min Response code for under 30 minutes. Must be one of
+#' c("5min_or_less", "5min_15min", "15min_30min").
 #' @param sl_30min_1hr Response code for 30 minutes to 1 hour.
 #' @param sl_more_than_1hr Response code for more than 1 hour.
 #' @param sl_undefined Character vector of responses codes for undefined information, e.g. "Don't know" or "Prefer not to answer".
@@ -108,14 +109,14 @@ add_drinking_water_source_cat <- function(
 add_drinking_water_time_cat <- function(
   df,
   drinking_water_time_yn = "wash_drinking_water_time_yn",
-  water_on_premises = "water_on_premises",
+  water_on_premises = c("water_in_dwelling", "water_in_plot"),
   number_minutes = "number_minutes",
   dnk = "dnk",
   undefined = "pnta",
   drinking_water_time_int = "wash_drinking_water_time_int",
   max = 600,
   drinking_water_time_sl = "wash_drinking_water_time_sl",
-  sl_under_30_min = "under_30_min",
+  sl_under_30_min = c("5min_or_less", "5min_15min", "15min_30min"),
   sl_30min_1hr = "30min_1hr",
   sl_more_than_1hr = "more_than_1hr",
   sl_undefined = c("dnk", "pnta"),
@@ -146,6 +147,11 @@ add_drinking_water_time_cat <- function(
     drinking_water_time_yn,
     c(water_on_premises, number_minutes, dnk, undefined)
   )
+
+  sl_under_30_min <- match.arg(
+    sl_under_30_min
+  )
+
   are_values_in_set(
     df,
     drinking_water_time_sl,

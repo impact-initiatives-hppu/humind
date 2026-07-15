@@ -45,7 +45,7 @@ dummy_data <- dplyr::tibble(
     "other"
   ),
   wash_drinking_water_time_yn = c(
-    "water_on_premises",
+    "water_in_plot",
     "number_minutes",
     "dnk",
     "pnta"
@@ -53,7 +53,7 @@ dummy_data <- dplyr::tibble(
   wash_drinking_water_time_int = c(NA, 45, 70, 20),
   wash_drinking_water_time_sl = c(
     NA,
-    "under_30_min",
+    "5min_or_less",
     "30min_1hr",
     "more_than_1hr"
   )
@@ -75,6 +75,22 @@ test_that("add_drinking_water_time_cat returns expected column", {
   expect_true("wash_drinking_water_time_cat" %in% colnames(result))
 })
 
+
+test_that("add_drinking_water_time_cat errors on wrong sl_under_30_min values", {
+  expect_error(
+    add_drinking_water_time_cat(dummy_data, sl_under_30_min = "foo"),
+    regexp = '.*should be one of "5min_or_less", "5min_15min", "15min_30min".*'
+  )
+
+  expect_error(
+    add_drinking_water_time_cat(
+      dummy_data,
+      sl_under_30_min = c("5min_15min", "15min_30min")
+    ),
+    regexp = ".* must be of length 1"
+  )
+})
+
 test_that("add_drinking_water_quality_jmp_cat returns expected column", {
   df <- dummy_data |>
     add_drinking_water_source_cat() |>
@@ -88,6 +104,37 @@ test_that("add_drinking_water_source_cat handles undefined drinking water source
   df_undefined <- dummy_data |> mutate(wash_drinking_water_source = "other")
   result <- add_drinking_water_source_cat(df_undefined)
   expect_equal(unique(result$wash_drinking_water_source_cat), "undefined")
+})
+
+test_that("add_drinking_water_source_cat recodes improved sources correctly", {
+  improved_sources <- dplyr::tibble(
+    wash_drinking_water_source = c(
+      "piped_dwelling",
+      "piped_compound",
+      "piped_neighbour",
+      "tap",
+      "borehole",
+      "protected_well",
+      "well_spring",
+      "rainwater_collection",
+      "tank_truck",
+      "cart_tank",
+      "kiosk",
+      "bottled_water",
+      "sachet_water"
+    )
+  )
+  result <- add_drinking_water_source_cat(improved_sources)
+  expect_setequal(
+    result$wash_drinking_water_source_cat,
+    rep("improved", nrow(improved_sources))
+  )
+})
+
+test_that("add_drinking_water_source_cat errors on unknown source value", {
+  df_unknown <- dummy_data |>
+    dplyr::mutate(wash_drinking_water_source = "protected_spring")
+  expect_error(add_drinking_water_source_cat(df_unknown), class = "error")
 })
 
 test_that("add_drinking_water_time_cat errors on invalid integer values", {

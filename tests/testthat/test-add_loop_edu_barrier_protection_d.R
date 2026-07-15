@@ -89,3 +89,16 @@ test_that("add_loop_edu_barrier_protection_d function handles edge cases", {
   expect_equal(result$edu_ind_barrier_protection_d[1], 0)
   expect_equal(result$edu_ind_barrier_protection_d[2], 0)
 })
+
+# 8. Test that child_pregnancy is recognized as a protection barrier
+child_pregnancy_data <- data.frame(
+  uuid = c(1, 2),
+  edu_barrier = c("child_pregnancy", "other"),
+  edu_ind_age_schooling = c(1, 1)
+)
+
+test_that("add_loop_edu_barrier_protection_d function flags child_pregnancy as a barrier", {
+  result <- add_loop_edu_barrier_protection_d(child_pregnancy_data)
+  expect_equal(result$edu_ind_barrier_protection_d[1], 1)
+  expect_equal(result$edu_ind_barrier_protection_d[2], 0)
+})
