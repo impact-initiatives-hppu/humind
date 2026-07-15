@@ -19,7 +19,7 @@ add_loop_edu_disrupted_d(
   displaced = "edu_disrupted_displaced",
   teacher = "edu_disrupted_teacher",
   levels = c("yes", "no", "dnk", "pnta"),
-  ind_schooling_age_d = "edu_ind_schooling_age_d"
+  ind_schooling_age_d = "edu_ind_age_schooling"
 )
 
 add_loop_edu_disrupted_d_to_main(
