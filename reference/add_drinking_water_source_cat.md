@@ -10,7 +10,7 @@ add_drinking_water_source_cat(
   df,
   drinking_water_source = "wash_drinking_water_source",
   drinking_water_source_cat_improved = c("piped_dwelling", "piped_compound",
-    "piped_neighbour", "tap", "borehole", "protected_well", "protected_spring",
+    "piped_neighbour", "tap", "borehole", "protected_well", "well_spring",
     "rainwater_collection", "tank_truck", "cart_tank", "kiosk", "bottled_water",
     "sachet_water"),
   drinking_water_source_cat_unimproved = c("unprotected_well", "unprotected_spring"),

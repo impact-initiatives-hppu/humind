@@ -48,26 +48,26 @@ It evaluates various parameters related to the availability of handwashing facil
 <span>  survey_modality_remote <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"remote"</span><span class="op">)</span>,</span>
 <span>  facility <span class="op">=</span> <span class="st">"wash_handwashing_facility"</span>,</span>
 <span>  facility_yes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"available_fixed_in_dwelling"</span>, <span class="st">"available_fixed_in_plot"</span>,</span>
-<span>    <span class="st">"available_fixed_or_mobile"</span><span class="op">)</span>,</span>
+<span>    <span class="st">"available_mobile"</span><span class="op">)</span>,</span>
 <span>  facility_no <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  facility_no_permission <span class="op">=</span> <span class="st">"no_permission"</span>,</span>
-<span>  facility_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other"</span>, <span class="st">"pnta"</span><span class="op">)</span>,</span>
+<span>  facility_undefined <span class="op">=</span> <span class="st">"other"</span>,</span>
 <span>  facility_observed_water <span class="op">=</span> <span class="st">"wash_handwashing_facility_observed_water"</span>,</span>
 <span>  facility_observed_water_yes <span class="op">=</span> <span class="st">"water_available"</span>,</span>
 <span>  facility_observed_water_no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"water_not_available"</span><span class="op">)</span>,</span>
-<span>  facility_observed_soap <span class="op">=</span> <span class="st">"wash_soap_observed"</span>,</span>
-<span>  facility_observed_soap_yes <span class="op">=</span> <span class="st">"yes_soap_shown"</span>,</span>
-<span>  facility_observed_soap_no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span><span class="op">)</span>,</span>
+<span>  facility_observed_soap <span class="op">=</span> <span class="st">"wash_soap_observed_yn"</span>,</span>
+<span>  facility_observed_soap_yes <span class="op">=</span> <span class="st">"soap_available"</span>,</span>
+<span>  facility_observed_soap_no <span class="op">=</span> <span class="st">"soap_not_available"</span>,</span>
 <span>  facility_observed_soap_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other"</span>, <span class="st">"pnta"</span><span class="op">)</span>,</span>
 <span>  facility_reported <span class="op">=</span> <span class="st">"wash_handwashing_facility_reported"</span>,</span>
 <span>  facility_reported_yes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fixed_dwelling"</span>, <span class="st">"fixed_yard"</span>, <span class="st">"mobile"</span><span class="op">)</span>,</span>
 <span>  facility_reported_no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span><span class="op">)</span>,</span>
 <span>  facility_reported_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other"</span>, <span class="st">"dnk"</span>, <span class="st">"pnta"</span><span class="op">)</span>,</span>
-<span>  facility_reported_water <span class="op">=</span> <span class="st">"wash_handwashing_facility_water_reported"</span>,</span>
+<span>  facility_reported_water <span class="op">=</span> <span class="st">"wash_handwashing_facility_water_reported_yn"</span>,</span>
 <span>  facility_reported_water_yes <span class="op">=</span> <span class="st">"yes"</span>,</span>
 <span>  facility_reported_water_no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span><span class="op">)</span>,</span>
 <span>  facility_reported_water_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dnk"</span>, <span class="st">"pnta"</span><span class="op">)</span>,</span>
-<span>  facility_reported_soap <span class="op">=</span> <span class="st">"wash_soap_reported"</span>,</span>
+<span>  facility_reported_soap <span class="op">=</span> <span class="st">"wash_soap_reported_yn"</span>,</span>
 <span>  facility_reported_soap_yes <span class="op">=</span> <span class="st">"yes"</span>,</span>
 <span>  facility_reported_soap_no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span><span class="op">)</span>,</span>
 <span>  facility_reported_soap_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dnk"</span>, <span class="st">"pnta"</span><span class="op">)</span>,</span>
