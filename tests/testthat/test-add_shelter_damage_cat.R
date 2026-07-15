@@ -1,11 +1,11 @@
 # Test data frame with all cases
 df <- data.frame(
   "snfi_shelter_damage/none" = c(1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-  "snfi_shelter_damage/minor" = c(0, 1, 1, 0, 0, 1, 0, 0, 0, 0),
-  "snfi_shelter_damage/major" = c(0, 0, 1, 1, 0, 0, 1, 0, 0, 0),
-  "snfi_shelter_damage/damage_windows_doors" = c(0, 0, 0, 1, 1, 0, 1, 1, 0, 0),
-  "snfi_shelter_damage/damage_floors" = c(0, 0, 0, 0, 1, 0, 0, 1, 1, 0),
-  "snfi_shelter_damage/damage_walls" = c(0, 0, 0, 0, 0, 1, 0, 1, 1, 0),
+  "snfi_shelter_damage/minor_roof" = c(0, 1, 1, 0, 0, 1, 0, 0, 0, 0),
+  "snfi_shelter_damage/major_roof" = c(0, 0, 1, 1, 0, 0, 1, 0, 0, 0),
+  "snfi_shelter_damage/windows_doors" = c(0, 0, 0, 1, 1, 0, 1, 1, 0, 0),
+  "snfi_shelter_damage/floors" = c(0, 0, 0, 0, 1, 0, 0, 1, 1, 0),
+  "snfi_shelter_damage/walls" = c(0, 0, 0, 0, 0, 1, 0, 1, 1, 0),
   "snfi_shelter_damage/total_collapse" = c(0, 0, 0, 1, 0, 0, 1, 0, 1, 0),
   "snfi_shelter_damage/other" = c(0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
   "snfi_shelter_damage/dnk" = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
@@ -16,14 +16,14 @@ df <- data.frame(
 # Expected output for each row (worst case scenario)
 expected <- c(
   "none", # 1. only none
-  "damaged", # 2. only minor
-  "part", # 3. minor + major (major should take precedence)
-  "total", # 4. major + damage_windows_doors + total_collapse (total should take precedence)
-  "damaged", # 5. minor + damage_windows_doors + damage_floors
-  "damaged", # 6. minor + damage_walls
-  "total", # 7. major + total_collapse (total should take precedence)
-  "damaged", # 8. damage_windows_doors + damage_floors + damage_walls + other (should be damaged, undefined is ignored)
-  "total", # 9. damage_floors + damage_walls + total_collapse (total should take precedence)
+  "damaged", # 2. only minor_roof
+  "part", # 3. minor_roof + major_roof (major_roof should take precedence)
+  "total", # 4. major_roof + windows_doors + total_collapse (total should take precedence)
+  "damaged", # 5. minor_roof + windows_doors + floors
+  "damaged", # 6. minor_roof + walls
+  "total", # 7. major_roof + total_collapse (total should take precedence)
+  "damaged", # 8. windows_doors + floors + walls + other (should be damaged, undefined is ignored)
+  "total", # 9. floors + walls + total_collapse (total should take precedence)
   "undefined" # 10. only dnk
 )
 
@@ -62,8 +62,8 @@ test_that("add_shelter_damage_cat handles multiple codes in the same category", 
   df_multi[
     1,
     c(
-      "snfi_shelter_damage/damage_windows_doors",
-      "snfi_shelter_damage/damage_floors"
+      "snfi_shelter_damage/windows_doors",
+      "snfi_shelter_damage/floors"
     )
   ] <- 1
   result <- add_shelter_damage_cat(df_multi)
@@ -97,12 +97,12 @@ test_that("add_shelter_damage_cat ignores extra columns not expected", {
 # 6. Constraint: selecting 'no damage', 'dnk', or 'pnta' with any other option triggers a warning
 test_that("add_shelter_damage_cat emits a warning if constraint is violated", {
   df_logic <- df[1:2, ]
-  # Row 1: both 'none' and 'minor' selected
+  # Row 1: both 'none' and 'minor_roof' selected
   df_logic[1, "snfi_shelter_damage/none"] <- 1
-  df_logic[1, "snfi_shelter_damage/minor"] <- 1
-  # Row 2: both 'dnk' and 'major' selected
+  df_logic[1, "snfi_shelter_damage/minor_roof"] <- 1
+  # Row 2: both 'dnk' and 'major_roof' selected
   df_logic[2, "snfi_shelter_damage/dnk"] <- 1
-  df_logic[2, "snfi_shelter_damage/major"] <- 1
+  df_logic[2, "snfi_shelter_damage/major_roof"] <- 1
   expect_warning(
     add_shelter_damage_cat(df_logic),
     regexp = "violate the constraint: cannot select 'no damage', 'don't know', or 'prefer not to answer' with any other option"
