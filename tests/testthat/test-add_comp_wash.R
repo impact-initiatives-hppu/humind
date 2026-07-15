@@ -1,7 +1,7 @@
 # Create a sample dataset
 df_sample <- dplyr::tibble(
-  setting = c("camp", "urban", "rural"),
   comp_wash_score_water_quantity = c(5, 4, 2),
+  setting = c("camp_formal", "urban", "rural"),
   wash_drinking_water_quality_jmp_cat = c(
     "surface_water",
     "unimproved",
@@ -104,8 +104,8 @@ test_that("Need flags work correctly", {
 
 # Test with undefined values for `comp_wash_score_water_quantity`
 undefined_water_quantity_data <- data.frame(
-  setting = c("camp", "urban", "rural", "camp"),
   comp_wash_score_water_quantity = c(NA, NA, 1, 5),
+  setting = c("camp_formal", "urban", "rural", "camp_formal"),
   wash_drinking_water_quality_jmp_cat = c(
     "basic",
     "limited",
@@ -151,7 +151,7 @@ test_that("Function handles undefined water quantity correctly", {
 
 test_that("integration: add_hwise() |> add_comp_wash() produces correct comp_wash_score", {
   df <- dplyr::tibble(
-    setting = c("camp", "urban", "rural"),
+    setting = c("camp_formal", "urban", "rural"),
     wash_hwise_drink = c("always", "often", "rarely"),
     wash_hwise_hands = c("always", "sometimes", "never"),
     wash_hwise_plans = c("always", "sometimes", "never"),
@@ -193,8 +193,15 @@ test_that("integration: add_hwise() |> add_comp_wash() produces correct comp_was
 
 # Test data for 2026 new logic verification
 new_logic_data <- data.frame(
-  setting = c("camp", "camp", "camp", "urban", "rural", "rural"),
   comp_wash_score_water_quantity = rep(1, 6),
+  setting = c(
+    "camp_formal",
+    "camp_formal",
+    "camp_formal",
+    "urban",
+    "rural",
+    "rural"
+  ),
   wash_drinking_water_quality_jmp_cat = c(
     "basic",
     "limited",
@@ -245,7 +252,7 @@ test_that("Function handles invalid sanitation facility categories", {
 
 test_that("comp_wash_score respects a non-default comp_wash_score_water_quantity column name", {
   df <- dplyr::tibble(
-    setting = c("camp", "urban", "rural"),
+    setting = c("camp_formal", "urban", "rural"),
     my_water_qty = c(5L, 4L, 2L),
     wash_drinking_water_quality_jmp_cat = c(
       "surface_water",
@@ -280,4 +287,81 @@ test_that("add_comp_wash errors when water quantity score is out of 1-5 range", 
   df <- df_sample
   df$comp_wash_score_water_quantity <- c(6, 4, 2)
   expect_error(add_comp_wash(df), class = "error")
+})
+
+# Test data covering camp scoring branches across all four sub-scores
+camp_type_data <- data.frame(
+  setting = rep("camp_formal", 7),
+  comp_wash_score_water_quantity = sample(1:5, size = 7, replace = TRUE),
+  wash_drinking_water_quality_jmp_cat = c(
+    "surface_water",
+    "unimproved",
+    "limited",
+    "basic",
+    "safely_managed",
+    "undefined",
+    "basic"
+  ),
+  wash_sanitation_facility_jmp_cat = rep("basic", 7),
+  wash_sanitation_facility_cat = c(
+    "none",
+    "unimproved",
+    "improved",
+    "improved",
+    "improved",
+    "improved",
+    "undefined"
+  ),
+  wash_sharing_sanitation_facility_n_ind = c(
+    "50_and_above",
+    "20_to_49",
+    "19_and_below",
+    "19_and_below",
+    "19_and_below",
+    NA,
+    "19_and_below"
+  ),
+  wash_sharing_sanitation_facility_cat = c(
+    "shared",
+    "shared",
+    "shared",
+    "not_shared",
+    "not_applicable",
+    "shared",
+    "shared"
+  ),
+  wash_handwashing_facility_jmp_cat = c(
+    "no_facility",
+    "limited",
+    "basic",
+    "undefined",
+    "basic",
+    "limited",
+    "no_facility"
+  )
+)
+
+test_that("Scores are identical regardless of camp type (formal vs informal)", {
+  score_cols <- c(
+    "comp_wash_score_water_quantity",
+    "comp_wash_score_water_quality",
+    "comp_wash_score_sanitation",
+    "comp_wash_score_hygiene",
+    "comp_wash_score",
+    "comp_wash_in_need",
+    "comp_wash_in_severe_need"
+  )
+  result_formal <- add_comp_wash(camp_type_data)[score_cols]
+  camp_type_data$setting <- "camp_informal"
+  result_informal <- add_comp_wash(camp_type_data)[score_cols]
+  expect_equal(result_formal, result_informal)
+})
+
+test_that("A single scalar setting_camp override still works", {
+  df_single_camp <- df_sample
+  df_single_camp$setting[df_single_camp$setting == "camp_formal"] <- "camp"
+
+  df_result <- add_comp_wash(df_single_camp, setting_camp = "camp")
+
+  expect_equal(df_result$comp_wash_score_water_quality, c(4, 3, 2))
 })
