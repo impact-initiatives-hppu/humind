@@ -164,7 +164,7 @@ add_rcsi <- function(
         !!rlang::sym(fsl_rcsi_mealnb) * 1
       ),
       fsl_rcsi_score = rowSums(dplyr::across(
-        all_of(c(
+        dplyr::all_of(c(
           "rcsi_lessquality_weighted",
           "rcsi_borrow_weighted",
           "rcsi_mealsize_weighted",

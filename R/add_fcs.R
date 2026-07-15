@@ -230,7 +230,7 @@ add_fcs <- function(
     ) |>
     dplyr::mutate(
       fsl_fcs_score = rowSums(dplyr::across(
-        all_of(c(
+        dplyr::all_of(c(
           "fcs_weight_cereal1",
           "fcs_weight_legume2",
           "fcs_weight_dairy3",

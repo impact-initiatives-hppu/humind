@@ -205,7 +205,7 @@ add_hhs <- function(
     ) |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      fsl_hhs_score = rowSums(dplyr::pick(matches("^fsl_hhs_comp\\d$")))
+      fsl_hhs_score = rowSums(dplyr::pick(dplyr::matches("^fsl_hhs_comp\\d$")))
     ) |>
     dplyr::mutate(
       fsl_hhs_cat_ipc = dplyr::case_when(
