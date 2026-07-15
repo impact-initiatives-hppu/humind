@@ -74,7 +74,7 @@ applying different scoring logic for camp, urban, and rural settings.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_comp_wash</span><span class="op">(</span></span>
 <span>  <span class="va">df</span>,</span>
 <span>  setting <span class="op">=</span> <span class="st">"setting"</span>,</span>
-<span>  setting_camp <span class="op">=</span> <span class="st">"camp"</span>,</span>
+<span>  setting_camp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"camp_formal"</span>, <span class="st">"camp_informal"</span><span class="op">)</span>,</span>
 <span>  setting_urban <span class="op">=</span> <span class="st">"urban"</span>,</span>
 <span>  setting_rural <span class="op">=</span> <span class="st">"rural"</span>,</span>
 <span>  comp_wash_hwise_score <span class="op">=</span> <span class="st">"comp_wash_score_water_quantity"</span>,</span>
@@ -126,7 +126,7 @@ applying different scoring logic for camp, urban, and rural settings.</p>
 
 
 <dt id="arg-setting-camp">setting_camp<a class="anchor" aria-label="anchor" href="#arg-setting-camp"></a></dt>
-<dd><p>Setting value for camp.</p></dd>
+<dd><p>Setting value(s) for camp.</p></dd>
 
 
 <dt id="arg-setting-urban">setting_urban<a class="anchor" aria-label="anchor" href="#arg-setting-urban"></a></dt>

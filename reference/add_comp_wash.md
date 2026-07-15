@@ -26,7 +26,7 @@ Prerequisite functions:
 add_comp_wash(
   df,
   setting = "setting",
-  setting_camp = "camp",
+  setting_camp = c("camp_formal", "camp_informal"),
   setting_urban = "urban",
   setting_rural = "rural",
   comp_wash_hwise_score = "comp_wash_score_water_quantity",
@@ -77,7 +77,7 @@ add_comp_wash(
 
 - setting_camp:
 
-  Setting value for camp.
+  Setting value(s) for camp.
 
 - setting_urban:
 
