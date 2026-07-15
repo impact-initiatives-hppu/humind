@@ -33,7 +33,7 @@ add_loop_edu_barrier_protection_d <- function(
     "enroll_lack_documentation",
     "discrimination"
   ),
-  ind_schooling_age_d = "edu_ind_schooling_age_d"
+  ind_schooling_age_d = "edu_ind_age_schooling"
 ) {
   #----- Checks
 

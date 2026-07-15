@@ -28,7 +28,7 @@ add_loop_edu_access_d <- function(
   no = "no",
   pnta = "pnta",
   dnk = "dnk",
-  ind_schooling_age_d = "edu_ind_schooling_age_d"
+  ind_schooling_age_d = "edu_ind_age_schooling"
 ) {
   #----- Checks
 

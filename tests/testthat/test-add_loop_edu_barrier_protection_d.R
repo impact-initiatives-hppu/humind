@@ -9,7 +9,7 @@ dummy_loop_data <- data.frame(
     "other",
     "child_marriage"
   ),
-  edu_ind_schooling_age_d = c(1, 1, 1, 1, 0, 1)
+  edu_ind_age_schooling = c(1, 1, 1, 1, 0, 1)
 )
 
 dummy_main_data <- data.frame(
@@ -34,7 +34,7 @@ test_that("add_loop_edu_barrier_protection_d function handles missing columns", 
 
 # 3. Test ensuring value checks in add_loop_edu_barrier_protection_d
 invalid_value_data <- dummy_loop_data
-invalid_value_data$edu_ind_schooling_age_d <- 2
+invalid_value_data$edu_ind_age_schooling <- 2
 
 test_that("add_loop_edu_barrier_protection_d function ensures value checks", {
   expect_error(add_loop_edu_barrier_protection_d(invalid_value_data))
@@ -64,7 +64,7 @@ test_that("add_loop_edu_barrier_protection_d_to_main function handles missing co
 
 # 6. Test ensuring value checks in add_loop_edu_barrier_protection_d_to_main
 invalid_value_loop_data <- dummy_loop_data
-invalid_value_loop_data$edu_ind_schooling_age_d <- 2
+invalid_value_loop_data$edu_ind_age_schooling <- 2
 
 test_that("add_loop_edu_barrier_protection_d_to_main function ensures value checks", {
   expect_error(
@@ -81,7 +81,7 @@ test_that("add_loop_edu_barrier_protection_d_to_main function ensures value chec
 edge_case_loop_data <- data.frame(
   uuid = c(1, 2),
   edu_barrier = c("none", "none"),
-  edu_ind_schooling_age_d = c(1, 1)
+  edu_ind_age_schooling = c(1, 1)
 )
 
 test_that("add_loop_edu_barrier_protection_d function handles edge cases", {
@@ -94,7 +94,7 @@ test_that("add_loop_edu_barrier_protection_d function handles edge cases", {
 child_pregnancy_data <- data.frame(
   uuid = c(1, 2),
   edu_barrier = c("child_pregnancy", "other"),
-  edu_ind_schooling_age_d = c(1, 1)
+  edu_ind_age_schooling = c(1, 1)
 )
 
 test_that("add_loop_edu_barrier_protection_d function flags child_pregnancy as a barrier", {
