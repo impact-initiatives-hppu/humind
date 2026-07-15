@@ -213,6 +213,15 @@ add_drinking_water_time_cat <- function(
 
 #' @rdname add_drinking_water_source_cat
 #'
+#' @title Add Drinking Water Time Threshold Category
+#'
+#' @description Recodes the time-to-fetch-water categories into a binary threshold
+#' (premises, under 30 min, above 30 min).
+#'
+#' Prerequisite function:
+#'
+#' * [add_drinking_water_time_cat()]
+#'
 #' @param drinking_water_time_30min_cat Component column: Time to fetch water, recoded categories.
 #' @param drinking_water_time_30min_cat_premises Response code for water on premises.
 #' @param drinking_water_time_30min_cat_under_30min Response code for under 30 minutes.
@@ -269,6 +278,16 @@ add_drinking_water_time_threshold_cat <- function(
 }
 
 #' @rdname add_drinking_water_source_cat
+#'
+#' @title Add Drinking Water Quality JMP Category
+#'
+#' @description Recodes the water source and time-to-fetch-water threshold into a
+#' joint JMP (Joint Monitoring Programme) drinking water quality category.
+#'
+#' Prerequisite functions:
+#'
+#' * [add_drinking_water_source_cat()]
+#' * [add_drinking_water_time_threshold_cat()]
 #'
 #' @param drinking_water_source_cat Component column: Water source categories.
 #' @param drinking_water_source_cat_improved Response code for improved water source.

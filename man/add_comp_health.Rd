@@ -34,8 +34,9 @@ It considers whether individuals needed healthcare, whether they accessed it if 
 and optionally takes into account disability status. The function then determines if a
 household is in need or in severe need of health assistance based on the calculated score.
 
-Prerequisite functions:
+Prerequisite functions (run on the healthcare loop, then aggregate to main):
 \itemize{
-\item add_loop_healthcare_needed_cat.R
+\item \code{\link[=add_loop_healthcare_needed_cat]{add_loop_healthcare_needed_cat()}} — categorizes individual healthcare need (loop)
+\item \code{\link[=add_loop_healthcare_needed_cat_to_main]{add_loop_healthcare_needed_cat_to_main()}} — aggregates the counts to main
 }
 }

@@ -4,7 +4,7 @@
 #'
 #' Prerequisite function:
 #'
-#' * add_income_source_zero_to_sl.R
+#' * [add_income_source_zero_to_sl()]
 #'
 #' @param df A data frame containing income source columns
 #' @param income_souce_salaried_n Column name for salaried income amount

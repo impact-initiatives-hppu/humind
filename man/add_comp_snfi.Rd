@@ -119,10 +119,10 @@ severe need based on the calculated score.
 
 Prerequisite functions:
 \itemize{
-\item add_shelter_issue_cat.R
-\item add_shelter_type_cat.R
-\item add_occupancy_cat.R
-\item add_fds_cannot_cat.R
-\item add_shelter_damage_cat.R
+\item \code{\link[=add_shelter_issue_cat]{add_shelter_issue_cat()}}
+\item \code{\link[=add_shelter_type_cat]{add_shelter_type_cat()}}
+\item \code{\link[=add_occupancy_cat]{add_occupancy_cat()}}
+\item \code{\link[=add_fds_cannot_cat]{add_fds_cannot_cat()}}
+\item \code{\link[=add_shelter_damage_cat]{add_shelter_damage_cat()}}
 }
 }

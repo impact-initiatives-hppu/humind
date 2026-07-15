@@ -35,7 +35,7 @@ data frame indicating the top 3 infrequent expenditure types.
 
 Prerequisite function:
 \itemize{
-\item add_expenditure_type_zero_infreq.R
+\item \code{\link[=add_expenditure_type_zero_infreq]{add_expenditure_type_zero_infreq()}}
 }
 }
 \details{

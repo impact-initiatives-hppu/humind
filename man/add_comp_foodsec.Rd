@@ -46,10 +46,10 @@ severe need of food security assistance.
 Prerequisite food security functions
 must be run before this function:
 \itemize{
-\item add_fcs()
-\item add_hhs()
-\item add_rcsi()
-\item add_lcsi()
-\item add_fclcm_phase()
+\item \code{\link[=add_fcs]{add_fcs()}}
+\item \code{\link[=add_hhs]{add_hhs()}}
+\item \code{\link[=add_rcsi]{add_rcsi()}}
+\item \code{\link[=add_lcsi]{add_lcsi()}}
+\item \code{\link[=add_fclcm_phase]{add_fclcm_phase()}}
 }
 }

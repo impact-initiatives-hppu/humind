@@ -48,7 +48,14 @@ add_fclcm_phase(
 Returns a dataframe with a additional column for FCLC phase.
 }
 \description{
-Calculating the Food Consumption-Livelihood Coping Matrix
+Combines the food consumption phase and the livelihood coping
+category into the FCLCM phase.
+
+Prerequisite functions:
+\itemize{
+\item \code{\link[=add_fcm_phase]{add_fcm_phase()}} — produces the food consumption phase column
+\item \code{\link[=add_lcsi]{add_lcsi()}} — produces the livelihood coping category column
+}
 }
 \examples{
 test_df <- data.frame(

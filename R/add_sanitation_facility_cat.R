@@ -134,6 +134,10 @@ add_sharing_sanitation_facility_cat <- function(
 #'
 #' @description This function calculates the number of households sharing a sanitation facility and categorizes them based on predefined thresholds. It also handles the household size and survey weights in calculations.
 #'
+#' Prerequisite function:
+#'
+#' * [add_sharing_sanitation_facility_cat()]
+#'
 #' @param df A data frame containing household-level data.
 #' @param sharing_sanitation_facility_cat Component column: Is the sanitation facility shared?
 #' @param sharing_sanitation_facility_cat_shared Response code for shared facilities.
@@ -226,6 +230,11 @@ add_sharing_sanitation_facility_n_ind <- function(
 #' @title Combine Sanitation Facility Classification and Sharing Status
 #'
 #' @description This function combines the previous two functions to recode the sanitation facility into a JMP classification. It also includes information about whether the facility is shared or not shared.
+#'
+#' Prerequisite functions:
+#'
+#' * [add_sanitation_facility_cat()]
+#' * [add_sharing_sanitation_facility_cat()]
 #'
 #' @param df A data frame containing both sanitation facility types and sharing status information.
 #' @param sanitation_facility_cat Component column: Sanitation facility types recoded.

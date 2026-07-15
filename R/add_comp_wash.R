@@ -12,9 +12,15 @@
 #' Prerequisite functions:
 #'
 #' * [add_hwise()]
-#' * [add_sanitation_facility_cat()]
-#' * [add_handwashing_facility_cat()]
 #' * [add_drinking_water_source_cat()]
+#' * [add_drinking_water_time_cat()]
+#' * [add_drinking_water_time_threshold_cat()]
+#' * [add_drinking_water_quality_jmp_cat()]
+#' * [add_sanitation_facility_cat()]
+#' * [add_sharing_sanitation_facility_cat()]
+#' * [add_sharing_sanitation_facility_n_ind()]
+#' * [add_sanitation_facility_jmp_cat()]
+#' * [add_handwashing_facility_cat()]
 #'
 #'
 #' @param df A data frame containing the required WASH-related variables.

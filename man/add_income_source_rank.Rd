@@ -47,6 +47,6 @@ It also adds categories for emergency, unstable, stable, and other income source
 
 Prerequisite function:
 \itemize{
-\item add_income_source_zero_to_sl.R
+\item \code{\link[=add_income_source_zero_to_sl]{add_income_source_zero_to_sl()}}
 }
 }

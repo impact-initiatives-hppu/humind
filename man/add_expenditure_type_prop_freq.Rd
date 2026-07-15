@@ -60,6 +60,6 @@ data frame representing these proportions.
 
 Prerequisite function:
 \itemize{
-\item add_expenditure_type_zero_freq.R
+\item \code{\link[=add_expenditure_type_zero_freq]{add_expenditure_type_zero_freq()}}
 }
 }

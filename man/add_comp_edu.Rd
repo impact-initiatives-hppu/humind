@@ -48,11 +48,15 @@ education-related indicators. It computes scores for disrupted education and
 attendance/barriers, combines them into a total score, and determines if a
 household is in need or in severe need of educational assistance.
 
-Prerequisite functions:
+Prerequisite functions (run on the education loop, then aggregate to main):
 \itemize{
-\item add_loop_age_dummy.R
-\item add_loop_edu_barrier_protection_d.R
-\item add_loop_edu_disrupted_d.R
-\item add_loop_edu_ind_age_corrected.R
+\item \code{\link[=add_loop_edu_ind_age_corrected]{add_loop_edu_ind_age_corrected()}} — corrects individual ages and flags schooling-age children (loop)
+\item \code{\link[=add_loop_edu_access_d]{add_loop_edu_access_d()}} — education access dummies (loop)
+\item \code{\link[=add_loop_edu_barrier_protection_d]{add_loop_edu_barrier_protection_d()}} — protection barrier dummies (loop)
+\item \code{\link[=add_loop_edu_disrupted_d]{add_loop_edu_disrupted_d()}} — disruption dummies (loop)
+\item \code{\link[=add_loop_edu_ind_schooling_age_d_to_main]{add_loop_edu_ind_schooling_age_d_to_main()}} — aggregates schooling-age count to main
+\item \code{\link[=add_loop_edu_access_d_to_main]{add_loop_edu_access_d_to_main()}} — aggregates access/no-access counts to main
+\item \code{\link[=add_loop_edu_barrier_protection_d_to_main]{add_loop_edu_barrier_protection_d_to_main()}} — aggregates barrier count to main
+\item \code{\link[=add_loop_edu_disrupted_d_to_main]{add_loop_edu_disrupted_d_to_main()}} — aggregates disruption counts to main
 }
 }

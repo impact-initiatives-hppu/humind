@@ -56,7 +56,7 @@ This function calculates the proportion of each income source relative to the to
 
 Prerequisite function:
 \itemize{
-\item add_income_source_zero_to_sl.R
+\item \code{\link[=add_income_source_zero_to_sl]{add_income_source_zero_to_sl()}}
 }
 }
 \section{Details on loans}{

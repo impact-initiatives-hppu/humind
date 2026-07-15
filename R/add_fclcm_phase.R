@@ -1,5 +1,13 @@
 #' Calculating the Food Consumption-Livelihood Coping Matrix
 #'
+#' @description Combines the food consumption phase and the livelihood coping
+#' category into the FCLCM phase.
+#'
+#' Prerequisite functions:
+#'
+#' * [add_fcm_phase()] — produces the food consumption phase column
+#' * [add_lcsi()] — produces the livelihood coping category column
+#'
 #' @param .dataset Main Dataset
 #' @param fc_phase_var Column name containing food consumption phase.
 #' @param fc_phase_1 The name of the value "Phase 1 FC" (by default) in the food consumption phase.

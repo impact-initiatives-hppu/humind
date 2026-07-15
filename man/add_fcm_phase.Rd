@@ -71,7 +71,15 @@ representing the Food Consumption Score Matrix and the fc_phase column that incl
 of food consumption
 }
 \description{
-Add the food consumption matrix to the dataset
+Combines food consumption, coping strategy, and hunger scale
+categories to produce a food consumption matrix cell and phase.
+
+Prerequisite functions:
+\itemize{
+\item \code{\link[=add_fcs]{add_fcs()}} — produces the food consumption score category
+\item \code{\link[=add_rcsi]{add_rcsi()}} — produces the reduced coping strategy index category
+\item \code{\link[=add_hhs]{add_hhs()}} — produces the household hunger scale categories
+}
 }
 \examples{
 test_data <- data.frame(

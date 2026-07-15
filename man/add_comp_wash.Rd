@@ -146,8 +146,14 @@ applying different scoring logic for camp, urban, and rural settings.
 Prerequisite functions:
 \itemize{
 \item \code{\link[=add_hwise]{add_hwise()}}
-\item \code{\link[=add_sanitation_facility_cat]{add_sanitation_facility_cat()}}
-\item \code{\link[=add_handwashing_facility_cat]{add_handwashing_facility_cat()}}
 \item \code{\link[=add_drinking_water_source_cat]{add_drinking_water_source_cat()}}
+\item \code{\link[=add_drinking_water_time_cat]{add_drinking_water_time_cat()}}
+\item \code{\link[=add_drinking_water_time_threshold_cat]{add_drinking_water_time_threshold_cat()}}
+\item \code{\link[=add_drinking_water_quality_jmp_cat]{add_drinking_water_quality_jmp_cat()}}
+\item \code{\link[=add_sanitation_facility_cat]{add_sanitation_facility_cat()}}
+\item \code{\link[=add_sharing_sanitation_facility_cat]{add_sharing_sanitation_facility_cat()}}
+\item \code{\link[=add_sharing_sanitation_facility_n_ind]{add_sharing_sanitation_facility_n_ind()}}
+\item \code{\link[=add_sanitation_facility_jmp_cat]{add_sanitation_facility_jmp_cat()}}
+\item \code{\link[=add_handwashing_facility_cat]{add_handwashing_facility_cat()}}
 }
 }

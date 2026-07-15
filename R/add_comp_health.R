@@ -6,9 +6,10 @@
 #' and optionally takes into account disability status. The function then determines if a
 #' household is in need or in severe need of health assistance based on the calculated score.
 #'
-#' Prerequisite functions:
+#' Prerequisite functions (run on the healthcare loop, then aggregate to main):
 #'
-#' * add_loop_healthcare_needed_cat.R
+#' * [add_loop_healthcare_needed_cat()] — categorizes individual healthcare need (loop)
+#' * [add_loop_healthcare_needed_cat_to_main()] — aggregates the counts to main
 #'
 #'
 #' @param df A data frame.

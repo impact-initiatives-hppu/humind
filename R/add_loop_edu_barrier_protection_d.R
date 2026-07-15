@@ -4,7 +4,7 @@
 #'
 #' Prerequisite function:
 #'
-#' * add_loop_edu_ind_age_corrected.R
+#' * [add_loop_edu_ind_age_corrected()]
 #'
 #' @param loop A data frame of individual-level data for the loop.
 #' @param barriers Column name for the child protection barrier category.

@@ -7,7 +7,7 @@
 #'
 #' Prerequisite function:
 #'
-#' * add_expenditure_type_zero_infreq.R
+#' * [add_expenditure_type_zero_infreq()]
 #'
 #' @param df A data frame containing infrequent expenditure data.
 #' @param cm_expenditure_infrequent_shelter Column name for shelter maintenance or repair expenditure amount.

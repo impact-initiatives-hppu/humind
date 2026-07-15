@@ -73,6 +73,6 @@ This function adds education disruption binaries to individual-level data and su
 
 Prerequisite function:
 \itemize{
-\item add_loop_edu_ind_age_corrected.R
+\item \code{\link[=add_loop_edu_ind_age_corrected]{add_loop_edu_ind_age_corrected()}}
 }
 }

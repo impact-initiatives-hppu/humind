@@ -79,6 +79,15 @@ add_access_to_phone_best <- function(
 
 #' @rdname add_access_to_phone_best
 #'
+#' @title Add Phone Coverage Category
+#'
+#' @description Recodes the coverage network type and the best type of phone owned
+#' in the household into a combined coverage category.
+#'
+#' Prerequisite function:
+#'
+#' * [add_access_to_phone_best()]
+#'
 #' @param coverage_network_type Network coverage column.
 #' @param coverage_none Value for no coverage.
 #' @param coverage_no_internet Vector of values for no internet.

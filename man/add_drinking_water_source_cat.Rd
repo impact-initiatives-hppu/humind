@@ -128,4 +128,21 @@ A data frame with a new column 'wash_drinking_water_quality_jmp_cat' containing:
 }
 \description{
 This function recodes the water source and time to fetch water into a joint JMP (Joint Monitoring Programme) category.
+
+Recodes the time-to-fetch-water categories into a binary threshold
+(premises, under 30 min, above 30 min).
+
+Prerequisite function:
+\itemize{
+\item \code{\link[=add_drinking_water_time_cat]{add_drinking_water_time_cat()}}
+}
+
+Recodes the water source and time-to-fetch-water threshold into a
+joint JMP (Joint Monitoring Programme) drinking water quality category.
+
+Prerequisite functions:
+\itemize{
+\item \code{\link[=add_drinking_water_source_cat]{add_drinking_water_source_cat()}}
+\item \code{\link[=add_drinking_water_time_threshold_cat]{add_drinking_water_time_threshold_cat()}}
+}
 }

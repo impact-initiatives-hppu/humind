@@ -1,5 +1,14 @@
 #' Add the food consumption matrix to the dataset
 #'
+#' @description Combines food consumption, coping strategy, and hunger scale
+#' categories to produce a food consumption matrix cell and phase.
+#'
+#' Prerequisite functions:
+#'
+#' * [add_fcs()] — produces the food consumption score category
+#' * [add_rcsi()] — produces the reduced coping strategy index category
+#' * [add_hhs()] — produces the household hunger scale categories
+#'
 #' @param .dataset Main Dataset
 #' @param fcs_column_name A string specifying the column name of the food consumption score in the dataset
 #' @param rcsi_column_name A string specifying the column name of the reduced coping strategy index in the dataset

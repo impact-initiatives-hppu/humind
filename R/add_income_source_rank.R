@@ -5,7 +5,7 @@
 #'
 #' Prerequisite function:
 #'
-#' * add_income_source_zero_to_sl.R
+#' * [add_income_source_zero_to_sl()]
 #'
 #' @param df A data frame containing income source information.
 #' @param emergency A vector of column names containing emergency income sources.

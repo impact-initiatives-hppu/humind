@@ -3,7 +3,8 @@
 #' @description This function adds education disruption binaries to individual-level data and summarizes them at the household level. It includes two main functions: [add_loop_edu_disrupted_d()] for individual-level data and [add_loop_edu_disrupted_d_to_main()] for household-level data.
 #'
 #' Prerequisite function:
-#' * add_loop_edu_ind_age_corrected.R
+#'
+#' * [add_loop_edu_ind_age_corrected()]
 #'
 #' @param df A data frame containing individual-level education data.
 #' @param attack Column name for attack disruption. NULL if dimension is not present in the data frame.

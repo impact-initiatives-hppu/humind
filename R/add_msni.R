@@ -4,12 +4,12 @@
 #'
 #' Prerequisite functions:
 #'
-#' * add_comp_edu.R
-#' * add_comp_foodsec.R
-#' * add_comp_health.R
-#' * add_comp_prot.R
-#' * add_comp_snfi.R
-#' * add_comp_wash.R
+#' * [add_comp_edu()]
+#' * [add_comp_foodsec()]
+#' * [add_comp_health()]
+#' * [add_comp_prot()]
+#' * [add_comp_snfi()]
+#' * [add_comp_wash()]
 #'
 #' @param df A data frame containing sectoral composite scores and in-need indicators.
 #' @param comp_foodsec_score Column name for the food security composite score.

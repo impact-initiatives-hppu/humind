@@ -9,7 +9,7 @@
 #'
 #' Prerequisite function:
 #'
-#' * add_expenditure_type_zero_infreq.R
+#' * [add_expenditure_type_zero_infreq()]
 #'
 #' @param df A data frame containing infrequent expenditure data for households.
 #' @param expenditure_infreq_types A character vector. The names of the columns that contain the amount of infrequent expenditures types.

@@ -62,6 +62,6 @@ It creates a variable (\code{edu_ind_access_d}) that indicates whether the child
 
 Prerequisite function:
 \itemize{
-\item add_loop_edu_ind_age_corrected.R
+\item \code{\link[=add_loop_edu_ind_age_corrected]{add_loop_edu_ind_age_corrected()}}
 }
 }

@@ -130,5 +130,16 @@ This function recodes the sharing status of sanitation facilities based on user 
 
 This function calculates the number of households sharing a sanitation facility and categorizes them based on predefined thresholds. It also handles the household size and survey weights in calculations.
 
+Prerequisite function:
+\itemize{
+\item \code{\link[=add_sharing_sanitation_facility_cat]{add_sharing_sanitation_facility_cat()}}
+}
+
 This function combines the previous two functions to recode the sanitation facility into a JMP classification. It also includes information about whether the facility is shared or not shared.
+
+Prerequisite functions:
+\itemize{
+\item \code{\link[=add_sanitation_facility_cat]{add_sanitation_facility_cat()}}
+\item \code{\link[=add_sharing_sanitation_facility_cat]{add_sharing_sanitation_facility_cat()}}
+}
 }

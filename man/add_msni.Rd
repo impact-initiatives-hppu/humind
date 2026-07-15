@@ -62,11 +62,11 @@ This function calculates the MSNI score, determines if households are in need or
 
 Prerequisite functions:
 \itemize{
-\item add_comp_edu.R
-\item add_comp_foodsec.R
-\item add_comp_health.R
-\item add_comp_prot.R
-\item add_comp_snfi.R
-\item add_comp_wash.R
+\item \code{\link[=add_comp_edu]{add_comp_edu()}}
+\item \code{\link[=add_comp_foodsec]{add_comp_foodsec()}}
+\item \code{\link[=add_comp_health]{add_comp_health()}}
+\item \code{\link[=add_comp_prot]{add_comp_prot()}}
+\item \code{\link[=add_comp_snfi]{add_comp_snfi()}}
+\item \code{\link[=add_comp_wash]{add_comp_wash()}}
 }
 }

@@ -53,6 +53,6 @@ This function adds a dummy variable for child protection barriers to education i
 
 Prerequisite function:
 \itemize{
-\item add_loop_edu_ind_age_corrected.R
+\item \code{\link[=add_loop_edu_ind_age_corrected]{add_loop_edu_ind_age_corrected()}}
 }
 }

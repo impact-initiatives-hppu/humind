@@ -7,11 +7,12 @@
 #' severe need based on the calculated score.
 #'
 #' Prerequisite functions:
-#' * add_shelter_issue_cat.R
-#' * add_shelter_type_cat.R
-#' * add_occupancy_cat.R
-#' * add_fds_cannot_cat.R
-#' * add_shelter_damage_cat.R
+#'
+#' * [add_shelter_issue_cat()]
+#' * [add_shelter_type_cat()]
+#' * [add_occupancy_cat()]
+#' * [add_fds_cannot_cat()]
+#' * [add_shelter_damage_cat()]
 #'
 #'
 #' @param df A data frame containing the required SNFI indicators.

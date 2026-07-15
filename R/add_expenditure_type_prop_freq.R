@@ -7,7 +7,7 @@
 #'
 #' Prerequisite function:
 #'
-#' * add_expenditure_type_zero_freq.R
+#' * [add_expenditure_type_zero_freq()]
 #'
 #' @param df A data frame containing frequent expenditure data.
 #' @param cm_expenditure_frequent_food Column name for food items expenditure amount.

@@ -7,7 +7,7 @@
 #'
 #' Prerequisite function:
 #'
-#' * add_expenditure_type_zero_freq.R
+#' * [add_expenditure_type_zero_freq()]
 #'
 #'
 #' @param df A data frame containing expenditure data for households.

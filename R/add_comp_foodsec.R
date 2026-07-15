@@ -8,11 +8,12 @@
 #'
 #' Prerequisite food security functions
 #' must be run before this function:
-#' - add_fcs()
-#' - add_hhs()
-#' - add_rcsi()
-#' - add_lcsi()
-#' - add_fclcm_phase()
+#'
+#' * [add_fcs()]
+#' * [add_hhs()]
+#' * [add_rcsi()]
+#' * [add_lcsi()]
+#' * [add_fclcm_phase()]
 #'
 #'
 #' @param df A data frame.
