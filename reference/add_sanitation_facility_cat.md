@@ -26,8 +26,8 @@ add_sanitation_facility_cat(
   improved = c("flush_piped_sewer", "flush_septic_tank", "flush_pit_latrine",
     "flush_dnk_where", "pit_latrine_slab", "twin_pit_latrine_slab",
     "ventilated_pit_latrine_slab", "container", "compost"),
-  unimproved = c("flush_open_drain", "flush_elsewhere", "pit_latrine_wo_slab", "bucket",
-    "hanging_toilet", "plastic_bag"),
+  unimproved = c("flush_open_drain", "pit_latrine_wo_slab", "bucket", "hanging_toilet",
+    "twin_pit_latrine_wo_slab", "other_container"),
   none = "none",
   undefined = c("other", "dnk", "pnta")
 )
