@@ -1,6 +1,15 @@
 # Calculating the Food Consumption-Livelihood Coping Matrix
 
-Calculating the Food Consumption-Livelihood Coping Matrix
+Combines the food consumption phase and the livelihood coping category
+into the FCLCM phase.
+
+Prerequisite functions:
+
+- [`add_fcm_phase()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fcm_phase.md)
+  — produces the food consumption phase column
+
+- [`add_lcsi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_lcsi.md)
+  — produces the livelihood coping category column
 
 ## Usage
 

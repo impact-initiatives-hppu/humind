@@ -6,17 +6,17 @@ sectoral needs profile.
 
 Prerequisite functions:
 
-- add_comp_edu.R
+- [`add_comp_edu()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_edu.md)
 
-- add_comp_foodsec.R
+- [`add_comp_foodsec()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_foodsec.md)
 
-- add_comp_health.R
+- [`add_comp_health()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_health.md)
 
-- add_comp_prot.R
+- [`add_comp_prot()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_prot.md)
 
-- add_comp_snfi.R
+- [`add_comp_snfi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_snfi.md)
 
-- add_comp_wash.R
+- [`add_comp_wash()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_wash.md)
 
 ## Usage
 

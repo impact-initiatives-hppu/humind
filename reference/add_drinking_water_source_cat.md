@@ -3,6 +3,22 @@
 This function recodes the water source and time to fetch water into a
 joint JMP (Joint Monitoring Programme) category.
 
+Recodes the time-to-fetch-water categories into a binary threshold
+(premises, under 30 min, above 30 min).
+
+Prerequisite function:
+
+- `add_drinking_water_time_cat()`
+
+Recodes the water source and time-to-fetch-water threshold into a joint
+JMP (Joint Monitoring Programme) drinking water quality category.
+
+Prerequisite functions:
+
+- `add_drinking_water_source_cat()`
+
+- `add_drinking_water_time_threshold_cat()`
+
 ## Usage
 
 ``` r

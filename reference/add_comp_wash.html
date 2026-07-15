@@ -7,9 +7,15 @@ The function performs detailed scoring based on multiple WASH-related variables,
 applying different scoring logic for camp, urban, and rural settings.
 Prerequisite functions:
 add_hwise()
-add_sanitation_facility_cat()
-add_handwashing_facility_cat()
 add_drinking_water_source_cat()
+add_drinking_water_time_cat()
+add_drinking_water_time_threshold_cat()
+add_drinking_water_quality_jmp_cat()
+add_sanitation_facility_cat()
+add_sharing_sanitation_facility_cat()
+add_sharing_sanitation_facility_n_ind()
+add_sanitation_facility_jmp_cat()
+add_handwashing_facility_cat()
 
 "><meta property="og:description" content="Calculates a comprehensive WASH (Water, Sanitation, and Hygiene) composite score
 for households across different settings (camp, urban, rural). The function
@@ -19,9 +25,15 @@ The function performs detailed scoring based on multiple WASH-related variables,
 applying different scoring logic for camp, urban, and rural settings.
 Prerequisite functions:
 add_hwise()
-add_sanitation_facility_cat()
-add_handwashing_facility_cat()
 add_drinking_water_source_cat()
+add_drinking_water_time_cat()
+add_drinking_water_time_threshold_cat()
+add_drinking_water_quality_jmp_cat()
+add_sanitation_facility_cat()
+add_sharing_sanitation_facility_cat()
+add_sharing_sanitation_facility_n_ind()
+add_sanitation_facility_jmp_cat()
+add_handwashing_facility_cat()
 
 "><meta property="og:image" content="https://impact-initiatives-hppu.github.io/humind/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -52,7 +64,7 @@ add_drinking_water_source_cat()
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Add WASH Sectoral Composite Score and Need Indicator</h1>
-      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/dev2026.2.0/R/add_comp_wash.R" class="external-link"><code>R/add_comp_wash.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/659_pkgdown/R/add_comp_wash.R" class="external-link"><code>R/add_comp_wash.R</code></a></small>
       <div class="d-none name"><code>add_comp_wash.Rd</code></div>
     </div>
 
@@ -64,9 +76,15 @@ and creates a dummy variable to indicate households in need of WASH assistance.<
 <p>The function performs detailed scoring based on multiple WASH-related variables,
 applying different scoring logic for camp, urban, and rural settings.</p>
 <p>Prerequisite functions:</p><ul><li><p><code><a href="add_hwise.html">add_hwise()</a></code></p></li>
-<li><p><code><a href="add_sanitation_facility_cat.html">add_sanitation_facility_cat()</a></code></p></li>
-<li><p><code><a href="add_handwashing_facility_cat.html">add_handwashing_facility_cat()</a></code></p></li>
 <li><p><code><a href="add_drinking_water_source_cat.html">add_drinking_water_source_cat()</a></code></p></li>
+<li><p><code><a href="add_drinking_water_source_cat.html">add_drinking_water_time_cat()</a></code></p></li>
+<li><p><code><a href="add_drinking_water_source_cat.html">add_drinking_water_time_threshold_cat()</a></code></p></li>
+<li><p><code><a href="add_drinking_water_source_cat.html">add_drinking_water_quality_jmp_cat()</a></code></p></li>
+<li><p><code><a href="add_sanitation_facility_cat.html">add_sanitation_facility_cat()</a></code></p></li>
+<li><p><code><a href="add_sanitation_facility_cat.html">add_sharing_sanitation_facility_cat()</a></code></p></li>
+<li><p><code><a href="add_sanitation_facility_cat.html">add_sharing_sanitation_facility_n_ind()</a></code></p></li>
+<li><p><code><a href="add_sanitation_facility_cat.html">add_sanitation_facility_jmp_cat()</a></code></p></li>
+<li><p><code><a href="add_handwashing_facility_cat.html">add_handwashing_facility_cat()</a></code></p></li>
 </ul></div>
 
     <div class="section level2">

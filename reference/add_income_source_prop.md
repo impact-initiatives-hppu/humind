@@ -5,7 +5,7 @@ to the total income. It also computes the total income from all sources.
 
 Prerequisite function:
 
-- add_income_source_zero_to_sl.R
+- [`add_income_source_zero_to_sl()`](https://impact-initiatives-hppu.github.io/humind/reference/add_income_source_zero_to_sl.md)
 
 ## Usage
 

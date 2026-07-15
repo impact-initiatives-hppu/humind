@@ -6,7 +6,7 @@ the input data frame representing these proportions.
 
 Prerequisite function:
 
-- add_expenditure_type_zero_freq.R
+- [`add_expenditure_type_zero_freq()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_zero_freq.md)
 
 ## Usage
 

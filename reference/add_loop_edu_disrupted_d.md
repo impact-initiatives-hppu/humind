@@ -7,7 +7,7 @@ functions: `add_loop_edu_disrupted_d()` for individual-level data and
 
 Prerequisite function:
 
-- add_loop_edu_ind_age_corrected.R
+- [`add_loop_edu_ind_age_corrected()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_ind_age_corrected.md)
 
 ## Usage
 
