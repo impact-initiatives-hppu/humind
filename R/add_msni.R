@@ -24,14 +24,21 @@
 #' @param comp_prot_in_need Column name for protection in need.
 #' @param comp_health_in_need Column name for health in need.
 #' @param comp_edu_in_need Column name for education in need.
+#' @param comp_foodsec_in_severe_need Column name for food security in severe need.
+#' @param comp_snfi_in_severe_need Column name for SNFI in severe need.
+#' @param comp_wash_in_severe_need Column name for WASH in severe need.
+#' @param comp_prot_in_severe_need Column name for protection in severe need.
+#' @param comp_edu_in_severe_need Column name for education in severe need.
 #'
-#' @return A data frame with 5 new columns:
+#' @return A data frame with 7 new columns:
 #'
 #' * msni_score: The Multi-Sectoral Needs Index score.
 #' * msni_in_need: Binary indicator for households in need.
 #' * msni_in_severe_need: Binary indicator for households in severe need.
 #' * sector_in_need_n: Number of sectoral needs identified.
+#' * sector_in_severe_need_n: Number of sectoral severe needs identified.
 #' * sector_needs_profile: Profile of sectoral needs identified (NA if no sectoral need is identified).
+#' * sector_severe_needs_profile: Profile of sectoral severe needs identified (NA if no sectoral severe need is identified).
 #'
 #' @export
 add_msni <- function(
@@ -47,7 +54,12 @@ add_msni <- function(
   comp_wash_in_need = "comp_wash_in_need",
   comp_prot_in_need = "comp_prot_in_need",
   comp_health_in_need = "comp_health_in_need",
-  comp_edu_in_need = "comp_edu_in_need"
+  comp_edu_in_need = "comp_edu_in_need",
+  comp_foodsec_in_severe_need = "comp_foodsec_in_severe_need",
+  comp_snfi_in_severe_need = "comp_snfi_in_severe_need",
+  comp_wash_in_severe_need = "comp_wash_in_severe_need",
+  comp_prot_in_severe_need = "comp_prot_in_severe_need",
+  comp_edu_in_severe_need = "comp_edu_in_severe_need"
 ) {
   #------ Checks
 
@@ -74,6 +86,13 @@ add_msni <- function(
     "WASH",
     "Protection",
     "Health",
+    "Education"
+  )
+  comp_names_severe <- c(
+    "Food security",
+    "SNFI",
+    "WASH",
+    "Protection",
     "Education"
   )
 
@@ -114,6 +133,32 @@ add_msni <- function(
     rlang::warn(paste(
       "The following variables are not in the data frame and the number of sectoral needs and the needs profile calculation will be run without them:",
       paste(comp_in_need_nin, collapse = ", ")
+    ))
+  }
+
+  # Check that the dummy variables for in severe need are in df
+  comp_in_severe_need <- c(
+    comp_foodsec_in_severe_need,
+    comp_snfi_in_severe_need,
+    comp_wash_in_severe_need,
+    comp_prot_in_severe_need,
+    comp_edu_in_severe_need
+  )
+  comp_in_severe_need_lgl <- comp_in_severe_need %in% colnames(df)
+  comp_in_severe_need_nin <- comp_in_severe_need[!comp_in_severe_need_lgl]
+  comp_in_severe_need <- comp_in_severe_need[comp_in_severe_need_lgl]
+  comp_names_severe <- comp_names_severe[comp_in_severe_need_lgl]
+  # all missing
+  if (!all(comp_in_severe_need_lgl)) {
+    rlang::abort(paste(
+      "There are none of the sectoral composites 'in severe need' variables. Are you sure you specified the names correctly or you have run the necessary functions to add them?"
+    ))
+  }
+  # Some missing
+  if (any(!comp_in_severe_need_lgl)) {
+    rlang::warn(paste(
+      "The following variables are not in the data frame and the number of sectoral severe needs calculation will be run without them:",
+      paste(comp_in_severe_need_nin, collapse = ", ")
     ))
   }
 
@@ -164,6 +209,27 @@ add_msni <- function(
     )
   )
 
+  #------ Add number of sectoral severe needs
+
+  # Sum vars across composites in severe need
+  df <- sum_vars(
+    df,
+    comp_in_severe_need,
+    "sector_in_severe_need_n",
+    na_rm = TRUE,
+    imputation = "none"
+  )
+
+  # If the sum is zero, NA the result
+  df <- dplyr::mutate(
+    df,
+    sector_in_severe_need_n = ifelse(
+      !!rlang::sym("sector_in_severe_need_n") == 0,
+      NA,
+      !!rlang::sym("sector_in_severe_need_n")
+    )
+  )
+
   #------ Add needs profiles
 
   df_comp_in_need <- dplyr::select(df, dplyr::all_of(comp_in_need))
@@ -184,6 +250,32 @@ add_msni <- function(
       !!rlang::sym("sector_needs_profile") == "",
       NA,
       !!rlang::sym("sector_needs_profile")
+    )
+  )
+
+  #------ Add severe needs profile
+
+  df_comp_in_severe_need <- dplyr::select(
+    df,
+    dplyr::all_of(comp_in_severe_need)
+  )
+
+  df$sector_severe_needs_profile <- purrr::pmap_chr(
+    df_comp_in_severe_need,
+    function(...) {
+      values <- c(...)
+      labels <- comp_names_severe[values == 1 & !is.na(values)]
+      paste(labels, collapse = " - ")
+    }
+  )
+
+  # NA if empty character string
+  df <- dplyr::mutate(
+    df,
+    sector_severe_needs_profile = ifelse(
+      !!rlang::sym("sector_severe_needs_profile") == "",
+      NA,
+      !!rlang::sym("sector_severe_needs_profile")
     )
   )
 

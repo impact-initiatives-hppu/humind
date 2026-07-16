@@ -17,7 +17,12 @@ add_msni(
   comp_wash_in_need = "comp_wash_in_need",
   comp_prot_in_need = "comp_prot_in_need",
   comp_health_in_need = "comp_health_in_need",
-  comp_edu_in_need = "comp_edu_in_need"
+  comp_edu_in_need = "comp_edu_in_need",
+  comp_foodsec_in_severe_need = "comp_foodsec_in_severe_need",
+  comp_snfi_in_severe_need = "comp_snfi_in_severe_need",
+  comp_wash_in_severe_need = "comp_wash_in_severe_need",
+  comp_prot_in_severe_need = "comp_prot_in_severe_need",
+  comp_edu_in_severe_need = "comp_edu_in_severe_need"
 )
 }
 \arguments{
@@ -46,15 +51,27 @@ add_msni(
 \item{comp_health_in_need}{Column name for health in need.}
 
 \item{comp_edu_in_need}{Column name for education in need.}
+
+\item{comp_foodsec_in_severe_need}{Column name for food security in severe need.}
+
+\item{comp_snfi_in_severe_need}{Column name for SNFI in severe need.}
+
+\item{comp_wash_in_severe_need}{Column name for WASH in severe need.}
+
+\item{comp_prot_in_severe_need}{Column name for protection in severe need.}
+
+\item{comp_edu_in_severe_need}{Column name for education in severe need.}
 }
 \value{
-A data frame with 5 new columns:
+A data frame with 7 new columns:
 \itemize{
 \item msni_score: The Multi-Sectoral Needs Index score.
 \item msni_in_need: Binary indicator for households in need.
 \item msni_in_severe_need: Binary indicator for households in severe need.
 \item sector_in_need_n: Number of sectoral needs identified.
+\item sector_in_severe_need_n: Number of sectoral severe needs identified.
 \item sector_needs_profile: Profile of sectoral needs identified (NA if no sectoral need is identified).
+\item sector_severe_needs_profile: Profile of sectoral severe needs identified (NA if no sectoral severe need is identified).
 }
 }
 \description{

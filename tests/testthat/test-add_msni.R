@@ -11,7 +11,12 @@ test_that("add_msni works with default parameters", {
     comp_wash_in_need = c(0, 0, 0, 0, 0),
     comp_prot_in_need = c(1, 1, 1, 1, 1),
     comp_health_in_need = c(1, 1, 1, 1, 1),
-    comp_edu_in_need = c(1, 1, 1, 1, 1)
+    comp_edu_in_need = c(1, 1, 1, 1, 1),
+    comp_foodsec_in_severe_need = c(0, 0, 0, 1, 1),
+    comp_snfi_in_severe_need = c(1, 0, 0, 0, 0),
+    comp_wash_in_severe_need = c(0, 0, 0, 0, 0),
+    comp_prot_in_severe_need = c(0, 0, 0, 0, 0),
+    comp_edu_in_severe_need = c(1, 1, 1, 1, 1)
   )
 
   result <- humind:::add_msni(df)
@@ -35,6 +40,11 @@ test_that("add_msni works with default parameters", {
         comp_prot_in_need +
         comp_health_in_need +
         comp_edu_in_need,
+      sector_in_severe_need_n = comp_foodsec_in_severe_need +
+        comp_snfi_in_severe_need +
+        comp_wash_in_severe_need +
+        comp_prot_in_severe_need +
+        comp_edu_in_severe_need,
       sector_needs_profile = purrr::pmap_chr(
         list(
           comp_foodsec_in_need,
@@ -66,6 +76,34 @@ test_that("add_msni works with default parameters", {
           }
           paste(labels, collapse = " - ")
         }
+      ),
+      sector_severe_needs_profile = purrr::pmap_chr(
+        list(
+          comp_foodsec_in_severe_need,
+          comp_snfi_in_severe_need,
+          comp_wash_in_severe_need,
+          comp_prot_in_severe_need,
+          comp_edu_in_severe_need
+        ),
+        function(foodsec, snfi, wash, prot, edu) {
+          labels <- c()
+          if (foodsec == 1) {
+            labels <- c(labels, "Food security")
+          }
+          if (snfi == 1) {
+            labels <- c(labels, "SNFI")
+          }
+          if (wash == 1) {
+            labels <- c(labels, "WASH")
+          }
+          if (prot == 1) {
+            labels <- c(labels, "Protection")
+          }
+          if (edu == 1) {
+            labels <- c(labels, "Education")
+          }
+          paste(labels, collapse = " - ")
+        }
       )
     )
 
@@ -86,7 +124,12 @@ test_that("add_msni handles all possible values", {
     comp_wash_in_need = c(0, 0, 1, 1, 1),
     comp_prot_in_need = c(0, 0, 1, 1, 1),
     comp_health_in_need = c(0, 0, 1, 1, 1),
-    comp_edu_in_need = c(0, 0, 1, 1, 1)
+    comp_edu_in_need = c(0, 0, 1, 1, 1),
+    comp_foodsec_in_severe_need = c(0, 0, 0, 1, 1),
+    comp_snfi_in_severe_need = c(0, 0, 0, 1, 1),
+    comp_wash_in_severe_need = c(0, 0, 0, 1, 1),
+    comp_prot_in_severe_need = c(0, 0, 0, 1, 1),
+    comp_edu_in_severe_need = c(0, 0, 0, 1, 1)
   )
 
   result <- humind:::add_msni(df)
@@ -97,6 +140,7 @@ test_that("add_msni handles all possible values", {
       msni_in_need = ifelse(msni_score >= 3, 1, 0),
       msni_in_severe_need = ifelse(msni_score >= 4, 1, 0),
       sector_in_need_n = c(NA, NA, 6, 6, 6),
+      sector_in_severe_need_n = c(NA, NA, NA, 5, 5),
       sector_needs_profile = purrr::pmap_chr(
         list(
           comp_foodsec_in_need,
@@ -122,6 +166,35 @@ test_that("add_msni handles all possible values", {
           }
           if (health == 1) {
             labels <- c(labels, "Health")
+          }
+          if (edu == 1) {
+            labels <- c(labels, "Education")
+          }
+          p <- paste(labels, collapse = " - ")
+          p <- ifelse(p == "", NA, p)
+        }
+      ),
+      sector_severe_needs_profile = purrr::pmap_chr(
+        list(
+          comp_foodsec_in_severe_need,
+          comp_snfi_in_severe_need,
+          comp_wash_in_severe_need,
+          comp_prot_in_severe_need,
+          comp_edu_in_severe_need
+        ),
+        function(foodsec, snfi, wash, prot, edu) {
+          labels <- c()
+          if (foodsec == 1) {
+            labels <- c(labels, "Food security")
+          }
+          if (snfi == 1) {
+            labels <- c(labels, "SNFI")
+          }
+          if (wash == 1) {
+            labels <- c(labels, "WASH")
+          }
+          if (prot == 1) {
+            labels <- c(labels, "Protection")
           }
           if (edu == 1) {
             labels <- c(labels, "Education")
