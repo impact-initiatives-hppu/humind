@@ -3,21 +3,29 @@
 education-related indicators. It computes scores for disrupted education and
 attendance/barriers, combines them into a total score, and determines if a
 household is in need or in severe need of educational assistance.
-Prerequisite functions:
-add_loop_age_dummy.R
-add_loop_edu_barrier_protection_d.R
-add_loop_edu_disrupted_d.R
-add_loop_edu_ind_age_corrected.R
+Prerequisite functions (run on the education loop, then aggregate to main):
+add_loop_edu_ind_age_corrected() — corrects individual ages and flags schooling-age children (loop)
+add_loop_edu_access_d() — education access dummies (loop)
+add_loop_edu_barrier_protection_d() — protection barrier dummies (loop)
+add_loop_edu_disrupted_d() — disruption dummies (loop)
+add_loop_edu_ind_schooling_age_d_to_main() — aggregates schooling-age count to main
+add_loop_edu_access_d_to_main() — aggregates access/no-access counts to main
+add_loop_edu_barrier_protection_d_to_main() — aggregates barrier count to main
+add_loop_edu_disrupted_d_to_main() — aggregates disruption counts to main
 
 "><meta property="og:description" content="This function calculates an education sectoral composite score based on various
 education-related indicators. It computes scores for disrupted education and
 attendance/barriers, combines them into a total score, and determines if a
 household is in need or in severe need of educational assistance.
-Prerequisite functions:
-add_loop_age_dummy.R
-add_loop_edu_barrier_protection_d.R
-add_loop_edu_disrupted_d.R
-add_loop_edu_ind_age_corrected.R
+Prerequisite functions (run on the education loop, then aggregate to main):
+add_loop_edu_ind_age_corrected() — corrects individual ages and flags schooling-age children (loop)
+add_loop_edu_access_d() — education access dummies (loop)
+add_loop_edu_barrier_protection_d() — protection barrier dummies (loop)
+add_loop_edu_disrupted_d() — disruption dummies (loop)
+add_loop_edu_ind_schooling_age_d_to_main() — aggregates schooling-age count to main
+add_loop_edu_access_d_to_main() — aggregates access/no-access counts to main
+add_loop_edu_barrier_protection_d_to_main() — aggregates barrier count to main
+add_loop_edu_disrupted_d_to_main() — aggregates disruption counts to main
 
 "><meta property="og:image" content="https://impact-initiatives-hppu.github.io/humind/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -48,7 +56,7 @@ add_loop_edu_ind_age_corrected.R
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Calculate Education Sectoral Composite Score and Need Indicators</h1>
-      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/dev2026.2.0/R/add_comp_edu.R" class="external-link"><code>R/add_comp_edu.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/659_pkgdown/R/add_comp_edu.R" class="external-link"><code>R/add_comp_edu.R</code></a></small>
       <div class="d-none name"><code>add_comp_edu.Rd</code></div>
     </div>
 
@@ -57,10 +65,14 @@ add_loop_edu_ind_age_corrected.R
 education-related indicators. It computes scores for disrupted education and
 attendance/barriers, combines them into a total score, and determines if a
 household is in need or in severe need of educational assistance.</p>
-<p>Prerequisite functions:</p><ul><li><p>add_loop_age_dummy.R</p></li>
-<li><p>add_loop_edu_barrier_protection_d.R</p></li>
-<li><p>add_loop_edu_disrupted_d.R</p></li>
-<li><p>add_loop_edu_ind_age_corrected.R</p></li>
+<p>Prerequisite functions (run on the education loop, then aggregate to main):</p><ul><li><p><code><a href="add_loop_edu_ind_age_corrected.html">add_loop_edu_ind_age_corrected()</a></code> — corrects individual ages and flags schooling-age children (loop)</p></li>
+<li><p><code><a href="add_loop_edu_access_d.html">add_loop_edu_access_d()</a></code> — education access dummies (loop)</p></li>
+<li><p><code><a href="add_loop_edu_barrier_protection_d.html">add_loop_edu_barrier_protection_d()</a></code> — protection barrier dummies (loop)</p></li>
+<li><p><code><a href="add_loop_edu_disrupted_d.html">add_loop_edu_disrupted_d()</a></code> — disruption dummies (loop)</p></li>
+<li><p><code><a href="add_loop_edu_ind_age_corrected.html">add_loop_edu_ind_schooling_age_d_to_main()</a></code> — aggregates schooling-age count to main</p></li>
+<li><p><code><a href="add_loop_edu_access_d.html">add_loop_edu_access_d_to_main()</a></code> — aggregates access/no-access counts to main</p></li>
+<li><p><code><a href="add_loop_edu_barrier_protection_d.html">add_loop_edu_barrier_protection_d_to_main()</a></code> — aggregates barrier count to main</p></li>
+<li><p><code><a href="add_loop_edu_disrupted_d.html">add_loop_edu_disrupted_d_to_main()</a></code> — aggregates disruption counts to main</p></li>
 </ul></div>
 
     <div class="section level2">

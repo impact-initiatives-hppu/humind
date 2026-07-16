@@ -7,15 +7,15 @@ of food security assistance.
 
 Prerequisite food security functions must be run before this function:
 
-- add_fcs()
+- [`add_fcs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fcs.md)
 
-- add_hhs()
+- [`add_hhs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hhs.md)
 
-- add_rcsi()
+- [`add_rcsi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_rcsi.md)
 
-- add_lcsi()
+- [`add_lcsi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_lcsi.md)
 
-- add_fclcm_phase()
+- [`add_fclcm_phase()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fclcm_phase.md)
 
 ## Usage
 

@@ -8,15 +8,15 @@ calculated score.
 
 Prerequisite functions:
 
-- add_shelter_issue_cat.R
+- [`add_shelter_issue_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_shelter_issue_cat.md)
 
-- add_shelter_type_cat.R
+- [`add_shelter_type_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_shelter_type_cat.md)
 
-- add_occupancy_cat.R
+- [`add_occupancy_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_occupancy_cat.md)
 
-- add_fds_cannot_cat.R
+- [`add_fds_cannot_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fds_cannot_cat.md)
 
-- add_shelter_damage_cat.R
+- [`add_shelter_damage_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_shelter_damage_cat.md)
 
 ## Usage
 
