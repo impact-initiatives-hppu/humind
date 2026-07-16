@@ -101,13 +101,13 @@ add_msni <- function(
   comp_scores_nin <- comp_scores[!comp_scores_lgl]
   comp_scores <- comp_scores[comp_scores_lgl]
   # all missing
-  if (!all(comp_scores_lgl)) {
+  if (!any(comp_scores_lgl)) {
     rlang::abort(paste(
       "There are none of the sectoral composites variables. Are you sure you specified the names correctly or you have run the necessary functions to add them?"
     ))
   }
   # Some missing
-  if (any(!comp_scores_lgl)) {
+  if (!all(comp_scores_lgl)) {
     rlang::warn(paste(
       "The following variables are not in the data frame and the MSNI calculation will be run without them:",
       paste(comp_scores_nin, collapse = ", ")
@@ -123,13 +123,13 @@ add_msni <- function(
   comp_in_need <- comp_in_need[comp_in_need_lgl]
   comp_names <- comp_names[comp_in_need_lgl]
   # all missing
-  if (!all(comp_in_need_lgl)) {
+  if (!any(comp_in_need_lgl)) {
     rlang::abort(paste(
       "There are none of the sectoral composites 'in need' variables. Are you sure you specified the names correctly or you have run the necessary functions to add them?"
     ))
   }
   # Some missing
-  if (any(!comp_in_need_lgl)) {
+  if (!all(comp_in_need_lgl)) {
     rlang::warn(paste(
       "The following variables are not in the data frame and the number of sectoral needs and the needs profile calculation will be run without them:",
       paste(comp_in_need_nin, collapse = ", ")
@@ -149,13 +149,13 @@ add_msni <- function(
   comp_in_severe_need <- comp_in_severe_need[comp_in_severe_need_lgl]
   comp_names_severe <- comp_names_severe[comp_in_severe_need_lgl]
   # all missing
-  if (!all(comp_in_severe_need_lgl)) {
+  if (!any(comp_in_severe_need_lgl)) {
     rlang::abort(paste(
       "There are none of the sectoral composites 'in severe need' variables. Are you sure you specified the names correctly or you have run the necessary functions to add them?"
     ))
   }
   # Some missing
-  if (any(!comp_in_severe_need_lgl)) {
+  if (!all(comp_in_severe_need_lgl)) {
     rlang::warn(paste(
       "The following variables are not in the data frame and the number of sectoral severe needs calculation will be run without them:",
       paste(comp_in_severe_need_nin, collapse = ", ")

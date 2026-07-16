@@ -217,7 +217,167 @@ test_that("add_msni handles missing columns", {
     comp_snfi_score = c(5, 4, 3, 2, 1)
   )
 
-  expect_error(humind:::add_msni(df), class = "error")
+  expect_error(suppressWarnings(humind:::add_msni(df)), class = "error")
+})
+
+test_that("add_msni warns (not aborts) when some score columns are missing", {
+  df <- data.frame(
+    comp_foodsec_score = c(1, 2, 3, 4, 5),
+    comp_snfi_score = c(5, 4, 3, 2, 1),
+    comp_wash_score = c(2, 2, 2, 2, 2),
+    comp_prot_score = c(3, 3, 3, 3, 3),
+    comp_health_score = c(4, 4, 4, 4, 4),
+    comp_foodsec_in_need = c(0, 0, 1, 1, 1),
+    comp_snfi_in_need = c(1, 1, 1, 0, 0),
+    comp_wash_in_need = c(0, 0, 0, 0, 0),
+    comp_prot_in_need = c(1, 1, 1, 1, 1),
+    comp_health_in_need = c(1, 1, 1, 1, 1),
+    comp_edu_in_need = c(1, 1, 1, 1, 1),
+    comp_foodsec_in_severe_need = c(0, 0, 0, 1, 1),
+    comp_snfi_in_severe_need = c(1, 0, 0, 0, 0),
+    comp_wash_in_severe_need = c(0, 0, 0, 0, 0),
+    comp_prot_in_severe_need = c(0, 0, 0, 0, 0),
+    comp_edu_in_severe_need = c(1, 1, 1, 1, 1)
+  )
+
+  expect_warning(
+    result <- humind:::add_msni(df),
+    "comp_edu_score"
+  )
+
+  expect_equal(
+    result$msni_score,
+    pmax(
+      df$comp_foodsec_score,
+      df$comp_snfi_score,
+      df$comp_wash_score,
+      df$comp_prot_score,
+      df$comp_health_score,
+      na.rm = TRUE
+    )
+  )
+})
+
+test_that("add_msni aborts when all score columns are missing", {
+  df <- data.frame(
+    comp_foodsec_in_need = c(0, 0, 1, 1, 1),
+    comp_snfi_in_need = c(1, 1, 1, 0, 0)
+  )
+
+  expect_error(
+    humind:::add_msni(df),
+    "none of the sectoral composites variables"
+  )
+})
+
+test_that("add_msni warns (not aborts) when some in_need columns are missing", {
+  df <- data.frame(
+    comp_foodsec_score = c(1, 2, 3, 4, 5),
+    comp_snfi_score = c(5, 4, 3, 2, 1),
+    comp_wash_score = c(2, 2, 2, 2, 2),
+    comp_prot_score = c(3, 3, 3, 3, 3),
+    comp_health_score = c(4, 4, 4, 4, 4),
+    comp_edu_score = c(5, 5, 5, 5, 5),
+    comp_foodsec_in_need = c(0, 0, 1, 1, 1),
+    comp_snfi_in_need = c(1, 1, 1, 0, 0),
+    comp_wash_in_need = c(0, 0, 0, 0, 0),
+    comp_health_in_need = c(1, 1, 1, 1, 1),
+    comp_edu_in_need = c(1, 1, 1, 1, 1),
+    comp_foodsec_in_severe_need = c(0, 0, 0, 1, 1),
+    comp_snfi_in_severe_need = c(1, 0, 0, 0, 0),
+    comp_wash_in_severe_need = c(0, 0, 0, 0, 0),
+    comp_prot_in_severe_need = c(0, 0, 0, 0, 0),
+    comp_edu_in_severe_need = c(1, 1, 1, 1, 1)
+  )
+
+  expect_warning(
+    result <- humind:::add_msni(df),
+    "comp_prot_in_need"
+  )
+
+  expect_equal(
+    result$sector_in_need_n,
+    df$comp_foodsec_in_need +
+      df$comp_snfi_in_need +
+      df$comp_wash_in_need +
+      df$comp_health_in_need +
+      df$comp_edu_in_need
+  )
+})
+
+test_that("add_msni aborts when all in_need columns are missing", {
+  df <- data.frame(
+    comp_foodsec_score = c(1, 2, 3, 4, 5),
+    comp_snfi_score = c(5, 4, 3, 2, 1),
+    comp_wash_score = c(2, 2, 2, 2, 2),
+    comp_prot_score = c(3, 3, 3, 3, 3),
+    comp_health_score = c(4, 4, 4, 4, 4),
+    comp_edu_score = c(5, 5, 5, 5, 5)
+  )
+
+  expect_error(
+    humind:::add_msni(df),
+    "none of the sectoral composites 'in need' variables"
+  )
+})
+
+test_that("add_msni warns (not aborts) when some in_severe_need columns are missing", {
+  df <- data.frame(
+    comp_foodsec_score = c(1, 2, 3, 4, 5),
+    comp_snfi_score = c(5, 4, 3, 2, 1),
+    comp_wash_score = c(2, 2, 2, 2, 2),
+    comp_prot_score = c(3, 3, 3, 3, 3),
+    comp_health_score = c(4, 4, 4, 4, 4),
+    comp_edu_score = c(5, 5, 5, 5, 5),
+    comp_foodsec_in_need = c(0, 0, 1, 1, 1),
+    comp_snfi_in_need = c(1, 1, 1, 0, 0),
+    comp_wash_in_need = c(0, 0, 0, 0, 0),
+    comp_prot_in_need = c(1, 1, 1, 1, 1),
+    comp_health_in_need = c(1, 1, 1, 1, 1),
+    comp_edu_in_need = c(1, 1, 1, 1, 1),
+    comp_foodsec_in_severe_need = c(0, 0, 0, 1, 1),
+    comp_snfi_in_severe_need = c(1, 0, 0, 0, 0),
+    comp_wash_in_severe_need = c(0, 0, 0, 0, 0),
+    comp_prot_in_severe_need = c(0, 0, 0, 0, 0)
+  )
+
+  expect_warning(
+    result <- humind:::add_msni(df),
+    "comp_edu_in_severe_need"
+  )
+
+  expect_equal(
+    result$sector_in_severe_need_n,
+    dplyr::na_if(
+      df$comp_foodsec_in_severe_need +
+        df$comp_snfi_in_severe_need +
+        df$comp_wash_in_severe_need +
+        df$comp_prot_in_severe_need,
+      0
+    )
+  )
+})
+
+test_that("add_msni aborts when all in_severe_need columns are missing", {
+  df <- data.frame(
+    comp_foodsec_score = c(1, 2, 3, 4, 5),
+    comp_snfi_score = c(5, 4, 3, 2, 1),
+    comp_wash_score = c(2, 2, 2, 2, 2),
+    comp_prot_score = c(3, 3, 3, 3, 3),
+    comp_health_score = c(4, 4, 4, 4, 4),
+    comp_edu_score = c(5, 5, 5, 5, 5),
+    comp_foodsec_in_need = c(0, 0, 1, 1, 1),
+    comp_snfi_in_need = c(1, 1, 1, 0, 0),
+    comp_wash_in_need = c(0, 0, 0, 0, 0),
+    comp_prot_in_need = c(1, 1, 1, 1, 1),
+    comp_health_in_need = c(1, 1, 1, 1, 1),
+    comp_edu_in_need = c(1, 1, 1, 1, 1)
+  )
+
+  expect_error(
+    humind:::add_msni(df),
+    "none of the sectoral composites 'in severe need' variables"
+  )
 })
 
 test_that("add_msni handles out-of-range values", {
