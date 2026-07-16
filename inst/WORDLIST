@@ -30,6 +30,7 @@ dnk
 DNK
 dplyr
 edu
+erroring
 fc
 FC
 FCLC
@@ -77,6 +78,7 @@ Iyed
 jmp
 JMP
 justfile
+Kobo
 laith
 Laith
 LazyData
@@ -87,6 +89,7 @@ lightbulbs
 lintr
 magrittr
 mario
+md
 members'
 MERCHANTABILITY
 misclassified
@@ -168,3 +171,4 @@ xlsx
 yaml
 yml
 yn
+️
