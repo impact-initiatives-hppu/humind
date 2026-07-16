@@ -7,14 +7,9 @@ disability status. The function then determines if a household is in
 need or in severe need of health assistance based on the calculated
 score.
 
-Prerequisite functions (run on the healthcare loop, then aggregate to
-main):
+Prerequisite functions:
 
-- [`add_loop_healthcare_needed_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.md)
-  — categorizes individual healthcare need (loop)
-
-- [`add_loop_healthcare_needed_cat_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.md)
-  — aggregates the counts to main
+- add_loop_healthcare_needed_cat.R
 
 ## Usage
 

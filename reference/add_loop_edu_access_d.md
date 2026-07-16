@@ -8,7 +8,7 @@ no access to school.
 
 Prerequisite function:
 
-- [`add_loop_edu_ind_age_corrected()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_ind_age_corrected.md)
+- add_loop_edu_ind_age_corrected.R
 
 ## Usage
 
