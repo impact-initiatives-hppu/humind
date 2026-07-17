@@ -34,11 +34,11 @@ are significant** — read the section below before upgrading.
   * Shelter damage is now a **mandatory** input to `add_comp_snfi()`
     (previously toggled on/off via a `shelter_damage` argument).
   * Shelter-damage category labels and severity scores were overhauled.
-  * Default answer options for domestic-task assessment (`add_fds_cannot_cat()`)
-    corrected — some previous defaults had "yes"/"no" reversed.
+  * Default answer options for domestic-task assessment (add_fds_cannot_cat()) adapted to the 2026 framework. The previous logic had     a mix of affirmative and negative responses resulting in FDS severity.
+    
 
 * **Food Security**
-  * FC phases renamed to **FCLCM** in `add_comp_foodsec()`.
+  * Severity classification now derived from the Food Consumption & Livelihood Coping Matrix (FCLCM) in add_comp_foodsec().
   * `add_fcs()`, `add_hhs()`, `add_rcsi()`, `add_lcsi()`, and
     `add_fcm_phase()` — previously re-exported from `impactR4PHU` — are now
     vendored locally in `humind`. A new `add_fclcm_phase()` function is
