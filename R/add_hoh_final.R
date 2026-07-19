@@ -60,5 +60,5 @@ add_hoh_final <- function(
     )
   )
 
-  return(df)
+  df
 }

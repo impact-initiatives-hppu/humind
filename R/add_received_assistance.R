@@ -52,7 +52,7 @@ add_received_assistance <- function(
   )
 
   # Check if yes and no are of length 1
-  if (length(yes) != 1 | length(no) != 1) {
+  if (length(yes) != 1 || length(no) != 1) {
     stop("yes and no must be of length 1.")
   }
 
@@ -81,7 +81,7 @@ add_received_assistance <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 #' Any barriers to accessing humanitarian assistance encountered
@@ -120,5 +120,5 @@ add_barriers_assistance_any <- function(
     )
   )
 
-  return(df)
+  df
 }

@@ -11,9 +11,11 @@ add_prot_score_movement(
   no_changes_feel_unsafe = "no_changes_feel_unsafe",
   no_safety_concerns = "no_safety_concerns",
   women_girls_avoid_places = "women_girls_avoid_places",
-  men_boys_avoid_places = "men_boys_avoid_places",
+  men_avoid_places = "men_avoid_places",
+  boys_avoid_places = "boys_avoid_places",
   women_girls_avoid_night = "women_girls_avoid_night",
-  men_boys_avoid_night = "men_boys_avoid_night",
+  men_avoid_night = "men_avoid_night",
+  boys_avoid_night = "boys_avoid_night",
   girls_boys_avoid_school = "girls_boys_avoid_school",
   different_routes = "different_routes",
   avoid_markets = "avoid_markets",
@@ -22,6 +24,8 @@ add_prot_score_movement(
   other_safety_measures = "other_safety_measures",
   dnk = "dnk",
   pnta = "pnta",
+  men_avoid_places_weight = 1,
+  men_avoid_night_weight = 1,
   .keep_weighted = FALSE
 )
 }
@@ -38,11 +42,15 @@ add_prot_score_movement(
 
 \item{women_girls_avoid_places}{answer option}
 
-\item{men_boys_avoid_places}{answer option}
+\item{men_avoid_places}{answer option}
+
+\item{boys_avoid_places}{answer option}
 
 \item{women_girls_avoid_night}{answer option}
 
-\item{men_boys_avoid_night}{answer option}
+\item{men_avoid_night}{answer option}
+
+\item{boys_avoid_night}{answer option}
 
 \item{girls_boys_avoid_school}{answer option}
 
@@ -59,6 +67,10 @@ add_prot_score_movement(
 \item{dnk}{answer option}
 
 \item{pnta}{answer option}
+
+\item{men_avoid_places_weight}{Numeric weight for \code{men_avoid_places} (0–2). Default is 1.}
+
+\item{men_avoid_night_weight}{Numeric weight for \code{men_avoid_night} (0–2). Default is 1.}
 
 \item{.keep_weighted}{Logical, whether to keep the weighted columns in the output data frame. Default is FALSE.}
 }

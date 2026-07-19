@@ -28,7 +28,7 @@ add_loop_edu_access_d <- function(
   no = "no",
   pnta = "pnta",
   dnk = "dnk",
-  ind_schooling_age_d = "edu_ind_schooling_age_d"
+  ind_schooling_age_d = "edu_ind_age_schooling"
 ) {
   #----- Checks
 
@@ -82,7 +82,7 @@ add_loop_edu_access_d <- function(
     )
   )
 
-  return(loop)
+  loop
 }
 
 #' @rdname add_loop_edu_access_d
@@ -153,5 +153,5 @@ add_loop_edu_access_d_to_main <- function(
   )
 
   # Return main
-  return(main)
+  main
 }

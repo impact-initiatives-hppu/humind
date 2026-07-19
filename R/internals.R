@@ -28,7 +28,7 @@ are_cols_numeric <- function(df, cols) {
     ))
   }
 
-  return(TRUE)
+  TRUE
 }
 
 #' @title Stop statement values are not in range
@@ -65,7 +65,7 @@ are_values_in_range <- function(df, cols, lower = 0, upper = 7) {
     ))
   }
 
-  return(TRUE)
+  TRUE
 }
 
 
@@ -125,7 +125,7 @@ are_values_in_set <- function(
     ))
   }
 
-  return(TRUE)
+  TRUE
 }
 
 

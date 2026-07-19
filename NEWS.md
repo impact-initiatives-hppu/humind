@@ -1,5 +1,183 @@
 # humind (development version)
 
+# humind 2026.2.0
+
+This release rolls out the 2026 MSNI framework update across WASH, Protection,
+SNFI, Food Security, and Education indicators, including a new HWISE-4
+prerequisite step, a mandatory shelter-damage component, and several
+parameter/default changes to match this year's Kobo form. **Breaking changes
+are significant** — read the section below before upgrading.
+
+---
+
+## 2026 Programmatic Changes
+
+* **WASH**
+  * Water-quantity scoring is no longer computed inside `add_comp_wash()`.
+    It now requires a pre-computed HWISE-4 score, produced by the new
+    `add_hwise()` prerequisite function.
+  * Drinking-water-quality severity thresholds shifted to match MSNI 2026
+    guidance.
+  * The list of "unimproved" sanitation facilities was revised.
+  * Default answer-option codes realigned to the updated Kobo form across
+    several WASH functions (camp/urban/rural settings, water source, time
+    to fetch water, handwashing facility).
+
+* **Protection**
+  * The movement composite's linear scoring formula was replaced with an
+    explicit, capped severity scale, and gained a rule to force `NA` when
+    only `other_safety_measures` is selected.
+  * Movement options split into separate men/boys categories, with new
+    optional weight parameters.
+
+* **SNFI**
+  * Shelter damage is now a **mandatory** input to `add_comp_snfi()`
+    (previously toggled on/off via a `shelter_damage` argument).
+  * Shelter-damage category labels and severity scores were overhauled.
+  * Default answer options for domestic-task assessment (add_fds_cannot_cat()) adapted to the 2026 framework. The previous logic had     a mix of affirmative and negative responses resulting in FDS severity.
+    
+
+* **Food Security**
+  * Severity classification now derived from the Food Consumption & Livelihood Coping Matrix (FCLCM) in add_comp_foodsec().
+  * `add_fcs()`, `add_hhs()`, `add_rcsi()`, `add_lcsi()`, and
+    `add_fcm_phase()` — previously re-exported from `impactR4PHU` — are now
+    vendored locally in `humind`. A new `add_fclcm_phase()` function is
+    added.
+
+* **Education**
+  * `edu_ind_schooling_age_d` renamed to `edu_ind_age_schooling` (shared
+    default across the education loop functions).
+  * `child_pregnancy` added as a recognized protection barrier in
+    `add_loop_edu_barrier_protection_d()`.
+
+* **MSNI**
+  * `add_msni()` gains `sector_in_severe_need_n` and
+    `sector_severe_needs_profile` outputs.
+
+---
+
+## Codebase Changes
+
+### New Features
+
+* `add_hwise()`: new function for HWISE-4 water/handwashing scoring,
+  intended as a prerequisite step for `add_comp_wash()`.
+* `add_fclcm_phase()`: new function computing the FCLCM phase from FCS,
+  rCSI, HHS, and LCSI outputs.
+* `add_msni()` now returns `sector_in_severe_need_n` and
+  `sector_severe_needs_profile`.
+* `add_loop_edu_barrier_protection_d()` recognizes `child_pregnancy` as an
+  additional protection barrier (existing codes still match as before).
+
+### Enhancements
+
+* Strengthened input validation: `sharing_sanitation_facility_cat` added
+  to the `if_not_in_stop` check in `add_comp_wash()`; corrected the
+  `are_values_in_set` validation set in `add_drinking_water_quality_jmp_cat()`.
+
+### Bug Fixes
+
+* Corrected the all-missing-columns validation check in `add_msni()` —
+  it previously aborted whenever *any* sectoral composite was missing
+  instead of only when *all* of them were; calls with a partial set of
+  composites now succeed (with a warning) instead of erroring.
+* Fixed a trailing-comma bug in `add_comp_wash()` (no output change).
+* Fixed NSE evaluation and modernized pipe usage in food security
+  functions to satisfy `R CMD check` (internal only, no output change).
+
+### Testing
+
+* Added tests covering the 2026 WASH logic changes, including custom
+  value recoding for columns and answer options.
+* Added a test verifying `other_safety_measures` does not affect the
+  Protection score when combined with other options.
+* Added a regression test for `add_shelter_damage_cat()`.
+* Added an end-to-end integration test for the food security pipeline
+  (`add_fcs()` → `add_hhs()` → `add_rcsi()` → `add_lcsi()` →
+  `add_fcm_phase()` → `add_fclcm_phase()` → `add_comp_foodsec()`).
+* Repaired and expanded WASH test fixtures.
+
+### Documentation
+
+* Clarified that recoded HWISE items are only exposed via
+  `.keep_recoded`.
+* Regenerated documentation after removing the dead
+  `sanitation_facility_jmp_cat_safely_managed` parameter.
+
+### Dependency Management
+
+* Added `checkmate` to `Imports`.
+* Removed the runtime dependency on `impactR4PHU` — `add_fcs()`,
+  `add_hhs()`, `add_rcsi()`, `add_lcsi()`, and `add_fcm_phase()` are now
+  vendored locally instead of imported.
+
+### Breaking Changes
+
+* **Renames**
+  * `edu_ind_schooling_age_d` → **`edu_ind_age_schooling`** (shared default
+    across `add_loop_edu_access_d()`, `add_loop_edu_barrier_protection_d()`,
+    `add_loop_edu_disrupted_d()`).
+  * `add_comp_foodsec()`: `fc_phase` → **`fclcm_phase`** (default column
+    `"fsl_fc_phase"` → `"fclcm_phase"`), and phase labels `"Phase X FC"` →
+    **`"Phase X FCLC"`**.
+
+* **WASH**
+  * `add_comp_wash()` no longer computes water-quantity scoring from raw
+    HWISE-drink responses. The `drinking_water_quantity*` parameters are
+    gone; the function now requires a pre-computed `comp_wash_hwise_score`
+    column (produced by the new `add_hwise()`).
+  * `add_comp_wash()`: `setting_camp` default changed from `"camp"` to
+    `c("camp_formal", "camp_informal")`, and matching switched from `==`
+    to `%in%` — default callers whose data still uses `"camp"` will no
+    longer match.
+  * `add_comp_wash()`: removed the dead `sanitation_facility_jmp_cat_safely_managed`
+    parameter (the JMP category function never actually produced that
+    value).
+  * `add_comp_wash()`: drinking-water-quality severity thresholds shifted
+    by one level across camp/urban/rural branches.
+  * `add_sanitation_facility_cat()`: "unimproved" facility codes changed
+    (dropped `flush_elsewhere`/`plastic_bag`; added
+    `twin_pit_latrine_wo_slab`/`other_container`).
+  * `add_drinking_water_source_cat()`: default code `protected_spring` →
+    `well_spring`; `sl_under_30_min` changed from a free scalar default to
+    a `match.arg()`-constrained vector (out-of-set values now error);
+    `water_on_premises` default changed from `"water_on_premises"` to
+    `c("water_in_dwelling", "water_in_plot")`.
+  * `add_handwashing_facility_cat()`: `facility_undefined` narrowed from
+    `c("other", "pnta")` to `"other"`; observed/reported soap and water
+    column-name defaults changed to `_yn`-suffixed names, with new value
+    codes (e.g. `yes_soap_shown` → `soap_available`).
+  * `add_loop_wgq_ss()`: default codes `lot_of_difficulty` →
+    `a_lot_of_difficulty` and `cannot_do` → `cannot_do_at_all`.
+
+* **SNFI**
+  * `add_comp_snfi()`: the `shelter_damage` toggle parameter was removed —
+    shelter damage is now always required and always scored (previously
+    optional, off by default).
+  * `add_shelter_damage_cat()`: default damage-type codes changed
+    (`minor` → `minor_roof`, `major` → `major_roof`,
+    `damage_windows_doors` → `windows_doors`, `damage_floors` → `floors`,
+    `damage_walls` → `walls`), **and** the returned category labels changed
+    entirely: `"No damage"/"Damaged"/"Partial collapse or destruction"/
+    "Total collapse or destruction"/"Undefined"` →
+    `"none"/"damaged"/"part"/"total"/"undefined"`.
+  * `add_comp_snfi()`: shelter-damage severity score scale shifted —
+    `total` 4→5, `part` 3→4, `damaged` 2→3 (`none` stays 1).
+  * `add_fds_cannot_cat()`: `fds_cooking_can`/`fds_cooking_cannot` defaults
+    swapped (previously backwards: "can cook" defaulted to `"no"`); output
+    category strings simplified (`"no_cannot"` → `"no"`).
+
+* **Protection**
+  * `add_prot_score_movement()`: the linear `comp_prot_score_prot_needs_3 + 1`
+    scoring formula was replaced by an explicit, capped scale
+    (`>= 3 ~ 4`, `== 2 ~ 3`, `== 1 ~ 2`, `== 0 ~ 1`); the NA rule now also
+    triggers when only `other_safety_measures` is selected with a zero
+    score.
+  * `add_prot_score_movement()`: `men_boys_avoid_places` split into
+    `men_avoid_places` + `boys_avoid_places` (same split for
+    `..._avoid_night`), with new optional weight parameters
+    (`men_avoid_places_weight`, `men_avoid_night_weight`).
+
 # humind 2025.1.4
 
 This release fixes a shelter classification bug affecting tents.
@@ -131,7 +309,7 @@ removed.
 
 ## 📖 2025 Programmatic Changes
 
-* **Protection**: complete ravamp, based on a series of new Tier 1 indicators
+* **Protection**: complete revamp, based on a series of new Tier 1 indicators
 related to Protection Needs. 
 
 * **SNFI**:
@@ -277,7 +455,7 @@ Provides functions to compose usual humanitarian composite indicators related to
    * JMP ladders.
    * Specific indicators related to the MSNI framework.
 
-The package follows the ‘Step-Composition’ approach of IMPACT R framework.
+The package follows the 'Step-Composition' approach of IMPACT R framework.
 
 
 # humind 0.1.900

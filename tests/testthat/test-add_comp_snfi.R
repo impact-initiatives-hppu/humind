@@ -10,8 +10,7 @@ test_df <- data.frame(
 
 # Run the function
 result_df <- add_comp_snfi(
-  df = test_df,
-  shelter_damage = TRUE
+  df = test_df
 )
 
 # Begin tests
@@ -39,9 +38,14 @@ test_that("Composite scores are correct", {
     c(3, 2, 1, NA_real_)
   )
   expect_equal(result_df$comp_snfi_score_fds_cannot_cat, c(4, 3, 2, 1))
-  expect_equal(result_df$comp_snfi_score_shelter_damage_cat, c(4, 3, 2, 1))
+  expect_equal(result_df$comp_snfi_score_shelter_damage_cat, c(5, 4, 3, 1))
 })
 
 test_that("Composite max score is correct", {
-  expect_equal(result_df$comp_snfi_score, c(5, 3, 2, 1))
+  expect_equal(result_df$comp_snfi_score, c(5, 4, 3, 1))
+})
+
+test_that("add_comp_snfi errors when shelter damage category is missing", {
+  df_missing <- test_df[, setdiff(names(test_df), "snfi_shelter_damage_cat")]
+  expect_error(add_comp_snfi(df_missing))
 })

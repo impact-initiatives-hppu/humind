@@ -20,7 +20,7 @@ add_loop_edu_ind_age_corrected(
 add_loop_edu_ind_schooling_age_d_to_main(
   main,
   loop,
-  ind_schooling_age_d = "edu_ind_schooling_age_d",
+  ind_schooling_age_d = "edu_ind_age_schooling",
   id_col_main = "uuid",
   id_col_loop = "uuid"
 )
@@ -42,12 +42,12 @@ add_loop_edu_ind_schooling_age_d_to_main(
 
 \item{month}{If not NULL, an integer between 1 and 12 which will be used as the month of data collection for all households.}
 
-\item{schooling_start_age}{The age at which we assign the value 1 to edu_ind_schooling_age_d. Default is 5.}
+\item{schooling_start_age}{The age at which we assign the value 1 to edu_ind_age_schooling. Default is 5.}
 
 \item{ind_schooling_age_d}{Column name for the dummy variable of the schooling age class.}
 }
 \value{
-2 new columns: "edu_ind_age_corrected" with the corrected individual age, and a dummy variable edu_ind_schooling_age_d
+2 new columns: "edu_ind_age_corrected" with the corrected individual age, and a dummy variable edu_ind_age_schooling
 }
 \description{
 Add a correct schooling age to the loop

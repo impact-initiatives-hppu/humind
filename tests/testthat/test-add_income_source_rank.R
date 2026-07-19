@@ -57,12 +57,12 @@ test_that("add_income_source_rank returns correct values", {
 })
 
 test_that("add_income_source_rank handles missing columns gracefully", {
-  df_missing <- df %>% select(-cm_income_source_assistance_n)
+  df_missing <- df |> select(-cm_income_source_assistance_n)
   expect_error(add_income_source_rank(df_missing), class = "error")
 })
 
 test_that("add_income_source_rank handles non-numeric columns gracefully", {
-  df_non_numeric <- df %>%
+  df_non_numeric <- df |>
     mutate(
       cm_income_source_assistance_n = as.character(
         cm_income_source_assistance_n

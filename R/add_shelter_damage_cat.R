@@ -1,4 +1,4 @@
-#' @title Add Category of Shelter damage (Optional SNFI dimension)
+#' @title Add Category of Shelter damage (SNFI dimension)
 #'
 #' @description This function categorizes the shelter damage category based on provided criteria.
 #'
@@ -18,7 +18,7 @@
 #'
 #' @return A data frame with an additional column:
 #'
-#' * snfi_shelter_damage_cat: Categorized shelter damages: "No damage", "Damaged", "Partial collapse or destruction", "Total collapse or destruction", or "Undefined".
+#' * snfi_shelter_damage_cat: Categorized shelter damages: "none", "damaged", "part", "total", or "undefined".
 #'
 #' @export
 #'
@@ -27,11 +27,11 @@ add_shelter_damage_cat <- function(
   sep = "/",
   snfi_shelter_damage = "snfi_shelter_damage",
   none = "none",
-  minor = "minor",
-  major = "major",
-  damage_windows_doors = "damage_windows_doors",
-  damage_floors = "damage_floors",
-  damage_walls = "damage_walls",
+  minor = "minor_roof",
+  major = "major_roof",
+  damage_windows_doors = "windows_doors",
+  damage_floors = "floors",
+  damage_walls = "walls",
   total_collapse = "total_collapse",
   other = "other",
   dnk = "dnk",
@@ -131,16 +131,16 @@ add_shelter_damage_cat <- function(
     df,
     snfi_shelter_damage_cat = dplyr::case_when(
       rowSums(dplyr::across(dplyr::all_of(col_total)) == 1) > 0 ~
-        "Total collapse or destruction",
+        "total",
       rowSums(dplyr::across(dplyr::all_of(col_part)) == 1) > 0 ~
-        "Partial collapse or destruction",
-      rowSums(dplyr::across(dplyr::all_of(col_damaged)) == 1) > 0 ~ "Damaged",
-      rowSums(dplyr::across(dplyr::all_of(col_none)) == 1) > 0 ~ "No damage",
+        "part",
+      rowSums(dplyr::across(dplyr::all_of(col_damaged)) == 1) > 0 ~ "damaged",
+      rowSums(dplyr::across(dplyr::all_of(col_none)) == 1) > 0 ~ "none",
       rowSums(dplyr::across(dplyr::all_of(col_undefined)) == 1) > 0 ~
-        "Undefined",
+        "undefined",
       TRUE ~ NA_character_
     )
   )
 
-  return(df)
+  df
 }

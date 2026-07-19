@@ -30,11 +30,11 @@ add_sanitation_facility_cat <- function(
   ),
   unimproved = c(
     "flush_open_drain",
-    "flush_elsewhere",
     "pit_latrine_wo_slab",
     "bucket",
     "hanging_toilet",
-    "plastic_bag"
+    "twin_pit_latrine_wo_slab",
+    "other_container"
   ),
   none = "none",
   undefined = c("other", "dnk", "pnta")
@@ -63,7 +63,7 @@ add_sanitation_facility_cat <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 
@@ -99,7 +99,6 @@ add_sharing_sanitation_facility_cat <- function(
   if (!is.null(skipped_sanitation_facility)) {
     are_values_in_set(df, sanitation_facility, skipped_sanitation_facility)
   }
-  # are_cols_numeric(df, sharing_sanitation_facility)
 
   # If sanitation_facility was skipped because of sharing_sanitation_facility, then recode sharing_sanitation_facility to "no"
   if (!is.null(skipped_sanitation_facility)) {
@@ -126,7 +125,7 @@ add_sharing_sanitation_facility_cat <- function(
     )
   }
 
-  return(df)
+  df
 }
 
 #' @rdname add_sanitation_facility_cat
@@ -197,8 +196,8 @@ add_sharing_sanitation_facility_n_ind <- function(
       !!rlang::sym(sharing_sanitation_facility_cat) ==
         sharing_sanitation_facility_cat_shared ~
         (!!rlang::sym(sanitation_facility_sharing_n) - 1) *
-          mean_hh_size +
-          !!rlang::sym(hh_size),
+        mean_hh_size +
+        !!rlang::sym(hh_size),
       # If facility not shared
       !!rlang::sym(sharing_sanitation_facility_cat) ==
         sharing_sanitation_facility_cat_not_shared ~
@@ -218,7 +217,7 @@ add_sharing_sanitation_facility_n_ind <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 
@@ -317,5 +316,5 @@ add_sanitation_facility_jmp_cat <- function(
     )
   )
 
-  return(df)
+  df
 }

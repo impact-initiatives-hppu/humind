@@ -130,5 +130,5 @@ add_shelter_issue_cat <- function(
     )
   )
 
-  return(df)
+  df
 }

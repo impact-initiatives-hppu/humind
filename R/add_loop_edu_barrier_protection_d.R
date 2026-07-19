@@ -28,11 +28,12 @@ add_loop_edu_barrier_protection_d <- function(
     "child_work_outside",
     "child_armed_group",
     "child_marriage",
+    "child_pregnancy",
     "ban",
     "enroll_lack_documentation",
     "discrimination"
   ),
-  ind_schooling_age_d = "edu_ind_schooling_age_d"
+  ind_schooling_age_d = "edu_ind_age_schooling"
 ) {
   #----- Checks
 
@@ -62,7 +63,7 @@ add_loop_edu_barrier_protection_d <- function(
     )
   )
 
-  return(loop)
+  loop
 }
 
 #' @rdname add_loop_edu_barrier_protection_d
@@ -121,5 +122,5 @@ add_loop_edu_barrier_protection_d_to_main <- function(
     by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop))
   )
 
-  return(main)
+  main
 }

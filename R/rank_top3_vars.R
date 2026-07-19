@@ -89,5 +89,5 @@ rank_top3_vars <- function(
   df <- dplyr::left_join(df, int, by = id_col)
   df <- dplyr::as_tibble(df)
 
-  return(df)
+  df
 }

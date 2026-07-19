@@ -108,7 +108,7 @@ add_quantile_interval <- function(
 
       int <- dplyr::select(int, !!rlang::sym(paste0(x, "_qtl")))
 
-      return(int)
+      int
     }
   )
 
@@ -121,5 +121,5 @@ add_quantile_interval <- function(
   # Cbind to df
   df <- dplyr::bind_cols(df, df_qtl)
 
-  return(df)
+  df
 }
