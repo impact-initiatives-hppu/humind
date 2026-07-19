@@ -28,11 +28,143 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/659_pkgdown/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/dev2026.2.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="humind-development-version">humind (development version)<a class="anchor" aria-label="anchor" href="#humind-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2026.2.0" id="humind-202620">humind 2026.2.0<a class="anchor" aria-label="anchor" href="#humind-202620"></a></h2>
+<p>This release rolls out the 2026 MSNI framework update across WASH, Protection, SNFI, Food Security, and Education indicators, including a new HWISE-4 prerequisite step, a mandatory shelter-damage component, and several parameter/default changes to match this year’s Kobo form. <strong>Breaking changes are significant</strong> — read the section below before upgrading.</p>
+<hr><div class="section level3">
+<h3 id="id_2026-programmatic-changes-2026-2-0">2026 Programmatic Changes<a class="anchor" aria-label="anchor" href="#id_2026-programmatic-changes-2026-2-0"></a></h3>
+<ul><li>
+<strong>WASH</strong>
+<ul><li>Water-quantity scoring is no longer computed inside <code><a href="../reference/add_comp_wash.html">add_comp_wash()</a></code>. It now requires a pre-computed HWISE-4 score, produced by the new <code><a href="../reference/add_hwise.html">add_hwise()</a></code> prerequisite function.</li>
+<li>Drinking-water-quality severity thresholds shifted to match MSNI 2026 guidance.</li>
+<li>The list of “unimproved” sanitation facilities was revised.</li>
+<li>Default answer-option codes realigned to the updated Kobo form across several WASH functions (camp/urban/rural settings, water source, time to fetch water, handwashing facility).</li>
+</ul></li>
+<li>
+<strong>Protection</strong>
+<ul><li>The movement composite’s linear scoring formula was replaced with an explicit, capped severity scale, and gained a rule to force <code>NA</code> when only <code>other_safety_measures</code> is selected.</li>
+<li>Movement options split into separate men/boys categories, with new optional weight parameters.</li>
+</ul></li>
+<li>
+<strong>SNFI</strong>
+<ul><li>Shelter damage is now a <strong>mandatory</strong> input to <code><a href="../reference/add_comp_snfi.html">add_comp_snfi()</a></code> (previously toggled on/off via a <code>shelter_damage</code> argument).</li>
+<li>Shelter-damage category labels and severity scores were overhauled.</li>
+<li>Default answer options for domestic-task assessment (add_fds_cannot_cat()) adapted to the 2026 framework. The previous logic had a mix of affirmative and negative responses resulting in FDS severity.</li>
+</ul></li>
+<li>
+<strong>Food Security</strong>
+<ul><li>Severity classification now derived from the Food Consumption &amp; Livelihood Coping Matrix (FCLCM) in add_comp_foodsec().</li>
+<li>
+<code><a href="../reference/add_fcs.html">add_fcs()</a></code>, <code><a href="../reference/add_hhs.html">add_hhs()</a></code>, <code><a href="../reference/add_rcsi.html">add_rcsi()</a></code>, <code><a href="../reference/add_lcsi.html">add_lcsi()</a></code>, and <code><a href="../reference/add_fcm_phase.html">add_fcm_phase()</a></code> — previously re-exported from <code>impactR4PHU</code> — are now vendored locally in <code>humind</code>. A new <code><a href="../reference/add_fclcm_phase.html">add_fclcm_phase()</a></code> function is added.</li>
+</ul></li>
+<li>
+<strong>Education</strong>
+<ul><li>
+<code>edu_ind_schooling_age_d</code> renamed to <code>edu_ind_age_schooling</code> (shared default across the education loop functions).</li>
+<li>
+<code>child_pregnancy</code> added as a recognized protection barrier in <code><a href="../reference/add_loop_edu_barrier_protection_d.html">add_loop_edu_barrier_protection_d()</a></code>.</li>
+</ul></li>
+<li>
+<strong>MSNI</strong>
+<ul><li>
+<code><a href="../reference/add_msni.html">add_msni()</a></code> gains <code>sector_in_severe_need_n</code> and <code>sector_severe_needs_profile</code> outputs.</li>
+</ul></li>
+</ul><hr></div>
+<div class="section level3">
+<h3 id="codebase-changes-2026-2-0">Codebase Changes<a class="anchor" aria-label="anchor" href="#codebase-changes-2026-2-0"></a></h3>
+<div class="section level4">
+<h4 id="new-features-2026-2-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-2026-2-0"></a></h4>
+<ul><li>
+<code><a href="../reference/add_hwise.html">add_hwise()</a></code>: new function for HWISE-4 water/handwashing scoring, intended as a prerequisite step for <code><a href="../reference/add_comp_wash.html">add_comp_wash()</a></code>.</li>
+<li>
+<code><a href="../reference/add_fclcm_phase.html">add_fclcm_phase()</a></code>: new function computing the FCLCM phase from FCS, rCSI, HHS, and LCSI outputs.</li>
+<li>
+<code><a href="../reference/add_msni.html">add_msni()</a></code> now returns <code>sector_in_severe_need_n</code> and <code>sector_severe_needs_profile</code>.</li>
+<li>
+<code><a href="../reference/add_loop_edu_barrier_protection_d.html">add_loop_edu_barrier_protection_d()</a></code> recognizes <code>child_pregnancy</code> as an additional protection barrier (existing codes still match as before).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="enhancements-2026-2-0">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-2026-2-0"></a></h4>
+<ul><li>Strengthened input validation: <code>sharing_sanitation_facility_cat</code> added to the <code>if_not_in_stop</code> check in <code><a href="../reference/add_comp_wash.html">add_comp_wash()</a></code>; corrected the <code>are_values_in_set</code> validation set in <code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_quality_jmp_cat()</a></code>.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="bug-fixes-2026-2-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2026-2-0"></a></h4>
+<ul><li>Corrected the all-missing-columns validation check in <code><a href="../reference/add_msni.html">add_msni()</a></code> — it previously aborted whenever <em>any</em> sectoral composite was missing instead of only when <em>all</em> of them were; calls with a partial set of composites now succeed (with a warning) instead of erroring.</li>
+<li>Fixed a trailing-comma bug in <code><a href="../reference/add_comp_wash.html">add_comp_wash()</a></code> (no output change).</li>
+<li>Fixed NSE evaluation and modernized pipe usage in food security functions to satisfy <code>R CMD check</code> (internal only, no output change).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="testing-2026-2-0">Testing<a class="anchor" aria-label="anchor" href="#testing-2026-2-0"></a></h4>
+<ul><li>Added tests covering the 2026 WASH logic changes, including custom value recoding for columns and answer options.</li>
+<li>Added a test verifying <code>other_safety_measures</code> does not affect the Protection score when combined with other options.</li>
+<li>Added a regression test for <code><a href="../reference/add_shelter_damage_cat.html">add_shelter_damage_cat()</a></code>.</li>
+<li>Added an end-to-end integration test for the food security pipeline (<code><a href="../reference/add_fcs.html">add_fcs()</a></code> → <code><a href="../reference/add_hhs.html">add_hhs()</a></code> → <code><a href="../reference/add_rcsi.html">add_rcsi()</a></code> → <code><a href="../reference/add_lcsi.html">add_lcsi()</a></code> → <code><a href="../reference/add_fcm_phase.html">add_fcm_phase()</a></code> → <code><a href="../reference/add_fclcm_phase.html">add_fclcm_phase()</a></code> → <code><a href="../reference/add_comp_foodsec.html">add_comp_foodsec()</a></code>).</li>
+<li>Repaired and expanded WASH test fixtures.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="documentation-2026-2-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-2026-2-0"></a></h4>
+<ul><li>Clarified that recoded HWISE items are only exposed via <code>.keep_recoded</code>.</li>
+<li>Regenerated documentation after removing the dead <code>sanitation_facility_jmp_cat_safely_managed</code> parameter.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="dependency-management-2026-2-0">Dependency Management<a class="anchor" aria-label="anchor" href="#dependency-management-2026-2-0"></a></h4>
+<ul><li>Added <code>checkmate</code> to <code>Imports</code>.</li>
+<li>Removed the runtime dependency on <code>impactR4PHU</code> — <code><a href="../reference/add_fcs.html">add_fcs()</a></code>, <code><a href="../reference/add_hhs.html">add_hhs()</a></code>, <code><a href="../reference/add_rcsi.html">add_rcsi()</a></code>, <code><a href="../reference/add_lcsi.html">add_lcsi()</a></code>, and <code><a href="../reference/add_fcm_phase.html">add_fcm_phase()</a></code> are now vendored locally instead of imported.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="breaking-changes-2026-2-0">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-2026-2-0"></a></h4>
+<ul><li>
+<strong>Renames</strong>
+<ul><li>
+<code>edu_ind_schooling_age_d</code> → <strong><code>edu_ind_age_schooling</code></strong> (shared default across <code><a href="../reference/add_loop_edu_access_d.html">add_loop_edu_access_d()</a></code>, <code><a href="../reference/add_loop_edu_barrier_protection_d.html">add_loop_edu_barrier_protection_d()</a></code>, <code><a href="../reference/add_loop_edu_disrupted_d.html">add_loop_edu_disrupted_d()</a></code>).</li>
+<li>
+<code><a href="../reference/add_comp_foodsec.html">add_comp_foodsec()</a></code>: <code>fc_phase</code> → <strong><code>fclcm_phase</code></strong> (default column <code>"fsl_fc_phase"</code> → <code>"fclcm_phase"</code>), and phase labels <code>"Phase X FC"</code> → <strong><code>"Phase X FCLC"</code></strong>.</li>
+</ul></li>
+<li>
+<strong>WASH</strong>
+<ul><li>
+<code><a href="../reference/add_comp_wash.html">add_comp_wash()</a></code> no longer computes water-quantity scoring from raw HWISE-drink responses. The <code>drinking_water_quantity*</code> parameters are gone; the function now requires a pre-computed <code>comp_wash_hwise_score</code> column (produced by the new <code><a href="../reference/add_hwise.html">add_hwise()</a></code>).</li>
+<li>
+<code><a href="../reference/add_comp_wash.html">add_comp_wash()</a></code>: <code>setting_camp</code> default changed from <code>"camp"</code> to <code>c("camp_formal", "camp_informal")</code>, and matching switched from <code>==</code> to <code>%in%</code> — default callers whose data still uses <code>"camp"</code> will no longer match.</li>
+<li>
+<code><a href="../reference/add_comp_wash.html">add_comp_wash()</a></code>: removed the dead <code>sanitation_facility_jmp_cat_safely_managed</code> parameter (the JMP category function never actually produced that value).</li>
+<li>
+<code><a href="../reference/add_comp_wash.html">add_comp_wash()</a></code>: drinking-water-quality severity thresholds shifted by one level across camp/urban/rural branches.</li>
+<li>
+<code><a href="../reference/add_sanitation_facility_cat.html">add_sanitation_facility_cat()</a></code>: “unimproved” facility codes changed (dropped <code>flush_elsewhere</code>/<code>plastic_bag</code>; added <code>twin_pit_latrine_wo_slab</code>/<code>other_container</code>).</li>
+<li>
+<code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_source_cat()</a></code>: default code <code>protected_spring</code> → <code>well_spring</code>; <code>sl_under_30_min</code> changed from a free scalar default to a <code><a href="https://rdrr.io/r/base/match.arg.html" class="external-link">match.arg()</a></code>-constrained vector (out-of-set values now error); <code>water_on_premises</code> default changed from <code>"water_on_premises"</code> to <code>c("water_in_dwelling", "water_in_plot")</code>.</li>
+<li>
+<code><a href="../reference/add_handwashing_facility_cat.html">add_handwashing_facility_cat()</a></code>: <code>facility_undefined</code> narrowed from <code>c("other", "pnta")</code> to <code>"other"</code>; observed/reported soap and water column-name defaults changed to <code>_yn</code>-suffixed names, with new value codes (e.g. <code>yes_soap_shown</code> → <code>soap_available</code>).</li>
+<li>
+<code><a href="../reference/add_loop_wgq_ss.html">add_loop_wgq_ss()</a></code>: default codes <code>lot_of_difficulty</code> → <code>a_lot_of_difficulty</code> and <code>cannot_do</code> → <code>cannot_do_at_all</code>.</li>
+</ul></li>
+<li>
+<strong>SNFI</strong>
+<ul><li>
+<code><a href="../reference/add_comp_snfi.html">add_comp_snfi()</a></code>: the <code>shelter_damage</code> toggle parameter was removed — shelter damage is now always required and always scored (previously optional, off by default).</li>
+<li>
+<code><a href="../reference/add_shelter_damage_cat.html">add_shelter_damage_cat()</a></code>: default damage-type codes changed (<code>minor</code> → <code>minor_roof</code>, <code>major</code> → <code>major_roof</code>, <code>damage_windows_doors</code> → <code>windows_doors</code>, <code>damage_floors</code> → <code>floors</code>, <code>damage_walls</code> → <code>walls</code>), <strong>and</strong> the returned category labels changed entirely: <code>"No damage"/"Damaged"/"Partial collapse or destruction"/ "Total collapse or destruction"/"Undefined"</code> → <code>"none"/"damaged"/"part"/"total"/"undefined"</code>.</li>
+<li>
+<code><a href="../reference/add_comp_snfi.html">add_comp_snfi()</a></code>: shelter-damage severity score scale shifted — <code>total</code> 4→5, <code>part</code> 3→4, <code>damaged</code> 2→3 (<code>none</code> stays 1).</li>
+<li>
+<code><a href="../reference/add_fds_cannot_cat.html">add_fds_cannot_cat()</a></code>: <code>fds_cooking_can</code>/<code>fds_cooking_cannot</code> defaults swapped (previously backwards: “can cook” defaulted to <code>"no"</code>); output category strings simplified (<code>"no_cannot"</code> → <code>"no"</code>).</li>
+</ul></li>
+<li>
+<strong>Protection</strong>
+<ul><li>
+<code><a href="../reference/add_prot_score_movement.html">add_prot_score_movement()</a></code>: the linear <code>comp_prot_score_prot_needs_3 + 1</code> scoring formula was replaced by an explicit, capped scale (<code>&gt;= 3 ~ 4</code>, <code>== 2 ~ 3</code>, <code>== 1 ~ 2</code>, <code>== 0 ~ 1</code>); the NA rule now also triggers when only <code>other_safety_measures</code> is selected with a zero score.</li>
+<li>
+<code><a href="../reference/add_prot_score_movement.html">add_prot_score_movement()</a></code>: <code>men_boys_avoid_places</code> split into <code>men_avoid_places</code> + <code>boys_avoid_places</code> (same split for <code>..._avoid_night</code>), with new optional weight parameters (<code>men_avoid_places_weight</code>, <code>men_avoid_night_weight</code>).</li>
+</ul></li>
+</ul></div>
+</div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2025.1.4" id="humind-202514">humind 2025.1.4<a class="anchor" aria-label="anchor" href="#humind-202514"></a></h2>

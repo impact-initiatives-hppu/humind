@@ -6,32 +6,15 @@ education and attendance/barriers, combines them into a total score, and
 determines if a household is in need or in severe need of educational
 assistance.
 
-Prerequisite functions (run on the education loop, then aggregate to
-main):
+Prerequisite functions:
 
-- [`add_loop_edu_ind_age_corrected()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_ind_age_corrected.md)
-  — corrects individual ages and flags schooling-age children (loop)
+- add_loop_age_dummy.R
 
-- [`add_loop_edu_access_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_access_d.md)
-  — education access dummies (loop)
+- add_loop_edu_barrier_protection_d.R
 
-- [`add_loop_edu_barrier_protection_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_barrier_protection_d.md)
-  — protection barrier dummies (loop)
+- add_loop_edu_disrupted_d.R
 
-- [`add_loop_edu_disrupted_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_disrupted_d.md)
-  — disruption dummies (loop)
-
-- [`add_loop_edu_ind_schooling_age_d_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_ind_age_corrected.md)
-  — aggregates schooling-age count to main
-
-- [`add_loop_edu_access_d_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_access_d.md)
-  — aggregates access/no-access counts to main
-
-- [`add_loop_edu_barrier_protection_d_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_barrier_protection_d.md)
-  — aggregates barrier count to main
-
-- [`add_loop_edu_disrupted_d_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_disrupted_d.md)
-  — aggregates disruption counts to main
+- add_loop_edu_ind_age_corrected.R
 
 ## Usage
 

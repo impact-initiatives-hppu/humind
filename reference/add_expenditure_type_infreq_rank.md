@@ -7,7 +7,7 @@ expenditure types.
 
 Prerequisite function:
 
-- [`add_expenditure_type_zero_infreq()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_zero_infreq.md)
+- add_expenditure_type_zero_infreq.R
 
 ## Usage
 

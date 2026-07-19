@@ -9,13 +9,6 @@ and the coverage network type. It provides two main functions:
 2.  `add_access_to_phone_coverage()`: Recodes the coverage network type
     and the best type of phone owned in the household.
 
-Recodes the coverage network type and the best type of phone owned in
-the household into a combined coverage category.
-
-Prerequisite function:
-
-- `add_access_to_phone_best()`
-
 ## Usage
 
 ``` r

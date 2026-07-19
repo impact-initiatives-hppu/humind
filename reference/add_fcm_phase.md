@@ -1,18 +1,6 @@
 # Add the food consumption matrix to the dataset
 
-Combines food consumption, coping strategy, and hunger scale categories
-to produce a food consumption matrix cell and phase.
-
-Prerequisite functions:
-
-- [`add_fcs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fcs.md)
-  — produces the food consumption score category
-
-- [`add_rcsi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_rcsi.md)
-  — produces the reduced coping strategy index category
-
-- [`add_hhs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hhs.md)
-  — produces the household hunger scale categories
+Add the food consumption matrix to the dataset
 
 ## Usage
 

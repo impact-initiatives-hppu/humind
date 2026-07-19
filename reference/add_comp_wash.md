@@ -14,23 +14,11 @@ Prerequisite functions:
 
 - [`add_hwise()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hwise.md)
 
-- [`add_drinking_water_source_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
-
-- [`add_drinking_water_time_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
-
-- [`add_drinking_water_time_threshold_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
-
-- [`add_drinking_water_quality_jmp_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
-
 - [`add_sanitation_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
 
-- [`add_sharing_sanitation_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
-
-- [`add_sharing_sanitation_facility_n_ind()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
-
-- [`add_sanitation_facility_jmp_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
-
 - [`add_handwashing_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_handwashing_facility_cat.md)
+
+- [`add_drinking_water_source_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
 
 ## Usage
 
