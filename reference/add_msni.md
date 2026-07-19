@@ -34,7 +34,12 @@ add_msni(
   comp_wash_in_need = "comp_wash_in_need",
   comp_prot_in_need = "comp_prot_in_need",
   comp_health_in_need = "comp_health_in_need",
-  comp_edu_in_need = "comp_edu_in_need"
+  comp_edu_in_need = "comp_edu_in_need",
+  comp_foodsec_in_severe_need = "comp_foodsec_in_severe_need",
+  comp_snfi_in_severe_need = "comp_snfi_in_severe_need",
+  comp_wash_in_severe_need = "comp_wash_in_severe_need",
+  comp_prot_in_severe_need = "comp_prot_in_severe_need",
+  comp_edu_in_severe_need = "comp_edu_in_severe_need"
 )
 ```
 
@@ -93,9 +98,29 @@ add_msni(
 
   Column name for education in need.
 
+- comp_foodsec_in_severe_need:
+
+  Column name for food security in severe need.
+
+- comp_snfi_in_severe_need:
+
+  Column name for SNFI in severe need.
+
+- comp_wash_in_severe_need:
+
+  Column name for WASH in severe need.
+
+- comp_prot_in_severe_need:
+
+  Column name for protection in severe need.
+
+- comp_edu_in_severe_need:
+
+  Column name for education in severe need.
+
 ## Value
 
-A data frame with 5 new columns:
+A data frame with 7 new columns:
 
 - msni_score: The Multi-Sectoral Needs Index score.
 
@@ -105,5 +130,10 @@ A data frame with 5 new columns:
 
 - sector_in_need_n: Number of sectoral needs identified.
 
+- sector_in_severe_need_n: Number of sectoral severe needs identified.
+
 - sector_needs_profile: Profile of sectoral needs identified (NA if no
   sectoral need is identified).
+
+- sector_severe_needs_profile: Profile of sectoral severe needs
+  identified (NA if no sectoral severe need is identified).
