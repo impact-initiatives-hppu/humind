@@ -20,13 +20,13 @@ Source:
 [`DESCRIPTION`](https://github.com/impact-initiatives-hppu/humind/blob/dev2026.2.0/DESCRIPTION)
 
 VILLOTTA Q, GHEDAMSI I, DASILVA M (2026). *humind: Compose MSNA
-Indicators*. R package version 2025.1.4,
+Indicators*. R package version 2026.2.0,
 <https://impact-initiatives-hppu.github.io/humind>.
 
     @Manual{,
       title = {humind: Compose MSNA Indicators},
       author = {Quentin VILLOTTA and Iyed GHEDAMSI and Mario DASILVA},
       year = {2026},
-      note = {R package version 2025.1.4},
+      note = {R package version 2026.2.0},
       url = {https://impact-initiatives-hppu.github.io/humind},
     }

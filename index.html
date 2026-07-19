@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2026.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,11 +68,11 @@
 <p>Install the latest tagged release from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"impact-initiatives-hppu/humind@v2025.1.4"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"impact-initiatives-hppu/humind@v2026.2.0"</span><span class="op">)</span></span></code></pre></div>
 <p>Verify the version:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"humind"</span><span class="op">)</span></span>
-<span><span class="co"># v2025.1.4</span></span></code></pre></div>
+<span><span class="co"># v2026.2.0</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="books-guidance-note">📚 Guidance Note<a class="anchor" aria-label="anchor" href="#books-guidance-note"></a>
@@ -88,119 +88,10 @@ It provides essential background on the <strong>MSNI framework</strong> and sect
 <hr>
 </div>
 <div class="section level2">
-<h2 id="open_book-2025-programmatic-changes">📖 2025 Programmatic Changes<a class="anchor" aria-label="anchor" href="#open_book-2025-programmatic-changes"></a>
+<h2 id="open_book-programmatic-changes--breaking-changes">📖 Programmatic Changes &amp; Breaking Changes<a class="anchor" aria-label="anchor" href="#open_book-programmatic-changes--breaking-changes"></a>
 </h2>
-<div class="section level3">
-<h3 id="cross-cutting">Cross-cutting<a class="anchor" aria-label="anchor" href="#cross-cutting"></a>
-</h3>
-<ul>
-<li>
-<strong>Terminology migration</strong>: <em>acute need</em> → <strong>severe need</strong> (functions and outputs).</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="msni--sectoral-composites">MSNI &amp; Sectoral Composites<a class="anchor" aria-label="anchor" href="#msni--sectoral-composites"></a>
-</h3>
-<ul>
-<li>Consistent renaming of <code>*_in_acute_need</code> → <strong><code>*_in_severe_need</code></strong> across all domains.</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="protection">Protection<a class="anchor" aria-label="anchor" href="#protection"></a>
-</h3>
-<ul>
-<li>Complete <strong>revamp</strong> based on a new series of Tier 1 indicators related to Protection needs.</li>
-<li>Refined NA handling in rights and practices composites: DNK/PNTA no longer collapse the entire composite; only affected sub-scores are nullified.</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="wash">WASH<a class="anchor" aria-label="anchor" href="#wash"></a>
-</h3>
-<ul>
-<li>Expanded handwashing facility categorization via <code><a href="reference/add_handwashing_facility_cat.html">add_handwashing_facility_cat()</a></code> with explicit soap-type handling and harmonized observed vs. reported rules.</li>
-<li>Incorporated self-reported hygiene variants (availability of soap &amp; water) and mapped them to JMP classifications.</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="health">Health<a class="anchor" aria-label="anchor" href="#health"></a>
-</h3>
-<ul>
-<li>Warnings and NA propagation in <code><a href="reference/add_loop_healthcare_needed_cat.html">add_loop_healthcare_needed_cat()</a></code> for inconsistent inputs.</li>
-<li>Removal of the WGQs from the framework.</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="snfi">SNFI<a class="anchor" aria-label="anchor" href="#snfi"></a>
-</h3>
-<ul>
-<li>Shelter issues increased <strong>from 8 to 11</strong> and remapped to the framework.</li>
-<li>Added one indicator to the security of tenure dimension: <code>hlp_eviction_risk</code>.</li>
-<li>Hygiene indicator removed from the FDS series; domestic tasks (incl. lighting) now total <strong>4</strong> (was 5).</li>
-<li>Optional shelter damages component added.</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="food-security">Food Security<a class="anchor" aria-label="anchor" href="#food-security"></a>
-</h3>
-<ul>
-<li>New analysis step to assess the impact of livelihood coping strategies on Food Consumption (implemented in <a href="https://github.com/impact-initiatives/impactR4PHU" class="external-link"><code>impactR4PHU</code></a> and reflected in <code>humind</code>).</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="education">Education<a class="anchor" aria-label="anchor" href="#education"></a>
-</h3>
-<ul>
-<li>Indicator renamed from <code>edu_disrupted_occupation</code> to <strong><code>edu_disrupted_attack</code></strong> to reflect “direct attack on education”.</li>
-</ul>
+<p>See <a href="NEWS.html"><code>NEWS.md</code></a> for the full changelog, including per-release programmatic (indicator/framework) changes and breaking changes.</p>
 <hr>
-</div>
-</div>
-<div class="section level2">
-<h2 id="warning-breaking-changes">⚠️ Breaking Changes<a class="anchor" aria-label="anchor" href="#warning-breaking-changes"></a>
-</h2>
-<div class="section level3">
-<h3 id="id_202514">2025.1.4<a class="anchor" aria-label="anchor" href="#id_202514"></a>
-</h3>
-<p>No breaking changes</p>
-</div>
-<div class="section level3">
-<h3 id="id_202513">2025.1.3<a class="anchor" aria-label="anchor" href="#id_202513"></a>
-</h3>
-<p>No breaking changes</p>
-</div>
-<div class="section level3">
-<h3 id="id_202512">2025.1.2<a class="anchor" aria-label="anchor" href="#id_202512"></a>
-</h3>
-<p><strong>Function rename</strong></p>
-<ul>
-<li>
-<code>is_in_acute_need()</code> → <strong><code><a href="reference/is_in_need.html">is_in_severe_need()</a></code></strong>
-</li>
-</ul>
-<p><strong>Output schema</strong></p>
-<ul>
-<li>All <code>*_in_acute_need</code> outputs → <strong><code>*_in_severe_need</code></strong><br>
-(MSNI, WASH, Health, Food Security, SNFI, Education, Protection).</li>
-</ul>
-<p><strong>WASH</strong></p>
-<ul>
-<li>
-<code><a href="reference/add_comp_wash.html">add_comp_wash()</a></code> default parameter: <code>drinking_water_quantity</code> now defaults to <strong><code>wash_hwise_drink</code></strong> (was <code>wash_drinking_water_quantity</code>).</li>
-<li>
-<code><a href="reference/add_handwashing_facility_cat.html">add_handwashing_facility_cat()</a></code> now requires soap-type columns/args (<code>soap_type_observed</code>, <code>soap_type_reported</code>) and accepts vectorized “no” codes.</li>
-<li>Classification rules tightened: non-qualifying or undefined soap types <strong>demote <code>basic</code> → <code>limited</code></strong>; NA handling stricter in reported path.</li>
-</ul>
-<p><strong>Protection</strong></p>
-<ul>
-<li>DNK/PNTA handling refined: composites are NA <strong>only if both sub-dimensions are NA</strong>.</li>
-</ul>
-<p><strong>Healthcare</strong></p>
-<ul>
-<li>
-<code><a href="reference/add_loop_healthcare_needed_cat.html">add_loop_healthcare_needed_cat()</a></code> returns NA (with warnings) when <code>needed == yes</code> and <code>received == NA</code>.</li>
-</ul>
-<hr>
-</div>
 </div>
 <div class="section level2">
 <h2 id="pushpin-issues-and-feedback">📌 Issues and Feedback<a class="anchor" aria-label="anchor" href="#pushpin-issues-and-feedback"></a>
@@ -230,7 +121,7 @@ Open a <strong><a href="https://github.com/impact-initiatives-hppu/humind/issues
 <h3 id="github-credentials-error-when-installing-with-devtools">GitHub Credentials Error When Installing with devtools<a class="anchor" aria-label="anchor" href="#github-credentials-error-when-installing-with-devtools"></a>
 </h3>
 <p>When installing with <code>devtools::install_github()</code>, you may encounter:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="sc">&gt;</span> devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"impact-initiatives-hppu/humind@v2025.1.4"</span>)</span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="sc">&gt;</span> devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"impact-initiatives-hppu/humind@v2026.2.0"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>...</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>Error <span class="sc">:</span> Failed to install <span class="st">'unknown package'</span> from GitHub<span class="sc">:</span></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  HTTP error <span class="fl">401.</span></span>
@@ -288,7 +179,7 @@ Open a <strong><a href="https://github.com/impact-initiatives-hppu/humind/issues
 <ul class="list-unstyled">
 <li><a href="https://github.com/impact-initiatives-hppu/humind/actions/workflows/check-standard.yaml" class="external-link"><img src="https://github.com/impact-initiatives-hppu/humind/actions/workflows/check-standard.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://app.codecov.io/gh/impact-initiatives-hppu/humind?branch=dev2026.2.0" class="external-link"><img src="https://codecov.io/gh/impact-initiatives-hppu/humind/branch/dev2026.2.0/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://app.codecov.io/gh/impact-initiatives-hppu/humind?branch=main" class="external-link"><img src="https://codecov.io/gh/impact-initiatives-hppu/humind/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
