@@ -15,7 +15,7 @@ Depends: R (>= 4.1.0)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Imports: 
-    dplyr (>= 1.1.0),
+    dplyr (>= 1.2.0),
     glue,
     purrr,
     rlang (>= 0.4.11),
