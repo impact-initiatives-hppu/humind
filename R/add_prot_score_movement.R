@@ -86,8 +86,8 @@ add_prot_score_movement <- function(
     avoid_markets = 2,
     avoid_public_offices = 2,
     avoid_fields = 2,
-    women_girls_boys_avoid_firewood = 1,
-    women_girls_boys_avoid_places = 1,
+    women_girls_boys_avoid_firewood = 2,
+    women_girls_boys_avoid_places = 2,
     other_safety_measures = NA,
     dnk = NA,
     pnta = NA

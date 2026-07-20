@@ -95,11 +95,11 @@ test_that("weighting done correctly (in the _w columns)", {
   # The weight for `women_girls_boys_avoid_firewood` and `women_girls_boys_avoid_places` is 1
   expect_equal(
     max(res$`prot_needs_3_movement/women_girls_boys_avoid_firewood_w`),
-    1
+    2
   )
   expect_equal(
     max(res$`prot_needs_3_movement/women_girls_boys_avoid_places_w`),
-    1
+    2
   )
 })
 
