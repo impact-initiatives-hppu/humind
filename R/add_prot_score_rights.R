@@ -23,7 +23,8 @@
 #' @param yes_gov_services_justice Answer option name for "Yes, accessing governmental services". Default: "yes_gov_services".
 #' @param yes_other_services_justice Answer option name for "Yes, accessing other services". Default: "yes_other_services".
 #'
-#' @param no Answer option name for "No". Default: "no".
+#' @param none Answer option name for "None" (services' no-barrier option). Default: "none".
+#' @param no Answer option name for "No" (justice's no-barrier option). Default: "no".
 #' @param dnk Answer option name for "Don't know"  Default: "dnk".
 #' @param pnta Answer option name for "Prefer not to answer" Default: "pnta".
 #'
@@ -52,6 +53,7 @@ add_prot_score_rights <- function(
   yes_birth_certificates = "yes_birth_certificates",
   yes_gov_services_justice = "yes_gov_services",
   yes_other_services_justice = "yes_other_services",
+  none = "none",
   no = "no",
   dnk = "dnk",
   pnta = "pnta",
@@ -68,7 +70,7 @@ add_prot_score_rights <- function(
     yes_social_services = 1,
     yes_gov_services = 1,
     yes_other_services = NA,
-    no = 0,
+    none = 0,
     dnk = NA,
     pnta = NA
   )

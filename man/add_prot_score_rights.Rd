@@ -22,6 +22,7 @@ add_prot_score_rights(
   yes_birth_certificates = "yes_birth_certificates",
   yes_gov_services_justice = "yes_gov_services",
   yes_other_services_justice = "yes_other_services",
+  none = "none",
   no = "no",
   dnk = "dnk",
   pnta = "pnta",
@@ -63,7 +64,9 @@ add_prot_score_rights(
 
 \item{yes_other_services_justice}{Answer option name for "Yes, accessing other services". Default: "yes_other_services".}
 
-\item{no}{Answer option name for "No". Default: "no".}
+\item{none}{Answer option name for "None" (services' no-barrier option). Default: "none".}
+
+\item{no}{Answer option name for "No" (justice's no-barrier option). Default: "no".}
 
 \item{dnk}{Answer option name for "Don't know"  Default: "dnk".}
 

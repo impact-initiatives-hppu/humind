@@ -10,7 +10,7 @@ opts1 <- c(
   "yes_social_services",
   "yes_gov_services",
   "yes_other_services",
-  "no",
+  "none",
   "dnk",
   "pnta"
 )
@@ -30,7 +30,7 @@ opts2 <- c(
 dummy_services <- generate_survey_choice_combinations(
   question_name = q1,
   answer_options = opts1,
-  stand_alone_opts = c("dnk", "pnta", "no"),
+  stand_alone_opts = c("dnk", "pnta", "none"),
   sep = "/"
 )
 
@@ -108,8 +108,8 @@ test_that("weighted columns follow the expected 0/NA pattern", {
     .keep_weighted = TRUE
   ))
 
-  # "no" always yields 0
-  expect_equal(unique(res_w[[glue::glue("{q1}/no_w")]]), 0)
+  # "none"/"no" always yields 0
+  expect_equal(unique(res_w[[glue::glue("{q1}/none_w")]]), 0)
   expect_equal(unique(res_w[[glue::glue("{q2}/no_w")]]), 0)
 
   # "dnk" and "pnta" always yield NA
@@ -218,7 +218,7 @@ expected_weights <- dplyr::tribble(
   q1        , "yes_social_services"      ,       1 ,
   q1        , "yes_gov_services"         ,       1 ,
   q1        , "yes_other_services"       ,       NA ,
-  q1        , "no"                       ,       0 ,
+  q1        , "none"                     ,       0 ,
   q2        , "yes_identity_documents"   ,       2 ,
   q2        , "yes_counselling_legal"    ,       1 ,
   q2        , "yes_property_docs"        ,       1 ,
@@ -268,7 +268,7 @@ test_that("selecting only `yes_other_services` behaves like `no`: it counts as 0
     expected_weights$question == q1 & expected_weights$option == "yes_other_services"
   )
   services_no_row <- which(
-    expected_weights$question == q1 & expected_weights$option == "no"
+    expected_weights$question == q1 & expected_weights$option == "none"
   )
   justice_other_row <- which(
     expected_weights$question == q2 & expected_weights$option == "yes_other_services"
