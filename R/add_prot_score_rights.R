@@ -67,7 +67,7 @@ add_prot_score_rights <- function(
     yes_edu_facilities = 2,
     yes_social_services = 1,
     yes_gov_services = 1,
-    yes_other_services = 1,
+    yes_other_services = NA,
     no = 0,
     dnk = NA,
     pnta = NA
@@ -85,7 +85,7 @@ add_prot_score_rights <- function(
     yes_property_docs = 1,
     yes_birth_certificates = 1,
     yes_gov_services_justice = 1,
-    yes_other_services_justice = 1,
+    yes_other_services_justice = NA,
     no = 0,
     dnk = NA,
     pnta = NA
