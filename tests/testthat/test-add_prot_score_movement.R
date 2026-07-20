@@ -92,7 +92,7 @@ test_that("weighting done correctly (in the _w columns)", {
   expect_true(all(is.na(res$`prot_needs_3_movement/pnta_w`)))
   expect_true(all(is.na(res$`prot_needs_3_movement/other_safety_measures_w`)))
 
-  # The weight for `women_girls_boys_avoid_firewood` and `women_girls_boys_avoid_places` is 1
+  # The weight for `women_girls_boys_avoid_firewood` and `women_girls_boys_avoid_places` is 2
   expect_equal(
     max(res$`prot_needs_3_movement/women_girls_boys_avoid_firewood_w`),
     2
