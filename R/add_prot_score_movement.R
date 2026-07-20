@@ -16,6 +16,8 @@
 #' @param avoid_markets answer option
 #' @param avoid_public_offices answer option
 #' @param avoid_fields answer option
+#' @param women_girls_boys_avoid_firewood answer option
+#' @param women_girls_boys_avoid_places answer option
 #' @param other_safety_measures answer option
 #' @param dnk answer option
 #' @param pnta answer option
@@ -44,6 +46,8 @@ add_prot_score_movement <- function(
   avoid_markets = "avoid_markets",
   avoid_public_offices = "avoid_public_offices",
   avoid_fields = "avoid_fields",
+  women_girls_boys_avoid_firewood = "women_girls_boys_avoid_firewood",
+  women_girls_boys_avoid_places = "women_girls_boys_avoid_places",
   other_safety_measures = "other_safety_measures",
   dnk = "dnk",
   pnta = "pnta",
@@ -82,6 +86,8 @@ add_prot_score_movement <- function(
     avoid_markets = 2,
     avoid_public_offices = 2,
     avoid_fields = 2,
+    women_girls_boys_avoid_firewood = 1,
+    women_girls_boys_avoid_places = 1,
     other_safety_measures = NA,
     dnk = NA,
     pnta = NA
