@@ -32,7 +32,7 @@
 #' @return Input data frame with three new composite-score columns:
 #'   * `comp_prot_score_prot_needs_1_services`: weighted sum of services options.
 #'   * `comp_prot_score_prot_needs_1_justice`: weighted sum of justice options.
-#'   * `comp_prot_score_needs_1`: overall severity (1–4) based on combined score.
+#'   * `comp_prot_score_rights`: overall severity (1–4) based on combined score.
 #'   Plus optional `_w` columns if `.keep_weighted = TRUE`.
 #' @export
 add_prot_score_rights <- function(

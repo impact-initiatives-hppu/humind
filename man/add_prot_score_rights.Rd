@@ -79,7 +79,7 @@ Input data frame with three new composite-score columns:
 \itemize{
 \item \code{comp_prot_score_prot_needs_1_services}: weighted sum of services options.
 \item \code{comp_prot_score_prot_needs_1_justice}: weighted sum of justice options.
-\item \code{comp_prot_score_needs_1}: overall severity (1–4) based on combined score.
+\item \code{comp_prot_score_rights}: overall severity (1–4) based on combined score.
 Plus optional \verb{_w} columns if \code{.keep_weighted = TRUE}.
 }
 }
