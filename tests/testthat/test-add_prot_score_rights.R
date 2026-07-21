@@ -5,9 +5,12 @@ q2 <- "prot_needs_1_justice"
 opts1 <- c(
   "yes_healthcare",
   "yes_schools",
+  "yes_therapeutic_services",
+  "yes_edu_facilities",
+  "yes_social_services",
   "yes_gov_services",
   "yes_other_services",
-  "no",
+  "none",
   "dnk",
   "pnta"
 )
@@ -15,6 +18,7 @@ opts2 <- c(
   "yes_identity_documents",
   "yes_counselling_legal",
   "yes_property_docs",
+  "yes_birth_certificates",
   "yes_gov_services",
   "yes_other_services",
   "no",
@@ -26,7 +30,7 @@ opts2 <- c(
 dummy_services <- generate_survey_choice_combinations(
   question_name = q1,
   answer_options = opts1,
-  stand_alone_opts = c("dnk", "pnta", "no"),
+  stand_alone_opts = c("dnk", "pnta", "none"),
   sep = "/"
 )
 
@@ -104,8 +108,8 @@ test_that("weighted columns follow the expected 0/NA pattern", {
     .keep_weighted = TRUE
   ))
 
-  # "no" always yields 0
-  expect_equal(unique(res_w[[glue::glue("{q1}/no_w")]]), 0)
+  # "none"/"no" always yields 0
+  expect_equal(unique(res_w[[glue::glue("{q1}/none_w")]]), 0)
   expect_equal(unique(res_w[[glue::glue("{q2}/no_w")]]), 0)
 
   # "dnk" and "pnta" always yield NA
@@ -186,5 +190,108 @@ test_that("a warning is raised when both sub-dimensions are NA", {
       pnta = "pnta"
     ),
     "Missing input scores detected"
+  )
+})
+
+
+one_hot_row <- function(target_q, target_opt, sep = "/") {
+  row <- c(
+    rlang::set_names(
+      as.list(rep(0L, length(opts1))),
+      as.character(stringr::str_glue("{q1}{sep}{opts1}"))
+    ),
+    rlang::set_names(
+      as.list(rep(0L, length(opts2))),
+      as.character(stringr::str_glue("{q2}{sep}{opts2}"))
+    )
+  )
+  row[[as.character(stringr::str_glue("{target_q}{sep}{target_opt}"))]] <- 1L
+  dplyr::as_tibble(row)
+}
+
+expected_weights <- dplyr::tribble(
+  ~question , ~option                    , ~weight ,
+  q1        , "yes_healthcare"           ,       2 ,
+  q1        , "yes_schools"              ,       2 ,
+  q1        , "yes_therapeutic_services" ,       1 ,
+  q1        , "yes_edu_facilities"       ,       2 ,
+  q1        , "yes_social_services"      ,       1 ,
+  q1        , "yes_gov_services"         ,       1 ,
+  q1        , "yes_other_services"       ,       NA ,
+  q1        , "none"                     ,       0 ,
+  q2        , "yes_identity_documents"   ,       2 ,
+  q2        , "yes_counselling_legal"    ,       1 ,
+  q2        , "yes_property_docs"        ,       1 ,
+  q2        , "yes_birth_certificates"   ,       1 ,
+  q2        , "yes_gov_services"         ,       1 ,
+  q2        , "yes_other_services"       ,       NA ,
+  q2        , "no"                       ,       0 ,
+)
+
+weight_fixture <- purrr::pmap(
+  expected_weights,
+  function(question, option, weight) one_hot_row(question, option)
+) |>
+  dplyr::bind_rows()
+
+weight_res <- suppressWarnings(
+  add_prot_score_rights(weight_fixture, .keep_weighted = TRUE)
+)
+
+for (i in seq_len(nrow(expected_weights))) {
+  local({
+    question <- expected_weights$question[[i]]
+    option <- expected_weights$option[[i]]
+    weight <- expected_weights$weight[[i]]
+    row_i <- i
+    w_col <- as.character(stringr::str_glue("{question}/{option}_w"))
+
+    test_that(
+      paste0(
+        "weight for `",
+        question,
+        "/",
+        option,
+        "` matches MSNI guidance (",
+        weight,
+        ")"
+      ),
+      {
+        expect_equal(weight_res[[w_col]][row_i], weight)
+      }
+    )
+  })
+}
+
+test_that("selecting only `yes_other_services` behaves like `no`: it counts as 0 rather than forcing the sub-dimension to NA", {
+  services_other_row <- which(
+    expected_weights$question == q1 & expected_weights$option == "yes_other_services"
+  )
+  services_no_row <- which(
+    expected_weights$question == q1 & expected_weights$option == "none"
+  )
+  justice_other_row <- which(
+    expected_weights$question == q2 & expected_weights$option == "yes_other_services"
+  )
+  justice_no_row <- which(
+    expected_weights$question == q2 & expected_weights$option == "no"
+  )
+
+  expect_equal(
+    weight_res$comp_prot_score_prot_needs_1_services[services_other_row],
+    0
+  )
+  expect_equal(
+    weight_res$comp_prot_score_prot_needs_1_services[services_other_row],
+    weight_res$comp_prot_score_prot_needs_1_services[services_no_row]
+  )
+
+  expect_equal(
+    weight_res$comp_prot_score_prot_needs_1_justice[justice_other_row],
+    0
+  )
+  expect_equal(
+    weight_res$comp_prot_score_prot_needs_1_justice[justice_other_row],
+    weight_res$comp_prot_score_prot_needs_1_justice[justice_no_row]
   )
 })
