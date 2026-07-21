@@ -247,7 +247,7 @@ add_fcs <- function(
     .dataset <- .dataset |>
       dplyr::mutate(
         fsl_fcs_cat = dplyr::case_when(
-          fsl_fcs_score < 21.5 ~ "Poor",
+          fsl_fcs_score <= 21 ~ "Poor",
           fsl_fcs_score <= 35 ~ "Borderline",
           fsl_fcs_score > 35 ~ "Acceptable",
           TRUE ~ NA
