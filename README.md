@@ -40,14 +40,9 @@ packageVersion("humind")
 # v2026.2.0
 ```
 
-## 📚 Guidance Note
+## 📚 MSNI Guidance Note 2026
 
-A comprehensive **Guidance Note** is available
-[here](https://acted.sharepoint.com/sites/IMPACT-Humanitarian_Planning_Prioritization/SitePages/MSNA%20analysis%20(LSG-MSNi).aspx).  
-It provides essential background on the **MSNI framework** and
-sector-specific guidance. Each sector includes a **“Humind Data
-Workflow”** describing required steps and the relevant `humind`
-functions.
+The **MSNI Guidance Note** will be available by the end of July on the IMPACT Intranet, which provides essential background on the **MSNI framework** and sector-specific guidance. Each sector includes a **“Humind Data Workflow”** describing required steps and the relevant `humind` functions.
 
 > ⚠️ **Read the Guidance Note thoroughly**—especially the *Data
 > Workflow* sections—before implementing analyses with `humind`.
