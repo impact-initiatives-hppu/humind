@@ -30,7 +30,7 @@ and justice/legal resources, then derives an overall severity category (1–4)."
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Add composite score for Ability to Access Rights and Services</h1>
-      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/main/R/add_prot_score_rights.R" class="external-link"><code>R/add_prot_score_rights.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/dev2026.2.0/R/add_prot_score_rights.R" class="external-link"><code>R/add_prot_score_rights.R</code></a></small>
       <div class="d-none name"><code>add_prot_score_rights.Rd</code></div>
     </div>
 
@@ -47,14 +47,19 @@ and justice/legal resources, then derives an overall severity category (1–4).<
 <span>  prot_needs_1_services <span class="op">=</span> <span class="st">"prot_needs_1_services"</span>,</span>
 <span>  yes_healthcare <span class="op">=</span> <span class="st">"yes_healthcare"</span>,</span>
 <span>  yes_schools <span class="op">=</span> <span class="st">"yes_schools"</span>,</span>
+<span>  yes_therapeutic_services <span class="op">=</span> <span class="st">"yes_therapeutic_services"</span>,</span>
+<span>  yes_edu_facilities <span class="op">=</span> <span class="st">"yes_edu_facilities"</span>,</span>
+<span>  yes_social_services <span class="op">=</span> <span class="st">"yes_social_services"</span>,</span>
 <span>  yes_gov_services <span class="op">=</span> <span class="st">"yes_gov_services"</span>,</span>
 <span>  yes_other_services <span class="op">=</span> <span class="st">"yes_other_services"</span>,</span>
 <span>  prot_needs_1_justice <span class="op">=</span> <span class="st">"prot_needs_1_justice"</span>,</span>
 <span>  yes_identity_documents <span class="op">=</span> <span class="st">"yes_identity_documents"</span>,</span>
 <span>  yes_counselling_legal <span class="op">=</span> <span class="st">"yes_counselling_legal"</span>,</span>
 <span>  yes_property_docs <span class="op">=</span> <span class="st">"yes_property_docs"</span>,</span>
+<span>  yes_birth_certificates <span class="op">=</span> <span class="st">"yes_birth_certificates"</span>,</span>
 <span>  yes_gov_services_justice <span class="op">=</span> <span class="st">"yes_gov_services"</span>,</span>
 <span>  yes_other_services_justice <span class="op">=</span> <span class="st">"yes_other_services"</span>,</span>
+<span>  none <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  no <span class="op">=</span> <span class="st">"no"</span>,</span>
 <span>  dnk <span class="op">=</span> <span class="st">"dnk"</span>,</span>
 <span>  pnta <span class="op">=</span> <span class="st">"pnta"</span>,</span>
@@ -86,6 +91,18 @@ and justice/legal resources, then derives an overall severity category (1–4).<
 <dd><p>Answer option name for "Yes, accessing schools". Default: "yes_schools".</p></dd>
 
 
+<dt id="arg-yes-therapeutic-services">yes_therapeutic_services<a class="anchor" aria-label="anchor" href="#arg-yes-therapeutic-services"></a></dt>
+<dd><p>Answer option name for "Yes, therapeutic centres". Default: "yes_therapeutic_services".</p></dd>
+
+
+<dt id="arg-yes-edu-facilities">yes_edu_facilities<a class="anchor" aria-label="anchor" href="#arg-yes-edu-facilities"></a></dt>
+<dd><p>Answer option name for "Yes, education facilities". Default: "yes_edu_facilities".</p></dd>
+
+
+<dt id="arg-yes-social-services">yes_social_services<a class="anchor" aria-label="anchor" href="#arg-yes-social-services"></a></dt>
+<dd><p>Answer option name for "Yes, social services including referral services, and safe spaces for children". Default: "yes_social_services".</p></dd>
+
+
 <dt id="arg-yes-gov-services">yes_gov_services<a class="anchor" aria-label="anchor" href="#arg-yes-gov-services"></a></dt>
 <dd><p>Answer option name for "Yes, accessing governmental services". Default: "yes_gov_services".</p></dd>
 
@@ -110,6 +127,10 @@ and justice/legal resources, then derives an overall severity category (1–4).<
 <dd><p>Answer option name for "Yes, accessing house, land and property documentation". Default: "yes_property_docs".</p></dd>
 
 
+<dt id="arg-yes-birth-certificates">yes_birth_certificates<a class="anchor" aria-label="anchor" href="#arg-yes-birth-certificates"></a></dt>
+<dd><p>Answer option name for "Yes, accessing birth certificates". Default: "yes_birth_certificates".</p></dd>
+
+
 <dt id="arg-yes-gov-services-justice">yes_gov_services_justice<a class="anchor" aria-label="anchor" href="#arg-yes-gov-services-justice"></a></dt>
 <dd><p>Answer option name for "Yes, accessing governmental services". Default: "yes_gov_services".</p></dd>
 
@@ -118,8 +139,12 @@ and justice/legal resources, then derives an overall severity category (1–4).<
 <dd><p>Answer option name for "Yes, accessing other services". Default: "yes_other_services".</p></dd>
 
 
+<dt id="arg-none">none<a class="anchor" aria-label="anchor" href="#arg-none"></a></dt>
+<dd><p>Answer option name for "None" (services' no-barrier option). Default: "none".</p></dd>
+
+
 <dt id="arg-no">no<a class="anchor" aria-label="anchor" href="#arg-no"></a></dt>
-<dd><p>Answer option name for "No". Default: "no".</p></dd>
+<dd><p>Answer option name for "No" (justice's no-barrier option). Default: "no".</p></dd>
 
 
 <dt id="arg-dnk">dnk<a class="anchor" aria-label="anchor" href="#arg-dnk"></a></dt>
@@ -138,7 +163,7 @@ and justice/legal resources, then derives an overall severity category (1–4).<
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Input data frame with three new composite-score columns:</p><ul><li><p><code>comp_prot_score_prot_needs_1_services</code>: weighted sum of services options.</p></li>
 <li><p><code>comp_prot_score_prot_needs_1_justice</code>: weighted sum of justice options.</p></li>
-<li><p><code>comp_prot_score_needs_1</code>: overall severity (1–4) based on combined score.
+<li><p><code>comp_prot_score_rights</code>: overall severity (1–4) based on combined score.
 Plus optional <code>_w</code> columns if <code>.keep_weighted = TRUE</code>.</p></li>
 </ul></div>
 

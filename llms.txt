@@ -49,13 +49,10 @@ functions.
 
 ## 📖 Programmatic Changes & Breaking Changes
 
-See the full changelog for per-release programmatic
-(indicator/framework) changes and breaking changes:
-
-- On GitHub:
-  [`NEWS.md`](https://github.com/impact-initiatives-hppu/humind/blob/main/NEWS.md)
-- On the documentation website:
-  [Changelog](https://impact-initiatives-hppu.github.io/humind/news/index.html)
+See
+[`NEWS.md`](https://impact-initiatives-hppu.github.io/humind/NEWS.md)
+for the full changelog, including per-release programmatic
+(indicator/framework) changes and breaking changes.
 
 ------------------------------------------------------------------------
 

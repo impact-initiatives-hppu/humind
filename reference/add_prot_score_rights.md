@@ -13,14 +13,19 @@ add_prot_score_rights(
   prot_needs_1_services = "prot_needs_1_services",
   yes_healthcare = "yes_healthcare",
   yes_schools = "yes_schools",
+  yes_therapeutic_services = "yes_therapeutic_services",
+  yes_edu_facilities = "yes_edu_facilities",
+  yes_social_services = "yes_social_services",
   yes_gov_services = "yes_gov_services",
   yes_other_services = "yes_other_services",
   prot_needs_1_justice = "prot_needs_1_justice",
   yes_identity_documents = "yes_identity_documents",
   yes_counselling_legal = "yes_counselling_legal",
   yes_property_docs = "yes_property_docs",
+  yes_birth_certificates = "yes_birth_certificates",
   yes_gov_services_justice = "yes_gov_services",
   yes_other_services_justice = "yes_other_services",
+  none = "none",
   no = "no",
   dnk = "dnk",
   pnta = "pnta",
@@ -53,6 +58,22 @@ add_prot_score_rights(
   Answer option name for "Yes, accessing schools". Default:
   "yes_schools".
 
+- yes_therapeutic_services:
+
+  Answer option name for "Yes, therapeutic centres". Default:
+  "yes_therapeutic_services".
+
+- yes_edu_facilities:
+
+  Answer option name for "Yes, education facilities". Default:
+  "yes_edu_facilities".
+
+- yes_social_services:
+
+  Answer option name for "Yes, social services including referral
+  services, and safe spaces for children". Default:
+  "yes_social_services".
+
 - yes_gov_services:
 
   Answer option name for "Yes, accessing governmental services".
@@ -82,6 +103,11 @@ add_prot_score_rights(
   Answer option name for "Yes, accessing house, land and property
   documentation". Default: "yes_property_docs".
 
+- yes_birth_certificates:
+
+  Answer option name for "Yes, accessing birth certificates". Default:
+  "yes_birth_certificates".
+
 - yes_gov_services_justice:
 
   Answer option name for "Yes, accessing governmental services".
@@ -92,9 +118,15 @@ add_prot_score_rights(
   Answer option name for "Yes, accessing other services". Default:
   "yes_other_services".
 
+- none:
+
+  Answer option name for "None" (services' no-barrier option). Default:
+  "none".
+
 - no:
 
-  Answer option name for "No". Default: "no".
+  Answer option name for "No" (justice's no-barrier option). Default:
+  "no".
 
 - dnk:
 
@@ -119,5 +151,5 @@ Input data frame with three new composite-score columns:
 - `comp_prot_score_prot_needs_1_justice`: weighted sum of justice
   options.
 
-- `comp_prot_score_needs_1`: overall severity (1–4) based on combined
+- `comp_prot_score_rights`: overall severity (1–4) based on combined
   score. Plus optional `_w` columns if `.keep_weighted = TRUE`.
