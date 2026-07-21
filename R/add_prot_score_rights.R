@@ -9,6 +9,9 @@
 #' @param prot_needs_1_services Base name of services question. Default: "prot_needs_1_services".
 #' @param yes_healthcare Answer option name for "Yes, accessing healthcare". Default: "yes_healthcare".
 #' @param yes_schools Answer option name for "Yes, accessing schools". Default: "yes_schools".
+#' @param yes_therapeutic_services Answer option name for "Yes, therapeutic centres". Default: "yes_therapeutic_services".
+#' @param yes_edu_facilities Answer option name for "Yes, education facilities". Default: "yes_edu_facilities".
+#' @param yes_social_services Answer option name for "Yes, social services including referral services, and safe spaces for children". Default: "yes_social_services".
 #' @param yes_gov_services Answer option name for "Yes, accessing governmental services". Default: "yes_gov_services".
 #' @param yes_other_services Answer option name for "Yes, accessing other services". Default: "yes_other_services".
 #'
@@ -16,10 +19,12 @@
 #' @param yes_identity_documents Answer option name for "Yes, accessing identity and civil documents services". Default: "yes_identity_documents".
 #' @param yes_counselling_legal Answer option name for "Yes, individual counselling or legal assistance". Default: "yes_counselling_legal".
 #' @param yes_property_docs Answer option name for "Yes, accessing house, land and property documentation". Default: "yes_property_docs".
+#' @param yes_birth_certificates Answer option name for "Yes, accessing birth certificates". Default: "yes_birth_certificates".
 #' @param yes_gov_services_justice Answer option name for "Yes, accessing governmental services". Default: "yes_gov_services".
 #' @param yes_other_services_justice Answer option name for "Yes, accessing other services". Default: "yes_other_services".
 #'
-#' @param no Answer option name for "No". Default: "no".
+#' @param none Answer option name for "None" (services' no-barrier option). Default: "none".
+#' @param no Answer option name for "No" (justice's no-barrier option). Default: "no".
 #' @param dnk Answer option name for "Don't know"  Default: "dnk".
 #' @param pnta Answer option name for "Prefer not to answer" Default: "pnta".
 #'
@@ -27,7 +32,7 @@
 #' @return Input data frame with three new composite-score columns:
 #'   * `comp_prot_score_prot_needs_1_services`: weighted sum of services options.
 #'   * `comp_prot_score_prot_needs_1_justice`: weighted sum of justice options.
-#'   * `comp_prot_score_needs_1`: overall severity (1–4) based on combined score.
+#'   * `comp_prot_score_rights`: overall severity (1–4) based on combined score.
 #'   Plus optional `_w` columns if `.keep_weighted = TRUE`.
 #' @export
 add_prot_score_rights <- function(
@@ -36,14 +41,19 @@ add_prot_score_rights <- function(
   prot_needs_1_services = "prot_needs_1_services",
   yes_healthcare = "yes_healthcare",
   yes_schools = "yes_schools",
+  yes_therapeutic_services = "yes_therapeutic_services",
+  yes_edu_facilities = "yes_edu_facilities",
+  yes_social_services = "yes_social_services",
   yes_gov_services = "yes_gov_services",
   yes_other_services = "yes_other_services",
   prot_needs_1_justice = "prot_needs_1_justice",
   yes_identity_documents = "yes_identity_documents",
   yes_counselling_legal = "yes_counselling_legal",
   yes_property_docs = "yes_property_docs",
+  yes_birth_certificates = "yes_birth_certificates",
   yes_gov_services_justice = "yes_gov_services",
   yes_other_services_justice = "yes_other_services",
+  none = "none",
   no = "no",
   dnk = "dnk",
   pnta = "pnta",
@@ -53,11 +63,14 @@ add_prot_score_rights <- function(
   params <- as.list(environment())
 
   weights_srv <- c(
-    yes_healthcare = 1,
-    yes_schools = 1,
+    yes_healthcare = 2,
+    yes_schools = 2,
+    yes_therapeutic_services = 1,
+    yes_edu_facilities = 2,
+    yes_social_services = 1,
     yes_gov_services = 1,
-    yes_other_services = 1,
-    no = 0,
+    yes_other_services = NA,
+    none = 0,
     dnk = NA,
     pnta = NA
   )
@@ -72,8 +85,9 @@ add_prot_score_rights <- function(
     yes_identity_documents = 2,
     yes_counselling_legal = 1,
     yes_property_docs = 1,
+    yes_birth_certificates = 1,
     yes_gov_services_justice = 1,
-    yes_other_services_justice = 1,
+    yes_other_services_justice = NA,
     no = 0,
     dnk = NA,
     pnta = NA
