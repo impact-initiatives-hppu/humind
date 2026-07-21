@@ -29,6 +29,20 @@ are significant** — read the section below before upgrading.
     only `other_safety_measures` is selected.
   * Movement options split into separate men/boys categories, with new
     optional weight parameters.
+  * Two new movement answer options added to `add_prot_score_movement()`:
+    `women_girls_boys_avoid_firewood` and `women_girls_boys_avoid_places`
+    (both weighted 2)
+  * `add_prot_score_rights()` gains four new answer options:
+    `yes_therapeutic_services` (w=1), `yes_edu_facilities` (w=2), and
+    `yes_social_services` (w=1) in the services sub-dimension, and
+    `yes_birth_certificates` (w=1) in the justice sub-dimension. Weights
+    for `yes_healthcare` and `yes_schools` corrected from 1 to 2. The
+    `yes_other_services` (previously weight 1) and
+    `yes_other_services_justice` (previously weight 1) are now unweighted
+    and no longer contribute to the composite score.
+  * `add_prot_score_practices()`: `yes_other_activities` (previously
+    weight 2) and `yes_other_social` (previously weight 1) are now
+    unweighted and no longer contribute to the composite score.
 
 * **SNFI**
   * Shelter damage is now a **mandatory** input to `add_comp_snfi()`
@@ -177,6 +191,14 @@ are significant** — read the section below before upgrading.
     `men_avoid_places` + `boys_avoid_places` (same split for
     `..._avoid_night`), with new optional weight parameters
     (`men_avoid_places_weight`, `men_avoid_night_weight`).
+  * `add_prot_score_movement()`: two new required columns —
+    `prot_needs_3_movement/women_girls_boys_avoid_firewood`,
+    `prot_needs_3_movement/women_girls_boys_avoid_places`
+  * `add_prot_score_rights()`: four new required columns —
+    `prot_needs_1_services/yes_therapeutic_services`,
+    `prot_needs_1_services/yes_edu_facilities`,
+    `prot_needs_1_services/yes_social_services`,
+    `prot_needs_1_justice/yes_birth_certificates`
 
 # humind 2025.1.4
 
