@@ -42,7 +42,11 @@ packageVersion("humind")
 
 ## 📚 MSNI Guidance Note 2026
 
-The **MSNI Guidance Note** will be available by the end of July on the IMPACT Intranet, which provides essential background on the **MSNI framework** and sector-specific guidance. Each sector includes a **“Humind Data Workflow”** describing required steps and the relevant `humind` functions.
+The **MSNI Guidance Note** will be available by the end of July on the
+IMPACT Intranet, which provides essential background on the **MSNI
+framework** and sector-specific guidance. Each sector includes a
+**“Humind Data Workflow”** describing required steps and the relevant
+`humind` functions.
 
 > ⚠️ **Read the Guidance Note thoroughly**—especially the *Data
 > Workflow* sections—before implementing analyses with `humind`.
