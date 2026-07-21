@@ -47,9 +47,6 @@ The **MSNI Guidance Note** will be available by the end of July on the IMPACT In
 > ⚠️ **Read the Guidance Note thoroughly**—especially the *Data
 > Workflow* sections—before implementing analyses with `humind`.
 
-> 📌 A technical documentation guide (full MSNI workflow with runnable
-> examples) will be added to this repository.
-
 ------------------------------------------------------------------------
 
 ## 📖 Programmatic Changes & Breaking Changes
