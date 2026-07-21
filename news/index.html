@@ -50,6 +50,11 @@
 <strong>Protection</strong>
 <ul><li>The movement composite’s linear scoring formula was replaced with an explicit, capped severity scale, and gained a rule to force <code>NA</code> when only <code>other_safety_measures</code> is selected.</li>
 <li>Movement options split into separate men/boys categories, with new optional weight parameters.</li>
+<li>Two new movement answer options added to <code><a href="../reference/add_prot_score_movement.html">add_prot_score_movement()</a></code>: <code>women_girls_boys_avoid_firewood</code> and <code>women_girls_boys_avoid_places</code> (both weighted 2)</li>
+<li>
+<code><a href="../reference/add_prot_score_rights.html">add_prot_score_rights()</a></code> gains four new answer options: <code>yes_therapeutic_services</code> (w=1), <code>yes_edu_facilities</code> (w=2), and <code>yes_social_services</code> (w=1) in the services sub-dimension, and <code>yes_birth_certificates</code> (w=1) in the justice sub-dimension. Weights for <code>yes_healthcare</code> and <code>yes_schools</code> corrected from 1 to 2. The <code>yes_other_services</code> (previously weight 1) and <code>yes_other_services_justice</code> (previously weight 1) are now unweighted and no longer contribute to the composite score.</li>
+<li>
+<code><a href="../reference/add_prot_score_practices.html">add_prot_score_practices()</a></code>: <code>yes_other_activities</code> (previously weight 2) and <code>yes_other_social</code> (previously weight 1) are now unweighted and no longer contribute to the composite score.</li>
 </ul></li>
 <li>
 <strong>SNFI</strong>
@@ -162,6 +167,12 @@
 <code><a href="../reference/add_prot_score_movement.html">add_prot_score_movement()</a></code>: the linear <code>comp_prot_score_prot_needs_3 + 1</code> scoring formula was replaced by an explicit, capped scale (<code>&gt;= 3 ~ 4</code>, <code>== 2 ~ 3</code>, <code>== 1 ~ 2</code>, <code>== 0 ~ 1</code>); the NA rule now also triggers when only <code>other_safety_measures</code> is selected with a zero score.</li>
 <li>
 <code><a href="../reference/add_prot_score_movement.html">add_prot_score_movement()</a></code>: <code>men_boys_avoid_places</code> split into <code>men_avoid_places</code> + <code>boys_avoid_places</code> (same split for <code>..._avoid_night</code>), with new optional weight parameters (<code>men_avoid_places_weight</code>, <code>men_avoid_night_weight</code>).</li>
+<li>
+<code><a href="../reference/add_prot_score_movement.html">add_prot_score_movement()</a></code>: two new required columns — <code>prot_needs_3_movement/women_girls_boys_avoid_firewood</code>, <code>prot_needs_3_movement/women_girls_boys_avoid_places</code>
+</li>
+<li>
+<code><a href="../reference/add_prot_score_rights.html">add_prot_score_rights()</a></code>: four new required columns — <code>prot_needs_1_services/yes_therapeutic_services</code>, <code>prot_needs_1_services/yes_edu_facilities</code>, <code>prot_needs_1_services/yes_social_services</code>, <code>prot_needs_1_justice/yes_birth_certificates</code>
+</li>
 </ul></li>
 </ul></div>
 </div>
