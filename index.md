@@ -41,9 +41,6 @@ framework** and sector-specific guidance. Each sector includes a
 > ⚠️ **Read the Guidance Note thoroughly**—especially the *Data
 > Workflow* sections—before implementing analyses with `humind`.
 
-> 📌 A technical documentation guide (full MSNI workflow with runnable
-> examples) will be added to this repository.
-
 ------------------------------------------------------------------------
 
 ## 📖 Programmatic Changes & Breaking Changes
