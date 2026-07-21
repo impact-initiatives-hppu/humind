@@ -22,6 +22,8 @@ add_prot_score_movement(
   avoid_markets = "avoid_markets",
   avoid_public_offices = "avoid_public_offices",
   avoid_fields = "avoid_fields",
+  women_girls_boys_avoid_firewood = "women_girls_boys_avoid_firewood",
+  women_girls_boys_avoid_places = "women_girls_boys_avoid_places",
   other_safety_measures = "other_safety_measures",
   dnk = "dnk",
   pnta = "pnta",
@@ -94,6 +96,14 @@ add_prot_score_movement(
   answer option
 
 - avoid_fields:
+
+  answer option
+
+- women_girls_boys_avoid_firewood:
+
+  answer option
+
+- women_girls_boys_avoid_places:
 
   answer option
 
