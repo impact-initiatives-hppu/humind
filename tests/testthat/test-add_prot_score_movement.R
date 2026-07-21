@@ -14,11 +14,18 @@ dummy_df <- generate_survey_choice_combinations(
     "avoid_markets",
     "avoid_public_offices",
     "avoid_fields",
+    "women_girls_boys_avoid_firewood",
+    "women_girls_boys_avoid_places",
     "other_safety_measures",
     "dnk",
     "pnta"
   ),
-  stand_alone_opts = c("dnk", "pnta", "no_safety_concerns"),
+  stand_alone_opts = c(
+    "dnk",
+    "pnta",
+    "no_safety_concerns",
+    "no_changes_feel_unsafe"
+  ),
   sep = "/"
 )
 
@@ -68,6 +75,8 @@ test_that("._keep_weighted controls whether _w columns appear", {
     "avoid_markets",
     "avoid_public_offices",
     "avoid_fields",
+    "women_girls_boys_avoid_firewood",
+    "women_girls_boys_avoid_places",
     "other_safety_measures",
     "dnk",
     "pnta"
@@ -87,6 +96,16 @@ test_that("weighting done correctly (in the _w columns)", {
   expect_true(all(is.na(res$`prot_needs_3_movement/dnk_w`)))
   expect_true(all(is.na(res$`prot_needs_3_movement/pnta_w`)))
   expect_true(all(is.na(res$`prot_needs_3_movement/other_safety_measures_w`)))
+
+  # The weight for `women_girls_boys_avoid_firewood` and `women_girls_boys_avoid_places` is 2
+  expect_equal(
+    max(res$`prot_needs_3_movement/women_girls_boys_avoid_firewood_w`),
+    2
+  )
+  expect_equal(
+    max(res$`prot_needs_3_movement/women_girls_boys_avoid_places_w`),
+    2
+  )
 })
 
 test_that("composite value calculated correctly and NA for dnk/pnta rows", {
@@ -220,4 +239,14 @@ test_that("score is not affected by `other_safety_measures` if not only selectio
     dplyr::select(res, dplyr::all_of(score_cols)),
     dplyr::select(res2, dplyr::all_of(score_cols))
   )
+})
+
+test_that("score is 2 when only no_changes_feel_unsafe is selected (weight = 1)", {
+  edge_case <- dummy_df |>
+    dplyr::filter(tot == 1, `prot_needs_3_movement/no_changes_feel_unsafe` == 1)
+
+  res <- add_prot_score_movement(edge_case)
+
+  expect_true(all(res$comp_prot_score_prot_needs_3 == 1))
+  expect_true(all(res$comp_prot_score_movement == 2))
 })

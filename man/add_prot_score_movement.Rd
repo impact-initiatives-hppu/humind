@@ -21,6 +21,8 @@ add_prot_score_movement(
   avoid_markets = "avoid_markets",
   avoid_public_offices = "avoid_public_offices",
   avoid_fields = "avoid_fields",
+  women_girls_boys_avoid_firewood = "women_girls_boys_avoid_firewood",
+  women_girls_boys_avoid_places = "women_girls_boys_avoid_places",
   other_safety_measures = "other_safety_measures",
   dnk = "dnk",
   pnta = "pnta",
@@ -61,6 +63,10 @@ add_prot_score_movement(
 \item{avoid_public_offices}{answer option}
 
 \item{avoid_fields}{answer option}
+
+\item{women_girls_boys_avoid_firewood}{answer option}
+
+\item{women_girls_boys_avoid_places}{answer option}
 
 \item{other_safety_measures}{answer option}
 
