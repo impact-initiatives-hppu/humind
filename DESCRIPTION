@@ -31,10 +31,11 @@ URL: https://impact-initiatives-hppu.github.io/humind,
 BugReports: https://github.com/impact-initiatives-hppu/humind/issues
 Remotes: 
     impact-initiatives/impactR.utils
-Suggests: 
+Suggests:
     rmarkdown,
     roxygen2,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tibble
 Config/Needs/website: rmarkdown
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.0.0

@@ -178,21 +178,32 @@ add_hhs <- function(
   }
 
   .dataset_with_calculation <- .dataset |>
+    dplyr::mutate(
+      "{fsl_hhs_nofoodhh_freq}" := dplyr::case_when(
+        .data[[fsl_hhs_nofoodhh_freq]] %in%
+          c(rarely_answer, sometimes_answer) ~ 1,
+        .data[[fsl_hhs_nofoodhh_freq]] == often_answer ~ 2,
+        .data[[fsl_hhs_nofoodhh]] == no_answer ~ 0,
+        TRUE ~ NA_real_
+      ),
+      "{fsl_hhs_sleephungry_freq}" := dplyr::case_when(
+        .data[[fsl_hhs_sleephungry_freq]] %in%
+          c(rarely_answer, sometimes_answer) ~ 1,
+        .data[[fsl_hhs_sleephungry_freq]] == often_answer ~ 2,
+        .data[[fsl_hhs_sleephungry]] == no_answer ~ 0,
+        TRUE ~ NA_real_
+      ),
+      "{fsl_hhs_alldaynight_freq}" := dplyr::case_when(
+        .data[[fsl_hhs_alldaynight_freq]] %in%
+          c(rarely_answer, sometimes_answer) ~ 1,
+        .data[[fsl_hhs_alldaynight_freq]] == often_answer ~ 2,
+        .data[[fsl_hhs_alldaynight]] == no_answer ~ 0,
+        TRUE ~ NA_real_
+      )
+    ) |>
     dplyr::mutate_at(
       c(fsl_hhs_nofoodhh, fsl_hhs_sleephungry, fsl_hhs_alldaynight),
       ~ dplyr::case_when(.x == yes_answer ~ 1, .x == no_answer ~ 0)
-    ) |>
-    dplyr::mutate_at(
-      c(
-        fsl_hhs_nofoodhh_freq,
-        fsl_hhs_sleephungry_freq,
-        fsl_hhs_alldaynight_freq
-      ),
-      ~ dplyr::case_when(
-        .x %in% c(rarely_answer, sometimes_answer) ~ 1,
-        .x == often_answer ~ 2,
-        TRUE ~ 0
-      )
     ) |>
     dplyr::rowwise() |>
     dplyr::mutate(
