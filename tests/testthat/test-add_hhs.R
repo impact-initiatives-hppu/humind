@@ -37,7 +37,7 @@ expect_hhs_pair_matches_cases <- function(yn_col, freq_col, comp_col) {
   for (col in names(other_cols)) {
     df[[col]] <- other_cols[[col]]
   }
-  result <- add_hhs(df)
+  result <- suppressWarnings(add_hhs(df))
 
   expect_equal(
     result[[paste0(yn_col, "_recoded")]],
@@ -130,7 +130,7 @@ test_that("fsl_hhs_score is NA (not deflated to 0) when a freq answer is genuine
     fsl_hhs_alldaynight = "no",
     fsl_hhs_alldaynight_freq = NA_character_
   )
-  result <- add_hhs(df)
+  result <- suppressWarnings(add_hhs(df))
 
   expect_true(is.na(result$fsl_hhs_comp1))
   expect_true(is.na(result$fsl_hhs_score))
