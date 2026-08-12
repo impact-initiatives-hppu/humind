@@ -194,3 +194,23 @@ if_not_in_stop <- function(df, cols, df_name, arg = NULL) {
     )
   }
 }
+
+
+#' @title Drop columns from main that are also computed in loop
+#'
+#' @description Before joining loop-derived columns into main, drop any
+#' column names main already shares with loop (e.g. from a prior run),
+#' except the two id columns used for the join.
+#'
+#' @param main A data frame (household-level)
+#' @param loop A data frame (individual-level, already summarized)
+#' @param id_col_main Column name for the unique identifier in main
+#' @param id_col_loop Column name for the unique identifier in loop
+#'
+#' @return main, with shared non-id columns dropped
+drop_shared_loop_cols <- function(main, loop, id_col_main, id_col_loop) {
+  id_cols <- c(id_col_main, id_col_loop)
+  shared_cols <- intersect(colnames(loop), colnames(main))
+  shared_cols <- setdiff(shared_cols, id_cols)
+  dplyr::select(main, -dplyr::all_of(shared_cols))
+}

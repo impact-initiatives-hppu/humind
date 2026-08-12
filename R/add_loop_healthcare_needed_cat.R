@@ -266,10 +266,7 @@ add_loop_healthcare_needed_cat_to_main <- function(
   loop <- loop_vars
 
   # Remove columns in main that exists in loop, but the grouping ones
-  cols_uuids <- c(id_col_main, id_col_loop)
-  cols_from_loop_in_main <- intersect(colnames(loop), colnames(main))
-  cols_from_loop_in_main <- setdiff(cols_from_loop_in_main, cols_uuids)
-  main <- dplyr::select(main, -dplyr::all_of(cols_from_loop_in_main))
+  main <- drop_shared_loop_cols(main, loop, id_col_main, id_col_loop)
 
   # Join the data
   main <- dplyr::left_join(
