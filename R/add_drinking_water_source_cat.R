@@ -94,9 +94,10 @@ add_drinking_water_source_cat <- function(
 #' @param dnk Character vector of responses codes for "Don't know".
 #' @param undefined Character vector of responses codes for undefined information, e.g. "Prefer not to answer".
 #' @param drinking_water_time_int Component column: Time to fetch water, integer.
-#' @param max Integer, the maximum value for the time to fetch water.
+#' @param max_minutes Integer, the maximum value for the time to fetch water.
 #' @param drinking_water_time_sl Component column: Time to fetch water, simple choice.
-#' @param sl_under_30_min Response code(s) for under 30 minutes
+#' @param sl_under_30_min Character vector of response codes for under 30
+#' minutes, e.g. c("5min_or_less", "5min_15min", "15min_30min").
 #' @param sl_30min_1hr Response code for 30 minutes to 1 hour.
 #' @param sl_more_than_1hr Response code for more than 1 hour.
 #' @param sl_undefined Character vector of responses codes for undefined information, e.g. "Don't know" or "Prefer not to answer".
@@ -113,7 +114,7 @@ add_drinking_water_time_cat <- function(
   dnk = "dnk",
   undefined = "pnta",
   drinking_water_time_int = "wash_drinking_water_time_int",
-  max = 600,
+  max_minutes = 600,
   drinking_water_time_sl = "wash_drinking_water_time_sl",
   sl_under_30_min = c("5min_or_less", "5min_15min", "15min_30min"),
   sl_30min_1hr = "30min_1hr",
@@ -174,7 +175,7 @@ add_drinking_water_time_cat <- function(
     .time_int_cat = dplyr::case_when(
       !!rlang::sym(drinking_water_time_int) < 30 ~ cat_under_30min,
       !!rlang::sym(drinking_water_time_int) < 60 ~ cat_30min_1hr,
-      !!rlang::sym(drinking_water_time_int) <= 600 ~ cat_more_than_1hr
+      !!rlang::sym(drinking_water_time_int) <= max_minutes ~ cat_more_than_1hr
     ),
     # Bucket the simple-choice (sl) responses into the same categories
     .time_sl_cat = dplyr::case_when(
