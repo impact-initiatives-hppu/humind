@@ -128,6 +128,60 @@ test_that("add_drinking_water_time_cat recodes all under-30-min sl codes correct
   expect_false(any(grepl("^\\.", colnames(result))))
 })
 
+test_that("add_drinking_water_time_cat and add_drinking_water_time_threshold_cat integrate correctly", {
+  df <- dplyr::tribble(
+    ~wash_drinking_water_source   ,
+    ~wash_drinking_water_time_yn  ,
+    ~wash_drinking_water_time_int ,
+    ~wash_drinking_water_time_sl  ,
+    "borehole" , "water_in_dwelling" , NA_real_ , NA_character_   ,
+    "borehole" , "number_minutes"    , 10       , "5min_15min"    ,
+    "borehole" , "dnk"               , NA_real_ , "15min_30min"   ,
+    "borehole" , "number_minutes"    , 45       , "30min_1hr"     ,
+    "borehole" , "dnk"               , NA_real_ , "more_than_1hr" ,
+    "borehole" , "pnta"              , NA_real_ , NA_character_   ,
+    "borehole" , "dnk"               , NA_real_ , "dnk"
+  )
+
+  result <- df |>
+    add_drinking_water_time_cat() |>
+    add_drinking_water_time_threshold_cat()
+
+  expect_equal(
+    result$wash_drinking_water_time_30min_cat,
+    c(
+      "premises",
+      "under_30min",
+      "under_30min",
+      "above_30min",
+      "above_30min",
+      "undefined",
+      "undefined"
+    )
+  )
+})
+
+test_that("add_drinking_water_time_threshold_cat errors when misconfigured relative to add_drinking_water_time_cat", {
+  df <- dplyr::tribble(
+    ~wash_drinking_water_source   ,
+    ~wash_drinking_water_time_yn  ,
+    ~wash_drinking_water_time_int ,
+    ~wash_drinking_water_time_sl  ,
+    "borehole" , "number_minutes" , 10 , "5min_15min"
+  )
+
+  step1 <- add_drinking_water_time_cat(df)
+  expect_equal(step1$wash_drinking_water_time_cat, "under_30_min")
+
+  expect_error(
+    add_drinking_water_time_threshold_cat(
+      step1,
+      drinking_water_time_30min_cat_under_30min = "not_under_30_min"
+    ),
+    class = "error"
+  )
+})
+
 test_that("add_drinking_water_quality_jmp_cat returns expected column", {
   df <- dummy_data |>
     add_drinking_water_source_cat() |>
