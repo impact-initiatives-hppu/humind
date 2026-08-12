@@ -21,7 +21,6 @@ Imports:
     rlang (>= 0.4.11),
     stats,
     tidyr,
-    impactR.utils,
     Hmisc,
     stringr,
     cli,
@@ -29,9 +28,7 @@ Imports:
 URL: https://impact-initiatives-hppu.github.io/humind,
      https://github.com/impact-initiatives-hppu/humind
 BugReports: https://github.com/impact-initiatives-hppu/humind/issues
-Remotes: 
-    impact-initiatives/impactR.utils
-Suggests: 
+Suggests:
     rmarkdown,
     roxygen2,
     testthat (>= 3.0.0)
