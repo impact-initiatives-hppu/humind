@@ -10,10 +10,10 @@ prune_wash_df <- function(df) {
     (is.na(survey_modality) | survey_modality != "remote") ==
       !is.na(wash_handwashing_facility),
 
-    # wash_handwashing_facility_observed_water:
+    # wash_handwashing_facility_observed_water_yn:
     # selected(${wash_handwashing_facility}, one of fixed_hwf)
     (wash_handwashing_facility %in% fixed_hwf) ==
-      !is.na(wash_handwashing_facility_observed_water),
+      !is.na(wash_handwashing_facility_observed_water_yn),
 
     # wash_soap_observed_yn: same trigger as above
     (wash_handwashing_facility %in% fixed_hwf) == !is.na(wash_soap_observed_yn),
@@ -58,7 +58,7 @@ generate_wash_df <- function() {
     NA_character_ # Can be NA because of skip logic
   )
 
-  wash_handwashing_facility_observed_water <- c(
+  wash_handwashing_facility_observed_water_yn <- c(
     "water_available",
     "water_not_available",
     "water_available",
@@ -110,7 +110,7 @@ generate_wash_df <- function() {
   exhaustive_df <- tidyr::expand_grid(
     survey_modality,
     wash_handwashing_facility,
-    wash_handwashing_facility_observed_water,
+    wash_handwashing_facility_observed_water_yn,
     wash_soap_observed_yn,
     wash_handwashing_facility_reported,
     wash_handwashing_facility_water_reported_yn,
