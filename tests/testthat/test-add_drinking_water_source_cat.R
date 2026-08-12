@@ -79,16 +79,53 @@ test_that("add_drinking_water_time_cat returns expected column", {
 test_that("add_drinking_water_time_cat errors on wrong sl_under_30_min values", {
   expect_error(
     add_drinking_water_time_cat(dummy_data, sl_under_30_min = "foo"),
-    regexp = '.*should be one of "5min_or_less", "5min_15min", "15min_30min".*'
+    regexp = ".*All columns must be in the following set.*"
   )
+})
 
-  expect_error(
+test_that("add_drinking_water_time_cat accepts multiple sl_under_30_min codes", {
+  expect_no_error(
     add_drinking_water_time_cat(
       dummy_data,
-      sl_under_30_min = c("5min_15min", "15min_30min")
-    ),
-    regexp = ".* must be of length 1"
+      sl_under_30_min = c("5min_or_less", "5min_15min", "15min_30min")
+    )
   )
+})
+
+test_that("add_drinking_water_time_cat recodes all under-30-min sl codes correctly", {
+  df <- dplyr::tribble(
+    ~wash_drinking_water_source   ,
+    ~wash_drinking_water_time_yn  ,
+    ~wash_drinking_water_time_int ,
+    ~wash_drinking_water_time_sl  ,
+    "borehole"                    , "number_minutes" ,  5 , "5min_or_less"  ,
+    "protected_well"              , "number_minutes" , 12 , "5min_15min"    ,
+    "tap"                         , "number_minutes" , 25 , "15min_30min"   ,
+    "kiosk"                       , "number_minutes" , 45 , "30min_1hr"     ,
+    "borehole"                    , "number_minutes" , 90 , "more_than_1hr" ,
+    "rainwater_collection"        , "dnk"            , NA , "dnk"           ,
+    "borehole"                    , "dnk"            , NA , "5min_or_less"  ,
+    "kiosk"                       , "dnk"            , NA , "30min_1hr"
+  )
+
+  result <- add_drinking_water_time_cat(df)
+
+  expect_equal(
+    result$wash_drinking_water_time_cat,
+    c(
+      "under_30_min",
+      "under_30_min",
+      "under_30_min",
+      "30min_1hr",
+      "more_than_1hr",
+      "undefined",
+      "under_30_min",
+      "30min_1hr"
+    )
+  )
+
+  # Temporary helper columns must not leak into the output
+  expect_false(any(grepl("^\\.", colnames(result))))
 })
 
 test_that("add_drinking_water_quality_jmp_cat returns expected column", {
