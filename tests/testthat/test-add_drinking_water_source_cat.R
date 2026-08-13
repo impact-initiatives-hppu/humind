@@ -128,19 +128,40 @@ test_that("add_drinking_water_time_cat recodes all under-30-min sl codes correct
   expect_false(any(grepl("^\\.", colnames(result))))
 })
 
+test_that("add_drinking_water_time_cat buckets the 30 and 60 minute boundaries inclusively", {
+  df <- dplyr::tribble(
+    ~wash_drinking_water_source   ,
+    ~wash_drinking_water_time_yn  ,
+    ~wash_drinking_water_time_int ,
+    ~wash_drinking_water_time_sl  ,
+    "borehole"                    , "number_minutes" , 30 , "15min_30min" ,
+    "borehole"                    , "number_minutes" , 60 , "30min_1hr"
+  )
+
+  result <- add_drinking_water_time_cat(df)
+
+  # Exactly 30 minutes falls in the under-30-min bucket, exactly 60 minutes
+  # falls in the 30min-1hr bucket (i.e. the interval bounds are inclusive on
+  # their upper edge: <= 30 and <= 60, not < 30 and < 60).
+  expect_equal(
+    result$wash_drinking_water_time_cat,
+    c("under_30_min", "30min_1hr")
+  )
+})
+
 test_that("add_drinking_water_time_cat and add_drinking_water_time_threshold_cat integrate correctly", {
   df <- dplyr::tribble(
     ~wash_drinking_water_source   ,
     ~wash_drinking_water_time_yn  ,
     ~wash_drinking_water_time_int ,
     ~wash_drinking_water_time_sl  ,
-    "borehole" , "water_in_dwelling" , NA_real_ , NA_character_   ,
-    "borehole" , "number_minutes"    , 10       , "5min_15min"    ,
-    "borehole" , "dnk"               , NA_real_ , "15min_30min"   ,
-    "borehole" , "number_minutes"    , 45       , "30min_1hr"     ,
-    "borehole" , "dnk"               , NA_real_ , "more_than_1hr" ,
-    "borehole" , "pnta"              , NA_real_ , NA_character_   ,
-    "borehole" , "dnk"               , NA_real_ , "dnk"
+    "borehole"                    , "water_in_dwelling" , NA_real_ , NA_character_   ,
+    "borehole"                    , "number_minutes"    ,       10 , "5min_15min"    ,
+    "borehole"                    , "dnk"               , NA_real_ , "15min_30min"   ,
+    "borehole"                    , "number_minutes"    ,       45 , "30min_1hr"     ,
+    "borehole"                    , "dnk"               , NA_real_ , "more_than_1hr" ,
+    "borehole"                    , "pnta"              , NA_real_ , NA_character_   ,
+    "borehole"                    , "dnk"               , NA_real_ , "dnk"
   )
 
   result <- df |>
@@ -167,7 +188,7 @@ test_that("add_drinking_water_time_threshold_cat errors when misconfigured relat
     ~wash_drinking_water_time_yn  ,
     ~wash_drinking_water_time_int ,
     ~wash_drinking_water_time_sl  ,
-    "borehole" , "number_minutes" , 10 , "5min_15min"
+    "borehole"                    , "number_minutes" , 10 , "5min_15min"
   )
 
   step1 <- add_drinking_water_time_cat(df)

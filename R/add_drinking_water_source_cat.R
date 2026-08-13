@@ -173,8 +173,8 @@ add_drinking_water_time_cat <- function(
     df,
     # Bucket the exact minutes reported
     .time_int_cat = dplyr::case_when(
-      !!rlang::sym(drinking_water_time_int) < 30 ~ cat_under_30min,
-      !!rlang::sym(drinking_water_time_int) < 60 ~ cat_30min_1hr,
+      !!rlang::sym(drinking_water_time_int) <= 30 ~ cat_under_30min,
+      !!rlang::sym(drinking_water_time_int) <= 60 ~ cat_30min_1hr,
       !!rlang::sym(drinking_water_time_int) <= max_minutes ~ cat_more_than_1hr
     ),
     # Bucket the simple-choice (sl) responses into the same categories
