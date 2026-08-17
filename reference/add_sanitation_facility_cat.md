@@ -145,7 +145,8 @@ add_sanitation_facility_jmp_cat(
 
 - weight:
 
-  Column name for survey weights.
+  Column name for survey weights. For unweighted analysis, this column
+  must still be provided, with its value set to `1`.
 
 - sanitation_facility_cat:
 

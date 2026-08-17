@@ -123,6 +123,14 @@
   : Stop statement values are not in set
 - [`count_if_above_zero()`](https://impact-initiatives-hppu.github.io/humind/reference/count_if_above_zero.md)
   : Create Dummy Variables and Count Across if Above Zero
+- [`drop_shared_loop_cols()`](https://impact-initiatives-hppu.github.io/humind/reference/drop_shared_loop_cols.md)
+  : Drop columns from main that are also computed in loop
+- [`humind_edu_ind`](https://impact-initiatives-hppu.github.io/humind/reference/humind_edu_ind.md)
+  : Dummy demo MSNA education loop data
+- [`humind_health_ind`](https://impact-initiatives-hppu.github.io/humind/reference/humind_health_ind.md)
+  : Dummy MSNA health loop data
+- [`humind_main`](https://impact-initiatives-hppu.github.io/humind/reference/humind_main.md)
+  : Dummy MSNA household (main) data
 - [`if_not_in_stop()`](https://impact-initiatives-hppu.github.io/humind/reference/if_not_in_stop.md)
   : Stop statement "If not in colnames" with colnames
 - [`impute_value()`](https://impact-initiatives-hppu.github.io/humind/reference/impute_value.md)
