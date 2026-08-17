@@ -102,6 +102,7 @@ Iyed
 jmp
 JMP
 justfile
+knitr
 Kobo
 laith
 Laith
@@ -212,6 +213,7 @@ uvx
 vectorized
 Vectorized
 vendored
+VignetteBuilder
 villotta
 VILLOTTA
 WG

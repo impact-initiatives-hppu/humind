@@ -1,0 +1,153 @@
+---
+title: "MSNI Workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MSNI Workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Setup
+
+```{r setup, warnings = F, message = F}
+library(humind)
+library(dplyr)
+
+data(humind_main)
+data(humind_health_ind)
+data(humind_edu_ind)
+
+id_col_main <- "_uuid"
+id_col_loop <- "_submission__uuid"
+```
+
+## Food security
+
+```{r foodsec}
+main_foodsec <- humind_main |>
+  # This form splits 4 LCSI items into _host/_camp variants that are mutually exclusive
+  # coalesce into the single columns add_lcsi() expects.
+  mutate(
+    fsl_lcsi_stress1 = coalesce(fsl_lcsi_stress1_host, fsl_lcsi_stress1_camp),
+    fsl_lcsi_stress2 = coalesce(fsl_lcsi_stress2_host, fsl_lcsi_stress2_camp),
+    fsl_lcsi_emergency2 = coalesce(fsl_lcsi_emergency2_host, fsl_lcsi_emergency2_camp),
+    fsl_lcsi_emergency3 = coalesce(fsl_lcsi_emergency3_host, fsl_lcsi_emergency3_camp)
+  ) |>
+  add_fcs(cutoffs = "normal") |>
+  add_hhs() |>
+  add_rcsi() |>
+  add_lcsi() |>
+  add_fcm_phase() |>
+  add_fclcm_phase(lcs_cat_var = "fsl_lcsi_cat") |>
+  add_comp_foodsec()
+```
+
+## WASH
+
+```{r wash}
+main_wash <- main_foodsec |>
+  add_hwise() |>
+  add_drinking_water_source_cat() |>
+  add_drinking_water_time_cat() |>
+  add_drinking_water_time_threshold_cat() |>
+  add_drinking_water_quality_jmp_cat() |>
+  add_sanitation_facility_cat() |>
+  add_sharing_sanitation_facility_cat() |>
+  # Form has no survey weight column.
+  mutate(weight = 1) |>
+  add_sharing_sanitation_facility_n_ind() |>
+  add_sanitation_facility_jmp_cat() |>
+  # Form has no modality question.
+  mutate(survey_modality = "in_person") |>
+  add_handwashing_facility_cat() |>
+  add_comp_wash()
+```
+
+## SNFI / HLP
+
+```{r snfi}
+main_snfi <- main_wash |>
+  add_shelter_type_cat() |>
+  add_shelter_issue_cat() |>
+  add_shelter_damage_cat() |>
+  add_fds_cannot_cat() |>
+  add_occupancy_cat() |>
+  add_comp_snfi()
+```
+
+## Protection
+
+```{r prot}
+main_prot <- main_snfi |>
+  add_prot_score_movement() |>
+  add_prot_score_practices() |>
+  add_prot_score_rights() |>
+  add_comp_prot()
+```
+
+## Health
+
+```{r health}
+health_ind <- humind_health_ind |>
+  add_loop_healthcare_needed_cat()
+
+main_health <- main_prot |>
+  add_loop_healthcare_needed_cat_to_main(
+    loop = health_ind,
+    id_col_main = id_col_main, id_col_loop = id_col_loop
+  ) |>
+  add_comp_health()
+```
+
+## Education
+
+```{r edu}
+edu_ind <- humind_edu_ind |>
+  add_loop_edu_ind_age_corrected(
+    main = main_health,
+    id_col_loop = id_col_loop, id_col_main = id_col_main,
+    ind_age = "edu_ind_age"
+  ) |>
+  add_loop_edu_access_d() |>
+  add_loop_edu_barrier_protection_d() |>
+  add_loop_edu_disrupted_d()
+
+edu_n_cols <- c(
+  "edu_schooling_age_n", "edu_no_access_n", "edu_barrier_protection_n",
+  "edu_disrupted_attack_n", "edu_disrupted_hazards_n",
+  "edu_disrupted_displaced_n", "edu_disrupted_teacher_n"
+)
+
+main_edu <- main_health |>
+  add_loop_edu_ind_schooling_age_d_to_main(
+    loop = edu_ind, id_col_main = id_col_main, id_col_loop = id_col_loop
+  ) |>
+  add_loop_edu_access_d_to_main(
+    loop = edu_ind, id_col_main = id_col_main, id_col_loop = id_col_loop
+  ) |>
+  add_loop_edu_barrier_protection_d_to_main(
+    loop = edu_ind, id_col_main = id_col_main, id_col_loop = id_col_loop
+  ) |>
+  add_loop_edu_disrupted_d_to_main(
+    loop = edu_ind, id_col_main = id_col_main, id_col_loop = id_col_loop
+  ) |>
+  # Households with no school-age child never get an edu_ind row, so the
+  # joins above leave NA instead of 0 -- add_comp_edu() needs 0 for its
+  # "no school-age children -> no need" branch.
+  mutate(across(any_of(edu_n_cols), \(x) coalesce(x, 0))) |>
+  add_comp_edu()
+```
+
+## MSNI
+
+```{r msni}
+msni_output <- add_msni(main_edu)
+msni_output |> head()
+```
