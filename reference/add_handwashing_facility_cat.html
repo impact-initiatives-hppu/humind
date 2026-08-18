@@ -52,7 +52,7 @@ It evaluates various parameters related to the availability of handwashing facil
 <span>  facility_no <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  facility_no_permission <span class="op">=</span> <span class="st">"no_permission"</span>,</span>
 <span>  facility_undefined <span class="op">=</span> <span class="st">"other"</span>,</span>
-<span>  facility_observed_water <span class="op">=</span> <span class="st">"wash_handwashing_facility_observed_water"</span>,</span>
+<span>  facility_observed_water <span class="op">=</span> <span class="st">"wash_handwashing_facility_observed_water_yn"</span>,</span>
 <span>  facility_observed_water_yes <span class="op">=</span> <span class="st">"water_available"</span>,</span>
 <span>  facility_observed_water_no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"water_not_available"</span><span class="op">)</span>,</span>
 <span>  facility_observed_soap <span class="op">=</span> <span class="st">"wash_soap_observed_yn"</span>,</span>
@@ -91,7 +91,9 @@ It evaluates various parameters related to the availability of handwashing facil
 
 
 <dt id="arg-survey-modality">survey_modality<a class="anchor" aria-label="anchor" href="#arg-survey-modality"></a></dt>
-<dd><p>Column name for the survey modality (e.g., "survey_modality").</p></dd>
+<dd><p>Column name for the survey modality (e.g., "survey_modality").
+If the source form does not collect this column, the caller must add it before
+calling this function, set to <code>"in_person"</code> for a fully in-person data collection.</p></dd>
 
 
 <dt id="arg-survey-modality-in-person">survey_modality_in_person<a class="anchor" aria-label="anchor" href="#arg-survey-modality-in-person"></a></dt>
@@ -123,7 +125,7 @@ It evaluates various parameters related to the availability of handwashing facil
 
 
 <dt id="arg-facility-observed-water">facility_observed_water<a class="anchor" aria-label="anchor" href="#arg-facility-observed-water"></a></dt>
-<dd><p>Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water").</p></dd>
+<dd><p>Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water_yn").</p></dd>
 
 
 <dt id="arg-facility-observed-water-yes">facility_observed_water_yes<a class="anchor" aria-label="anchor" href="#arg-facility-observed-water-yes"></a></dt>
