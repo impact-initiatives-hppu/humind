@@ -196,8 +196,8 @@ add_drinking_water_time_cat <- function(
       !!rlang::sym(drinking_water_time_yn) %in% water_on_premises ~ "premises",
       !!rlang::sym(drinking_water_time_yn) %in% number_minutes ~ .time_int_cat,
       # Fix don't know
-      !!rlang::sym(drinking_water_time_yn) %in% undefined ~ "undefined",
-      !!rlang::sym(drinking_water_time_yn) %in% dnk ~ .time_sl_cat,
+      !!rlang::sym(drinking_water_time_yn) %in%
+        c(undefined, dnk) ~ .time_sl_cat,
       .default = NA_character_
     ),
     .time_int_cat = NULL,

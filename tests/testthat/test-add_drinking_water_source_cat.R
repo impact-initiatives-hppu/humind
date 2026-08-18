@@ -105,7 +105,14 @@ test_that("add_drinking_water_time_cat recodes all under-30-min sl codes correct
     "borehole"                    , "number_minutes" , 90 , "more_than_1hr" ,
     "rainwater_collection"        , "dnk"            , NA , "dnk"           ,
     "borehole"                    , "dnk"            , NA , "5min_or_less"  ,
-    "kiosk"                       , "dnk"            , NA , "30min_1hr"
+    "kiosk"                       , "dnk"            , NA , "30min_1hr"     ,
+    "borehole"                    , "dnk"            , NA , "5min_15min"    ,
+    "borehole"                    , "dnk"            , NA , "more_than_1hr" ,
+    "borehole"                    , "dnk"            , NA , "pnta"          ,
+    "borehole"                    , "pnta"           , NA , "5min_or_less"  ,
+    "borehole"                    , "pnta"           , NA , "30min_1hr"     ,
+    "borehole"                    , "pnta"           , NA , "more_than_1hr" ,
+    "borehole"                    , "pnta"           , NA , "dnk"
   )
 
   result <- add_drinking_water_time_cat(df)
@@ -120,7 +127,14 @@ test_that("add_drinking_water_time_cat recodes all under-30-min sl codes correct
       "more_than_1hr",
       "undefined",
       "under_30_min",
-      "30min_1hr"
+      "30min_1hr",
+      "under_30_min",
+      "more_than_1hr",
+      "undefined",
+      "under_30_min",
+      "30min_1hr",
+      "more_than_1hr",
+      "undefined"
     )
   )
 
@@ -160,8 +174,12 @@ test_that("add_drinking_water_time_cat and add_drinking_water_time_threshold_cat
     "borehole"                    , "dnk"               , NA_real_ , "15min_30min"   ,
     "borehole"                    , "number_minutes"    ,       45 , "30min_1hr"     ,
     "borehole"                    , "dnk"               , NA_real_ , "more_than_1hr" ,
-    "borehole"                    , "pnta"              , NA_real_ , NA_character_   ,
-    "borehole"                    , "dnk"               , NA_real_ , "dnk"
+    "borehole"                    , "dnk"               , NA_real_ , "dnk"           ,
+    "borehole"                    , "dnk"               , NA_real_ , "pnta"          ,
+    "borehole"                    , "pnta"              , NA_real_ , "5min_or_less"  ,
+    "borehole"                    , "pnta"              , NA_real_ , "30min_1hr"     ,
+    "borehole"                    , "pnta"              , NA_real_ , "more_than_1hr" ,
+    "borehole"                    , "pnta"              , NA_real_ , "dnk"
   )
 
   result <- df |>
@@ -177,6 +195,10 @@ test_that("add_drinking_water_time_cat and add_drinking_water_time_threshold_cat
       "above_30min",
       "above_30min",
       "undefined",
+      "undefined",
+      "under_30min",
+      "above_30min",
+      "above_30min",
       "undefined"
     )
   )
