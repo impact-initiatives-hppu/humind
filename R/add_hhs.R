@@ -177,22 +177,79 @@ add_hhs <- function(
     ))
   }
 
+  ## Conditional validation: check consistency between yes/no and frequency answers
+  hhs_pairs <- list(
+    list(
+      yn = fsl_hhs_nofoodhh,
+      freq = fsl_hhs_nofoodhh_freq,
+      label = "nofoodhh"
+    ),
+    list(
+      yn = fsl_hhs_sleephungry,
+      freq = fsl_hhs_sleephungry_freq,
+      label = "sleephungry"
+    ),
+    list(
+      yn = fsl_hhs_alldaynight,
+      freq = fsl_hhs_alldaynight_freq,
+      label = "alldaynight"
+    )
+  )
+
+  purrr::walk(hhs_pairs, function(pair) {
+    # Error: if yn = "no", freq must be NA
+    invalid_rows <- which(
+      .dataset[[pair$yn]] == no_answer & !is.na(.dataset[[pair$freq]])
+    )
+    if (length(invalid_rows) > 0) {
+      cli::cli_abort(c(
+        "Inconsistent values in {.field {pair$label}} pair",
+        "x" = "{.field {pair$yn}} = {.val {no_answer}} but {.field {pair$freq}} is not NA",
+        "i" = "When answering {.val {no_answer}}, frequency should be NA",
+        "i" = "Affected row{?s}: {.val {invalid_rows}}"
+      ))
+    }
+
+    # Warning: if yn = "yes", freq should not be NA
+    missing_rows <- which(
+      .dataset[[pair$yn]] == yes_answer & is.na(.dataset[[pair$freq]])
+    )
+    if (length(missing_rows) > 0) {
+      cli::cli_warn(c(
+        "Missing frequency in {.field {pair$label}} pair",
+        "!" = "{.field {pair$yn}} = {.val {yes_answer}} but {.field {pair$freq}} is NA",
+        "i" = "HHS score will be NA for affected row{?s}: {.val {missing_rows}}"
+      ))
+    }
+  })
+
   .dataset_with_calculation <- .dataset |>
+    dplyr::mutate(
+      "{fsl_hhs_nofoodhh_freq}" := dplyr::case_when(
+        .data[[fsl_hhs_nofoodhh_freq]] %in%
+          c(rarely_answer, sometimes_answer) ~ 1,
+        .data[[fsl_hhs_nofoodhh_freq]] == often_answer ~ 2,
+        .data[[fsl_hhs_nofoodhh]] == no_answer ~ 0,
+        TRUE ~ NA_real_
+      ),
+      "{fsl_hhs_sleephungry_freq}" := dplyr::case_when(
+        .data[[fsl_hhs_sleephungry_freq]] %in%
+          c(rarely_answer, sometimes_answer) ~ 1,
+        .data[[fsl_hhs_sleephungry_freq]] == often_answer ~ 2,
+        .data[[fsl_hhs_sleephungry]] == no_answer ~ 0,
+        TRUE ~ NA_real_
+      ),
+      "{fsl_hhs_alldaynight_freq}" := dplyr::case_when(
+        .data[[fsl_hhs_alldaynight_freq]] %in%
+          c(rarely_answer, sometimes_answer) ~ 1,
+        .data[[fsl_hhs_alldaynight_freq]] == often_answer ~ 2,
+        .data[[fsl_hhs_alldaynight]] == no_answer ~ 0,
+        TRUE ~ NA_real_
+      )
+    ) |>
     dplyr::mutate_at(
       c(fsl_hhs_nofoodhh, fsl_hhs_sleephungry, fsl_hhs_alldaynight),
       ~ dplyr::case_when(.x == yes_answer ~ 1, .x == no_answer ~ 0)
-    ) |>
-    dplyr::mutate_at(
-      c(
-        fsl_hhs_nofoodhh_freq,
-        fsl_hhs_sleephungry_freq,
-        fsl_hhs_alldaynight_freq
-      ),
-      ~ dplyr::case_when(
-        .x %in% c(rarely_answer, sometimes_answer) ~ 1,
-        .x == often_answer ~ 2,
-        TRUE ~ 0
-      )
     ) |>
     dplyr::rowwise() |>
     dplyr::mutate(

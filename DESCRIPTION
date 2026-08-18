@@ -31,7 +31,8 @@ BugReports: https://github.com/impact-initiatives-hppu/humind/issues
 Suggests:
     rmarkdown,
     roxygen2,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tibble
 Config/Needs/website: rmarkdown
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.0.0

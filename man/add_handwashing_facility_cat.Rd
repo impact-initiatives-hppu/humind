@@ -15,7 +15,7 @@ add_handwashing_facility_cat(
   facility_no = "none",
   facility_no_permission = "no_permission",
   facility_undefined = "other",
-  facility_observed_water = "wash_handwashing_facility_observed_water",
+  facility_observed_water = "wash_handwashing_facility_observed_water_yn",
   facility_observed_water_yes = "water_available",
   facility_observed_water_no = c("water_not_available"),
   facility_observed_soap = "wash_soap_observed_yn",
@@ -47,7 +47,9 @@ add_handwashing_facility_cat(
 \arguments{
 \item{df}{A data frame containing the survey data.}
 
-\item{survey_modality}{Column name for the survey modality (e.g., "survey_modality").}
+\item{survey_modality}{Column name for the survey modality (e.g., "survey_modality").
+If the source form does not collect this column, the caller must add it before
+calling this function, set to \code{"in_person"} for a fully in-person data collection.}
 
 \item{survey_modality_in_person}{Options for the in-person survey modality.}
 
@@ -63,7 +65,7 @@ add_handwashing_facility_cat(
 
 \item{facility_undefined}{Response code(s) for undefined situations.}
 
-\item{facility_observed_water}{Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water").}
+\item{facility_observed_water}{Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water_yn").}
 
 \item{facility_observed_water_yes}{Response code indicating water is available.}
 
