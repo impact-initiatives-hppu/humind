@@ -26,7 +26,7 @@ add_drinking_water_time_cat(
   dnk = "dnk",
   undefined = "pnta",
   drinking_water_time_int = "wash_drinking_water_time_int",
-  max_minutes = 600,
+  max = 600,
   drinking_water_time_sl = "wash_drinking_water_time_sl",
   sl_under_30_min = c("5min_or_less", "5min_15min", "15min_30min"),
   sl_30min_1hr = "30min_1hr",
@@ -112,7 +112,7 @@ add_drinking_water_quality_jmp_cat(
 
   Component column: Time to fetch water, integer.
 
-- max_minutes:
+- max:
 
   Integer, the maximum value for the time to fetch water.
 
@@ -122,8 +122,8 @@ add_drinking_water_quality_jmp_cat(
 
 - sl_under_30_min:
 
-  Character vector of response codes for under 30 minutes, e.g.
-  c("5min_or_less", "5min_15min", "15min_30min").
+  Response code for under 30 minutes. Must be one of c("5min_or_less",
+  "5min_15min", "15min_30min").
 
 - sl_30min_1hr:
 

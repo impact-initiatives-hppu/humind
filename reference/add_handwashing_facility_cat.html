@@ -18,10 +18,6 @@ It evaluates various parameters related to the availability of handwashing facil
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/msni-workflow.html">MSNI Workflow</a></li>
-  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -34,7 +30,7 @@ It evaluates various parameters related to the availability of handwashing facil
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Add Handwashing Facility Category</h1>
-      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/tutorial/R/add_handwashing_facility_cat.R" class="external-link"><code>R/add_handwashing_facility_cat.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/dev2026.3.0/R/add_handwashing_facility_cat.R" class="external-link"><code>R/add_handwashing_facility_cat.R</code></a></small>
       <div class="d-none name"><code>add_handwashing_facility_cat.Rd</code></div>
     </div>
 
@@ -56,7 +52,7 @@ It evaluates various parameters related to the availability of handwashing facil
 <span>  facility_no <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  facility_no_permission <span class="op">=</span> <span class="st">"no_permission"</span>,</span>
 <span>  facility_undefined <span class="op">=</span> <span class="st">"other"</span>,</span>
-<span>  facility_observed_water <span class="op">=</span> <span class="st">"wash_handwashing_facility_observed_water_yn"</span>,</span>
+<span>  facility_observed_water <span class="op">=</span> <span class="st">"wash_handwashing_facility_observed_water"</span>,</span>
 <span>  facility_observed_water_yes <span class="op">=</span> <span class="st">"water_available"</span>,</span>
 <span>  facility_observed_water_no <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"water_not_available"</span><span class="op">)</span>,</span>
 <span>  facility_observed_soap <span class="op">=</span> <span class="st">"wash_soap_observed_yn"</span>,</span>
@@ -95,9 +91,7 @@ It evaluates various parameters related to the availability of handwashing facil
 
 
 <dt id="arg-survey-modality">survey_modality<a class="anchor" aria-label="anchor" href="#arg-survey-modality"></a></dt>
-<dd><p>Column name for the survey modality (e.g., "survey_modality").
-If the source form does not collect this column, the caller must add it before
-calling this function, set to <code>"in_person"</code> for a fully in-person data collection.</p></dd>
+<dd><p>Column name for the survey modality (e.g., "survey_modality").</p></dd>
 
 
 <dt id="arg-survey-modality-in-person">survey_modality_in_person<a class="anchor" aria-label="anchor" href="#arg-survey-modality-in-person"></a></dt>
@@ -129,7 +123,7 @@ calling this function, set to <code>"in_person"</code> for a fully in-person dat
 
 
 <dt id="arg-facility-observed-water">facility_observed_water<a class="anchor" aria-label="anchor" href="#arg-facility-observed-water"></a></dt>
-<dd><p>Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water_yn").</p></dd>
+<dd><p>Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water").</p></dd>
 
 
 <dt id="arg-facility-observed-water-yes">facility_observed_water_yes<a class="anchor" aria-label="anchor" href="#arg-facility-observed-water-yes"></a></dt>

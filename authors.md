@@ -17,7 +17,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/impact-initiatives-hppu/humind/blob/tutorial/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/impact-initiatives-hppu/humind/blob/dev2026.3.0/DESCRIPTION)
 
 VILLOTTA Q, GHEDAMSI I, DASILVA M (2026). *humind: Compose MSNA
 Indicators*. R package version 2026.2.0,
