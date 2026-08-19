@@ -6,11 +6,15 @@ args
 aut
 bacot
 Bacot
+bibentry
+bibtype
 BugReports
 cb
 ce
 changelog
 ci
+citFooter
+citHeader
 cli
 CMD
 Codebase
@@ -19,6 +23,7 @@ Codecov
 codemeta
 colname
 counselling
+cph
 cre
 csi
 CSI
@@ -52,6 +57,7 @@ FW
 ghedamsi
 GHEDAMSI
 github
+Guillaume
 handwashing
 Handwashing
 hdds
@@ -107,9 +113,11 @@ Nawwas
 nd
 nfi
 NFI
+Noblet
 NONINFRINGEMENT
 NSE
 oldrel
+packageVersion
 param
 PHU
 pkgdown
@@ -145,6 +153,7 @@ severities
 sl
 snfi
 SNFI
+sprintf
 stringr
 sublicense
 Subvec
