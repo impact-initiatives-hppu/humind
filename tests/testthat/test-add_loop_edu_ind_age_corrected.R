@@ -4,9 +4,18 @@ loop_data <- dplyr::tibble(
   ind_age = c(10, 12, 18, 3)
 )
 
+# id5 is intentionally absent from loop_data: the education loop only opens
+# for households with at least one school-age child (the form gates the edu
+# group on ind_age_schooling_n >= 1), so no loop rows exist for it.
 main_data <- dplyr::tibble(
-  uuid = c("id1", "id2", "id3", "id4"),
-  start = as.Date(c("2023-01-15", "2023-02-20", "2023-03-25", "2023-04-30"))
+  uuid = c("id1", "id2", "id3", "id4", "id5"),
+  start = as.Date(c(
+    "2023-01-15",
+    "2023-02-20",
+    "2023-03-25",
+    "2023-04-30",
+    "2023-05-15"
+  ))
 )
 
 test_that("Function runs with default parameters", {
@@ -56,5 +65,37 @@ test_that("Function adds correct columns to main data frame", {
 test_that("Function calculates number of school-age children correctly", {
   result <- add_loop_edu_ind_age_corrected(loop_data, main_data)
   main_result <- add_loop_edu_ind_schooling_age_d_to_main(main_data, result)
-  expect_equal(main_result$edu_schooling_age_n, c(1, 1, 0, 0))
+  expect_equal(
+    main_result$edu_schooling_age_n,
+    c(
+      1,
+      1, # School-aged children
+      0,
+      0, # In loop but not of schooling age
+      0 # No school-age children: the loop never opened for this household
+    )
+  )
+})
+
+test_that("To-main join returns 0 (not NA) for a household absent from the loop", {
+  result <- add_loop_edu_ind_age_corrected(loop_data, main_data)
+  main_result <- add_loop_edu_ind_schooling_age_d_to_main(main_data, result)
+  expect_equal(
+    main_result$edu_schooling_age_n[main_result$uuid == "id5"],
+    0
+  )
+  expect_false(any(is.na(main_result$edu_schooling_age_n)))
+})
+
+test_that("In-loop zero and absent-from-loop zero are both encoded as 0", {
+  result <- add_loop_edu_ind_age_corrected(loop_data, main_data)
+  main_result <- add_loop_edu_ind_schooling_age_d_to_main(main_data, result)
+  # id4: non-school-age member present in the loop (once open, the loop
+  #   repeats over all household members): dummy 0 -> in-loop sum = 0
+  # id5: no school-age children, so the loop never opened: no rows at all
+  #   -> join miss coerced to 0
+  expect_equal(
+    main_result$edu_schooling_age_n[main_result$uuid == "id4"],
+    main_result$edu_schooling_age_n[main_result$uuid == "id5"]
+  )
 })
