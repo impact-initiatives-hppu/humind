@@ -71,7 +71,7 @@ add_sanitation_facility_cat <- function(
 #'
 #' @title Add Sharing Status of Sanitation Facility
 #'
-#' @description This function recodes the sharing status of sanitation facilities based on user responses. It categorizes whether the facility is shared or not shared and handles cases where the facility was skipped.
+#' @description add_sharing_sanitation_facility_cat: Recode sharing status of sanitation facilities. Maps user responses to `shared`, `not_shared`, or `not_applicable` when the sanitation facility was skipped.
 #'
 #' @param df A data frame containing sharing status information.
 #' @param sharing_sanitation_facility Component column: Number of people with whom the facility is shared.
@@ -116,7 +116,7 @@ add_sharing_sanitation_facility_cat <- function(
 #'
 #' @title Add Number of Households Sharing a Sanitation Facility
 #'
-#' @description This function calculates the number of households sharing a sanitation facility and categorizes them based on predefined thresholds. It also handles the household size and survey weights in calculations.
+#' @description add_sharing_sanitation_facility_n_ind: Calculate the number of individuals sharing a sanitation facility per household. Uses household size and survey weights to estimate and then categorizes counts into predefined bands.
 #'
 #' @param df A data frame containing household-level data.
 #' @param sharing_sanitation_facility_cat Component column: Is the sanitation facility shared?
@@ -209,7 +209,7 @@ add_sharing_sanitation_facility_n_ind <- function(
 #'
 #' @title Combine Sanitation Facility Classification and Sharing Status
 #'
-#' @description This function combines the previous two functions to recode the sanitation facility into a JMP classification. It also includes information about whether the facility is shared or not shared.
+#' @description add_sanitation_facility_jmp_cat: Combine sanitation facility type and sharing status to derive a JMP classification (e.g., basic, limited, unimproved, open_defecation, undefined).
 #'
 #' @param df A data frame containing both sanitation facility types and sharing status information.
 #' @param sanitation_facility_cat Component column: Sanitation facility types recoded.
