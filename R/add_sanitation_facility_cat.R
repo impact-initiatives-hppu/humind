@@ -142,7 +142,8 @@ add_sharing_sanitation_facility_cat <- function(
 #' @param sharing_sanitation_facility_cat_undefined Response code for undefined cases.
 #' @param sanitation_facility_sharing_n Component column: Number of households sharing the sanitation facility.
 #' @param hh_size Column name for household size.
-#' @param weight Column name for survey weights.
+#' @param weight Column name for survey weights. For unweighted analysis,
+#' this column must still be provided, with its value set to `1`.
 #'
 #' @return A data frame with an additional column:
 #'
@@ -166,6 +167,7 @@ add_sharing_sanitation_facility_n_ind <- function(
   if_not_in_stop(df, sharing_sanitation_facility_cat, "df")
   if_not_in_stop(df, sanitation_facility_sharing_n, "df")
   if_not_in_stop(df, hh_size, "df")
+  if_not_in_stop(df, weight, "df")
 
   # Create levels vector
   levels <- c(

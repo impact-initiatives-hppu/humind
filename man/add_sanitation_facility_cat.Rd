@@ -90,7 +90,8 @@ add_sanitation_facility_jmp_cat(
 
 \item{hh_size}{Column name for household size.}
 
-\item{weight}{Column name for survey weights.}
+\item{weight}{Column name for survey weights. For unweighted analysis,
+this column must still be provided, with its value set to \code{1}.}
 
 \item{sanitation_facility_cat}{Component column: Sanitation facility types recoded.}
 

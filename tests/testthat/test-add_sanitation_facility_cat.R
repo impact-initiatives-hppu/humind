@@ -72,6 +72,17 @@ test_that("add_sharing_sanitation_facility_num_ind works correctly", {
   )
 })
 
+test_that("add_sharing_sanitation_facility_n_ind errors clearly on missing weight column", {
+  df_test <- df |>
+    add_sanitation_facility_cat() |>
+    add_sharing_sanitation_facility_cat() |>
+    dplyr::select(-weight)
+  expect_error(
+    add_sharing_sanitation_facility_n_ind(df_test),
+    regexp = "Missing columns"
+  )
+})
+
 # Test add_sanitation_facility_jmp_cat function
 test_that("add_sanitation_facility_jmp_cat works correctly", {
   df <- add_sanitation_facility_cat(df)
