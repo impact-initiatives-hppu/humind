@@ -33,11 +33,12 @@ add_loop_edu_access_d_to_main(
 
 \item{no}{Value indicating no access to education (e.g., "no").}
 
-\item{pnta}{Value indicating not applicable (e.g., "pnta").}
+\item{pnta}{Value indicating prefer not to answer (e.g., "pnta").}
 
 \item{dnk}{Value indicating don't know (e.g., "dnk").}
 
-\item{ind_schooling_age_d}{Column name for the dummy variable indicating schooling age.}
+\item{ind_schooling_age_d}{Column name for the dummy variable indicating
+schooling age.}
 
 \item{main}{A data frame of household-level data.}
 
@@ -52,16 +53,26 @@ add_loop_edu_access_d_to_main(
 \value{
 A data frame with additional columns:
 \itemize{
-\item edu_ind_access_d: Dummy variable indicating access to education (1 if accessed, 0 otherwise).
-\item edu_ind_no_access_d: Dummy variable indicating no access to education (1 if not accessed, 0 otherwise).
+\item edu_ind_access_d: Dummy variable indicating access to education (1 if
+accessed, 0 if explicitly not accessed, NA if not school age or pnta/dnk).
+\item edu_ind_no_access_d: Dummy variable indicating no access to education (1
+if explicitly not accessed, 0 if accessed, NA if not school age or
+pnta/dnk).
 }
 }
 \description{
-This function adds dummy variables to an individual-level dataframe for all school-aged children.
-It creates a variable (\code{edu_ind_access_d}) that indicates whether the child accessed school (1 if accessed, 0 otherwise) and another variable (\code{edu_ind_no_access_d}) that indicates no access to school.
+This function adds dummy variables to an individual-level
+dataframe for all school-aged children.
+It creates a variable (\code{edu_ind_access_d}) that indicates whether the child
+accessed school (1 if accessed, 0 if explicitly not accessed) and another
+variable (\code{edu_ind_no_access_d}) that indicates no access to school.
 
 Prerequisite function:
 \itemize{
 \item add_loop_edu_ind_age_corrected.R
 }
+}
+\details{
+\code{pnta} (prefer not to answer) and \code{dnk} (don't know) responses are
+coded as \code{NA}, not as "not accessed"
 }
