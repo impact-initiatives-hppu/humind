@@ -92,38 +92,22 @@ add_sharing_sanitation_facility_cat <- function(
   no = "no",
   undefined = c("dnk", "pnta"),
   sanitation_facility = "wash_sanitation_facility",
-  skipped_sanitation_facility = NULL
+  skipped_sanitation_facility = c("none")
 ) {
   #------ Check values ranges
   are_values_in_set(df, sharing_sanitation_facility, c(yes, no, undefined))
-  if (!is.null(skipped_sanitation_facility)) {
-    are_values_in_set(df, sanitation_facility, skipped_sanitation_facility)
-  }
 
-  # If sanitation_facility was skipped because of sharing_sanitation_facility, then recode sharing_sanitation_facility to "no"
-  if (!is.null(skipped_sanitation_facility)) {
-    df <- dplyr::mutate(
-      df,
-      wash_sharing_sanitation_facility_cat = dplyr::case_when(
-        !!rlang::sym(sanitation_facility) %in% skipped_sanitation_facility ~
-          "not_applicable",
-        !!rlang::sym(sharing_sanitation_facility) == yes ~ "shared",
-        !!rlang::sym(sharing_sanitation_facility) == no ~ "not_shared",
-        !!rlang::sym(sharing_sanitation_facility) %in% undefined ~ "undefined",
-        .default = NA_character_
-      )
+  df <- dplyr::mutate(
+    df,
+    wash_sharing_sanitation_facility_cat = dplyr::case_when(
+      !!rlang::sym(sanitation_facility) %in%
+        skipped_sanitation_facility ~ "not_applicable",
+      !!rlang::sym(sharing_sanitation_facility) == yes ~ "shared",
+      !!rlang::sym(sharing_sanitation_facility) == no ~ "not_shared",
+      !!rlang::sym(sharing_sanitation_facility) %in% undefined ~ "undefined",
+      .default = NA_character_
     )
-  } else {
-    df <- dplyr::mutate(
-      df,
-      wash_sharing_sanitation_facility_cat = dplyr::case_when(
-        !!rlang::sym(sharing_sanitation_facility) == yes ~ "shared",
-        !!rlang::sym(sharing_sanitation_facility) == no ~ "not_shared",
-        !!rlang::sym(sharing_sanitation_facility) %in% undefined ~ "undefined",
-        .default = NA_character_
-      )
-    )
-  }
+  )
 
   df
 }
