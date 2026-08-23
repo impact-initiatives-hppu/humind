@@ -2,9 +2,9 @@
 
 This function adds dummy variables to an individual-level dataframe for
 all school-aged children. It creates a variable (`edu_ind_access_d`)
-that indicates whether the child accessed school (1 if accessed, 0
-otherwise) and another variable (`edu_ind_no_access_d`) that indicates
-no access to school.
+that indicates whether the child accessed school (1 if accessed, 0 if
+explicitly not accessed) and another variable (`edu_ind_no_access_d`)
+that indicates no access to school.
 
 Prerequisite function:
 
@@ -53,7 +53,7 @@ add_loop_edu_access_d_to_main(
 
 - pnta:
 
-  Value indicating not applicable (e.g., "pnta").
+  Value indicating prefer not to answer (e.g., "pnta").
 
 - dnk:
 
@@ -88,7 +88,14 @@ add_loop_edu_access_d_to_main(
 A data frame with additional columns:
 
 - edu_ind_access_d: Dummy variable indicating access to education (1 if
-  accessed, 0 otherwise).
+  accessed, 0 if explicitly not accessed, NA if not school age or
+  pnta/dnk).
 
 - edu_ind_no_access_d: Dummy variable indicating no access to education
-  (1 if not accessed, 0 otherwise).
+  (1 if explicitly not accessed, 0 if accessed, NA if not school age or
+  pnta/dnk).
+
+## Details
+
+`pnta` (prefer not to answer) and `dnk` (don't know) responses are coded
+as `NA`, not as "not accessed"
