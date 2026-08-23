@@ -1,7 +1,10 @@
 #' @title Add Education Access Dummy Variables
 #'
-#' @description This function adds dummy variables to an individual-level dataframe for all school-aged children.
-#' It creates a variable (`edu_ind_access_d`) that indicates whether the child accessed school (1 if accessed, 0 otherwise) and another variable (`edu_ind_no_access_d`) that indicates no access to school.
+#' @description This function adds dummy variables to an individual-level
+#' dataframe for all school-aged children.
+#' It creates a variable (`edu_ind_access_d`) that indicates whether the child
+#' accessed school (1 if accessed, 0 if explicitly not accessed) and another
+#' variable (`edu_ind_no_access_d`) that indicates no access to school.
 #'
 #' Prerequisite function:
 #'
@@ -11,14 +14,21 @@
 #' @param ind_access Column name for education access.
 #' @param yes Value indicating access to education (e.g., "yes").
 #' @param no Value indicating no access to education (e.g., "no").
-#' @param pnta Value indicating not applicable (e.g., "pnta").
+#' @param pnta Value indicating prefer not to answer (e.g., "pnta").
 #' @param dnk Value indicating don't know (e.g., "dnk").
-#' @param ind_schooling_age_d Column name for the dummy variable indicating schooling age.
+#' @param ind_schooling_age_d Column name for the dummy variable indicating
+#' schooling age.
 #'
 #' @return A data frame with additional columns:
 #'
-#' * edu_ind_access_d: Dummy variable indicating access to education (1 if accessed, 0 otherwise).
-#' * edu_ind_no_access_d: Dummy variable indicating no access to education (1 if not accessed, 0 otherwise).
+#' * edu_ind_access_d: Dummy variable indicating access to education (1 if
+#' accessed, 0 if explicitly not accessed, NA if not school age or pnta/dnk).
+#' * edu_ind_no_access_d: Dummy variable indicating no access to education (1
+#' if explicitly not accessed, 0 if accessed, NA if not school age or
+#' pnta/dnk).
+#'
+#' @details `pnta` (prefer not to answer) and `dnk` (don't know) responses are
+#' coded as `NA`, not as "not accessed"
 #'
 #' @export
 add_loop_edu_access_d <- function(
@@ -62,22 +72,22 @@ add_loop_edu_access_d <- function(
       !!rlang::sym(ind_schooling_age_d) == 0 ~ NA_real_,
       !!rlang::sym(ind_schooling_age_d) == 1 & !!rlang::sym(ind_access) == yes ~
         1,
-      !!rlang::sym(ind_schooling_age_d) == 1 & !rlang::sym(ind_access) == no ~
-        0,
       !!rlang::sym(ind_schooling_age_d) == 1 &
         !!rlang::sym(ind_access) %in% c(pnta, dnk) ~
         NA_real_,
+      !!rlang::sym(ind_schooling_age_d) == 1 & !!rlang::sym(ind_access) == no ~
+        0,
       .default = NA_real_
     ),
     edu_ind_no_access_d = dplyr::case_when(
       !!rlang::sym(ind_schooling_age_d) == 0 ~ NA_real_,
       !!rlang::sym(ind_schooling_age_d) == 1 & !!rlang::sym(ind_access) == yes ~
         0,
-      !!rlang::sym(ind_schooling_age_d) == 1 & !rlang::sym(ind_access) == no ~
-        1,
       !!rlang::sym(ind_schooling_age_d) == 1 &
         !!rlang::sym(ind_access) %in% c(pnta, dnk) ~
         NA_real_,
+      !!rlang::sym(ind_schooling_age_d) == 1 & !!rlang::sym(ind_access) == no ~
+        1,
       .default = NA_real_
     )
   )
