@@ -3,11 +3,13 @@ Title: Compose MSNA Indicators
 Version: 2026.2.0
 Authors@R: c(
     person("Quentin", "VILLOTTA", , "quentin.villotta@impact-initiatives.org", role = c("aut", "cre")),
-    person("Iyed", "GHEDAMSI", , "iyed.ghedamsi@impact-initiatives.org", role = c("aut", "ctb")),
-    person("Mario", "DASILVA", , "mario.fidalgo@impact-initiatives.org", role = c("aut", "ctb")),
-    person("Laith", "Abu-Nawwas", , "laith.abu-nawwas@impact-initiatives.org", role = "ctb"),
-    person("Sunhee", "Moraes", , "sunhee.moraes@impact-initiatives.org", role = "ctb"),
-    person("Raphael", "Bacot", , "raphael.bacot@impact-initiatives.org", role = "ctb")
+    person("Guillaume", "Noblet", role = "aut"),
+    person("Iyed", "GHEDAMSI", , "iyed.ghedamsi@impact-initiatives.org", role = "aut"),
+    person("Mario", "Fidalgo", , "mario.fidalgo@impact-initiatives.org", role = "aut"),
+    person("Laith", "Abu-Nawwas", role = "ctb"),
+    person("Sunhee", "Moraes", role = "ctb"),
+    person("Raphael", "Bacot", role = "ctb"),
+    person("IMPACT Initiatives", role = "cph")
     )
 Description: This packages provides functions to compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP ladders, as well as specific indicators related to the MSNI framework.
 License: MIT + file LICENSE
