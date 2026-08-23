@@ -116,7 +116,7 @@ add_quantile_interval <- function(
   df_qtl <- purrr::list_cbind(l_df_qtl)
 
   #  Remove vars from df that are in df_qtl
-  df <- impactR.utils::df_diff(df, df_qtl)
+  df <- dplyr::select(df, -dplyr::any_of(colnames(df_qtl)))
 
   # Cbind to df
   df <- dplyr::bind_cols(df, df_qtl)

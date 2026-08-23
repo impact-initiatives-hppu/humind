@@ -153,7 +153,7 @@ add_loop_edu_access_d_to_main <- function(
   )
 
   # Remove columns in main that exists in loop, but the grouping ones
-  main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
+  main <- drop_shared_loop_cols(main, loop, id_col_main, id_col_loop)
 
   # Join the data
   main <- dplyr::left_join(
