@@ -21,7 +21,19 @@ test_that("add_loop_edu_access_d function works with default parameters", {
   expect_equal(result$edu_ind_no_access_d[2], 1)
 })
 
-# 2. Test handling missing columns in add_loop_edu_access_d
+# 2. Test pnta/dnk must be NA
+test_that("add_loop_edu_access_d codes pnta and dnk as NA", {
+  loop <- data.frame(
+    uuid = c(1, 2, 3),
+    edu_access = c("pnta", "dnk", "no"),
+    edu_ind_age_schooling = c(1, 1, 1)
+  )
+  result <- add_loop_edu_access_d(loop)
+  expect_equal(result$edu_ind_access_d, c(NA_real_, NA_real_, 0))
+  expect_equal(result$edu_ind_no_access_d, c(NA_real_, NA_real_, 1))
+})
+
+# 3. Test handling missing columns in add_loop_edu_access_d
 missing_column_data <- dummy_loop_data |> select(-edu_access)
 
 test_that("add_loop_edu_access_d function handles missing columns", {
