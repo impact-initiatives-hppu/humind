@@ -26,15 +26,18 @@ Authors:
 
 - Quentin VILLOTTA <quentin.villotta@impact-initiatives.org>
 
-- Iyed GHEDAMSI <iyed.ghedamsi@impact-initiatives.org> \[contributor\]
+- Guillaume Noblet
 
-- Mario DASILVA <mario.fidalgo@impact-initiatives.org> \[contributor\]
+- Iyed GHEDAMSI <iyed.ghedamsi@impact-initiatives.org>
+
+- Mario Fidalgo <mario.fidalgo@impact-initiatives.org>
 
 Other contributors:
 
-- Laith Abu-Nawwas <laith.abu-nawwas@impact-initiatives.org>
-  \[contributor\]
+- Laith Abu-Nawwas \[contributor\]
 
-- Sunhee Moraes <sunhee.moraes@impact-initiatives.org> \[contributor\]
+- Sunhee Moraes \[contributor\]
 
-- Raphael Bacot <raphael.bacot@impact-initiatives.org> \[contributor\]
+- Raphael Bacot \[contributor\]
+
+- IMPACT Initiatives \[copyright holder\]

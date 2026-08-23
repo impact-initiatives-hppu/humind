@@ -4,9 +4,11 @@
 
 - **Quentin VILLOTTA**. Author, maintainer.
 
-- **Iyed GHEDAMSI**. Author, contributor.
+- **Guillaume Noblet**. Author.
 
-- **Mario DASILVA**. Author, contributor.
+- **Iyed GHEDAMSI**. Author.
+
+- **Mario Fidalgo**. Author.
 
 - **Laith Abu-Nawwas**. Contributor.
 
@@ -14,18 +16,19 @@
 
 - **Raphael Bacot**. Contributor.
 
+- **IMPACT Initiatives**. Copyright holder.
+
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/impact-initiatives-hppu/humind/blob/dev2026.3.0/DESCRIPTION)
+[`inst/CITATION`](https://github.com/impact-initiatives-hppu/humind/blob/dev2026.3.0/inst/CITATION)
 
-VILLOTTA Q, GHEDAMSI I, DASILVA M (2026). *humind: Compose MSNA
-Indicators*. R package version 2026.2.0,
-<https://impact-initiatives-hppu.github.io/humind>.
+IMPACT Initiatives (2026). *humind: Compose MSNA Indicators*. R package
+version 2026.2.0, <https://impact-initiatives-hppu.github.io/humind>.
 
     @Manual{,
       title = {humind: Compose MSNA Indicators},
-      author = {Quentin VILLOTTA and Iyed GHEDAMSI and Mario DASILVA},
+      author = {{IMPACT Initiatives}},
       year = {2026},
       note = {R package version 2026.2.0},
       url = {https://impact-initiatives-hppu.github.io/humind},

@@ -1,4 +1,4 @@
 # License
 
-    YEAR: 2025
-    COPYRIGHT HOLDER: humind authors
+    YEAR: 2023-2026
+    COPYRIGHT HOLDER: IMPACT Initiatives

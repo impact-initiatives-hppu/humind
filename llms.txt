@@ -238,6 +238,8 @@ License](https://impact-initiatives-hppu.github.io/humind/LICENSE.md).
   : Stop statement values are not in set
 - [`count_if_above_zero()`](https://impact-initiatives-hppu.github.io/humind/reference/count_if_above_zero.md)
   : Create Dummy Variables and Count Across if Above Zero
+- [`drop_shared_loop_cols()`](https://impact-initiatives-hppu.github.io/humind/reference/drop_shared_loop_cols.md)
+  : Drop columns from main that are also computed in loop
 - [`if_not_in_stop()`](https://impact-initiatives-hppu.github.io/humind/reference/if_not_in_stop.md)
   : Stop statement "If not in colnames" with colnames
 - [`impute_value()`](https://impact-initiatives-hppu.github.io/humind/reference/impute_value.md)
