@@ -4,11 +4,13 @@ Abu
 arg
 args
 aut
+backtick
 bacot
 Bacot
 bibentry
 bibtype
 BugReports
+CalVer
 cb
 ce
 changelog
@@ -24,6 +26,7 @@ codemeta
 colname
 counselling
 cph
+cran
 cre
 csi
 CSI
@@ -32,10 +35,14 @@ DASILVA
 deps
 dev
 devtools
+devYYYY
 dnk
 DNK
 dplyr
 edu
+endfor
+endif
+erge
 erroring
 fc
 FC
@@ -54,6 +61,7 @@ fonctions
 foodsec
 fsl
 FW
+gh
 ghedamsi
 GHEDAMSI
 github
@@ -73,6 +81,7 @@ hppu
 https
 humind
 Humind
+humind's
 hwash
 HWISE
 hwise
@@ -120,13 +129,17 @@ NSE
 oldrel
 packageVersion
 param
+parsers
+perf
 PHU
 pkgdown
 pnta
 PNTA
 pre
+preprocessors
 Programme
 prot
+PRs
 purrr
 py
 qtl
@@ -136,10 +149,12 @@ Rbuildignore
 rcsi
 rCSI
 README
+readme
 readxl
 recategorize
 rlang
 rmarkdown
+Rmd
 roxygen
 Roxygen
 roxygenize
@@ -149,6 +164,7 @@ runnable
 sanitization
 sectoral
 Sectoral
+SemVer
 sessionInfo
 severities
 sl
@@ -156,6 +172,7 @@ snfi
 SNFI
 sprintf
 stringr
+striptags
 sublicense
 Subvec
 sunhee
@@ -164,8 +181,11 @@ testthat
 textarea
 tibble
 tidyr
+toml
 ub
+UI
 unclosed
+unscoped
 Untracked
 UUI
 uuid
@@ -183,4 +203,5 @@ xlsxform
 yaml
 yml
 yn
+YYYY
 ️
