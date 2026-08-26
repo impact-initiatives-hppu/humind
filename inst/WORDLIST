@@ -78,6 +78,7 @@ HWISE
 hwise
 impactR
 infreq
+inlined
 io
 IPC
 iyed
@@ -178,6 +179,7 @@ WGQs
 WORDLIST
 Xcode
 xlsx
+xlsxform
 yaml
 yml
 yn
