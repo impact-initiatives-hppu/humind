@@ -180,5 +180,15 @@ add_loop_edu_ind_schooling_age_d_to_main <- function(
     by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop))
   )
 
+  # The edu group in the XLSForm is relevant only when the household has at
+  # least one school-age child (${ind_age_schooling_n} >= 1), so a household
+  # with no school-age children has no rows in the education loop and the
+  # join above yields NA. Encode it as the true count: 0 school-age
+  # children (issue #767).
+  main <- dplyr::mutate(
+    main,
+    edu_schooling_age_n = dplyr::coalesce(edu_schooling_age_n, 0)
+  )
+
   main
 }

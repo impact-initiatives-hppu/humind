@@ -116,7 +116,7 @@ add_loop_age_dummy_to_main <- function(
   )
 
   # Remove columns in main that exists in loop, but the grouping ones
-  main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
+  main <- drop_shared_loop_cols(main, loop, id_col_main, id_col_loop)
 
   # Merge the loop to the main dataset
   main <- dplyr::left_join(
@@ -228,7 +228,7 @@ add_loop_age_gender_dummy_to_main <- function(
   )
 
   # Remove columns in main that exists in loop, but the grouping ones
-  main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
+  main <- drop_shared_loop_cols(main, loop, id_col_main, id_col_loop)
 
   # Merge the loop to the main dataset
   main <- dplyr::left_join(

@@ -12,11 +12,11 @@ df <- data.frame(
     "yes",
     "no",
     "no",
-    "dnk",
+    NA,
     "yes",
     "no"
   ),
-  wash_sanitation_facility_sharing_n = c(5, 1, 1, 0, 10, 2),
+  wash_sanitation_facility_sharing_n = c(5, 1, 1, NA, 10, 2),
   hh_size = c(4, 5, 5, 3, 6, 4),
   weight = c(1.5, 2.0, 1, 1.0, 2.5, 1.8),
   stringsAsFactors = FALSE
@@ -38,7 +38,14 @@ test_that("add_sharing_sanitation_facility_cat works correctly", {
   expect_true("wash_sharing_sanitation_facility_cat" %in% colnames(result))
   expect_equal(
     result$wash_sharing_sanitation_facility_cat,
-    c("shared", "not_shared", "not_shared", "undefined", "shared", "not_shared")
+    c(
+      "shared",
+      "not_shared",
+      "not_shared",
+      "not_applicable",
+      "shared",
+      "not_shared"
+    )
   )
 })
 
@@ -69,6 +76,17 @@ test_that("add_sharing_sanitation_facility_num_ind works correctly", {
       "20_to_49",
       "19_and_below"
     )
+  )
+})
+
+test_that("add_sharing_sanitation_facility_n_ind errors clearly on missing weight column", {
+  df_test <- df |>
+    add_sanitation_facility_cat() |>
+    add_sharing_sanitation_facility_cat() |>
+    dplyr::select(-weight)
+  expect_error(
+    add_sharing_sanitation_facility_n_ind(df_test),
+    regexp = "Missing columns"
   )
 })
 

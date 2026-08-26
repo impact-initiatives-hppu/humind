@@ -217,14 +217,14 @@ expected_weights <- dplyr::tribble(
   q1        , "yes_edu_facilities"       ,       2 ,
   q1        , "yes_social_services"      ,       1 ,
   q1        , "yes_gov_services"         ,       1 ,
-  q1        , "yes_other_services"       ,       NA ,
+  q1        , "yes_other_services"       , NA      ,
   q1        , "none"                     ,       0 ,
   q2        , "yes_identity_documents"   ,       2 ,
   q2        , "yes_counselling_legal"    ,       1 ,
   q2        , "yes_property_docs"        ,       1 ,
   q2        , "yes_birth_certificates"   ,       1 ,
   q2        , "yes_gov_services"         ,       1 ,
-  q2        , "yes_other_services"       ,       NA ,
+  q2        , "yes_other_services"       , NA      ,
   q2        , "no"                       ,       0 ,
 )
 
@@ -265,13 +265,15 @@ for (i in seq_len(nrow(expected_weights))) {
 
 test_that("selecting only `yes_other_services` behaves like `no`: it counts as 0 rather than forcing the sub-dimension to NA", {
   services_other_row <- which(
-    expected_weights$question == q1 & expected_weights$option == "yes_other_services"
+    expected_weights$question == q1 &
+      expected_weights$option == "yes_other_services"
   )
   services_no_row <- which(
     expected_weights$question == q1 & expected_weights$option == "none"
   )
   justice_other_row <- which(
-    expected_weights$question == q2 & expected_weights$option == "yes_other_services"
+    expected_weights$question == q2 &
+      expected_weights$option == "yes_other_services"
   )
   justice_no_row <- which(
     expected_weights$question == q2 & expected_weights$option == "no"
