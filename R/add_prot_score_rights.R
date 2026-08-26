@@ -9,7 +9,7 @@
 #' @param prot_needs_1_services Base name of services question. Default: "prot_needs_1_services".
 #' @param yes_healthcare Answer option name for "Yes, accessing healthcare". Default: "yes_healthcare".
 #' @param yes_schools Answer option name for "Yes, accessing schools". Default: "yes_schools".
-#' @param yes_therapeutic_services Answer option name for "Yes, therapeutic centres". Default: "yes_therapeutic_services".
+#' @param yes_therapeutic_services Answer option name for "Yes, therapeutic centers". Default: "yes_therapeutic_services".
 #' @param yes_edu_facilities Answer option name for "Yes, education facilities". Default: "yes_edu_facilities".
 #' @param yes_social_services Answer option name for "Yes, social services including referral services, and safe spaces for children". Default: "yes_social_services".
 #' @param yes_gov_services Answer option name for "Yes, accessing governmental services". Default: "yes_gov_services".

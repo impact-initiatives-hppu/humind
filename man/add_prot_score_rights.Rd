@@ -40,7 +40,7 @@ add_prot_score_rights(
 
 \item{yes_schools}{Answer option name for "Yes, accessing schools". Default: "yes_schools".}
 
-\item{yes_therapeutic_services}{Answer option name for "Yes, therapeutic centres". Default: "yes_therapeutic_services".}
+\item{yes_therapeutic_services}{Answer option name for "Yes, therapeutic centers". Default: "yes_therapeutic_services".}
 
 \item{yes_edu_facilities}{Answer option name for "Yes, education facilities". Default: "yes_edu_facilities".}
 
