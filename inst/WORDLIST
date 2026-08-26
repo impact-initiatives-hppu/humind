@@ -1,9 +1,11 @@
 aap
 abu
 Abu
+arf
 arg
 args
 aut
+awk
 backtick
 bacot
 Bacot
@@ -25,6 +27,7 @@ Codecov
 codemeta
 colname
 counselling
+covr
 cph
 cran
 cre
@@ -33,6 +36,7 @@ CSI
 ctb
 DASILVA
 deps
+desc
 dev
 devtools
 devYYYY
@@ -42,8 +46,10 @@ dplyr
 edu
 endfor
 endif
+env
 erge
 erroring
+euo
 fc
 FC
 FCLC
@@ -55,6 +61,7 @@ FCS
 fds
 FDS
 FEWSNET
+fi
 fidalgo
 FIES
 fonctions
@@ -110,6 +117,7 @@ md
 members'
 MERCHANTABILITY
 misclassified
+mktemp
 moraes
 Moraes
 MSNA
@@ -132,7 +140,9 @@ param
 parsers
 perf
 PHU
+pipefail
 pkgdown
+pkgload
 pnta
 PNTA
 pre
@@ -159,6 +169,7 @@ roxygen
 Roxygen
 roxygenize
 Rprofile
+Rscript
 RTools
 runnable
 sanitization
@@ -173,6 +184,7 @@ SNFI
 sprintf
 stringr
 striptags
+styler
 sublicense
 Subvec
 sunhee
@@ -187,8 +199,10 @@ UI
 unclosed
 unscoped
 Untracked
+usr
 UUI
 uuid
+uvx
 vendored
 villotta
 VILLOTTA
