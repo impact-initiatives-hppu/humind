@@ -5,17 +5,18 @@ various criteria. It includes functions to categorize sanitation
 facility types, sharing status, number of individuals sharing, and JMP
 (Joint Monitoring Programme) classification.
 
-This function recodes the sharing status of sanitation facilities based
-on user responses. It categorizes whether the facility is shared or not
-shared and handles cases where the facility was skipped.
+add_sharing_sanitation_facility_cat: Recode sharing status of sanitation
+facilities. Maps user responses to `shared`, `not_shared`, or
+`not_applicable` when the sanitation facility was skipped.
 
-This function calculates the number of households sharing a sanitation
-facility and categorizes them based on predefined thresholds. It also
-handles the household size and survey weights in calculations.
+add_sharing_sanitation_facility_n_ind: Calculate the number of
+individuals sharing a sanitation facility per household. Uses household
+size and survey weights to estimate and then categorizes counts into
+predefined bands.
 
-This function combines the previous two functions to recode the
-sanitation facility into a JMP classification. It also includes
-information about whether the facility is shared or not shared.
+add_sanitation_facility_jmp_cat: Combine sanitation facility type and
+sharing status to derive a JMP classification (e.g., basic, limited,
+unimproved, open_defecation, undefined).
 
 ## Usage
 
@@ -39,7 +40,7 @@ add_sharing_sanitation_facility_cat(
   no = "no",
   undefined = c("dnk", "pnta"),
   sanitation_facility = "wash_sanitation_facility",
-  skipped_sanitation_facility = NULL
+  skipped_sanitation_facility = c("none")
 )
 
 add_sharing_sanitation_facility_n_ind(
