@@ -99,3 +99,60 @@ test_that("In-loop zero and absent-from-loop zero are both encoded as 0", {
     main_result$edu_schooling_age_n[main_result$uuid == "id5"]
   )
 })
+
+# Shared data for schooling_end_age tests
+# January survey dates ensure no age correction is applied
+# (school_year_start_month = 9 -> adj = -3; month - adj = 4, not > 6),
+# so these tests isolate the effect of schooling_end_age.
+loop_data_end_age <- dplyr::tibble(
+  uuid = c("id1", "id2", "id3", "id4", "id5", "id6"),
+  ind_age = c(3, 5, 15, 16, 17, 18)
+)
+
+main_data_jan <- dplyr::tibble(
+  uuid = c("id1", "id2", "id3", "id4", "id5", "id6"),
+  start = as.Date(c(
+    "2023-01-15",
+    "2023-01-16",
+    "2023-01-17",
+    "2023-01-18",
+    "2023-01-19",
+    "2023-01-20"
+  ))
+)
+
+test_that("schooling_end_age default keeps ages up to 17", {
+  result <- add_loop_edu_ind_age_corrected(loop_data_end_age, main_data_jan)
+  expect_equal(result$edu_ind_age_corrected, c(NA, 5, 15, 16, 17, NA))
+  expect_equal(result$edu_ind_age_schooling, c(0, 1, 1, 1, 1, 0))
+})
+
+test_that("schooling_end_age = 16 excludes age 17", {
+  result <- add_loop_edu_ind_age_corrected(
+    loop_data_end_age,
+    main_data_jan,
+    schooling_end_age = 16
+  )
+  expect_equal(result$edu_ind_age_corrected, c(NA, 5, 15, 16, NA, NA))
+  expect_equal(result$edu_ind_age_schooling, c(0, 1, 1, 1, 0, 0))
+})
+
+test_that("schooling_end_age = 18 includes age 18", {
+  result <- add_loop_edu_ind_age_corrected(
+    loop_data_end_age,
+    main_data_jan,
+    schooling_end_age = 18
+  )
+  expect_equal(result$edu_ind_age_corrected, c(NA, 5, 15, 16, 17, 18))
+  expect_equal(result$edu_ind_age_schooling, c(0, 1, 1, 1, 1, 1))
+})
+
+test_that("schooling_end_age = 15 excludes ages 16 and 17", {
+  result <- add_loop_edu_ind_age_corrected(
+    loop_data_end_age,
+    main_data_jan,
+    schooling_end_age = 15
+  )
+  expect_equal(result$edu_ind_age_corrected, c(NA, 5, 15, NA, NA, NA))
+  expect_equal(result$edu_ind_age_schooling, c(0, 1, 1, 0, 0, 0))
+})
