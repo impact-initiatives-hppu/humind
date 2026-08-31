@@ -120,7 +120,6 @@ A data frame with a new column 'wash_drinking_water_quality_jmp_cat' containing:
 \itemize{
 \item limited: Response indicating limited access to safe drinking water.
 \item basic: Response indicating basic access to safe drinking water.
-\item safely_managed: Response indicating safely managed drinking water.
 \item unimproved: Response indicating unimproved water sources.
 \item surface_water: Response indicating surface water sources.
 \item undefined: Response for undefined categories.
