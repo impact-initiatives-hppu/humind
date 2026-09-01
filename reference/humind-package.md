@@ -1,16 +1,15 @@
 # humind: Compose MSNA Indicators
 
-This packages provides functions to compose usual humanitarian composite
-indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such
-as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short
-Set of questions, JMP ladders, as well as specific indicators related to
-the MSNI framework.
+Compose usual humanitarian composite indicators related to IMPACT
+Multi-Sector Needs Assessments (MSNAs) such as food sec indicators
+(rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP
+ladders, as well as specific indicators related to the MSNI framework.
 
 ## See also
 
 Useful links:
 
-- <https://impact-initiatives-hppu.github.io/humind>
+- <https://impact-initiatives-hppu.github.io/humind/>
 
 - <https://github.com/impact-initiatives-hppu/humind>
 

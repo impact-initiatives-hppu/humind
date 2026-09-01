@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Compose MSNA Indicators">
-<meta name="description" content="This packages provides functions to compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP ladders, as well as specific indicators related to the MSNI framework.">
-<meta property="og:description" content="This packages provides functions to compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP ladders, as well as specific indicators related to the MSNI framework.">
+<meta name="description" content="Compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP ladders, as well as specific indicators related to the MSNI framework.">
+<meta property="og:description" content="Compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP ladders, as well as specific indicators related to the MSNI framework.">
 <meta property="og:image" content="https://impact-initiatives-hppu.github.io/humind/logo.png">
 </head>
 <body>
@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2026.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2026.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,16 +68,16 @@
 <p>Install the latest tagged release from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"impact-initiatives-hppu/humind@v2026.2.0"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"impact-initiatives-hppu/humind@v2026.3.0"</span><span class="op">)</span></span></code></pre></div>
 <p>Verify the version:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"humind"</span><span class="op">)</span></span>
-<span><span class="co"># v2026.2.0</span></span></code></pre></div>
+<span><span class="co"># v2026.3.0</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="books-msni-guidance-note-2026">📚 MSNI Guidance Note 2026<a class="anchor" aria-label="anchor" href="#books-msni-guidance-note-2026"></a>
 </h2>
-<p>The <strong>MSNI Guidance Note</strong> will be available by the end of July on the IMPACT Intranet, which provides essential background on the <strong>MSNI framework</strong> and sector-specific guidance. Each sector includes a <strong>“Humind Data Workflow”</strong> describing required steps and the relevant <code>humind</code> functions.</p>
+<p>The <strong>MSNI Guidance Note</strong> is available on the IMPACT Intranet <strong><a href="https://acted.sharepoint.com/sites/IMPACT-Humanitarian_Planning_Prioritization/SitePages/MSNA%20analysis%20(LSG-MSNi).aspx" class="external-link">here</a></strong>, which provides essential background on the <strong>MSNI framework</strong> and sector-specific guidance. Each sector includes a <strong>“Humind Data Workflow”</strong> describing required steps and the relevant <code>humind</code> functions.</p>
 <blockquote>
 <p>⚠️ <strong>Read the Guidance Note thoroughly</strong>—especially the <em>Data Workflow</em> sections—before implementing analyses with <code>humind</code>.</p>
 </blockquote>
@@ -123,7 +123,7 @@ Open a <strong><a href="https://github.com/impact-initiatives-hppu/humind/issues
 <h3 id="github-credentials-error-when-installing-with-devtools">GitHub Credentials Error When Installing with devtools<a class="anchor" aria-label="anchor" href="#github-credentials-error-when-installing-with-devtools"></a>
 </h3>
 <p>When installing with <code>devtools::install_github()</code>, you may encounter:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="sc">&gt;</span> devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"impact-initiatives-hppu/humind@v2026.2.0"</span>)</span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="sc">&gt;</span> devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"impact-initiatives-hppu/humind@v2026.3.0"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>...</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>Error <span class="sc">:</span> Failed to install <span class="st">'unknown package'</span> from GitHub<span class="sc">:</span></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  HTTP error <span class="fl">401.</span></span>

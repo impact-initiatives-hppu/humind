@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2026.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2026.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,11 +28,54 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/dev2026.3.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/release-2026.3.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="humind-development-version">humind (development version)<a class="anchor" aria-label="anchor" href="#humind-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2026.3.0" id="humind-202630">humind 2026.3.0<a class="anchor" aria-label="anchor" href="#humind-202630"></a></h2>
+<p>This release is a patch/bug-fix round within the 2026 cycle. It tightens input validation and answer-option handling across WASH and Food Security functions, fixes inconsistent <code>NA</code> handling in <code><a href="../reference/add_hhs.html">add_hhs()</a></code>, corrects the time-to-fetch-water bucketing in <code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_source_cat()</a></code>, and removes the runtime dependency on <code>impactR.utils</code>.</p>
+<hr><div class="section level3">
+<h3 id="codebase-changes-2026-3-0">Codebase Changes<a class="anchor" aria-label="anchor" href="#codebase-changes-2026-3-0"></a></h3>
+<div class="section level4">
+<h4 id="enhancements-2026-3-0">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-2026-3-0"></a></h4>
+<ul><li>
+<code><a href="../reference/add_quantile_interval.html">add_quantile_interval()</a></code> no longer depends on <code>impactR.utils</code> — the <code>df_diff</code> logic is now inlined locally (<a href="https://github.com/impact-initiatives-hppu/humind/issues/709" class="external-link">#709</a>).</li>
+<li>Loop-to-main helpers (<code>add_loop_*_to_main()</code>) stop relying on <code>df_diff</code>; a new internal <code><a href="../reference/drop_shared_loop_cols.html">drop_shared_loop_cols()</a></code> handles differing <code>id_col_main</code>/<code>id_col_loop</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/757" class="external-link">#757</a>).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="bug-fixes-2026-3-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2026-3-0"></a></h4>
+<ul><li>
+<code><a href="../reference/add_hhs.html">add_hhs()</a></code>: genuinely missing <code>_freq</code> responses are recoded to <code>NA</code> instead of silently to <code>0</code>, which previously deflated <code>fsl_hhs_score</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/753" class="external-link">#753</a>).</li>
+<li>
+<code><a href="../reference/add_hhs.html">add_hhs()</a></code>: added validation for inconsistent yes/no and frequency answer pairs, and <code>NA</code> scoring for invalid combinations (with warnings/errors) (<a href="https://github.com/impact-initiatives-hppu/humind/issues/753" class="external-link">#753</a>).</li>
+<li>
+<code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_source_cat()</a></code>: <code>dnk</code>/<code>pnta</code> recoding aligned with the xlsxform.</li>
+<li>
+<code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_time_cat()</a></code>: 30/60-minute bucket boundaries are now inclusive; accepts multiple <code>sl_under_30_min</code> response codes (<a href="https://github.com/impact-initiatives-hppu/humind/issues/755" class="external-link">#755</a>).</li>
+<li>
+<code><a href="../reference/add_handwashing_facility_cat.html">add_handwashing_facility_cat()</a></code>: fixed the <code>facility_observed_water</code> default naming; documented <code>survey_modality</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/759" class="external-link">#759</a>).</li>
+<li>
+<code><a href="../reference/add_sanitation_facility_cat.html">add_sharing_sanitation_facility_n_ind()</a></code>: checks for the presence of the survey weight column (<a href="https://github.com/impact-initiatives-hppu/humind/issues/760" class="external-link">#760</a>).</li>
+<li>
+<code><a href="../reference/add_loop_edu_access_d.html">add_loop_edu_access_d()</a></code>: <code>pnta</code>/<code>dnk</code> coded as <code>NA</code>, not non-attendance (<a href="https://github.com/impact-initiatives-hppu/humind/issues/771" class="external-link">#771</a>).</li>
+<li>
+<code><a href="../reference/add_comp_edu.html">add_comp_edu()</a></code>: households with no school-age children no longer end up as <code>NA</code> — the education count is coerced to <code>0</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/767" class="external-link">#767</a>).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="testing-2026-3-0">Testing<a class="anchor" aria-label="anchor" href="#testing-2026-3-0"></a></h4>
+<ul><li>Added integration tests for <code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_time_cat()</a></code> with <code>threshold_cat</code>.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="breaking-changes-2026-3-0">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-2026-3-0"></a></h4>
+<ul><li>
+<code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_source_cat()</a></code>: <code>max</code> parameter renamed to <code>max_minutes</code>.</li>
+<li>
+<code><a href="../reference/add_sanitation_facility_cat.html">add_sharing_sanitation_facility_cat()</a></code>: <code>skipped_sanitation_facility</code> now defaults to <code>c("none")</code> (previously <code>NULL</code>); skipped facilities recode to <code>"not_applicable"</code> instead of <code>NA</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/773" class="external-link">#773</a>).</li>
+</ul></div>
+</div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2026.2.0" id="humind-202620">humind 2026.2.0<a class="anchor" aria-label="anchor" href="#humind-202620"></a></h2>

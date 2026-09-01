@@ -60,7 +60,7 @@ add_prot_score_rights(
 
 - yes_therapeutic_services:
 
-  Answer option name for "Yes, therapeutic centres". Default:
+  Answer option name for "Yes, therapeutic centers". Default:
   "yes_therapeutic_services".
 
 - yes_edu_facilities:

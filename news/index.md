@@ -2,6 +2,79 @@
 
 ## humind (development version)
 
+## humind 2026.3.0
+
+This release is a patch/bug-fix round within the 2026 cycle. It tightens
+input validation and answer-option handling across WASH and Food
+Security functions, fixes inconsistent `NA` handling in
+[`add_hhs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hhs.md),
+corrects the time-to-fetch-water bucketing in
+[`add_drinking_water_source_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md),
+and removes the runtime dependency on `impactR.utils`.
+
+------------------------------------------------------------------------
+
+### Codebase Changes
+
+#### Enhancements
+
+- [`add_quantile_interval()`](https://impact-initiatives-hppu.github.io/humind/reference/add_quantile_interval.md)
+  no longer depends on `impactR.utils` — the `df_diff` logic is now
+  inlined locally
+  ([\#709](https://github.com/impact-initiatives-hppu/humind/issues/709)).
+- Loop-to-main helpers (`add_loop_*_to_main()`) stop relying on
+  `df_diff`; a new internal
+  [`drop_shared_loop_cols()`](https://impact-initiatives-hppu.github.io/humind/reference/drop_shared_loop_cols.md)
+  handles differing `id_col_main`/`id_col_loop`
+  ([\#757](https://github.com/impact-initiatives-hppu/humind/issues/757)).
+
+#### Bug Fixes
+
+- [`add_hhs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hhs.md):
+  genuinely missing `_freq` responses are recoded to `NA` instead of
+  silently to `0`, which previously deflated `fsl_hhs_score`
+  ([\#753](https://github.com/impact-initiatives-hppu/humind/issues/753)).
+- [`add_hhs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hhs.md):
+  added validation for inconsistent yes/no and frequency answer pairs,
+  and `NA` scoring for invalid combinations (with warnings/errors)
+  ([\#753](https://github.com/impact-initiatives-hppu/humind/issues/753)).
+- [`add_drinking_water_source_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md):
+  `dnk`/`pnta` recoding aligned with the xlsxform.
+- [`add_drinking_water_time_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md):
+  30/60-minute bucket boundaries are now inclusive; accepts multiple
+  `sl_under_30_min` response codes
+  ([\#755](https://github.com/impact-initiatives-hppu/humind/issues/755)).
+- [`add_handwashing_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_handwashing_facility_cat.md):
+  fixed the `facility_observed_water` default naming; documented
+  `survey_modality`
+  ([\#759](https://github.com/impact-initiatives-hppu/humind/issues/759)).
+- [`add_sharing_sanitation_facility_n_ind()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md):
+  checks for the presence of the survey weight column
+  ([\#760](https://github.com/impact-initiatives-hppu/humind/issues/760)).
+- [`add_loop_edu_access_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_access_d.md):
+  `pnta`/`dnk` coded as `NA`, not non-attendance
+  ([\#771](https://github.com/impact-initiatives-hppu/humind/issues/771)).
+- [`add_comp_edu()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_edu.md):
+  households with no school-age children no longer end up as `NA` — the
+  education count is coerced to `0`
+  ([\#767](https://github.com/impact-initiatives-hppu/humind/issues/767)).
+
+#### Testing
+
+- Added integration tests for
+  [`add_drinking_water_time_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
+  with `threshold_cat`.
+
+#### Breaking Changes
+
+- [`add_drinking_water_source_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md):
+  `max` parameter renamed to `max_minutes`.
+- [`add_sharing_sanitation_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md):
+  `skipped_sanitation_facility` now defaults to `c("none")` (previously
+  `NULL`); skipped facilities recode to `"not_applicable"` instead of
+  `NA`
+  ([\#773](https://github.com/impact-initiatives-hppu/humind/issues/773)).
+
 ## humind 2026.2.0
 
 This release rolls out the 2026 MSNI framework update across WASH,
