@@ -234,6 +234,53 @@ test_that("add_drinking_water_quality_jmp_cat returns expected column", {
   expect_true("wash_drinking_water_quality_jmp_cat" %in% colnames(result))
 })
 
+test_that("add_drinking_water_quality_jmp_cat maps all source/time combinations to valid JMP values", {
+  df <- expand.grid(
+    wash_drinking_water_source_cat = c(
+      "improved",
+      "unimproved",
+      "surface_water",
+      "undefined"
+    ),
+    wash_drinking_water_time_30min_cat = c(
+      "premises",
+      "under_30min",
+      "above_30min",
+      "undefined"
+    ),
+    stringsAsFactors = FALSE
+  )
+
+  result <- add_drinking_water_quality_jmp_cat(df)
+
+  expect_equal(
+    result$wash_drinking_water_quality_jmp_cat,
+    c(
+      "basic",
+      "unimproved",
+      "surface_water",
+      "undefined", # premises
+      "basic",
+      "unimproved",
+      "surface_water",
+      "undefined", # under_30min
+      "limited",
+      "unimproved",
+      "surface_water",
+      "undefined", # above_30min
+      "undefined",
+      "unimproved",
+      "surface_water",
+      "undefined" # undefined
+    )
+  )
+
+  expect_setequal(
+    unique(result$wash_drinking_water_quality_jmp_cat),
+    c("basic", "limited", "unimproved", "surface_water", "undefined")
+  )
+})
+
 test_that("add_drinking_water_source_cat handles undefined drinking water source", {
   df_undefined <- dummy_data |> mutate(wash_drinking_water_source = "other")
   result <- add_drinking_water_source_cat(df_undefined)
