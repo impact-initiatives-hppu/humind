@@ -181,8 +181,6 @@ containing:
 
 - basic: Response indicating basic access to safe drinking water.
 
-- safely_managed: Response indicating safely managed drinking water.
-
 - unimproved: Response indicating unimproved water sources.
 
 - surface_water: Response indicating surface water sources.
