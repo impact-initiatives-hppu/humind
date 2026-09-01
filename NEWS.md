@@ -19,6 +19,8 @@ dependency on `impactR.utils`.
 * Loop-to-main helpers (`add_loop_*_to_main()`) stop relying on `df_diff`; a new
   internal `drop_shared_loop_cols()` handles differing `id_col_main`/`id_col_loop`
   (#757).
+* `add_loop_edu_ind_age_corrected()`: new `schooling_end_age` parameter
+  (default 17) to cap the schooling-age population (#783).
 
 ### Bug Fixes
 
@@ -26,7 +28,7 @@ dependency on `impactR.utils`.
   of silently to `0`, which previously deflated `fsl_hhs_score` (#753).
 * `add_hhs()`: added validation for inconsistent yes/no and frequency answer
   pairs, and `NA` scoring for invalid combinations (with warnings/errors) (#753).
-* `add_drinking_water_source_cat()`: `dnk`/`pnta` recoding aligned with the
+* `add_drinking_water_time_cat()`: `dnk`/`pnta` recoding aligned with the
   xlsxform.
 * `add_drinking_water_time_cat()`: 30/60-minute bucket boundaries are now
   inclusive; accepts multiple `sl_under_30_min` response codes (#755).
@@ -46,7 +48,10 @@ dependency on `impactR.utils`.
 
 ### Breaking Changes
 
-* `add_drinking_water_source_cat()`: `max` parameter renamed to `max_minutes`.
+* `add_drinking_water_time_cat()`: `max` parameter renamed to `max_minutes`.
+* `add_drinking_water_quality_jmp_cat()`: the `safely_managed` classification
+  was removed; improved sources with water on premises now classify as `basic`
+  (#782).
 * `add_sharing_sanitation_facility_cat()`: `skipped_sanitation_facility` now
   defaults to `c("none")` (previously `NULL`); skipped facilities recode to
   `"not_applicable"` instead of `NA` (#773).
