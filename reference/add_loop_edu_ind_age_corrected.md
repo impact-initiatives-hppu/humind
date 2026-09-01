@@ -14,7 +14,8 @@ add_loop_edu_ind_age_corrected(
   school_year_start_month = 9,
   ind_age = "ind_age",
   month = NULL,
-  schooling_start_age = 5
+  schooling_start_age = 5,
+  schooling_end_age = 17
 )
 
 add_loop_edu_ind_schooling_age_d_to_main(
@@ -65,6 +66,11 @@ add_loop_edu_ind_schooling_age_d_to_main(
 
   The age at which we assign the value 1 to edu_ind_age_schooling.
   Default is 5.
+
+- schooling_end_age:
+
+  The maximum age considered within the schooling-age population.
+  Default is 17.
 
 - ind_schooling_age_d:
 
