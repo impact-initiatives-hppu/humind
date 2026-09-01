@@ -7,7 +7,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -16,7 +18,9 @@ knitr::opts_chunk$set(
 
 ## Setup
 
-```{r setup, warnings = F, message = F}
+```{r, warnings=F, message=F}
+#| label: setup
+
 library(humind)
 library(dplyr)
 
@@ -30,7 +34,9 @@ id_col_loop <- "_submission__uuid"
 
 ## Food security
 
-```{r foodsec}
+```{r}
+#| label: foodsec
+
 main_foodsec <- humind_main |>
   # This form splits 4 LCSI items into _host/_camp variants that are mutually exclusive
   # coalesce into the single columns add_lcsi() expects.
@@ -51,7 +57,9 @@ main_foodsec <- humind_main |>
 
 ## WASH
 
-```{r wash}
+```{r}
+#| label: wash
+
 main_wash <- main_foodsec |>
   add_hwise() |>
   add_drinking_water_source_cat() |>
@@ -72,7 +80,9 @@ main_wash <- main_foodsec |>
 
 ## SNFI / HLP
 
-```{r snfi}
+```{r}
+#| label: snfi
+
 main_snfi <- main_wash |>
   add_shelter_type_cat() |>
   add_shelter_issue_cat() |>
@@ -84,7 +94,9 @@ main_snfi <- main_wash |>
 
 ## Protection
 
-```{r prot}
+```{r}
+#| label: prot
+
 main_prot <- main_snfi |>
   add_prot_score_movement() |>
   add_prot_score_practices() |>
@@ -94,7 +106,9 @@ main_prot <- main_snfi |>
 
 ## Health
 
-```{r health}
+```{r}
+#| label: health
+
 health_ind <- humind_health_ind |>
   add_loop_healthcare_needed_cat()
 
@@ -108,7 +122,9 @@ main_health <- main_prot |>
 
 ## Education
 
-```{r edu}
+```{r}
+#| label: edu
+
 edu_ind <- humind_edu_ind |>
   add_loop_edu_ind_age_corrected(
     main = main_health,
@@ -118,12 +134,6 @@ edu_ind <- humind_edu_ind |>
   add_loop_edu_access_d() |>
   add_loop_edu_barrier_protection_d() |>
   add_loop_edu_disrupted_d()
-
-edu_n_cols <- c(
-  "edu_schooling_age_n", "edu_no_access_n", "edu_barrier_protection_n",
-  "edu_disrupted_attack_n", "edu_disrupted_hazards_n",
-  "edu_disrupted_displaced_n", "edu_disrupted_teacher_n"
-)
 
 main_edu <- main_health |>
   add_loop_edu_ind_schooling_age_d_to_main(
@@ -138,16 +148,14 @@ main_edu <- main_health |>
   add_loop_edu_disrupted_d_to_main(
     loop = edu_ind, id_col_main = id_col_main, id_col_loop = id_col_loop
   ) |>
-  # Households with no school-age child never get an edu_ind row, so the
-  # joins above leave NA instead of 0 -- add_comp_edu() needs 0 for its
-  # "no school-age children -> no need" branch.
-  mutate(across(any_of(edu_n_cols), \(x) coalesce(x, 0))) |>
   add_comp_edu()
 ```
 
 ## MSNI
 
-```{r msni}
+```{r}
+#| label: msni
+
 msni_output <- add_msni(main_edu)
 msni_output |> head()
 ```
