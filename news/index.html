@@ -38,6 +38,14 @@
 <h2 class="pkg-version" data-toc-text="2026.3.0" id="humind-202630">humind 2026.3.0<a class="anchor" aria-label="anchor" href="#humind-202630"></a></h2>
 <p>This release is a patch/bug-fix round within the 2026 cycle. It tightens input validation and answer-option handling across WASH and Food Security functions, fixes inconsistent <code>NA</code> handling in <code><a href="../reference/add_hhs.html">add_hhs()</a></code>, corrects the time-to-fetch-water bucketing in <code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_source_cat()</a></code>, and removes the runtime dependency on <code>impactR.utils</code>.</p>
 <hr><div class="section level3">
+<h3 id="programmatic-changes-2026-3-0">Programmatic Changes<a class="anchor" aria-label="anchor" href="#programmatic-changes-2026-3-0"></a></h3>
+<ul><li>
+<strong>WASH</strong>
+<ul><li>
+<code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_quality_jmp_cat()</a></code>: the <code>safely_managed</code> water quality dimension deprecated in favor of ‘basic’ for improved sources with water on premises. This adheres more strictly to the JMP standards.</li>
+</ul></li>
+</ul><hr></div>
+<div class="section level3">
 <h3 id="codebase-changes-2026-3-0">Codebase Changes<a class="anchor" aria-label="anchor" href="#codebase-changes-2026-3-0"></a></h3>
 <div class="section level4">
 <h4 id="enhancements-2026-3-0">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-2026-3-0"></a></h4>

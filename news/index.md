@@ -14,6 +14,16 @@ and removes the runtime dependency on `impactR.utils`.
 
 ------------------------------------------------------------------------
 
+### Programmatic Changes
+
+- **WASH**
+  - [`add_drinking_water_quality_jmp_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md):
+    the `safely_managed` water quality dimension deprecated in favor of
+    ‘basic’ for improved sources with water on premises. This adheres
+    more strictly to the JMP standards.
+
+------------------------------------------------------------------------
+
 ### Codebase Changes
 
 #### Enhancements
