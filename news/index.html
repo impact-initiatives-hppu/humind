@@ -44,6 +44,8 @@
 <ul><li>
 <code><a href="../reference/add_quantile_interval.html">add_quantile_interval()</a></code> no longer depends on <code>impactR.utils</code> — the <code>df_diff</code> logic is now inlined locally (<a href="https://github.com/impact-initiatives-hppu/humind/issues/709" class="external-link">#709</a>).</li>
 <li>Loop-to-main helpers (<code>add_loop_*_to_main()</code>) stop relying on <code>df_diff</code>; a new internal <code><a href="../reference/drop_shared_loop_cols.html">drop_shared_loop_cols()</a></code> handles differing <code>id_col_main</code>/<code>id_col_loop</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/757" class="external-link">#757</a>).</li>
+<li>
+<code><a href="../reference/add_loop_edu_ind_age_corrected.html">add_loop_edu_ind_age_corrected()</a></code>: new <code>schooling_end_age</code> parameter (default 17) to cap the schooling-age population (<a href="https://github.com/impact-initiatives-hppu/humind/issues/783" class="external-link">#783</a>).</li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-2026-3-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2026-3-0"></a></h4>
@@ -52,7 +54,7 @@
 <li>
 <code><a href="../reference/add_hhs.html">add_hhs()</a></code>: added validation for inconsistent yes/no and frequency answer pairs, and <code>NA</code> scoring for invalid combinations (with warnings/errors) (<a href="https://github.com/impact-initiatives-hppu/humind/issues/753" class="external-link">#753</a>).</li>
 <li>
-<code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_source_cat()</a></code>: <code>dnk</code>/<code>pnta</code> recoding aligned with the xlsxform.</li>
+<code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_time_cat()</a></code>: <code>dnk</code>/<code>pnta</code> recoding aligned with the xlsxform.</li>
 <li>
 <code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_time_cat()</a></code>: 30/60-minute bucket boundaries are now inclusive; accepts multiple <code>sl_under_30_min</code> response codes (<a href="https://github.com/impact-initiatives-hppu/humind/issues/755" class="external-link">#755</a>).</li>
 <li>
@@ -71,7 +73,9 @@
 <div class="section level4">
 <h4 id="breaking-changes-2026-3-0">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-2026-3-0"></a></h4>
 <ul><li>
-<code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_source_cat()</a></code>: <code>max</code> parameter renamed to <code>max_minutes</code>.</li>
+<code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_time_cat()</a></code>: <code>max</code> parameter renamed to <code>max_minutes</code>.</li>
+<li>
+<code><a href="../reference/add_drinking_water_source_cat.html">add_drinking_water_quality_jmp_cat()</a></code>: the <code>safely_managed</code> classification was removed; improved sources with water on premises now classify as <code>basic</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/782" class="external-link">#782</a>).</li>
 <li>
 <code><a href="../reference/add_sanitation_facility_cat.html">add_sharing_sanitation_facility_cat()</a></code>: <code>skipped_sanitation_facility</code> now defaults to <code>c("none")</code> (previously <code>NULL</code>); skipped facilities recode to <code>"not_applicable"</code> instead of <code>NA</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/773" class="external-link">#773</a>).</li>
 </ul></div>

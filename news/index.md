@@ -27,6 +27,10 @@ and removes the runtime dependency on `impactR.utils`.
   [`drop_shared_loop_cols()`](https://impact-initiatives-hppu.github.io/humind/reference/drop_shared_loop_cols.md)
   handles differing `id_col_main`/`id_col_loop`
   ([\#757](https://github.com/impact-initiatives-hppu/humind/issues/757)).
+- [`add_loop_edu_ind_age_corrected()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_ind_age_corrected.md):
+  new `schooling_end_age` parameter (default 17) to cap the
+  schooling-age population
+  ([\#783](https://github.com/impact-initiatives-hppu/humind/issues/783)).
 
 #### Bug Fixes
 
@@ -38,7 +42,7 @@ and removes the runtime dependency on `impactR.utils`.
   added validation for inconsistent yes/no and frequency answer pairs,
   and `NA` scoring for invalid combinations (with warnings/errors)
   ([\#753](https://github.com/impact-initiatives-hppu/humind/issues/753)).
-- [`add_drinking_water_source_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md):
+- [`add_drinking_water_time_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md):
   `dnk`/`pnta` recoding aligned with the xlsxform.
 - [`add_drinking_water_time_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md):
   30/60-minute bucket boundaries are now inclusive; accepts multiple
@@ -67,8 +71,12 @@ and removes the runtime dependency on `impactR.utils`.
 
 #### Breaking Changes
 
-- [`add_drinking_water_source_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md):
+- [`add_drinking_water_time_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md):
   `max` parameter renamed to `max_minutes`.
+- [`add_drinking_water_quality_jmp_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md):
+  the `safely_managed` classification was removed; improved sources with
+  water on premises now classify as `basic`
+  ([\#782](https://github.com/impact-initiatives-hppu/humind/issues/782)).
 - [`add_sharing_sanitation_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md):
   `skipped_sanitation_facility` now defaults to `c("none")` (previously
   `NULL`); skipped facilities recode to `"not_applicable"` instead of
