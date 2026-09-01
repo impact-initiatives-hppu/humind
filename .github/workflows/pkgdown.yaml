@@ -6,11 +6,13 @@ on:
       - main
       - master
       - "dev[0-9][0-9][0-9][0-9].*"
+      - "release-*"
   pull_request:
     branches:
       - main
       - master
       - "dev[0-9][0-9][0-9][0-9].*"
+      - "release-*"
   release:
     types: [published]
   workflow_dispatch:
