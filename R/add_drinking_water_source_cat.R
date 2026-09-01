@@ -13,7 +13,6 @@
 #'
 #' * limited: Response indicating limited access to safe drinking water.
 #' * basic: Response indicating basic access to safe drinking water.
-#' * safely_managed: Response indicating safely managed drinking water.
 #' * unimproved: Response indicating unimproved water sources.
 #' * surface_water: Response indicating surface water sources.
 #' * undefined: Response for undefined categories.
@@ -340,14 +339,12 @@ add_drinking_water_quality_jmp_cat <- function(
         "limited",
       !!rlang::sym(drinking_water_source_cat) ==
         drinking_water_source_cat_improved &
-        !!rlang::sym(drinking_water_time_30min_cat) ==
-          drinking_water_time_30min_cat_under_30min ~
+        !!rlang::sym(drinking_water_time_30min_cat) %in%
+          c(
+            drinking_water_time_30min_cat_under_30min,
+            drinking_water_time_30min_cat_premises
+          ) ~
         "basic",
-      !!rlang::sym(drinking_water_source_cat) ==
-        drinking_water_source_cat_improved &
-        !!rlang::sym(drinking_water_time_30min_cat) ==
-          drinking_water_time_30min_cat_premises ~
-        "safely_managed",
       !!rlang::sym(drinking_water_source_cat) ==
         drinking_water_source_cat_undefined ~
         "undefined",
