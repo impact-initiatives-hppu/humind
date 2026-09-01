@@ -1,15 +1,17 @@
 Package: humind
 Title: Compose MSNA Indicators
-Version: 2026.2.0
+Version: 2026.3.0
 Authors@R: c(
     person("Quentin", "VILLOTTA", , "quentin.villotta@impact-initiatives.org", role = c("aut", "cre")),
-    person("Iyed", "GHEDAMSI", , "iyed.ghedamsi@impact-initiatives.org", role = c("aut", "ctb")),
-    person("Mario", "DASILVA", , "mario.fidalgo@impact-initiatives.org", role = c("aut", "ctb")),
-    person("Laith", "Abu-Nawwas", , "laith.abu-nawwas@impact-initiatives.org", role = "ctb"),
-    person("Sunhee", "Moraes", , "sunhee.moraes@impact-initiatives.org", role = "ctb"),
-    person("Raphael", "Bacot", , "raphael.bacot@impact-initiatives.org", role = "ctb")
+    person("Guillaume", "Noblet", role = "aut"),
+    person("Iyed", "GHEDAMSI", , "iyed.ghedamsi@impact-initiatives.org", role = "aut"),
+    person("Mario", "Fidalgo", , "mario.fidalgo@impact-initiatives.org", role = "aut"),
+    person("Laith", "Abu-Nawwas", role = "ctb"),
+    person("Sunhee", "Moraes", role = "ctb"),
+    person("Raphael", "Bacot", role = "ctb"),
+    person("IMPACT Initiatives", role = "cph")
     )
-Description: This packages provides functions to compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP ladders, as well as specific indicators related to the MSNI framework.
+Description: Compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP ladders, as well as specific indicators related to the MSNI framework.
 License: MIT + file LICENSE
 Depends: R (>= 4.1.0)
 Encoding: UTF-8
@@ -21,20 +23,18 @@ Imports:
     rlang (>= 0.4.11),
     stats,
     tidyr,
-    impactR.utils,
     Hmisc,
     stringr,
     cli,
     checkmate
-URL: https://impact-initiatives-hppu.github.io/humind,
+URL: https://impact-initiatives-hppu.github.io/humind/,
      https://github.com/impact-initiatives-hppu/humind
 BugReports: https://github.com/impact-initiatives-hppu/humind/issues
-Remotes: 
-    impact-initiatives/impactR.utils
-Suggests: 
+Suggests:
     rmarkdown,
     roxygen2,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tibble
 Config/Needs/website: rmarkdown
 Config/testthat/edition: 3
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

@@ -124,6 +124,26 @@ test_that("add_quantile_interval handles weights", {
   expect_equal(result, expected)
 })
 
+test_that("add_quantile_interval is idempotent when *_qtl columns already exist", {
+  df <- data.frame(
+    num_col1 = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+    num_col2 = c(10000, 9000, 5000, 1000, 3000, 2000, 4000, 7000, 6000, 8000)
+  )
+
+  first <- add_quantile_interval(df, vars = c("num_col1", "num_col2"))
+
+  expect_warning(
+    second <- add_quantile_interval(first, vars = c("num_col1", "num_col2")),
+    regexp = "already exist"
+  )
+
+  expect_equal(
+    colnames(second),
+    c("num_col1", "num_col2", "num_col1_qtl", "num_col2_qtl")
+  )
+  expect_equal(second, first)
+})
+
 test_that("add_quantile_interval handles missing weight column", {
   df <- data.frame(
     num_col1 = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),

@@ -4,10 +4,12 @@ on:
     branches:
       - main
       - "dev[0-9][0-9][0-9][0-9].*"
+      - "release-*"
   pull_request:
     branches:
       - main
       - "dev[0-9][0-9][0-9][0-9].*"
+      - "release-*"
 
 name: test-coverage
 

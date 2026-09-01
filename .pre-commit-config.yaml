@@ -2,17 +2,25 @@
 # R specific hooks: https://github.com/lorenzwalthert/precommit
 repos:
 -   repo: https://github.com/lorenzwalthert/precommit
-    rev: v0.4.3.9021
+    rev: v0.4.3.9030
     hooks:
     -   id: roxygenize
+        # roxygen requires loading pkg -> add dependencies from DESCRIPTION
         additional_dependencies:
         - roxygen2@8.0.0
-        - readxl
+        - dplyr@1.2.0
+        - glue
+        - purrr
         - rlang@1.2.0
-        - tibble
+        - stats
         - tidyr
-        - Hmisc
         - impact-initiatives/impactR.utils
+        - Hmisc
+        - stringr
+        - cli
+        - checkmate
+        - readxl
+        - tibble
     # codemeta must be above use-tidy-description when both are used
     # -   id: codemeta-description-updated
     -   id: use-tidy-description
@@ -81,7 +89,7 @@ repos:
     -   id: conventional-pre-commit
         stages: [commit-msg]
 -   repo: https://github.com/posit-dev/air-pre-commit
-    rev: 0.9.0
+    rev: 0.11.0
     hooks:
     -   id: air-format
 -   repo: local

@@ -27,7 +27,7 @@ add_drinking_water_time_cat(
   dnk = "dnk",
   undefined = "pnta",
   drinking_water_time_int = "wash_drinking_water_time_int",
-  max = 600,
+  max_minutes = 600,
   drinking_water_time_sl = "wash_drinking_water_time_sl",
   sl_under_30_min = c("5min_or_less", "5min_15min", "15min_30min"),
   sl_30min_1hr = "30min_1hr",
@@ -86,12 +86,12 @@ add_drinking_water_quality_jmp_cat(
 
 \item{drinking_water_time_int}{Component column: Time to fetch water, integer.}
 
-\item{max}{Integer, the maximum value for the time to fetch water.}
+\item{max_minutes}{Integer, the maximum value for the time to fetch water.}
 
 \item{drinking_water_time_sl}{Component column: Time to fetch water, simple choice.}
 
-\item{sl_under_30_min}{Response code for under 30 minutes. Must be one of
-c("5min_or_less", "5min_15min", "15min_30min").}
+\item{sl_under_30_min}{Character vector of response codes for under 30
+minutes, e.g. c("5min_or_less", "5min_15min", "15min_30min").}
 
 \item{sl_30min_1hr}{Response code for 30 minutes to 1 hour.}
 
@@ -120,7 +120,6 @@ A data frame with a new column 'wash_drinking_water_quality_jmp_cat' containing:
 \itemize{
 \item limited: Response indicating limited access to safe drinking water.
 \item basic: Response indicating basic access to safe drinking water.
-\item safely_managed: Response indicating safely managed drinking water.
 \item unimproved: Response indicating unimproved water sources.
 \item surface_water: Response indicating surface water sources.
 \item undefined: Response for undefined categories.

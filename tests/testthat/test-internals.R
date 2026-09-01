@@ -129,3 +129,30 @@ test_that("if_not_in_stop works with custom argument", {
     class = "error"
   )
 })
+
+test_that("drop_shared_loop_cols drops shared non-id columns", {
+  main <- data.frame(uuid = 1:2, computed_n = c(5, 6))
+  loop <- data.frame(uuid = c(1, 1, 2), computed_n = c(1, 1, 1))
+
+  result <- humind:::drop_shared_loop_cols(main, loop, "uuid", "uuid")
+
+  expect_equal(result, data.frame(uuid = 1:2))
+})
+
+test_that("drop_shared_loop_cols works when id_col_main and id_col_loop differ", {
+  main <- data.frame(`_uuid` = 1:2, computed_n = c(5, 6), check.names = FALSE)
+  loop <- data.frame(
+    `_submission__uuid` = c(1, 1, 2),
+    computed_n = c(1, 1, 1),
+    check.names = FALSE
+  )
+
+  result <- humind:::drop_shared_loop_cols(
+    main,
+    loop,
+    "_uuid",
+    "_submission__uuid"
+  )
+
+  expect_equal(result, data.frame(`_uuid` = 1:2, check.names = FALSE))
+})

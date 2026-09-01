@@ -8,12 +8,12 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-This packages provides functions to compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP ladders, as well as specific indicators related to the MSNI framework.
+Compose usual humanitarian composite indicators related to IMPACT Multi-Sector Needs Assessments (MSNAs) such as food sec indicators (rCSI, LCSI, HHS, FCS), Washington Group Short Set of questions, JMP ladders, as well as specific indicators related to the MSNI framework.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://impact-initiatives-hppu.github.io/humind}
+  \item \url{https://impact-initiatives-hppu.github.io/humind/}
   \item \url{https://github.com/impact-initiatives-hppu/humind}
   \item Report bugs at \url{https://github.com/impact-initiatives-hppu/humind/issues}
 }
@@ -25,15 +25,17 @@ Useful links:
 Authors:
 \itemize{
   \item Quentin VILLOTTA \email{quentin.villotta@impact-initiatives.org}
-  \item Iyed GHEDAMSI \email{iyed.ghedamsi@impact-initiatives.org} [contributor]
-  \item Mario DASILVA \email{mario.fidalgo@impact-initiatives.org} [contributor]
+  \item Guillaume Noblet
+  \item Iyed GHEDAMSI \email{iyed.ghedamsi@impact-initiatives.org}
+  \item Mario Fidalgo \email{mario.fidalgo@impact-initiatives.org}
 }
 
 Other contributors:
 \itemize{
-  \item Laith Abu-Nawwas \email{laith.abu-nawwas@impact-initiatives.org} [contributor]
-  \item Sunhee Moraes \email{sunhee.moraes@impact-initiatives.org} [contributor]
-  \item Raphael Bacot \email{raphael.bacot@impact-initiatives.org} [contributor]
+  \item Laith Abu-Nawwas [contributor]
+  \item Sunhee Moraes [contributor]
+  \item Raphael Bacot [contributor]
+  \item IMPACT Initiatives [copyright holder]
 }
 
 }

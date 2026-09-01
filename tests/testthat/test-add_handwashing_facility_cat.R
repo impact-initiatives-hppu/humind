@@ -19,7 +19,7 @@ test_df <- dplyr::tibble(
     "no_permission",
     "other"
   ),
-  wash_handwashing_facility_observed_water = c(
+  wash_handwashing_facility_observed_water_yn = c(
     "water_available",
     "water_not_available",
     "water_available",
@@ -139,7 +139,7 @@ test_that("answer options in the 'no' vectors get treated as 'no'", {
     NA_character_ # Can be NA because of skip logic
   )
 
-  wash_handwashing_facility_observed_water <- c(
+  wash_handwashing_facility_observed_water_yn <- c(
     "water_available",
     "water_not_available",
     "water_available",
@@ -198,7 +198,7 @@ test_that("answer options in the 'no' vectors get treated as 'no'", {
   exhaustive_df <- tidyr::expand_grid(
     survey_modality,
     wash_handwashing_facility,
-    wash_handwashing_facility_observed_water,
+    wash_handwashing_facility_observed_water_yn,
     wash_soap_observed_yn,
     wash_handwashing_facility_reported,
     wash_handwashing_facility_water_reported_yn,
@@ -246,7 +246,7 @@ test_that("reported yes + NA water or soap returns 'limited'", {
   df <- dplyr::tibble(
     survey_modality = "remote",
     wash_handwashing_facility = "available_mobile", # irrelevant on reported path
-    wash_handwashing_facility_observed_water = NA,
+    wash_handwashing_facility_observed_water_yn = NA,
     wash_soap_observed_yn = NA,
     wash_handwashing_facility_reported = "fixed_dwelling", # YES
     wash_handwashing_facility_water_reported_yn = c(NA, "yes", NA),
@@ -264,7 +264,7 @@ test_that("reported ash/mud/sand soap type demotes 'basic' to 'limited'", {
   df <- dplyr::tibble(
     survey_modality = "remote",
     wash_handwashing_facility = "available_fixed_in_plot", # ignored on reported
-    wash_handwashing_facility_observed_water = NA,
+    wash_handwashing_facility_observed_water_yn = NA,
     wash_soap_observed_yn = NA,
     wash_handwashing_facility_reported = "mobile", # YES
     wash_handwashing_facility_water_reported_yn = "yes",
@@ -281,7 +281,7 @@ test_that("observed ash/mud/sand soap type demotes 'basic' to 'limited'", {
   df <- dplyr::tibble(
     survey_modality = "in_person",
     wash_handwashing_facility = "available_fixed_in_dwelling",
-    wash_handwashing_facility_observed_water = "water_available",
+    wash_handwashing_facility_observed_water_yn = "water_available",
     wash_soap_observed_yn = "soap_available",
     wash_handwashing_facility_reported = NA,
     wash_handwashing_facility_water_reported_yn = NA,
@@ -303,7 +303,7 @@ test_that("reported soap type does not affect observed path", {
   df <- dplyr::tibble(
     survey_modality = "in_person",
     wash_handwashing_facility = "available_fixed_in_dwelling",
-    wash_handwashing_facility_observed_water = "water_available",
+    wash_handwashing_facility_observed_water_yn = "water_available",
     wash_soap_observed_yn = "soap_available",
     wash_handwashing_facility_reported = NA,
     wash_handwashing_facility_water_reported_yn = NA,
@@ -319,7 +319,7 @@ test_that("observed soap type does not affect reported path", {
   df <- dplyr::tibble(
     survey_modality = "remote",
     wash_handwashing_facility = "available_fixed_in_plot",
-    wash_handwashing_facility_observed_water = NA,
+    wash_handwashing_facility_observed_water_yn = NA,
     wash_soap_observed_yn = NA,
     wash_handwashing_facility_reported = "mobile",
     wash_handwashing_facility_water_reported_yn = "yes",
@@ -338,7 +338,7 @@ test_that("when soap present but type is undefined the result is limited", {
       survey_modality == "in_person",
       wash_handwashing_facility %in%
         c("available_fixed_in_dwelling", "available_fixed_in_plot"),
-      wash_handwashing_facility_observed_water == "water_available",
+      wash_handwashing_facility_observed_water_yn == "water_available",
       wash_soap_observed_yn == "soap_available",
       wash_soap_observed_type == "dnk" # only undefined type
     )
@@ -371,7 +371,7 @@ test_that("undefined soap type with facility is limited not basic", {
       "no_permission",
       "no_permission"
     ),
-    wash_handwashing_facility_observed_water = c(NA, NA, NA, NA, NA, NA, NA),
+    wash_handwashing_facility_observed_water_yn = c(NA, NA, NA, NA, NA, NA, NA),
     wash_soap_observed_yn = c(NA, NA, NA, NA, NA, NA, NA),
     wash_handwashing_facility_reported = c(
       "fixed_dwelling",

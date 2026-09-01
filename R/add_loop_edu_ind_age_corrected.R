@@ -9,6 +9,7 @@
 #' @param ind_age  The individual age column.
 #' @param month  If not NULL, an integer between 1 and 12 which will be used as the month of data collection for all households.
 #' @param schooling_start_age The age at which we assign the value 1 to edu_ind_age_schooling. Default is 5.
+#' @param schooling_end_age The maximum age considered within the schooling-age population. Default is 17.
 #' @return 2 new columns: "edu_ind_age_corrected" with the corrected individual age, and a dummy variable edu_ind_age_schooling
 #'
 #' @export
@@ -21,7 +22,8 @@ add_loop_edu_ind_age_corrected <- function(
   school_year_start_month = 9,
   ind_age = "ind_age",
   month = NULL,
-  schooling_start_age = 5
+  schooling_start_age = 5,
+  schooling_end_age = 17
 ) {
   #------ Initial checks
 
@@ -33,6 +35,10 @@ add_loop_edu_ind_age_corrected <- function(
 
   # Check if ind_age is numeric
   are_cols_numeric(loop, ind_age)
+
+  checkmate::assert_number(school_year_start_month, lower = 1, upper = 12)
+  checkmate::assert_number(schooling_start_age, lower = 3)
+  checkmate::assert_number(schooling_end_age, lower = schooling_start_age)
 
   # Check if survey_start_date is in ISO 8601 format
   is_iso8601 <- function(x) {
@@ -96,19 +102,19 @@ add_loop_edu_ind_age_corrected <- function(
     loop,
     edu_ind_age_corrected = dplyr::case_when(
       !is.na(!!rlang::sym("month")) &
-        !is.na(!!sym(ind_age)) &
+        !is.na(!!rlang::sym(ind_age)) &
         (!!rlang::sym("month") - school_year_start_month_adj) > 6 ~
         !!rlang::sym(ind_age) - 1,
       .default = !!rlang::sym(ind_age)
     )
   )
 
-  #Final classification --- NAing with below schooling_start_age or under 17
+  #Final classification --- NAing with below schooling_start_age or above schooling_end_age
   loop <- dplyr::mutate(
     loop,
     edu_ind_age_corrected = dplyr::case_when(
       !!rlang::sym("edu_ind_age_corrected") < schooling_start_age |
-        !!rlang::sym("edu_ind_age_corrected") > 17 ~
+        !!rlang::sym("edu_ind_age_corrected") > schooling_end_age ~
         NA_real_,
       .default = !!rlang::sym("edu_ind_age_corrected")
     )
@@ -120,7 +126,7 @@ add_loop_edu_ind_age_corrected <- function(
     edu_ind_age_schooling = dplyr::case_when(
       is.na(!!rlang::sym("edu_ind_age_corrected")) ~ 0,
       !!rlang::sym("edu_ind_age_corrected") < schooling_start_age |
-        !!rlang::sym("edu_ind_age_corrected") > 17 ~
+        !!rlang::sym("edu_ind_age_corrected") > schooling_end_age ~
         0,
       .default = 1
     )
@@ -178,6 +184,16 @@ add_loop_edu_ind_schooling_age_d_to_main <- function(
     main,
     loop,
     by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop))
+  )
+
+  # The edu group in the XLSForm is relevant only when the household has at
+  # least one school-age child (${ind_age_schooling_n} >= 1), so a household
+  # with no school-age children has no rows in the education loop and the
+  # join above yields NA. Encode it as the true count: 0 school-age
+  # children (issue #767).
+  main <- dplyr::mutate(
+    main,
+    edu_schooling_age_n = dplyr::coalesce(.data$edu_schooling_age_n, 0)
   )
 
   main
