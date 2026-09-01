@@ -37,7 +37,7 @@ Verify the version:
 
 ``` r
 packageVersion("humind")
-# v2026.2.0
+# v2026.3.0
 ```
 
 ## 📚 MSNI Guidance Note 2026
