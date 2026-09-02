@@ -1,0 +1,573 @@
+---
+title: "Computing the MSNI: Humind Workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MSNI Workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Welcome to the humind tutorial. In the following RMarkdown file, we will go over an example workflow using dummy MSNA data from the 2026 cycle. The workflow is broken down by function and annotated to describe what the function does,  any key points to keep in mind during use and required input variables (and their codes). If you have any questions, or suggestion for improvement, please reach out the the Global MSNA Team.   
+
+```{r}
+#| include: false
+devtools::load_all()
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Setup
+
+Below, we load humind and dplyr, as well as the household-level dataset (main) and Health and Education rosters (loops). We also make sure the unique identifiers in each are correctly specified.
+
+```{r, warnings=F, message=F}
+#| label: setup
+
+library(humind)
+library(dplyr)
+
+data(humind_main)
+data(humind_health_ind)
+data(humind_edu_ind)
+
+id_col_main <- "_uuid"
+id_col_loop <- "_submission__uuid"
+```
+
+## Food security
+
+The first step for the Food Security Composite is to compute the LCSI categories: none, stress, crisis and emergency. The example code below merges the mutually exclusive coping strategies for hosts and camp settings before adding the global LCSI categories.
+
+```{r}
+#| label: foodsec_lcsi
+
+main_foodsec <- humind_main |>
+  # This form splits 4 LCSI items into _host/_camp variants that are mutually exclusive
+  # coalesce into the single columns add_lcsi() expects.
+  mutate(
+    fsl_lcsi_stress1 = coalesce(fsl_lcsi_stress1_host, fsl_lcsi_stress1_camp),
+    fsl_lcsi_stress2 = coalesce(fsl_lcsi_stress2_host, fsl_lcsi_stress2_camp),
+    fsl_lcsi_emergency2 = coalesce(fsl_lcsi_emergency2_host, fsl_lcsi_emergency2_camp),
+    fsl_lcsi_emergency3 = coalesce(fsl_lcsi_emergency3_host, fsl_lcsi_emergency3_camp)
+  ) |>
+  add_lcsi()
+```
+
+Next, we add the Food Consumption Score category using the normal cut-offs. You can specify the alternative cut-offs by changing the "cutoff" argument to "alternative".
+
+```{r}
+#| label: foodsec_fcs
+
+main_foodsec <- main_foodsec |>
+  add_fcs(cutoffs = "normal")
+```
+
+Below, we add two columns to summarize the Household Hunger Scale (HHS) values, one general and one that is IPC compatible. 
+
+```{r}
+#| label: foodsec_hhs
+
+main_foodsec <- main_foodsec |>
+  add_hhs()
+```
+
+The Reduced Coping Strategies Index (rCSI) is computed using the function below, including the overall score (fsl_rcsi_score) and the ordinal category (fsl_rcsi_cat).
+
+```{r}
+#| label: foodsec_rcsi
+
+main_foodsec <- main_foodsec |>
+  add_rcsi()
+```
+
+Add the Food Consumption Matrix phase below based on the previously calculated variables. The resulting variable called "fsl_fc_phase" is ordinal between 1 to 5. 
+
+```{r}
+#| label: foodsec_fcm_phase
+
+main_foodsec <- main_foodsec |>
+  add_fcm_phase()
+```
+
+Below, we compute theFood Consumption-Livelihood Coping Matrix (FCLCM) based on the Food Consumption phase and the lCSI categories previously added.
+
+```{r}
+#| label: foodsec_fclcm_phase
+
+main_foodsec <- main_foodsec |>
+  add_fclcm_phase(lcs_cat_var = "fsl_lcsi_cat")
+```
+
+Finally, we add the Food Security composite, derived directly from the FCLCM phase.
+
+```{r}
+#| label: foodsec_msni
+
+main_foodsec <- main_foodsec |>
+  add_comp_foodsec()
+```
+
+## WASH
+
+### Water Quanity (H-WISE)
+
+For WASH, we start with the H-WISE 4 to compute the Water Quantity dimension. The function below assigns a score from 0 to 3 to each of the H-WISE variables and directly assigns the severity level based on the row-wise sum. A new variable called "comp_wash_score_water_quantity" is generated.
+
+**Key considerations**: The default response codes are never, rarely, sometimes, often, always, dnk, and pnta. If you data has different response codes, these need to be specified through the corresponding function parameters. The .keep_recoded parameter can be set to TRUE if the individual H-WISE item scores are also required.
+
+**Required variables**:
+* wash_hwise_drink.  
+* wash_hwise_hands.  
+* wash_hwise_plans.  
+* wash_hwise_worry.  
+```{r}
+#| label: wash_hwise
+
+main_wash <- main_foodsec |>
+  add_hwise() 
+```
+### Water Quality
+
+Next, we compute the Water Quality dimension. This is based on the type of drinking water source and the time required to collect drinking water. The following functions progressively recode these variables into the categories required to derive the JMP drinking water classification.
+
+**Key considerations**: The function recodes the choices from the global KOBO template 2026 into the standard categories: improved, unimproved and surface water. As these categorizations may differ between contexts, make sure to check that the mapping fits the reality in-country. In case of any doubts, this can be confirmed with the WASH Cluster. 
+
+**Required variables**: wash_drinking_water_source.
+
+```{r}
+#| label: wash_water_source
+
+main_wash <- main_wash |>
+  add_drinking_water_source_cat()
+```
+
+**Key considerations**: The function uses information on whether water is available on the premises as well as the reported collection time. The default response codes and thresholds should be adjusted if the survey uses different coding.
+
+**Required variables**:
+
+* wash_drinking_water_time_yn  
+* wash_drinking_water_time_int  
+* wash_drinking_water_time_sl  
+* wash_drinking_water_source  
+
+```{r}
+#| label: wash_drinking_water
+
+main_wash <- main_wash |>
+  add_drinking_water_time_cat()
+```
+
+The resulting time-to-fetch-water categories are then classified according to the standard 30-minute threshold used in the JMP classification.
+
+**Key considerations**: The default threshold is 30 minutes. This function should be run after add_drinking_water_time_cat(), as it uses the categorical variable generated in that step.
+
+**Required variables**: wash_drinking_water_time_cat.
+
+```{r}
+#| label: wash_drinking_water_threshold
+
+main_wash <- main_wash |>
+  add_drinking_water_time_threshold_cat()
+```
+
+The drinking water source and time-to-fetch-water categories are then combined to generate the JMP drinking water quality classification.
+
+**Key considerations**: This function uses the categories generated by the two preceding recoding steps, so these functions should be run in sequence.
+
+**Required variables**:
+* wash_drinking_water_source_cat.  
+* wash_drinking_water_time_30min_cat.  
+
+```{r}
+#| label: wash_drinking_water_jmp_cat
+
+main_wash <- main_wash |>
+  add_drinking_water_quality_jmp_cat()
+```
+
+### Sanitation
+
+We then prepare the variables required to calculate the Sanitation dimension. First, the type of sanitation facility is recoded into standard categories.
+
+**Key considerations**: Like for water sources, the function assumes the mapping to improved and unimproved. Make sure these classifications apply in your context. 
+
+**Required variables**: wash_sanitation_facility.
+
+```{r}
+#| label: wash_sanitation_cat
+
+main_wash <- main_wash |>
+  add_sanitation_facility_cat()
+```
+
+The sanitation facility is then classified according to whether it is shared with other households.
+
+**Key considerations**: Facilities classified as none are automatically assigned not_applicable for sharing. The default response codes for the sharing variable should be adjusted if response codes deviate from the global KOBO template.
+
+**Required variables**:
+* wash_sanitation_facility_sharing_yn.
+* wash_sanitation_facility.  
+
+```{r}
+#| label: wash_sanitation_sharing_cat
+
+main_wash <- main_wash |>
+ add_sharing_sanitation_facility_cat()
+```
+
+The following function estimates the number of individuals using the sanitation facility. For shared facilities, this is calculated using the reported number of households sharing the facility and the weighted mean household size. For facilities that are not shared, the number of individuals is based on household size.
+
+**Key considerations**: hh_size and wash_sanitation_facility_sharing_n must be numeric. The weight variable is used to calculate the weighted mean household size and must therefore be present even when the analysis is unweighted. For an unweighted dataset, create a variable called weight and set it to 1 for all households, as shown in the example below.
+
+**Required variables**:
+* wash_sharing_sanitation_facility_cat  
+* wash_sanitation_facility_sharing_n  
+* hh_size  
+* weight  
+
+```{r}
+#| label: wash_sanitation_facility_ind
+
+main_wash <- main_wash |>
+  mutate(weight = 1) |>
+  add_sharing_sanitation_facility_n_ind()
+```
+
+Using the sanitation facility category and sharing status, we can now compute the JMP sanitation classification used in the WASH Sectoral Composite.
+
+**Key considerations**: This function uses the categories generated by add_sanitation_facility_cat() and add_sharing_sanitation_facility_cat(), so these steps should be run beforehand.
+
+**Required variables**:
+* wash_sanitation_facility_cat  
+* wash_sharing_sanitation_facility_cat  
+
+```{r}
+#| label: _wash_sanitation_jmp_cat
+
+main_wash <- main_wash |>
+  add_sanitation_facility_jmp_cat()
+```
+
+### Hygiene
+
+For the last WASH dimension, we calculate the JMP hygiene classification. The function uses observed and self-reported information on the availability of a handwashing facility, water, and soap. The resulting wash_handwashing_facility_jmp_cat variable classifies households as having a basic, limited, or no_facility handwashing facility.
+
+**Key considerations**: If the dataset does not contain survey_modality, this must be added before running the function. For a fully in-person survey, it can be set to "in_person", as shown below. The function distinguishes between observed and reported information depending on the survey modality. The default soap classification distinguishes qualifying soap (soap, detergent) from non-qualifying soap (ash_mud_sand). These parameters can be adjusted if needed.
+
+**Required variables**:
+* survey_modality  
+* wash_handwashing_facility  
+* wash_handwashing_facility_observed_water_yn  
+* wash_soap_observed_yn  
+* wash_handwashing_facility_reported  
+* wash_handwashing_facility_water_reported_yn  
+* wash_soap_reported_yn  
+* wash_soap_observed_type  
+* wash_soap_reported_type  
+
+```{r}
+#| label: wash_handwashing_cat
+
+main_wash <- main_wash |>
+  mutate(survey_modality = "in_person") |>
+  add_handwashing_facility_cat()
+```
+
+### WASH Sectoral Composite
+
+Finally, we compute the overall WASH Sectoral Composite. The add_comp_wash() function combines the water quantity, water quality, sanitation, and hygiene components to generate the WASH composite score and need indicator.
+
+**Key considerations**: The setting variable is required because the WASH composite applies different scoring logic to camp, urban, and rural settings. By default, the function expects camp_formal and camp_informal for camp settings, urban for urban settings, and rural for rural settings. If the dataset uses different setting codes, the corresponding setting_camp, setting_urban, and/or setting_rural parameters must be specified. 
+
+**Required variables**:
+* setting  
+* comp_wash_score_water_quantity  
+* wash_drinking_water_quality_jmp_cat  
+* wash_sanitation_facility_jmp_cat  
+* wash_sanitation_facility_cat  
+* wash_sharing_sanitation_facility_n_ind  
+* wash_sharing_sanitation_facility_cat  
+* wash_handwashing_facility_jmp_cat  
+
+```{r}
+#| label: wash_msni
+
+main_wash <- main_wash |>
+  add_comp_wash()
+```
+
+## SNFI / HLP
+
+### Shelter Type
+
+We first recode the two shelter type variables into a single global shelter type category. The function combines the general shelter type and individual shelter type information and classifies households as none, inadequate, adequate, or undefined. The resulting variable is snfi_shelter_type_cat. The function gives priority to responses such as no shelter or collective centre before applying the individual shelter type classification.
+
+**Key considerations**: Check that the mapping of shelter types fits your context. The standard parameters used in the function may differ from these. In case of doubts, reach out to the Shelter Cluster to confirm these classifications.
+
+**Required variables**:
+* snfi_shelter_type  
+* snfi_shelter_type_individual  
+
+```{r}
+#| label: snfi_shelter_type
+
+main_snfi <- main_wash |>
+  add_shelter_type_cat()
+```
+
+### Shelter Issues
+
+We then calculate the number of shelter issues reported by each household and convert this into an ordinal category. The function counts the reported issues across the 11 shelter issue variables and generates both snfi_shelter_issue_n and snfi_shelter_issue_cat. The resulting categories are none, 1_to_3, 4_to_7, and 8_to_11, with separate categories for undefined and other.
+
+**Key considerations**: The list of 11 shelter issues variable should be standard across all contexts. If you deviate from this, get in touch with the global MSNA team.
+
+**Required variables**: snfi_shelter_issue.  
+
+```{r}
+#| label: snfi_shelter_issue
+
+main_snfi <- main_snfi |>
+  add_shelter_issue_cat()
+```
+
+### Shelter Damages
+
+We next recode the reported shelter damage into a standardized damage category. The function combines the different damage types and prioritizes the most severe reported level. The resulting snfi_shelter_damage_cat variable contains none, damaged, part, total, or undefined.
+
+**Key considerations**: The damage categories should be standard across contexts. If any deviations arise, make sure to properly specify these in the relevant function arguments. 
+
+**Required variables**: snfi_shelter_damage.  
+
+```{r}
+#| label: snfi_shelter_damage
+
+main_snfi <- main_snfi |>
+  add_shelter_damage_cat()
+```
+
+### Functional Domestic Space (FDS)
+
+We then calculate the number of functional domestic space tasks that cannot be performed, incorporating cooking, sleeping, storing, and lighting. The function first standardizes the three domestic task variables and the lighting source, then creates binary indicators and sums them to produce snfi_fds_cannot_n. This is subsequently categorized into snfi_fds_cannot_cat, with categories ranging from no affected tasks to four affected tasks.
+
+**Key considerations**: The default response codes are yes, no, and no_need for cooking, and yes/no for sleeping and storing. pnta is treated as undefined for the three task variables. For lighting, none indicates no lighting source.
+
+**Required variables**:
+* snfi_fds_cooking  
+* snfi_fds_sleeping  
+* snfi_fds_storing  
+* energy_lighting_source  
+
+```{r}
+#| label: snfi_fds
+
+main_snfi <- main_snfi |>
+  add_fds_cannot_cat()
+```
+
+### Occupancy Status / Security of Tenure
+
+We then classify occupancy arrangements and eviction risk separately before combining them into an overall tenure security category. Occupancy is classified as high, medium, or low risk, while eviction risk is classified as high or low risk. The resulting hlp_tenure_security variable takes the highest level of risk across the two components.
+
+**Key considerations**: By default, no_agreement is high-risk occupancy, rented and hosted_free are medium-risk, and ownership is low-risk. For eviction risk, yes is high-risk and no is low-risk. dnk, pnta, and other are treated as undefined for occupancy, while dnk and pnta are undefined for eviction risk. The final tenure security category takes the maximum risk level across occupancy and eviction risk.
+
+**Required variables**:
+* hlp_occupancy  
+* hlp_risk_eviction  
+
+```{r}
+#| label: hlp_occupancy
+
+main_snfi <- main_snfi |>
+  add_occupancy_cat()
+```
+
+### SNFI Sectoral Composite
+
+Finally, we compute the overall SNFI Sectoral Composite. The add_comp_snfi() function combines the standardized shelter type, shelter issues, tenure security, FDS, and shelter damage categories and assigns scores to each component. It then derives the overall comp_snfi_score, as well as comp_snfi_in_need and comp_snfi_in_severe_need.
+
+**Key considerations**: The input variables are generated by the preceding functions and should therefore be created before running add_comp_snfi(). 
+
+**Required variables**:
+* snfi_shelter_type_cat  
+* snfi_shelter_issue_cat  
+* hlp_occupancy_cat  
+* snfi_fds_cannot_cat  
+* snfi_shelter_damage_cat  
+
+```{r}
+#| label: snfi_msni
+
+main_snfi <- main_snfi |>
+  add_comp_snfi()
+```
+
+## Protection
+
+### Movement and Access to Public Spaces
+
+We first calculate the Movement and Access to Public Spaces dimension. The add_prot_score_movement() function uses reported safety concerns and changes in movement or activities to calculate a weighted score. The weighted score is then converted to a severity score from 1 to 4 that represents the score for this dimension.
+
+**Key considerations**: All response options are assigned a weight between 0 and 2. By default, men_avoid_places and men_avoid_night have a weight of 1, but these can be adjusted in contexts where military conscription is a characteristic of the crisis. Simply change the men_avoid_places_weight and men_avoid_night_weight arguments, respectively. The resulting variables are comp_prot_score_prot_needs_3 and comp_prot_score_movement. 
+
+**Required variables**: prot_needs_3_movement.
+
+```{r}
+#| label: prot_movement
+
+main_prot <- main_snfi |>
+  add_prot_score_movement()
+```
+
+### Safe Practices & Activities
+
+We then calculate the Safe Practices and Activities dimension. The add_prot_score_practices() function calculates separate weighted scores for restrictions affecting household members' ability to carry out activities and participate in social interactions. These are then combined to produce the overall comp_prot_score_practices severity score, ranging from 1 to 4.
+
+
+**Key considerations**: The function creates three variables: comp_prot_score_prot_needs_2_activities, comp_prot_score_prot_needs_2_social, and comp_prot_score_practices. Only if both underlying dimension scores are missing, the overall practices score is also missing.
+
+**Required variables**:
+* prot_needs_2_activities  
+* prot_needs_2_social
+
+```{r}
+#| label: prot_practices
+
+main_prot <- main_prot |>
+  add_prot_score_practices()
+```
+
+### Access Rights & Services
+
+Next, we compute the final Access Rights and Services dimension. as for the other Protection dimensions, the add_prot_score_rights() function calculates separate weighted scores for barriers to accessing essential services and barriers to accessing justice and legal resources. These are also combined to produce the comp_prot_score_rights severity score, ranging from 1 to 4.
+
+**Key considerations**: 
+
+**Required variables**:
+* prot_needs_1_services  
+* prot_needs_1_justice  
+
+```{r}
+#| label: prot_rights
+
+main_prot <- main_prot |>
+  add_prot_score_rights()
+```
+
+### Protection Sectoral Composite
+
+Finally, we compute the overall Protection Composite. The add_comp_prot() function takes the maximum severity score across the three Protection dimensions — movement, practices, and rights and services — to generate the overall Protection severity score (ranging from 1 to 4).
+
+**Key considerations**: None.
+
+**Required variables**:
+* comp_prot_score_movement  
+* comp_prot_score_practices  
+* comp_prot_score_rights   
+
+```{r}
+#| label: prot_msni
+
+main_prot <- main_prot |>
+  add_comp_prot()
+```
+
+## Health
+
+The Health Sectoral Composite is based on one dimension: Health Needs. It involves summarizing data from the roster to the main dataset.
+
+We first calculate healthcare need at the individual level using add_loop_healthcare_needed_cat(). The function combines whether an individual needed healthcare with whether they received it, classifying each individual as having no need, a met need, or an unmet need. It also creates binary indicators for each category, which are used in the subsequent household-level aggregation.
+
+**Key considerations**: Individuals reporting that they needed healthcare but have dnk, pnta, or missing information for whether they received it cannot be classified as having a met or unmet need and are therefore assigned NA. The function also creates the variables health_ind_healthcare_needed_no, health_ind_healthcare_needed_yes_unmet, and health_ind_healthcare_needed_yes_met, which are used to aggregate the individual-level results to the household level.
+
+**Required variables**:
+* health_ind_healthcare_needed.  
+* health_ind_healthcare_received.  
+
+```{r}
+#| label: health_loop_cat
+
+health_ind <- humind_health_ind |>
+  add_loop_healthcare_needed_cat()
+```
+
+We then use add_loop_healthcare_needed_cat_to_main() to aggregate the individual-level healthcare need indicators to the household level. The function counts the number of individuals in each category within each household and joins these counts back to the main household dataset.
+
+**Key considerations**: id_col_main and id_col_loop must identify the household consistently in the main and individual-level datasets. The function produces health_ind_healthcare_needed_no_n, health_ind_healthcare_needed_yes_unmet_n, and health_ind_healthcare_needed_yes_met_n, representing the number of individuals in each category per household.
+
+**Required variables**:
+* health_ind_healthcare_needed_no  
+* health_ind_healthcare_needed_yes_unmet  
+* health_ind_healthcare_needed_yes_met  
+* id_col_main  
+* id_col_loop  
+
+```{r}
+#| label: health_main_cat
+
+main_health <- main_prot |>
+  add_loop_healthcare_needed_cat_to_main(
+    loop = health_ind,
+    id_col_main = id_col_main, id_col_loop = id_col_loop
+  )
+```
+
+Finally, add_comp_health() calculates the Health composite score at household level based on the presence of unmet and met healthcare needs. A household receives a score of 3 if at least one individual has an unmet healthcare need, 2 if there is at least one individual with a met healthcare need but no unmet need, and 1 if individuals in the household report no healthcare need. The function then generates the standard in_need and in_severe_need indicators.
+
+**Key considerations**: None.
+
+**Required variables**:
+* health_ind_healthcare_needed_no_n  
+* health_ind_healthcare_needed_yes_unmet_n  
+* health_ind_healthcare_needed_yes_met_n  
+
+```{r}
+#| label: health_msni
+
+main_health <- main_health |>
+  add_comp_health()
+```
+## Education
+
+**Key considerations**: None.
+
+**Required variables**:
+
+```{r}
+#| label: edu
+
+edu_ind <- humind_edu_ind |>
+  add_loop_edu_ind_age_corrected(
+    main = main_health,
+    id_col_loop = id_col_loop, id_col_main = id_col_main,
+    ind_age = "edu_ind_age"
+  ) |>
+  add_loop_edu_access_d() |>
+  add_loop_edu_barrier_protection_d() |>
+  add_loop_edu_disrupted_d()
+
+main_edu <- main_health |>
+  add_loop_edu_ind_schooling_age_d_to_main(
+    loop = edu_ind, id_col_main = id_col_main, id_col_loop = id_col_loop
+  ) |>
+  add_loop_edu_access_d_to_main(
+    loop = edu_ind, id_col_main = id_col_main, id_col_loop = id_col_loop
+  ) |>
+  add_loop_edu_barrier_protection_d_to_main(
+    loop = edu_ind, id_col_main = id_col_main, id_col_loop = id_col_loop
+  ) |>
+  add_loop_edu_disrupted_d_to_main(
+    loop = edu_ind, id_col_main = id_col_main, id_col_loop = id_col_loop
+  ) |>
+  add_comp_edu()
+```
+
+## MSNI
+
+```{r}
+#| label: msni
+
+msni_output <- add_msni(main_edu)
+msni_output |> head()
+```
