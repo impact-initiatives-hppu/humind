@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 ## Setup
 
-Below, we load humind and dplyr, as well as the household-level dataset (main) and Health and Education rosters (loops). We also make sure the unique identifiers in each are correctly specified.
+Below, we load humind and dplyr, as well as the household-level dataset (main) and Health and Education rosters (loops). We also make sure the unique identifiers in each are correctly specified, in order to summarize information from the main to the loop dataset, as is done in the Health and Education Sectoral Composites. 
 
 ```{r, warnings=F, message=F}
 #| label: setup
