@@ -38,7 +38,25 @@ id_col_loop <- "_submission__uuid"
 
 ## Food security
 
-The first step for the Food Security Composite is to compute the LCSI categories: none, stress, crisis and emergency. The example code below merges the mutually exclusive coping strategies for hosts and camp settings before adding the global LCSI categories.
+### Livelihood Coping Strategies Index (LCSI)
+
+The first step for the Food Security Composite is to calculate the Livelihood Coping Strategies Index (LCSI). The add_lcsi() function identifies whether households have used or exhausted stress, crisis, or emergency coping strategies and assigns the household to the highest applicable LCSI category: None, Stress, Crisis, or Emergency.
+
+The example below first combines the host and camp variants of four LCSI strategies into the variables expected by add_lcsi(). This is appropriate where the questionnaire collects mutually exclusive host/camp versions of the same coping strategy.
+
+**Key considerations**: By default, add_lcsi() expects the response codes yes, no_had_no_need, no_exhausted, and not_applicable. A household is classified according to the highest level of coping strategy that it has either used or exhausted. The function generates fsl_lcsi_cat, as well as separate categories based only on strategies used (fsl_lcsi_cat_yes) and strategies exhausted (fsl_lcsi_cat_exhaust). If your questionnaire uses different response codes, these must be supplied through the corresponding function arguments.
+
+**Required variables**:  
+* fsl_lcsi_stress1  
+* fsl_lcsi_stress2  
+* fsl_lcsi_stress3  
+* fsl_lcsi_stress4  
+* fsl_lcsi_crisis1  
+* fsl_lcsi_crisis2  
+* fsl_lcsi_crisis3  
+* fsl_lcsi_emergency1  
+* fsl_lcsi_emergency2  
+* fsl_lcsi_emergency3  
 
 ```{r}
 #| label: foodsec_lcsi
@@ -55,7 +73,21 @@ main_foodsec <- humind_main |>
   add_lcsi()
 ```
 
-Next, we add the Food Consumption Score category using the normal cut-offs. You can specify the alternative cut-offs by changing the "cutoff" argument to "alternative".
+### Food Consumption Score (FSC)
+
+Next, we calculate the Food Consumption Score (FCS) using add_fcs(). The function applies the standard food-group weights to the number of days each food group was consumed during the reference period and assigns the resulting score to an FCS category.
+
+**Key considerations**: The input variables should contain the number of days consumed, from 0 to 7. With cutoffs = "normal", households are classified as Poor when the FCS is ≤21, Borderline when it is >21 and ≤35, and Acceptable when it is >35. The alternative cut-offs can be selected with cutoffs = "alternative", which uses thresholds of 28 and 42 instead. The function generates fsl_fcs_score and fsl_fcs_cat, in addition to the weighted food-group variables.
+
+**Required variables**:  
+* fsl_fcs_cereal  
+* fsl_fcs_legumes  
+* fsl_fcs_veg  
+* fsl_fcs_fruit  
+* fsl_fcs_meat  
+* fsl_fcs_dairy  
+* fsl_fcs_sugar  
+* fsl_fcs_oil  
 
 ```{r}
 #| label: foodsec_fcs
@@ -64,7 +96,19 @@ main_foodsec <- main_foodsec |>
   add_fcs(cutoffs = "normal")
 ```
 
-Below, we add two columns to summarize the Household Hunger Scale (HHS) values, one general and one that is IPC compatible. 
+### Household Hunger Scale (HHS)
+
+The Household Hunger Scale (HHS) is then calculated using add_hhs(). The function combines the three HHS questions and their corresponding frequency questions to produce both a general HHS category and an IPC-compatible HHS category.
+
+**Key considerations**: By default, the function expects yes/no responses to the three occurrence questions and rarely/sometimes/often responses to the frequency questions. A no response is scored as 0, rarely or sometimes as 1, and often as 2 for each item. The resulting fsl_hhs_score ranges from 0 to 6. The function produces both fsl_hhs_cat and fsl_hhs_cat_ipc; the latter has the categories None, Little, Moderate, Severe, and Very Severe. The function also checks consistency between each yes/no question and its frequency question.
+
+**Required variables**:  
+* fsl_hhs_nofoodhh  
+* fsl_hhs_nofoodhh_freq  
+* fsl_hhs_sleephungry  
+* fsl_hhs_sleephungry_freq  
+* fsl_hhs_alldaynight  
+* fsl_hhs_alldaynight_freq  
 
 ```{r}
 #| label: foodsec_hhs
@@ -73,7 +117,18 @@ main_foodsec <- main_foodsec |>
   add_hhs()
 ```
 
-The Reduced Coping Strategies Index (rCSI) is computed using the function below, including the overall score (fsl_rcsi_score) and the ordinal category (fsl_rcsi_cat).
+### Reduced Coping Strategies Index (rCSI)
+
+The Reduced Coping Strategies Index (rCSI) is calculated using add_rcsi(). The function applies the standard weights to five food-related coping strategies to produce an overall rCSI score and ordinal category.
+
+**Key considerations**: Input values should range from 0 to 7 days. The five strategies are weighted respectively 1, 2, 1, 3, and 1, and the resulting fsl_rcsi_score is classified as No to Low when ≤3, Medium when >3 and ≤18, and High when >18. The function generates both fsl_rcsi_score and fsl_rcsi_cat.
+
+**Required variables**:  
+* fsl_rcsi_lessquality  
+* fsl_rcsi_borrow  
+* fsl_rcsi_mealsize  
+* fsl_rcsi_mealadult  
+* fsl_rcsi_mealnb  
 
 ```{r}
 #| label: foodsec_rcsi
@@ -82,7 +137,16 @@ main_foodsec <- main_foodsec |>
   add_rcsi()
 ```
 
-Add the Food Consumption Matrix phase below based on the previously calculated variables. The resulting variable called "fsl_fc_phase" is ordinal between 1 to 5. 
+### Food Consumption Phase
+
+We then calculate the Food Consumption Matrix (FCM) phase using the FCS, rCSI, and IPC-compatible HHS categories calculated in previous steps. add_fcm_phase() maps the combination of these three indicators to one of five Food Consumption phases, from Phase 1 FC to Phase 5 FC.
+
+**Key considerations**: The function uses the default variable names above and the default category labels: Acceptable, Borderline, and Poor for FCS; No to Low, Medium, and High for rCSI; and None, Little, Moderate, Severe, and Very Severe for IPC-compatible HHS. The resulting variable is fsl_fc_phase, with values from Phase 1 FC to Phase 5 FC. The function also creates fsl_fc_cell, which identifies the corresponding cell in the 5×3×3 Food Consumption Matrix.
+
+**Required variables**:  
+* fsl_fcs_cat  
+* fsl_rcsi_cat  
+* fsl_hhs_cat_ipc 
 
 ```{r}
 #| label: foodsec_fcm_phase
@@ -91,7 +155,15 @@ main_foodsec <- main_foodsec |>
   add_fcm_phase()
 ```
 
-Below, we compute theFood Consumption-Livelihood Coping Matrix (FCLCM) based on the Food Consumption phase and the lCSI categories previously added.
+### Food Consumption-Livelihood Coping Matrix (FCLCM) 
+
+The Food Consumption-Livelihood Coping Matrix (FCLCM) is then calculated by combining the Food Consumption phase with the LCSI category. The resulting phase ranges from Phase 1 FCLC to Phase 5 FCLC.
+
+**Key considerations**: The function uses the default phase labels Phase 1 FC through Phase 5 FC and LCSI categories None, Stress, Crisis, and Emergency. If either input is missing or contains an unexpected category, the resulting fclcm_phase is NA.
+
+**Required variables**: 
+* fsl_fc_phase  
+* fsl_lcsi_cat  
 
 ```{r}
 #| label: foodsec_fclcm_phase
@@ -100,7 +172,14 @@ main_foodsec <- main_foodsec |>
   add_fclcm_phase(lcs_cat_var = "fsl_lcsi_cat")
 ```
 
-Finally, we add the Food Security composite, derived directly from the FCLCM phase.
+### Food Security Sectoral Composite
+
+Finally, add_comp_foodsec() converts the FCLCM phase directly into the Food Security sectoral composite score. The five FCLCM phases correspond directly to composite scores from 1 to 5, with the standard MSNI need and severe-need indicators also generated.
+
+**Key considerations**: add_comp_foodsec() requires fclcm_phase, which must contain one of the five expected FCLCM phase labels. The resulting variables are comp_foodsec_score, comp_foodsec_in_need, and comp_foodsec_in_severe_need. The composite score is directly mapped from the FCLCM phase, wherein Phase 1 results in severity level 1 and Phase 5 results in 5.
+
+**Required variables**:
+* fclcm_phase.  
 
 ```{r}
 #| label: foodsec_msni
