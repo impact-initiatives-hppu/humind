@@ -7,11 +7,17 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Welcome to the humind tutorial. In the following RMarkdown file, we will go over an example workflow using dummy MSNA data from the 2026 cycle. The workflow is broken down by function and annotated to describe what the function does,  any key points to keep in mind during use and required input variables (and their codes). If you have any questions, or suggestion for improvement, please reach out the the Global MSNA Team.   
+Welcome to the humind tutorial. In the following RMarkdown file, we will go over
+an example workflow using dummy MSNA data from the 2026 cycle. The workflow is
+broken down by function and annotated to describe what the function does, any
+key points to keep in mind during use and required input variables (and their
+codes). If you have any questions, or suggestion for improvement, please reach
+out the the Global MSNA Team.
 
 ```{r}
+#| label: knitr_opts
 #| include: false
-devtools::load_all()
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -20,7 +26,11 @@ knitr::opts_chunk$set(
 
 ## Setup
 
-Below, we load humind and dplyr, as well as the household-level dataset (main) and Health and Education rosters (loops). We also make sure the unique identifiers in each are correctly specified, in order to summarize information from the main to the loop dataset, as is done in the Health and Education Sectoral Composites. 
+Below, we load humind and dplyr, as well as the household-level dataset (main)
+and Health and Education rosters (loops). We also make sure the unique
+identifiers in each are correctly specified, in order to summarize information
+from the main to the loop dataset, as is done in the Health and Education
+Sectoral Composites.
 
 ```{r, warnings=F, message=F}
 #| label: setup
@@ -40,23 +50,37 @@ id_col_loop <- "_submission__uuid"
 
 ### Livelihood Coping Strategies Index (LCSI)
 
-The first step for the Food Security Composite is to calculate the Livelihood Coping Strategies Index (LCSI). The add_lcsi() function identifies whether households have used or exhausted stress, crisis, or emergency coping strategies and assigns the household to the highest applicable LCSI category: None, Stress, Crisis, or Emergency.
+The first step for the Food Security Composite is to calculate the Livelihood
+Coping Strategies Index (LCSI). The add_lcsi() function identifies whether
+households have used or exhausted stress, crisis, or emergency coping strategies
+and assigns the household to the highest applicable LCSI category: None, Stress,
+Crisis, or Emergency.
 
-The example below first combines the host and camp variants of four LCSI strategies into the variables expected by add_lcsi(). This is appropriate where the questionnaire collects mutually exclusive host/camp versions of the same coping strategy.
+The example below first combines the host and camp variants of four LCSI
+strategies into the variables expected by add_lcsi(). This is appropriate where
+the questionnaire collects mutually exclusive host/camp versions of the same
+coping strategy.
 
-**Key considerations**: By default, add_lcsi() expects the response codes yes, no_had_no_need, no_exhausted, and not_applicable. A household is classified according to the highest level of coping strategy that it has either used or exhausted. The function generates fsl_lcsi_cat, as well as separate categories based only on strategies used (fsl_lcsi_cat_yes) and strategies exhausted (fsl_lcsi_cat_exhaust). If your questionnaire uses different response codes, these must be supplied through the corresponding function arguments.
+**Key considerations**: By default, add_lcsi() expects the response codes yes,
+no_had_no_need, no_exhausted, and not_applicable. A household is classified
+according to the highest level of coping strategy that it has either used or
+exhausted. The function generates fsl_lcsi_cat, as well as separate categories
+based only on strategies used (fsl_lcsi_cat_yes) and strategies exhausted
+(fsl_lcsi_cat_exhaust). If your questionnaire uses different response codes,
+these must be supplied through the corresponding function arguments.
 
-**Required variables**:  
-* fsl_lcsi_stress1  
-* fsl_lcsi_stress2  
-* fsl_lcsi_stress3  
-* fsl_lcsi_stress4  
-* fsl_lcsi_crisis1  
-* fsl_lcsi_crisis2  
-* fsl_lcsi_crisis3  
-* fsl_lcsi_emergency1  
-* fsl_lcsi_emergency2  
-* fsl_lcsi_emergency3  
+**Required variables**:
+
+- fsl_lcsi_stress1
+- fsl_lcsi_stress2
+- fsl_lcsi_stress3
+- fsl_lcsi_stress4
+- fsl_lcsi_crisis1
+- fsl_lcsi_crisis2
+- fsl_lcsi_crisis3
+- fsl_lcsi_emergency1
+- fsl_lcsi_emergency2
+- fsl_lcsi_emergency3
 
 ```{r}
 #| label: foodsec_lcsi
@@ -75,19 +99,29 @@ main_foodsec <- humind_main |>
 
 ### Food Consumption Score (FSC)
 
-Next, we calculate the Food Consumption Score (FCS) using add_fcs(). The function applies the standard food-group weights to the number of days each food group was consumed during the reference period and assigns the resulting score to an FCS category.
+Next, we calculate the Food Consumption Score (FCS) using add_fcs(). The
+function applies the standard food-group weights to the number of days each food
+group was consumed during the reference period and assigns the resulting score
+to an FCS category.
 
-**Key considerations**: The input variables should contain the number of days consumed, from 0 to 7. With cutoffs = "normal", households are classified as Poor when the FCS is ≤21, Borderline when it is >21 and ≤35, and Acceptable when it is >35. The alternative cut-offs can be selected with cutoffs = "alternative", which uses thresholds of 28 and 42 instead. The function generates fsl_fcs_score and fsl_fcs_cat, in addition to the weighted food-group variables.
+**Key considerations**: The input variables should contain the number of days
+consumed, from 0 to 7. With cutoffs = "normal", households are classified as
+Poor when the FCS is ≤21, Borderline when it is >21 and ≤35, and Acceptable when
+it is >35. The alternative cut-offs can be selected with cutoffs =
+"alternative", which uses thresholds of 28 and 42 instead. The function
+generates fsl_fcs_score and fsl_fcs_cat, in addition to the weighted food-group
+variables.
 
-**Required variables**:  
-* fsl_fcs_cereal  
-* fsl_fcs_legumes  
-* fsl_fcs_veg  
-* fsl_fcs_fruit  
-* fsl_fcs_meat  
-* fsl_fcs_dairy  
-* fsl_fcs_sugar  
-* fsl_fcs_oil  
+**Required variables**:
+
+- fsl_fcs_cereal
+- fsl_fcs_legumes
+- fsl_fcs_veg
+- fsl_fcs_fruit
+- fsl_fcs_meat
+- fsl_fcs_dairy
+- fsl_fcs_sugar
+- fsl_fcs_oil
 
 ```{r}
 #| label: foodsec_fcs
@@ -98,17 +132,27 @@ main_foodsec <- main_foodsec |>
 
 ### Household Hunger Scale (HHS)
 
-The Household Hunger Scale (HHS) is then calculated using add_hhs(). The function combines the three HHS questions and their corresponding frequency questions to produce both a general HHS category and an IPC-compatible HHS category.
+The Household Hunger Scale (HHS) is then calculated using add_hhs(). The
+function combines the three HHS questions and their corresponding frequency
+questions to produce both a general HHS category and an IPC-compatible HHS
+category.
 
-**Key considerations**: By default, the function expects yes/no responses to the three occurrence questions and rarely/sometimes/often responses to the frequency questions. A no response is scored as 0, rarely or sometimes as 1, and often as 2 for each item. The resulting fsl_hhs_score ranges from 0 to 6. The function produces both fsl_hhs_cat and fsl_hhs_cat_ipc; the latter has the categories None, Little, Moderate, Severe, and Very Severe. The function also checks consistency between each yes/no question and its frequency question.
+**Key considerations**: By default, the function expects yes/no responses to the
+three occurrence questions and rarely/sometimes/often responses to the frequency
+questions. A no response is scored as 0, rarely or sometimes as 1, and often as
+2 for each item. The resulting fsl_hhs_score ranges from 0 to 6. The function
+produces both fsl_hhs_cat and fsl_hhs_cat_ipc; the latter has the categories
+None, Little, Moderate, Severe, and Very Severe. The function also checks
+consistency between each yes/no question and its frequency question.
 
-**Required variables**:  
-* fsl_hhs_nofoodhh  
-* fsl_hhs_nofoodhh_freq  
-* fsl_hhs_sleephungry  
-* fsl_hhs_sleephungry_freq  
-* fsl_hhs_alldaynight  
-* fsl_hhs_alldaynight_freq  
+**Required variables**:
+
+- fsl_hhs_nofoodhh
+- fsl_hhs_nofoodhh_freq
+- fsl_hhs_sleephungry
+- fsl_hhs_sleephungry_freq
+- fsl_hhs_alldaynight
+- fsl_hhs_alldaynight_freq
 
 ```{r}
 #| label: foodsec_hhs
@@ -119,16 +163,22 @@ main_foodsec <- main_foodsec |>
 
 ### Reduced Coping Strategies Index (rCSI)
 
-The Reduced Coping Strategies Index (rCSI) is calculated using add_rcsi(). The function applies the standard weights to five food-related coping strategies to produce an overall rCSI score and ordinal category.
+The Reduced Coping Strategies Index (rCSI) is calculated using add_rcsi(). The
+function applies the standard weights to five food-related coping strategies to
+produce an overall rCSI score and ordinal category.
 
-**Key considerations**: Input values should range from 0 to 7 days. The five strategies are weighted respectively 1, 2, 1, 3, and 1, and the resulting fsl_rcsi_score is classified as No to Low when ≤3, Medium when >3 and ≤18, and High when >18. The function generates both fsl_rcsi_score and fsl_rcsi_cat.
+**Key considerations**: Input values should range from 0 to 7 days. The five
+strategies are weighted respectively 1, 2, 1, 3, and 1, and the resulting
+fsl_rcsi_score is classified as No to Low when ≤3, Medium when >3 and ≤18, and
+High when >18. The function generates both fsl_rcsi_score and fsl_rcsi_cat.
 
-**Required variables**:  
-* fsl_rcsi_lessquality  
-* fsl_rcsi_borrow  
-* fsl_rcsi_mealsize  
-* fsl_rcsi_mealadult  
-* fsl_rcsi_mealnb  
+**Required variables**:
+
+- fsl_rcsi_lessquality
+- fsl_rcsi_borrow
+- fsl_rcsi_mealsize
+- fsl_rcsi_mealadult
+- fsl_rcsi_mealnb
 
 ```{r}
 #| label: foodsec_rcsi
@@ -139,14 +189,23 @@ main_foodsec <- main_foodsec |>
 
 ### Food Consumption Phase
 
-We then calculate the Food Consumption Matrix (FCM) phase using the FCS, rCSI, and IPC-compatible HHS categories calculated in previous steps. add_fcm_phase() maps the combination of these three indicators to one of five Food Consumption phases, from Phase 1 FC to Phase 5 FC.
+We then calculate the Food Consumption Matrix (FCM) phase using the FCS, rCSI,
+and IPC-compatible HHS categories calculated in previous steps. add_fcm_phase()
+maps the combination of these three indicators to one of five Food Consumption
+phases, from Phase 1 FC to Phase 5 FC.
 
-**Key considerations**: The function uses the default variable names above and the default category labels: Acceptable, Borderline, and Poor for FCS; No to Low, Medium, and High for rCSI; and None, Little, Moderate, Severe, and Very Severe for IPC-compatible HHS. The resulting variable is fsl_fc_phase, with values from Phase 1 FC to Phase 5 FC. The function also creates fsl_fc_cell, which identifies the corresponding cell in the 5×3×3 Food Consumption Matrix.
+**Key considerations**: The function uses the default variable names above and
+the default category labels: Acceptable, Borderline, and Poor for FCS; No to
+Low, Medium, and High for rCSI; and None, Little, Moderate, Severe, and Very
+Severe for IPC-compatible HHS. The resulting variable is fsl_fc_phase, with
+values from Phase 1 FC to Phase 5 FC. The function also creates fsl_fc_cell,
+which identifies the corresponding cell in the 5×3×3 Food Consumption Matrix.
 
-**Required variables**:  
-* fsl_fcs_cat  
-* fsl_rcsi_cat  
-* fsl_hhs_cat_ipc 
+**Required variables**:
+
+- fsl_fcs_cat
+- fsl_rcsi_cat
+- fsl_hhs_cat_ipc
 
 ```{r}
 #| label: foodsec_fcm_phase
@@ -155,15 +214,21 @@ main_foodsec <- main_foodsec |>
   add_fcm_phase()
 ```
 
-### Food Consumption-Livelihood Coping Matrix (FCLCM) 
+### Food Consumption-Livelihood Coping Matrix (FCLCM)
 
-The Food Consumption-Livelihood Coping Matrix (FCLCM) is then calculated by combining the Food Consumption phase with the LCSI category. The resulting phase ranges from Phase 1 FCLC to Phase 5 FCLC.
+The Food Consumption-Livelihood Coping Matrix (FCLCM) is then calculated by
+combining the Food Consumption phase with the LCSI category. The resulting phase
+ranges from Phase 1 FCLC to Phase 5 FCLC.
 
-**Key considerations**: The function uses the default phase labels Phase 1 FC through Phase 5 FC and LCSI categories None, Stress, Crisis, and Emergency. If either input is missing or contains an unexpected category, the resulting fclcm_phase is NA.
+**Key considerations**: The function uses the default phase labels Phase 1 FC
+through Phase 5 FC and LCSI categories None, Stress, Crisis, and Emergency. If
+either input is missing or contains an unexpected category, the resulting
+fclcm_phase is NA.
 
-**Required variables**: 
-* fsl_fc_phase  
-* fsl_lcsi_cat  
+**Required variables**:
+
+- fsl_fc_phase
+- fsl_lcsi_cat
 
 ```{r}
 #| label: foodsec_fclcm_phase
@@ -174,12 +239,20 @@ main_foodsec <- main_foodsec |>
 
 ### Food Security Sectoral Composite
 
-Finally, add_comp_foodsec() converts the FCLCM phase directly into the Food Security sectoral composite score. The five FCLCM phases correspond directly to composite scores from 1 to 5, with the standard MSNI need and severe-need indicators also generated.
+Finally, add_comp_foodsec() converts the FCLCM phase directly into the Food
+Security sectoral composite score. The five FCLCM phases correspond directly to
+composite scores from 1 to 5, with the standard MSNI need and severe-need
+indicators also generated.
 
-**Key considerations**: add_comp_foodsec() requires fclcm_phase, which must contain one of the five expected FCLCM phase labels. The resulting variables are comp_foodsec_score, comp_foodsec_in_need, and comp_foodsec_in_severe_need. The composite score is directly mapped from the FCLCM phase, wherein Phase 1 results in severity level 1 and Phase 5 results in 5.
+**Key considerations**: add_comp_foodsec() requires fclcm_phase, which must
+contain one of the five expected FCLCM phase labels. The resulting variables are
+comp_foodsec_score, comp_foodsec_in_need, and comp_foodsec_in_severe_need. The
+composite score is directly mapped from the FCLCM phase, wherein Phase 1 results
+in severity level 1 and Phase 5 results in 5.
 
 **Required variables**:
-* fclcm_phase.  
+
+- fclcm_phase
 
 ```{r}
 #| label: foodsec_msni
@@ -190,30 +263,49 @@ main_foodsec <- main_foodsec |>
 
 ## WASH
 
-### Water Quanity (H-WISE)
+### Water Quantity (H-WISE)
 
-For WASH, we start with the H-WISE 4 to compute the Water Quantity dimension. The function below assigns a score from 0 to 3 to each of the H-WISE variables and directly assigns the severity level based on the row-wise sum. A new variable called "comp_wash_score_water_quantity" is generated.
+For WASH, we start with the H-WISE 4 to compute the Water Quantity dimension.
+The function below assigns a score from 0 to 3 to each of the H-WISE variables
+and directly assigns the severity level based on the row-wise sum. A new
+variable called "comp_wash_score_water_quantity" is generated.
 
-**Key considerations**: The default response codes are never, rarely, sometimes, often, always, dnk, and pnta. If you data has different response codes, these need to be specified through the corresponding function parameters. The .keep_recoded parameter can be set to TRUE if the individual H-WISE item scores are also required.
+**Key considerations**: The default response codes are never, rarely, sometimes,
+often, always, dnk, and pnta. If you data has different response codes, these
+need to be specified through the corresponding function parameters. The
+.keep_recoded parameter can be set to TRUE if the individual H-WISE item scores
+are also required.
 
 **Required variables**:
-* wash_hwise_drink.  
-* wash_hwise_hands.  
-* wash_hwise_plans.  
-* wash_hwise_worry.  
+
+- wash_hwise_drink
+- wash_hwise_hands
+- wash_hwise_plans
+- wash_hwise_worry
+
 ```{r}
 #| label: wash_hwise
 
 main_wash <- main_foodsec |>
-  add_hwise() 
+  add_hwise()
 ```
+
 ### Water Quality
 
-Next, we compute the Water Quality dimension. This is based on the type of drinking water source and the time required to collect drinking water. The following functions progressively recode these variables into the categories required to derive the JMP drinking water classification.
+Next, we compute the Water Quality dimension. This is based on the type of
+drinking water source and the time required to collect drinking water. The
+following functions progressively recode these variables into the categories
+required to derive the JMP drinking water classification.
 
-**Key considerations**: The function recodes the choices from the global KOBO template 2026 into the standard categories: improved, unimproved and surface water. As these categorizations may differ between contexts, make sure to check that the mapping fits the reality in-country. In case of any doubts, this can be confirmed with the WASH Cluster. 
+**Key considerations**: The function recodes the choices from the global KOBO
+template 2026 into the standard categories: improved, unimproved and surface
+water. As these categorizations may differ between contexts, make sure to check
+that the mapping fits the reality in-country. In case of any doubts, this can be
+confirmed with the WASH Cluster.
 
-**Required variables**: wash_drinking_water_source.
+**Required variables**:
+
+- wash_drinking_water_source
 
 ```{r}
 #| label: wash_water_source
@@ -222,14 +314,17 @@ main_wash <- main_wash |>
   add_drinking_water_source_cat()
 ```
 
-**Key considerations**: The function uses information on whether water is available on the premises as well as the reported collection time. The default response codes and thresholds should be adjusted if the survey uses different coding.
+**Key considerations**: The function uses information on whether water is
+available on the premises as well as the reported collection time. The default
+response codes and thresholds should be adjusted if the survey uses different
+coding.
 
 **Required variables**:
 
-* wash_drinking_water_time_yn  
-* wash_drinking_water_time_int  
-* wash_drinking_water_time_sl  
-* wash_drinking_water_source  
+- wash_drinking_water_time_yn
+- wash_drinking_water_time_int
+- wash_drinking_water_time_sl
+- wash_drinking_water_source
 
 ```{r}
 #| label: wash_drinking_water
@@ -238,11 +333,16 @@ main_wash <- main_wash |>
   add_drinking_water_time_cat()
 ```
 
-The resulting time-to-fetch-water categories are then classified according to the standard 30-minute threshold used in the JMP classification.
+The resulting time-to-fetch-water categories are then classified according to
+the standard 30-minute threshold used in the JMP classification.
 
-**Key considerations**: The default threshold is 30 minutes. This function should be run after add_drinking_water_time_cat(), as it uses the categorical variable generated in that step.
+**Key considerations**: The default threshold is 30 minutes. This function
+should be run after add_drinking_water_time_cat(), as it uses the categorical
+variable generated in that step.
 
-**Required variables**: wash_drinking_water_time_cat.
+**Required variables**:
+
+- wash_drinking_water_time_cat
 
 ```{r}
 #| label: wash_drinking_water_threshold
@@ -251,13 +351,16 @@ main_wash <- main_wash |>
   add_drinking_water_time_threshold_cat()
 ```
 
-The drinking water source and time-to-fetch-water categories are then combined to generate the JMP drinking water quality classification.
+The drinking water source and time-to-fetch-water categories are then combined
+to generate the JMP drinking water quality classification.
 
-**Key considerations**: This function uses the categories generated by the two preceding recoding steps, so these functions should be run in sequence.
+**Key considerations**: This function uses the categories generated by the two
+preceding recoding steps, so these functions should be run in sequence.
 
 **Required variables**:
-* wash_drinking_water_source_cat.  
-* wash_drinking_water_time_30min_cat.  
+
+- wash_drinking_water_source_cat
+- wash_drinking_water_time_30min_cat
 
 ```{r}
 #| label: wash_drinking_water_jmp_cat
@@ -268,11 +371,16 @@ main_wash <- main_wash |>
 
 ### Sanitation
 
-We then prepare the variables required to calculate the Sanitation dimension. First, the type of sanitation facility is recoded into standard categories.
+We then prepare the variables required to calculate the Sanitation dimension.
+First, the type of sanitation facility is recoded into standard categories.
 
-**Key considerations**: Like for water sources, the function assumes the mapping to improved and unimproved. Make sure these classifications apply in your context. 
+**Key considerations**: Like for water sources, the function assumes the mapping
+to improved and unimproved. Make sure these classifications apply in your
+context.
 
-**Required variables**: wash_sanitation_facility.
+**Required variables**:
+
+- wash_sanitation_facility
 
 ```{r}
 #| label: wash_sanitation_cat
@@ -281,13 +389,17 @@ main_wash <- main_wash |>
   add_sanitation_facility_cat()
 ```
 
-The sanitation facility is then classified according to whether it is shared with other households.
+The sanitation facility is then classified according to whether it is shared
+with other households.
 
-**Key considerations**: Facilities classified as none are automatically assigned not_applicable for sharing. The default response codes for the sharing variable should be adjusted if response codes deviate from the global KOBO template.
+**Key considerations**: Facilities classified as none are automatically assigned
+not_applicable for sharing. The default response codes for the sharing variable
+should be adjusted if response codes deviate from the global KOBO template.
 
 **Required variables**:
-* wash_sanitation_facility_sharing_yn.
-* wash_sanitation_facility.  
+
+- wash_sanitation_facility_sharing_yn
+- wash_sanitation_facility
 
 ```{r}
 #| label: wash_sanitation_sharing_cat
@@ -296,15 +408,24 @@ main_wash <- main_wash |>
  add_sharing_sanitation_facility_cat()
 ```
 
-The following function estimates the number of individuals using the sanitation facility. For shared facilities, this is calculated using the reported number of households sharing the facility and the weighted mean household size. For facilities that are not shared, the number of individuals is based on household size.
+The following function estimates the number of individuals using the sanitation
+facility. For shared facilities, this is calculated using the reported number of
+households sharing the facility and the weighted mean household size. For
+facilities that are not shared, the number of individuals is based on household
+size.
 
-**Key considerations**: hh_size and wash_sanitation_facility_sharing_n must be numeric. The weight variable is used to calculate the weighted mean household size and must therefore be present even when the analysis is unweighted. For an unweighted dataset, create a variable called weight and set it to 1 for all households, as shown in the example below.
+**Key considerations**: hh_size and wash_sanitation_facility_sharing_n must be
+numeric. The weight variable is used to calculate the weighted mean household
+size and must therefore be present even when the analysis is unweighted. For an
+unweighted dataset, create a variable called weight and set it to 1 for all
+households, as shown in the example below.
 
 **Required variables**:
-* wash_sharing_sanitation_facility_cat  
-* wash_sanitation_facility_sharing_n  
-* hh_size  
-* weight  
+
+- wash_sharing_sanitation_facility_cat
+- wash_sanitation_facility_sharing_n
+- hh_size
+- weight
 
 ```{r}
 #| label: wash_sanitation_facility_ind
@@ -314,13 +435,17 @@ main_wash <- main_wash |>
   add_sharing_sanitation_facility_n_ind()
 ```
 
-Using the sanitation facility category and sharing status, we can now compute the JMP sanitation classification used in the WASH Sectoral Composite.
+Using the sanitation facility category and sharing status, we can now compute
+the JMP sanitation classification used in the WASH Sectoral Composite.
 
-**Key considerations**: This function uses the categories generated by add_sanitation_facility_cat() and add_sharing_sanitation_facility_cat(), so these steps should be run beforehand.
+**Key considerations**: This function uses the categories generated by
+add_sanitation_facility_cat() and add_sharing_sanitation_facility_cat(), so
+these steps should be run beforehand.
 
 **Required variables**:
-* wash_sanitation_facility_cat  
-* wash_sharing_sanitation_facility_cat  
+
+- wash_sanitation_facility_cat
+- wash_sharing_sanitation_facility_cat
 
 ```{r}
 #| label: _wash_sanitation_jmp_cat
@@ -331,20 +456,30 @@ main_wash <- main_wash |>
 
 ### Hygiene
 
-For the last WASH dimension, we calculate the JMP hygiene classification. The function uses observed and self-reported information on the availability of a handwashing facility, water, and soap. The resulting wash_handwashing_facility_jmp_cat variable classifies households as having a basic, limited, or no_facility handwashing facility.
+For the last WASH dimension, we calculate the JMP hygiene classification. The
+function uses observed and self-reported information on the availability of a
+handwashing facility, water, and soap. The resulting
+wash_handwashing_facility_jmp_cat variable classifies households as having a
+basic, limited, or no_facility handwashing facility.
 
-**Key considerations**: If the dataset does not contain survey_modality, this must be added before running the function. For a fully in-person survey, it can be set to "in_person", as shown below. The function distinguishes between observed and reported information depending on the survey modality. The default soap classification distinguishes qualifying soap (soap, detergent) from non-qualifying soap (ash_mud_sand). These parameters can be adjusted if needed.
+**Key considerations**: If the dataset does not contain survey_modality, this
+must be added before running the function. For a fully in-person survey, it can
+be set to "in_person", as shown below. The function distinguishes between
+observed and reported information depending on the survey modality. The default
+soap classification distinguishes qualifying soap (soap, detergent) from
+non-qualifying soap (ash_mud_sand). These parameters can be adjusted if needed.
 
 **Required variables**:
-* survey_modality  
-* wash_handwashing_facility  
-* wash_handwashing_facility_observed_water_yn  
-* wash_soap_observed_yn  
-* wash_handwashing_facility_reported  
-* wash_handwashing_facility_water_reported_yn  
-* wash_soap_reported_yn  
-* wash_soap_observed_type  
-* wash_soap_reported_type  
+
+- survey_modality
+- wash_handwashing_facility
+- wash_handwashing_facility_observed_water_yn
+- wash_soap_observed_yn
+- wash_handwashing_facility_reported
+- wash_handwashing_facility_water_reported_yn
+- wash_soap_reported_yn
+- wash_soap_observed_type
+- wash_soap_reported_type
 
 ```{r}
 #| label: wash_handwashing_cat
@@ -356,19 +491,27 @@ main_wash <- main_wash |>
 
 ### WASH Sectoral Composite
 
-Finally, we compute the overall WASH Sectoral Composite. The add_comp_wash() function combines the water quantity, water quality, sanitation, and hygiene components to generate the WASH composite score and need indicator.
+Finally, we compute the overall WASH Sectoral Composite. The add_comp_wash()
+function combines the water quantity, water quality, sanitation, and hygiene
+components to generate the WASH composite score and need indicator.
 
-**Key considerations**: The setting variable is required because the WASH composite applies different scoring logic to camp, urban, and rural settings. By default, the function expects camp_formal and camp_informal for camp settings, urban for urban settings, and rural for rural settings. If the dataset uses different setting codes, the corresponding setting_camp, setting_urban, and/or setting_rural parameters must be specified. 
+**Key considerations**: The setting variable is required because the WASH
+composite applies different scoring logic to camp, urban, and rural settings. By
+default, the function expects camp_formal and camp_informal for camp settings,
+urban for urban settings, and rural for rural settings. If the dataset uses
+different setting codes, the corresponding setting_camp, setting_urban, and/or
+setting_rural parameters must be specified.
 
 **Required variables**:
-* setting  
-* comp_wash_score_water_quantity  
-* wash_drinking_water_quality_jmp_cat  
-* wash_sanitation_facility_jmp_cat  
-* wash_sanitation_facility_cat  
-* wash_sharing_sanitation_facility_n_ind  
-* wash_sharing_sanitation_facility_cat  
-* wash_handwashing_facility_jmp_cat  
+
+- setting
+- comp_wash_score_water_quantity
+- wash_drinking_water_quality_jmp_cat
+- wash_sanitation_facility_jmp_cat
+- wash_sanitation_facility_cat
+- wash_sharing_sanitation_facility_n_ind
+- wash_sharing_sanitation_facility_cat
+- wash_handwashing_facility_jmp_cat
 
 ```{r}
 #| label: wash_msni
@@ -381,13 +524,22 @@ main_wash <- main_wash |>
 
 ### Shelter Type
 
-We first recode the two shelter type variables into a single global shelter type category. The function combines the general shelter type and individual shelter type information and classifies households as none, inadequate, adequate, or undefined. The resulting variable is snfi_shelter_type_cat. The function gives priority to responses such as no shelter or collective centre before applying the individual shelter type classification.
+We first recode the two shelter type variables into a single global shelter type
+category. The function combines the general shelter type and individual shelter
+type information and classifies households as none, inadequate, adequate, or
+undefined. The resulting variable is snfi_shelter_type_cat. The function gives
+priority to responses such as no shelter or collective centre before applying
+the individual shelter type classification.
 
-**Key considerations**: Check that the mapping of shelter types fits your context. The standard parameters used in the function may differ from these. In case of doubts, reach out to the Shelter Cluster to confirm these classifications.
+**Key considerations**: Check that the mapping of shelter types fits your
+context. The standard parameters used in the function may differ from these. In
+case of doubts, reach out to the Shelter Cluster to confirm these
+classifications.
 
 **Required variables**:
-* snfi_shelter_type  
-* snfi_shelter_type_individual  
+
+- snfi_shelter_type
+- snfi_shelter_type_individual
 
 ```{r}
 #| label: snfi_shelter_type
@@ -398,11 +550,19 @@ main_snfi <- main_wash |>
 
 ### Shelter Issues
 
-We then calculate the number of shelter issues reported by each household and convert this into an ordinal category. The function counts the reported issues across the 11 shelter issue variables and generates both snfi_shelter_issue_n and snfi_shelter_issue_cat. The resulting categories are none, 1_to_3, 4_to_7, and 8_to_11, with separate categories for undefined and other.
+We then calculate the number of shelter issues reported by each household and
+convert this into an ordinal category. The function counts the reported issues
+across the 11 shelter issue variables and generates both snfi_shelter_issue_n
+and snfi_shelter_issue_cat. The resulting categories are none, 1_to_3, 4_to_7,
+and 8_to_11, with separate categories for undefined and other.
 
-**Key considerations**: The list of 11 shelter issues variable should be standard across all contexts. If you deviate from this, get in touch with the global MSNA team.
+**Key considerations**: The list of 11 shelter issues variable should be
+standard across all contexts. If you deviate from this, get in touch with the
+global MSNA team.
 
-**Required variables**: snfi_shelter_issue.  
+**Required variables**:
+
+- snfi_shelter_issue
 
 ```{r}
 #| label: snfi_shelter_issue
@@ -413,11 +573,18 @@ main_snfi <- main_snfi |>
 
 ### Shelter Damages
 
-We next recode the reported shelter damage into a standardized damage category. The function combines the different damage types and prioritizes the most severe reported level. The resulting snfi_shelter_damage_cat variable contains none, damaged, part, total, or undefined.
+We next recode the reported shelter damage into a standardized damage category.
+The function combines the different damage types and prioritizes the most severe
+reported level. The resulting snfi_shelter_damage_cat variable contains none,
+damaged, part, total, or undefined.
 
-**Key considerations**: The damage categories should be standard across contexts. If any deviations arise, make sure to properly specify these in the relevant function arguments. 
+**Key considerations**: The damage categories should be standard across
+contexts. If any deviations arise, make sure to properly specify these in the
+relevant function arguments.
 
-**Required variables**: snfi_shelter_damage.  
+**Required variables**:
+
+- snfi_shelter_damage
 
 ```{r}
 #| label: snfi_shelter_damage
@@ -428,15 +595,23 @@ main_snfi <- main_snfi |>
 
 ### Functional Domestic Space (FDS)
 
-We then calculate the number of functional domestic space tasks that cannot be performed, incorporating cooking, sleeping, storing, and lighting. The function first standardizes the three domestic task variables and the lighting source, then creates binary indicators and sums them to produce snfi_fds_cannot_n. This is subsequently categorized into snfi_fds_cannot_cat, with categories ranging from no affected tasks to four affected tasks.
+We then calculate the number of functional domestic space tasks that cannot be
+performed, incorporating cooking, sleeping, storing, and lighting. The function
+first standardizes the three domestic task variables and the lighting source,
+then creates binary indicators and sums them to produce snfi_fds_cannot_n. This
+is subsequently categorized into snfi_fds_cannot_cat, with categories ranging
+from no affected tasks to four affected tasks.
 
-**Key considerations**: The default response codes are yes, no, and no_need for cooking, and yes/no for sleeping and storing. pnta is treated as undefined for the three task variables. For lighting, none indicates no lighting source.
+**Key considerations**: The default response codes are yes, no, and no_need for
+cooking, and yes/no for sleeping and storing. pnta is treated as undefined for
+the three task variables. For lighting, none indicates no lighting source.
 
 **Required variables**:
-* snfi_fds_cooking  
-* snfi_fds_sleeping  
-* snfi_fds_storing  
-* energy_lighting_source  
+
+- snfi_fds_cooking
+- snfi_fds_sleeping
+- snfi_fds_storing
+- energy_lighting_source
 
 ```{r}
 #| label: snfi_fds
@@ -447,13 +622,23 @@ main_snfi <- main_snfi |>
 
 ### Occupancy Status / Security of Tenure
 
-We then classify occupancy arrangements and eviction risk separately before combining them into an overall tenure security category. Occupancy is classified as high, medium, or low risk, while eviction risk is classified as high or low risk. The resulting hlp_tenure_security variable takes the highest level of risk across the two components.
+We then classify occupancy arrangements and eviction risk separately before
+combining them into an overall tenure security category. Occupancy is classified
+as high, medium, or low risk, while eviction risk is classified as high or low
+risk. The resulting hlp_tenure_security variable takes the highest level of risk
+across the two components.
 
-**Key considerations**: By default, no_agreement is high-risk occupancy, rented and hosted_free are medium-risk, and ownership is low-risk. For eviction risk, yes is high-risk and no is low-risk. dnk, pnta, and other are treated as undefined for occupancy, while dnk and pnta are undefined for eviction risk. The final tenure security category takes the maximum risk level across occupancy and eviction risk.
+**Key considerations**: By default, no_agreement is high-risk occupancy, rented
+and hosted_free are medium-risk, and ownership is low-risk. For eviction risk,
+yes is high-risk and no is low-risk. dnk, pnta, and other are treated as
+undefined for occupancy, while dnk and pnta are undefined for eviction risk. The
+final tenure security category takes the maximum risk level across occupancy and
+eviction risk.
 
 **Required variables**:
-* hlp_occupancy  
-* hlp_risk_eviction  
+
+- hlp_occupancy
+- hlp_risk_eviction
 
 ```{r}
 #| label: hlp_occupancy
@@ -464,16 +649,22 @@ main_snfi <- main_snfi |>
 
 ### SNFI Sectoral Composite
 
-Finally, we compute the overall SNFI Sectoral Composite. The add_comp_snfi() function combines the standardized shelter type, shelter issues, tenure security, FDS, and shelter damage categories and assigns scores to each component. It then derives the overall comp_snfi_score, as well as comp_snfi_in_need and comp_snfi_in_severe_need.
+Finally, we compute the overall SNFI Sectoral Composite. The add_comp_snfi()
+function combines the standardized shelter type, shelter issues, tenure
+security, FDS, and shelter damage categories and assigns scores to each
+component. It then derives the overall comp_snfi_score, as well as
+comp_snfi_in_need and comp_snfi_in_severe_need.
 
-**Key considerations**: The input variables are generated by the preceding functions and should therefore be created before running add_comp_snfi(). 
+**Key considerations**: The input variables are generated by the preceding
+functions and should therefore be created before running add_comp_snfi().
 
 **Required variables**:
-* snfi_shelter_type_cat  
-* snfi_shelter_issue_cat  
-* hlp_occupancy_cat  
-* snfi_fds_cannot_cat  
-* snfi_shelter_damage_cat  
+
+- snfi_shelter_type_cat
+- snfi_shelter_issue_cat
+- hlp_occupancy_cat
+- snfi_fds_cannot_cat
+- snfi_shelter_damage_cat
 
 ```{r}
 #| label: snfi_msni
@@ -486,11 +677,22 @@ main_snfi <- main_snfi |>
 
 ### Movement and Access to Public Spaces
 
-We first calculate the Movement and Access to Public Spaces dimension. The add_prot_score_movement() function uses reported safety concerns and changes in movement or activities to calculate a weighted score. The weighted score is then converted to a severity score from 1 to 4 that represents the score for this dimension.
+We first calculate the Movement and Access to Public Spaces dimension. The
+add_prot_score_movement() function uses reported safety concerns and changes in
+movement or activities to calculate a weighted score. The weighted score is then
+converted to a severity score from 1 to 4 that represents the score for this
+dimension.
 
-**Key considerations**: All response options are assigned a weight between 0 and 2. By default, men_avoid_places and men_avoid_night have a weight of 1, but these can be adjusted in contexts where military conscription is a characteristic of the crisis. Simply change the men_avoid_places_weight and men_avoid_night_weight arguments, respectively. The resulting variables are comp_prot_score_prot_needs_3 and comp_prot_score_movement. 
+**Key considerations**: All response options are assigned a weight between 0 and
+2\. By default, men_avoid_places and men_avoid_night have a weight of 1, but
+these can be adjusted in contexts where military conscription is a
+characteristic of the crisis. Simply change the men_avoid_places_weight and
+men_avoid_night_weight arguments, respectively. The resulting variables are
+comp_prot_score_prot_needs_3 and comp_prot_score_movement.
 
-**Required variables**: prot_needs_3_movement.
+**Required variables**:
+
+- prot_needs_3_movement
 
 ```{r}
 #| label: prot_movement
@@ -501,14 +703,21 @@ main_prot <- main_snfi |>
 
 ### Safe Practices & Activities
 
-We then calculate the Safe Practices and Activities dimension. The add_prot_score_practices() function calculates separate weighted scores for restrictions affecting household members' ability to carry out activities and participate in social interactions. These are then combined to produce the overall comp_prot_score_practices severity score, ranging from 1 to 4.
+We then calculate the Safe Practices and Activities dimension. The
+add_prot_score_practices() function calculates separate weighted scores for
+restrictions affecting household members' ability to carry out activities and
+participate in social interactions. These are then combined to produce the
+overall comp_prot_score_practices severity score, ranging from 1 to 4.
 
-
-**Key considerations**: The function creates three variables: comp_prot_score_prot_needs_2_activities, comp_prot_score_prot_needs_2_social, and comp_prot_score_practices. Only if both underlying dimension scores are missing, the overall practices score is also missing.
+**Key considerations**: The function creates three variables:
+comp_prot_score_prot_needs_2_activities, comp_prot_score_prot_needs_2_social,
+and comp_prot_score_practices. Only if both underlying dimension scores are
+missing, the overall practices score is also missing.
 
 **Required variables**:
-* prot_needs_2_activities  
-* prot_needs_2_social
+
+- prot_needs_2_activities
+- prot_needs_2_social
 
 ```{r}
 #| label: prot_practices
@@ -519,13 +728,18 @@ main_prot <- main_prot |>
 
 ### Access Rights & Services
 
-Next, we compute the final Access Rights and Services dimension. as for the other Protection dimensions, the add_prot_score_rights() function calculates separate weighted scores for barriers to accessing essential services and barriers to accessing justice and legal resources. These are also combined to produce the comp_prot_score_rights severity score, ranging from 1 to 4.
+Next, we compute the final Access Rights and Services dimension. as for the
+other Protection dimensions, the add_prot_score_rights() function calculates
+separate weighted scores for barriers to accessing essential services and
+barriers to accessing justice and legal resources. These are also combined to
+produce the comp_prot_score_rights severity score, ranging from 1 to 4.
 
-**Key considerations**: 
+**Key considerations**:
 
 **Required variables**:
-* prot_needs_1_services  
-* prot_needs_1_justice  
+
+- prot_needs_1_services
+- prot_needs_1_justice
 
 ```{r}
 #| label: prot_rights
@@ -536,14 +750,18 @@ main_prot <- main_prot |>
 
 ### Protection Sectoral Composite
 
-Finally, we compute the overall Protection Composite. The add_comp_prot() function takes the maximum severity score across the three Protection dimensions — movement, practices, and rights and services — to generate the overall Protection severity score (ranging from 1 to 4).
+Finally, we compute the overall Protection Composite. The add_comp_prot()
+function takes the maximum severity score across the three Protection dimensions ---
+movement, practices, and rights and services --- to generate the overall
+Protection severity score (ranging from 1 to 4).
 
 **Key considerations**: None.
 
 **Required variables**:
-* comp_prot_score_movement  
-* comp_prot_score_practices  
-* comp_prot_score_rights   
+
+- comp_prot_score_movement
+- comp_prot_score_practices
+- comp_prot_score_rights
 
 ```{r}
 #| label: prot_msni
@@ -554,15 +772,27 @@ main_prot <- main_prot |>
 
 ## Health
 
-The Health Sectoral Composite is based on one dimension: Health Needs. It involves summarizing data from the roster to the main dataset.
+The Health Sectoral Composite is based on one dimension: Health Needs. It
+involves summarizing data from the roster to the main dataset.
 
-We first calculate healthcare need at the individual level using add_loop_healthcare_needed_cat(). The function combines whether an individual needed healthcare with whether they received it, classifying each individual as having no need, a met need, or an unmet need. It also creates binary indicators for each category, which are used in the subsequent household-level aggregation.
+We first calculate healthcare need at the individual level using
+add_loop_healthcare_needed_cat(). The function combines whether an individual
+needed healthcare with whether they received it, classifying each individual as
+having no need, a met need, or an unmet need. It also creates binary indicators
+for each category, which are used in the subsequent household-level aggregation.
 
-**Key considerations**: Individuals reporting that they needed healthcare but have dnk, pnta, or missing information for whether they received it cannot be classified as having a met or unmet need and are therefore assigned NA. The function also creates the variables health_ind_healthcare_needed_no, health_ind_healthcare_needed_yes_unmet, and health_ind_healthcare_needed_yes_met, which are used to aggregate the individual-level results to the household level.
+**Key considerations**: Individuals reporting that they needed healthcare but
+have dnk, pnta, or missing information for whether they received it cannot be
+classified as having a met or unmet need and are therefore assigned NA. The
+function also creates the variables health_ind_healthcare_needed_no,
+health_ind_healthcare_needed_yes_unmet, and
+health_ind_healthcare_needed_yes_met, which are used to aggregate the
+individual-level results to the household level.
 
 **Required variables**:
-* health_ind_healthcare_needed.  
-* health_ind_healthcare_received.  
+
+- health_ind_healthcare_needed
+- health_ind_healthcare_received
 
 ```{r}
 #| label: health_loop_cat
@@ -571,16 +801,24 @@ health_ind <- humind_health_ind |>
   add_loop_healthcare_needed_cat()
 ```
 
-We then use add_loop_healthcare_needed_cat_to_main() to aggregate the individual-level healthcare need indicators to the household level. The function counts the number of individuals in each category within each household and joins these counts back to the main household dataset.
+We then use add_loop_healthcare_needed_cat_to_main() to aggregate the
+individual-level healthcare need indicators to the household level. The function
+counts the number of individuals in each category within each household and
+joins these counts back to the main household dataset.
 
-**Key considerations**: id_col_main and id_col_loop must identify the household consistently in the main and individual-level datasets. The function produces health_ind_healthcare_needed_no_n, health_ind_healthcare_needed_yes_unmet_n, and health_ind_healthcare_needed_yes_met_n, representing the number of individuals in each category per household.
+**Key considerations**: id_col_main and id_col_loop must identify the household
+consistently in the main and individual-level datasets. The function produces
+health_ind_healthcare_needed_no_n, health_ind_healthcare_needed_yes_unmet_n, and
+health_ind_healthcare_needed_yes_met_n, representing the number of individuals
+in each category per household.
 
 **Required variables**:
-* health_ind_healthcare_needed_no  
-* health_ind_healthcare_needed_yes_unmet  
-* health_ind_healthcare_needed_yes_met  
-* id_col_main  
-* id_col_loop  
+
+- health_ind_healthcare_needed_no
+- health_ind_healthcare_needed_yes_unmet
+- health_ind_healthcare_needed_yes_met
+- id_col_main
+- id_col_loop
 
 ```{r}
 #| label: health_main_cat
@@ -592,14 +830,20 @@ main_health <- main_prot |>
   )
 ```
 
-Finally, add_comp_health() calculates the Health composite score at household level based on the presence of unmet and met healthcare needs. A household receives a score of 3 if at least one individual has an unmet healthcare need, 2 if there is at least one individual with a met healthcare need but no unmet need, and 1 if individuals in the household report no healthcare need. The function then generates the standard in_need and in_severe_need indicators.
+Finally, add_comp_health() calculates the Health composite score at household
+level based on the presence of unmet and met healthcare needs. A household
+receives a score of 3 if at least one individual has an unmet healthcare need, 2
+if there is at least one individual with a met healthcare need but no unmet
+need, and 1 if individuals in the household report no healthcare need. The
+function then generates the standard in_need and in_severe_need indicators.
 
 **Key considerations**: None.
 
 **Required variables**:
-* health_ind_healthcare_needed_no_n  
-* health_ind_healthcare_needed_yes_unmet_n  
-* health_ind_healthcare_needed_yes_met_n  
+
+- health_ind_healthcare_needed_no_n
+- health_ind_healthcare_needed_yes_unmet_n
+- health_ind_healthcare_needed_yes_met_n
 
 ```{r}
 #| label: health_msni
@@ -607,19 +851,37 @@ Finally, add_comp_health() calculates the Health composite score at household le
 main_health <- main_health |>
   add_comp_health()
 ```
+
 ## Education
 
 ### Loop: Preparation
 
-As for Health, Education involves summarizing information in the individual roster (loop) to the household-level dataset (main). The first step is to prepare the individual-level education dataset by identifying children of schooling age. The add_loop_edu_ind_age_corrected() function corrects individual age based on the timing of data collection relative to the start of the school year and creates a binary indicator, edu_ind_age_schooling, identifying individuals who fall within the schooling-age population. By default, the schooling-age range is 5–17 years.
+As for Health, Education involves summarizing information in the individual
+roster (loop) to the household-level dataset (main). The first step is to
+prepare the individual-level education dataset by identifying children of
+schooling age. The add_loop_edu_ind_age_corrected() function corrects individual
+age based on the timing of data collection relative to the start of the school
+year and creates a binary indicator, edu_ind_age_schooling, identifying
+individuals who fall within the schooling-age population. By default, the
+schooling-age range is 5--17 years.
 
-**Key considerations**: The start variable in the main dataset must be a date in ISO 8601 format (YYYY-MM-DD). By default, the school year is assumed to start in September (school_year_start_month = 9), and the schooling-age population is defined as ages 5–17 (schooling_start_age = 5, schooling_end_age = 17). These parameters should be adjusted if the assessment uses a different school-year start month or age range. Alternatively, a common data-collection month can be specified using the month parameter. The function generates edu_ind_age_corrected and edu_ind_age_schooling. The default for age is edu_ind_age, assuming that the Education loop is standalone. For other cases, adjust this parameter.
+**Key considerations**: The start variable in the main dataset must be a date in
+ISO 8601 format (YYYY-MM-DD). By default, the school year is assumed to start in
+September (school_year_start_month = 9), and the schooling-age population is
+defined as ages 5--17 (schooling_start_age = 5, schooling_end_age = 17). These
+parameters should be adjusted if the assessment uses a different school-year
+start month or age range. Alternatively, a common data-collection month can be
+specified using the month parameter. The function generates
+edu_ind_age_corrected and edu_ind_age_schooling. The default for age is
+edu_ind_age, assuming that the Education loop is standalone. For other cases,
+adjust this parameter.
 
 **Required variables**:
-* id_col_loop (default: uuid).
-* id_col_main (default: uuid).
-* edu_ind_age.
-* start.
+
+- id_col_loop (default: uuid)
+- id_col_main (default: uuid)
+- edu_ind_age
+- start
 
 ```{r}
 #| label: edu_ind_age_corrected
@@ -634,13 +896,20 @@ edu_ind <- humind_edu_ind |>
 
 ### Loop: Access & Barriers to Education
 
-We then classify whether each school-aged child has access to education. The function creates two binary variables: edu_ind_access_d, indicating access to education, and edu_ind_no_access_d, indicating no access to education. Individuals outside the schooling-age population are assigned NA.
+We then classify whether each school-aged child has access to education. The
+function creates two binary variables: edu_ind_access_d, indicating access to
+education, and edu_ind_no_access_d, indicating no access to education.
+Individuals outside the schooling-age population are assigned NA.
 
-**Key considerations**: By default, yes indicates access and no indicates no access. dnk and pnta are treated as missing (NA) rather than as no access. This step must be run after add_loop_edu_ind_age_corrected(), as it uses edu_ind_age_schooling.
+**Key considerations**: By default, yes indicates access and no indicates no
+access. dnk and pnta are treated as missing (NA) rather than as no access. This
+step must be run after add_loop_edu_ind_age_corrected(), as it uses
+edu_ind_age_schooling.
 
 **Required variables**:
-* edu_access.
-* edu_ind_age_schooling.
+
+- edu_access
+- edu_ind_age_schooling
 
 ```{r}
 #| label: edu_ind_access
@@ -649,24 +918,28 @@ edu_ind <- edu_ind |>
   add_loop_edu_access_d()
 ```
 
-**Key considerations**: By default, the function identifies the following response codes as protection barriers:
+**Key considerations**: By default, the function identifies the following
+response codes as protection barriers:
 
-* protection_at_school
-* protection_travel_school
-* child_work_home
-* child_work_outside
-* child_armed_group
-* child_marriage
-* child_pregnancy
-* ban
-* enroll_lack_documentation
-* discrimination
+- protection_at_school
+- protection_travel_school
+- child_work_home
+- child_work_outside
+- child_armed_group
+- child_marriage
+- child_pregnancy
+- ban
+- enroll_lack_documentation
+- discrimination
 
-If the survey uses different response codes, or the list of Protection issues has been contextualized, the barriers and protection_issues parameters should be adjusted.
+If the survey uses different response codes, or the list of Protection issues
+has been contextualized, the barriers and protection_issues parameters should be
+adjusted.
 
 **Required variables**:
-* edu_barrier.
-* edu_ind_age_schooling.
+
+- edu_barrier
+- edu_ind_age_schooling
 
 ```{r}
 #| label: edu_ind_barrier_protection
@@ -677,16 +950,24 @@ edu_ind <- edu_ind |>
 
 ### Loop: Education Disruption
 
-Finally, we identify education disruptions among school-aged children. The function creates binary indicators for disruption due to attacks, hazards, displacement, and teacher absence.
+Finally, we identify education disruptions among school-aged children. The
+function creates binary indicators for disruption due to attacks, hazards,
+displacement, and teacher absence.
 
-**Key considerations**: By default, all four disruption variables use yes, no, dnk, and pnta as their expected response codes. yes is coded as 1, no as 0, while dnk and pnta are treated as missing. The attack variable can be set to NULL if this dimension is not collected in the survey. The function generates binary variables ending with "_d", which are subsequently aggregated to the household level in order to compute the Education Sectoral Composite.
+**Key considerations**: By default, all four disruption variables use yes, no,
+dnk, and pnta as their expected response codes. yes is coded as 1, no as 0,
+while dnk and pnta are treated as missing. The attack variable can be set to
+NULL if this dimension is not collected in the survey. The function generates
+binary variables ending with "\_d", which are subsequently aggregated to the
+household level in order to compute the Education Sectoral Composite.
 
 **Required variables**:
-* edu_disrupted_attack
-* edu_disrupted_hazards
-* edu_disrupted_displaced
-* edu_disrupted_teacher
-* edu_ind_age_schooling
+
+- edu_disrupted_attack
+- edu_disrupted_hazards
+- edu_disrupted_displaced
+- edu_disrupted_teacher
+- edu_ind_age_schooling
 
 ```{r}
 #| label: edu_ind_disrupted
@@ -697,16 +978,24 @@ edu_ind <- edu_ind |>
 
 ### Main
 
-With the new columns added to the loop, we can now summarize the information to main. 
+With the new columns added to the loop, we can now summarize the information to
+main.
 
-In the first step, we aggregate the number of school-aged children in each household. The function sums edu_ind_age_schooling across individuals linked to the same household and creates edu_schooling_age_n. Households with no school-aged children are assigned a value of 0. 
+In the first step, we aggregate the number of school-aged children in each
+household. The function sums edu_ind_age_schooling across individuals linked to
+the same household and creates edu_schooling_age_n. Households with no
+school-aged children are assigned a value of 0.
 
-**Key considerations**: id_col_main and id_col_loop must contain matching household identifiers in the main and loop datasets. The function uses the individual-level edu_ind_age_schooling variable generated in the previous section.
+**Key considerations**: id_col_main and id_col_loop must contain matching
+household identifiers in the main and loop datasets. The function uses the
+individual-level edu_ind_age_schooling variable generated in the previous
+section.
 
 **Required variables**:
-* edu_ind_age_schooling.
-* id_col_main (default: uuid).
-* id_col_loop (default: uuid).
+
+- edu_ind_age_schooling
+- id_col_main (default: uuid)
+- id_col_loop (default: uuid)
 
 ```{r}
 #| label: edu_main_schooling_age
@@ -719,15 +1008,20 @@ main_edu <- main_health |>
 
 ### Main: Access & Barriers to Education
 
-We then aggregate the education access indicators to the household level. The function counts the number of children with access to education and the number with no access, generating edu_access_n and edu_no_access_n.
+We then aggregate the education access indicators to the household level. The
+function counts the number of children with access to education and the number
+with no access, generating edu_access_n and edu_no_access_n.
 
-**Key considerations**: The two individual-level indicators are generated by add_loop_edu_access_d(). The aggregation is performed by household using the specified unique identifier columns so make sure these are specified correctly.
+**Key considerations**: The two individual-level indicators are generated by
+add_loop_edu_access_d(). The aggregation is performed by household using the
+specified unique identifier columns so make sure these are specified correctly.
 
 **Required variables**:
-* edu_ind_access_d.
-* edu_ind_no_access_d.
-* id_col_main (default: uuid).
-* id_col_loop (default: uuid).
+
+- edu_ind_access_d
+- edu_ind_no_access_d
+- id_col_main (default: uuid)
+- id_col_loop (default: uuid)
 
 ```{r}
 #| label: edu_main_access
@@ -738,14 +1032,19 @@ main_edu <- main_edu |>
   )
 ```
 
-Next, we aggregate the number of school-aged children facing child protection barriers to the household level. The function generates edu_barrier_protection_n, representing the number of school-aged children in the household who face a protection barrier to education.
+Next, we aggregate the number of school-aged children facing child protection
+barriers to the household level. The function generates
+edu_barrier_protection_n, representing the number of school-aged children in the
+household who face a protection barrier to education.
 
-**Key considerations**: The individual-level protection indicator must first be generated using add_loop_edu_barrier_protection_d() first.
+**Key considerations**: The individual-level protection indicator must first be
+generated using add_loop_edu_barrier_protection_d() first.
 
 **Required variables**:
-* edu_ind_barrier_protection_d.
-* id_col_main (default: uuid).
-* id_col_loop (default: uuid).
+
+- edu_ind_barrier_protection_d
+- id_col_main (default: uuid)
+- id_col_loop (default: uuid)
 
 ```{r}
 #| label: edu_main_barrier_protection
@@ -758,18 +1057,25 @@ main_edu <- main_edu |>
 
 ### Main: Education Disruption
 
-Finally, we aggregate the different education disruption indicators to the household level. The function counts the number of school-aged children experiencing each type of disruption and generates new columns: edu_disrupted_attack_n, edu_disrupted_hazards_n, edu_disrupted_displaced_n, and edu_disrupted_teacher_n.
+Finally, we aggregate the different education disruption indicators to the
+household level. The function counts the number of school-aged children
+experiencing each type of disruption and generates new columns:
+edu_disrupted_attack_n, edu_disrupted_hazards_n, edu_disrupted_displaced_n, and
+edu_disrupted_teacher_n.
 
-**Key considerations**: The four disruption indicators used here are generated by add_loop_edu_disrupted_d(). The attack dimension can be omitted by setting attack_d = NULL when this indicator has been omitted.
+**Key considerations**: The four disruption indicators used here are generated
+by add_loop_edu_disrupted_d(). The attack dimension can be omitted by setting
+attack_d = NULL when this indicator has been omitted.
 
 **Required variables**:
-* edu_ind_age_schooling.
-* edu_disrupted_attack_d.
-* edu_disrupted_hazards_d.
-* edu_disrupted_displaced_d.
-* edu_disrupted_teacher_d.
-* id_col_main (default: uuid).
-* id_col_loop (default: uuid).
+
+- edu_ind_age_schooling
+- edu_disrupted_attack_d
+- edu_disrupted_hazards_d
+- edu_disrupted_displaced_d
+- edu_disrupted_teacher_d
+- id_col_main (default: uuid)
+- id_col_loop (default: uuid)
 
 ```{r}
 #| label: edu_main_disrupted
@@ -782,22 +1088,37 @@ main_edu <- main_edu |>
 
 ### Education Sectoral Composite
 
-Finally, we can calculate the Education Sectoral Composite using the household-level counts generated above. add_comp_edu() calculates two component scores based on the two dimensions of the framework: a disruption education score and an attendance and barriers score. The overall Education composite is the maximum of these two component scores.
+Finally, we can calculate the Education Sectoral Composite using the
+household-level counts generated above. add_comp_edu() calculates two component
+scores based on the two dimensions of the framework: a disruption education
+score and an attendance and barriers score. The overall Education composite is
+the maximum of these two component scores.
 
-The disrupted education score ranges from 1 to 4. A household with no school-aged children receives a score of 1; disruption due to an attack results in a score of 4; disruption due to hazards or displacement results in 3; and teacher absence results in 2.
+The disrupted education score ranges from 1 to 4. A household with no
+school-aged children receives a score of 1; disruption due to an attack results
+in a score of 4; disruption due to hazards or displacement results in 3; and
+teacher absence results in 2.
 
-The attendance and barriers score is 1 where all school-aged children have access, 3 where at least one school-aged child has no access, and 4 where at least one child has both no access and a faces a protection barrier.
+The attendance and barriers score is 1 where all school-aged children have
+access, 3 where at least one school-aged child has no access, and 4 where at
+least one child has both no access and a faces a protection barrier.
 
-**Key considerations**: All seven required variables must be numeric. The overall comp_edu_score is calculated as the maximum of the disrupted education and attendance/barriers scores. The function then generates comp_edu_in_need and comp_edu_in_severe_need using the standard MSNI need thresholds. These individual, and subsequently, household-level variables must therefore all be generated before running add_comp_edu().
+**Key considerations**: All seven required variables must be numeric. The
+overall comp_edu_score is calculated as the maximum of the disrupted education
+and attendance/barriers scores. The function then generates comp_edu_in_need and
+comp_edu_in_severe_need using the standard MSNI need thresholds. These
+individual, and subsequently, household-level variables must therefore all be
+generated before running add_comp_edu().
 
 **Required variables**:
-* edu_schooling_age_n.
-* edu_no_access_n.
-* edu_barrier_protection_n.
-* edu_disrupted_attack_n.
-* edu_disrupted_hazards_n.
-* edu_disrupted_displaced_n.
-* edu_disrupted_teacher_n.
+
+- edu_schooling_age_n
+- edu_no_access_n
+- edu_barrier_protection_n
+- edu_disrupted_attack_n
+- edu_disrupted_hazards_n
+- edu_disrupted_displaced_n
+- edu_disrupted_teacher_n
 
 ```{r}
 #| label: edu_msni
@@ -808,42 +1129,61 @@ main_edu <- main_edu |>
 
 ## MSNI
 
-Once all sectoral composites have been calculated, we can generate the overall Multi-sector Needs Index (MSNI) using add_msni(). The function combines the sectoral composite scores and calculates the overall MSNI severity score and associated indicators of need. The resulting msni_output dataset can then be used for subsequent analysis and reporting.
+Once all sectoral composites have been calculated, we can generate the overall
+Multi-sector Needs Index (MSNI) using add_msni(). The function combines the
+sectoral composite scores and calculates the overall MSNI severity score and
+associated indicators of need. The resulting msni_output dataset can then be
+used for subsequent analysis and reporting.
 
-**Key considerations**: All six sectoral composite scores are used to calculate the overall msni_score, which is the maximum sectoral composite score. The sectoral composite scores are expected to range from 1 to 5. The corresponding "_in_need" and "_in_severe_need" variables are used to calculate the number and profile of sectoral needs.
+**Key considerations**: All six sectoral composite scores are used to calculate
+the overall msni_score, which is the maximum sectoral composite score. The
+sectoral composite scores are expected to range from 1 to 5. The corresponding
+"\_in_need" and "\_in_severe_need" variables are used to calculate the number
+and profile of sectoral needs.
 
-The Health sector is included in the overall MSNI score and in the calculation of the number and profile of sectoral needs, but comp_health_in_severe_need is not an input to the current add_msni() function, since the maximum severity for Health is 3. Consequently, Health is not included in sector_in_severe_need_n or sector_severe_needs_profile in the current implementation.
+The Health sector is included in the overall MSNI score and in the calculation
+of the number and profile of sectoral needs, but comp_health_in_severe_need is
+not an input to the current add_msni() function, since the maximum severity for
+Health is 3. Consequently, Health is not included in sector_in_severe_need_n or
+sector_severe_needs_profile in the current implementation.
 
-The function can accommodate missing sectoral composite variables: if some sectoral scores or indicators are absent, it will issue a warning and calculate the relevant outputs using the sectors that are available. Be careful to report this in any output, as missing dimensions and sectors will result in an under-estimation of need, due to the maximum approach used in the overall MSNI computation. 
+The function can accommodate missing sectoral composite variables: if some
+sectoral scores or indicators are absent, it will issue a warning and calculate
+the relevant outputs using the sectors that are available. Be careful to report
+this in any output, as missing dimensions and sectors will result in an
+under-estimation of need, due to the maximum approach used in the overall MSNI
+computation.
 
-The function generates the following seven main output columns that characterize the needs profile of each household:
+The function generates the following seven main output columns that characterize
+the needs profile of each household:
 
-* msni_score.
-* msni_in_need.
-* msni_in_severe_need.
-* sector_in_need_n.
-* sector_in_severe_need_n.
-* sector_needs_profile.
-* sector_severe_needs_profile.
+- msni_score.
+- msni_in_need.
+- msni_in_severe_need.
+- sector_in_need_n.
+- sector_in_severe_need_n.
+- sector_needs_profile.
+- sector_severe_needs_profile.
 
 **Required variables**:
-* comp_edu_score
-* comp_foodsec_score.
-* comp_health_score.
-* comp_prot_score.
-* comp_snfi_score.
-* comp_wash_score.
-* comp_foodsec_in_need.
-* comp_snfi_in_need.
-* comp_wash_in_need.
-* comp_prot_in_need.
-* comp_health_in_need.
-* comp_edu_in_need.
-* comp_foodsec_in_severe_need.
-* comp_snfi_in_severe_need.
-* comp_wash_in_severe_need.
-* comp_prot_in_severe_need.
-* comp_edu_in_severe_need.
+
+- comp_edu_score
+- comp_foodsec_score
+- comp_health_score
+- comp_prot_score
+- comp_snfi_score
+- comp_wash_score
+- comp_foodsec_in_need
+- comp_snfi_in_need
+- comp_wash_in_need
+- comp_prot_in_need
+- comp_health_in_need
+- comp_edu_in_need
+- comp_foodsec_in_severe_need
+- comp_snfi_in_severe_need
+- comp_wash_in_severe_need
+- comp_prot_in_severe_need
+- comp_edu_in_severe_need
 
 ```{r}
 #| label: msni
