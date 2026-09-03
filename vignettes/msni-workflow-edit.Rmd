@@ -734,7 +734,7 @@ separate weighted scores for barriers to accessing essential services and
 barriers to accessing justice and legal resources. These are also combined to
 produce the comp_prot_score_rights severity score, ranging from 1 to 4.
 
-**Key considerations**:
+**Key considerations**: The different barriers are weighted according to their severity in the Protection framework. In particular, barriers to healthcare and schools receive a weight of 2, while other service barriers generally receive a weight of 1. For justice and legal resources, difficulty accessing identity and civil documents receives a weight of 2, while the other specified barriers receive a weight of 1. dnk and pnta are treated as missing. The function creates three columns: comp_prot_score_prot_needs_1_services, comp_prot_score_prot_needs_1_justice, and comp_prot_score_rights.
 
 **Required variables**:
 
