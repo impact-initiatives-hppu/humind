@@ -1,6 +1,7 @@
 aap
 abu
 Abu
+alldaynight
 arf
 arg
 args
@@ -15,6 +16,7 @@ BugReports
 CalVer
 cb
 ce
+centre
 changelog
 ci
 citFooter
@@ -66,6 +68,7 @@ fidalgo
 FIES
 fonctions
 foodsec
+FSC
 fsl
 FW
 gh
@@ -77,6 +80,7 @@ handwashing
 Handwashing
 hdds
 HDDS
+hh
 hhs
 HHs
 hlp
@@ -97,6 +101,7 @@ infreq
 inlined
 io
 IPC
+ipc
 iyed
 Iyed
 jmp
@@ -109,12 +114,16 @@ Laith
 LazyData
 lcsi
 LCSI
+lessquality
 Lifecycle
 lightbulbs
 lintr
 magrittr
 mario
 md
+mealadult
+mealnb
+mealsize
 members'
 MERCHANTABILITY
 misclassified
@@ -133,6 +142,7 @@ nd
 nfi
 NFI
 Noblet
+nofoodhh
 NONINFRINGEMENT
 NSE
 oldrel
@@ -171,6 +181,7 @@ Recodes
 recoding
 rlang
 rmarkdown
+RMarkdown
 Rmd
 roxygen
 Roxygen
@@ -186,6 +197,7 @@ SemVer
 sessionInfo
 severities
 sl
+sleephungry
 snfi
 SNFI
 sprintf
