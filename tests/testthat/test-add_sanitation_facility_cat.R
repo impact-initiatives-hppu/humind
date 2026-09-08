@@ -58,11 +58,11 @@ test_that("add_sharing_sanitation_facility_num_ind works correctly", {
   expected_sharing_n <- (df$wash_sanitation_facility_sharing_n - 1) *
     mean_hh_size +
     df$hh_size
-  # [2] and [4] Not shared so only hhsize
-  expected_sharing_n[2] <- df$hh_size[2]
-  expected_sharing_n[3] <- df$hh_size[3]
-  expected_sharing_n[6] <- df$hh_size[6]
-  # [3] Undefined so NA
+  # [2], [3] and [6] Not shared so NA (issue #788)
+  expected_sharing_n[2] <- NA
+  expected_sharing_n[3] <- NA
+  expected_sharing_n[6] <- NA
+  # [4] No facility so NA
   expected_sharing_n[4] <- NA
   expect_true("wash_sharing_sanitation_facility_n_ind" %in% colnames(result))
   expect_equal(result$wash_sanitation_facility_sharing_n, expected_sharing_n)
@@ -70,12 +70,30 @@ test_that("add_sharing_sanitation_facility_num_ind works correctly", {
     result$wash_sharing_sanitation_facility_n_ind,
     c(
       "20_to_49",
-      "19_and_below",
-      "19_and_below",
+      NA,
+      NA,
       NA,
       "20_to_49",
-      "19_and_below"
+      NA
     )
+  )
+})
+
+test_that("property: non-shared facilities do not receive an individual count (issue #788)", {
+  df <- generate_sharing_n_ind_df()
+  result <- add_sharing_sanitation_facility_n_ind(df)
+  is_shared <- df$wash_sharing_sanitation_facility_cat == "shared"
+  expect_true(all(is.na(result$wash_sharing_sanitation_facility_n_ind[
+    !is_shared
+  ])))
+  expect_true(all(
+    !is.na(result$wash_sharing_sanitation_facility_n_ind[is_shared])
+  ))
+})
+
+test_that("snapshot: individual count classification is stable", {
+  expect_snapshot(
+    add_sharing_sanitation_facility_n_ind(generate_sharing_n_ind_df())
   )
 })
 

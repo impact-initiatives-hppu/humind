@@ -187,7 +187,7 @@ add_sharing_sanitation_facility_n_ind <- function(
       # If facility not shared
       !!rlang::sym(sharing_sanitation_facility_cat) ==
         sharing_sanitation_facility_cat_not_shared ~
-        !!rlang::sym(hh_size),
+        NA_real_,
       .default = NA_real_
     )
   )
