@@ -65,7 +65,18 @@ test_that("add_sharing_sanitation_facility_num_ind works correctly", {
   # [4] No facility so NA
   expected_sharing_n[4] <- NA
   expect_true("wash_sharing_sanitation_facility_n_ind" %in% colnames(result))
-  expect_equal(result$wash_sanitation_facility_sharing_n, expected_sharing_n)
+  expect_true(
+    "wash_sanitation_facility_sharing_n_calc" %in% colnames(result)
+  )
+  # The raw number of households sharing is preserved, not overwritten
+  expect_equal(
+    result$wash_sanitation_facility_sharing_n,
+    df$wash_sanitation_facility_sharing_n
+  )
+  expect_equal(
+    result$wash_sanitation_facility_sharing_n_calc,
+    expected_sharing_n
+  )
   expect_equal(
     result$wash_sharing_sanitation_facility_n_ind,
     c(
