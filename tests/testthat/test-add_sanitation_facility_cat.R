@@ -92,8 +92,14 @@ test_that("property: non-shared facilities do not receive an individual count (i
 })
 
 test_that("snapshot: individual count classification is stable", {
-  expect_snapshot(
-    add_sharing_sanitation_facility_n_ind(generate_sharing_n_ind_df())
+  result <- add_sharing_sanitation_facility_n_ind(generate_sharing_n_ind_df())
+  expect_snapshot_value(
+    dplyr::select(
+      result,
+      wash_sharing_sanitation_facility_cat,
+      wash_sharing_sanitation_facility_n_ind
+    ),
+    style = "json2"
   )
 })
 
