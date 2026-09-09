@@ -8,7 +8,8 @@
 #'
 #' @param loop A data frame of individual-level data for the loop.
 #' @param barriers Column name for the child protection barrier category.
-#' @param protection_issues Vector of protection issues RESPONSE CODES.
+#' @param protection_issues Vector of protection issues RESPONSE CODES. Values in this set are flagged as protection barriers (returns 1).
+#' @param barriers_undefined Vector of undefined/non-response values. These are accepted but treated as non-barriers (returns 0). Defaults to common survey non-responses: "dnk", "pnta", "other".
 #' @param ind_schooling_age_d Column name for the dummy variable of schooling age.
 #'
 #' @return A data frame with an additional column:
@@ -33,6 +34,7 @@ add_loop_edu_barrier_protection_d <- function(
     "enroll_lack_documentation",
     "discrimination"
   ),
+  barriers_undefined = c("dnk", "pnta", "other"),
   ind_schooling_age_d = "edu_ind_age_schooling"
 ) {
   #----- Checks
@@ -40,6 +42,16 @@ add_loop_edu_barrier_protection_d <- function(
   # Check if the variable is in the data frame
   if_not_in_stop(loop, barriers, "loop")
   if_not_in_stop(loop, ind_schooling_age_d, "loop")
+
+  # Check that edu_barrier values are in protection_issues or barriers_undefined
+  are_values_in_set(
+    loop,
+    barriers,
+    c(protection_issues, barriers_undefined),
+    main_message = glue::glue(
+      "Column '{barriers}' values must be in the following set: "
+    )
+  )
 
   # Check that ind_schooling_age 0:1
   are_values_in_range(loop, ind_schooling_age_d, 0, 1)

@@ -11,6 +11,7 @@ add_loop_edu_barrier_protection_d(
   protection_issues = c("protection_at_school", "protection_travel_school",
     "child_work_home", "child_work_outside", "child_armed_group", "child_marriage",
     "child_pregnancy", "ban", "enroll_lack_documentation", "discrimination"),
+  barriers_undefined = c("dnk", "pnta", "other"),
   ind_schooling_age_d = "edu_ind_age_schooling"
 )
 
@@ -27,7 +28,9 @@ add_loop_edu_barrier_protection_d_to_main(
 
 \item{barriers}{Column name for the child protection barrier category.}
 
-\item{protection_issues}{Vector of protection issues RESPONSE CODES.}
+\item{protection_issues}{Vector of protection issues RESPONSE CODES. Values in this set are flagged as protection barriers (returns 1).}
+
+\item{barriers_undefined}{Vector of undefined/non-response values. These are accepted but treated as non-barriers (returns 0). Defaults to common survey non-responses: "dnk", "pnta", "other".}
 
 \item{ind_schooling_age_d}{Column name for the dummy variable of schooling age.}
 
