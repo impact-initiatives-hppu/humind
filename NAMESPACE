@@ -73,9 +73,13 @@ export(rank_top3_vars)
 export(sum_vars)
 export(value_to_sl)
 importFrom(cli,cli_abort)
-importFrom(dplyr,case_when)
-importFrom(dplyr,mutate)
+importFrom(dplyr,
+  case_when,
+  mutate
+)
 importFrom(purrr,iwalk)
-importFrom(rlang,":=")
-importFrom(rlang,.data)
+importFrom(rlang,
+  ":=",
+  .data
+)
 importFrom(utils,tail)
