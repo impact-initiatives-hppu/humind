@@ -9,8 +9,8 @@
 #' @param loop A data frame of individual-level data for the loop.
 #' @param barriers Column name for the child protection barrier category.
 #' @param protection_issues Vector of protection issues RESPONSE CODES. Values in this set are flagged as protection barriers.
-#' @param barriers_undefined Vector of undefined/non-response values. These are accepted but treated as non-barriers. Defaults to common survey non-responses: "dnk", "pnta", "other".
 #' @param ind_schooling_age_d Column name for the dummy variable of schooling age.
+#' @param barriers_undefined Vector of undefined/non-response values. These are accepted but treated as non-barriers. Defaults to common survey non-responses: "dnk", "pnta", "other".
 #'
 #' @return A data frame with an additional column:
 #'
