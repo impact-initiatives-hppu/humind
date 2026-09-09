@@ -34,8 +34,8 @@ add_loop_edu_barrier_protection_d <- function(
     "enroll_lack_documentation",
     "discrimination"
   ),
-  barriers_undefined = c("dnk", "pnta", "other"),
-  ind_schooling_age_d = "edu_ind_age_schooling"
+  ind_schooling_age_d = "edu_ind_age_schooling",
+  barriers_undefined = c("dnk", "pnta", "other")
 ) {
   #----- Checks
 
