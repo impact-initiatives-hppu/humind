@@ -99,22 +99,52 @@ test_that("add_loop_edu_barrier_protection_d_to_main function handles missing co
 })
 
 # 6. Test ensuring value checks in add_loop_edu_barrier_protection_d_to_main
-test_that("add_loop_edu_barrier_protection_d_to_main function ensures value checks", {
-  invalid_value_loop_data <- data.frame(
-    uuid = c(1, 1),
-    edu_barrier = c("ban", "child_work_home"),
-    edu_ind_age_schooling = c(2, 1)
+test_that("add_loop_edu_barrier_protection_d_to_main function rejects invalid barrier values", {
+  # Create loop data with invalid barrier values
+  invalid_loop_data_raw <- data.frame(
+    uuid = c(1, 2),
+    edu_barrier = c("ban", "invalid_barrier"),
+    edu_ind_age_schooling = c(1, 1)
   )
 
   main_data <- data.frame(
-    uuid = c(1),
-    some_other_column = c("a")
+    uuid = c(1, 2),
+    some_other_column = c("a", "b")
   )
 
+  # Passing invalid data directly to _to_main should error when trying to use it
+  # (since the main function would have caught it first in normal workflow)
   expect_error(
-    add_loop_edu_barrier_protection_d(invalid_value_loop_data),
-    regex = "between 0 and 1"
+    add_loop_edu_barrier_protection_d(invalid_loop_data_raw),
+    regex = "values must be in the following set"
   )
+})
+
+# 6b. Test that add_loop_edu_barrier_protection_d_to_main works with valid processed data
+test_that("add_loop_edu_barrier_protection_d_to_main successfully aggregates valid data", {
+  # Process valid data through main function first
+  valid_loop_data <- add_loop_edu_barrier_protection_d(
+    data.frame(
+      uuid = c(1, 1, 2),
+      edu_barrier = c("ban", "child_work_home", "discrimination"),
+      edu_ind_age_schooling = c(1, 1, 0)
+    )
+  )
+
+  main_data <- data.frame(
+    uuid = c(1, 2),
+    some_other_column = c("a", "b")
+  )
+
+  # This should succeed and produce correct aggregation
+  main_result <- add_loop_edu_barrier_protection_d_to_main(
+    main_data,
+    valid_loop_data
+  )
+
+  expect_true("edu_barrier_protection_n" %in% colnames(main_result))
+  expect_equal(main_result$edu_barrier_protection_n[1], 2)
+  expect_equal(main_result$edu_barrier_protection_n[2], 0)
 })
 
 # 7. Test with edge cases (all protection barriers)
