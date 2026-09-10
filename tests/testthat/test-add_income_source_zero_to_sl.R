@@ -82,7 +82,7 @@ df <- data.frame(
 test_that("add_income_source_zero_to_sl throws error when income_sources are not numeric", {
   expect_error(
     add_income_source_zero_to_sl(df),
-    "All columns must be numeric."
+    "All values must be numeric."
   )
 })
 #----------------------------------------------------------------------------------------------
