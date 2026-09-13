@@ -12,7 +12,11 @@ add_loop_edu_barrier_protection_d(
     "child_work_home", "child_work_outside", "child_armed_group", "child_marriage",
     "child_pregnancy", "ban", "enroll_lack_documentation", "discrimination"),
   ind_schooling_age_d = "edu_ind_age_schooling",
-  barriers_undefined = c("dnk", "pnta", "other")
+  barriers_undefined = c("dnk", "pnta", "other"),
+  non_protection_issues = c("costs", "lack_interest", "not_priority",
+    "lack_accessible_school", "lack_classrooms", "lack_wash_facilities", "school_closed",
+    "lack_teacher", "curriculum_not_useful", "child_health", "language",
+    "enroll_displacement", "child_too_young", "child_graduated")
 )
 
 add_loop_edu_barrier_protection_d_to_main(
@@ -33,6 +37,8 @@ add_loop_edu_barrier_protection_d_to_main(
 \item{ind_schooling_age_d}{Column name for the dummy variable of schooling age.}
 
 \item{barriers_undefined}{Vector of undefined/non-response values. These are accepted but treated as non-barriers. Defaults to common survey non-responses: "dnk", "pnta", "other".}
+
+\item{non_protection_issues}{Vector of valid non-protection barrier RESPONSE CODES (access barriers and flag codes). Values in this set are accepted as valid, but do not affect the \code{edu_ind_barrier_protection_d} dummy. Defaults to the non-protection response codes of the standard \code{edu_barrier} question.}
 
 \item{main}{A data frame of household-level data.}
 

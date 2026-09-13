@@ -11,6 +11,7 @@
 #' @param protection_issues Vector of protection issues RESPONSE CODES. Values in this set are flagged as protection barriers.
 #' @param ind_schooling_age_d Column name for the dummy variable of schooling age.
 #' @param barriers_undefined Vector of undefined/non-response values. These are accepted but treated as non-barriers. Defaults to common survey non-responses: "dnk", "pnta", "other".
+#' @param non_protection_issues Vector of valid non-protection barrier RESPONSE CODES (access barriers and flag codes). Values in this set are accepted as valid, but do not affect the `edu_ind_barrier_protection_d` dummy. Defaults to the non-protection response codes of the standard `edu_barrier` question.
 #'
 #' @return A data frame with an additional column:
 #'
@@ -33,7 +34,23 @@ add_loop_edu_barrier_protection_d <- function(
     "discrimination"
   ),
   ind_schooling_age_d = "edu_ind_age_schooling",
-  barriers_undefined = c("dnk", "pnta", "other")
+  barriers_undefined = c("dnk", "pnta", "other"),
+  non_protection_issues = c(
+    "costs",
+    "lack_interest",
+    "not_priority",
+    "lack_accessible_school",
+    "lack_classrooms",
+    "lack_wash_facilities",
+    "school_closed",
+    "lack_teacher",
+    "curriculum_not_useful",
+    "child_health",
+    "language",
+    "enroll_displacement",
+    "child_too_young",
+    "child_graduated"
+  )
 ) {
   #----- Checks
 
@@ -41,11 +58,11 @@ add_loop_edu_barrier_protection_d <- function(
   if_not_in_stop(loop, barriers, "loop")
   if_not_in_stop(loop, ind_schooling_age_d, "loop")
 
-  # Check that edu_barrier values are in protection_issues or barriers_undefined
+  # Check that edu_barrier values are known barrier response codes
   are_values_in_set(
     loop,
     barriers,
-    c(protection_issues, barriers_undefined),
+    c(protection_issues, non_protection_issues, barriers_undefined),
     main_message = glue::glue(
       "Column '{barriers}' values must be in the following set: "
     )
