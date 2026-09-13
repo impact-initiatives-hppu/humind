@@ -1,6 +1,7 @@
 aap
 abu
 Abu
+alldaynight
 arf
 arg
 args
@@ -16,6 +17,7 @@ calc
 CalVer
 cb
 ce
+centre
 changelog
 ci
 citFooter
@@ -51,6 +53,8 @@ env
 erge
 erroring
 euo
+falkowitz
+Falkowitz
 fc
 FC
 FCLC
@@ -67,6 +71,7 @@ fidalgo
 FIES
 fonctions
 foodsec
+FSC
 fsl
 FW
 gh
@@ -78,6 +83,7 @@ handwashing
 Handwashing
 hdds
 HDDS
+hh
 hhs
 HHs
 hlp
@@ -98,23 +104,29 @@ infreq
 inlined
 io
 IPC
+ipc
 iyed
 Iyed
 jmp
 JMP
 justfile
+knitr
 Kobo
 laith
 Laith
 LazyData
 lcsi
 LCSI
+lessquality
 Lifecycle
 lightbulbs
 lintr
 magrittr
 mario
 md
+mealadult
+mealnb
+mealsize
 members'
 MERCHANTABILITY
 misclassified
@@ -133,9 +145,11 @@ nd
 nfi
 NFI
 Noblet
+nofoodhh
 NONINFRINGEMENT
 NSE
 oldrel
+olivia
 packageVersion
 param
 parsers
@@ -171,6 +185,7 @@ Recodes
 recoding
 rlang
 rmarkdown
+RMarkdown
 Rmd
 roxygen
 Roxygen
@@ -186,6 +201,7 @@ SemVer
 sessionInfo
 severities
 sl
+sleephungry
 snfi
 SNFI
 sprintf
@@ -213,6 +229,7 @@ uvx
 vectorized
 Vectorized
 vendored
+VignetteBuilder
 villotta
 VILLOTTA
 WG

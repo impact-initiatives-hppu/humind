@@ -1,5 +1,17 @@
 # humind (development version)
 
+### Bug Fixes
+
+* `add_loop_edu_barrier_protection_d()`: added input validation for the
+  `edu_barrier` column, which is assumed to be `select_one`. Values must be a
+  known barrier response code: a protection barrier (flagged `1`), a
+  non-protection/access barrier or flag code, or an undefined/non-response value
+  (the latter two coded `0`). New `non_protection_issues` (defaults to the
+  non-protection `edu_barrier` codes) and `barriers_undefined` (default
+  `c("dnk", "pnta", "other")`) parameters make these sets explicit; any other
+  value (e.g. typos or combined `select_multiple` strings) raises an error
+  (#792).
+
 # humind 2026.3.0
 
 This release is a patch/bug-fix round within the 2026 cycle. It tightens input
