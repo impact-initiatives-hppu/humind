@@ -52,7 +52,7 @@ id_col_loop <- "_submission__uuid"
 
 ### Indice des stratégies d'adaptation des moyens de subsistance (LCSI)
 
-La première étape du composite de Consommation alimentaire consiste à calculer
+La première étape du composite de consommation alimentaire consiste à calculer
 l'indice des stratégies d'adaptation des moyens de subsistance (LCSI). La fonction
 `add_lcsi()` détermine si les ménages ont utilisé ou épuisé des stratégies
 d'adaptation de stress, de crise ou d'urgence et attribue au ménage la catégorie
@@ -111,8 +111,8 @@ SCA.
 
 **Points clés** : Les variables d'entrée doivent contenir le nombre de jours de
 consommation, de 0 à 7. Avec `cutoffs` = "normal", les ménages sont classés
-Pauvre lorsque le SCA est ≤21, Limite lorsqu'il est >21 et ≤35, et Acceptable
-lorsqu'il est >35. Les seuils alternatifs peuvent être sélectionnés avec
+comme ayant une consommation alimentaire pauvre lorsque le SCA est ≤21, limite
+lorsqu'il est >21 et ≤35, et acceptable lorsqu'il est >35. Les seuils alternatifs peuvent être sélectionnés avec
 `cutoffs` = "alternative", qui utilise les seuils 28 et 42. La fonction génère
 fsl_fcs_score et fsl_fcs_cat, en plus des variables pondérées des groupes
 d'aliments.
@@ -166,9 +166,9 @@ main_foodsec <- main_foodsec |>
   add_hhs()
 ```
 
-### Indice des stratégies d'adaptation réduit (rCSI)
+### Indice réduit des stratégies d'adaptation (rCSI)
 
-L'indice des stratégies d'adaptation réduit (rCSI) est calculé à l'aide de
+L'indice réduit des stratégies d'adaptation (rCSI) est calculé à l'aide de
 `add_rcsi()`. La fonction applique les pondérations standard à cinq stratégies
 d'adaptation liées à l'alimentation pour produire un score rCSI global et une
 catégorie ordinale.
@@ -246,10 +246,10 @@ main_foodsec <- main_foodsec |>
   add_fclcm_phase(lcs_cat_var = "fsl_lcsi_cat")
 ```
 
-### Composite sectoriel de Consommation alimentaire
+### Composite sectoriel de consommation alimentaire
 
 Enfin, `add_comp_foodsec()` convertit directement la phase FCLCM en score du
-composite sectoriel de Consommation alimentaire. Les cinq phases FCLCM
+composite sectoriel de consommation alimentaire. Les cinq phases FCLCM
 correspondent directement aux scores composites de 1 à 5, les indicateurs
 standard de besoin et de besoin sévère de l'MSNI étant également générés.
 
