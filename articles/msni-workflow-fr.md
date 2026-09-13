@@ -1,20 +1,21 @@
-# Computing the MSNI: Humind Workflow
+# Calcul du MSNI : flux de travail Humind
 
-Welcome to the humind tutorial. In the following RMarkdown file, we will
-go over an example workflow using dummy MSNA data from the 2026 cycle.
-The workflow is broken down by function and annotated to describe what
-the function does, any key points to keep in mind during use and
-required input variables (and their codes). If you have any questions,
-or suggestion for improvement, please reach out the the Global MSNA
-Team.
+Bienvenue dans le tutoriel humind. Dans le fichier RMarkdown suivant,
+nous parcourons un exemple de flux de travail utilisant des données MSNA
+fictives du cycle 2026. Le flux de travail est organisé par fonction et
+annoté pour décrire ce que fait chaque fonction, les points clés à
+garder en tête lors de l’utilisation et les variables d’entrée requises
+(ainsi que leurs codes). Si vous avez des questions ou des suggestions
+d’amélioration, veuillez contacter l’équipe MSNA globale.
 
-## Setup
+## Configuration
 
-Below, we load humind and dplyr, as well as the household-level dataset
-(main) and Health and Education rosters (loops). We also make sure the
-unique identifiers in each are correctly specified, in order to
-summarize information from the main to the loop dataset, as is done in
-the Health and Education Sectoral Composites.
+Ci-dessous, nous chargeons humind et dplyr, ainsi que le jeu de données
+au niveau du ménage (main) et les rosters Santé et Éducation (boucles).
+Nous nous assurons également que les identifiants uniques de chaque jeu
+de données sont correctement spécifiés, afin de résumer les informations
+du main vers le jeu de données de boucle, comme cela est fait dans les
+composites sectoriels Santé et Éducation.
 
 ``` r
 
@@ -29,35 +30,37 @@ id_col_main <- "_uuid"
 id_col_loop <- "_submission__uuid"
 ```
 
-## Food Consumption
+## Consommation alimentaire
 
-### Livelihood Coping Strategies Index (LCSI)
+### Indice des stratégies d’adaptation des moyens de subsistance (LCSI)
 
-The first step for the Food Consumption Composite is to calculate the
-Livelihood Coping Strategies Index (LCSI). The
+La première étape du composite de consommation alimentaire consiste à
+calculer l’indice des stratégies d’adaptation des moyens de subsistance
+(LCSI). La fonction
 [`add_lcsi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_lcsi.md)
-function identifies whether households have used or exhausted stress,
-crisis, or emergency coping strategies and assigns the household to the
-highest applicable LCSI category: None, Stress, Crisis, or Emergency.
+détermine si les ménages ont utilisé ou épuisé des stratégies
+d’adaptation de stress, de crise ou d’urgence et attribue au ménage la
+catégorie LCSI la plus élevée applicable : Aucune, Stress, Crise ou
+Urgence.
 
-The example below first combines the host and camp variants of four LCSI
-strategies into the variables expected by
+L’exemple ci-dessous combine d’abord les variantes hôte et camp de
+quatre stratégies LCSI dans les variables attendues par
 [`add_lcsi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_lcsi.md).
-This is appropriate where the questionnaire collects mutually exclusive
-host/camp versions of the same coping strategy.
+Cela est approprié lorsque le questionnaire recueille des versions
+hôte/camp mutuellement exclusives d’une même stratégie d’adaptation.
 
-**Key considerations**: By default,
+**Points clés** : Par défaut,
 [`add_lcsi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_lcsi.md)
-expects the response codes yes, no_had_no_need, no_exhausted, and
-not_applicable. A household is classified according to the highest level
-of coping strategy that it has either used or exhausted. The function
-generates fsl_lcsi_cat, as well as separate categories based only on
-strategies used (fsl_lcsi_cat_yes) and strategies exhausted
-(fsl_lcsi_cat_exhaust). If your questionnaire uses different response
-codes, these must be supplied through the corresponding function
-arguments.
+attend les codes de réponse yes, no_had_no_need, no_exhausted et
+not_applicable. Un ménage est classé selon le niveau le plus élevé de
+stratégie d’adaptation qu’il a soit utilisée, soit épuisée. La fonction
+génère fsl_lcsi_cat, ainsi que des catégories distinctes fondées
+uniquement sur les stratégies utilisées (fsl_lcsi_cat_yes) et les
+stratégies épuisées (fsl_lcsi_cat_exhaust). Si votre questionnaire
+utilise des codes de réponse différents, ceux-ci doivent être fournis
+via les arguments correspondants de la fonction.
 
-**Required variables**:
+**Variables requises** :
 
 - fsl_lcsi_stress1
 - fsl_lcsi_stress2
@@ -73,8 +76,8 @@ arguments.
 ``` r
 
 main_foodsec <- humind_main |>
-  # This form splits 4 LCSI items into _host/_camp variants that are mutually exclusive
-  # coalesce into the single columns add_lcsi() expects.
+  # Ce formulaire répartit 4 items LCSI en variantes _host/_camp mutuellement exclusives ;
+  # les fusionner (coalesce) dans les colonnes uniques attendues par add_lcsi().
   mutate(
     fsl_lcsi_stress1 = coalesce(fsl_lcsi_stress1_host, fsl_lcsi_stress1_camp),
     fsl_lcsi_stress2 = coalesce(fsl_lcsi_stress2_host, fsl_lcsi_stress2_camp),
@@ -84,23 +87,26 @@ main_foodsec <- humind_main |>
   add_lcsi()
 ```
 
-### Food Consumption Score (FSC)
+### Score de consommation alimentaire (SCA)
 
-Next, we calculate the Food Consumption Score (FCS) using
+Ensuite, nous calculons le score de consommation alimentaire (SCA) à
+l’aide de
 [`add_fcs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fcs.md).
-The function applies the standard food-group weights to the number of
-days each food group was consumed during the reference period and
-assigns the resulting score to an FCS category.
+La fonction applique les pondérations standard des groupes d’aliments au
+nombre de jours de consommation de chaque groupe d’aliments au cours de
+la période de référence et classe le score obtenu dans une catégorie
+SCA.
 
-**Key considerations**: The input variables should contain the number of
-days consumed, from 0 to 7. With `cutoffs` = “normal”, households are
-classified as Poor when the FCS is ≤21, Borderline when it is \>21 and
-≤35, and Acceptable when it is \>35. The alternative cut-offs can be
-selected with `cutoffs` = “alternative”, which uses thresholds of 28 and
-42 instead. The function generates fsl_fcs_score and fsl_fcs_cat, in
-addition to the weighted food-group variables.
+**Points clés** : Les variables d’entrée doivent contenir le nombre de
+jours de consommation, de 0 à 7. Avec `cutoffs` = “normal”, les ménages
+sont classés comme ayant une consommation alimentaire pauvre lorsque le
+SCA est ≤21, limite lorsqu’il est \>21 et ≤35, et acceptable lorsqu’il
+est \>35. Les seuils alternatifs peuvent être sélectionnés avec
+`cutoffs` = “alternative”, qui utilise les seuils 28 et 42. La fonction
+génère fsl_fcs_score et fsl_fcs_cat, en plus des variables pondérées des
+groupes d’aliments.
 
-**Required variables**:
+**Variables requises** :
 
 - fsl_fcs_cereal
 - fsl_fcs_legumes
@@ -117,24 +123,25 @@ main_foodsec <- main_foodsec |>
   add_fcs(cutoffs = "normal")
 ```
 
-### Household Hunger Scale (HHS)
+### Échelle de la faim dans les ménages (HHS)
 
-The Household Hunger Scale (HHS) is then calculated using
+L’échelle de la faim dans les ménages (HHS) est ensuite calculée à
+l’aide de
 [`add_hhs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hhs.md).
-The function combines the three HHS questions and their corresponding
-frequency questions to produce both a general HHS category and an
-IPC-compatible HHS category.
+La fonction combine les trois questions HHS et leurs questions de
+fréquence correspondantes pour produire à la fois une catégorie HHS
+générale et une catégorie HHS compatible avec l’IPC.
 
-**Key considerations**: By default, the function expects yes/no
-responses to the three occurrence questions and rarely/sometimes/often
-responses to the frequency questions. A no response is scored as 0,
-rarely or sometimes as 1, and often as 2 for each item. The resulting
-fsl_hhs_score ranges from 0 to 6. The function produces both fsl_hhs_cat
-and fsl_hhs_cat_ipc; the latter has the categories None, Little,
-Moderate, Severe, and Very Severe. The function also checks consistency
-between each yes/no question and its frequency question.
+**Points clés** : Par défaut, la fonction attend des réponses oui/non
+aux trois questions d’occurrence et des réponses rarely/sometimes/often
+aux questions de fréquence. Une réponse no est notée 0, rarely ou
+sometimes 1, et often 2 pour chaque item. Le fsl_hhs_score obtenu va de
+0 à 6. La fonction produit à la fois fsl_hhs_cat et fsl_hhs_cat_ipc ;
+cette dernière comporte les catégories None, Little, Moderate, Severe et
+Very Severe. La fonction vérifie également la cohérence entre chaque
+question oui/non et sa question de fréquence.
 
-**Required variables**:
+**Variables requises** :
 
 - fsl_hhs_nofoodhh
 - fsl_hhs_nofoodhh_freq
@@ -149,20 +156,22 @@ main_foodsec <- main_foodsec |>
   add_hhs()
 ```
 
-### Reduced Coping Strategies Index (rCSI)
+### Indice réduit des stratégies d’adaptation (rCSI)
 
-The Reduced Coping Strategies Index (rCSI) is calculated using
+L’indice réduit des stratégies d’adaptation (rCSI) est calculé à l’aide
+de
 [`add_rcsi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_rcsi.md).
-The function applies the standard weights to five food-related coping
-strategies to produce an overall rCSI score and ordinal category.
+La fonction applique les pondérations standard à cinq stratégies
+d’adaptation liées à l’alimentation pour produire un score rCSI global
+et une catégorie ordinale.
 
-**Key considerations**: Input values should range from 0 to 7 days. The
-five strategies are weighted respectively 1, 2, 1, 3, and 1, and the
-resulting fsl_rcsi_score is classified as No to Low when ≤3, Medium when
-\>3 and ≤18, and High when \>18. The function generates both
-fsl_rcsi_score and fsl_rcsi_cat.
+**Points clés** : Les valeurs d’entrée doivent aller de 0 à 7 jours. Les
+cinq stratégies sont pondérées respectivement 1, 2, 1, 3 et 1, et le
+fsl_rcsi_score obtenu est classé No to Low lorsque ≤3, Medium lorsque
+\>3 et ≤18, et High lorsque \>18. La fonction génère à la fois
+fsl_rcsi_score et fsl_rcsi_cat.
 
-**Required variables**:
+**Variables requises** :
 
 - fsl_rcsi_lessquality
 - fsl_rcsi_borrow
@@ -176,23 +185,25 @@ main_foodsec <- main_foodsec |>
   add_rcsi()
 ```
 
-### Food Consumption Phase
+### Phase de consommation alimentaire
 
-We then calculate the Food Consumption Matrix (FCM) phase using the FCS,
-rCSI, and IPC-compatible HHS categories calculated in previous steps.
+Nous calculons ensuite la phase de la matrice de consommation
+alimentaire (FCM) à partir des catégories SCA, rCSI et HHS compatible
+IPC calculées aux étapes précédentes.
 [`add_fcm_phase()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fcm_phase.md)
-maps the combination of these three indicators to one of five Food
-Consumption phases, from Phase 1 FC to Phase 5 FC.
+associe la combinaison de ces trois indicateurs à l’une des cinq phases
+de consommation alimentaire, de la Phase 1 FC à la Phase 5 FC.
 
-**Key considerations**: The function uses the default variable names
-above and the default category labels: Acceptable, Borderline, and Poor
-for FCS; No to Low, Medium, and High for rCSI; and None, Little,
-Moderate, Severe, and Very Severe for IPC-compatible HHS. The resulting
-variable is fsl_fc_phase, with values from Phase 1 FC to Phase 5 FC. The
-function also creates fsl_fc_cell, which identifies the corresponding
-cell in the 5×3×3 Food Consumption Matrix.
+**Points clés** : La fonction utilise les noms de variables par défaut
+ci-dessus et les libellés de catégorie par défaut : Acceptable,
+Borderline et Poor pour le SCA ; No to Low, Medium et High pour le rCSI
+; et None, Little, Moderate, Severe et Very Severe pour le HHS
+compatible IPC. La variable obtenue est fsl_fc_phase, avec des valeurs
+allant de Phase 1 FC à Phase 5 FC. La fonction crée également
+fsl_fc_cell, qui identifie la cellule correspondante dans la matrice de
+consommation alimentaire 5×3×3.
 
-**Required variables**:
+**Variables requises** :
 
 - fsl_fcs_cat
 - fsl_rcsi_cat
@@ -204,18 +215,19 @@ main_foodsec <- main_foodsec |>
   add_fcm_phase()
 ```
 
-### Food Consumption-Livelihood Coping Matrix (FCLCM)
+### Matrice consommation alimentaire – stratégies d’adaptation des moyens de subsistance (FCLCM)
 
-The Food Consumption-Livelihood Coping Matrix (FCLCM) is then calculated
-by combining the Food Consumption phase with the LCSI category. The
-resulting phase ranges from Phase 1 FCLC to Phase 5 FCLC.
+La matrice consommation alimentaire – stratégies d’adaptation des moyens
+de subsistance (FCLCM) est ensuite calculée en combinant la phase de
+consommation alimentaire avec la catégorie LCSI. La phase obtenue va de
+la Phase 1 FCLC à la Phase 5 FCLC.
 
-**Key considerations**: The function uses the default phase labels Phase
-1 FC through Phase 5 FC and LCSI categories None, Stress, Crisis, and
-Emergency. If either input is missing or contains an unexpected
-category, the resulting fclcm_phase is NA.
+**Points clés** : La fonction utilise les libellés de phase par défaut
+Phase 1 FC à Phase 5 FC et les catégories LCSI None, Stress, Crisis et
+Emergency. Si l’une des entrées est manquante ou contient une catégorie
+inattendue, la phase fclcm_phase obtenue est NA.
 
-**Required variables**:
+**Variables requises** :
 
 - fsl_fc_phase
 - fsl_lcsi_cat
@@ -226,24 +238,24 @@ main_foodsec <- main_foodsec |>
   add_fclcm_phase(lcs_cat_var = "fsl_lcsi_cat")
 ```
 
-### Food Consumption Sectoral Composite
+### Composite sectoriel de consommation alimentaire
 
-Finally,
+Enfin,
 [`add_comp_foodsec()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_foodsec.md)
-converts the FCLCM phase directly into the Food Consumption sectoral
-composite score. The five FCLCM phases correspond directly to composite
-scores from 1 to 5, with the standard MSNI need and severe-need
-indicators also generated.
+convertit directement la phase FCLCM en score du composite sectoriel de
+consommation alimentaire. Les cinq phases FCLCM correspondent
+directement aux scores composites de 1 à 5, les indicateurs standard de
+besoin et de besoin sévère de l’MSNI étant également générés.
 
-**Key considerations**:
+**Points clés** :
 [`add_comp_foodsec()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_foodsec.md)
-requires fclcm_phase, which must contain one of the five expected FCLCM
-phase labels. The resulting variables are comp_foodsec_score,
-comp_foodsec_in_need, and comp_foodsec_in_severe_need. The composite
-score is directly mapped from the FCLCM phase, wherein Phase 1 results
-in severity level 1 and Phase 5 results in 5.
+nécessite fclcm_phase, qui doit contenir l’un des cinq libellés de phase
+FCLCM attendus. Les variables produites sont comp_foodsec_score,
+comp_foodsec_in_need et comp_foodsec_in_severe_need. Le score composite
+est directement dérivé de la phase FCLCM, la Phase 1 donnant un niveau
+de sévérité 1 et la Phase 5 un niveau 5.
 
-**Required variables**:
+**Variables requises** :
 
 - fclcm_phase
 
@@ -255,21 +267,22 @@ main_foodsec <- main_foodsec |>
 
 ## WASH
 
-### Water Quantity (H-WISE)
+### Quantité d’eau (H-WISE)
 
-For WASH, we start with the H-WISE 4 to compute the Water Quantity
-dimension. The function below assigns a score from 0 to 3 to each of the
-H-WISE variables and directly assigns the severity level based on the
-row-wise sum. A new variable called “comp_wash_score_water_quantity” is
-generated.
+Pour le WASH, nous commençons par le H-WISE 4 afin de calculer la
+dimension Quantité d’eau. La fonction ci-dessous attribue un score de 0
+à 3 à chacune des variables H-WISE et attribue directement le niveau de
+sévérité en fonction de la somme par ligne. Une nouvelle variable
+appelée « comp_wash_score_water_quantity » est générée.
 
-**Key considerations**: The default response codes are never, rarely,
-sometimes, often, always, dnk, and pnta. If you data has different
-response codes, these need to be specified through the corresponding
-function parameters. The `.keep_recoded` parameter can be set to TRUE if
-the individual H-WISE item scores are also required.
+**Points clés** : Les codes de réponse par défaut sont never, rarely,
+sometimes, often, always, dnk et pnta. Si vos données utilisent des
+codes de réponse différents, ceux-ci doivent être spécifiés via les
+paramètres correspondants de la fonction. Le paramètre `.keep_recoded`
+peut être défini sur TRUE si les scores des items H-WISE individuels
+sont également requis.
 
-**Required variables**:
+**Variables requises** :
 
 - wash_hwise_drink
 - wash_hwise_hands
@@ -282,20 +295,21 @@ main_wash <- main_foodsec |>
   add_hwise()
 ```
 
-### Water Quality
+### Qualité de l’eau potable
 
-Next, we compute the Water Quality dimension. This is based on the type
-of drinking water source and the time required to collect drinking
-water. The following functions progressively recode these variables into
-the categories required to derive the JMP drinking water classification.
+Nous calculons ensuite la dimension Qualité de l’eau potable. Celle-ci
+repose sur le type de source d’eau potable et le temps nécessaire pour
+aller chercher l’eau potable. Les fonctions suivantes recodent
+progressivement ces variables dans les catégories requises pour dériver
+la classification JMP de l’eau potable.
 
-**Key considerations**: The function recodes the choices from the global
-KOBO template 2026 into the standard categories: improved, unimproved
-and surface water. As these categorizations may differ between contexts,
-make sure to check that the mapping fits the reality in-country. In case
-of any doubts, this can be confirmed with the WASH Cluster.
+**Points clés** : La fonction recode les choix du modèle KOBO global
+2026 dans les catégories standard : améliorée, non améliorée et eaux de
+surface. Comme ces catégorisations peuvent différer selon les contextes,
+assurez-vous que le mappage correspond à la réalité du pays. En cas de
+doute, cela peut être confirmé avec le cluster WASH.
 
-**Required variables**:
+**Variables requises** :
 
 - wash_drinking_water_source
 
@@ -305,12 +319,12 @@ main_wash <- main_wash |>
   add_drinking_water_source_cat()
 ```
 
-**Key considerations**: The function uses information on whether water
-is available on the premises as well as the reported collection time.
-The default response codes and thresholds should be adjusted if the
-survey uses different coding.
+**Points clés** : La fonction utilise les informations indiquant si
+l’eau est disponible dans l’enceinte ainsi que le temps de collecte
+déclaré. Les codes de réponse et seuils par défaut doivent être ajustés
+si l’enquête utilise une codification différente.
 
-**Required variables**:
+**Variables requises** :
 
 - wash_drinking_water_time_yn
 - wash_drinking_water_time_int
@@ -323,16 +337,16 @@ main_wash <- main_wash |>
   add_drinking_water_time_cat()
 ```
 
-The resulting time-to-fetch-water categories are then classified
-according to the standard 30-minute threshold used in the JMP
-classification.
+Les catégories de temps nécessaire pour aller chercher l’eau qui en
+résultent sont ensuite classées selon le seuil standard de 30 minutes
+utilisé dans la classification JMP.
 
-**Key considerations**: The default threshold is 30 minutes. This
-function should be run after
+**Points clés** : Le seuil par défaut est de 30 minutes. Cette fonction
+doit être exécutée après
 [`add_drinking_water_time_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md),
-as it uses the categorical variable generated in that step.
+car elle utilise la variable catégorielle générée à cette étape.
 
-**Required variables**:
+**Variables requises** :
 
 - wash_drinking_water_time_cat
 
@@ -342,14 +356,15 @@ main_wash <- main_wash |>
   add_drinking_water_time_threshold_cat()
 ```
 
-The drinking water source and time-to-fetch-water categories are then
-combined to generate the JMP drinking water quality classification.
+La source d’eau potable et les catégories de temps de collecte sont
+ensuite combinées pour générer la classification JMP de la qualité de
+l’eau potable.
 
-**Key considerations**: This function uses the categories generated by
-the two preceding recoding steps, so these functions should be run in
-sequence.
+**Points clés** : Cette fonction utilise les catégories générées par les
+deux étapes de recodage précédentes, ces fonctions doivent donc être
+exécutées dans l’ordre.
 
-**Required variables**:
+**Variables requises** :
 
 - wash_drinking_water_source_cat
 - wash_drinking_water_time_30min_cat
@@ -360,17 +375,17 @@ main_wash <- main_wash |>
   add_drinking_water_quality_jmp_cat()
 ```
 
-### Sanitation
+### Assainissement
 
-We then prepare the variables required to calculate the Sanitation
-dimension. First, the type of sanitation facility is recoded into
-standard categories.
+Nous préparons ensuite les variables requises pour calculer la dimension
+Assainissement. D’abord, le type d’installation sanitaire est recodé
+dans des catégories standard.
 
-**Key considerations**: Like for water sources, the function assumes the
-mapping to improved and unimproved. Make sure these classifications
-apply in your context.
+**Points clés** : Comme pour les sources d’eau, la fonction suppose le
+mappage vers des installations sanitaires améliorées et non améliorées.
+Assurez-vous que ces classifications s’appliquent à votre contexte.
 
-**Required variables**:
+**Variables requises** :
 
 - wash_sanitation_facility
 
@@ -380,15 +395,15 @@ main_wash <- main_wash |>
   add_sanitation_facility_cat()
 ```
 
-The sanitation facility is then classified according to whether it is
-shared with other households.
+L’installation sanitaire est ensuite classée selon qu’elle est partagée
+ou non avec d’autres ménages.
 
-**Key considerations**: Facilities classified as none are automatically
-assigned not_applicable for sharing. The default response codes for the
-sharing variable should be adjusted if response codes deviate from the
-global KOBO template.
+**Points clés** : Les installations classées comme aucune sont
+automatiquement affectées à not_applicable pour le partage. Les codes de
+réponse par défaut pour la variable de partage doivent être ajustés si
+les codes de réponse s’écartent du modèle KOBO global.
 
-**Required variables**:
+**Variables requises** :
 
 - wash_sanitation_facility_sharing_yn
 - wash_sanitation_facility
@@ -399,20 +414,20 @@ main_wash <- main_wash |>
  add_sharing_sanitation_facility_cat()
 ```
 
-The following function estimates the number of individuals using the
-sanitation facility. For shared facilities, this is calculated using the
-reported number of households sharing the facility and the weighted mean
-household size. For facilities that are not shared, the number of
-individuals is based on household size.
+La fonction suivante estime le nombre d’individus utilisant
+l’installation sanitaire. Pour les installations partagées, cela est
+calculé à l’aide du nombre déclaré de ménages partageant l’installation
+et de la taille moyenne pondérée des ménages. Pour les installations non
+partagées, le nombre d’individus est fondé sur la taille du ménage.
 
-**Key considerations**: `hh_size` and
-`wash_sanitation_facility_sharing_n` must be numeric. The `weight`
-variable is used to calculate the weighted mean household size and must
-therefore be present even when the analysis is unweighted. For an
-unweighted dataset, create a variable called `weight` and set it to 1
-for all households, as shown in the example below.
+**Points clés** : `hh_size` et `wash_sanitation_facility_sharing_n`
+doivent être numériques. La variable `weight` est utilisée pour calculer
+la taille moyenne pondérée des ménages et doit donc être présente même
+lorsque l’analyse n’est pas pondérée. Pour un jeu de données non
+pondéré, créez une variable appelée `weight` et définissez-la sur 1 pour
+tous les ménages, comme le montre l’exemple ci-dessous.
 
-**Required variables**:
+**Variables requises** :
 
 - wash_sharing_sanitation_facility_cat
 - wash_sanitation_facility_sharing_n
@@ -426,17 +441,17 @@ main_wash <- main_wash |>
   add_sharing_sanitation_facility_n_ind()
 ```
 
-Using the sanitation facility category and sharing status, we can now
-compute the JMP sanitation classification used in the WASH Sectoral
-Composite.
+À l’aide de la catégorie d’installation sanitaire et du statut de
+partage, nous pouvons maintenant calculer la classification JMP de
+l’assainissement utilisée dans le composite sectoriel WASH.
 
-**Key considerations**: This function uses the categories generated by
+**Points clés** : Cette fonction utilise les catégories générées par
 [`add_sanitation_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
-and
+et
 [`add_sharing_sanitation_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md),
-so these steps should be run beforehand.
+ces étapes doivent donc être exécutées au préalable.
 
-**Required variables**:
+**Variables requises** :
 
 - wash_sanitation_facility_cat
 - wash_sharing_sanitation_facility_cat
@@ -447,24 +462,26 @@ main_wash <- main_wash |>
   add_sanitation_facility_jmp_cat()
 ```
 
-### Hygiene
+### Hygiène
 
-For the last WASH dimension, we calculate the JMP hygiene
-classification. The function uses observed and self-reported information
-on the availability of a handwashing facility, water, and soap. The
-resulting wash_handwashing_facility_jmp_cat variable classifies
-households as having a basic, limited, or no_facility handwashing
-facility.
+Pour la dernière dimension du WASH, nous calculons la classification JMP
+de l’hygiène. La fonction utilise des informations observées et
+auto-déclarées sur la disponibilité d’une installation pour le lavage
+des mains, d’eau et de savon. La variable
+wash_handwashing_facility_jmp_cat qui en résulte classe les ménages
+comme disposant d’une installation pour le lavage des mains basique,
+limitée ou no_facility.
 
-**Key considerations**: If the dataset does not contain survey_modality,
-this must be added before running the function. For a fully in-person
-survey, it can be set to “in_person”, as shown below. The function
-distinguishes between observed and reported information depending on the
-survey modality. The default soap classification distinguishes
-qualifying soap (soap, detergent) from non-qualifying soap
-(ash_mud_sand). These parameters can be adjusted if needed.
+**Points clés** : Si le jeu de données ne contient pas survey_modality,
+celle-ci doit être ajoutée avant d’exécuter la fonction. Pour une
+enquête entièrement en présentiel, elle peut être définie sur «
+in_person », comme indiqué ci-dessous. La fonction distingue les
+informations observées et déclarées selon la modalité de l’enquête. La
+classification par défaut du savon distingue le savon admissible (savon,
+détergent) du savon non admissible (ash_mud_sand). Ces paramètres
+peuvent être ajustés si nécessaire.
 
-**Required variables**:
+**Variables requises** :
 
 - survey_modality
 - wash_handwashing_facility
@@ -483,23 +500,24 @@ main_wash <- main_wash |>
   add_handwashing_facility_cat()
 ```
 
-### WASH Sectoral Composite
+### Composite sectoriel WASH
 
-Finally, we compute the overall WASH Sectoral Composite. The
+Enfin, nous calculons le composite sectoriel WASH global. La fonction
 [`add_comp_wash()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_wash.md)
-function combines the water quantity, water quality, sanitation, and
-hygiene components to generate the WASH composite score and need
-indicator.
+combine les composantes quantité d’eau, qualité de l’eau potable,
+assainissement et hygiène pour générer le score composite WASH et
+l’indicateur de besoin.
 
-**Key considerations**: The setting variable is required because the
-WASH composite applies different scoring logic to camp, urban, and rural
-settings. By default, the function expects camp_formal and camp_informal
-for camp settings, urban for urban settings, and rural for rural
-settings. If the dataset uses different setting codes, the corresponding
-`setting_camp`, `setting_urban`, and/or `setting_rural` parameters must
-be specified.
+**Points clés** : La variable de milieu est requise car le composite
+WASH applique une logique de notation différente selon les milieux camp,
+urbain et rural. Par défaut, la fonction attend camp_formal et
+camp_informal pour les milieux de type camp, urban pour les milieux
+urbains et rural pour les milieux ruraux. Si le jeu de données utilise
+des codes de milieu différents, les paramètres correspondants
+`setting_camp`, `setting_urban` et/ou `setting_rural` doivent être
+spécifiés.
 
-**Required variables**:
+**Variables requises** :
 
 - setting
 - comp_wash_score_water_quantity
@@ -516,24 +534,24 @@ main_wash <- main_wash |>
   add_comp_wash()
 ```
 
-## SNFI / HLP
+## Abri et BNA (SNFI) / HLP
 
-### Shelter Type
+### Type d’abri
 
-We first recode the two shelter type variables into a single global
-shelter type category. The function combines the general shelter type
-and individual shelter type information and classifies households as
-none, inadequate, adequate, or undefined. The resulting variable is
-snfi_shelter_type_cat. The function gives priority to responses such as
-no shelter or collective centre before applying the individual shelter
-type classification.
+Nous recodons d’abord les deux variables de type d’abri en une seule
+catégorie globale de type d’abri. La fonction combine les informations
+sur le type d’abri général et le type d’abri individuel et classe les
+ménages comme aucun, inadéquat, adéquat ou non défini. La variable
+obtenue est snfi_shelter_type_cat. La fonction donne la priorité aux
+réponses telles que pas d’abri ou centre collectif avant d’appliquer la
+classification du type d’abri individuel.
 
-**Key considerations**: Check that the mapping of shelter types fits
-your context. The standard parameters used in the function may differ
-from these. In case of doubts, reach out to the Shelter Cluster to
-confirm these classifications.
+**Points clés** : Vérifiez que le mappage des types d’abri correspond à
+votre contexte. Les paramètres standard utilisés dans la fonction
+peuvent différer. En cas de doute, contactez le cluster Abri pour
+confirmer ces classifications.
 
-**Required variables**:
+**Variables requises** :
 
 - snfi_shelter_type
 - snfi_shelter_type_individual
@@ -544,20 +562,20 @@ main_snfi <- main_wash |>
   add_shelter_type_cat()
 ```
 
-### Shelter Issues
+### Problèmes d’abri
 
-We then calculate the number of shelter issues reported by each
-household and convert this into an ordinal category. The function counts
-the reported issues across the 11 shelter issue variables and generates
-both snfi_shelter_issue_n and snfi_shelter_issue_cat. The resulting
-categories are none, 1_to_3, 4_to_7, and 8_to_11, with separate
-categories for undefined and other.
+Nous calculons ensuite le nombre de problèmes d’abri déclarés par chaque
+ménage et le convertissons en une catégorie ordinale. La fonction compte
+les problèmes déclarés parmi les 11 variables de problèmes d’abri et
+génère à la fois snfi_shelter_issue_n et snfi_shelter_issue_cat. Les
+catégories obtenues sont none, 1_to_3, 4_to_7 et 8_to_11, avec des
+catégories distinctes pour undefined et other.
 
-**Key considerations**: The list of 11 shelter issues variable should be
-standard across all contexts. If you deviate from this, get in touch
-with the global MSNA team.
+**Points clés** : La liste des 11 variables de problèmes d’abri doit
+être standard dans tous les contextes. Si vous vous en écartez,
+contactez l’équipe MSNA globale.
 
-**Required variables**:
+**Variables requises** :
 
 - snfi_shelter_issue
 
@@ -567,19 +585,19 @@ main_snfi <- main_snfi |>
   add_shelter_issue_cat()
 ```
 
-### Shelter Damages
+### Dommages à l’abri
 
-We next recode the reported shelter damage into a standardized damage
-category. The function combines the different damage types and
-prioritizes the most severe reported level. The resulting
-snfi_shelter_damage_cat variable contains none, damaged, part, total, or
-undefined.
+Nous recodons ensuite les dommages à l’abri déclarés en une catégorie
+standardisée de dommages. La fonction combine les différents types de
+dommages et donne la priorité au niveau déclaré le plus sévère. La
+variable snfi_shelter_damage_cat obtenue contient none, damaged, part,
+total ou undefined.
 
-**Key considerations**: The damage categories should be standard across
-contexts. If any deviations arise, make sure to properly specify these
-in the relevant function arguments.
+**Points clés** : Les catégories de dommages doivent être standard dans
+tous les contextes. Si des écarts apparaissent, assurez-vous de bien les
+spécifier dans les arguments pertinents de la fonction.
 
-**Required variables**:
+**Variables requises** :
 
 - snfi_shelter_damage
 
@@ -589,22 +607,23 @@ main_snfi <- main_snfi |>
   add_shelter_damage_cat()
 ```
 
-### Functional Domestic Space (FDS)
+### Espace domestique fonctionnel (EDF)
 
-We then calculate the number of functional domestic space tasks that
-cannot be performed, incorporating cooking, sleeping, storing, and
-lighting. The function first standardizes the three domestic task
-variables and the lighting source, then creates binary indicators and
-sums them to produce snfi_fds_cannot_n. This is subsequently categorized
-into snfi_fds_cannot_cat, with categories ranging from no affected tasks
-to four affected tasks.
+Nous calculons ensuite le nombre de tâches liées à l’espace domestique
+fonctionnel qui ne peuvent pas être réalisées, en tenant compte de la
+cuisson, du sommeil, du stockage et de l’éclairage. La fonction
+standardise d’abord les trois variables de tâches domestiques et la
+source d’éclairage, puis crée des indicateurs binaires et les additionne
+pour produire snfi_fds_cannot_n. Celui-ci est ensuite catégorisé en
+snfi_fds_cannot_cat, avec des catégories allant de aucune tâche affectée
+à quatre tâches affectées.
 
-**Key considerations**: The default response codes are yes, no, and
-no_need for cooking, and yes/no for sleeping and storing. pnta is
-treated as undefined for the three task variables. For lighting, none
-indicates no lighting source.
+**Points clés** : Les codes de réponse par défaut sont yes, no et
+no_need pour la cuisson, et yes/no pour le sommeil et le stockage. pnta
+est traité comme non défini pour les trois variables de tâches. Pour
+l’éclairage, none indique l’absence de source d’éclairage.
 
-**Required variables**:
+**Variables requises** :
 
 - snfi_fds_cooking
 - snfi_fds_sleeping
@@ -617,23 +636,25 @@ main_snfi <- main_snfi |>
   add_fds_cannot_cat()
 ```
 
-### Occupancy Status / Security of Tenure
+### Statut d’occupation / Sécurité de la tenure
 
-We then classify occupancy arrangements and eviction risk separately
-before combining them into an overall tenure security category.
-Occupancy is classified as high, medium, or low risk, while eviction
-risk is classified as high or low risk. The resulting
-hlp_tenure_security variable takes the highest level of risk across the
-two components.
+Nous classons ensuite séparément les arrangements d’occupation et le
+risque d’expulsion avant de les combiner en une catégorie globale de
+sécurité de la tenure. L’occupation est classée comme risque élevé,
+moyen ou faible, tandis que le risque d’expulsion est classé comme
+risque élevé ou faible. La variable hlp_tenure_security obtenue prend le
+niveau de risque le plus élevé entre les deux composantes.
 
-**Key considerations**: By default, no_agreement is high-risk occupancy,
-rented and hosted_free are medium-risk, and ownership is low-risk. For
-eviction risk, yes is high-risk and no is low-risk. dnk, pnta, and other
-are treated as undefined for occupancy, while dnk and pnta are undefined
-for eviction risk. The final tenure security category takes the maximum
-risk level across occupancy and eviction risk.
+**Points clés** : Par défaut, no_agreement correspond à une occupation à
+risque élevé, rented et hosted_free à un risque moyen, et ownership à un
+risque faible. Pour le risque d’expulsion, yes correspond à un risque
+élevé et no à un risque faible. dnk, pnta et other sont traités comme
+non définis pour l’occupation, tandis que dnk et pnta sont non définis
+pour le risque d’expulsion. La catégorie finale de sécurité de la tenure
+prend le niveau de risque maximal entre l’occupation et le risque
+d’expulsion.
 
-**Required variables**:
+**Variables requises** :
 
 - hlp_occupancy
 - hlp_risk_eviction
@@ -644,20 +665,20 @@ main_snfi <- main_snfi |>
   add_occupancy_cat()
 ```
 
-### SNFI Sectoral Composite
+### Composite sectoriel SNFI
 
-Finally, we compute the overall SNFI Sectoral Composite. The
+Enfin, nous calculons le composite sectoriel SNFI global. La fonction
 [`add_comp_snfi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_snfi.md)
-function combines the standardized shelter type, shelter issues, tenure
-security, FDS, and shelter damage categories and assigns scores to each
-component. It then derives the overall comp_snfi_score, as well as
-comp_snfi_in_need and comp_snfi_in_severe_need.
+combine le type d’abri, les problèmes d’abri, la sécurité de la tenure,
+l’EDF et les catégories de dommages à l’abri standardisés et attribue
+des scores à chaque composante. Elle dérive ensuite le comp_snfi_score
+global, ainsi que comp_snfi_in_need et comp_snfi_in_severe_need.
 
-**Key considerations**: The input variables are generated by the
-preceding functions and should therefore be created before running
+**Points clés** : Les variables d’entrée sont générées par les fonctions
+précédentes et doivent donc être créées avant d’exécuter
 [`add_comp_snfi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_snfi.md).
 
-**Required variables**:
+**Variables requises** :
 
 - snfi_shelter_type_cat
 - snfi_shelter_issue_cat
@@ -673,25 +694,26 @@ main_snfi <- main_snfi |>
 
 ## Protection
 
-### Movement and Access to Public Spaces
+### Mouvement et accès aux espaces publics
 
-We first calculate the Movement and Access to Public Spaces dimension.
-The
+Nous calculons d’abord la dimension Mouvement et accès aux espaces
+publics. La fonction
 [`add_prot_score_movement()`](https://impact-initiatives-hppu.github.io/humind/reference/add_prot_score_movement.md)
-function uses reported safety concerns and changes in movement or
-activities to calculate a weighted score. The weighted score is then
-converted to a severity score from 1 to 4 that represents the score for
-this dimension.
+utilise les préoccupations de sécurité déclarées et les changements de
+mouvement ou d’activités pour calculer un score pondéré. Le score
+pondéré est ensuite converti en un score de sévérité de 1 à 4 qui
+représente le score de cette dimension.
 
-**Key considerations**: All response options are assigned a weight
-between 0 and 2. By default, men_avoid_places and men_avoid_night have a
-weight of 1, but these can be adjusted in contexts where military
-conscription is a characteristic of the crisis. Simply change the
-`men_avoid_places_weight` and `men_avoid_night_weight` arguments,
-respectively. The resulting variables are comp_prot_score_prot_needs_3
-and comp_prot_score_movement.
+**Points clés** : Toutes les options de réponse se voient attribuer une
+pondération comprise entre 0 et 2. Par défaut, men_avoid_places et
+men_avoid_night ont une pondération de 1, mais celles-ci peuvent être
+ajustées dans les contextes où la conscription militaire est une
+caractéristique de la crise. Modifiez simplement les arguments
+`men_avoid_places_weight` et `men_avoid_night_weight`, respectivement.
+Les variables obtenues sont comp_prot_score_prot_needs_3 et
+comp_prot_score_movement.
 
-**Required variables**:
+**Variables requises** :
 
 - prot_needs_3_movement
 
@@ -701,22 +723,23 @@ main_prot <- main_snfi |>
   add_prot_score_movement()
 ```
 
-### Safe Practices & Activities
+### Pratiques et activités sûres
 
-We then calculate the Safe Practices and Activities dimension. The
+Nous calculons ensuite la dimension Pratiques et activités sûres. La
+fonction
 [`add_prot_score_practices()`](https://impact-initiatives-hppu.github.io/humind/reference/add_prot_score_practices.md)
-function calculates separate weighted scores for restrictions affecting
-household members’ ability to carry out activities and participate in
-social interactions. These are then combined to produce the overall
-comp_prot_score_practices severity score, ranging from 1 to 4.
+calcule des scores pondérés distincts pour les restrictions affectant la
+capacité des membres du ménage à mener leurs activités et à participer
+aux interactions sociales. Ceux-ci sont ensuite combinés pour produire
+le score de sévérité global comp_prot_score_practices, allant de 1 à 4.
 
-**Key considerations**: The function creates three variables:
+**Points clés** : La fonction crée trois variables :
 comp_prot_score_prot_needs_2_activities,
-comp_prot_score_prot_needs_2_social, and comp_prot_score_practices. Only
-if both underlying dimension scores are missing, the overall practices
-score is also missing.
+comp_prot_score_prot_needs_2_social et comp_prot_score_practices. Ce
+n’est que si les deux scores de dimension sous-jacents sont manquants
+que le score global des pratiques est également manquant.
 
-**Required variables**:
+**Variables requises** :
 
 - prot_needs_2_activities
 - prot_needs_2_social
@@ -732,27 +755,29 @@ main_prot <- main_prot |>
 #>   rows.
 ```
 
-### Access Rights & Services
+### Droits et accès aux services
 
-Next, we compute the final Access Rights and Services dimension. as for
-the other Protection dimensions, the
+Ensuite, nous calculons la dernière dimension Droits et accès aux
+services. Comme pour les autres dimensions de la Protection, la fonction
 [`add_prot_score_rights()`](https://impact-initiatives-hppu.github.io/humind/reference/add_prot_score_rights.md)
-function calculates separate weighted scores for barriers to accessing
-essential services and barriers to accessing justice and legal
-resources. These are also combined to produce the comp_prot_score_rights
-severity score, ranging from 1 to 4.
+calcule des scores pondérés distincts pour les obstacles à l’accès aux
+services essentiels et les obstacles à l’accès à la justice et aux
+ressources juridiques. Ceux-ci sont également combinés pour produire le
+score de sévérité comp_prot_score_rights, allant de 1 à 4.
 
-**Key considerations**: The different barriers are weighted according to
-their severity in the Protection framework. In particular, barriers to
-healthcare and schools receive a weight of 2, while other service
-barriers generally receive a weight of 1. For justice and legal
-resources, difficulty accessing identity and civil documents receives a
-weight of 2, while the other specified barriers receive a weight of 1.
-dnk and pnta are treated as missing. The function creates three columns:
+**Points clés** : Les différents obstacles sont pondérés selon leur
+sévérité dans le cadre de la Protection. En particulier, les obstacles à
+l’accès aux soins de santé et aux écoles reçoivent une pondération de 2,
+tandis que les autres obstacles à l’accès aux services reçoivent
+généralement une pondération de 1. Pour la justice et les ressources
+juridiques, la difficulté d’accès aux documents d’identité et d’état
+civil reçoit une pondération de 2, tandis que les autres obstacles
+spécifiés reçoivent une pondération de 1. dnk et pnta sont traités comme
+manquants. La fonction crée trois colonnes :
 comp_prot_score_prot_needs_1_services,
-comp_prot_score_prot_needs_1_justice, and comp_prot_score_rights.
+comp_prot_score_prot_needs_1_justice et comp_prot_score_rights.
 
-**Required variables**:
+**Variables requises** :
 
 - prot_needs_1_services
 - prot_needs_1_justice
@@ -766,17 +791,17 @@ main_prot <- main_prot |>
 #> ℹ `comp_prot_score_prot_needs_1_justice`: 35 NA.
 ```
 
-### Protection Sectoral Composite
+### Composite sectoriel Protection
 
-Finally, we compute the overall Protection Composite. The
+Enfin, nous calculons le composite Protection global. La fonction
 [`add_comp_prot()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_prot.md)
-function takes the maximum severity score across the three Protection
-dimensions — movement, practices, and rights and services — to generate
-the overall Protection severity score (ranging from 1 to 4).
+prend le score de sévérité maximal parmi les trois dimensions de la
+Protection — mouvement, pratiques, et droits et services — pour générer
+le score de sévérité global de la Protection (allant de 1 à 4).
 
-**Key considerations**: None.
+**Points clés** : Aucun.
 
-**Required variables**:
+**Variables requises** :
 
 - comp_prot_score_movement
 - comp_prot_score_practices
@@ -788,27 +813,31 @@ main_prot <- main_prot |>
   add_comp_prot()
 ```
 
-## Health
+## Santé
 
-The Health Sectoral Composite is based on one dimension: Health Needs.
-It involves summarizing data from the roster to the main dataset.
+Le composite sectoriel Santé est fondé sur une seule dimension : les
+besoins de santé. Il implique de résumer les données du roster vers le
+jeu de données principal.
 
-We first calculate healthcare need at the individual level using
+Nous calculons d’abord le besoin de soins de santé au niveau individuel
+à l’aide de
 [`add_loop_healthcare_needed_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.md).
-The function combines whether an individual needed healthcare with
-whether they received it, classifying each individual as having no need,
-a met need, or an unmet need. It also creates binary indicators for each
-category, which are used in the subsequent household-level aggregation.
+La fonction combine le fait qu’un individu ait eu besoin de soins de
+santé avec le fait qu’il les ait reçus, classant chaque individu comme
+n’ayant aucun besoin, un besoin satisfait ou un besoin non satisfait.
+Elle crée également des indicateurs binaires pour chaque catégorie, qui
+sont utilisés dans l’agrégation ultérieure au niveau du ménage.
 
-**Key considerations**: Individuals reporting that they needed
-healthcare but have dnk, pnta, or missing information for whether they
-received it cannot be classified as having a met or unmet need and are
-therefore assigned NA. The function also creates the variables
-health_ind_healthcare_needed_no, health_ind_healthcare_needed_yes_unmet,
-and health_ind_healthcare_needed_yes_met, which are used to aggregate
-the individual-level results to the household level.
+**Points clés** : Les individus déclarant avoir eu besoin de soins de
+santé mais dont les informations sur le fait de les avoir reçus sont
+dnk, pnta ou manquantes ne peuvent pas être classés comme ayant un
+besoin satisfait ou non satisfait et se voient donc attribuer NA. La
+fonction crée également les variables health_ind_healthcare_needed_no,
+health_ind_healthcare_needed_yes_unmet et
+health_ind_healthcare_needed_yes_met, qui sont utilisées pour agréger
+les résultats au niveau individuel vers le niveau du ménage.
 
-**Required variables**:
+**Variables requises** :
 
 - health_ind_healthcare_needed
 - health_ind_healthcare_received
@@ -819,21 +848,21 @@ health_ind <- humind_health_ind |>
   add_loop_healthcare_needed_cat()
 ```
 
-We then use
+Nous utilisons ensuite
 [`add_loop_healthcare_needed_cat_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.md)
-to aggregate the individual-level healthcare need indicators to the
-household level. The function counts the number of individuals in each
-category within each household and joins these counts back to the main
-household dataset.
+pour agréger les indicateurs individuels de besoin de soins de santé au
+niveau du ménage. La fonction compte le nombre d’individus dans chaque
+catégorie au sein de chaque ménage et rattache ces dénombrements au jeu
+de données principal des ménages.
 
-**Key considerations**: `id_col_main` and `id_col_loop` must identify
-the household consistently in the main and individual-level datasets.
-The function produces health_ind_healthcare_needed_no_n,
-health_ind_healthcare_needed_yes_unmet_n, and
-health_ind_healthcare_needed_yes_met_n, representing the number of
-individuals in each category per household.
+**Points clés** : `id_col_main` et `id_col_loop` doivent identifier le
+ménage de manière cohérente dans les jeux de données principal et
+individuel. La fonction produit health_ind_healthcare_needed_no_n,
+health_ind_healthcare_needed_yes_unmet_n et
+health_ind_healthcare_needed_yes_met_n, représentant le nombre
+d’individus dans chaque catégorie par ménage.
 
-**Required variables**:
+**Variables requises** :
 
 - health_ind_healthcare_needed_no
 - health_ind_healthcare_needed_yes_unmet
@@ -850,19 +879,20 @@ main_health <- main_prot |>
   )
 ```
 
-Finally,
+Enfin,
 [`add_comp_health()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_health.md)
-calculates the Health composite score at household level based on the
-presence of unmet and met healthcare needs. A household receives a score
-of 3 if at least one individual has an unmet healthcare need, 2 if there
-is at least one individual with a met healthcare need but no unmet need,
-and 1 if individuals in the household report no healthcare need. The
-function then generates the standard in_need and in_severe_need
-indicators.
+calcule le score composite Santé au niveau du ménage en fonction de la
+présence de besoins de soins de santé non satisfaits et satisfaits. Un
+ménage reçoit un score de 3 si au moins un individu a un besoin de soins
+de santé non satisfait, de 2 s’il y a au moins un individu avec un
+besoin satisfait mais aucun besoin non satisfait, et de 1 si les
+individus du ménage ne déclarent aucun besoin de soins de santé. La
+fonction génère ensuite les indicateurs standard in_need et
+in_severe_need.
 
-**Key considerations**: None.
+**Points clés** : Aucun.
 
-**Required variables**:
+**Variables requises** :
 
 - health_ind_healthcare_needed_no_n
 - health_ind_healthcare_needed_yes_unmet_n
@@ -874,34 +904,35 @@ main_health <- main_health |>
   add_comp_health()
 ```
 
-## Education
+## Éducation
 
-### Loop: Preparation
+### Boucle : préparation
 
-As for Health, Education involves summarizing information in the
-individual roster (loop) to the household-level dataset (main). The
-first step is to prepare the individual-level education dataset by
-identifying children of schooling age. The
+Comme pour la Santé, l’Éducation implique de résumer les informations du
+roster individuel (boucle) vers le jeu de données au niveau du ménage
+(main). La première étape consiste à préparer le jeu de données
+individuel d’éducation en identifiant les enfants d’âge scolaire. La
+fonction
 [`add_loop_edu_ind_age_corrected()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_ind_age_corrected.md)
-function corrects individual age based on the timing of data collection
-relative to the start of the school year and creates a binary indicator,
-edu_ind_age_schooling, identifying individuals who fall within the
-schooling-age population. By default, the schooling-age range is 5–17
-years.
+corrige l’âge individuel en fonction du moment de la collecte des
+données par rapport au début de l’année scolaire et crée un indicateur
+binaire, edu_ind_age_schooling, identifiant les individus qui
+appartiennent à la population d’âge scolaire. Par défaut, la tranche
+d’âge scolaire est de 5 à 17 ans.
 
-**Key considerations**: The `start` variable in the main dataset must be
-a date in ISO 8601 format (YYYY-MM-DD). By default, the school year is
-assumed to start in September (`school_year_start_month` = 9), and the
-schooling-age population is defined as ages 5–17 (`schooling_start_age`
-= 5, `schooling_end_age` = 17). These parameters should be adjusted if
-the assessment uses a different school-year start month or age range.
-Alternatively, a common data-collection month can be specified using the
-`month` parameter. The function generates edu_ind_age_corrected and
-edu_ind_age_schooling. The default for age is edu_ind_age, assuming that
-the Education loop is standalone. For other cases, adjust this
-parameter.
+**Points clés** : La variable `start` du jeu de données principal doit
+être une date au format ISO 8601 (AAAA-MM-JJ). Par défaut, l’année
+scolaire est supposée commencer en septembre (`school_year_start_month`
+= 9), et la population d’âge scolaire est définie comme les 5 à 17 ans
+(`schooling_start_age` = 5, `schooling_end_age` = 17). Ces paramètres
+doivent être ajustés si l’évaluation utilise un mois de début d’année
+scolaire ou une tranche d’âge différente. Sinon, un mois de collecte
+commun peut être spécifié à l’aide du paramètre `month`. La fonction
+génère edu_ind_age_corrected et edu_ind_age_schooling. La valeur par
+défaut de l’âge est edu_ind_age, en supposant que la boucle Éducation
+est autonome. Dans les autres cas, ajustez ce paramètre.
 
-**Required variables**:
+**Variables requises** :
 
 - id_col_loop (default: uuid)
 - id_col_main (default: uuid)
@@ -918,21 +949,22 @@ edu_ind <- humind_edu_ind |>
   )
 ```
 
-### Loop: Access & Barriers to Education
+### Boucle : accès à l’éducation et obstacles
 
-We then classify whether each school-aged child has access to education.
-The function creates two binary variables: edu_ind_access_d, indicating
-access to education, and edu_ind_no_access_d, indicating no access to
-education. Individuals outside the schooling-age population are assigned
+Nous classons ensuite si chaque enfant d’âge scolaire a accès à
+l’éducation. La fonction crée deux variables binaires :
+edu_ind_access_d, indiquant l’accès à l’éducation, et
+edu_ind_no_access_d, indiquant l’absence d’accès à l’éducation. Les
+individus en dehors de la population d’âge scolaire se voient attribuer
 NA.
 
-**Key considerations**: By default, yes indicates access and no
-indicates no access. dnk and pnta are treated as missing (NA) rather
-than as no access. This step must be run after
+**Points clés** : Par défaut, yes indique l’accès et no l’absence
+d’accès. dnk et pnta sont traités comme manquants (NA) plutôt que comme
+une absence d’accès. Cette étape doit être exécutée après
 [`add_loop_edu_ind_age_corrected()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_ind_age_corrected.md),
-as it uses edu_ind_age_schooling.
+car elle utilise edu_ind_age_schooling.
 
-**Required variables**:
+**Variables requises** :
 
 - edu_access
 - edu_ind_age_schooling
@@ -943,8 +975,8 @@ edu_ind <- edu_ind |>
   add_loop_edu_access_d()
 ```
 
-**Key considerations**: By default, the function identifies the
-following response codes as protection barriers:
+**Points clés** : Par défaut, la fonction identifie les codes de réponse
+suivants comme obstacles de protection :
 
 - protection_at_school
 - protection_travel_school
@@ -957,11 +989,11 @@ following response codes as protection barriers:
 - enroll_lack_documentation
 - discrimination
 
-If the survey uses different response codes, or the list of Protection
-issues has been contextualized, the `barriers` and `protection_issues`
-parameters should be adjusted.
+Si l’enquête utilise des codes de réponse différents, ou si la liste des
+problèmes de Protection a été contextualisée, les paramètres `barriers`
+et `protection_issues` doivent être ajustés.
 
-**Required variables**:
+**Variables requises** :
 
 - edu_barrier
 - edu_ind_age_schooling
@@ -972,21 +1004,22 @@ edu_ind <- edu_ind |>
   add_loop_edu_barrier_protection_d()
 ```
 
-### Loop: Education Disruption
+### Boucle : perturbation de l’éducation
 
-Finally, we identify education disruptions among school-aged children.
-The function creates binary indicators for disruption due to attacks,
-hazards, displacement, and teacher absence.
+Enfin, nous identifions les perturbations de l’éducation parmi les
+enfants d’âge scolaire. La fonction crée des indicateurs binaires pour
+les perturbations dues aux attaques, aux aléas, aux déplacements et à
+l’absence d’enseignants.
 
-**Key considerations**: By default, all four disruption variables use
-yes, no, dnk, and pnta as their expected response codes. yes is coded as
-1, no as 0, while dnk and pnta are treated as missing. The attack
-variable can be set to NULL if this dimension is not collected in the
-survey. The function generates binary variables ending with “\_d”, which
-are subsequently aggregated to the household level in order to compute
-the Education Sectoral Composite.
+**Points clés** : Par défaut, les quatre variables de perturbation
+utilisent yes, no, dnk et pnta comme codes de réponse attendus. yes est
+codé 1, no 0, tandis que dnk et pnta sont traités comme manquants. La
+variable d’attaque peut être définie sur NULL si cette dimension n’est
+pas collectée dans l’enquête. La fonction génère des variables binaires
+se terminant par « \_d », qui sont ensuite agrégées au niveau du ménage
+afin de calculer le composite sectoriel Éducation.
 
-**Required variables**:
+**Variables requises** :
 
 - edu_disrupted_attack
 - edu_disrupted_hazards
@@ -1000,23 +1033,22 @@ edu_ind <- edu_ind |>
   add_loop_edu_disrupted_d()
 ```
 
-### Main
+### Principal
 
-With the new columns added to the loop, we can now summarize the
-information to main.
+Avec les nouvelles colonnes ajoutées à la boucle, nous pouvons
+maintenant résumer les informations vers le main.
 
-In the first step, we aggregate the number of school-aged children in
-each household. The function sums edu_ind_age_schooling across
-individuals linked to the same household and creates
-edu_schooling_age_n. Households with no school-aged children are
-assigned a value of 0.
+Dans un premier temps, nous agrégeons le nombre d’enfants d’âge scolaire
+dans chaque ménage. La fonction additionne edu_ind_age_schooling pour
+les individus rattachés au même ménage et crée edu_schooling_age_n. Les
+ménages sans enfant d’âge scolaire se voient attribuer la valeur 0.
 
-**Key considerations**: `id_col_main` and `id_col_loop` must contain
-matching household identifiers in the main and loop datasets. The
-function uses the individual-level edu_ind_age_schooling variable
-generated in the previous section.
+**Points clés** : `id_col_main` et `id_col_loop` doivent contenir des
+identifiants de ménage correspondants dans les jeux de données principal
+et de boucle. La fonction utilise la variable individuelle
+edu_ind_age_schooling générée dans la section précédente.
 
-**Required variables**:
+**Variables requises** :
 
 - edu_ind_age_schooling
 - id_col_main (default: uuid)
@@ -1030,20 +1062,20 @@ main_edu <- main_health |>
   )
 ```
 
-### Main: Access & Barriers to Education
+### Principal : accès à l’éducation et obstacles
 
-We then aggregate the education access indicators to the household
-level. The function counts the number of children with access to
-education and the number with no access, generating edu_access_n and
-edu_no_access_n.
+Nous agrégeons ensuite les indicateurs d’accès à l’éducation au niveau
+du ménage. La fonction compte le nombre d’enfants ayant accès à
+l’éducation et le nombre d’enfants n’y ayant pas accès, générant
+edu_access_n et edu_no_access_n.
 
-**Key considerations**: The two individual-level indicators are
-generated by
+**Points clés** : Les deux indicateurs individuels sont générés par
 [`add_loop_edu_access_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_access_d.md).
-The aggregation is performed by household using the specified unique
-identifier columns so make sure these are specified correctly.
+L’agrégation est effectuée par ménage à l’aide des colonnes
+d’identifiant unique spécifiées, assurez-vous donc qu’elles sont
+correctement spécifiées.
 
-**Required variables**:
+**Variables requises** :
 
 - edu_ind_access_d
 - edu_ind_no_access_d
@@ -1058,17 +1090,17 @@ main_edu <- main_edu |>
   )
 ```
 
-Next, we aggregate the number of school-aged children facing child
-protection barriers to the household level. The function generates
-edu_barrier_protection_n, representing the number of school-aged
-children in the household who face a protection barrier to education.
+Ensuite, nous agrégeons le nombre d’enfants d’âge scolaire confrontés à
+des obstacles de protection de l’enfance au niveau du ménage. La
+fonction génère edu_barrier_protection_n, représentant le nombre
+d’enfants d’âge scolaire dans le ménage qui sont confrontés à un
+obstacle de protection à l’éducation.
 
-**Key considerations**: The individual-level protection indicator must
-first be generated using
-[`add_loop_edu_barrier_protection_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_barrier_protection_d.md)
-first.
+**Points clés** : L’indicateur individuel de protection doit d’abord
+être généré à l’aide de
+[`add_loop_edu_barrier_protection_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_barrier_protection_d.md).
 
-**Required variables**:
+**Variables requises** :
 
 - edu_ind_barrier_protection_d
 - id_col_main (default: uuid)
@@ -1082,21 +1114,21 @@ main_edu <- main_edu |>
   )
 ```
 
-### Main: Education Disruption
+### Principal : perturbation de l’éducation
 
-Finally, we aggregate the different education disruption indicators to
-the household level. The function counts the number of school-aged
-children experiencing each type of disruption and generates new columns:
-edu_disrupted_attack_n, edu_disrupted_hazards_n,
-edu_disrupted_displaced_n, and edu_disrupted_teacher_n.
+Enfin, nous agrégeons les différents indicateurs de perturbation de
+l’éducation au niveau du ménage. La fonction compte le nombre d’enfants
+d’âge scolaire connaissant chaque type de perturbation et génère de
+nouvelles colonnes : edu_disrupted_attack_n, edu_disrupted_hazards_n,
+edu_disrupted_displaced_n et edu_disrupted_teacher_n.
 
-**Key considerations**: The four disruption indicators used here are
-generated by
+**Points clés** : Les quatre indicateurs de perturbation utilisés ici
+sont générés par
 [`add_loop_edu_disrupted_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_disrupted_d.md).
-The attack dimension can be omitted by setting `attack_d` = NULL when
-this indicator has been omitted.
+La dimension attaque peut être omise en définissant `attack_d` = NULL
+lorsque cet indicateur a été omis.
 
-**Required variables**:
+**Variables requises** :
 
 - edu_ind_age_schooling
 - edu_disrupted_attack_d
@@ -1114,35 +1146,35 @@ main_edu <- main_edu |>
   )
 ```
 
-### Education Sectoral Composite
+### Composite sectoriel Éducation
 
-Finally, we can calculate the Education Sectoral Composite using the
-household-level counts generated above.
+Enfin, nous pouvons calculer le composite sectoriel Éducation à l’aide
+des dénombrements au niveau du ménage générés ci-dessus.
 [`add_comp_edu()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_edu.md)
-calculates two component scores based on the two dimensions of the
-framework: a disruption education score and an attendance and barriers
-score. The overall Education composite is the maximum of these two
-component scores.
+calcule deux scores de composante fondés sur les deux dimensions du
+cadre : un score d’éducation perturbée et un score d’assiduité et
+d’obstacles. Le composite Éducation global est le maximum de ces deux
+scores de composante.
 
-The disrupted education score ranges from 1 to 4. A household with no
-school-aged children receives a score of 1; disruption due to an attack
-results in a score of 4; disruption due to hazards or displacement
-results in 3; and teacher absence results in 2.
+Le score d’éducation perturbée va de 1 à 4. Un ménage sans enfant d’âge
+scolaire reçoit un score de 1 ; une perturbation due à une attaque donne
+un score de 4 ; une perturbation due à des aléas ou à un déplacement
+donne 3 ; et l’absence d’enseignant donne 2.
 
-The attendance and barriers score is 1 where all school-aged children
-have access, 3 where at least one school-aged child has no access, and 4
-where at least one child has both no access and a faces a protection
-barrier.
+Le score d’assiduité et d’obstacles est de 1 lorsque tous les enfants
+d’âge scolaire ont accès, de 3 lorsqu’au moins un enfant d’âge scolaire
+n’a pas accès, et de 4 lorsqu’au moins un enfant n’a pas accès et est
+confronté à un obstacle de protection.
 
-**Key considerations**: All seven required variables must be numeric.
-The overall comp_edu_score is calculated as the maximum of the disrupted
-education and attendance/barriers scores. The function then generates
-comp_edu_in_need and comp_edu_in_severe_need using the standard MSNI
-need thresholds. These individual, and subsequently, household-level
-variables must therefore all be generated before running
+**Points clés** : Les sept variables requises doivent être numériques.
+Le comp_edu_score global est calculé comme le maximum des scores
+d’éducation perturbée et d’assiduité/obstacles. La fonction génère
+ensuite comp_edu_in_need et comp_edu_in_severe_need à l’aide des seuils
+de besoin standard de l’MSNI. Ces variables individuelles, puis au
+niveau du ménage, doivent donc toutes être générées avant d’exécuter
 [`add_comp_edu()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_edu.md).
 
-**Required variables**:
+**Variables requises** :
 
 - edu_schooling_age_n
 - edu_no_access_n
@@ -1160,38 +1192,38 @@ main_edu <- main_edu |>
 
 ## MSNI
 
-Once all sectoral composites have been calculated, we can generate the
-overall Multi-sector Needs Index (MSNI) using
+Une fois tous les composites sectoriels calculés, nous pouvons générer
+l’indice multisectoriel des besoins (MSNI) global à l’aide de
 [`add_msni()`](https://impact-initiatives-hppu.github.io/humind/reference/add_msni.md).
-The function combines the sectoral composite scores and calculates the
-overall MSNI severity score and associated indicators of need. The
-resulting msni_output dataset can then be used for subsequent analysis
-and reporting.
+La fonction combine les scores des composites sectoriels et calcule le
+score de sévérité MSNI global ainsi que les indicateurs de besoin
+associés. Le jeu de données msni_output obtenu peut ensuite être utilisé
+pour les analyses et rapports ultérieurs.
 
-**Key considerations**: All six sectoral composite scores are used to
-calculate the overall msni_score, which is the maximum sectoral
-composite score. The sectoral composite scores are expected to range
-from 1 to 5. The corresponding “\_in_need” and “\_in_severe_need”
-variables are used to calculate the number and profile of sectoral
-needs.
+**Points clés** : Les six scores de composite sectoriel sont utilisés
+pour calculer le msni_score global, qui est le score composite sectoriel
+maximal. Les scores de composite sectoriel sont censés aller de 1 à 5.
+Les variables correspondantes « \_in_need » et « \_in_severe_need » sont
+utilisées pour calculer le nombre et le profil des besoins sectoriels.
 
-The Health sector is included in the overall MSNI score and in the
-calculation of the number and profile of sectoral needs, but
-comp_health_in_severe_need is not an input to the current
+Le secteur Santé est inclus dans le score MSNI global et dans le calcul
+du nombre et du profil des besoins sectoriels, mais
+comp_health_in_severe_need n’est pas une entrée de la fonction
 [`add_msni()`](https://impact-initiatives-hppu.github.io/humind/reference/add_msni.md)
-function, since the maximum severity for Health is 3. Consequently,
-Health is not included in sector_in_severe_need_n or
-sector_severe_needs_profile in the current implementation.
+actuelle, car la sévérité maximale pour la Santé est de 3. Par
+conséquent, la Santé n’est pas incluse dans sector_in_severe_need_n ni
+dans sector_severe_needs_profile dans l’implémentation actuelle.
 
-The function can accommodate missing sectoral composite variables: if
-some sectoral scores or indicators are absent, it will issue a warning
-and calculate the relevant outputs using the sectors that are available.
-Be careful to report this in any output, as missing dimensions and
-sectors will result in an under-estimation of need, due to the maximum
-approach used in the overall MSNI computation.
+La fonction peut prendre en charge des variables de composite sectoriel
+manquantes : si certains scores ou indicateurs sectoriels sont absents,
+elle émet un avertissement et calcule les sorties pertinentes à l’aide
+des secteurs disponibles. Veillez à le signaler dans toute sortie, car
+les dimensions et secteurs manquants entraîneront une sous-estimation
+des besoins, en raison de l’approche du maximum utilisée dans le calcul
+du MSNI global.
 
-The function generates the following seven main output columns that
-characterize the needs profile of each household:
+La fonction génère les sept principales colonnes de sortie suivantes qui
+caractérisent le profil de besoins de chaque ménage :
 
 - msni_score.
 - msni_in_need.
@@ -1201,7 +1233,7 @@ characterize the needs profile of each household:
 - sector_needs_profile.
 - sector_severe_needs_profile.
 
-**Required variables**:
+**Variables requises** :
 
 - comp_edu_score
 - comp_foodsec_score

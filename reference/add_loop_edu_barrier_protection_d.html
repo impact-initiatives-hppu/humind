@@ -24,6 +24,11 @@ add_loop_edu_ind_age_corrected.R
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/msni-workflow-fr.html">Calcul du MSNI : flux de travail Humind</a></li>
+    <li><a class="dropdown-item" href="../articles/msni-workflow.html">Computing the MSNI: Humind Workflow</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -36,7 +41,7 @@ add_loop_edu_ind_age_corrected.R
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Add Child Protection Barriers to Education Variable</h1>
-      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/dev2026.4.0/R/add_loop_edu_barrier_protection_d.R" class="external-link"><code>R/add_loop_edu_barrier_protection_d.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/tutorial/R/add_loop_edu_barrier_protection_d.R" class="external-link"><code>R/add_loop_edu_barrier_protection_d.R</code></a></small>
       <div class="d-none name"><code>add_loop_edu_barrier_protection_d.Rd</code></div>
     </div>
 
@@ -53,7 +58,12 @@ add_loop_edu_ind_age_corrected.R
 <span>  protection_issues <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"protection_at_school"</span>, <span class="st">"protection_travel_school"</span>,</span>
 <span>    <span class="st">"child_work_home"</span>, <span class="st">"child_work_outside"</span>, <span class="st">"child_armed_group"</span>, <span class="st">"child_marriage"</span>,</span>
 <span>    <span class="st">"child_pregnancy"</span>, <span class="st">"ban"</span>, <span class="st">"enroll_lack_documentation"</span>, <span class="st">"discrimination"</span><span class="op">)</span>,</span>
-<span>  ind_schooling_age_d <span class="op">=</span> <span class="st">"edu_ind_age_schooling"</span></span>
+<span>  ind_schooling_age_d <span class="op">=</span> <span class="st">"edu_ind_age_schooling"</span>,</span>
+<span>  barriers_undefined <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dnk"</span>, <span class="st">"pnta"</span>, <span class="st">"other"</span><span class="op">)</span>,</span>
+<span>  non_protection_issues <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"costs"</span>, <span class="st">"lack_interest"</span>, <span class="st">"not_priority"</span>,</span>
+<span>    <span class="st">"lack_accessible_school"</span>, <span class="st">"lack_classrooms"</span>, <span class="st">"lack_wash_facilities"</span>, <span class="st">"school_closed"</span>,</span>
+<span>    <span class="st">"lack_teacher"</span>, <span class="st">"curriculum_not_useful"</span>, <span class="st">"child_health"</span>, <span class="st">"language"</span>,</span>
+<span>    <span class="st">"enroll_displacement"</span>, <span class="st">"child_too_young"</span>, <span class="st">"child_graduated"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">add_loop_edu_barrier_protection_d_to_main</span><span class="op">(</span></span>
@@ -78,11 +88,19 @@ add_loop_edu_ind_age_corrected.R
 
 
 <dt id="arg-protection-issues">protection_issues<a class="anchor" aria-label="anchor" href="#arg-protection-issues"></a></dt>
-<dd><p>Vector of protection issues RESPONSE CODES.</p></dd>
+<dd><p>Vector of protection issues RESPONSE CODES. Values in this set are flagged as protection barriers. Must not overlap <code>barriers_undefined</code> or <code>non_protection_issues</code>.</p></dd>
 
 
 <dt id="arg-ind-schooling-age-d">ind_schooling_age_d<a class="anchor" aria-label="anchor" href="#arg-ind-schooling-age-d"></a></dt>
 <dd><p>Column name for the dummy variable of schooling age.</p></dd>
+
+
+<dt id="arg-barriers-undefined">barriers_undefined<a class="anchor" aria-label="anchor" href="#arg-barriers-undefined"></a></dt>
+<dd><p>Vector of undefined/non-response values. These are accepted but treated as non-barriers. Defaults to common survey non-responses: "dnk", "pnta", "other". Must not overlap <code>protection_issues</code> or <code>non_protection_issues</code>.</p></dd>
+
+
+<dt id="arg-non-protection-issues">non_protection_issues<a class="anchor" aria-label="anchor" href="#arg-non-protection-issues"></a></dt>
+<dd><p>Vector of valid non-protection barrier RESPONSE CODES (access barriers and flag codes). Values in this set are accepted as valid, but do not affect the <code>edu_ind_barrier_protection_d</code> dummy. Defaults to the non-protection response codes of the standard <code>edu_barrier</code> question. Must not overlap <code>protection_issues</code> or <code>barriers_undefined</code>.</p></dd>
 
 
 <dt id="arg-main">main<a class="anchor" aria-label="anchor" href="#arg-main"></a></dt>

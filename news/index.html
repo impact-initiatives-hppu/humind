@@ -16,6 +16,11 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/msni-workflow-fr.html">Calcul du MSNI : flux de travail Humind</a></li>
+    <li><a class="dropdown-item" href="../articles/msni-workflow.html">Computing the MSNI: Humind Workflow</a></li>
+  </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -28,11 +33,16 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/dev2026.4.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/tutorial/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="humind-development-version">humind (development version)<a class="anchor" aria-label="anchor" href="#humind-development-version"></a></h2>
+<div class="section level4">
+<h4 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h4>
+<ul><li>
+<code><a href="../reference/add_loop_edu_barrier_protection_d.html">add_loop_edu_barrier_protection_d()</a></code>: added input validation for the <code>edu_barrier</code> column, which is assumed to be <code>select_one</code>. Values must be a known barrier response code: a protection barrier (flagged <code>1</code>), a non-protection/access barrier or flag code, or an undefined/non-response value (the latter two coded <code>0</code>). New <code>non_protection_issues</code> (defaults to the non-protection <code>edu_barrier</code> codes) and <code>barriers_undefined</code> (default <code>c("dnk", "pnta", "other")</code>) parameters make these sets explicit; any other value (e.g. typos or combined <code>select_multiple</code> strings) raises an error (<a href="https://github.com/impact-initiatives-hppu/humind/issues/792" class="external-link">#792</a>).</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2026.3.0" id="humind-202630">humind 2026.3.0<a class="anchor" aria-label="anchor" href="#humind-202630"></a></h2>
