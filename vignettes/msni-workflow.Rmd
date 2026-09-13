@@ -46,11 +46,11 @@ id_col_main <- "_uuid"
 id_col_loop <- "_submission__uuid"
 ```
 
-## Food security
+## Food Consumption
 
 ### Livelihood Coping Strategies Index (LCSI)
 
-The first step for the Food Security Composite is to calculate the Livelihood
+The first step for the Food Consumption Composite is to calculate the Livelihood
 Coping Strategies Index (LCSI). The `add_lcsi()` function identifies whether
 households have used or exhausted stress, crisis, or emergency coping strategies
 and assigns the household to the highest applicable LCSI category: None, Stress,
@@ -237,11 +237,11 @@ main_foodsec <- main_foodsec |>
   add_fclcm_phase(lcs_cat_var = "fsl_lcsi_cat")
 ```
 
-### Food Security Sectoral Composite
+### Food Consumption Sectoral Composite
 
 Finally, `add_comp_foodsec()` converts the FCLCM phase directly into the Food
-Security sectoral composite score. The five FCLCM phases correspond directly to
-composite scores from 1 to 5, with the standard MSNI need and severe-need
+Consumption sectoral composite score. The five FCLCM phases correspond directly
+to composite scores from 1 to 5, with the standard MSNI need and severe-need
 indicators also generated.
 
 **Key considerations**: `add_comp_foodsec()` requires fclcm_phase, which must
@@ -734,7 +734,14 @@ separate weighted scores for barriers to accessing essential services and
 barriers to accessing justice and legal resources. These are also combined to
 produce the comp_prot_score_rights severity score, ranging from 1 to 4.
 
-**Key considerations**: The different barriers are weighted according to their severity in the Protection framework. In particular, barriers to healthcare and schools receive a weight of 2, while other service barriers generally receive a weight of 1. For justice and legal resources, difficulty accessing identity and civil documents receives a weight of 2, while the other specified barriers receive a weight of 1. dnk and pnta are treated as missing. The function creates three columns: comp_prot_score_prot_needs_1_services, comp_prot_score_prot_needs_1_justice, and comp_prot_score_rights.
+**Key considerations**: The different barriers are weighted according to their
+severity in the Protection framework. In particular, barriers to healthcare and
+schools receive a weight of 2, while other service barriers generally receive a
+weight of 1. For justice and legal resources, difficulty accessing identity and
+civil documents receives a weight of 2, while the other specified barriers
+receive a weight of 1. dnk and pnta are treated as missing. The function creates
+three columns: comp_prot_score_prot_needs_1_services,
+comp_prot_score_prot_needs_1_justice, and comp_prot_score_rights.
 
 **Required variables**:
 
