@@ -8,10 +8,10 @@
 #'
 #' @param loop A data frame of individual-level data for the loop.
 #' @param barriers Column name for the child protection barrier category.
-#' @param protection_issues Vector of protection issues RESPONSE CODES. Values in this set are flagged as protection barriers.
+#' @param protection_issues Vector of protection issues RESPONSE CODES. Values in this set are flagged as protection barriers. Must not overlap `barriers_undefined` or `non_protection_issues`.
 #' @param ind_schooling_age_d Column name for the dummy variable of schooling age.
-#' @param barriers_undefined Vector of undefined/non-response values. These are accepted but treated as non-barriers. Defaults to common survey non-responses: "dnk", "pnta", "other".
-#' @param non_protection_issues Vector of valid non-protection barrier RESPONSE CODES (access barriers and flag codes). Values in this set are accepted as valid, but do not affect the `edu_ind_barrier_protection_d` dummy. Defaults to the non-protection response codes of the standard `edu_barrier` question.
+#' @param barriers_undefined Vector of undefined/non-response values. These are accepted but treated as non-barriers. Defaults to common survey non-responses: "dnk", "pnta", "other". Must not overlap `protection_issues` or `non_protection_issues`.
+#' @param non_protection_issues Vector of valid non-protection barrier RESPONSE CODES (access barriers and flag codes). Values in this set are accepted as valid, but do not affect the `edu_ind_barrier_protection_d` dummy. Defaults to the non-protection response codes of the standard `edu_barrier` question. Must not overlap `protection_issues` or `barriers_undefined`.
 #'
 #' @return A data frame with an additional column:
 #'
@@ -57,6 +57,23 @@ add_loop_edu_barrier_protection_d <- function(
   # Check if the variable is in the data frame
   if_not_in_stop(loop, barriers, "loop")
   if_not_in_stop(loop, ind_schooling_age_d, "loop")
+
+  # Check that the configurable barrier sets are mutually disjoint
+  checkmate::assert_disjunct(
+    protection_issues,
+    non_protection_issues,
+    .var.name = "protection_issues"
+  )
+  checkmate::assert_disjunct(
+    protection_issues,
+    barriers_undefined,
+    .var.name = "protection_issues"
+  )
+  checkmate::assert_disjunct(
+    non_protection_issues,
+    barriers_undefined,
+    .var.name = "non_protection_issues"
+  )
 
   # Check that edu_barrier values are known barrier response codes
   are_values_in_set(
