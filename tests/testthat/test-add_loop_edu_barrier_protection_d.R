@@ -98,12 +98,11 @@ test_that("add_loop_edu_barrier_protection_d_to_main function handles missing co
   )
 })
 
-# 6. Test ensuring value checks in add_loop_edu_barrier_protection_d_to_main
-test_that("add_loop_edu_barrier_protection_d_to_main function rejects invalid barrier values", {
-  # Create loop data with invalid barrier values
-  invalid_loop_data_raw <- data.frame(
+# 6. Test that add_loop_edu_barrier_protection_d_to_main rejects unprocessed loop data
+test_that("add_loop_edu_barrier_protection_d_to_main rejects unprocessed loop data", {
+  raw_loop_data <- data.frame(
     uuid = c(1, 2),
-    edu_barrier = c("ban", "invalid_barrier"),
+    edu_barrier = c("ban", "child_work_home"),
     edu_ind_age_schooling = c(1, 1)
   )
 
@@ -112,11 +111,10 @@ test_that("add_loop_edu_barrier_protection_d_to_main function rejects invalid ba
     some_other_column = c("a", "b")
   )
 
-  # Passing invalid data directly to _to_main should error when trying to use it
-  # (since the main function would have caught it first in normal workflow)
+  # _to_main expects the dummy computed by add_loop_edu_barrier_protection_d()
   expect_error(
-    add_loop_edu_barrier_protection_d(invalid_loop_data_raw),
-    regex = "values must be in the following set"
+    add_loop_edu_barrier_protection_d_to_main(main_data, raw_loop_data),
+    regex = "column is missing"
   )
 })
 
@@ -174,16 +172,42 @@ test_that("add_loop_edu_barrier_protection_d function flags child_pregnancy as a
 })
 
 # 9. Test that invalid edu_barrier values are rejected (issue #792)
-test_that("add_loop_edu_barrier_protection_d rejects invalid barrier values", {
+test_that("add_loop_edu_barrier_protection_d rejects combined select_multiple strings", {
   expect_error(
     add_loop_edu_barrier_protection_d(
       data.frame(
-        uuid = c(1, 2, 3),
-        edu_barrier = c("ban", "ban discrimination", ""),
-        edu_ind_age_schooling = c(1, 1, 1)
+        uuid = c(1, 2),
+        edu_barrier = c("ban", "ban discrimination"),
+        edu_ind_age_schooling = c(1, 1)
+      )
+    ),
+    regex = "ban discrimination"
+  )
+})
+
+test_that("add_loop_edu_barrier_protection_d rejects empty edu_barrier values", {
+  expect_error(
+    add_loop_edu_barrier_protection_d(
+      data.frame(
+        uuid = c(1, 2),
+        edu_barrier = c("ban", ""),
+        edu_ind_age_schooling = c(1, 1)
       )
     ),
     regex = "values must be in the following set"
+  )
+})
+
+test_that("add_loop_edu_barrier_protection_d rejects unknown edu_barrier codes", {
+  expect_error(
+    add_loop_edu_barrier_protection_d(
+      data.frame(
+        uuid = c(1, 2),
+        edu_barrier = c("ban", "invalid_barrier"),
+        edu_ind_age_schooling = c(1, 1)
+      )
+    ),
+    regex = "invalid_barrier"
   )
 })
 
@@ -200,4 +224,20 @@ test_that("add_loop_edu_barrier_protection_d accepts undefined values and return
   expect_equal(result$edu_ind_barrier_protection_d[1], 0)
   expect_equal(result$edu_ind_barrier_protection_d[2], 0)
   expect_equal(result$edu_ind_barrier_protection_d[3], 0)
+})
+
+# 11. Test that valid non-protection barrier codes are accepted and coded 0
+test_that("add_loop_edu_barrier_protection_d accepts non-protection barriers and returns 0", {
+  result <- add_loop_edu_barrier_protection_d(
+    data.frame(
+      uuid = c(1, 2, 3),
+      edu_barrier = c("costs", "child_health", "lack_teacher"),
+      edu_ind_age_schooling = c(1, 1, 1)
+    )
+  )
+
+  expect_equal(
+    result$edu_ind_barrier_protection_d,
+    c(0, 0, 0)
+  )
 })
