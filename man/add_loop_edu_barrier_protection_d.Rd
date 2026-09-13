@@ -32,13 +32,13 @@ add_loop_edu_barrier_protection_d_to_main(
 
 \item{barriers}{Column name for the child protection barrier category.}
 
-\item{protection_issues}{Vector of protection issues RESPONSE CODES. Values in this set are flagged as protection barriers.}
+\item{protection_issues}{Vector of protection issues RESPONSE CODES. Values in this set are flagged as protection barriers. Must not overlap \code{barriers_undefined} or \code{non_protection_issues}.}
 
 \item{ind_schooling_age_d}{Column name for the dummy variable of schooling age.}
 
-\item{barriers_undefined}{Vector of undefined/non-response values. These are accepted but treated as non-barriers. Defaults to common survey non-responses: "dnk", "pnta", "other".}
+\item{barriers_undefined}{Vector of undefined/non-response values. These are accepted but treated as non-barriers. Defaults to common survey non-responses: "dnk", "pnta", "other". Must not overlap \code{protection_issues} or \code{non_protection_issues}.}
 
-\item{non_protection_issues}{Vector of valid non-protection barrier RESPONSE CODES (access barriers and flag codes). Values in this set are accepted as valid, but do not affect the \code{edu_ind_barrier_protection_d} dummy. Defaults to the non-protection response codes of the standard \code{edu_barrier} question.}
+\item{non_protection_issues}{Vector of valid non-protection barrier RESPONSE CODES (access barriers and flag codes). Values in this set are accepted as valid, but do not affect the \code{edu_ind_barrier_protection_d} dummy. Defaults to the non-protection response codes of the standard \code{edu_barrier} question. Must not overlap \code{protection_issues} or \code{barriers_undefined}.}
 
 \item{main}{A data frame of household-level data.}
 

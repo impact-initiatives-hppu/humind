@@ -241,3 +241,36 @@ test_that("add_loop_edu_barrier_protection_d accepts non-protection barriers and
     c(0, 0, 0)
   )
 })
+
+# 12. Test that overlapping configurable sets are rejected
+test_that("add_loop_edu_barrier_protection_d rejects overlapping sets", {
+  loop_data <- data.frame(
+    uuid = c(1, 2),
+    edu_barrier = c("ban", "dnk"),
+    edu_ind_age_schooling = c(1, 1)
+  )
+
+  expect_error(
+    add_loop_edu_barrier_protection_d(
+      loop_data,
+      barriers_undefined = c("ban", "dnk", "pnta", "other")
+    ),
+    regex = "disjunct"
+  )
+
+  expect_error(
+    add_loop_edu_barrier_protection_d(
+      loop_data,
+      non_protection_issues = "ban"
+    ),
+    regex = "disjunct"
+  )
+
+  expect_error(
+    add_loop_edu_barrier_protection_d(
+      loop_data,
+      non_protection_issues = "dnk"
+    ),
+    regex = "disjunct"
+  )
+})
