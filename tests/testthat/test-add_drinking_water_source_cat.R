@@ -79,7 +79,7 @@ test_that("add_drinking_water_time_cat returns expected column", {
 test_that("add_drinking_water_time_cat errors on wrong sl_under_30_min values", {
   expect_error(
     add_drinking_water_time_cat(dummy_data, sl_under_30_min = "foo"),
-    regexp = ".*All columns must be in the following set.*"
+    regexp = ".*All values must be in the following set.*"
   )
 })
 
