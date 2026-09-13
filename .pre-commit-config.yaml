@@ -53,7 +53,7 @@ repos:
           \.github/workflows/.*|
           data/.*|
           inst/extdata/.*|
-          vignettes/msni-workflow-fr\.Rmd|
+          vignettes/.*-fr\.Rmd|
           )$
     -   id: lintr
         exclude: '^(data-raw|tools)/.*'

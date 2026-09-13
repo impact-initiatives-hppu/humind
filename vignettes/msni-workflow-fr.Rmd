@@ -303,7 +303,7 @@ main_wash <- main_foodsec |>
 ### Qualité de l'eau potable
 
 Nous calculons ensuite la dimension Qualité de l'eau potable. Celle-ci repose sur le
-type de source d'eau potable et le temps nécessaire pour collecter l'eau
+type de source d'eau potable et le temps nécessaire pour aller chercher l'eau
 potable. Les fonctions suivantes recodent progressivement ces variables dans les
 catégories requises pour dériver la classification JMP de l'eau potable.
 
@@ -388,8 +388,8 @@ Assainissement. D'abord, le type d'installation sanitaire est recodé dans des
 catégories standard.
 
 **Points clés** : Comme pour les sources d'eau, la fonction suppose le mappage
-vers améliorée et non améliorée. Assurez-vous que ces classifications
-s'appliquent à votre contexte.
+vers des installations sanitaires améliorées et non améliorées. Assurez-vous que
+ces classifications s'appliquent à votre contexte.
 
 **Variables requises** :
 
@@ -476,7 +476,7 @@ Pour la dernière dimension du WASH, nous calculons la classification JMP de
 l'hygiène. La fonction utilise des informations observées et auto-déclarées sur
 la disponibilité d'une installation pour le lavage des mains, d'eau et de savon.
 La variable wash_handwashing_facility_jmp_cat qui en résulte classe les ménages
-comme disposant d'une installation de lavage des mains basique, limitée ou
+comme disposant d'une installation pour le lavage des mains basique, limitée ou
 no_facility.
 
 **Points clés** : Si le jeu de données ne contient pas survey_modality, celle-ci
@@ -902,8 +902,8 @@ identifiant les enfants d'âge scolaire. La fonction
 `add_loop_edu_ind_age_corrected()` corrige l'âge individuel en fonction du moment
 de la collecte des données par rapport au début de l'année scolaire et crée un
 indicateur binaire, edu_ind_age_schooling, identifiant les individus qui
-appartiennent à la population d'âge scolaire. Par défaut, la tranche d'âge de
-scolarisation est de 5 à 17 ans.
+appartiennent à la population d'âge scolaire. Par défaut, la tranche d'âge
+scolaire est de 5 à 17 ans.
 
 **Points clés** : La variable `start` du jeu de données principal doit être une
 date au format ISO 8601 (AAAA-MM-JJ). Par défaut, l'année scolaire est supposée
