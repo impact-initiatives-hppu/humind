@@ -129,8 +129,9 @@ add_sharing_sanitation_facility_cat <- function(
 #' @param weight Column name for survey weights. For unweighted analysis,
 #' this column must still be provided, with its value set to `1`.
 #'
-#' @return A data frame with an additional column:
+#' @return A data frame with additional columns:
 #'
+#' * wash_sanitation_facility_sharing_n_calc: Estimated number of individuals sharing the sanitation facility.
 #' * wash_sharing_sanitation_n_ind: Categorized number of individuals sharing a sanitation facility.
 #'
 #' @export
@@ -174,10 +175,10 @@ add_sharing_sanitation_facility_n_ind <- function(
     na.rm = TRUE
   )
 
-  #------ Recode the number of people sharing a sanitation facility
+  #------ Estimate the number of individuals sharing a sanitation facility
   df <- dplyr::mutate(
     df,
-    "{sanitation_facility_sharing_n}" := dplyr::case_when(
+    wash_sanitation_facility_sharing_n_calc = dplyr::case_when(
       # If facility shared
       !!rlang::sym(sharing_sanitation_facility_cat) ==
         sharing_sanitation_facility_cat_shared ~
@@ -187,7 +188,7 @@ add_sharing_sanitation_facility_n_ind <- function(
       # If facility not shared
       !!rlang::sym(sharing_sanitation_facility_cat) ==
         sharing_sanitation_facility_cat_not_shared ~
-        !!rlang::sym(hh_size),
+        NA_real_,
       .default = NA_real_
     )
   )
@@ -196,9 +197,12 @@ add_sharing_sanitation_facility_n_ind <- function(
   df <- dplyr::mutate(
     df,
     wash_sharing_sanitation_facility_n_ind = dplyr::case_when(
-      !!rlang::sym(sanitation_facility_sharing_n) >= 50 ~ "50_and_above",
-      !!rlang::sym(sanitation_facility_sharing_n) >= 20 ~ "20_to_49",
-      !!rlang::sym(sanitation_facility_sharing_n) >= 0 ~ "19_and_below",
+      !!rlang::sym("wash_sanitation_facility_sharing_n_calc") >=
+        50 ~ "50_and_above",
+      !!rlang::sym("wash_sanitation_facility_sharing_n_calc") >=
+        20 ~ "20_to_49",
+      !!rlang::sym("wash_sanitation_facility_sharing_n_calc") >=
+        0 ~ "19_and_below",
       .default = NA_character_
     )
   )

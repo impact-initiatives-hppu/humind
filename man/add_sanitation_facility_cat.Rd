@@ -114,8 +114,9 @@ A data frame with an additional column:
 \item wash_sharing_sanitation_facility_cat: Categorized sharing status: "shared", "not_shared", or "not_applicable".
 }
 
-A data frame with an additional column:
+A data frame with additional columns:
 \itemize{
+\item wash_sanitation_facility_sharing_n_calc: Estimated number of individuals sharing the sanitation facility.
 \item wash_sharing_sanitation_n_ind: Categorized number of individuals sharing a sanitation facility.
 }
 

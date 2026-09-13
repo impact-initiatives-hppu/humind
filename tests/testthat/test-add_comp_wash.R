@@ -15,7 +15,7 @@ df_sample <- dplyr::tibble(
   wash_sanitation_facility_cat = c("none", "improved", "unimproved"),
   wash_sharing_sanitation_facility_n_ind = c(
     "50_and_above",
-    "20_to_49",
+    NA,
     "19_and_below"
   ),
   wash_sharing_sanitation_facility_cat = c(
@@ -169,7 +169,7 @@ test_that("integration: add_hwise() |> add_comp_wash() produces correct comp_was
     wash_sanitation_facility_cat = c("none", "improved", "unimproved"),
     wash_sharing_sanitation_facility_n_ind = c(
       "50_and_above",
-      "20_to_49",
+      NA,
       "19_and_below"
     ),
     wash_sharing_sanitation_facility_cat = c(
@@ -218,7 +218,7 @@ new_logic_data <- data.frame(
     rep("improved", 5),
     "none"
   ),
-  wash_sharing_sanitation_facility_n_ind = rep("19_and_below", 6),
+  wash_sharing_sanitation_facility_n_ind = rep(NA, 6),
   wash_sharing_sanitation_facility_cat = rep("not_shared", 6),
   wash_handwashing_facility_jmp_cat = rep("basic", 6)
 )
@@ -267,7 +267,7 @@ test_that("comp_wash_score respects a non-default comp_wash_score_water_quantity
     wash_sanitation_facility_cat = c("none", "improved", "unimproved"),
     wash_sharing_sanitation_facility_n_ind = c(
       "50_and_above",
-      "20_to_49",
+      NA,
       "19_and_below"
     ),
     wash_sharing_sanitation_facility_cat = c(
@@ -316,7 +316,7 @@ camp_type_data <- data.frame(
     "50_and_above",
     "20_to_49",
     "19_and_below",
-    "19_and_below",
+    NA,
     "19_and_below",
     NA,
     "19_and_below"
@@ -364,4 +364,47 @@ test_that("A single scalar setting_camp override still works", {
   df_result <- add_comp_wash(df_single_camp, setting_camp = "camp")
 
   expect_equal(df_result$comp_wash_score_water_quality, c(4, 3, 2))
+})
+
+test_that("integration: improved + not_shared camp facility scores severity 1 (#788)", {
+  df <- dplyr::tibble(
+    setting = rep("camp_formal", 6),
+    # Six camp households spanning the severity mapping: improved shared with
+    # <20, improved not shared, improved shared with 20-49, improved shared
+    # with 50+, unimproved, and no facility.
+    wash_sanitation_facility = c(
+      "flush_piped_sewer",
+      "flush_piped_sewer",
+      "flush_piped_sewer",
+      "flush_piped_sewer",
+      "flush_open_drain",
+      "none"
+    ),
+    wash_sanitation_facility_sharing_yn = c(
+      "yes",
+      "no",
+      "yes",
+      "yes",
+      "no",
+      NA
+    ),
+    wash_sanitation_facility_sharing_n = c(2, NA, 5, 10, NA, NA),
+    hh_size = rep(5, 6),
+    weight = rep(1, 6),
+    comp_wash_score_water_quantity = rep(1, 6),
+    wash_drinking_water_quality_jmp_cat = rep("basic", 6),
+    wash_handwashing_facility_jmp_cat = rep("basic", 6)
+  )
+
+  result <- df |>
+    add_sanitation_facility_cat() |>
+    add_sharing_sanitation_facility_cat() |>
+    add_sharing_sanitation_facility_n_ind() |>
+    add_sanitation_facility_jmp_cat() |>
+    add_comp_wash()
+
+  expect_equal(
+    result$comp_wash_score_sanitation,
+    c(2, 1, 3, 4, 4, 5)
+  )
 })
