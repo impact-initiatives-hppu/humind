@@ -7,14 +7,13 @@ repos:
     -   id: roxygenize
         # roxygen requires loading pkg -> add dependencies from DESCRIPTION
         additional_dependencies:
-        - roxygen2@8.0.0
-        - dplyr@1.2.0
+        - roxygen2
+        - dplyr
         - glue
         - purrr
-        - rlang@1.2.0
+        - rlang
         - stats
         - tidyr
-        - impact-initiatives/impactR.utils
         - Hmisc
         - stringr
         - cli
