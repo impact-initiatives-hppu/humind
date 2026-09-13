@@ -2,6 +2,12 @@
 
 ### Bug Fixes
 
+* `add_comp_snfi()`: the `tenure_security_cat` default now points to
+  `hlp_tenure_security`, the combined security-of-tenure category produced by
+  `add_occupancy_cat()` (maximum risk across occupancy and eviction risk).
+  Previously it defaulted to `hlp_occupancy_cat`, so eviction risk was omitted
+  from the SNFI composite (#801; see also #583, #584).
+
 * `add_loop_edu_barrier_protection_d()`: added input validation for the
   `edu_barrier` column, which is assumed to be `select_one`. Values must be a
   known barrier response code: a protection barrier (flagged `1`), a
