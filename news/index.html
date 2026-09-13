@@ -28,7 +28,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/dev2026.3.1/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/dev2026.4.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
@@ -69,6 +69,8 @@
 <code><a href="../reference/add_handwashing_facility_cat.html">add_handwashing_facility_cat()</a></code>: fixed the <code>facility_observed_water</code> default naming; documented <code>survey_modality</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/759" class="external-link">#759</a>).</li>
 <li>
 <code><a href="../reference/add_sanitation_facility_cat.html">add_sharing_sanitation_facility_n_ind()</a></code>: checks for the presence of the survey weight column (<a href="https://github.com/impact-initiatives-hppu/humind/issues/760" class="external-link">#760</a>).</li>
+<li>
+<code><a href="../reference/add_sanitation_facility_cat.html">add_sharing_sanitation_facility_n_ind()</a></code>: the raw number of households sharing (<code>wash_sanitation_facility_sharing_n</code>) is no longer overwritten; the estimated number of individuals is stored in a new column (<code>wash_sanitation_facility_sharing_n_calc</code>). <code>not_shared</code> facilities no longer get an imputed individual count and leave that column as <code>NA</code>, so they are no longer conflated with “shared with fewer than 20 people”. The camp sanitation severity-1 classification in <code><a href="../reference/add_comp_wash.html">add_comp_wash()</a></code> is now keyed on <code>wash_sharing_sanitation_facility_cat == "not_shared"</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/788" class="external-link">#788</a>).</li>
 <li>
 <code><a href="../reference/add_loop_edu_access_d.html">add_loop_edu_access_d()</a></code>: <code>pnta</code>/<code>dnk</code> coded as <code>NA</code>, not non-attendance (<a href="https://github.com/impact-initiatives-hppu/humind/issues/771" class="external-link">#771</a>).</li>
 <li>
