@@ -2,7 +2,7 @@
 title: "Computing the MSNI: Humind Workflow"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{MSNI Workflow}
+  %\VignetteIndexEntry{Computing the MSNI: Humind Workflow}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
