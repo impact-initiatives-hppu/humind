@@ -9,7 +9,7 @@ are_values_in_set(
   df,
   cols,
   set,
-  main_message = "All values must be in the following set: "
+  main_message = "All columns must be in the following set: "
 )
 ```
 

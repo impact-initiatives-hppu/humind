@@ -2,20 +2,6 @@
 
 ## humind (development version)
 
-#### Bug Fixes
-
-- [`add_loop_edu_barrier_protection_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_barrier_protection_d.md):
-  added input validation for the `edu_barrier` column, which is assumed
-  to be `select_one`. Values must be a known barrier response code: a
-  protection barrier (flagged `1`), a non-protection/access barrier or
-  flag code, or an undefined/non-response value (the latter two coded
-  `0`). New `non_protection_issues` (defaults to the non-protection
-  `edu_barrier` codes) and `barriers_undefined` (default
-  `c("dnk", "pnta", "other")`) parameters make these sets explicit; any
-  other value (e.g. typos or combined `select_multiple` strings) raises
-  an error
-  ([\#792](https://github.com/impact-initiatives-hppu/humind/issues/792)).
-
 ## humind 2026.3.0
 
 This release is a patch/bug-fix round within the 2026 cycle. It tightens
@@ -79,17 +65,6 @@ and removes the runtime dependency on `impactR.utils`.
 - [`add_sharing_sanitation_facility_n_ind()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md):
   checks for the presence of the survey weight column
   ([\#760](https://github.com/impact-initiatives-hppu/humind/issues/760)).
-- [`add_sharing_sanitation_facility_n_ind()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md):
-  the raw number of households sharing
-  (`wash_sanitation_facility_sharing_n`) is no longer overwritten; the
-  estimated number of individuals is stored in a new column
-  (`wash_sanitation_facility_sharing_n_calc`). `not_shared` facilities
-  no longer get an imputed individual count and leave that column as
-  `NA`, so they are no longer conflated with “shared with fewer than 20
-  people”. The camp sanitation severity-1 classification in
-  [`add_comp_wash()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_wash.md)
-  is now keyed on `wash_sharing_sanitation_facility_cat == "not_shared"`
-  ([\#788](https://github.com/impact-initiatives-hppu/humind/issues/788)).
 - [`add_loop_edu_access_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_access_d.md):
   `pnta`/`dnk` coded as `NA`, not non-attendance
   ([\#771](https://github.com/impact-initiatives-hppu/humind/issues/771)).
