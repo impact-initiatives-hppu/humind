@@ -14,8 +14,8 @@ Ci-dessous, nous chargeons humind et dplyr, ainsi que le jeu de données
 au niveau du ménage (main) et les rosters Santé et Éducation (boucles).
 Nous nous assurons également que les identifiants uniques de chaque jeu
 de données sont correctement spécifiés, afin de résumer les informations
-du main vers le jeu de données de boucle, comme cela est fait dans les
-composites sectoriels Santé et Éducation.
+de la boucle vers le jeu de données principal (main), comme cela est
+fait dans les composites sectoriels Santé et Éducation.
 
 ``` r
 
@@ -682,7 +682,7 @@ précédentes et doivent donc être créées avant d’exécuter
 
 - snfi_shelter_type_cat
 - snfi_shelter_issue_cat
-- hlp_occupancy_cat
+- hlp_tenure_security
 - snfi_fds_cannot_cat
 - snfi_shelter_damage_cat
 
@@ -929,8 +929,9 @@ doivent être ajustés si l’évaluation utilise un mois de début d’année
 scolaire ou une tranche d’âge différente. Sinon, un mois de collecte
 commun peut être spécifié à l’aide du paramètre `month`. La fonction
 génère edu_ind_age_corrected et edu_ind_age_schooling. La valeur par
-défaut de l’âge est edu_ind_age, en supposant que la boucle Éducation
-est autonome. Dans les autres cas, ajustez ce paramètre.
+défaut de la colonne d’âge est `ind_age`. L’exemple passe
+`ind_age = "edu_ind_age"` car la boucle Éducation est autonome. Dans les
+autres cas, ajustez ce paramètre.
 
 **Variables requises** :
 
@@ -1998,7 +1999,7 @@ msni_output |> head()
 #> 3                                 2                                   2
 #> 4                                 2                                   1
 #> 5                                 1                                   1
-#> 6                                 2                                   1
+#> 6                                 2                                   3
 #>   comp_snfi_score_fds_cannot_cat comp_snfi_score_shelter_damage_cat
 #> 1                             NA                                 NA
 #> 2                              1                                  4

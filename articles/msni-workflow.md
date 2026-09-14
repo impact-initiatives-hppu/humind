@@ -5,7 +5,7 @@ go over an example workflow using dummy MSNA data from the 2026 cycle.
 The workflow is broken down by function and annotated to describe what
 the function does, any key points to keep in mind during use and
 required input variables (and their codes). If you have any questions,
-or suggestion for improvement, please reach out the the Global MSNA
+or suggestions for improvement, please reach out to the Global MSNA
 Team.
 
 ## Setup
@@ -13,7 +13,7 @@ Team.
 Below, we load humind and dplyr, as well as the household-level dataset
 (main) and Health and Education rosters (loops). We also make sure the
 unique identifiers in each are correctly specified, in order to
-summarize information from the main to the loop dataset, as is done in
+summarize information from the loop to the main dataset, as is done in
 the Health and Education Sectoral Composites.
 
 ``` r
@@ -84,7 +84,7 @@ main_foodsec <- humind_main |>
   add_lcsi()
 ```
 
-### Food Consumption Score (FSC)
+### Food Consumption Score (FCS)
 
 Next, we calculate the Food Consumption Score (FCS) using
 [`add_fcs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fcs.md).
@@ -264,7 +264,7 @@ row-wise sum. A new variable called “comp_wash_score_water_quantity” is
 generated.
 
 **Key considerations**: The default response codes are never, rarely,
-sometimes, often, always, dnk, and pnta. If you data has different
+sometimes, often, always, dnk, and pnta. If your data has different
 response codes, these need to be specified through the corresponding
 function parameters. The `.keep_recoded` parameter can be set to TRUE if
 the individual H-WISE item scores are also required.
@@ -553,8 +553,8 @@ both snfi_shelter_issue_n and snfi_shelter_issue_cat. The resulting
 categories are none, 1_to_3, 4_to_7, and 8_to_11, with separate
 categories for undefined and other.
 
-**Key considerations**: The list of 11 shelter issues variable should be
-standard across all contexts. If you deviate from this, get in touch
+**Key considerations**: The list of 11 shelter issues variables should
+be standard across all contexts. If you deviate from this, get in touch
 with the global MSNA team.
 
 **Required variables**:
@@ -661,7 +661,7 @@ preceding functions and should therefore be created before running
 
 - snfi_shelter_type_cat
 - snfi_shelter_issue_cat
-- hlp_occupancy_cat
+- hlp_tenure_security
 - snfi_fds_cannot_cat
 - snfi_shelter_damage_cat
 
@@ -734,7 +734,7 @@ main_prot <- main_prot |>
 
 ### Access Rights & Services
 
-Next, we compute the final Access Rights and Services dimension. as for
+Next, we compute the final Access Rights and Services dimension. As for
 the other Protection dimensions, the
 [`add_prot_score_rights()`](https://impact-initiatives-hppu.github.io/humind/reference/add_prot_score_rights.md)
 function calculates separate weighted scores for barriers to accessing
@@ -897,9 +897,9 @@ schooling-age population is defined as ages 5–17 (`schooling_start_age`
 the assessment uses a different school-year start month or age range.
 Alternatively, a common data-collection month can be specified using the
 `month` parameter. The function generates edu_ind_age_corrected and
-edu_ind_age_schooling. The default for age is edu_ind_age, assuming that
-the Education loop is standalone. For other cases, adjust this
-parameter.
+edu_ind_age_schooling. The default age column is `ind_age`. The example
+passes `ind_age = "edu_ind_age"` because the Education loop is
+standalone. For other cases, adjust this parameter.
 
 **Required variables**:
 
@@ -1065,8 +1065,7 @@ children in the household who face a protection barrier to education.
 
 **Key considerations**: The individual-level protection indicator must
 first be generated using
-[`add_loop_edu_barrier_protection_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_barrier_protection_d.md)
-first.
+[`add_loop_edu_barrier_protection_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_barrier_protection_d.md).
 
 **Required variables**:
 
@@ -1120,7 +1119,7 @@ Finally, we can calculate the Education Sectoral Composite using the
 household-level counts generated above.
 [`add_comp_edu()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_edu.md)
 calculates two component scores based on the two dimensions of the
-framework: a disruption education score and an attendance and barriers
+framework: a disrupted education score and an attendance and barriers
 score. The overall Education composite is the maximum of these two
 component scores.
 
@@ -1131,7 +1130,7 @@ results in 3; and teacher absence results in 2.
 
 The attendance and barriers score is 1 where all school-aged children
 have access, 3 where at least one school-aged child has no access, and 4
-where at least one child has both no access and a faces a protection
+where at least one child has both no access and faces a protection
 barrier.
 
 **Key considerations**: All seven required variables must be numeric.
@@ -1966,7 +1965,7 @@ msni_output |> head()
 #> 3                                 2                                   2
 #> 4                                 2                                   1
 #> 5                                 1                                   1
-#> 6                                 2                                   1
+#> 6                                 2                                   3
 #>   comp_snfi_score_fds_cannot_cat comp_snfi_score_shelter_damage_cat
 #> 1                             NA                                 NA
 #> 2                              1                                  4

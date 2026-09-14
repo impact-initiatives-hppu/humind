@@ -59,7 +59,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Computing the MSNI: Humind Workflow</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/tutorial/vignettes/msni-workflow.Rmd" class="external-link"><code>vignettes/msni-workflow.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/dev2026.4.0/vignettes/msni-workflow.Rmd" class="external-link"><code>vignettes/msni-workflow.Rmd</code></a></small>
       <div class="d-none name"><code>msni-workflow.Rmd</code></div>
     </div>
 
@@ -70,7 +70,7 @@ will go over an example workflow using dummy MSNA data from the 2026
 cycle. The workflow is broken down by function and annotated to describe
 what the function does, any key points to keep in mind during use and
 required input variables (and their codes). If you have any questions,
-or suggestion for improvement, please reach out the the Global MSNA
+or suggestions for improvement, please reach out to the Global MSNA
 Team.</p>
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
@@ -78,7 +78,7 @@ Team.</p>
 <p>Below, we load humind and dplyr, as well as the household-level
 dataset (main) and Health and Education rosters (loops). We also make
 sure the unique identifiers in each are correctly specified, in order to
-summarize information from the main to the loop dataset, as is done in
+summarize information from the loop to the main dataset, as is done in
 the Health and Education Sectoral Composites.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://impact-initiatives-hppu.github.io/humind/">humind</a></span><span class="op">)</span></span>
@@ -142,7 +142,7 @@ corresponding function arguments.</p>
 <span>  <span class="fu"><a href="../reference/add_lcsi.html">add_lcsi</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="food-consumption-score-fsc">Food Consumption Score (FSC)<a class="anchor" aria-label="anchor" href="#food-consumption-score-fsc"></a>
+<h3 id="food-consumption-score-fcs">Food Consumption Score (FCS)<a class="anchor" aria-label="anchor" href="#food-consumption-score-fcs"></a>
 </h3>
 <p>Next, we calculate the Food Consumption Score (FCS) using
 <code><a href="../reference/add_fcs.html">add_fcs()</a></code>. The function applies the standard food-group
@@ -303,7 +303,7 @@ H-WISE variables and directly assigns the severity level based on the
 row-wise sum. A new variable called “comp_wash_score_water_quantity” is
 generated.</p>
 <p><strong>Key considerations</strong>: The default response codes are
-never, rarely, sometimes, often, always, dnk, and pnta. If you data has
+never, rarely, sometimes, often, always, dnk, and pnta. If your data has
 different response codes, these need to be specified through the
 corresponding function parameters. The <code>.keep_recoded</code>
 parameter can be set to TRUE if the individual H-WISE item scores are
@@ -550,7 +550,7 @@ both snfi_shelter_issue_n and snfi_shelter_issue_cat. The resulting
 categories are none, 1_to_3, 4_to_7, and 8_to_11, with separate
 categories for undefined and other.</p>
 <p><strong>Key considerations</strong>: The list of 11 shelter issues
-variable should be standard across all contexts. If you deviate from
+variables should be standard across all contexts. If you deviate from
 this, get in touch with the global MSNA team.</p>
 <p><strong>Required variables</strong>:</p>
 <ul>
@@ -645,7 +645,7 @@ before running <code><a href="../reference/add_comp_snfi.html">add_comp_snfi()</
 <ul>
 <li>snfi_shelter_type_cat</li>
 <li>snfi_shelter_issue_cat</li>
-<li>hlp_occupancy_cat</li>
+<li>hlp_tenure_security</li>
 <li>snfi_fds_cannot_cat</li>
 <li>snfi_shelter_damage_cat</li>
 </ul>
@@ -713,7 +713,7 @@ score is also missing.</p>
 <div class="section level3">
 <h3 id="access-rights-services">Access Rights &amp; Services<a class="anchor" aria-label="anchor" href="#access-rights-services"></a>
 </h3>
-<p>Next, we compute the final Access Rights and Services dimension. as
+<p>Next, we compute the final Access Rights and Services dimension. As
 for the other Protection dimensions, the
 <code><a href="../reference/add_prot_score_rights.html">add_prot_score_rights()</a></code> function calculates separate
 weighted scores for barriers to accessing essential services and
@@ -857,9 +857,10 @@ population is defined as ages 5–17 (<code>schooling_start_age</code> =
 adjusted if the assessment uses a different school-year start month or
 age range. Alternatively, a common data-collection month can be
 specified using the <code>month</code> parameter. The function generates
-edu_ind_age_corrected and edu_ind_age_schooling. The default for age is
-edu_ind_age, assuming that the Education loop is standalone. For other
-cases, adjust this parameter.</p>
+edu_ind_age_corrected and edu_ind_age_schooling. The default age column
+is <code>ind_age</code>. The example passes
+<code>ind_age = "edu_ind_age"</code> because the Education loop is
+standalone. For other cases, adjust this parameter.</p>
 <p><strong>Required variables</strong>:</p>
 <ul>
 <li>id_col_loop (default: uuid)</li>
@@ -1003,7 +1004,7 @@ children in the household who face a protection barrier to
 education.</p>
 <p><strong>Key considerations</strong>: The individual-level protection
 indicator must first be generated using
-<code><a href="../reference/add_loop_edu_barrier_protection_d.html">add_loop_edu_barrier_protection_d()</a></code> first.</p>
+<code><a href="../reference/add_loop_edu_barrier_protection_d.html">add_loop_edu_barrier_protection_d()</a></code>.</p>
 <p><strong>Required variables</strong>:</p>
 <ul>
 <li>edu_ind_barrier_protection_d</li>
@@ -1050,7 +1051,7 @@ when this indicator has been omitted.</p>
 <p>Finally, we can calculate the Education Sectoral Composite using the
 household-level counts generated above. <code><a href="../reference/add_comp_edu.html">add_comp_edu()</a></code>
 calculates two component scores based on the two dimensions of the
-framework: a disruption education score and an attendance and barriers
+framework: a disrupted education score and an attendance and barriers
 score. The overall Education composite is the maximum of these two
 component scores.</p>
 <p>The disrupted education score ranges from 1 to 4. A household with no
@@ -1059,7 +1060,7 @@ results in a score of 4; disruption due to hazards or displacement
 results in 3; and teacher absence results in 2.</p>
 <p>The attendance and barriers score is 1 where all school-aged children
 have access, 3 where at least one school-aged child has no access, and 4
-where at least one child has both no access and a faces a protection
+where at least one child has both no access and faces a protection
 barrier.</p>
 <p><strong>Key considerations</strong>: All seven required variables
 must be numeric. The overall comp_edu_score is calculated as the maximum
@@ -1885,7 +1886,7 @@ characterize the needs profile of each household:</p>
 <span><span class="co">#&gt; 3                                 2                                   2</span></span>
 <span><span class="co">#&gt; 4                                 2                                   1</span></span>
 <span><span class="co">#&gt; 5                                 1                                   1</span></span>
-<span><span class="co">#&gt; 6                                 2                                   1</span></span>
+<span><span class="co">#&gt; 6                                 2                                   3</span></span>
 <span><span class="co">#&gt;   comp_snfi_score_fds_cannot_cat comp_snfi_score_shelter_damage_cat</span></span>
 <span><span class="co">#&gt; 1                             NA                                 NA</span></span>
 <span><span class="co">#&gt; 2                              1                                  4</span></span>

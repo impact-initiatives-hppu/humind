@@ -2,6 +2,41 @@
 
 ## humind (development version)
 
+## humind 2026.4.0
+
+This release is a bug-fix round. It corrects the SNFI tenure-security
+default in
+[`add_comp_snfi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_snfi.md),
+fixes multi-column range validation in
+[`are_values_in_range()`](https://impact-initiatives-hppu.github.io/humind/reference/are_values_in_range.md),
+corrects the sanitation-facility sharing counts, and tightens input
+validation in the education loop helpers.
+
+------------------------------------------------------------------------
+
+### Codebase Changes
+
+#### Documentation
+
+- New vignette
+  [`vignette("msni-workflow")`](https://impact-initiatives-hppu.github.io/humind/articles/msni-workflow.md)
+  (“Computing the MSNI: Humind Workflow”) providing an end-to-end,
+  sector-by-sector walkthrough of the `humind` pipeline: Food
+  Consumption (LCSI, FCS, HHS, rCSI, FCM, FCLCM), WASH (H-WISE, water
+  quality, sanitation, hygiene), SNFI/HLP, Protection, Health, and
+  Education (loops and main), closing with
+  [`add_msni()`](https://impact-initiatives-hppu.github.io/humind/reference/add_msni.md).
+- New French translation
+  [`vignette("msni-workflow-fr")`](https://impact-initiatives-hppu.github.io/humind/articles/msni-workflow-fr.md)
+  (“Calcul du MSNI : flux de travail Humind”).
+
+#### New Features
+
+- Bundled demo datasets backing the vignette: `humind_main`
+  (household-level) and the individual-level loops `humind_health_ind`
+  and `humind_edu_ind`, documented and exposed lazily (`LazyData`)
+  ([\#785](https://github.com/impact-initiatives-hppu/humind/issues/785)).
+
 #### Bug Fixes
 
 - [`add_loop_edu_disrupted_d_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_disrupted_d.md):
@@ -22,6 +57,14 @@
   [\#583](https://github.com/impact-initiatives-hppu/humind/issues/583),
   [\#584](https://github.com/impact-initiatives-hppu/humind/issues/584)).
 
+- [`are_values_in_range()`](https://impact-initiatives-hppu.github.io/humind/reference/are_values_in_range.md):
+  a value outside `lower`/`upper` in **any** checked column now raises
+  an error, instead of only when every column was out of range.
+  `lower`/`upper` are also validated (both numeric, with
+  `upper >= lower`), and validation messages now refer to “values”
+  rather than “columns”
+  ([\#798](https://github.com/impact-initiatives-hppu/humind/issues/798)).
+
 - [`add_loop_edu_barrier_protection_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_barrier_protection_d.md):
   added input validation for the `edu_barrier` column, which is assumed
   to be `select_one`. Values must be a known barrier response code: a
@@ -33,6 +76,18 @@
   other value (e.g. typos or combined `select_multiple` strings) raises
   an error
   ([\#792](https://github.com/impact-initiatives-hppu/humind/issues/792)).
+
+- [`add_sharing_sanitation_facility_n_ind()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md):
+  the raw number of households sharing
+  (`wash_sanitation_facility_sharing_n`) is no longer overwritten; the
+  estimated number of individuals is stored in a new column
+  (`wash_sanitation_facility_sharing_n_calc`). `not_shared` facilities
+  no longer get an imputed individual count and leave that column as
+  `NA`, so they are no longer conflated with “shared with fewer than 20
+  people”. The camp sanitation severity-1 classification in
+  [`add_comp_wash()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_wash.md)
+  is now keyed on `wash_sharing_sanitation_facility_cat == "not_shared"`
+  ([\#788](https://github.com/impact-initiatives-hppu/humind/issues/788)).
 
 ## humind 2026.3.0
 
@@ -97,17 +152,6 @@ and removes the runtime dependency on `impactR.utils`.
 - [`add_sharing_sanitation_facility_n_ind()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md):
   checks for the presence of the survey weight column
   ([\#760](https://github.com/impact-initiatives-hppu/humind/issues/760)).
-- [`add_sharing_sanitation_facility_n_ind()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md):
-  the raw number of households sharing
-  (`wash_sanitation_facility_sharing_n`) is no longer overwritten; the
-  estimated number of individuals is stored in a new column
-  (`wash_sanitation_facility_sharing_n_calc`). `not_shared` facilities
-  no longer get an imputed individual count and leave that column as
-  `NA`, so they are no longer conflated with “shared with fewer than 20
-  people”. The camp sanitation severity-1 classification in
-  [`add_comp_wash()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_wash.md)
-  is now keyed on `wash_sharing_sanitation_facility_cat == "not_shared"`
-  ([\#788](https://github.com/impact-initiatives-hppu/humind/issues/788)).
 - [`add_loop_edu_access_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_access_d.md):
   `pnta`/`dnk` coded as `NA`, not non-attendance
   ([\#771](https://github.com/impact-initiatives-hppu/humind/issues/771)).
