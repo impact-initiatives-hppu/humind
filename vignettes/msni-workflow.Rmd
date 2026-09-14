@@ -556,7 +556,7 @@ across the 11 shelter issue variables and generates both snfi_shelter_issue_n
 and snfi_shelter_issue_cat. The resulting categories are none, 1_to_3, 4_to_7,
 and 8_to_11, with separate categories for undefined and other.
 
-**Key considerations**: The list of 11 shelter issues variable should be
+**Key considerations**: The list of 11 shelter issues variables should be
 standard across all contexts. If you deviate from this, get in touch with the
 global MSNA team.
 
@@ -728,7 +728,7 @@ main_prot <- main_prot |>
 
 ### Access Rights & Services
 
-Next, we compute the final Access Rights and Services dimension. as for the
+Next, we compute the final Access Rights and Services dimension. As for the
 other Protection dimensions, the `add_prot_score_rights()` function calculates
 separate weighted scores for barriers to accessing essential services and
 barriers to accessing justice and legal resources. These are also combined to
@@ -1046,7 +1046,7 @@ edu_barrier_protection_n, representing the number of school-aged children in the
 household who face a protection barrier to education.
 
 **Key considerations**: The individual-level protection indicator must first be
-generated using `add_loop_edu_barrier_protection_d()` first.
+generated using `add_loop_edu_barrier_protection_d()`.
 
 **Required variables**:
 
@@ -1098,7 +1098,7 @@ main_edu <- main_edu |>
 
 Finally, we can calculate the Education Sectoral Composite using the
 household-level counts generated above. `add_comp_edu()` calculates two
-component scores based on the two dimensions of the framework: a disruption
+component scores based on the two dimensions of the framework: a disrupted
 education score and an attendance and barriers score. The overall Education
 composite is the maximum of these two component scores.
 
@@ -1109,7 +1109,7 @@ teacher absence results in 2.
 
 The attendance and barriers score is 1 where all school-aged children have
 access, 3 where at least one school-aged child has no access, and 4 where at
-least one child has both no access and a faces a protection barrier.
+least one child has both no access and faces a protection barrier.
 
 **Key considerations**: All seven required variables must be numeric. The
 overall comp_edu_score is calculated as the maximum of the disrupted education
