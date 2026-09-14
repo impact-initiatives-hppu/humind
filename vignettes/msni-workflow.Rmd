@@ -662,7 +662,7 @@ functions and should therefore be created before running `add_comp_snfi()`.
 
 - snfi_shelter_type_cat
 - snfi_shelter_issue_cat
-- hlp_occupancy_cat
+- hlp_tenure_security
 - snfi_fds_cannot_cat
 - snfi_shelter_damage_cat
 
