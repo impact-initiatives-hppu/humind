@@ -11,8 +11,8 @@ Welcome to the humind tutorial. In the following RMarkdown file, we will go over
 an example workflow using dummy MSNA data from the 2026 cycle. The workflow is
 broken down by function and annotated to describe what the function does, any
 key points to keep in mind during use and required input variables (and their
-codes). If you have any questions, or suggestion for improvement, please reach
-out the the Global MSNA Team.
+codes). If you have any questions, or suggestions for improvement, please reach
+out to the Global MSNA Team.
 
 ```{r}
 #| label: knitr_opts
