@@ -54,3 +54,11 @@ rsconnect/
 # renv (developer-managed)
 renv.lock
 renv/
+
+# Local pipeline runs against sensitive data - never commit (see
+# msna-sensitive-data-protocol) - logs may quote real values on validator
+# errors, and *.xlsx here covers the real dataset + any row-level output
+*.log
+ken_msna.xlsx
+ken_form.xlsx
+*_pipeline_output.xlsx

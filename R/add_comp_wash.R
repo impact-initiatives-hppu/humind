@@ -313,8 +313,6 @@ add_comp_wash <- function(
       !!rlang::sym(setting) %in% setting_camp &
         !!rlang::sym(sanitation_facility_cat) ==
           sanitation_facility_cat_improved &
-        !!rlang::sym(sanitation_facility_n_ind) ==
-          sanitation_facility_n_ind_19_and_below &
         !!rlang::sym(sharing_sanitation_facility_cat) ==
           sharing_sanitation_facility_cat_not_shared ~
         1,

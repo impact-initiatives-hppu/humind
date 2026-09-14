@@ -80,6 +80,7 @@ importFrom(dplyr,
 importFrom(purrr,iwalk)
 importFrom(rlang,
   ":=",
-  .data
+  .data,
+  sym
 )
 importFrom(utils,tail)

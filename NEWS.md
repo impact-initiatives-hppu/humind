@@ -1,5 +1,72 @@
 # humind (development version)
 
+# humind 2026.4.0
+
+This release is a bug-fix round within the 2026 cycle that also ships the new
+MSNI workflow vignettes and their bundled demo datasets. It corrects the SNFI
+tenure-security default in `add_comp_snfi()`, fixes multi-column range
+validation in `are_values_in_range()`, corrects the sanitation-facility sharing
+counts, and tightens input validation in the education loop helpers.
+
+---
+
+## Codebase Changes
+
+### New Features
+
+* Bundled demo datasets backing the vignette: `humind_main`
+  (household-level) and the individual-level loops `humind_health_ind` and
+  `humind_edu_ind`, documented and exposed lazily (`LazyData`) (#785).
+
+### Bug Fixes
+
+* `add_loop_edu_disrupted_d_to_main()`: passing `attack_d = NULL` (to indicate
+  the attack dimension is absent) no longer raises
+  ``object 'loop_attack' not found``. The attack summary is now only built and
+  joined when `attack_d` is supplied (#804).
+
+* `add_comp_snfi()`: the `tenure_security_cat` default now points to
+  `hlp_tenure_security`, the combined security-of-tenure category produced by
+  `add_occupancy_cat()` (maximum risk across occupancy and eviction risk).
+  Previously it defaulted to `hlp_occupancy_cat`, so eviction risk was omitted
+  from the SNFI composite (#801; see also #583, #584).
+
+* `are_values_in_range()`: a value outside `lower`/`upper` in **any** checked
+  column now raises an error, instead of only when every column was out of
+  range. `lower`/`upper` are also validated (both numeric, with `upper >=
+  lower`), and validation messages now refer to "values" rather than "columns"
+  (#798).
+
+* `add_loop_edu_barrier_protection_d()`: added input validation for the
+  `edu_barrier` column, which is assumed to be `select_one`. Values must be a
+  known barrier response code: a protection barrier (flagged `1`), a
+  non-protection/access barrier or flag code, or an undefined/non-response value
+  (the latter two coded `0`). New `non_protection_issues` (defaults to the
+  non-protection `edu_barrier` codes) and `barriers_undefined` (default
+  `c("dnk", "pnta", "other")`) parameters make these sets explicit; any other
+  value (e.g. typos or combined `select_multiple` strings) raises an error, as
+  do overlapping `protection_issues`, `non_protection_issues`, and
+  `barriers_undefined` sets (#792).
+
+* `add_sharing_sanitation_facility_n_ind()`: the raw number of households
+  sharing (`wash_sanitation_facility_sharing_n`) is no longer overwritten; the
+  estimated number of individuals is stored in a new column
+  (`wash_sanitation_facility_sharing_n_calc`). `not_shared` facilities
+  no longer get an imputed individual count and leave that column as `NA`, so
+  they are no longer conflated with "shared with fewer than 20 people". The
+  camp sanitation severity-1 classification in `add_comp_wash()` is now keyed
+  on `wash_sharing_sanitation_facility_cat == "not_shared"` (#788).
+
+### Documentation
+
+* New vignette `vignette("msni-workflow")` ("Computing the MSNI: Humind
+  Workflow") providing an end-to-end, sector-by-sector walkthrough of the
+  `humind` pipeline: Food Consumption (LCSI, FCS, HHS, rCSI, FCM, FCLCM),
+  WASH (H-WISE, water quality, sanitation, hygiene), SNFI/HLP, Protection,
+  Health, and Education (loops and main), closing with `add_msni()` (#785).
+* New French translation `vignette("msni-workflow-fr")` ("Calcul du MSNI :
+  flux de travail Humind") (#785).
+
 # humind 2026.3.0
 
 This release is a patch/bug-fix round within the 2026 cycle. It tightens input
