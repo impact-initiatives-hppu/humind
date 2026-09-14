@@ -190,17 +190,19 @@ add_loop_edu_disrupted_d_to_main <- function(
     edu_disrupted_displaced_n = sum(!!rlang::sym(displaced_d), na.rm = TRUE),
     edu_disrupted_teacher_n = sum(!!rlang::sym(teacher_d), na.rm = TRUE)
   )
-  if (!is.null(attack_d)) {
+  if (is.null(attack_d)) {
+    loop <- loop_wo_attack
+  } else {
     loop_attack <- dplyr::summarize(
       loop,
       edu_disrupted_attack_n = sum(!!rlang::sym(attack_d), na.rm = TRUE)
     )
+    loop <- dplyr::left_join(
+      loop_wo_attack,
+      loop_attack,
+      by = dplyr::join_by(!!rlang::sym(id_col_loop))
+    )
   }
-  loop <- dplyr::left_join(
-    loop_wo_attack,
-    loop_attack,
-    by = dplyr::join_by(!!rlang::sym(id_col_loop))
-  )
 
   # Remove columns in main that exists in loop, but the grouping ones
   main <- drop_shared_loop_cols(main, loop, id_col_main, id_col_loop)
