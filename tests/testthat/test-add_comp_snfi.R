@@ -2,7 +2,7 @@
 test_df <- data.frame(
   snfi_shelter_type_cat = c("none", "inadequate", "adequate", "undefined"),
   snfi_shelter_issue_cat = c("8_to_11", "4_to_7", "1_to_3", "none"),
-  hlp_occupancy_cat = c("high_risk", "medium_risk", "low_risk", "undefined"),
+  hlp_tenure_security = c("high_risk", "medium_risk", "low_risk", "undefined"),
   snfi_fds_cannot_cat = c("4_tasks", "2_to_3_tasks", "1_task", "none"),
   snfi_shelter_damage_cat = c("total", "part", "damaged", "none"),
   stringsAsFactors = FALSE

@@ -18,7 +18,7 @@ add_comp_snfi(
   shelter_issue_cat_none = "none",
   shelter_issue_cat_undefined = "undefined",
   shelter_issue_cat_other = "other",
-  tenure_security_cat = "hlp_occupancy_cat",
+  tenure_security_cat = "hlp_tenure_security",
   tenure_security_cat_high_risk = "high_risk",
   tenure_security_cat_medium_risk = "medium_risk",
   tenure_security_cat_low_risk = "low_risk",
@@ -113,7 +113,7 @@ A data frame with added columns:
 }
 \description{
 This function calculates the Shelter, NFI and HLP (SNFI) sectoral composite score
-based on shelter type, shelter issues, occupancy status, shelter damage, and functional
+based on shelter type, shelter issues, security of tenure, shelter damage, and functional
 disability scale (FDS) indicators. It also determines if a household is in need or in
 severe need based on the calculated score.
 
