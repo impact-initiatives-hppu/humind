@@ -32,7 +32,7 @@ identifiers in each are correctly specified, in order to summarize information
 from the loop to the main dataset, as is done in the Health and Education
 Sectoral Composites.
 
-```{r, warnings=F, message=F}
+```{r, warning=FALSE, message=FALSE}
 #| label: setup
 
 library(humind)
