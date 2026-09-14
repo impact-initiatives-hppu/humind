@@ -880,9 +880,9 @@ is defined as ages 5--17 (`schooling_start_age` = 5, `schooling_end_age` = 17).
 These parameters should be adjusted if the assessment uses a different
 school-year start month or age range. Alternatively, a common data-collection
 month can be specified using the `month` parameter. The function generates
-edu_ind_age_corrected and edu_ind_age_schooling. The default for age is
-edu_ind_age, assuming that the Education loop is standalone. For other cases,
-adjust this parameter.
+edu_ind_age_corrected and edu_ind_age_schooling. The default age column is
+`ind_age`. The example passes `ind_age = "edu_ind_age"` because the Education
+loop is standalone. For other cases, adjust this parameter.
 
 **Required variables**:
 
