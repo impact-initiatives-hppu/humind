@@ -4,8 +4,9 @@
 
 ## humind 2026.4.0
 
-This release is a bug-fix round. It corrects the SNFI tenure-security
-default in
+This release is a bug-fix round within the 2026 cycle that also ships
+the new MSNI workflow vignettes and their bundled demo datasets. It
+corrects the SNFI tenure-security default in
 [`add_comp_snfi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_snfi.md),
 fixes multi-column range validation in
 [`are_values_in_range()`](https://impact-initiatives-hppu.github.io/humind/reference/are_values_in_range.md),
@@ -15,20 +16,6 @@ validation in the education loop helpers.
 ------------------------------------------------------------------------
 
 ### Codebase Changes
-
-#### Documentation
-
-- New vignette
-  [`vignette("msni-workflow")`](https://impact-initiatives-hppu.github.io/humind/articles/msni-workflow.md)
-  (“Computing the MSNI: Humind Workflow”) providing an end-to-end,
-  sector-by-sector walkthrough of the `humind` pipeline: Food
-  Consumption (LCSI, FCS, HHS, rCSI, FCM, FCLCM), WASH (H-WISE, water
-  quality, sanitation, hygiene), SNFI/HLP, Protection, Health, and
-  Education (loops and main), closing with
-  [`add_msni()`](https://impact-initiatives-hppu.github.io/humind/reference/add_msni.md).
-- New French translation
-  [`vignette("msni-workflow-fr")`](https://impact-initiatives-hppu.github.io/humind/articles/msni-workflow-fr.md)
-  (“Calcul du MSNI : flux de travail Humind”).
 
 #### New Features
 
@@ -74,7 +61,8 @@ validation in the education loop helpers.
   `edu_barrier` codes) and `barriers_undefined` (default
   `c("dnk", "pnta", "other")`) parameters make these sets explicit; any
   other value (e.g. typos or combined `select_multiple` strings) raises
-  an error
+  an error, as do overlapping `protection_issues`,
+  `non_protection_issues`, and `barriers_undefined` sets
   ([\#792](https://github.com/impact-initiatives-hppu/humind/issues/792)).
 
 - [`add_sharing_sanitation_facility_n_ind()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md):
@@ -88,6 +76,22 @@ validation in the education loop helpers.
   [`add_comp_wash()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_wash.md)
   is now keyed on `wash_sharing_sanitation_facility_cat == "not_shared"`
   ([\#788](https://github.com/impact-initiatives-hppu/humind/issues/788)).
+
+#### Documentation
+
+- New vignette
+  [`vignette("msni-workflow")`](https://impact-initiatives-hppu.github.io/humind/articles/msni-workflow.md)
+  (“Computing the MSNI: Humind Workflow”) providing an end-to-end,
+  sector-by-sector walkthrough of the `humind` pipeline: Food
+  Consumption (LCSI, FCS, HHS, rCSI, FCM, FCLCM), WASH (H-WISE, water
+  quality, sanitation, hygiene), SNFI/HLP, Protection, Health, and
+  Education (loops and main), closing with
+  [`add_msni()`](https://impact-initiatives-hppu.github.io/humind/reference/add_msni.md)
+  ([\#785](https://github.com/impact-initiatives-hppu/humind/issues/785)).
+- New French translation
+  [`vignette("msni-workflow-fr")`](https://impact-initiatives-hppu.github.io/humind/articles/msni-workflow-fr.md)
+  (“Calcul du MSNI : flux de travail Humind”)
+  ([\#785](https://github.com/impact-initiatives-hppu/humind/issues/785)).
 
 ## humind 2026.3.0
 
