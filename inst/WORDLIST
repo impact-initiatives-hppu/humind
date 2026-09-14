@@ -14,6 +14,7 @@ bibentry
 bibtype
 BugReports
 calc
+Calcul
 CalVer
 cb
 ce
@@ -38,6 +39,7 @@ csi
 CSI
 ctb
 DASILVA
+de
 deps
 desc
 dev
@@ -46,6 +48,7 @@ devYYYY
 dnk
 DNK
 dplyr
+du
 edu
 endfor
 endif
@@ -233,6 +236,7 @@ vendored
 VignetteBuilder
 villotta
 VILLOTTA
+walkthrough
 WG
 wgq
 WGQ
