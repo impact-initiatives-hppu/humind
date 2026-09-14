@@ -271,7 +271,7 @@ and directly assigns the severity level based on the row-wise sum. A new
 variable called "comp_wash_score_water_quantity" is generated.
 
 **Key considerations**: The default response codes are never, rarely, sometimes,
-often, always, dnk, and pnta. If you data has different response codes, these
+often, always, dnk, and pnta. If your data has different response codes, these
 need to be specified through the corresponding function parameters. The
 `.keep_recoded` parameter can be set to TRUE if the individual H-WISE item
 scores are also required.
