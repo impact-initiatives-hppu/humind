@@ -9,24 +9,20 @@ body:
       value: |
         ## Before you start
 
-        humind uses **hybrid CalVer/SemVer** versioning: `YYYY.N.N` where the
-        year is the **major** release, the middle number is a **minor** release
-        (a cycle with indicator/framework-logic changes), and the last number is
-        a **patch** (bug fixes and small enhancements within a cycle).
+        humind uses **hybrid CalVer/SemVer** versioning: `YYYY.N.N` where the year is the **major** release, the middle number is a **minor** release (a cycle with indicator/framework-logic changes), and the last number is a **patch** (bug fixes and small enhancements within a cycle).
 
-        humind is **not on CRAN** — users install a tagged version straight from
-        GitHub, so CRAN-only steps (win-builder, `cran-comments.md`,
-        `devtools::submit_cran()`) are skipped.
+        humind is **not on CRAN** — users install a tagged version straight from GitHub, so CRAN-only steps (win-builder, `cran-comments.md`, `devtools::submit_cran()`) are skipped.
 
-        Fill in the target version below, then work through the checklist in
-        order. Each section must be fully ticked before moving to the next.
+        The `devYYYY.N.0` branch **is** the release branch — there is no separate `release-*` branch. Work directly on it and PR it into `main`.
+
+        Fill in the target version below, then work through the checklist in order. Each section must be fully ticked before moving to the next.
 
   - type: input
     id: version
     attributes:
       label: "Target version"
-      description: "The version string that will appear in DESCRIPTION, NEWS.md, and the git tag."
-      placeholder: "2026.3.0"
+      description: "The version string that will appear in DESCRIPTION, NEWS.md, and the git tag. Format: YYYY.N.N."
+      placeholder: "2026.4.0"
     validations:
       required: true
 
@@ -35,116 +31,103 @@ body:
     attributes:
       label: "Release checklist"
       value: |
-        ### 1 · Create the release branch
+        **Milestone:** [v<VERSION>](https://github.com/impact-initiatives-hppu/humind/milestones)
 
-        - [ ] Create `release-<VERSION>` linked to this issue, based on `main`, and check it out
+        ### 1 · Prepare the dev branch
+
+        The `devYYYY.N.0` branch **is** the release branch — there is no separate `release-*` branch. Work directly on it and PR it into `main`.
+
+        - [ ] Confirm the `v<VERSION>` milestone exists and is assigned to this issue; triage it so every issue and PR destined for this release is attached to it
+        - [ ] Check out `dev<VERSION>` and update it
 
           ```sh
-          gh issue develop <ISSUE_NUMBER> \
-            --name release-<VERSION> \
-            --base main \
-            --checkout
+          git checkout dev<VERSION>
+          git pull --ff-only
           ```
 
-          This creates the branch on GitHub, links it to the issue's Development
-          panel, and checks it out locally.
+          If the branch does not exist yet: `gh issue develop <ISSUE_NUMBER> --name dev<VERSION> --base main --checkout`
+
+        - [ ] Merge `main` into the dev branch so the release includes any patches that landed since the cycle opened
+
+          ```sh
+          git merge main
+          ```
+
+        - [ ] **Freeze the branch** — no feature PRs merge into `dev<VERSION>` until the release PR lands, otherwise unreviewed work leaks into the tag
+        - [ ] Confirm CI is green on `dev<VERSION>` (`check-standard`, `test-coverage`)
 
         ---
 
-        ### 2 · Bring the dev work in
+        ### 2 · Bump the version
 
-        - [ ] Open a PR from `devYYYY.N.N` → `release-<VERSION>` and merge it,
-              so the release branch contains everything destined for this version.
+        Bump before building anything so checks, docs, and the tarball all use the final version.
+
+        - [ ] Set the version in `DESCRIPTION`: `just bump <VERSION>`
+        - [ ] Update the install tag in `README.Rmd`: `@v<LAST_VERSION>` → `@v<VERSION>`
+        - [ ] Commit: `chore(release): bump version to <VERSION>`
 
         ---
 
         ### 3 · Draft the changelog
 
-        - [ ] Generate a draft from git-cliff (scoped to the release branch)
+        - [ ] Fetch tags and generate a draft from git-cliff
 
           ```sh
+          git fetch --tags
           just changelog
           ```
 
-          The `cliff.toml` groups commits into humind's house headings
-          (`### New Features`, `### Enhancements`, `### Bug Fixes`, `### Testing`,
-          `### Documentation`, `### Dependency Management`). The output is a
-          starting point, **not** final copy.
+          `cliff.toml` groups commits into humind's house headings (`### New Features`, `### Enhancements`, `### Bug Fixes`, `### Testing`, `### Documentation`, `### Dependency Management`). The output is a starting point, **not** final copy. Note that `use_branch_tags = true` only sees tags/commits reachable from `dev<VERSION>`.
 
-        - [ ] Rephrase the draft into a new `# humind <VERSION>` section at the
-              top of `NEWS.md` (below the `# humind (development version)` header):
-              backtick function names, write from the user's perspective, add
-              issue/PR refs like `(#767)`. Fold in any new functions or fixes that
-              git-cliff missed (e.g. features merged through convoluted history).
-        - [ ] Flag **Breaking Changes** and `<Year> Programmatic Changes`
-              prominently if present — this is what users scan before upgrading.
+        - [ ] Promote the `# humind (development version)` section to `# humind <VERSION>`: backtick function names, write from the user's perspective, add issue/PR refs like `(#767)`, and fold in anything git-cliff missed. Then add a **fresh, empty** `# humind (development version)` header above it, so the next cycle has somewhere to land
+        - [ ] Flag **Breaking Changes** and `<Year> Programmatic Changes` prominently if present — this is what users scan before upgrading
         - [ ] Commit: `chore(release): update NEWS.md for <VERSION>`
 
         ---
 
         ### 4 · Polish and verify
 
-        - [ ] Regenerate documentation: `just doc`
-        - [ ] Rebuild README and update the install tag `@v<LAST_VERSION>` →
-              `@v<VERSION>` (README.Rmd): `just readme`
-        - [ ] Full check — 0 errors, 0 warnings, 0 notes:
-              `just check-release` (i.e. `devtools::check(remote = TRUE, manual = TRUE)`)
-        - [ ] Spell check: `just spell`
+        - [ ] Run the pre-release prep recipe (regenerates docs, rebuilds the README, runs the full check, spells, and prints a changelog draft)
+
+          ```sh
+          just release-prep
+          ```
+
+        - [ ] Confirm `check-release` reports 0 errors, 0 warnings, 0 notes
         - [ ] Commit any changes from the steps above
 
         ---
 
-        ### 5 · Bump the version
+        ### 5 · Open the pull request
 
-        Last commit on the branch — seals the release.
-
-        - [ ] Set the version in `DESCRIPTION`: `just bump <VERSION>`
-        - [ ] Commit: `chore(release): bump version to <VERSION>`
-
-        ---
-
-        ### 6 · Open the pull request
-
-        - [ ] Push the branch and open a PR targeting `main`
+        - [ ] Open a PR from `dev<VERSION>` → `main`
         - [ ] All CI checks pass (`check-standard` matrix, `test-coverage`)
         - [ ] At least one maintainer has reviewed the PR
         - [ ] Merge into `main` — **merge commit, not squash**
 
         ---
 
-        ### 7 · Tag and publish
+        ### 6 · Tag and publish
 
-        - [ ] Pull `main` and create the tag
+        - [ ] Confirm the `v<VERSION>` milestone has no open issues or PRs, or that the remainder are intentionally deferred to a later release
+        - [ ] Pull `main` and create and push the tag
 
           ```sh
           git checkout main && git pull
           just tag <VERSION>
           ```
 
-        - [ ] Create a draft GitHub Release (notes from the curated NEWS.md section)
+        - [ ] Verify the tag points at the merge commit: `git show --no-patch v<VERSION>`
+        - [ ] Smoke-test the published tag in a clean session
 
-          ```sh
-          just release <VERSION>
+          ```r
+          remotes::install_github("impact-initiatives-hppu/humind@v<VERSION>")
+          packageVersion("humind")
           ```
 
+        - [ ] Create a draft GitHub Release (notes from the curated `NEWS.md` section): `just release <VERSION>`
         - [ ] Review the draft, then publish it in the GitHub UI
         - [ ] Confirm the pkgdown GitHub Pages deploy succeeded (Actions tab)
-
-        ---
-
-        ### 8 · Post-release
-
-        - [ ] Add a fresh, empty `# humind (development version)` header at the
-              top of `NEWS.md` on `main` (or the next `devYYYY.N.0` branch)
-        - [ ] If this release changes indicator logic/output columns, give the
-              HPPU/MSNA user community a heads-up (Slack/email) pointing at the
-              Breaking Changes section
-        - [ ] Close this issue
+        - [ ] If this release changes indicator logic/output columns, give the HPPU/MSNA user community a heads-up (Slack/email) pointing at the Breaking Changes section
     validations:
       required: false
-
-  - type: textarea
-    id: notes
-    attributes:
-      label: "Notes / blockers"
-      description: "Anything unusual about this release — breaking changes, outstanding PRs, known issues."
