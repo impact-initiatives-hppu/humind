@@ -2,6 +2,11 @@
 
 ### Bug Fixes
 
+* `add_loop_edu_disrupted_d_to_main()`: passing `attack_d = NULL` (to indicate
+  the attack dimension is absent) no longer raises
+  ``object 'loop_attack' not found``. The attack summary is now only built and
+  joined when `attack_d` is supplied (#804).
+
 * `add_comp_snfi()`: the `tenure_security_cat` default now points to
   `hlp_tenure_security`, the combined security-of-tenure category produced by
   `add_occupancy_cat()` (maximum risk across occupancy and eviction risk).
