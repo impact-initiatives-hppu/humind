@@ -28,11 +28,16 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/impact-initiatives-hppu/humind/blob/dev2026.4.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="humind-development-version">humind (development version)<a class="anchor" aria-label="anchor" href="#humind-development-version"></a></h2>
+<div class="section level4">
+<h4 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h4>
+<ul><li><p><code><a href="../reference/add_comp_snfi.html">add_comp_snfi()</a></code>: the <code>tenure_security_cat</code> default now points to <code>hlp_tenure_security</code>, the combined security-of-tenure category produced by <code><a href="../reference/add_occupancy_cat.html">add_occupancy_cat()</a></code> (maximum risk across occupancy and eviction risk). Previously it defaulted to <code>hlp_occupancy_cat</code>, so eviction risk was omitted from the SNFI composite (<a href="https://github.com/impact-initiatives-hppu/humind/issues/801" class="external-link">#801</a>; see also <a href="https://github.com/impact-initiatives-hppu/humind/issues/583" class="external-link">#583</a>, <a href="https://github.com/impact-initiatives-hppu/humind/issues/584" class="external-link">#584</a>).</p></li>
+<li><p><code><a href="../reference/add_loop_edu_barrier_protection_d.html">add_loop_edu_barrier_protection_d()</a></code>: added input validation for the <code>edu_barrier</code> column, which is assumed to be <code>select_one</code>. Values must be a known barrier response code: a protection barrier (flagged <code>1</code>), a non-protection/access barrier or flag code, or an undefined/non-response value (the latter two coded <code>0</code>). New <code>non_protection_issues</code> (defaults to the non-protection <code>edu_barrier</code> codes) and <code>barriers_undefined</code> (default <code>c("dnk", "pnta", "other")</code>) parameters make these sets explicit; any other value (e.g. typos or combined <code>select_multiple</code> strings) raises an error (<a href="https://github.com/impact-initiatives-hppu/humind/issues/792" class="external-link">#792</a>).</p></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2026.3.0" id="humind-202630">humind 2026.3.0<a class="anchor" aria-label="anchor" href="#humind-202630"></a></h2>
@@ -69,6 +74,8 @@
 <code><a href="../reference/add_handwashing_facility_cat.html">add_handwashing_facility_cat()</a></code>: fixed the <code>facility_observed_water</code> default naming; documented <code>survey_modality</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/759" class="external-link">#759</a>).</li>
 <li>
 <code><a href="../reference/add_sanitation_facility_cat.html">add_sharing_sanitation_facility_n_ind()</a></code>: checks for the presence of the survey weight column (<a href="https://github.com/impact-initiatives-hppu/humind/issues/760" class="external-link">#760</a>).</li>
+<li>
+<code><a href="../reference/add_sanitation_facility_cat.html">add_sharing_sanitation_facility_n_ind()</a></code>: the raw number of households sharing (<code>wash_sanitation_facility_sharing_n</code>) is no longer overwritten; the estimated number of individuals is stored in a new column (<code>wash_sanitation_facility_sharing_n_calc</code>). <code>not_shared</code> facilities no longer get an imputed individual count and leave that column as <code>NA</code>, so they are no longer conflated with “shared with fewer than 20 people”. The camp sanitation severity-1 classification in <code><a href="../reference/add_comp_wash.html">add_comp_wash()</a></code> is now keyed on <code>wash_sharing_sanitation_facility_cat == "not_shared"</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/788" class="external-link">#788</a>).</li>
 <li>
 <code><a href="../reference/add_loop_edu_access_d.html">add_loop_edu_access_d()</a></code>: <code>pnta</code>/<code>dnk</code> coded as <code>NA</code>, not non-attendance (<a href="https://github.com/impact-initiatives-hppu/humind/issues/771" class="external-link">#771</a>).</li>
 <li>
