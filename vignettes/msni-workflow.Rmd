@@ -97,7 +97,7 @@ main_foodsec <- humind_main |>
   add_lcsi()
 ```
 
-### Food Consumption Score (FSC)
+### Food Consumption Score (FCS)
 
 Next, we calculate the Food Consumption Score (FCS) using `add_fcs()`. The
 function applies the standard food-group weights to the number of days each food
