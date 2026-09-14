@@ -4,18 +4,6 @@
 
 #### Bug Fixes
 
-- [`add_comp_snfi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_comp_snfi.md):
-  the `tenure_security_cat` default now points to `hlp_tenure_security`,
-  the combined security-of-tenure category produced by
-  [`add_occupancy_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_occupancy_cat.md)
-  (maximum risk across occupancy and eviction risk). Previously it
-  defaulted to `hlp_occupancy_cat`, so eviction risk was omitted from
-  the SNFI composite
-  ([\#801](https://github.com/impact-initiatives-hppu/humind/issues/801);
-  see also
-  [\#583](https://github.com/impact-initiatives-hppu/humind/issues/583),
-  [\#584](https://github.com/impact-initiatives-hppu/humind/issues/584)).
-
 - [`add_loop_edu_barrier_protection_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_barrier_protection_d.md):
   added input validation for the `edu_barrier` column, which is assumed
   to be `select_one`. Values must be a known barrier response code: a
