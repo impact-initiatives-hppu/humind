@@ -11,6 +11,22 @@ tightens input validation in the education loop helpers.
 
 ## Codebase Changes
 
+### Documentation
+
+* New vignette `vignette("msni-workflow")` ("Computing the MSNI: Humind
+  Workflow") providing an end-to-end, sector-by-sector walkthrough of the
+  `humind` pipeline: Food Consumption (LCSI, FCS, HHS, rCSI, FCM, FCLCM),
+  WASH (H-WISE, water quality, sanitation, hygiene), SNFI/HLP, Protection,
+  Health, and Education (loops and main), closing with `add_msni()`.
+* New French translation `vignette("msni-workflow-fr")` ("Calcul du MSNI :
+  flux de travail Humind").
+
+### New Features
+
+* Bundled demo datasets backing the vignette: `humind_main`
+  (household-level) and the individual-level loops `humind_health_ind` and
+  `humind_edu_ind`, documented and exposed lazily (`LazyData`) (#785).
+
 ### Bug Fixes
 
 * `add_loop_edu_disrupted_d_to_main()`: passing `attack_d = NULL` (to indicate
