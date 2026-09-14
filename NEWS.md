@@ -2,24 +2,15 @@
 
 # humind 2026.4.0
 
-This release is a bug-fix round. It corrects the SNFI tenure-security default in
-`add_comp_snfi()`, fixes multi-column range validation in
-`are_values_in_range()`, corrects the sanitation-facility sharing counts, and
-tightens input validation in the education loop helpers.
+This release is a bug-fix round within the 2026 cycle that also ships the new
+MSNI workflow vignettes and their bundled demo datasets. It corrects the SNFI
+tenure-security default in `add_comp_snfi()`, fixes multi-column range
+validation in `are_values_in_range()`, corrects the sanitation-facility sharing
+counts, and tightens input validation in the education loop helpers.
 
 ---
 
 ## Codebase Changes
-
-### Documentation
-
-* New vignette `vignette("msni-workflow")` ("Computing the MSNI: Humind
-  Workflow") providing an end-to-end, sector-by-sector walkthrough of the
-  `humind` pipeline: Food Consumption (LCSI, FCS, HHS, rCSI, FCM, FCLCM),
-  WASH (H-WISE, water quality, sanitation, hygiene), SNFI/HLP, Protection,
-  Health, and Education (loops and main), closing with `add_msni()`.
-* New French translation `vignette("msni-workflow-fr")` ("Calcul du MSNI :
-  flux de travail Humind").
 
 ### New Features
 
@@ -53,8 +44,9 @@ tightens input validation in the education loop helpers.
   (the latter two coded `0`). New `non_protection_issues` (defaults to the
   non-protection `edu_barrier` codes) and `barriers_undefined` (default
   `c("dnk", "pnta", "other")`) parameters make these sets explicit; any other
-  value (e.g. typos or combined `select_multiple` strings) raises an error
-  (#792).
+  value (e.g. typos or combined `select_multiple` strings) raises an error, as
+  do overlapping `protection_issues`, `non_protection_issues`, and
+  `barriers_undefined` sets (#792).
 
 * `add_sharing_sanitation_facility_n_ind()`: the raw number of households
   sharing (`wash_sanitation_facility_sharing_n`) is no longer overwritten; the
@@ -64,6 +56,16 @@ tightens input validation in the education loop helpers.
   they are no longer conflated with "shared with fewer than 20 people". The
   camp sanitation severity-1 classification in `add_comp_wash()` is now keyed
   on `wash_sharing_sanitation_facility_cat == "not_shared"` (#788).
+
+### Documentation
+
+* New vignette `vignette("msni-workflow")` ("Computing the MSNI: Humind
+  Workflow") providing an end-to-end, sector-by-sector walkthrough of the
+  `humind` pipeline: Food Consumption (LCSI, FCS, HHS, rCSI, FCM, FCLCM),
+  WASH (H-WISE, water quality, sanitation, hygiene), SNFI/HLP, Protection,
+  Health, and Education (loops and main), closing with `add_msni()` (#785).
+* New French translation `vignette("msni-workflow-fr")` ("Calcul du MSNI :
+  flux de travail Humind") (#785).
 
 # humind 2026.3.0
 
