@@ -132,7 +132,7 @@ add_sharing_sanitation_facility_cat <- function(
 #' @return A data frame with additional columns:
 #'
 #' * wash_sanitation_facility_sharing_n_calc: Estimated number of individuals sharing the sanitation facility.
-#' * wash_sharing_sanitation_n_ind: Categorized number of individuals sharing a sanitation facility.
+#' * wash_sharing_sanitation_facility_n_ind: Categorized number of individuals sharing a sanitation facility.
 #'
 #' @export
 add_sharing_sanitation_facility_n_ind <- function(
