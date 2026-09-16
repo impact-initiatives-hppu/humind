@@ -75,6 +75,28 @@ test_that("add_loop_edu_disrupted_d_to_main function works with default paramete
   expect_equal(main_result$edu_disrupted_teacher_n[1], 0)
 })
 
+# 4b. Test add_loop_edu_disrupted_d_to_main with attack_d = NULL
+test_that("add_loop_edu_disrupted_d_to_main works when attack_d is NULL", {
+  loop_result <- add_loop_edu_disrupted_d(dummy_loop_data)
+  main_result <- add_loop_edu_disrupted_d_to_main(
+    dummy_main_data,
+    loop_result,
+    attack_d = NULL
+  )
+  expect_false("edu_disrupted_attack_n" %in% colnames(main_result))
+  expect_true(all(
+    c(
+      "edu_disrupted_hazards_n",
+      "edu_disrupted_displaced_n",
+      "edu_disrupted_teacher_n"
+    ) %in%
+      colnames(main_result)
+  ))
+  expect_equal(main_result$edu_disrupted_hazards_n[1], 1)
+  expect_equal(main_result$edu_disrupted_displaced_n[1], 0)
+  expect_equal(main_result$edu_disrupted_teacher_n[1], 0)
+})
+
 # 5. Test handling missing columns in add_loop_edu_disrupted_d_to_main
 missing_column_main_data <- dummy_main_data |> select(-uuid)
 

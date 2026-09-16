@@ -98,7 +98,7 @@ test_that("add_loop_wgq_ss errors when values are outside the allowed set", {
   )
   expect_error(
     add_loop_wgq_ss(df),
-    "All columns must be in the following set: no_difficulty, some_difficulty, a_lot_of_difficulty, cannot_do_at_all, dnk, pnta"
+    "All values must be in the following set: no_difficulty, some_difficulty, a_lot_of_difficulty, cannot_do_at_all, dnk, pnta"
   )
   expect_error(
     add_loop_wgq_ss(df),
@@ -186,7 +186,7 @@ test_that("add_loop_wgq_ss_to_main errors when disability values are outside the
   )
   expect_error(
     add_loop_wgq_ss_to_main(main, loop),
-    "All columns must be in the following set: 0, 1"
+    "All values must be in the following set: 0, 1"
   )
   expect_error(
     add_loop_wgq_ss_to_main(main, loop),
