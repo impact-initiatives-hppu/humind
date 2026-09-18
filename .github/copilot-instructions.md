@@ -10,16 +10,32 @@ available; review against the contracts below.
 The canonical machine-readable form is pinned to an immutable revision of
 the `idem` repo:
 
-https://raw.githubusercontent.com/impact-initiatives/idem/cce10b2bc306191bcb81d5722881d7f6c4a1a1ca/inst/extdata/form_required.json
+https://raw.githubusercontent.com/impact-initiatives/idem/8c543f32c970d632093b2501e9d53c517e598e7f/inst/extdata/form_required.json
 
 This is the ONLY source of truth. Do not fetch `main`. Do not fall back to
 an in-repo snapshot or any other copy. Fetch this exact pinned URL
-(Playwright MCP or curl) whenever a PR touches inputs read directly from
-the XLSForm.
+whenever a PR touches inputs read directly from the XLSForm.
+
+Retrieval (the file is ~1.1 MB, which is over the 1 MB GitHub Contents API
+limit, and raw URLs are not indexed by web search):
+
+1. Preferred: if a shell is available, `curl -sSL <url> -o /tmp/form.json`
+   then parse it with python/jq. Otherwise use Playwright MCP to GET the
+   raw URL and read the response body.
+2. GitHub MCP `get_file_contents` fails on this file with
+   "unsupported content encoding: none" because of the size. Do not rely
+   on it.
+3. Do not use web search; it returns nothing for raw URLs.
+
+If retrieval fails, state that the form could not be verified and skip the
+form-alignment checks.
 
 Maintenance: when the MSNA form changes, bump the pinned ref in this file
 (prefer an `idem` release tag once one contains the file; otherwise use a
-commit SHA). A review can only be as current as this pin.
+commit SHA). Also keep the published JSON under 1 MB: minify it, or publish
+a slim review projection of `name`/`type`/`list_name`/choice codes. The
+current pretty-printed file is just over the limit, which is what breaks
+`get_file_contents`. A review can only be as current as this pin.
 
 Schema:
 
