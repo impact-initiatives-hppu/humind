@@ -101,6 +101,7 @@ humind's
 hwash
 HWISE
 hwise
+idempotency
 impactR
 IndiKit
 indikit
@@ -127,6 +128,7 @@ lightbulbs
 lintr
 magrittr
 mario
+MCP
 md
 mealadult
 mealnb
@@ -204,6 +206,7 @@ Sectoral
 SemVer
 sessionInfo
 severities
+SHA
 sl
 sleephungry
 snfi
@@ -220,6 +223,7 @@ testthat
 textarea
 tibble
 tidyr
+tidyverse
 toml
 ub
 UI
@@ -244,6 +248,7 @@ WGQ
 WGQs
 WORDLIST
 Xcode
+XLSForm
 xlsx
 xlsxform
 yaml
