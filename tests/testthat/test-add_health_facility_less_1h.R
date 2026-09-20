@@ -27,14 +27,19 @@ test_that("NA inputs produce NA output", {
   expect_true(is.na(result$health_facility_less_1h[7]))
 })
 
-test_that("negative values raise an error listing unique offending values", {
-  df_neg <- dplyr::tibble(health_facility_time = c(30L, -1L, -42L))
-  expect_error(add_health_facility_less_1h(df_neg), class = "error")
-})
 
-test_that("-999 raises an error (not silently recoded to NA)", {
-  df_undef <- dplyr::tibble(health_facility_time = c(30L, -999L))
-  expect_error(add_health_facility_less_1h(df_undef), class = "error")
+test_that("each negative value on its own raises an error naming it", {
+  negative_values <- c(-1L, -2L, -42L, -999L)
+  for (neg in negative_values) {
+    df_neg <- dplyr::tibble(health_facility_time = c(30L, neg))
+
+    expect_error(
+      add_health_facility_less_1h(df_neg),
+      class = "error",
+      regexp = as.character(neg),
+      info = paste("negative value:", neg)
+    )
+  }
 })
 
 test_that("missing column raises an error", {
