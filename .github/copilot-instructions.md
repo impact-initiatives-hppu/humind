@@ -10,16 +10,36 @@ available; review against the contracts below.
 The canonical machine-readable form is pinned to an immutable revision of
 the `idem` repo:
 
-https://raw.githubusercontent.com/impact-initiatives/idem/cce10b2bc306191bcb81d5722881d7f6c4a1a1ca/inst/extdata/form_required.json
+https://raw.githubusercontent.com/impact-initiatives/idem/fa3f6e49c1ebbc48cec5070f209499b115143b6e/inst/extdata/form.json
 
 This is the ONLY source of truth. Do not fetch `main`. Do not fall back to
 an in-repo snapshot or any other copy. Fetch this exact pinned URL
-(Playwright MCP or curl) whenever a PR touches inputs read directly from
-the XLSForm.
+whenever a PR touches inputs read directly from the XLSForm.
+
+Retrieval (the file is ~1.03 MB, just under the 1 MB GitHub Contents API
+limit, and raw URLs are not indexed by web search):
+
+1. Preferred: if a shell is available, `curl -sSL <url> -o /tmp/form.json`
+   then extract only the questions relevant to the diff with python/jq.
+   Otherwise use Playwright MCP to GET the raw URL and read the response
+   body.
+2. GitHub MCP `get_file_contents` currently succeeds (base64, under the
+   limit) but returns a ~1 MB payload that is likely truncated in context,
+   so do not rely on it for exhaustive checks.
+3. Do not use web search; it returns nothing for raw URLs.
+
+Because the file is near the size limit, look up specific question `name`s
+rather than loading the whole document.
+
+If retrieval fails, state that the form could not be verified and skip the
+form-alignment checks.
 
 Maintenance: when the MSNA form changes, bump the pinned ref in this file
 (prefer an `idem` release tag once one contains the file; otherwise use a
-commit SHA). A review can only be as current as this pin.
+commit SHA). Keep the file comfortably under 1 MB: this full form is
+already ~1.03 MB, so any growth will break `get_file_contents`. Prefer a
+minified slim projection of `name`/`type`/`list_name`/choice codes
+(~130 KB). A review can only be as current as this pin.
 
 Schema:
 
