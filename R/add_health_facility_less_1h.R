@@ -16,6 +16,13 @@
 #' * `health_facility_less_1h`: `1L` if travel time is strictly less than 60 minutes, `0L` if 60 minutes or more, `NA_integer_` for missing values.
 #'
 #' @export
+#'
+#' @examples
+#' input_data <- data.frame(
+#'   health_facility_time = c(15L, 45L, 60L, 90L, NA_integer_)
+#' )
+#' add_health_facility_less_1h(input_data)
+#'
 add_health_facility_less_1h <- function(
   df,
   health_facility_time = "health_facility_time"
