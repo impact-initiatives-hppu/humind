@@ -1,0 +1,58 @@
+## cliff.toml — git-cliff configuration for humind
+##
+## Generates a NEWS.md draft from conventional commits.
+## Output is a starting point, not final copy — rephrase into the house
+## style (backtick function names, user-facing phrasing, add issue refs).
+##
+## Usage (run from repo root):
+##   just changelog
+
+[changelog]
+header = ""
+body = """
+{% if version -%}# humind {{ version | trim_start_matches(pat="v") }}
+{% endif -%}
+{% for group, commits in commits | group_by(attribute="group") -%}
+### {{ group | striptags | trim }}
+{% for commit in commits -%}
+* {% if commit.scope %}**{{ commit.scope }}**: {% endif -%}{{ commit.message | upper_first }}{% if commit.breaking %} (**breaking change**){% endif %}
+{% endfor %}
+{% endfor %}
+"""
+trim = true
+
+[git]
+conventional_commits = true
+## Non-conventional commits are kept — the draft is a broad starting point.
+filter_unconventional = false
+split_commits = false
+
+commit_preprocessors = [
+    ## Strip PR merge dividers
+    { pattern = "---------", replace = "" },
+    ## Collapse multiple spaces
+    { pattern = " +", replace = " " },
+    ## Link unscoped commits whose subject names a function to that function
+    { pattern = "align dnk recoding with the xlsxform", replace = "align dnk recoding with the xlsxform (add_drinking_water_source_cat)" },
+]
+
+commit_parsers = [
+    { message = "^[Mm]erge",        skip = true },
+    { message = "\\(release\\)",    skip = true },
+    { message = "^feat",            group = "New Features" },
+    { message = "^enhance|^perf",   group = "Enhancements" },
+    { message = "^refactor",        group = "Enhancements" },
+    { message = "^fix",             group = "Bug Fixes" },
+    { message = "^test",            group = "Testing" },
+    { message = "^docs",            group = "Documentation" },
+    { message = "^build|deps",      group = "Dependency Management" },
+    { message = "^chore|^ci",       skip = true },
+    { message = ".*",               skip = true },
+]
+
+## Exclude commits not matched by any parser.
+filter_commits = true
+## Commits within each section ordered oldest-first.
+sort_commits = "oldest"
+## Only consider tags on the current branch.
+use_branch_tags = true

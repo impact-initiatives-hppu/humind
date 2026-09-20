@@ -1,6 +1,6 @@
-library(stringr)
-library(dplyr)
-library(tidyr)
+suppressPackageStartupMessages(library(stringr))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(tidyr))
 
 generate_survey_choice_combinations <- function(
   question_name,

@@ -2,7 +2,7 @@
 test_df <- data.frame(
   snfi_shelter_type_cat = c("none", "inadequate", "adequate", "undefined"),
   snfi_shelter_issue_cat = c("8_to_11", "4_to_7", "1_to_3", "none"),
-  hlp_occupancy_cat = c("high_risk", "medium_risk", "low_risk", "undefined"),
+  hlp_tenure_security = c("high_risk", "medium_risk", "low_risk", "undefined"),
   snfi_fds_cannot_cat = c("4_tasks", "2_to_3_tasks", "1_task", "none"),
   snfi_shelter_damage_cat = c("total", "part", "damaged", "none"),
   stringsAsFactors = FALSE
@@ -10,8 +10,7 @@ test_df <- data.frame(
 
 # Run the function
 result_df <- add_comp_snfi(
-  df = test_df,
-  shelter_damage = TRUE
+  df = test_df
 )
 
 # Begin tests
@@ -39,9 +38,14 @@ test_that("Composite scores are correct", {
     c(3, 2, 1, NA_real_)
   )
   expect_equal(result_df$comp_snfi_score_fds_cannot_cat, c(4, 3, 2, 1))
-  expect_equal(result_df$comp_snfi_score_shelter_damage_cat, c(4, 3, 2, 1))
+  expect_equal(result_df$comp_snfi_score_shelter_damage_cat, c(5, 4, 3, 1))
 })
 
 test_that("Composite max score is correct", {
-  expect_equal(result_df$comp_snfi_score, c(5, 3, 2, 1))
+  expect_equal(result_df$comp_snfi_score, c(5, 4, 3, 1))
+})
+
+test_that("add_comp_snfi errors when shelter damage category is missing", {
+  df_missing <- test_df[, setdiff(names(test_df), "snfi_shelter_damage_cat")]
+  expect_error(add_comp_snfi(df_missing))
 })

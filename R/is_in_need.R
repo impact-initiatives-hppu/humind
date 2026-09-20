@@ -48,7 +48,7 @@ is_in_need <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 #' @rdname is_in_need
@@ -91,5 +91,5 @@ is_in_severe_need <- function(
     )
   )
 
-  return(df)
+  df
 }

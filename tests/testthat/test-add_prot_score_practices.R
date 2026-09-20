@@ -118,6 +118,59 @@ test_that("weighted columns follow the expected 0/NA pattern", {
   expect_true(all(is.na(res_w[[str_glue("{q1}/pnta_w")]])))
   expect_true(all(is.na(res_w[[str_glue("{q2}/dnk_w")]])))
   expect_true(all(is.na(res_w[[str_glue("{q2}/pnta_w")]])))
+
+  # "yes_other_activities" and "yes_other_social" always yield NA
+  expect_true(all(is.na(res_w[[str_glue("{q1}/yes_other_activities_w")]])))
+  expect_true(all(is.na(res_w[[str_glue("{q2}/yes_other_social_w")]])))
+})
+
+
+one_hot_row <- function(target_q, target_opt, sep = "/") {
+  row <- c(
+    rlang::set_names(
+      as.list(rep(0L, length(opts1))),
+      as.character(stringr::str_glue("{q1}{sep}{opts1}"))
+    ),
+    rlang::set_names(
+      as.list(rep(0L, length(opts2))),
+      as.character(stringr::str_glue("{q2}{sep}{opts2}"))
+    )
+  )
+  row[[as.character(stringr::str_glue("{target_q}{sep}{target_opt}"))]] <- 1L
+  dplyr::as_tibble(row)
+}
+
+test_that("selecting only `yes_other_activities`/`yes_other_social` behaves like `no`: it counts as 0 rather than forcing the sub-dimension to NA", {
+  fixture <- dplyr::bind_rows(
+    dplyr::mutate(
+      one_hot_row(q1, "yes_other_activities"),
+      scenario = "activities_other"
+    ),
+    dplyr::mutate(one_hot_row(q1, "no"), scenario = "activities_no"),
+    dplyr::mutate(
+      one_hot_row(q2, "yes_other_social"),
+      scenario = "social_other"
+    ),
+    dplyr::mutate(one_hot_row(q2, "no"), scenario = "social_no")
+  )
+
+  res <- suppressWarnings(add_prot_score_practices(fixture))
+
+  activities_other <- dplyr::filter(res, scenario == "activities_other")
+  activities_no <- dplyr::filter(res, scenario == "activities_no")
+  expect_equal(activities_other$comp_prot_score_prot_needs_2_activities, 0)
+  expect_equal(
+    activities_other$comp_prot_score_prot_needs_2_activities,
+    activities_no$comp_prot_score_prot_needs_2_activities
+  )
+
+  social_other <- dplyr::filter(res, scenario == "social_other")
+  social_no <- dplyr::filter(res, scenario == "social_no")
+  expect_equal(social_other$comp_prot_score_prot_needs_2_social, 0)
+  expect_equal(
+    social_other$comp_prot_score_prot_needs_2_social,
+    social_no$comp_prot_score_prot_needs_2_social
+  )
 })
 
 

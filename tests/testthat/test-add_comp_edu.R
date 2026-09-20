@@ -21,7 +21,7 @@ test_that("Function works with default parameters", {
 })
 
 # 2. Test handling missing columns
-missing_column_data <- dummy_data %>% select(-edu_no_access_n)
+missing_column_data <- dummy_data |> select(-edu_no_access_n)
 
 test_that("Function handles missing columns", {
   expect_error(add_comp_edu(missing_column_data))

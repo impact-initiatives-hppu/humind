@@ -63,7 +63,7 @@ test_that("add_expenditure_type_zero_freq function does not alter non-skipped va
 })
 
 # 3. Test handling of missing columns
-missing_column_data <- dummy_data %>% select(-cm_expenditure_frequent_food)
+missing_column_data <- dummy_data |> select(-cm_expenditure_frequent_food)
 
 test_that("add_expenditure_type_zero_freq function handles missing columns", {
   expect_error(add_expenditure_type_zero_freq(missing_column_data))

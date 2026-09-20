@@ -93,5 +93,5 @@ add_expenditure_type_prop_freq <- function(
     )
   )
 
-  return(df)
+  df
 }

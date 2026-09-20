@@ -104,15 +104,15 @@ num_cat <- function(
       lower <- breaks[i]
       upper <- breaks[i + 1]
       if (i == length(breaks) - 1 && plus_last) {
-        return(paste0(lower, "+"))
+        paste0(lower, "+")
       } else if (i == length(breaks) - 1 && !plus_last) {
         if (lower == max_val) {
-          return(paste0(lower, "+"))
+          paste0(lower, "+")
         } else {
-          return(paste0(lower, "-", max_val))
+          paste0(lower, "-", max_val)
         }
       } else {
-        return(paste0(lower, "-", upper - 1))
+        paste0(lower, "-", upper - 1)
       }
     })
   }
@@ -136,5 +136,5 @@ num_cat <- function(
     )
   )
 
-  return(df)
+  df
 }

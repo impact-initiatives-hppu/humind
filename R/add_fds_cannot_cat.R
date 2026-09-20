@@ -35,8 +35,8 @@
 add_fds_cannot_cat <- function(
   df,
   fds_cooking = "snfi_fds_cooking",
-  fds_cooking_can = "no",
-  fds_cooking_cannot = "yes",
+  fds_cooking_can = "yes",
+  fds_cooking_cannot = "no",
   fds_cooking_no_need = "no_need",
   fds_cooking_undefined = "pnta",
   fds_sleeping = "snfi_fds_sleeping",
@@ -45,7 +45,7 @@ add_fds_cannot_cat <- function(
   fds_sleeping_undefined = "pnta",
   fds_storing = "snfi_fds_storing",
   fds_storing_cannot = "no",
-  fds_storing_can = c("yes_issues", "yes_no_issues"),
+  fds_storing_can = "yes",
   fds_storing_undefined = "pnta",
   lighting_source = "energy_lighting_source",
   lighting_source_none = "none",
@@ -108,19 +108,19 @@ add_fds_cannot_cat <- function(
     df,
     snfi_fds_cooking = dplyr::case_when(
       !!rlang::sym(fds_cooking) == fds_cooking_can ~ "yes",
-      !!rlang::sym(fds_cooking) == fds_cooking_cannot ~ "no_cannot",
+      !!rlang::sym(fds_cooking) == fds_cooking_cannot ~ "no",
       !!rlang::sym(fds_cooking) == fds_cooking_no_need ~ "no_no_need",
       !!rlang::sym(fds_cooking) == fds_cooking_undefined ~ "undefined",
       .default = NA_character_
     ),
     snfi_fds_sleeping = dplyr::case_when(
-      !!rlang::sym(fds_sleeping) == fds_sleeping_cannot ~ "no_cannot",
+      !!rlang::sym(fds_sleeping) == fds_sleeping_cannot ~ "no",
       !!rlang::sym(fds_sleeping) == fds_sleeping_can ~ "yes",
       !!rlang::sym(fds_sleeping) == fds_sleeping_undefined ~ "undefined",
       .default = NA_character_
     ),
     snfi_fds_storing = dplyr::case_when(
-      !!rlang::sym(fds_storing) == fds_storing_cannot ~ "no_cannot",
+      !!rlang::sym(fds_storing) == fds_storing_cannot ~ "no",
       !!rlang::sym(fds_storing) %in% fds_storing_can ~ "yes",
       !!rlang::sym(fds_storing) == fds_storing_undefined ~ "undefined",
       .default = NA_character_
@@ -134,14 +134,14 @@ add_fds_cannot_cat <- function(
     )
   )
 
-  #----- Sum across cols if "no_cannot"
+  #----- Sum across cols if "no"
   df <- dplyr::mutate(
     df,
     dplyr::across(
       c("snfi_fds_cooking", "snfi_fds_sleeping", "snfi_fds_storing"),
       \(x) {
         dplyr::case_when(
-          x == "no_cannot" ~ 1,
+          x == "no" ~ 1,
           x %in% c("yes", "no_no_need") ~ 0,
           .default = NA_real_
         )
@@ -186,5 +186,5 @@ add_fds_cannot_cat <- function(
     )
   )
 
-  return(df)
+  df
 }

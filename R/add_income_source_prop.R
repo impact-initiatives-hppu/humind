@@ -73,7 +73,7 @@ add_income_source_prop <- function(
   ) {
     len_income_source <- 9
   } else if (
-    is.null(income_source_support_friends_n) |
+    is.null(income_source_support_friends_n) ||
       !is.null(income_source_donation_n)
   ) {
     len_income_source <- 9
@@ -106,5 +106,5 @@ add_income_source_prop <- function(
     )
   )
 
-  return(df)
+  df
 }
