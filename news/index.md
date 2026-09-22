@@ -2,6 +2,13 @@
 
 ## humind (development version)
 
+## humind 2026.4.1
+
+This patch corrects the weighting of three ability-to-participate
+barriers in
+[`add_prot_score_practices()`](https://impact-initiatives-hppu.github.io/humind/reference/add_prot_score_practices.md)
+so the composite matches the global MSNI framework.
+
 #### Bug Fixes
 
 - [`add_prot_score_practices()`](https://impact-initiatives-hppu.github.io/humind/reference/add_prot_score_practices.md):
@@ -9,7 +16,8 @@
   (previously 1), matching the global MSNI framework. This raises
   `comp_prot_score_practices` for households selecting any of these
   activities, which can in turn raise `comp_prot_score` and the
-  `comp_prot_in_need`/`comp_prot_in_severe_need` flags.
+  `comp_prot_in_need`/`comp_prot_in_severe_need` flags
+  ([\#809](https://github.com/impact-initiatives-hppu/humind/issues/809)).
 
 ## humind 2026.4.0
 

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2026.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2026.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,10 +38,14 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="humind-development-version">humind (development version)<a class="anchor" aria-label="anchor" href="#humind-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2026.4.1" id="humind-202641">humind 2026.4.1<a class="anchor" aria-label="anchor" href="#humind-202641"></a></h2>
+<p>This patch corrects the weighting of three ability-to-participate barriers in <code><a href="../reference/add_prot_score_practices.html">add_prot_score_practices()</a></code> so the composite matches the global MSNI framework.</p>
 <div class="section level4">
-<h4 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h4>
+<h4 id="bug-fixes-2026-4-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2026-4-1"></a></h4>
 <ul><li>
-<code><a href="../reference/add_prot_score_practices.html">add_prot_score_practices()</a></code>: <code>yes_work</code>, <code>yes_livelihood</code>, and <code>yes_water</code> are now weighted 2 (previously 1), matching the global MSNI framework. This raises <code>comp_prot_score_practices</code> for households selecting any of these activities, which can in turn raise <code>comp_prot_score</code> and the <code>comp_prot_in_need</code>/<code>comp_prot_in_severe_need</code> flags.</li>
+<code><a href="../reference/add_prot_score_practices.html">add_prot_score_practices()</a></code>: <code>yes_work</code>, <code>yes_livelihood</code>, and <code>yes_water</code> are now weighted 2 (previously 1), matching the global MSNI framework. This raises <code>comp_prot_score_practices</code> for households selecting any of these activities, which can in turn raise <code>comp_prot_score</code> and the <code>comp_prot_in_need</code>/<code>comp_prot_in_severe_need</code> flags (<a href="https://github.com/impact-initiatives-hppu/humind/issues/809" class="external-link">#809</a>).</li>
 </ul></div>
 </div>
     <div class="section level2">
