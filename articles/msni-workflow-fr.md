@@ -1680,9 +1680,9 @@ msni_output |> head()
 #> 6                       0                        0
 #>   comp_prot_score_prot_needs_2_activities comp_prot_score_prot_needs_2_social
 #> 1                                       0                                   0
-#> 2                                       3                                   2
-#> 3                                       1                                   1
-#> 4                                       3                                   2
+#> 2                                       5                                   2
+#> 3                                       2                                   1
+#> 4                                       5                                   2
 #> 5                                       0                                   0
 #> 6                                       1                                   0
 #>   comp_prot_score_practices prot_needs_1_services/yes_healthcare
