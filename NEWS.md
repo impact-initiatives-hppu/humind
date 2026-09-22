@@ -1,5 +1,13 @@
 # humind (development version)
 
+### Bug Fixes
+
+* `add_prot_score_practices()`: `yes_work`, `yes_livelihood`, and `yes_water`
+  are now weighted 2 (previously 1), matching the global MSNI framework. This
+  raises `comp_prot_score_practices` for households selecting any of these
+  activities, which can in turn raise `comp_prot_score` and the
+  `comp_prot_in_need`/`comp_prot_in_severe_need` flags.
+
 # humind 2026.4.0
 
 This release is a bug-fix round within the 2026 cycle that also ships the new
