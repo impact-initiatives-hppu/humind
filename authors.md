@@ -21,7 +21,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/impact-initiatives-hppu/humind/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/impact-initiatives-hppu/humind/blob/v2026.4.1/inst/CITATION)
 
 IMPACT Initiatives (2026). *humind: Compose MSNA Indicators*. R package
 version 2026.4.1, <https://impact-initiatives-hppu.github.io/humind>.
