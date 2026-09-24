@@ -1,5 +1,5 @@
 df <- dplyr::tibble(
-  health_facility_time = c(0L, 30L, 59L, 60L, 90L, 120L, NA_integer_)
+  health_facility_time = c(1L, 30L, 59L, 60L, 90L, 120L, NA_integer_)
 )
 
 test_that("values strictly below 60 minutes are coded 1L", {
@@ -19,7 +19,10 @@ test_that("output is integer type", {
 
 test_that("fractional (non-integer) values raise an error", {
   df_frac <- dplyr::tibble(health_facility_time = c(59.9, 60.0, 60.1))
-  expect_error(add_health_facility_less_1h(df_frac), class = "error")
+  expect_error(
+    add_health_facility_less_1h(df_frac),
+    regexp = "integerish"
+  )
 })
 
 test_that("NA inputs produce NA output", {
@@ -28,18 +31,25 @@ test_that("NA inputs produce NA output", {
 })
 
 
-test_that("each negative value on its own raises an error naming it", {
-  negative_values <- c(-1L, -2L, -42L, -999L)
-  for (neg in negative_values) {
-    df_neg <- dplyr::tibble(health_facility_time = c(30L, neg))
+test_that("values <= 0 raise an error", {
+  non_positive_values <- c(0L, -1L, -2L, -42L, -999L)
+  for (value in non_positive_values) {
+    df_non_positive <- dplyr::tibble(health_facility_time = c(30L, value))
 
     expect_error(
-      add_health_facility_less_1h(df_neg),
-      class = "error",
-      regexp = as.character(neg),
-      info = paste("negative value:", neg)
+      add_health_facility_less_1h(df_non_positive),
+      regexp = "not >= 1",
+      info = paste("non-positive value:", value)
     )
   }
+})
+
+test_that("non-finite values raise an error", {
+  df_inf <- dplyr::tibble(health_facility_time = c(30L, Inf))
+  expect_error(
+    add_health_facility_less_1h(df_inf),
+    regexp = "integer range"
+  )
 })
 
 test_that("missing column raises an error", {
@@ -51,5 +61,8 @@ test_that("missing column raises an error", {
 
 test_that("non-numeric column raises an error", {
   df_chr <- dplyr::tibble(health_facility_time = c("30", "60", "90"))
-  expect_error(add_health_facility_less_1h(df_chr), class = "error")
+  expect_error(
+    add_health_facility_less_1h(df_chr),
+    regexp = "integerish"
+  )
 })

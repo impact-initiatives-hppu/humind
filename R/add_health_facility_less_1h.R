@@ -6,7 +6,7 @@
 #'
 #' @description Adds a binary variable (`1L`/`0L`) for whether a household reports access to the nearest functional health facility in less than one hour on foot.
 #'
-#' Values must be non-negative integers. Any negative value (including undefined codes such as -999) will raise an error listing the unique offending values — recode or remove them before calling this function.
+#' Values must be strictly positive integers. The `health_facility_time` column is validated with `checkmate::assert_integerish()`: `0`, negative codes (including `-999`), fractional values, and non-finite values all raise an error — recode or remove them before calling this function.
 #'
 #' @param df A data frame.
 #' @param health_facility_time Column name for travel time (in minutes) to the nearest functional health facility.
@@ -29,21 +29,16 @@ add_health_facility_less_1h <- function(
 ) {
   #------ Checks
 
-  # health_facility_time column exists and is integer
-  are_cols_integer(df, health_facility_time)
+  # health_facility_time column exists
+  if_not_in_stop(df, health_facility_time, "df")
 
-  # negative values are not allowed — caller must clean first
-  # Note: future refactor could use checkmate::assert_integerish(df[[health_facility_time]], lower = 0L)
-  neg <- sort(unique(df[[health_facility_time]][
-    !is.na(df[[health_facility_time]]) & df[[health_facility_time]] < 0
-  ]))
-  if (length(neg) > 0) {
-    cli::cli_abort(c(
-      "{.val {health_facility_time}} contains negative values.",
-      "i" = "Unique negative values found: {neg}.",
-      "i" = "Recode or remove them before calling this function (e.g. recode -999 'don't know' to NA)."
-    ))
-  }
+  # health_facility_time must be a strictly positive integer vector
+  checkmate::assert_integerish(
+    df[[health_facility_time]],
+    lower = 1,
+    any.missing = TRUE,
+    .var.name = health_facility_time
+  )
 
   #------ Compute
 

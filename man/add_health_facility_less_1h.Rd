@@ -20,7 +20,7 @@ A data frame with one additional column:
 \description{
 Adds a binary variable (\code{1L}/\code{0L}) for whether a household reports access to the nearest functional health facility in less than one hour on foot.
 
-Values must be non-negative integers. Any negative value (including undefined codes such as -999) will raise an error listing the unique offending values — recode or remove them before calling this function.
+Values must be strictly positive integers. The \code{health_facility_time} column is validated with \code{checkmate::assert_integerish()}: \code{0}, negative codes (including \code{-999}), fractional values, and non-finite values all raise an error — recode or remove them before calling this function.
 }
 \examples{
 input_data <- data.frame(
