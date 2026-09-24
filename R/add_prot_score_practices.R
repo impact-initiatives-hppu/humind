@@ -60,11 +60,11 @@ add_prot_score_practices <- function(
   params <- as.list(environment())
 
   weights_acts <- c(
-    yes_work = 1,
-    yes_livelihood = 1,
+    yes_work = 2,
+    yes_livelihood = 2,
     yes_safety = 1,
     yes_farm = 1,
-    yes_water = 1,
+    yes_water = 2,
     yes_other_activities = NA,
     yes_free_choices = 1,
     no = 0,
