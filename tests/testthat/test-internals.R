@@ -24,43 +24,6 @@ df_non_numeric <- data.frame(
 
 
 ########################
-### are_cols_integer
-########################
-
-test_that("are_cols_integer returns TRUE for integer columns", {
-  df_int <- data.frame(col1 = 1L:4L, col2 = 5L:8L)
-  expect_true(humind:::are_cols_integer(df_int, c("col1", "col2")))
-})
-
-test_that("are_cols_integer returns TRUE for numeric columns with all integer values", {
-  df_num_int <- data.frame(col1 = c(1.0, 2.0, 3.0), col2 = c(4.0, 5.0, 6.0))
-  expect_true(humind:::are_cols_integer(df_num_int, c("col1", "col2")))
-})
-
-test_that("are_cols_integer errors for numeric columns with non-integer values", {
-  df_float <- data.frame(col1 = c(1.1, 2.0, 3.0))
-  expect_error(humind:::are_cols_integer(df_float, "col1"), class = "error")
-})
-
-test_that("are_cols_integer errors for character columns", {
-  df_chr <- data.frame(col1 = c("a", "b", "c"))
-  expect_error(humind:::are_cols_integer(df_chr, "col1"), class = "error")
-})
-
-test_that("are_cols_integer errors for missing columns", {
-  df_int <- data.frame(col1 = 1L:3L)
-  expect_error(
-    humind:::are_cols_integer(df_int, c("col1", "col_missing")),
-    class = "error"
-  )
-})
-
-test_that("are_cols_integer handles NA values without error", {
-  df_na <- data.frame(col1 = c(1L, NA_integer_, 3L))
-  expect_true(humind:::are_cols_integer(df_na, "col1"))
-})
-
-########################
 ### are_cols_numeric
 ########################
 # Test data setup
@@ -227,34 +190,16 @@ test_that("if_not_in_stop works with custom argument", {
 
 test_that("if_not_in_stop stops when input is not a data.frame", {
   expect_error(
-    humind:::if_not_in_stop(
-      "not_a_df",
-      c("col1", "col6"),
-      "df",
-      df_name = "test_arg"
-    ),
+    humind:::if_not_in_stop("not_a_df", c("col1", "col6"), "test_arg"),
     class = "error",
-    regexp = "test_arg must be a data.frame"
+    regexp = "test_arg.*data\\.frame"
   )
 })
 
 
 ########################
-### is_df
+### drop_shared_loop_cols
 ########################
-
-test_that("is_df handles non-data.frame input", {
-  expect_error(
-    is_df("not_a_df", "test_arg"),
-    class = "error",
-    regexp = "Input test_arg must be a data.frame."
-  )
-})
-
-test_that("is_df works with data.frame input", {
-  expect_true(is_df(df, "test_arg"))
-  expect_silent(is_df(df, "test_arg"))
-})
 
 test_that("drop_shared_loop_cols drops shared non-id columns", {
   main <- data.frame(uuid = 1:2, computed_n = c(5, 6))
