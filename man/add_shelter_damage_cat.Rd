@@ -2,18 +2,18 @@
 % Please edit documentation in R/add_shelter_damage_cat.R
 \name{add_shelter_damage_cat}
 \alias{add_shelter_damage_cat}
-\title{Add Category of Shelter damage (Optional SNFI dimension)}
+\title{Add Category of Shelter damage (SNFI dimension)}
 \usage{
 add_shelter_damage_cat(
   df,
   sep = "/",
   snfi_shelter_damage = "snfi_shelter_damage",
   none = "none",
-  minor = "minor",
-  major = "major",
-  damage_windows_doors = "damage_windows_doors",
-  damage_floors = "damage_floors",
-  damage_walls = "damage_walls",
+  minor = "minor_roof",
+  major = "major_roof",
+  damage_windows_doors = "windows_doors",
+  damage_floors = "floors",
+  damage_walls = "walls",
   total_collapse = "total_collapse",
   other = "other",
   dnk = "dnk",
@@ -50,7 +50,7 @@ add_shelter_damage_cat(
 \value{
 A data frame with an additional column:
 \itemize{
-\item snfi_shelter_damage_cat: Categorized shelter damages: "No damage", "Damaged", "Partial collapse or destruction", "Total collapse or destruction", or "Undefined".
+\item snfi_shelter_damage_cat: Categorized shelter damages: "none", "damaged", "part", "total", or "undefined".
 }
 }
 \description{

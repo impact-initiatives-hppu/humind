@@ -119,6 +119,35 @@ test_that("add_loop_age_dummy_to_main works with default parameters", {
   expect_equal(result, expected)
 })
 
+test_that("add_loop_age_dummy_to_main works when id_col_main and id_col_loop differ", {
+  main <- data.frame(
+    `_uuid` = c("a", "b"),
+    check.names = FALSE
+  )
+
+  loop <- data.frame(
+    `_submission__uuid` = c("a", "a", "b"),
+    ind_age = c(10, 35, 4),
+    check.names = FALSE
+  )
+  loop <- add_loop_age_dummy(loop, ind_age = "ind_age")
+
+  result <- add_loop_age_dummy_to_main(
+    main = main,
+    loop = loop,
+    id_col_main = "_uuid",
+    id_col_loop = "_submission__uuid"
+  )
+
+  expected <- data.frame(
+    `_uuid` = c("a", "b"),
+    ind_age_5_18_n = c(1, 0),
+    check.names = FALSE
+  )
+
+  expect_equal(result, expected)
+})
+
 test_that("add_loop_age_gender_dummy_to_main works with default parameters", {
   main <- data.frame(
     uuid = c(1, 2, 3)

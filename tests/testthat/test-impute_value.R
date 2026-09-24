@@ -75,24 +75,6 @@ test_that("impute_median handles grouping", {
   expect_equal(result, expected)
 })
 
-#test_that("impute_median handles weighted median", {
-#  df <- data.frame(
-#    var1 = c(1, 2, NA, 4),
-#    var2 = c(NA, 2, 3, NA),
-#    weight = c(1, 2, 1, 2)
-#  )
-
-#  result <- impute_median(df, vars = c("var1", "var2"), weighted = TRUE, weight = "weight")
-
-#  expected <- data.frame(
-#    var1 = c(1, 2, 2, 4),
-#    var2 = c(2, 2, 3, 2),
-#    weight = c(1, 2, 1, 2)
-#  )
-
-#  expect_equal(result, expected)
-#})
-
 test_that("impute_median handles missing columns", {
   df <- data.frame(
     var1 = c(1, 2, NA, 4)

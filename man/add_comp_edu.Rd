@@ -51,6 +51,7 @@ household is in need or in severe need of educational assistance.
 Prerequisite functions:
 \itemize{
 \item add_loop_age_dummy.R
+\item add_loop_edu_access_d.R
 \item add_loop_edu_barrier_protection_d.R
 \item add_loop_edu_disrupted_d.R
 \item add_loop_edu_ind_age_corrected.R

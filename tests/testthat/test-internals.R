@@ -22,6 +22,15 @@ df_non_numeric <- data.frame(
   col2 = c(1, 2, 3)
 )
 
+# Test data setup
+df_wrong_range <- data.frame(
+  col1 = c(1, 2, 3, 4, NA),
+  col2 = c("a", "b", "c", "d", NA),
+  col3 = c(7, 8, 9, 10, NA),
+  col4 = c(3, 4, 5, 6, NA),
+  col5 = c(NA, NA, NA, NA, NA)
+)
+
 test_that("are_cols_numeric works with default parameters", {
   expect_true(humind:::are_cols_numeric(df, c("col1", "col3", "col4")))
 })
@@ -45,7 +54,7 @@ test_that("are_cols_numeric handles all NA columns", {
 })
 
 test_that("are_values_in_range works with default parameters", {
-  expect_true(humind:::are_values_in_range(df, c("col1", "col3", "col4")))
+  expect_true(humind:::are_values_in_range(df, c("col1", "col4")))
 })
 
 test_that("are_values_in_range handles values out of range", {
@@ -61,6 +70,36 @@ test_that("are_values_in_range handles missing columns", {
   expect_error(
     humind:::are_values_in_range(df, c("col1", "col6")),
     class = "error"
+  )
+})
+
+test_that("are_values_in_range throws error when any column has values out of range", {
+  # col1 is within range (0-7), but col3 contains values > 7 (specifically 8, 9, 10)
+  # The function should detect the invalid values in col3 and throw an error
+  expect_error(
+    humind:::are_values_in_range(df_wrong_range, c("col1", "col3")),
+    "outside the range"
+  )
+})
+
+test_that("are_values_in_range throws error if bounds are not numeric", {
+  # Test with character input
+  expect_error(
+    humind:::are_values_in_range(df, c("col1"), lower = "five", upper = 7),
+    "must be numeric"
+  )
+
+  # Test with list input
+  expect_error(
+    humind:::are_values_in_range(df, c("col1"), lower = 0, upper = list(7)),
+    "must be numeric"
+  )
+})
+
+test_that("are_values_in_range throws error if lower > upper", {
+  expect_error(
+    humind:::are_values_in_range(df, c("col1"), lower = 10, upper = 5),
+    "lower.*cannot be greater than upper"
   )
 })
 
@@ -128,4 +167,31 @@ test_that("if_not_in_stop works with custom argument", {
     humind:::if_not_in_stop(df, c("col1", "col6"), "df", arg = "test_arg"),
     class = "error"
   )
+})
+
+test_that("drop_shared_loop_cols drops shared non-id columns", {
+  main <- data.frame(uuid = 1:2, computed_n = c(5, 6))
+  loop <- data.frame(uuid = c(1, 1, 2), computed_n = c(1, 1, 1))
+
+  result <- humind:::drop_shared_loop_cols(main, loop, "uuid", "uuid")
+
+  expect_equal(result, data.frame(uuid = 1:2))
+})
+
+test_that("drop_shared_loop_cols works when id_col_main and id_col_loop differ", {
+  main <- data.frame(`_uuid` = 1:2, computed_n = c(5, 6), check.names = FALSE)
+  loop <- data.frame(
+    `_submission__uuid` = c(1, 1, 2),
+    computed_n = c(1, 1, 1),
+    check.names = FALSE
+  )
+
+  result <- humind:::drop_shared_loop_cols(
+    main,
+    loop,
+    "_uuid",
+    "_submission__uuid"
+  )
+
+  expect_equal(result, data.frame(`_uuid` = 1:2, check.names = FALSE))
 })

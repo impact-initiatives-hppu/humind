@@ -73,5 +73,5 @@ sum_vars <- function(
     )
   )
 
-  return(df)
+  df
 }

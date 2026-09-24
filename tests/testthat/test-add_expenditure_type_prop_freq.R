@@ -29,7 +29,7 @@ test_that("add_expenditure_type_prop_freq function works with default parameters
 })
 
 # 2. Test handling of missing columns
-missing_column_data <- dummy_data %>% select(-cm_expenditure_frequent_food)
+missing_column_data <- dummy_data |> select(-cm_expenditure_frequent_food)
 
 test_that("add_expenditure_type_prop_freq function handles missing columns", {
   expect_error(add_expenditure_type_prop_freq(missing_column_data))

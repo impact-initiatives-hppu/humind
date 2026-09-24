@@ -74,5 +74,5 @@ add_income_source_zero_to_sl <- function(
     )
   )
 
-  return(df)
+  df
 }
