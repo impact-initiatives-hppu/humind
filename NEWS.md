@@ -1,5 +1,14 @@
 # humind (development version)
 
+### New Features
+
+* `add_health_facility_less_1h()`: computes ANA IND160, a household-level binary
+  indicator for access to the nearest functional health facility in less than
+  one hour on foot. Travel time is coded `1L` below 60 minutes, `0L` at 60
+  minutes or more, and `NA` when missing. The `health_facility_time` column must
+  contain strictly positive integers; `0`, fractional values, and undefined
+  codes such as `-999` raise an error (#662, #664).
+
 # humind 2026.4.1
 
 This patch corrects the weighting of three ability-to-participate barriers in

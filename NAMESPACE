@@ -25,6 +25,7 @@ export(add_fcm_phase)
 export(add_fcs)
 export(add_fds_cannot_cat)
 export(add_handwashing_facility_cat)
+export(add_health_facility_less_1h)
 export(add_hhs)
 export(add_hoh_final)
 export(add_hwise)
@@ -73,14 +74,10 @@ export(rank_top3_vars)
 export(sum_vars)
 export(value_to_sl)
 importFrom(cli,cli_abort)
-importFrom(dplyr,
-  case_when,
-  mutate
-)
+importFrom(dplyr,case_when)
+importFrom(dplyr,mutate)
 importFrom(purrr,iwalk)
-importFrom(rlang,
-  ":=",
-  .data,
-  sym
-)
+importFrom(rlang,":=")
+importFrom(rlang,.data)
+importFrom(rlang,sym)
 importFrom(utils,tail)
