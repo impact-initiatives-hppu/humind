@@ -45,7 +45,7 @@ dummy_data <- dplyr::tibble(
     "other"
   ),
   wash_drinking_water_time_yn = c(
-    "water_on_premises",
+    "water_in_plot",
     "number_minutes",
     "dnk",
     "pnta"
@@ -53,7 +53,7 @@ dummy_data <- dplyr::tibble(
   wash_drinking_water_time_int = c(NA, 45, 70, 20),
   wash_drinking_water_time_sl = c(
     NA,
-    "under_30_min",
+    "5min_or_less",
     "30min_1hr",
     "more_than_1hr"
   )
@@ -75,19 +75,247 @@ test_that("add_drinking_water_time_cat returns expected column", {
   expect_true("wash_drinking_water_time_cat" %in% colnames(result))
 })
 
+
+test_that("add_drinking_water_time_cat errors on wrong sl_under_30_min values", {
+  expect_error(
+    add_drinking_water_time_cat(dummy_data, sl_under_30_min = "foo"),
+    regexp = ".*All values must be in the following set.*"
+  )
+})
+
+test_that("add_drinking_water_time_cat accepts multiple sl_under_30_min codes", {
+  expect_no_error(
+    add_drinking_water_time_cat(
+      dummy_data,
+      sl_under_30_min = c("5min_or_less", "5min_15min", "15min_30min")
+    )
+  )
+})
+
+test_that("add_drinking_water_time_cat recodes all under-30-min sl codes correctly", {
+  df <- dplyr::tribble(
+    ~wash_drinking_water_source   ,
+    ~wash_drinking_water_time_yn  ,
+    ~wash_drinking_water_time_int ,
+    ~wash_drinking_water_time_sl  ,
+    "borehole"                    , "number_minutes" ,  5 , "5min_or_less"  ,
+    "protected_well"              , "number_minutes" , 12 , "5min_15min"    ,
+    "tap"                         , "number_minutes" , 25 , "15min_30min"   ,
+    "kiosk"                       , "number_minutes" , 45 , "30min_1hr"     ,
+    "borehole"                    , "number_minutes" , 90 , "more_than_1hr" ,
+    "rainwater_collection"        , "dnk"            , NA , "dnk"           ,
+    "borehole"                    , "dnk"            , NA , "5min_or_less"  ,
+    "kiosk"                       , "dnk"            , NA , "30min_1hr"     ,
+    "borehole"                    , "dnk"            , NA , "5min_15min"    ,
+    "borehole"                    , "dnk"            , NA , "more_than_1hr" ,
+    "borehole"                    , "dnk"            , NA , "pnta"          ,
+    "borehole"                    , "pnta"           , NA , "5min_or_less"  ,
+    "borehole"                    , "pnta"           , NA , "30min_1hr"     ,
+    "borehole"                    , "pnta"           , NA , "more_than_1hr" ,
+    "borehole"                    , "pnta"           , NA , "dnk"
+  )
+
+  result <- add_drinking_water_time_cat(df)
+
+  expect_equal(
+    result$wash_drinking_water_time_cat,
+    c(
+      "under_30_min",
+      "under_30_min",
+      "under_30_min",
+      "30min_1hr",
+      "more_than_1hr",
+      "undefined",
+      "under_30_min",
+      "30min_1hr",
+      "under_30_min",
+      "more_than_1hr",
+      "undefined",
+      "under_30_min",
+      "30min_1hr",
+      "more_than_1hr",
+      "undefined"
+    )
+  )
+
+  # Temporary helper columns must not leak into the output
+  expect_false(any(grepl("^\\.", colnames(result))))
+})
+
+test_that("add_drinking_water_time_cat buckets the 30 and 60 minute boundaries inclusively", {
+  df <- dplyr::tribble(
+    ~wash_drinking_water_source   ,
+    ~wash_drinking_water_time_yn  ,
+    ~wash_drinking_water_time_int ,
+    ~wash_drinking_water_time_sl  ,
+    "borehole"                    , "number_minutes" , 30 , "15min_30min" ,
+    "borehole"                    , "number_minutes" , 60 , "30min_1hr"
+  )
+
+  result <- add_drinking_water_time_cat(df)
+
+  # Exactly 30 minutes falls in the under-30-min bucket, exactly 60 minutes
+  # falls in the 30min-1hr bucket (i.e. the interval bounds are inclusive on
+  # their upper edge: <= 30 and <= 60, not < 30 and < 60).
+  expect_equal(
+    result$wash_drinking_water_time_cat,
+    c("under_30_min", "30min_1hr")
+  )
+})
+
+test_that("add_drinking_water_time_cat and add_drinking_water_time_threshold_cat integrate correctly", {
+  df <- dplyr::tribble(
+    ~wash_drinking_water_source   ,
+    ~wash_drinking_water_time_yn  ,
+    ~wash_drinking_water_time_int ,
+    ~wash_drinking_water_time_sl  ,
+    "borehole"                    , "water_in_dwelling" , NA_real_ , NA_character_   ,
+    "borehole"                    , "number_minutes"    ,       10 , "5min_15min"    ,
+    "borehole"                    , "dnk"               , NA_real_ , "15min_30min"   ,
+    "borehole"                    , "number_minutes"    ,       45 , "30min_1hr"     ,
+    "borehole"                    , "dnk"               , NA_real_ , "more_than_1hr" ,
+    "borehole"                    , "dnk"               , NA_real_ , "dnk"           ,
+    "borehole"                    , "dnk"               , NA_real_ , "pnta"          ,
+    "borehole"                    , "pnta"              , NA_real_ , "5min_or_less"  ,
+    "borehole"                    , "pnta"              , NA_real_ , "30min_1hr"     ,
+    "borehole"                    , "pnta"              , NA_real_ , "more_than_1hr" ,
+    "borehole"                    , "pnta"              , NA_real_ , "dnk"
+  )
+
+  result <- df |>
+    add_drinking_water_time_cat() |>
+    add_drinking_water_time_threshold_cat()
+
+  expect_equal(
+    result$wash_drinking_water_time_30min_cat,
+    c(
+      "premises",
+      "under_30min",
+      "under_30min",
+      "above_30min",
+      "above_30min",
+      "undefined",
+      "undefined",
+      "under_30min",
+      "above_30min",
+      "above_30min",
+      "undefined"
+    )
+  )
+})
+
+test_that("add_drinking_water_time_threshold_cat errors when misconfigured relative to add_drinking_water_time_cat", {
+  df <- dplyr::tribble(
+    ~wash_drinking_water_source   ,
+    ~wash_drinking_water_time_yn  ,
+    ~wash_drinking_water_time_int ,
+    ~wash_drinking_water_time_sl  ,
+    "borehole"                    , "number_minutes" , 10 , "5min_15min"
+  )
+
+  step1 <- add_drinking_water_time_cat(df)
+  expect_equal(step1$wash_drinking_water_time_cat, "under_30_min")
+
+  expect_error(
+    add_drinking_water_time_threshold_cat(
+      step1,
+      drinking_water_time_30min_cat_under_30min = "not_under_30_min"
+    ),
+    class = "error"
+  )
+})
+
 test_that("add_drinking_water_quality_jmp_cat returns expected column", {
-  df <- dummy_data %>%
-    add_drinking_water_source_cat() %>%
-    add_drinking_water_time_cat() %>%
+  df <- dummy_data |>
+    add_drinking_water_source_cat() |>
+    add_drinking_water_time_cat() |>
     add_drinking_water_time_threshold_cat()
   result <- add_drinking_water_quality_jmp_cat(df)
   expect_true("wash_drinking_water_quality_jmp_cat" %in% colnames(result))
 })
 
+test_that("add_drinking_water_quality_jmp_cat maps all source/time combinations to valid JMP values", {
+  df <- expand.grid(
+    wash_drinking_water_source_cat = c(
+      "improved",
+      "unimproved",
+      "surface_water",
+      "undefined"
+    ),
+    wash_drinking_water_time_30min_cat = c(
+      "premises",
+      "under_30min",
+      "above_30min",
+      "undefined"
+    ),
+    stringsAsFactors = FALSE
+  )
+
+  result <- add_drinking_water_quality_jmp_cat(df)
+
+  expect_equal(
+    result$wash_drinking_water_quality_jmp_cat,
+    c(
+      "basic",
+      "unimproved",
+      "surface_water",
+      "undefined", # premises
+      "basic",
+      "unimproved",
+      "surface_water",
+      "undefined", # under_30min
+      "limited",
+      "unimproved",
+      "surface_water",
+      "undefined", # above_30min
+      "undefined",
+      "unimproved",
+      "surface_water",
+      "undefined" # undefined
+    )
+  )
+
+  expect_setequal(
+    unique(result$wash_drinking_water_quality_jmp_cat),
+    c("basic", "limited", "unimproved", "surface_water", "undefined")
+  )
+})
+
 test_that("add_drinking_water_source_cat handles undefined drinking water source", {
-  df_undefined <- dummy_data %>% mutate(wash_drinking_water_source = "other")
+  df_undefined <- dummy_data |> mutate(wash_drinking_water_source = "other")
   result <- add_drinking_water_source_cat(df_undefined)
   expect_equal(unique(result$wash_drinking_water_source_cat), "undefined")
+})
+
+test_that("add_drinking_water_source_cat recodes improved sources correctly", {
+  improved_sources <- dplyr::tibble(
+    wash_drinking_water_source = c(
+      "piped_dwelling",
+      "piped_compound",
+      "piped_neighbour",
+      "tap",
+      "borehole",
+      "protected_well",
+      "well_spring",
+      "rainwater_collection",
+      "tank_truck",
+      "cart_tank",
+      "kiosk",
+      "bottled_water",
+      "sachet_water"
+    )
+  )
+  result <- add_drinking_water_source_cat(improved_sources)
+  expect_setequal(
+    result$wash_drinking_water_source_cat,
+    rep("improved", nrow(improved_sources))
+  )
+})
+
+test_that("add_drinking_water_source_cat errors on unknown source value", {
+  df_unknown <- dummy_data |>
+    dplyr::mutate(wash_drinking_water_source = "protected_spring")
+  expect_error(add_drinking_water_source_cat(df_unknown), class = "error")
 })
 
 test_that("add_drinking_water_time_cat errors on invalid integer values", {
