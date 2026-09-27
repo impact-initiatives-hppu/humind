@@ -275,13 +275,8 @@ add_loop_under5_sick_d_to_main <- function(
     )
   )
 
-  # Remove overlapping cols from main (except uuid cols), then join
-  cols_uuids <- c(id_col_main, id_col_loop)
-  cols_from_loop_in_main <- setdiff(
-    intersect(colnames(loop_vars), colnames(main)),
-    cols_uuids
-  )
-  main <- dplyr::select(main, -dplyr::all_of(cols_from_loop_in_main))
+  # Remove columns in main that exist in loop, but the grouping ones
+  main <- drop_shared_loop_cols(main, loop_vars, id_col_main, id_col_loop)
 
   main <- dplyr::left_join(
     main,
