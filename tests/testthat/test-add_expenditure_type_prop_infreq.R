@@ -27,7 +27,7 @@ test_that("add_expenditure_type_prop_infreq function works with default paramete
 })
 
 # 2. Test handling of missing columns
-missing_column_data <- dummy_data %>% select(-cm_expenditure_infrequent_shelter)
+missing_column_data <- dummy_data |> select(-cm_expenditure_infrequent_shelter)
 
 test_that("add_expenditure_type_prop_infreq function handles missing columns", {
   expect_error(add_expenditure_type_prop_infreq(missing_column_data))

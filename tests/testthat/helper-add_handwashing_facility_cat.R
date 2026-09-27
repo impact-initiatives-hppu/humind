@@ -2,7 +2,7 @@ prune_wash_df <- function(df) {
   fixed_hwf <- c(
     "available_fixed_in_dwelling",
     "available_fixed_in_plot",
-    "available_fixed_or_mobile"
+    "available_mobile"
   )
   dplyr::filter(
     df,
@@ -10,13 +10,13 @@ prune_wash_df <- function(df) {
     (is.na(survey_modality) | survey_modality != "remote") ==
       !is.na(wash_handwashing_facility),
 
-    # wash_handwashing_facility_observed_water:
+    # wash_handwashing_facility_observed_water_yn:
     # selected(${wash_handwashing_facility}, one of fixed_hwf)
     (wash_handwashing_facility %in% fixed_hwf) ==
-      !is.na(wash_handwashing_facility_observed_water),
+      !is.na(wash_handwashing_facility_observed_water_yn),
 
-    # wash_soap_observed: same trigger as above
-    (wash_handwashing_facility %in% fixed_hwf) == !is.na(wash_soap_observed),
+    # wash_soap_observed_yn: same trigger as above
+    (wash_handwashing_facility %in% fixed_hwf) == !is.na(wash_soap_observed_yn),
 
     # wash_handwashing_facility_reported:
     # selected(${survey_modality}, 'remote') OR selected(${wash_handwashing_facility}, 'no_permission')
@@ -24,22 +24,22 @@ prune_wash_df <- function(df) {
       (wash_handwashing_facility %in% "no_permission")) ==
       !is.na(wash_handwashing_facility_reported),
 
-    # wash_handwashing_facility_water_reported: same trigger
+    # wash_handwashing_facility_water_reported_yn: same trigger
     ((survey_modality %in% "remote") |
       (wash_handwashing_facility %in% "no_permission")) ==
-      !is.na(wash_handwashing_facility_water_reported),
+      !is.na(wash_handwashing_facility_water_reported_yn),
 
-    # wash_soap_observed_type: selected(${wash_soap_observed}, 'yes_soap_shown')
-    (wash_soap_observed %in% "yes_soap_shown") ==
+    # wash_soap_observed_type: selected(${wash_soap_observed_yn}, 'soap_available')
+    (wash_soap_observed_yn %in% "soap_available") ==
       !is.na(wash_soap_observed_type),
 
-    # wash_soap_reported: same trigger as *_reported
+    # wash_soap_reported_yn: same trigger as *_reported
     ((survey_modality %in% "remote") |
       (wash_handwashing_facility %in% "no_permission")) ==
-      !is.na(wash_soap_reported),
+      !is.na(wash_soap_reported_yn),
 
-    # wash_soap_reported_type: selected(${wash_soap_reported}, 'yes')
-    (wash_soap_reported %in% "yes") == !is.na(wash_soap_reported_type)
+    # wash_soap_reported_type: selected(${wash_soap_reported_yn}, 'yes')
+    (wash_soap_reported_yn %in% "yes") == !is.na(wash_soap_reported_type)
   )
 }
 generate_wash_df <- function() {
@@ -51,23 +51,23 @@ generate_wash_df <- function() {
   wash_handwashing_facility <- c(
     "available_fixed_in_dwelling",
     "available_fixed_in_plot",
-    "available_fixed_or_mobile",
+    "available_mobile",
     "none",
     "no_permission",
     "other",
     NA_character_ # Can be NA because of skip logic
   )
 
-  wash_handwashing_facility_observed_water <- c(
+  wash_handwashing_facility_observed_water_yn <- c(
     "water_available",
     "water_not_available",
     "water_available",
     NA
   )
 
-  wash_soap_observed <- c(
-    "yes_soap_shown",
-    "no",
+  wash_soap_observed_yn <- c(
+    "soap_available",
+    "soap_not_available",
     NA
   )
 
@@ -79,7 +79,7 @@ generate_wash_df <- function() {
     NA
   )
 
-  wash_handwashing_facility_water_reported <- c(
+  wash_handwashing_facility_water_reported_yn <- c(
     "yes",
     "no",
     "yes",
@@ -87,7 +87,7 @@ generate_wash_df <- function() {
     NA
   )
 
-  wash_soap_reported <- c(
+  wash_soap_reported_yn <- c(
     "yes",
     "no",
     "yes",
@@ -110,11 +110,11 @@ generate_wash_df <- function() {
   exhaustive_df <- tidyr::expand_grid(
     survey_modality,
     wash_handwashing_facility,
-    wash_handwashing_facility_observed_water,
-    wash_soap_observed,
+    wash_handwashing_facility_observed_water_yn,
+    wash_soap_observed_yn,
     wash_handwashing_facility_reported,
-    wash_handwashing_facility_water_reported,
-    wash_soap_reported,
+    wash_handwashing_facility_water_reported_yn,
+    wash_soap_reported_yn,
     wash_soap_observed_type,
     wash_soap_reported_type,
   ) |>

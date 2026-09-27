@@ -8,14 +8,14 @@
 #'
 #' @param loop A data frame of individual-level data for the loop.
 #' @param barriers Column name for the child protection barrier category.
-#' @param protection_issues Vector of protection issues RESPONSE CODES.
+#' @param protection_issues Vector of protection issues RESPONSE CODES. Values in this set are flagged as protection barriers. Must not overlap `barriers_undefined` or `non_protection_issues`.
 #' @param ind_schooling_age_d Column name for the dummy variable of schooling age.
+#' @param barriers_undefined Vector of undefined/non-response values. These are accepted but treated as non-barriers. Defaults to common survey non-responses: "dnk", "pnta", "other". Must not overlap `protection_issues` or `non_protection_issues`.
+#' @param non_protection_issues Vector of valid non-protection barrier RESPONSE CODES (access barriers and flag codes). Values in this set are accepted as valid, but do not affect the `edu_ind_barrier_protection_d` dummy. Defaults to the non-protection response codes of the standard `edu_barrier` question. Must not overlap `protection_issues` or `barriers_undefined`.
 #'
 #' @return A data frame with an additional column:
 #'
 #' * edu_ind_barrier_protection_d: Dummy variable indicating if a school-aged child faces a protection barrier (1) or not (0).
-#'
-#' @export
 #'
 #' @export
 add_loop_edu_barrier_protection_d <- function(
@@ -28,17 +28,62 @@ add_loop_edu_barrier_protection_d <- function(
     "child_work_outside",
     "child_armed_group",
     "child_marriage",
+    "child_pregnancy",
     "ban",
     "enroll_lack_documentation",
     "discrimination"
   ),
-  ind_schooling_age_d = "edu_ind_schooling_age_d"
+  ind_schooling_age_d = "edu_ind_age_schooling",
+  barriers_undefined = c("dnk", "pnta", "other"),
+  non_protection_issues = c(
+    "costs",
+    "lack_interest",
+    "not_priority",
+    "lack_accessible_school",
+    "lack_classrooms",
+    "lack_wash_facilities",
+    "school_closed",
+    "lack_teacher",
+    "curriculum_not_useful",
+    "child_health",
+    "language",
+    "enroll_displacement",
+    "child_too_young",
+    "child_graduated"
+  )
 ) {
   #----- Checks
 
   # Check if the variable is in the data frame
   if_not_in_stop(loop, barriers, "loop")
   if_not_in_stop(loop, ind_schooling_age_d, "loop")
+
+  # Check that the configurable barrier sets are mutually disjoint
+  checkmate::assert_disjunct(
+    protection_issues,
+    non_protection_issues,
+    .var.name = "protection_issues"
+  )
+  checkmate::assert_disjunct(
+    protection_issues,
+    barriers_undefined,
+    .var.name = "protection_issues"
+  )
+  checkmate::assert_disjunct(
+    non_protection_issues,
+    barriers_undefined,
+    .var.name = "non_protection_issues"
+  )
+
+  # Check that edu_barrier values are known barrier response codes
+  are_values_in_set(
+    loop,
+    barriers,
+    c(protection_issues, non_protection_issues, barriers_undefined),
+    main_message = glue::glue(
+      "Column '{barriers}' values must be in the following set: "
+    )
+  )
 
   # Check that ind_schooling_age 0:1
   are_values_in_range(loop, ind_schooling_age_d, 0, 1)
@@ -62,7 +107,7 @@ add_loop_edu_barrier_protection_d <- function(
     )
   )
 
-  return(loop)
+  loop
 }
 
 #' @rdname add_loop_edu_barrier_protection_d
@@ -112,7 +157,7 @@ add_loop_edu_barrier_protection_d_to_main <- function(
   )
 
   # Remove columns in main that exists in loop, but the grouping ones
-  main <- impactR.utils::df_diff(main, loop, !!rlang::sym(id_col_main))
+  main <- drop_shared_loop_cols(main, loop, id_col_main, id_col_loop)
 
   # Join loop to main
   main <- dplyr::left_join(
@@ -121,5 +166,5 @@ add_loop_edu_barrier_protection_d_to_main <- function(
     by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop))
   )
 
-  return(main)
+  main
 }

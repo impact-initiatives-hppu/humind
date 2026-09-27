@@ -9,6 +9,7 @@
 #' Prerequisite functions:
 #'
 #' * add_loop_age_dummy.R
+#' * add_loop_edu_access_d.R
 #' * add_loop_edu_barrier_protection_d.R
 #' * add_loop_edu_disrupted_d.R
 #' * add_loop_edu_ind_age_corrected.R
@@ -137,5 +138,5 @@ add_comp_edu <- function(
     "comp_edu_in_severe_need"
   )
 
-  return(df)
+  df
 }

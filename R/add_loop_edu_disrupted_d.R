@@ -25,7 +25,7 @@ add_loop_edu_disrupted_d <- function(
   displaced = "edu_disrupted_displaced",
   teacher = "edu_disrupted_teacher",
   levels = c("yes", "no", "dnk", "pnta"),
-  ind_schooling_age_d = "edu_ind_schooling_age_d"
+  ind_schooling_age_d = "edu_ind_age_schooling"
 ) {
   #----- Checks
 
@@ -94,7 +94,7 @@ add_loop_edu_disrupted_d <- function(
       dplyr::all_of(cols),
       \(x) {
         dplyr::case_when(
-          !!rlang::sym("ind_schooling_age_d") == 0 ~ NA_real_,
+          !!rlang::sym(ind_schooling_age_d) == 0 ~ NA_real_,
           x == levels[1] ~ 1,
           x == levels[2] ~ 0,
           x %in% levels[3:4] ~ NA_real_,
@@ -105,7 +105,7 @@ add_loop_edu_disrupted_d <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 #' @rdname add_loop_edu_disrupted_d
@@ -190,23 +190,22 @@ add_loop_edu_disrupted_d_to_main <- function(
     edu_disrupted_displaced_n = sum(!!rlang::sym(displaced_d), na.rm = TRUE),
     edu_disrupted_teacher_n = sum(!!rlang::sym(teacher_d), na.rm = TRUE)
   )
-  if (!is.null(attack_d)) {
+  if (is.null(attack_d)) {
+    loop <- loop_wo_attack
+  } else {
     loop_attack <- dplyr::summarize(
       loop,
       edu_disrupted_attack_n = sum(!!rlang::sym(attack_d), na.rm = TRUE)
     )
+    loop <- dplyr::left_join(
+      loop_wo_attack,
+      loop_attack,
+      by = dplyr::join_by(!!rlang::sym(id_col_loop))
+    )
   }
-  loop <- dplyr::left_join(
-    loop_wo_attack,
-    loop_attack,
-    by = dplyr::join_by(!!rlang::sym(id_col_loop))
-  )
 
   # Remove columns in main that exists in loop, but the grouping ones
-  cols_uuids <- c(id_col_main, id_col_loop)
-  cols_from_loop_in_main <- intersect(colnames(loop), colnames(main))
-  cols_from_loop_in_main <- setdiff(cols_from_loop_in_main, cols_uuids)
-  main <- dplyr::select(main, -dplyr::all_of(cols_from_loop_in_main))
+  main <- drop_shared_loop_cols(main, loop, id_col_main, id_col_loop)
 
   # Join
   main <- dplyr::left_join(
@@ -215,5 +214,5 @@ add_loop_edu_disrupted_d_to_main <- function(
     by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop))
   )
 
-  return(main)
+  main
 }
