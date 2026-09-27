@@ -21,6 +21,9 @@
 #' @param ind_under5_sick_symptoms_watery Character vector of choice names for watery diarrhoea
 #'   symptoms (combined with `ind_under5_sick_symptoms` and `sep`). The dummy is 1 if the
 #'   individual is sick AND any of these symptom columns is 1.
+#' @param ind_under5_sick_symptoms_undefined Character vector of choice names for non-substantive
+#'   symptom responses (combined with `ind_under5_sick_symptoms` and `sep`). A sick individual
+#'   with any of these selected is coded `NA` for the type dummies, not `0`.
 #' @param sep Separator between the base column name and the choice name. Default `"/"`.
 #'
 #' @return A data frame with additional columns:
@@ -28,7 +31,8 @@
 #' * nut_ind_under5_sick_yes_d: Dummy variable (1/0/NA) for under-5 sick.
 #' * nut_ind_under5_sick_yes_respiratory_d: Dummy variable (1/0/NA) for sick with any respiratory
 #'   symptom. 1 = sick and any respiratory column is 1; 0 = not sick, or sick and all
-#'   respiratory columns are 0; NA otherwise.
+#'   respiratory columns are 0; NA when sick status is unknown or a non-substantive symptom
+#'   response is selected.
 #' * nut_ind_under5_sick_yes_watery_d: Dummy variable (1/0/NA) for sick with any watery
 #'   diarrhoea symptom. Same logic as above.
 #'
@@ -43,6 +47,7 @@ add_loop_under5_sick_d <- function(
   ind_under5_sick_symptoms = "nut_ind_under5_sick_symptoms",
   ind_under5_sick_symptoms_respiratory = "cough",
   ind_under5_sick_symptoms_watery = "diarrhoea",
+  ind_under5_sick_symptoms_undefined = c("dnk", "pnta"),
   sep = "/"
 ) {
   #------ Checks
@@ -58,11 +63,21 @@ add_loop_under5_sick_d <- function(
     sep,
     ind_under5_sick_symptoms_watery
   )
+  undefined_col_names <- paste0(
+    ind_under5_sick_symptoms,
+    sep,
+    ind_under5_sick_symptoms_undefined
+  )
 
   # required columns are in loop
   if_not_in_stop(
     loop,
-    c(ind_under5_sick_yn, respiratory_col_names, watery_col_names),
+    c(
+      ind_under5_sick_yn,
+      respiratory_col_names,
+      watery_col_names,
+      undefined_col_names
+    ),
     "loop"
   )
 
@@ -76,7 +91,11 @@ add_loop_under5_sick_d <- function(
 
   # values are in set
   are_values_in_set(loop, ind_under5_sick_yn, ind_under5_sick_yn_levels)
-  are_values_in_set(loop, c(respiratory_col_names, watery_col_names), c(0, 1))
+  are_values_in_set(
+    loop,
+    c(respiratory_col_names, watery_col_names, undefined_col_names),
+    c(0, 1)
+  )
 
   # Warn if output columns already exist
   if ("nut_ind_under5_sick_yes_d" %in% colnames(loop)) {
@@ -116,6 +135,12 @@ add_loop_under5_sick_d <- function(
       nut_ind_under5_sick_yes_d == 0 ~ 0,
       nut_ind_under5_sick_yes_d == 1 &
         rowSums(
+          dplyr::pick(dplyr::all_of(undefined_col_names)) == 1,
+          na.rm = TRUE
+        ) >
+          0 ~ NA_real_,
+      nut_ind_under5_sick_yes_d == 1 &
+        rowSums(
           dplyr::pick(dplyr::all_of(respiratory_col_names)) == 1,
           na.rm = TRUE
         ) >
@@ -128,6 +153,12 @@ add_loop_under5_sick_d <- function(
     # Watery: same logic with watery cols
     nut_ind_under5_sick_yes_watery_d = dplyr::case_when(
       nut_ind_under5_sick_yes_d == 0 ~ 0,
+      nut_ind_under5_sick_yes_d == 1 &
+        rowSums(
+          dplyr::pick(dplyr::all_of(undefined_col_names)) == 1,
+          na.rm = TRUE
+        ) >
+          0 ~ NA_real_,
       nut_ind_under5_sick_yes_d == 1 &
         rowSums(
           dplyr::pick(dplyr::all_of(watery_col_names)) == 1,

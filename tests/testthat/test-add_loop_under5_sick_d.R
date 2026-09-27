@@ -3,7 +3,9 @@ test_that("add_loop_under5_sick_d creates the three expected output columns", {
     uuid = "hh1",
     nut_ind_under5_sick_yn = "yes",
     `nut_ind_under5_sick_symptoms/cough` = 1,
-    `nut_ind_under5_sick_symptoms/diarrhoea` = 0
+    `nut_ind_under5_sick_symptoms/diarrhoea` = 0,
+    `nut_ind_under5_sick_symptoms/dnk` = 0,
+    `nut_ind_under5_sick_symptoms/pnta` = 0
   )
   result <- add_loop_under5_sick_d(loop)
   expect_true("nut_ind_under5_sick_yes_d" %in% colnames(result))
@@ -16,7 +18,9 @@ test_that("add_loop_under5_sick_d: yn is  'no', then all three dummies are 0", {
     uuid = "hh1",
     nut_ind_under5_sick_yn = "no",
     `nut_ind_under5_sick_symptoms/cough` = NA_real_,
-    `nut_ind_under5_sick_symptoms/diarrhoea` = NA_real_
+    `nut_ind_under5_sick_symptoms/diarrhoea` = NA_real_,
+    `nut_ind_under5_sick_symptoms/dnk` = NA_real_,
+    `nut_ind_under5_sick_symptoms/pnta` = NA_real_
   )
   result <- add_loop_under5_sick_d(loop)
   expect_equal(result$nut_ind_under5_sick_yes_d, 0)
@@ -29,7 +33,9 @@ test_that("add_loop_under5_sick_d: yn is  'yes', both symptoms are 1, then all t
     uuid = "hh1",
     nut_ind_under5_sick_yn = "yes",
     `nut_ind_under5_sick_symptoms/cough` = 1,
-    `nut_ind_under5_sick_symptoms/diarrhoea` = 1
+    `nut_ind_under5_sick_symptoms/diarrhoea` = 1,
+    `nut_ind_under5_sick_symptoms/dnk` = 0,
+    `nut_ind_under5_sick_symptoms/pnta` = 0
   )
   result <- add_loop_under5_sick_d(loop)
   expect_equal(result$nut_ind_under5_sick_yes_d, 1)
@@ -42,7 +48,9 @@ test_that("add_loop_under5_sick_d: yn is  'yes', both symptoms are 0, then sick 
     uuid = "hh1",
     nut_ind_under5_sick_yn = "yes",
     `nut_ind_under5_sick_symptoms/cough` = 0,
-    `nut_ind_under5_sick_symptoms/diarrhoea` = 0
+    `nut_ind_under5_sick_symptoms/diarrhoea` = 0,
+    `nut_ind_under5_sick_symptoms/dnk` = 0,
+    `nut_ind_under5_sick_symptoms/pnta` = 0
   )
   result <- add_loop_under5_sick_d(loop)
   expect_equal(result$nut_ind_under5_sick_yes_d, 1)
@@ -55,7 +63,9 @@ test_that("add_loop_under5_sick_d: yn is 'yes', respiratory are 1 but watery are
     uuid = "hh1",
     nut_ind_under5_sick_yn = "yes",
     `nut_ind_under5_sick_symptoms/cough` = 1,
-    `nut_ind_under5_sick_symptoms/diarrhoea` = 0
+    `nut_ind_under5_sick_symptoms/diarrhoea` = 0,
+    `nut_ind_under5_sick_symptoms/dnk` = 0,
+    `nut_ind_under5_sick_symptoms/pnta` = 0
   )
   result <- add_loop_under5_sick_d(loop)
   expect_equal(result$nut_ind_under5_sick_yes_d, 1)
@@ -68,7 +78,9 @@ test_that("add_loop_under5_sick_d: yn is 'dnk', then all three dummies are NA", 
     uuid = "hh1",
     nut_ind_under5_sick_yn = "dnk",
     `nut_ind_under5_sick_symptoms/cough` = NA_real_,
-    `nut_ind_under5_sick_symptoms/diarrhoea` = NA_real_
+    `nut_ind_under5_sick_symptoms/diarrhoea` = NA_real_,
+    `nut_ind_under5_sick_symptoms/dnk` = NA_real_,
+    `nut_ind_under5_sick_symptoms/pnta` = NA_real_
   )
   result <- add_loop_under5_sick_d(loop)
   expect_true(is.na(result$nut_ind_under5_sick_yes_d))
@@ -81,7 +93,9 @@ test_that("add_loop_under5_sick_d: yn is 'pnta', then all three dummies are NA",
     uuid = "hh1",
     nut_ind_under5_sick_yn = "pnta",
     `nut_ind_under5_sick_symptoms/cough` = NA_real_,
-    `nut_ind_under5_sick_symptoms/diarrhoea` = NA_real_
+    `nut_ind_under5_sick_symptoms/diarrhoea` = NA_real_,
+    `nut_ind_under5_sick_symptoms/dnk` = NA_real_,
+    `nut_ind_under5_sick_symptoms/pnta` = NA_real_
   )
   result <- add_loop_under5_sick_d(loop)
   expect_true(is.na(result$nut_ind_under5_sick_yes_d))
@@ -94,7 +108,9 @@ test_that("add_loop_under5_sick_d: yn is NA (non-under-5 row), then all three du
     uuid = "hh1",
     nut_ind_under5_sick_yn = NA_character_,
     `nut_ind_under5_sick_symptoms/cough` = NA_real_,
-    `nut_ind_under5_sick_symptoms/diarrhoea` = NA_real_
+    `nut_ind_under5_sick_symptoms/diarrhoea` = NA_real_,
+    `nut_ind_under5_sick_symptoms/dnk` = NA_real_,
+    `nut_ind_under5_sick_symptoms/pnta` = NA_real_
   )
   result <- add_loop_under5_sick_d(loop)
   expect_true(is.na(result$nut_ind_under5_sick_yes_d))
@@ -107,7 +123,9 @@ test_that("add_loop_under5_sick_d: yn is 'yes' but symptom is NA, then sick is 1
     uuid = "hh1",
     nut_ind_under5_sick_yn = "yes",
     `nut_ind_under5_sick_symptoms/cough` = NA_real_,
-    `nut_ind_under5_sick_symptoms/diarrhoea` = 1
+    `nut_ind_under5_sick_symptoms/diarrhoea` = 1,
+    `nut_ind_under5_sick_symptoms/dnk` = 0,
+    `nut_ind_under5_sick_symptoms/pnta` = 0
   )
   result <- add_loop_under5_sick_d(loop)
   expect_equal(result$nut_ind_under5_sick_yes_d, 1)
@@ -119,7 +137,9 @@ test_that("add_loop_under5_sick_d: error if ind_under5_sick_yn column is missing
   loop <- dplyr::tibble(
     uuid = "hh1",
     `nut_ind_under5_sick_symptoms/cough` = 1,
-    `nut_ind_under5_sick_symptoms/diarrhoea` = 0
+    `nut_ind_under5_sick_symptoms/diarrhoea` = 0,
+    `nut_ind_under5_sick_symptoms/dnk` = 0,
+    `nut_ind_under5_sick_symptoms/pnta` = 0
   )
   expect_error(add_loop_under5_sick_d(loop))
 })
@@ -139,6 +159,8 @@ test_that("add_loop_under5_sick_d: warning if output column already exists", {
     nut_ind_under5_sick_yn = "yes",
     `nut_ind_under5_sick_symptoms/cough` = 1,
     `nut_ind_under5_sick_symptoms/diarrhoea` = 0,
+    `nut_ind_under5_sick_symptoms/dnk` = 0,
+    `nut_ind_under5_sick_symptoms/pnta` = 0,
     nut_ind_under5_sick_yes_d = 99
   )
   expect_warning(add_loop_under5_sick_d(loop))
@@ -149,7 +171,9 @@ test_that("add_loop_under5_sick_d: sep parameter controls binary column name bui
     uuid = "hh1",
     nut_ind_under5_sick_yn = "yes",
     `nut_ind_under5_sick_symptoms.cough` = 1,
-    `nut_ind_under5_sick_symptoms.diarrhoea` = 0
+    `nut_ind_under5_sick_symptoms.diarrhoea` = 0,
+    `nut_ind_under5_sick_symptoms.dnk` = 0,
+    `nut_ind_under5_sick_symptoms.pnta` = 0
   )
   result <- add_loop_under5_sick_d(loop, sep = ".")
   expect_equal(result$nut_ind_under5_sick_yes_d, 1)
@@ -302,6 +326,118 @@ test_that("add_loop_under5_sick_d_to_main: warning if _n columns already in main
   )
   main <- dplyr::tibble(uuid = "hh1", nut_ind_under5_sick_yes_d_n = 99)
   expect_warning(add_loop_under5_sick_d_to_main(main, loop))
+})
+
+test_that("add_loop_under5_sick_d: multiple respiratory cols. Any is 1, then respiratory is 1", {
+  loop <- dplyr::tibble(
+    uuid = "hh1",
+    nut_ind_under5_sick_yn = "yes",
+    `nut_ind_under5_sick_symptoms/cough` = 0,
+    `nut_ind_under5_sick_symptoms/fever` = 1,
+    `nut_ind_under5_sick_symptoms/diarrhoea` = 0,
+    `nut_ind_under5_sick_symptoms/dnk` = 0,
+    `nut_ind_under5_sick_symptoms/pnta` = 0
+  )
+  result <- add_loop_under5_sick_d(
+    loop,
+    ind_under5_sick_symptoms_respiratory = c("cough", "fever")
+  )
+  expect_equal(result$nut_ind_under5_sick_yes_d, 1)
+  expect_equal(result$nut_ind_under5_sick_yes_respiratory_d, 1)
+  expect_equal(result$nut_ind_under5_sick_yes_watery_d, 0)
+})
+
+test_that("add_loop_under5_sick_d: multiple respiratory cols. All are 0, then respiratory is 0", {
+  loop <- dplyr::tibble(
+    uuid = "hh1",
+    nut_ind_under5_sick_yn = "yes",
+    `nut_ind_under5_sick_symptoms/cough` = 0,
+    `nut_ind_under5_sick_symptoms/fever` = 0,
+    `nut_ind_under5_sick_symptoms/diarrhoea` = 0,
+    `nut_ind_under5_sick_symptoms/dnk` = 0,
+    `nut_ind_under5_sick_symptoms/pnta` = 0
+  )
+  result <- add_loop_under5_sick_d(
+    loop,
+    ind_under5_sick_symptoms_respiratory = c("cough", "fever")
+  )
+  expect_equal(result$nut_ind_under5_sick_yes_respiratory_d, 0)
+})
+
+test_that("add_loop_under5_sick_d: multiple respiratory cols. None is 1 but one is NA, then respiratory is NA", {
+  loop <- dplyr::tibble(
+    uuid = "hh1",
+    nut_ind_under5_sick_yn = "yes",
+    `nut_ind_under5_sick_symptoms/cough` = 0,
+    `nut_ind_under5_sick_symptoms/fever` = NA_real_,
+    `nut_ind_under5_sick_symptoms/diarrhoea` = 0,
+    `nut_ind_under5_sick_symptoms/dnk` = 0,
+    `nut_ind_under5_sick_symptoms/pnta` = 0
+  )
+  result <- add_loop_under5_sick_d(
+    loop,
+    ind_under5_sick_symptoms_respiratory = c("cough", "fever")
+  )
+  expect_true(is.na(result$nut_ind_under5_sick_yes_respiratory_d))
+  expect_equal(result$nut_ind_under5_sick_yes_watery_d, 0)
+})
+
+test_that("add_loop_under5_sick_d: sick child with only 'dnk' symptom, then type dummies are NA", {
+  loop <- dplyr::tibble(
+    uuid = "hh1",
+    nut_ind_under5_sick_yn = "yes",
+    `nut_ind_under5_sick_symptoms/cough` = 0,
+    `nut_ind_under5_sick_symptoms/diarrhoea` = 0,
+    `nut_ind_under5_sick_symptoms/dnk` = 1,
+    `nut_ind_under5_sick_symptoms/pnta` = 0
+  )
+  result <- add_loop_under5_sick_d(loop)
+  expect_equal(result$nut_ind_under5_sick_yes_d, 1)
+  expect_true(is.na(result$nut_ind_under5_sick_yes_respiratory_d))
+  expect_true(is.na(result$nut_ind_under5_sick_yes_watery_d))
+})
+
+test_that("add_loop_under5_sick_d: sick child with only 'pnta' symptom, then type dummies are NA", {
+  loop <- dplyr::tibble(
+    uuid = "hh1",
+    nut_ind_under5_sick_yn = "yes",
+    `nut_ind_under5_sick_symptoms/cough` = 0,
+    `nut_ind_under5_sick_symptoms/diarrhoea` = 0,
+    `nut_ind_under5_sick_symptoms/dnk` = 0,
+    `nut_ind_under5_sick_symptoms/pnta` = 1
+  )
+  result <- add_loop_under5_sick_d(loop)
+  expect_equal(result$nut_ind_under5_sick_yes_d, 1)
+  expect_true(is.na(result$nut_ind_under5_sick_yes_respiratory_d))
+  expect_true(is.na(result$nut_ind_under5_sick_yes_watery_d))
+})
+
+test_that("add_loop_under5_sick_d: respiratory is 1 when a symptom is 1 even if another is NA", {
+  loop <- dplyr::tibble(
+    uuid = "hh1",
+    nut_ind_under5_sick_yn = "yes",
+    `nut_ind_under5_sick_symptoms/cough` = 1,
+    `nut_ind_under5_sick_symptoms/fever` = NA_real_,
+    `nut_ind_under5_sick_symptoms/diarrhoea` = 0,
+    `nut_ind_under5_sick_symptoms/dnk` = 0,
+    `nut_ind_under5_sick_symptoms/pnta` = 0
+  )
+  result <- add_loop_under5_sick_d(
+    loop,
+    ind_under5_sick_symptoms_respiratory = c("cough", "fever")
+  )
+  expect_equal(result$nut_ind_under5_sick_yes_respiratory_d, 1)
+  expect_equal(result$nut_ind_under5_sick_yes_watery_d, 0)
+})
+
+test_that("add_loop_under5_sick_d: error if an undefined symptom column is missing", {
+  loop <- dplyr::tibble(
+    uuid = "hh1",
+    nut_ind_under5_sick_yn = "yes",
+    `nut_ind_under5_sick_symptoms/cough` = 1,
+    `nut_ind_under5_sick_symptoms/diarrhoea` = 0
+  )
+  expect_error(add_loop_under5_sick_d(loop))
 })
 
 test_that("add_loop_under5_sick_d_to_main: no eligible member and unknown answers are blank, not zero", {
