@@ -9,7 +9,8 @@ test_that("add_food_source_d creates both output columns", {
     `fsl_source_food/gift` = 0,
     `fsl_source_food/begging` = 0,
     `fsl_source_food/dnk` = 0,
-    `fsl_source_food/pnta` = 0
+    `fsl_source_food/pnta` = 0,
+    `fsl_source_food/hunting` = 0
   )
   result <- add_food_source_d(df)
   expect_true("fsl_food_source_aid_d" %in% colnames(result))
@@ -27,7 +28,8 @@ test_that("add_food_source_d: all cols 0 then both dummies are 0", {
     `fsl_source_food/gift` = 0,
     `fsl_source_food/begging` = 0,
     `fsl_source_food/dnk` = 0,
-    `fsl_source_food/pnta` = 0
+    `fsl_source_food/pnta` = 0,
+    `fsl_source_food/hunting` = 0
   )
   result <- add_food_source_d(df)
   expect_equal(result$fsl_food_source_aid_d, 0)
@@ -45,7 +47,8 @@ test_that("add_food_source_d: any aid col 1 then aid dummy is 1", {
     `fsl_source_food/gift` = c(0, 0),
     `fsl_source_food/begging` = c(0, 0),
     `fsl_source_food/dnk` = 0,
-    `fsl_source_food/pnta` = 0
+    `fsl_source_food/pnta` = 0,
+    `fsl_source_food/hunting` = 0
   )
   result <- add_food_source_d(df)
   expect_equal(result$fsl_food_source_aid_d, c(1, 1))
@@ -63,7 +66,8 @@ test_that("add_food_source_d: any unstable col 1 then unstable dummy is 1", {
     `fsl_source_food/gift` = c(0, 0, 0),
     `fsl_source_food/begging` = c(0, 0, 1),
     `fsl_source_food/dnk` = 0,
-    `fsl_source_food/pnta` = 0
+    `fsl_source_food/pnta` = 0,
+    `fsl_source_food/hunting` = 0
   )
   result <- add_food_source_d(df)
   expect_equal(result$fsl_food_source_aid_d, c(0, 0, 0))
@@ -81,7 +85,8 @@ test_that("add_food_source_d: all aid cols NA then aid dummy is NA", {
     `fsl_source_food/gift` = 0,
     `fsl_source_food/begging` = 0,
     `fsl_source_food/dnk` = 0,
-    `fsl_source_food/pnta` = 0
+    `fsl_source_food/pnta` = 0,
+    `fsl_source_food/hunting` = 0
   )
   result <- add_food_source_d(df)
   expect_true(is.na(result$fsl_food_source_aid_d))
@@ -99,7 +104,8 @@ test_that("add_food_source_d: some NA but none is 1 then dummy is NA", {
     `fsl_source_food/gift` = 0,
     `fsl_source_food/begging` = 0,
     `fsl_source_food/dnk` = 0,
-    `fsl_source_food/pnta` = 0
+    `fsl_source_food/pnta` = 0,
+    `fsl_source_food/hunting` = 0
   )
   result <- add_food_source_d(df)
   expect_true(is.na(result$fsl_food_source_aid_d))
@@ -117,7 +123,8 @@ test_that("add_food_source_d: one is 1 even if others are NA then dummy is 1", {
     `fsl_source_food/gift` = NA_real_,
     `fsl_source_food/begging` = NA_real_,
     `fsl_source_food/dnk` = 0,
-    `fsl_source_food/pnta` = 0
+    `fsl_source_food/pnta` = 0,
+    `fsl_source_food/hunting` = 0
   )
   result <- add_food_source_d(df)
   expect_equal(result$fsl_food_source_aid_d, 1)
@@ -141,6 +148,7 @@ test_that("add_food_source_d: warning if output col already exists", {
     `fsl_source_food/begging` = 0,
     `fsl_source_food/dnk` = 0,
     `fsl_source_food/pnta` = 0,
+    `fsl_source_food/hunting` = 0,
     fsl_food_source_aid_d = 99
   )
   expect_warning(add_food_source_d(df))
@@ -158,6 +166,7 @@ test_that("add_food_source_d: warning if fsl_food_source_unstable_d already exis
     `fsl_source_food/begging` = 0,
     `fsl_source_food/dnk` = 0,
     `fsl_source_food/pnta` = 0,
+    `fsl_source_food/hunting` = 0,
     fsl_food_source_unstable_d = 99
   )
   expect_warning(add_food_source_d(df))
@@ -174,7 +183,8 @@ test_that("add_food_source_d: sep parameter works", {
     `fsl_source_food.gift` = 0,
     `fsl_source_food.begging` = 0,
     `fsl_source_food.dnk` = 0,
-    `fsl_source_food.pnta` = 0
+    `fsl_source_food.pnta` = 0,
+    `fsl_source_food.hunting` = 0
   )
   result <- add_food_source_d(df, sep = ".")
   expect_equal(result$fsl_food_source_aid_d, 1)
@@ -192,7 +202,8 @@ test_that("add_food_source_d: dnk only then both dummies are NA", {
     `fsl_source_food/gift` = 0,
     `fsl_source_food/begging` = 0,
     `fsl_source_food/dnk` = 1,
-    `fsl_source_food/pnta` = 0
+    `fsl_source_food/pnta` = 0,
+    `fsl_source_food/hunting` = 0
   )
   result <- add_food_source_d(df)
   expect_true(is.na(result$fsl_food_source_aid_d))
@@ -210,11 +221,31 @@ test_that("add_food_source_d: pnta only then both dummies are NA", {
     `fsl_source_food/gift` = 0,
     `fsl_source_food/begging` = 0,
     `fsl_source_food/dnk` = 0,
-    `fsl_source_food/pnta` = 1
+    `fsl_source_food/pnta` = 1,
+    `fsl_source_food/hunting` = 0
   )
   result <- add_food_source_d(df)
   expect_true(is.na(result$fsl_food_source_aid_d))
   expect_true(is.na(result$fsl_food_source_unstable_d))
+})
+
+test_that("add_food_source_d: hunting only is counted as atypical", {
+  df <- dplyr::tibble(
+    uuid = "hh1",
+    `fsl_source_food/assistance_in_kind` = 0,
+    `fsl_source_food/assistance_cva` = 0,
+    `fsl_source_food/gathering` = 0,
+    `fsl_source_food/exchange` = 0,
+    `fsl_source_food/borrow` = 0,
+    `fsl_source_food/gift` = 0,
+    `fsl_source_food/begging` = 0,
+    `fsl_source_food/dnk` = 0,
+    `fsl_source_food/pnta` = 0,
+    `fsl_source_food/hunting` = 1
+  )
+  result <- add_food_source_d(df)
+  expect_equal(result$fsl_food_source_aid_d, 0)
+  expect_equal(result$fsl_food_source_unstable_d, 1)
 })
 
 test_that("add_food_source_d: error if an undefined column is missing", {

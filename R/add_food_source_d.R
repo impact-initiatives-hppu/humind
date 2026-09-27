@@ -30,6 +30,7 @@ add_food_source_d <- function(
     "assistance_cva"
   ),
   unstable = c(
+    "hunting",
     "gathering",
     "exchange",
     "borrow",
