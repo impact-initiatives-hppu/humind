@@ -28,6 +28,20 @@
 #'
 #' @family expenditure_share_income
 #' @export
+#'
+#' @examples
+#' df <- data.frame(
+#'   cm_expenditure_infrequent_health = c(60, 0, 30),
+#'   cm_income_total = c(100, 200, 0)
+#' )
+#' add_expenditure_type_share_income(
+#'   df,
+#'   expenditure_type = "cm_expenditure_infrequent_health",
+#'   income_total = "cm_income_total",
+#'   expenditure_recall_period = 180,
+#'   income_recall_period = 30,
+#'   catastrophic_threshold = 0.25
+#' )
 add_expenditure_type_share_income <- function(
   df,
   expenditure_type,
@@ -39,8 +53,6 @@ add_expenditure_type_share_income <- function(
   #------ Checks
 
   # df is a df, expenditure_type and income_total columns exist, are numeric, and have non-negative values
-  # NOTE: are_values_in_range currently only errors when ALL columns have
-  # out-of-range values (bug fixed in PR #680).
   are_values_in_range(
     df,
     c(expenditure_type, income_total),
@@ -101,5 +113,5 @@ add_expenditure_type_share_income <- function(
     )
   )
 
-  return(df)
+  df
 }

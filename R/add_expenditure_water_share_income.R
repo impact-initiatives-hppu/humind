@@ -31,6 +31,13 @@
 #'
 #' @family expenditure_share_income
 #' @export
+#'
+#' @examples
+#' df <- data.frame(
+#'   cm_expenditure_frequent_water = c(4, 5, 10),
+#'   cm_income_total = c(100, 100, 200)
+#' )
+#' add_expenditure_water_share_income(df)
 add_expenditure_water_share_income <- function(
   df,
   expenditure_type = "cm_expenditure_frequent_water",

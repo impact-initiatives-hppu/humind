@@ -31,6 +31,13 @@
 #'
 #' @family expenditure_share_income
 #' @export
+#'
+#' @examples
+#' df <- data.frame(
+#'   cm_expenditure_infrequent_health = c(60, 0, 30),
+#'   cm_income_total = c(100, 200, 0)
+#' )
+#' add_expenditure_healthcare_share_income(df)
 add_expenditure_healthcare_share_income <- function(
   df,
   expenditure_type = "cm_expenditure_infrequent_health",
