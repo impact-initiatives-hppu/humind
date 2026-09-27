@@ -140,7 +140,7 @@ add_loop_under5_sick_d <- function(
     )
   )
 
-  return(loop)
+  loop
 }
 
 
@@ -149,19 +149,25 @@ add_loop_under5_sick_d <- function(
 #' @title Add Under-5 Sick Counts to Main Dataset
 #'
 #' @description Aggregates individual-level under-5 sick dummy variables to the
-#' household level by summing them per household.
+#' household level. Members who are not eligible (not under 5) are ignored. A
+#' household is blank when it has no eligible member, and also when any eligible
+#' member has an unknown answer, so that only households with a known count
+#' enter the percentage.
 #'
 #' @param main A data frame of household-level data.
 #' @param loop A data frame of individual-level data.
 #' @param ind_under5_sick_yes_d Binary variable for under-5 sick.
 #' @param ind_under5_sick_yes_respiratory_d Binary variable for sick with respiratory symptom.
 #' @param ind_under5_sick_yes_watery_d Binary variable for sick with watery diarrhoea symptom.
+#' @param ind_under5_eligible Column name for the under-5 eligibility flag (`1` for a child
+#'   under 5, `0` otherwise).
 #' @param id_col_main Column name for the unique identifier in `main`.
 #' @param id_col_loop Column name for the unique identifier in `loop`.
 #'
 #' @return A data frame with additional columns:
 #'
-#' * nut_ind_under5_sick_yes_d_n: Count of under-5 sick individuals per household.
+#' * nut_ind_under5_sick_yes_d_n: Count of under-5 sick individuals per household, or `NA` when
+#'   the household has no under-5 child or an eligible child's answer is unknown.
 #' * nut_ind_under5_sick_yes_respiratory_d_n: Count of under-5 with respiratory infection symptom per household.
 #' * nut_ind_under5_sick_yes_watery_d_n: Count of under-5 with watery diarrhoea symptom per household.
 #'
@@ -172,6 +178,7 @@ add_loop_under5_sick_d_to_main <- function(
   ind_under5_sick_yes_d = "nut_ind_under5_sick_yes_d",
   ind_under5_sick_yes_respiratory_d = "nut_ind_under5_sick_yes_respiratory_d",
   ind_under5_sick_yes_watery_d = "nut_ind_under5_sick_yes_watery_d",
+  ind_under5_eligible = "nut_ind_age_0_4",
   id_col_main = "uuid",
   id_col_loop = "uuid"
 ) {
@@ -186,12 +193,16 @@ add_loop_under5_sick_d_to_main <- function(
   # vars are in loop
   if_not_in_stop(loop, vars, "loop")
 
+  # eligibility flag is in loop
+  if_not_in_stop(loop, ind_under5_eligible, "loop")
+
   # id_cols are in df
   if_not_in_stop(main, id_col_main, "main")
   if_not_in_stop(loop, id_col_loop, "loop")
 
   # values are in set
   are_values_in_set(loop, vars, c(0, 1))
+  are_values_in_set(loop, ind_under5_eligible, c(0, 1))
 
   #  new colnames
   vars_n <- paste0(vars, "_n")
@@ -218,12 +229,17 @@ add_loop_under5_sick_d_to_main <- function(
 
   #------ Compute
 
-  # Sum the dummy variables per household
+  # Sum the dummy variables per household over eligible members only
   loop_vars <- dplyr::summarize(
     dplyr::group_by(loop, !!rlang::sym(id_col_loop)),
     dplyr::across(
       dplyr::all_of(vars),
-      \(x) sum(x, na.rm = FALSE),
+      \(x) {
+        sum_eligible(
+          x,
+          dplyr::pick(dplyr::all_of(ind_under5_eligible))[[1]]
+        )
+      },
       .names = "{.col}_n"
     )
   )
@@ -242,5 +258,17 @@ add_loop_under5_sick_d_to_main <- function(
     by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop))
   )
 
-  return(main)
+  main
+}
+
+
+# Internal: sum `x` over eligible rows, blanking when there is no eligible row
+# or when an eligible row is unknown (see issue #808 section 4).
+sum_eligible <- function(x, eligible) {
+  idx <- which(eligible == 1)
+  if (length(idx) == 0 || anyNA(x[idx])) {
+    NA_real_
+  } else {
+    sum(x[idx])
+  }
 }
