@@ -1,5 +1,14 @@
 # humind (development version)
 
+### New Features
+
+* `add_food_source_d()`: new function for the food-source indicators (IND052,
+  IND053). It flags whether a household relied on humanitarian assistance food
+  sources (in-kind food aid, cash and voucher assistance) and/or atypical or
+  emergency sources (hunting, gathering, exchange, borrowed, gift, begging).
+  Non-substantive answers (`dnk`/`pnta`) are treated as blank, and credit
+  purchases and "other" are not counted (#670).
+
 # humind 2026.4.1
 
 This patch corrects the weighting of three ability-to-participate barriers in
