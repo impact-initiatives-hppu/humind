@@ -59,5 +59,5 @@ add_expenditure_type_infreq_rank <- function(
     id_col = id_col
   )
 
-  return(df)
+  df
 }

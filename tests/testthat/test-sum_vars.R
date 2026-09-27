@@ -47,11 +47,6 @@ test_that("sum_vars handles imputation with 'median'", {
   expect_true("sum_var" %in% names(df_result))
 })
 
-#test_that("sum_vars handles imputation with 'weighted.median'", {
-#  df_result <- sum_vars(df, c("var1", "var2", "var3"), "sum_var", imputation = "weighted.median", weight = "weight")
-#  expect_true("sum_var" %in% names(df_result))
-#})
-
 test_that("sum_vars creates a new column with custom name", {
   df_result <- sum_vars(df, c("var1", "var2"), "custom_sum_var")
   expect_equal(
