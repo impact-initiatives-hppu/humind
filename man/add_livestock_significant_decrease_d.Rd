@@ -6,7 +6,8 @@
 \usage{
 add_livestock_significant_decrease_d(
   df,
-  livestock = c("oxen", "camel", "cattle", "horse", "mule", "sheep", "goat", "poultry"),
+  livestock = c("oxen", "camel", "cattle", "horse", "mule", "donkey", "sheep", "goat",
+    "poultry"),
   prefix = "fsl_",
   n_now_suffix = "_n_now",
   n_ly_suffix = "_n_ly",
@@ -24,20 +25,20 @@ add_livestock_significant_decrease_d(
 
 \item{n_ly_suffix}{Suffix for the last-year count column. Default \code{"_n_ly"}.}
 
-\item{threshold}{Proportion decrease threshold above which a decrease is considered significant. Default \code{0.5} (i.e. decrease of 50\% or more).}
+\item{threshold}{Proportion decrease threshold at or above which a decrease is considered significant. Default \code{0.5} (i.e. a decrease of 50\% or more).}
 }
 \value{
 A data frame with additional columns:
 \itemize{
 \item \verb{<prefix><type>_significant_decrease_d} for each livestock type: 1 if
-herd decreased by more than \code{threshold} proportion; 0 if not; NA if either
-count is NA or columns are absent.
+herd decreased by \code{threshold} or more; 0 if not; NA if either
+count is NA.
 \item \verb{<prefix>livestock_significant_decrease_d}: 1 if any type dummy is 1;
 0 if none is 1 and at least one is non-NA; NA if all type dummies are NA.
 }
 }
 \description{
-For each livestock type, creates a binary (1/0/NA) dummy indicating whether the household experienced a significant decrease (greater than \code{threshold}) in livestock size between last year and now. Also produces a composite dummy that is 1 if any livestock type shows a significant decrease.
+For each livestock type, creates a binary (1/0/NA) dummy indicating whether the household experienced a significant decrease (\code{threshold} or more) in livestock size between last year and now. Also produces a composite dummy that is 1 if any livestock type shows a significant decrease.
 
 If the required columns for a livestock type are absent from \code{df}, an error is thrown.
 }

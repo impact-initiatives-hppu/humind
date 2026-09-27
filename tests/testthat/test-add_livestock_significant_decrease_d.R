@@ -1,4 +1,4 @@
-test_that("add_livestock_significant_decrease_d creates all 8 dummy cols and composite", {
+test_that("add_livestock_significant_decrease_d creates all 9 dummy cols and composite", {
   df <- dplyr::tibble(
     uuid = "hh1",
     fsl_oxen_n_now = 5,
@@ -11,6 +11,8 @@ test_that("add_livestock_significant_decrease_d creates all 8 dummy cols and com
     fsl_horse_n_ly = 10,
     fsl_mule_n_now = 5,
     fsl_mule_n_ly = 10,
+    fsl_donkey_n_now = 5,
+    fsl_donkey_n_ly = 10,
     fsl_sheep_n_now = 5,
     fsl_sheep_n_ly = 10,
     fsl_goat_n_now = 5,
@@ -26,6 +28,7 @@ test_that("add_livestock_significant_decrease_d creates all 8 dummy cols and com
     "cattle",
     "horse",
     "mule",
+    "donkey",
     "sheep",
     "goat",
     "poultry"
@@ -45,7 +48,7 @@ test_that("add_livestock_significant_decrease_d: n_now < 50% of n_ly then 1", {
 })
 
 test_that("add_livestock_significant_decrease_d: n_now exactly 50% of n_ly then 1 (>= threshold)", {
-  # 50% decrease (5 from 10) -> 1 (matches >= logic)
+  # 50% decrease (5 from 10) -> 1: 50% or more counts as significant
   df <- dplyr::tibble(fsl_sheep_n_now = 5, fsl_sheep_n_ly = 10)
   result <- add_livestock_significant_decrease_d(df, livestock = "sheep")
   expect_equal(result$fsl_sheep_significant_decrease_d, 1)
@@ -92,7 +95,7 @@ test_that("add_livestock_significant_decrease_d: missing livestock cols errors",
 
 test_that("add_livestock_significant_decrease_d: threshold parameter respected", {
   df <- dplyr::tibble(fsl_sheep_n_now = 6, fsl_sheep_n_ly = 10)
-  # 40% decrease — not >= 50% threshold
+  # a 40 percent drop is below the default threshold
   expect_equal(
     add_livestock_significant_decrease_d(
       df,
@@ -203,6 +206,16 @@ test_that("add_livestock_significant_decrease_d errors on negative values", {
   )
 })
 
+test_that("add_livestock_significant_decrease_d errors on the -999 code", {
+  # -999 is the form's don't-know / prefer-not-to-answer code; analysis assumes
+  # cleaned data, so it is rejected rather than treated as blank
+  df <- dplyr::tibble(fsl_sheep_n_now = -999, fsl_sheep_n_ly = 10)
+  expect_error(
+    add_livestock_significant_decrease_d(df, livestock = "sheep"),
+    "outside the range"
+  )
+})
+
 test_that("add_livestock_significant_decrease_d errors if threshold is invalid", {
   df <- dplyr::tibble(fsl_sheep_n_now = 5, fsl_sheep_n_ly = 10)
 
@@ -213,7 +226,7 @@ test_that("add_livestock_significant_decrease_d errors if threshold is invalid",
     threshold = "high"
   ))
 
-  # Length > 1
+  # threshold has more than one element
   expect_error(add_livestock_significant_decrease_d(
     df,
     livestock = "sheep",

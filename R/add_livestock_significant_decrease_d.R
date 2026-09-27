@@ -4,7 +4,7 @@
 
 #' @title Add Livestock Significant Decrease Dummy Variables
 #'
-#' @description For each livestock type, creates a binary (1/0/NA) dummy indicating whether the household experienced a significant decrease (greater than `threshold`) in livestock size between last year and now. Also produces a composite dummy that is 1 if any livestock type shows a significant decrease.
+#' @description For each livestock type, creates a binary (1/0/NA) dummy indicating whether the household experienced a significant decrease (`threshold` or more) in livestock size between last year and now. Also produces a composite dummy that is 1 if any livestock type shows a significant decrease.
 #'
 #' If the required columns for a livestock type are absent from `df`, an error is thrown.
 #'
@@ -13,13 +13,13 @@
 #' @param prefix Column name prefix. Default `"fsl_"`.
 #' @param n_now_suffix Suffix for the current count column. Default `"_n_now"`.
 #' @param n_ly_suffix Suffix for the last-year count column. Default `"_n_ly"`.
-#' @param threshold Proportion decrease threshold above which a decrease is considered significant. Default `0.5` (i.e. decrease of 50% or more).
+#' @param threshold Proportion decrease threshold at or above which a decrease is considered significant. Default `0.5` (i.e. a decrease of 50% or more).
 #'
 #' @return A data frame with additional columns:
 #'
 #' * `<prefix><type>_significant_decrease_d` for each livestock type: 1 if
-#'   herd decreased by more than `threshold` proportion; 0 if not; NA if either
-#'   count is NA or columns are absent.
+#'   herd decreased by `threshold` or more; 0 if not; NA if either
+#'   count is NA.
 #' * `<prefix>livestock_significant_decrease_d`: 1 if any type dummy is 1;
 #'   0 if none is 1 and at least one is non-NA; NA if all type dummies are NA.
 #'
@@ -32,6 +32,7 @@ add_livestock_significant_decrease_d <- function(
     "cattle",
     "horse",
     "mule",
+    "donkey",
     "sheep",
     "goat",
     "poultry"
@@ -56,6 +57,9 @@ add_livestock_significant_decrease_d <- function(
   # all provided livestock columns must exist, be numeric and positive, one pass
   now_cols <- paste0(prefix, livestock, n_now_suffix)
   ly_cols <- paste0(prefix, livestock, n_ly_suffix)
+  # -999 is the form's don't-know / prefer-not-to-answer code for counts.
+  # Analysis assumes cleaned data: negative values, including -999, are rejected
+  # here rather than treated as blank.
   are_values_in_range(
     df,
     c(now_cols, ly_cols),
@@ -109,7 +113,7 @@ add_livestock_significant_decrease_d <- function(
         .default = 0
       )
 
-      return(res)
+      res
     }
   )
   # Name the list elements with the dummy column names
@@ -134,5 +138,5 @@ add_livestock_significant_decrease_d <- function(
     )
   )
 
-  return(df)
+  df
 }
