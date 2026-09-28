@@ -67,7 +67,8 @@ add_expenditure_type_share_income <- function(
       expenditure_recall_period <= 0
   ) {
     cli::cli_abort(
-      "`expenditure_recall_period` must be a single strictly positive numeric value."
+      "`expenditure_recall_period` must be a single strictly positive numeric value.",
+      call = rlang::caller_env()
     )
   }
 
@@ -77,7 +78,8 @@ add_expenditure_type_share_income <- function(
       income_recall_period <= 0
   ) {
     cli::cli_abort(
-      "`income_recall_period` must be a single strictly positive numeric value."
+      "`income_recall_period` must be a single strictly positive numeric value.",
+      call = rlang::caller_env()
     )
   }
 
@@ -89,7 +91,8 @@ add_expenditure_type_share_income <- function(
       catastrophic_threshold >= 1
   ) {
     cli::cli_abort(
-      "`catastrophic_threshold` must be a single numeric value in (0, 1)."
+      "`catastrophic_threshold` must be a single numeric value in (0, 1).",
+      call = rlang::caller_env()
     )
   }
 
