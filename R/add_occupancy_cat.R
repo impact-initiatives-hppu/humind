@@ -111,5 +111,5 @@ add_occupancy_cat <- function(
     hlp_eviction_cat_f = NULL
   )
 
-  return(df)
+  df
 }

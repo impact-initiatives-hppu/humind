@@ -63,5 +63,5 @@ add_comp_health <- function(
   # Is in severe need?
   df <- is_in_severe_need(df, "comp_health_score", "comp_health_in_severe_need")
 
-  return(df)
+  df
 }

@@ -66,7 +66,7 @@ test_that("Function handles existing values correctly", {
 })
 
 test_that("Function handles missing columns", {
-  df_missing_col <- df %>%
+  df_missing_col <- df |>
     select(-cm_expenditure_frequent, -cm_expenditure_infrequent_shelter)
   expect_error(add_expenditure_type_zero_infreq(df_missing_col))
 })
