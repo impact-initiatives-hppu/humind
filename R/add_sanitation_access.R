@@ -20,48 +20,66 @@
 #'
 #' @family sanitation_access_issue
 #' @export
+#'
+#' @examples
+#' df <- data.frame(
+#'   wash_sanitation_facility = "pit_latrine_slab",
+#'   wash_sanitation_access_issue = c(
+#'     "sanitation_too_far", "no_problem", "dnk"
+#'   ),
+#'   `wash_sanitation_access_issue/sanitation_not_private` = c(0L, 0L, 0L),
+#'   `wash_sanitation_access_issue/sanitation_too_far` = c(1L, 0L, 0L),
+#'   `wash_sanitation_access_issue/sanitation_difficult_access` = c(0L, 0L, 0L),
+#'   `wash_sanitation_access_issue/sanitation_dangerous_access` = c(0L, 0L, 0L),
+#'   `wash_sanitation_access_issue/disabilities_no_access_sanitation` = c(0L, 0L, 0L),
+#'   `wash_sanitation_access_issue/dnk` = c(0L, 0L, 1L),
+#'   `wash_sanitation_access_issue/pnta` = c(0L, 0L, 0L),
+#'   `wash_sanitation_access_issue/other` = c(0L, 0L, 0L),
+#'   check.names = FALSE
+#' )
+#' add_sanitation_access_issue_physical(df)
 add_sanitation_access_issue_physical <- function(
-    df,
-    sanitation_access_issue = "wash_sanitation_access_issue",
-    physical = c(
-        "sanitation_not_private",
-        "sanitation_too_far",
-        "sanitation_difficult_access",
-        "sanitation_dangerous_access",
-        "disabilities_no_access_sanitation"
-    ),
-    undefined = c("dnk", "pnta", "other"),
-    sanitation_facility = "wash_sanitation_facility",
-    none = "none",
-    sep = "/"
+  df,
+  sanitation_access_issue = "wash_sanitation_access_issue",
+  physical = c(
+    "sanitation_not_private",
+    "sanitation_too_far",
+    "sanitation_difficult_access",
+    "sanitation_dangerous_access",
+    "disabilities_no_access_sanitation"
+  ),
+  undefined = c("dnk", "pnta", "other"),
+  sanitation_facility = "wash_sanitation_facility",
+  none = "none",
+  sep = "/"
 ) {
-    #------ Checks
+  #------ Checks
 
-    # relevant base columns are in the dataset
-    if_not_in_stop(df, sanitation_access_issue, "df")
-    if_not_in_stop(df, sanitation_facility, "df")
+  # relevant base columns are in the dataset
+  if_not_in_stop(df, sanitation_access_issue, "df")
+  if_not_in_stop(df, sanitation_facility, "df")
 
-    # columns are in the dataset and are binary
-    d_physical <- paste0(sanitation_access_issue, sep, physical)
-    d_undefined <- paste0(sanitation_access_issue, sep, undefined)
-    are_values_in_set(df, c(d_physical, d_undefined), c(0, 1))
+  # columns are in the dataset and are binary
+  d_physical <- paste0(sanitation_access_issue, sep, physical)
+  d_undefined <- paste0(sanitation_access_issue, sep, undefined)
+  are_values_in_set(df, c(d_physical, d_undefined), c(0, 1))
 
-    #------ Compute
+  #------ Compute
 
-    df <- dplyr::mutate(
-        df,
-        wash_sanitation_access_issue_physical_d = dplyr::case_when(
-            .data[[sanitation_facility]] %in% none ~ NA_integer_,
-            dplyr::if_any(dplyr::all_of(d_undefined), \(x) {
-                x == 1
-            }) ~ NA_integer_,
-            dplyr::if_any(dplyr::all_of(d_physical), \(x) x == 1) ~ 1L,
-            dplyr::if_all(dplyr::all_of(d_physical), \(x) x == 0) ~ 0L,
-            .default = NA_integer_
-        )
+  df <- dplyr::mutate(
+    df,
+    wash_sanitation_access_issue_physical_d = dplyr::case_when(
+      .data[[sanitation_facility]] %in% none ~ NA_integer_,
+      dplyr::if_any(dplyr::all_of(d_undefined), \(x) {
+        x == 1
+      }) ~ NA_integer_,
+      dplyr::if_any(dplyr::all_of(d_physical), \(x) x == 1) ~ 1L,
+      dplyr::if_all(dplyr::all_of(d_physical), \(x) x == 0) ~ 0L,
+      .default = NA_integer_
     )
+  )
 
-    return(df)
+  df
 }
 
 
@@ -79,43 +97,58 @@ add_sanitation_access_issue_physical <- function(
 #'
 #' @family sanitation_access_issue
 #' @export
+#'
+#' @examples
+#' df <- data.frame(
+#'   wash_sanitation_facility = "pit_latrine_slab",
+#'   wash_sanitation_access_issue = c(
+#'     "sanitation_not_segregated_gender", "no_problem", "dnk"
+#'   ),
+#'   `wash_sanitation_access_issue/sanitation_not_segregated_gender` = c(1L, 0L, 0L),
+#'   `wash_sanitation_access_issue/groups_no_access_sanitation` = c(0L, 0L, 0L),
+#'   `wash_sanitation_access_issue/dnk` = c(0L, 0L, 1L),
+#'   `wash_sanitation_access_issue/pnta` = c(0L, 0L, 0L),
+#'   `wash_sanitation_access_issue/other` = c(0L, 0L, 0L),
+#'   check.names = FALSE
+#' )
+#' add_sanitation_access_issue_social(df)
 add_sanitation_access_issue_social <- function(
-    df,
-    sanitation_access_issue = "wash_sanitation_access_issue",
-    social = c(
-        "sanitation_not_segregated_gender",
-        "groups_no_access_sanitation"
-    ),
-    undefined = c("dnk", "pnta", "other"),
-    sanitation_facility = "wash_sanitation_facility",
-    none = "none",
-    sep = "/"
+  df,
+  sanitation_access_issue = "wash_sanitation_access_issue",
+  social = c(
+    "sanitation_not_segregated_gender",
+    "groups_no_access_sanitation"
+  ),
+  undefined = c("dnk", "pnta", "other"),
+  sanitation_facility = "wash_sanitation_facility",
+  none = "none",
+  sep = "/"
 ) {
-    #------ Checks
+  #------ Checks
 
-    # relevant base columns are in the dataset
-    if_not_in_stop(df, sanitation_access_issue, "df")
-    if_not_in_stop(df, sanitation_facility, "df")
+  # relevant base columns are in the dataset
+  if_not_in_stop(df, sanitation_access_issue, "df")
+  if_not_in_stop(df, sanitation_facility, "df")
 
-    # columns are in the dataset and are binary
-    d_social <- paste0(sanitation_access_issue, sep, social)
-    d_undefined <- paste0(sanitation_access_issue, sep, undefined)
-    are_values_in_set(df, c(d_social, d_undefined), c(0, 1))
+  # columns are in the dataset and are binary
+  d_social <- paste0(sanitation_access_issue, sep, social)
+  d_undefined <- paste0(sanitation_access_issue, sep, undefined)
+  are_values_in_set(df, c(d_social, d_undefined), c(0, 1))
 
-    #------ Compute
+  #------ Compute
 
-    df <- dplyr::mutate(
-        df,
-        wash_sanitation_access_issue_social_d = dplyr::case_when(
-            .data[[sanitation_facility]] %in% none ~ NA_integer_,
-            dplyr::if_any(dplyr::all_of(d_undefined), \(x) {
-                x == 1
-            }) ~ NA_integer_,
-            dplyr::if_any(dplyr::all_of(d_social), \(x) x == 1) ~ 1L,
-            dplyr::if_all(dplyr::all_of(d_social), \(x) x == 0) ~ 0L,
-            .default = NA_integer_
-        )
+  df <- dplyr::mutate(
+    df,
+    wash_sanitation_access_issue_social_d = dplyr::case_when(
+      .data[[sanitation_facility]] %in% none ~ NA_integer_,
+      dplyr::if_any(dplyr::all_of(d_undefined), \(x) {
+        x == 1
+      }) ~ NA_integer_,
+      dplyr::if_any(dplyr::all_of(d_social), \(x) x == 1) ~ 1L,
+      dplyr::if_all(dplyr::all_of(d_social), \(x) x == 0) ~ 0L,
+      .default = NA_integer_
     )
+  )
 
-    return(df)
+  df
 }

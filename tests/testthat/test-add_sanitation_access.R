@@ -71,6 +71,28 @@ test_that("add_sanitation_access_issue_physical is NA for each undefined option"
   expect_true(all(is.na(result$wash_sanitation_access_issue_physical_d)))
 })
 
+test_that("add_sanitation_access_issue_physical is NA when a component binary is missing", {
+  df <- dplyr::bind_rows(
+    make_df(too_far = NA_integer_),
+    make_df(too_far = NA_integer_, dangerous = NA_integer_)
+  )
+  result <- add_sanitation_access_issue_physical(df)
+  expect_true(all(is.na(result$wash_sanitation_access_issue_physical_d)))
+})
+
+test_that("add_sanitation_access_issue_physical is NA when all component binaries are missing", {
+  result <- add_sanitation_access_issue_physical(
+    make_df(
+      not_private = NA_integer_,
+      too_far = NA_integer_,
+      difficult_access = NA_integer_,
+      dangerous = NA_integer_,
+      disabilities = NA_integer_
+    )
+  )
+  expect_true(is.na(result$wash_sanitation_access_issue_physical_d))
+})
+
 test_that("add_sanitation_access_issue_physical is NA when sanitation_facility is 'none'", {
   result <- add_sanitation_access_issue_physical(make_df(facility = "none"))
   expect_true(is.na(result$wash_sanitation_access_issue_physical_d))
@@ -126,6 +148,22 @@ test_that("add_sanitation_access_issue_social is NA for each undefined option", 
   )
   result <- add_sanitation_access_issue_social(df)
   expect_true(all(is.na(result$wash_sanitation_access_issue_social_d)))
+})
+
+test_that("add_sanitation_access_issue_social is NA when a component binary is missing", {
+  df <- dplyr::bind_rows(
+    make_df(not_segregated = NA_integer_),
+    make_df(not_segregated = NA_integer_, groups = NA_integer_)
+  )
+  result <- add_sanitation_access_issue_social(df)
+  expect_true(all(is.na(result$wash_sanitation_access_issue_social_d)))
+})
+
+test_that("add_sanitation_access_issue_social is NA when all component binaries are missing", {
+  result <- add_sanitation_access_issue_social(
+    make_df(not_segregated = NA_integer_, groups = NA_integer_)
+  )
+  expect_true(is.na(result$wash_sanitation_access_issue_social_d))
 })
 
 test_that("add_sanitation_access_issue_social is NA when sanitation_facility is 'none'", {
