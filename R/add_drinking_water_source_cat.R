@@ -377,6 +377,13 @@ add_drinking_water_quality_jmp_cat <- function(
 #' * `wash_drinking_water_unimproved_no_treatment_d`: `1L` if unimproved/surface water source and no treatment; `0L` if improved source or unimproved/surface water with treatment; `NA_integer_` if source category or treatment response is `NA` or undefined.
 #'
 #' @export
+#'
+#' @examples
+#' df <- data.frame(
+#'   wash_drinking_water_source_cat = c("improved", "unimproved", "surface_water"),
+#'   wash_drinking_water_safer_yn = c("yes", "no", "dnk")
+#' )
+#' add_drinking_water_unimproved_no_treatment(df)
 add_drinking_water_unimproved_no_treatment <- function(
   df,
   drinking_water_source_cat = "wash_drinking_water_source_cat",
@@ -446,5 +453,5 @@ add_drinking_water_unimproved_no_treatment <- function(
     )
   )
 
-  return(df)
+  df
 }

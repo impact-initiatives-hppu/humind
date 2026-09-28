@@ -157,3 +157,10 @@ This function recodes the water source and time to fetch water into a joint JMP 
 
 \code{add_drinking_water_unimproved_no_treatment()} flags households that rely on an unimproved or surface water source \strong{and} report not treating their drinking water. The flag is \code{NA} when either the water source category or the treatment response is undefined. Prerequisite: \code{add_drinking_water_source_cat()} must have been run first so that \code{wash_drinking_water_source_cat} is present in \code{df}.
 }
+\examples{
+df <- data.frame(
+  wash_drinking_water_source_cat = c("improved", "unimproved", "surface_water"),
+  wash_drinking_water_safer_yn = c("yes", "no", "dnk")
+)
+add_drinking_water_unimproved_no_treatment(df)
+}
