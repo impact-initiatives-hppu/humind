@@ -1,10 +1,10 @@
 # ANA
-# 2025 Indicator ID: IND098 and IND099
-# 2025 Metric ID: TBD
+# 2026 Indicator ID: IND097 (physical), IND098 (financial)
+# 2026 Metric ID: MET099 (physical), MET100 (financial)
 
 #' @title Add Physical Water Access Issue Indicator
 #'
-#' @description Computes a binary variable (`wash_water_access_issue_physical_d`) that is `1L` if the household reported any physical barrier to accessing water points (too far, difficult to use, disability-related barriers, safety concerns, or excessive waiting time), `0L` if none were reported, and `NA` if the response was ambiguous (dnk/pnta/other) or any component is missing.
+#' @description Computes a binary variable (`wash_water_access_issue_physical_d`) that is `1L` if the household reported any physical or infrastructure-related barrier to accessing water points (too far, difficult to use, disability-related barriers, safety concerns, excessive waiting time, an out-of-service source, intermittent service, or closed water points), `0L` if none were reported, and `NA` if the response was ambiguous (dnk/pnta/other) or any component is missing.
 #'
 #' @param df A data frame.
 #' @param water_access_issue Base name of the select_multiple variable.
@@ -22,17 +22,21 @@
 #' @examples
 #' df <- data.frame(
 #'   wash_water_access_issue = c(
-#'     "waterpoints_too_far", "no_problem_access_water", "dnk"
+#'     "waterpoints_too_far", "no_problem_access_water",
+#'     "intermittent_infrequent_service", "dnk"
 #'   ),
-#'   `wash_water_access_issue/waterpoints_too_far` = c(1L, 0L, 0L),
-#'   `wash_water_access_issue/waterpoints_difficult_use` = c(0L, 0L, 0L),
-#'   `wash_water_access_issue/disability_no_access_waterpoints` = c(0L, 0L, 0L),
-#'   `wash_water_access_issue/safety_concerns_waterpoints` = c(0L, 0L, 0L),
-#'   `wash_water_access_issue/safety_concerns_travel_waterpoints` = c(0L, 0L, 0L),
-#'   `wash_water_access_issue/excessive_waiting_time_waterpoints` = c(0L, 0L, 0L),
-#'   `wash_water_access_issue/dnk` = c(0L, 0L, 1L),
-#'   `wash_water_access_issue/pnta` = c(0L, 0L, 0L),
-#'   `wash_water_access_issue/other` = c(0L, 0L, 0L),
+#'   `wash_water_access_issue/waterpoints_too_far` = c(1L, 0L, 0L, 0L),
+#'   `wash_water_access_issue/waterpoints_difficult_use` = c(0L, 0L, 0L, 0L),
+#'   `wash_water_access_issue/disability_no_access_waterpoints` = c(0L, 0L, 0L, 0L),
+#'   `wash_water_access_issue/safety_concerns_waterpoints` = c(0L, 0L, 0L, 0L),
+#'   `wash_water_access_issue/safety_concerns_travel_waterpoints` = c(0L, 0L, 0L, 0L),
+#'   `wash_water_access_issue/excessive_waiting_time_waterpoints` = c(0L, 0L, 0L, 0L),
+#'   `wash_water_access_issue/water_source_not_functional` = c(0L, 0L, 0L, 0L),
+#'   `wash_water_access_issue/intermittent_infrequent_service` = c(0L, 0L, 1L, 0L),
+#'   `wash_water_access_issue/waterpoints_not_functioning_closed` = c(0L, 0L, 0L, 0L),
+#'   `wash_water_access_issue/dnk` = c(0L, 0L, 0L, 1L),
+#'   `wash_water_access_issue/pnta` = c(0L, 0L, 0L, 0L),
+#'   `wash_water_access_issue/other` = c(0L, 0L, 0L, 0L),
 #'   check.names = FALSE
 #' )
 #' add_water_access_issue_physical(df)
@@ -45,7 +49,10 @@ add_water_access_issue_physical <- function(
     "disability_no_access_waterpoints",
     "safety_concerns_waterpoints",
     "safety_concerns_travel_waterpoints",
-    "excessive_waiting_time_waterpoints"
+    "excessive_waiting_time_waterpoints",
+    "water_source_not_functional",
+    "intermittent_infrequent_service",
+    "waterpoints_not_functioning_closed"
   ),
   undefined = c("dnk", "pnta", "other"),
   sep = "/"
@@ -78,7 +85,7 @@ add_water_access_issue_physical <- function(
 #'
 #' @title Add Financial Water Access Issue Indicator
 #'
-#' @description Computes a binary variable (`wash_water_access_issue_financial_d`) that is `1L` if the household reported any financial barrier to accessing water (water not available at market, too expensive, or insufficient storage containers), `0L` if none were reported, and `NA` if the response was ambiguous (dnk/pnta/other) or any component is missing.
+#' @description Computes a binary variable (`wash_water_access_issue_financial_d`) that is `1L` if the household reported any financial or market-related barrier to accessing water (water not available at market, too expensive, or insufficient storage containers), `0L` if none were reported, and `NA` if the response was ambiguous (dnk/pnta/other) or any component is missing.
 #'
 #' @param financial Character vector of responses that indicate financial access barriers.
 #'

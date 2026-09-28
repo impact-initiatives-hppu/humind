@@ -6,6 +6,9 @@ make_df <- function(
   safety = 0L,
   safety_travel = 0L,
   waiting_time = 0L,
+  not_functional = 0L,
+  intermittent = 0L,
+  closed = 0L,
   not_available = 0L,
   too_expensive = 0L,
   no_containers = 0L,
@@ -21,6 +24,9 @@ make_df <- function(
     `wash_water_access_issue/safety_concerns_waterpoints` = safety,
     `wash_water_access_issue/safety_concerns_travel_waterpoints` = safety_travel,
     `wash_water_access_issue/excessive_waiting_time_waterpoints` = waiting_time,
+    `wash_water_access_issue/water_source_not_functional` = not_functional,
+    `wash_water_access_issue/intermittent_infrequent_service` = intermittent,
+    `wash_water_access_issue/waterpoints_not_functioning_closed` = closed,
     `wash_water_access_issue/water_not_available_market` = not_available,
     `wash_water_access_issue/water_too_expensive` = too_expensive,
     `wash_water_access_issue/not_enough_containers` = no_containers,
@@ -58,10 +64,13 @@ test_that("add_water_access_issue_physical is 1L for each physical option indivi
     make_df(disability = 1L),
     make_df(safety = 1L),
     make_df(safety_travel = 1L),
-    make_df(waiting_time = 1L)
+    make_df(waiting_time = 1L),
+    make_df(not_functional = 1L),
+    make_df(intermittent = 1L),
+    make_df(closed = 1L)
   )
   result <- add_water_access_issue_physical(df)
-  expect_equal(result$wash_water_access_issue_physical_d, rep(1L, 6))
+  expect_equal(result$wash_water_access_issue_physical_d, rep(1L, 9))
 })
 
 test_that("add_water_access_issue_physical is NA for each undefined option", {
