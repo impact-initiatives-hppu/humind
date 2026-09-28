@@ -52,12 +52,20 @@ add_expenditure_type_share_income <- function(
 ) {
   #------ Checks
 
-  # df is a df, expenditure_type and income_total columns exist, are numeric, and have non-negative values
-  are_values_in_range(
-    df,
-    c(expenditure_type, income_total),
+  # df is a df, expenditure_type and income_total columns exist, are integerish
+  # and non-negative (the form columns are integer; this also rejects non-finite)
+  if_not_in_stop(df, c(expenditure_type, income_total), "df")
+  checkmate::assert_integerish(
+    df[[expenditure_type]],
     lower = 0,
-    upper = Inf
+    any.missing = TRUE,
+    .var.name = expenditure_type
+  )
+  checkmate::assert_integerish(
+    df[[income_total]],
+    lower = 0,
+    any.missing = TRUE,
+    .var.name = income_total
   )
 
   # income_recall_period and expenditure_recall_period must be single strictly positive numeric values
