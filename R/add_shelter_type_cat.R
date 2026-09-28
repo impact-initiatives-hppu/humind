@@ -55,5 +55,5 @@ add_shelter_type_cat <- function(
     )
   )
 
-  return(df)
+  df
 }

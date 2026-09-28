@@ -89,5 +89,5 @@ add_expenditure_type_prop_infreq <- function(
     )
   )
 
-  return(df)
+  df
 }

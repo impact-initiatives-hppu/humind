@@ -38,5 +38,5 @@ value_to_sl <- function(
     )
   )
 
-  return(df)
+  df
 }

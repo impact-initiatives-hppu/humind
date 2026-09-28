@@ -13,7 +13,6 @@
 #'
 #' * limited: Response indicating limited access to safe drinking water.
 #' * basic: Response indicating basic access to safe drinking water.
-#' * safely_managed: Response indicating safely managed drinking water.
 #' * unimproved: Response indicating unimproved water sources.
 #' * surface_water: Response indicating surface water sources.
 #' * undefined: Response for undefined categories.
@@ -29,7 +28,7 @@ add_drinking_water_source_cat <- function(
     "tap",
     "borehole",
     "protected_well",
-    "protected_spring",
+    "well_spring",
     "rainwater_collection",
     "tank_truck",
     "cart_tank",
@@ -81,7 +80,7 @@ add_drinking_water_source_cat <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 
@@ -94,9 +93,10 @@ add_drinking_water_source_cat <- function(
 #' @param dnk Character vector of responses codes for "Don't know".
 #' @param undefined Character vector of responses codes for undefined information, e.g. "Prefer not to answer".
 #' @param drinking_water_time_int Component column: Time to fetch water, integer.
-#' @param max Integer, the maximum value for the time to fetch water.
+#' @param max_minutes Integer, the maximum value for the time to fetch water.
 #' @param drinking_water_time_sl Component column: Time to fetch water, simple choice.
-#' @param sl_under_30_min Response code for under 30 minutes.
+#' @param sl_under_30_min Character vector of response codes for under 30
+#' minutes, e.g. c("5min_or_less", "5min_15min", "15min_30min").
 #' @param sl_30min_1hr Response code for 30 minutes to 1 hour.
 #' @param sl_more_than_1hr Response code for more than 1 hour.
 #' @param sl_undefined Character vector of responses codes for undefined information, e.g. "Don't know" or "Prefer not to answer".
@@ -108,14 +108,14 @@ add_drinking_water_source_cat <- function(
 add_drinking_water_time_cat <- function(
   df,
   drinking_water_time_yn = "wash_drinking_water_time_yn",
-  water_on_premises = "water_on_premises",
+  water_on_premises = c("water_in_dwelling", "water_in_plot"),
   number_minutes = "number_minutes",
   dnk = "dnk",
   undefined = "pnta",
   drinking_water_time_int = "wash_drinking_water_time_int",
-  max = 600,
+  max_minutes = 600,
   drinking_water_time_sl = "wash_drinking_water_time_sl",
-  sl_under_30_min = "under_30_min",
+  sl_under_30_min = c("5min_or_less", "5min_15min", "15min_30min"),
   sl_30min_1hr = "30min_1hr",
   sl_more_than_1hr = "more_than_1hr",
   sl_undefined = c("dnk", "pnta"),
@@ -146,6 +146,7 @@ add_drinking_water_time_cat <- function(
     drinking_water_time_yn,
     c(water_on_premises, number_minutes, dnk, undefined)
   )
+
   are_values_in_set(
     df,
     drinking_water_time_sl,
@@ -159,22 +160,31 @@ add_drinking_water_time_cat <- function(
     )
   }
 
-  # Check that all inputs under_30min, above_30min_1hr, more_than_1hr are of length 1
-  if (
-    length(sl_under_30_min) != 1 |
-      length(sl_30min_1hr) != 1 |
-      length(sl_more_than_1hr) != 1
-  ) {
-    rlang::abort(
-      "under_30_min, above_30min_1hr, more_than_1hr must be of length 1."
-    )
-  }
-
   #------ Recode
+
+  # Canonical output categories, decoupled from the raw sl_* response codes
+  cat_under_30min <- "under_30_min"
+  cat_30min_1hr <- "30min_1hr"
+  cat_more_than_1hr <- "more_than_1hr"
 
   # Recode time to fetch water from integer to char, < 30, ...
   df <- dplyr::mutate(
     df,
+    # Bucket the exact minutes reported
+    .time_int_cat = dplyr::case_when(
+      !!rlang::sym(drinking_water_time_int) <= 30 ~ cat_under_30min,
+      !!rlang::sym(drinking_water_time_int) <= 60 ~ cat_30min_1hr,
+      !!rlang::sym(drinking_water_time_int) <= max_minutes ~ cat_more_than_1hr
+    ),
+    # Bucket the simple-choice (sl) responses into the same categories
+    .time_sl_cat = dplyr::case_when(
+      !!rlang::sym(drinking_water_time_sl) %in% sl_undefined ~ "undefined",
+      !!rlang::sym(drinking_water_time_sl) %in% sl_under_30_min ~
+        cat_under_30min,
+      !!rlang::sym(drinking_water_time_sl) %in% sl_30min_1hr ~ cat_30min_1hr,
+      !!rlang::sym(drinking_water_time_sl) %in% sl_more_than_1hr ~
+        cat_more_than_1hr
+    ),
     wash_drinking_water_time_cat = dplyr::case_when(
       !!rlang::sym(drinking_water_source) %in%
         skipped_drinking_water_source_premises ~
@@ -183,26 +193,17 @@ add_drinking_water_time_cat <- function(
         skipped_drinking_water_source_undefined ~
         "undefined",
       !!rlang::sym(drinking_water_time_yn) %in% water_on_premises ~ "premises",
-      !!rlang::sym(drinking_water_time_yn) %in% number_minutes ~
-        dplyr::case_when(
-          !!rlang::sym(drinking_water_time_int) < 30 ~ sl_under_30_min,
-          !!rlang::sym(drinking_water_time_int) >= 30 &
-            !!rlang::sym(drinking_water_time_int) < 60 ~
-            sl_30min_1hr,
-          !!rlang::sym(drinking_water_time_int) <= 600 ~ sl_more_than_1hr
-        ),
+      !!rlang::sym(drinking_water_time_yn) %in% number_minutes ~ .time_int_cat,
       # Fix don't know
-      !!rlang::sym(drinking_water_time_yn) %in% undefined ~ "undefined",
-      !!rlang::sym(drinking_water_time_yn) %in% dnk &
-        !!rlang::sym(drinking_water_time_sl) %in% sl_undefined ~
-        "undefined",
-      !!rlang::sym(drinking_water_time_yn) %in% dnk ~
-        !!rlang::sym(drinking_water_time_sl),
+      !!rlang::sym(drinking_water_time_yn) %in%
+        c(undefined, dnk) ~ .time_sl_cat,
       .default = NA_character_
-    )
+    ),
+    .time_int_cat = NULL,
+    .time_sl_cat = NULL
   )
 
-  return(df)
+  df
 }
 
 #' @rdname add_drinking_water_source_cat
@@ -259,7 +260,7 @@ add_drinking_water_time_threshold_cat <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 #' @rdname add_drinking_water_source_cat
@@ -313,7 +314,6 @@ add_drinking_water_quality_jmp_cat <- function(
     df,
     drinking_water_time_30min_cat,
     c(
-      drinking_water_time_30min_cat,
       drinking_water_time_30min_cat_premises,
       drinking_water_time_30min_cat_under_30min,
       drinking_water_time_30min_cat_above_30min,
@@ -339,14 +339,12 @@ add_drinking_water_quality_jmp_cat <- function(
         "limited",
       !!rlang::sym(drinking_water_source_cat) ==
         drinking_water_source_cat_improved &
-        !!rlang::sym(drinking_water_time_30min_cat) ==
-          drinking_water_time_30min_cat_under_30min ~
+        !!rlang::sym(drinking_water_time_30min_cat) %in%
+          c(
+            drinking_water_time_30min_cat_under_30min,
+            drinking_water_time_30min_cat_premises
+          ) ~
         "basic",
-      !!rlang::sym(drinking_water_source_cat) ==
-        drinking_water_source_cat_improved &
-        !!rlang::sym(drinking_water_time_30min_cat) ==
-          drinking_water_time_30min_cat_premises ~
-        "safely_managed",
       !!rlang::sym(drinking_water_source_cat) ==
         drinking_water_source_cat_undefined ~
         "undefined",
@@ -357,5 +355,5 @@ add_drinking_water_quality_jmp_cat <- function(
     )
   )
 
-  return(df)
+  df
 }

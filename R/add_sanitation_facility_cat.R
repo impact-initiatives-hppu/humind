@@ -30,11 +30,11 @@ add_sanitation_facility_cat <- function(
   ),
   unimproved = c(
     "flush_open_drain",
-    "flush_elsewhere",
     "pit_latrine_wo_slab",
     "bucket",
     "hanging_toilet",
-    "plastic_bag"
+    "twin_pit_latrine_wo_slab",
+    "other_container"
   ),
   none = "none",
   undefined = c("other", "dnk", "pnta")
@@ -63,7 +63,7 @@ add_sanitation_facility_cat <- function(
     )
   )
 
-  return(df)
+  df
 }
 
 
@@ -71,7 +71,7 @@ add_sanitation_facility_cat <- function(
 #'
 #' @title Add Sharing Status of Sanitation Facility
 #'
-#' @description This function recodes the sharing status of sanitation facilities based on user responses. It categorizes whether the facility is shared or not shared and handles cases where the facility was skipped.
+#' @description add_sharing_sanitation_facility_cat: Recode sharing status of sanitation facilities. Maps user responses to `shared`, `not_shared`, or `not_applicable` when the sanitation facility was skipped.
 #'
 #' @param df A data frame containing sharing status information.
 #' @param sharing_sanitation_facility Component column: Number of people with whom the facility is shared.
@@ -92,48 +92,31 @@ add_sharing_sanitation_facility_cat <- function(
   no = "no",
   undefined = c("dnk", "pnta"),
   sanitation_facility = "wash_sanitation_facility",
-  skipped_sanitation_facility = NULL
+  skipped_sanitation_facility = c("none")
 ) {
   #------ Check values ranges
   are_values_in_set(df, sharing_sanitation_facility, c(yes, no, undefined))
-  if (!is.null(skipped_sanitation_facility)) {
-    are_values_in_set(df, sanitation_facility, skipped_sanitation_facility)
-  }
-  # are_cols_numeric(df, sharing_sanitation_facility)
 
-  # If sanitation_facility was skipped because of sharing_sanitation_facility, then recode sharing_sanitation_facility to "no"
-  if (!is.null(skipped_sanitation_facility)) {
-    df <- dplyr::mutate(
-      df,
-      wash_sharing_sanitation_facility_cat = dplyr::case_when(
-        !!rlang::sym(sanitation_facility) %in% skipped_sanitation_facility ~
-          "not_applicable",
-        !!rlang::sym(sharing_sanitation_facility) == yes ~ "shared",
-        !!rlang::sym(sharing_sanitation_facility) == no ~ "not_shared",
-        !!rlang::sym(sharing_sanitation_facility) %in% undefined ~ "undefined",
-        .default = NA_character_
-      )
+  df <- dplyr::mutate(
+    df,
+    wash_sharing_sanitation_facility_cat = dplyr::case_when(
+      !!rlang::sym(sanitation_facility) %in%
+        skipped_sanitation_facility ~ "not_applicable",
+      !!rlang::sym(sharing_sanitation_facility) == yes ~ "shared",
+      !!rlang::sym(sharing_sanitation_facility) == no ~ "not_shared",
+      !!rlang::sym(sharing_sanitation_facility) %in% undefined ~ "undefined",
+      .default = NA_character_
     )
-  } else {
-    df <- dplyr::mutate(
-      df,
-      wash_sharing_sanitation_facility_cat = dplyr::case_when(
-        !!rlang::sym(sharing_sanitation_facility) == yes ~ "shared",
-        !!rlang::sym(sharing_sanitation_facility) == no ~ "not_shared",
-        !!rlang::sym(sharing_sanitation_facility) %in% undefined ~ "undefined",
-        .default = NA_character_
-      )
-    )
-  }
+  )
 
-  return(df)
+  df
 }
 
 #' @rdname add_sanitation_facility_cat
 #'
 #' @title Add Number of Households Sharing a Sanitation Facility
 #'
-#' @description This function calculates the number of households sharing a sanitation facility and categorizes them based on predefined thresholds. It also handles the household size and survey weights in calculations.
+#' @description add_sharing_sanitation_facility_n_ind: Calculate the number of individuals sharing a sanitation facility per household. Uses household size and survey weights to estimate and then categorizes counts into predefined bands.
 #'
 #' @param df A data frame containing household-level data.
 #' @param sharing_sanitation_facility_cat Component column: Is the sanitation facility shared?
@@ -143,11 +126,13 @@ add_sharing_sanitation_facility_cat <- function(
 #' @param sharing_sanitation_facility_cat_undefined Response code for undefined cases.
 #' @param sanitation_facility_sharing_n Component column: Number of households sharing the sanitation facility.
 #' @param hh_size Column name for household size.
-#' @param weight Column name for survey weights.
+#' @param weight Column name for survey weights. For unweighted analysis,
+#' this column must still be provided, with its value set to `1`.
 #'
-#' @return A data frame with an additional column:
+#' @return A data frame with additional columns:
 #'
-#' * wash_sharing_sanitation_n_ind: Categorized number of individuals sharing a sanitation facility.
+#' * wash_sanitation_facility_sharing_n_calc: Estimated number of individuals sharing the sanitation facility.
+#' * wash_sharing_sanitation_facility_n_ind: Categorized number of individuals sharing a sanitation facility.
 #'
 #' @export
 add_sharing_sanitation_facility_n_ind <- function(
@@ -167,6 +152,7 @@ add_sharing_sanitation_facility_n_ind <- function(
   if_not_in_stop(df, sharing_sanitation_facility_cat, "df")
   if_not_in_stop(df, sanitation_facility_sharing_n, "df")
   if_not_in_stop(df, hh_size, "df")
+  if_not_in_stop(df, weight, "df")
 
   # Create levels vector
   levels <- c(
@@ -189,20 +175,20 @@ add_sharing_sanitation_facility_n_ind <- function(
     na.rm = TRUE
   )
 
-  #------ Recode the number of people sharing a sanitation facility
+  #------ Estimate the number of individuals sharing a sanitation facility
   df <- dplyr::mutate(
     df,
-    "{sanitation_facility_sharing_n}" := dplyr::case_when(
+    wash_sanitation_facility_sharing_n_calc = dplyr::case_when(
       # If facility shared
       !!rlang::sym(sharing_sanitation_facility_cat) ==
         sharing_sanitation_facility_cat_shared ~
         (!!rlang::sym(sanitation_facility_sharing_n) - 1) *
-          mean_hh_size +
-          !!rlang::sym(hh_size),
+        mean_hh_size +
+        !!rlang::sym(hh_size),
       # If facility not shared
       !!rlang::sym(sharing_sanitation_facility_cat) ==
         sharing_sanitation_facility_cat_not_shared ~
-        !!rlang::sym(hh_size),
+        NA_real_,
       .default = NA_real_
     )
   )
@@ -211,14 +197,17 @@ add_sharing_sanitation_facility_n_ind <- function(
   df <- dplyr::mutate(
     df,
     wash_sharing_sanitation_facility_n_ind = dplyr::case_when(
-      !!rlang::sym(sanitation_facility_sharing_n) >= 50 ~ "50_and_above",
-      !!rlang::sym(sanitation_facility_sharing_n) >= 20 ~ "20_to_49",
-      !!rlang::sym(sanitation_facility_sharing_n) >= 0 ~ "19_and_below",
+      !!rlang::sym("wash_sanitation_facility_sharing_n_calc") >=
+        50 ~ "50_and_above",
+      !!rlang::sym("wash_sanitation_facility_sharing_n_calc") >=
+        20 ~ "20_to_49",
+      !!rlang::sym("wash_sanitation_facility_sharing_n_calc") >=
+        0 ~ "19_and_below",
       .default = NA_character_
     )
   )
 
-  return(df)
+  df
 }
 
 
@@ -226,7 +215,7 @@ add_sharing_sanitation_facility_n_ind <- function(
 #'
 #' @title Combine Sanitation Facility Classification and Sharing Status
 #'
-#' @description This function combines the previous two functions to recode the sanitation facility into a JMP classification. It also includes information about whether the facility is shared or not shared.
+#' @description add_sanitation_facility_jmp_cat: Combine sanitation facility type and sharing status to derive a JMP classification (e.g., basic, limited, unimproved, open_defecation, undefined).
 #'
 #' @param df A data frame containing both sanitation facility types and sharing status information.
 #' @param sanitation_facility_cat Component column: Sanitation facility types recoded.
@@ -317,5 +306,5 @@ add_sanitation_facility_jmp_cat <- function(
     )
   )
 
-  return(df)
+  df
 }
