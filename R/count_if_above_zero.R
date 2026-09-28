@@ -65,5 +65,5 @@ count_if_above_zero <- function(df, vars, new_colname) {
     na_rm = TRUE
   )
 
-  return(df)
+  df
 }

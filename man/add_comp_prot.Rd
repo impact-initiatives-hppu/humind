@@ -30,7 +30,7 @@ This function performs only \strong{Step 4} of the 2025 Protection Composite wor
 }
 \details{
 \itemize{
-\item \strong{Column checks} via \code{\link[purrr:imap]{purrr::iwalk()}} ensure the three dimension scores exist.
+\item \strong{Column checks} via \code{\link[purrr:iwalk]{purrr::iwalk()}} ensure the three dimension scores exist.
 \item \strong{Computation} uses \code{\link[=pmax]{pmax()}} (with \code{na.rm = FALSE})
 \item \strong{Thresholds} (3 for “in need”, 4 for “severe need”) are currently hard‑coded.
 }

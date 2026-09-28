@@ -5,6 +5,8 @@
 #'
 #' @param df A data frame containing the survey data.
 #' @param survey_modality Column name for the survey modality (e.g., "survey_modality").
+#' If the source form does not collect this column, the caller must add it before
+#' calling this function, set to `"in_person"` for a fully in-person data collection.
 #' @param survey_modality_in_person Options for the in-person survey modality.
 #' @param survey_modality_remote Options for the remote survey modality.
 #' @param facility Column name for the observed handwashing facility (e.g., "wash_handwashing_facility").
@@ -12,7 +14,7 @@
 #' @param facility_no Response code indicating unavailability (e.g., "none").
 #' @param facility_no_permission Response code for cases with no permission to observe.
 #' @param facility_undefined Response code(s) for undefined situations.
-#' @param facility_observed_water Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water").
+#' @param facility_observed_water Column name for observed water availability (e.g., "wash_handwashing_facility_observed_water_yn").
 #' @param facility_observed_water_yes Response code indicating water is available.
 #' @param facility_observed_water_no Response code(s) indicating water is not available.
 #' @param facility_observed_soap Column name for observed soap availability.
@@ -55,27 +57,27 @@ add_handwashing_facility_cat <- function(
   facility_yes = c(
     "available_fixed_in_dwelling",
     "available_fixed_in_plot",
-    "available_fixed_or_mobile"
+    "available_mobile"
   ),
   facility_no = "none",
   facility_no_permission = "no_permission",
-  facility_undefined = c("other", "pnta"),
-  facility_observed_water = "wash_handwashing_facility_observed_water",
+  facility_undefined = "other",
+  facility_observed_water = "wash_handwashing_facility_observed_water_yn",
   facility_observed_water_yes = "water_available",
   facility_observed_water_no = c("water_not_available"),
-  facility_observed_soap = "wash_soap_observed",
-  facility_observed_soap_yes = "yes_soap_shown",
-  facility_observed_soap_no = c("no"),
+  facility_observed_soap = "wash_soap_observed_yn",
+  facility_observed_soap_yes = "soap_available",
+  facility_observed_soap_no = "soap_not_available",
   facility_observed_soap_undefined = c("other", "pnta"),
   facility_reported = "wash_handwashing_facility_reported",
   facility_reported_yes = c("fixed_dwelling", "fixed_yard", "mobile"),
   facility_reported_no = c("none"),
   facility_reported_undefined = c("other", "dnk", "pnta"),
-  facility_reported_water = "wash_handwashing_facility_water_reported",
+  facility_reported_water = "wash_handwashing_facility_water_reported_yn",
   facility_reported_water_yes = "yes",
   facility_reported_water_no = c("no"),
   facility_reported_water_undefined = c("dnk", "pnta"),
-  facility_reported_soap = "wash_soap_reported",
+  facility_reported_soap = "wash_soap_reported_yn",
   facility_reported_soap_yes = "yes",
   facility_reported_soap_no = c("no"),
   facility_reported_soap_undefined = c("dnk", "pnta"),
