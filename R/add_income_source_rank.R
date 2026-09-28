@@ -126,5 +126,5 @@ add_income_source_rank <- function(
     other
   )
 
-  return(df)
+  df
 }
