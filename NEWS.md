@@ -1,5 +1,13 @@
 # humind (development version)
 
+### New Features
+
+* `add_livestock_significant_decrease_d()`: new function for the livestock
+  production indicator (IND043). It flags each livestock type (including
+  donkeys) whose herd decreased by 50% or more between last year and now, and
+  a household-level composite that is 1 if any type decreased significantly.
+  Households where the livestock section was skipped are left blank (#671).
+
 # humind 2026.4.1
 
 This patch corrects the weighting of three ability-to-participate barriers in
