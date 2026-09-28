@@ -213,23 +213,24 @@ test_that("lifesaving column warns when an explicitly named type column is absen
 
 test_that("lifesaving column is computed from the type binaries", {
   loop <- make_type_df(
-    needed = c("yes", "yes", "yes", "no", "yes"),
-    received = c("no", "no", "yes", "no", "no"),
+    needed = c("yes", "yes", "yes", "no", "yes", "yes"),
+    received = c("no", "no", "yes", "no", "no", "no"),
     types = list(
-      consultation_acute = c(1L, 0L, 1L, 0L, 0L),
-      safe_delivery = c(0L, 1L, 0L, 0L, 0L),
-      preventable_consultation = c(0L, 0L, 0L, 0L, 1L)
+      consultation_acute = c(1L, 0L, 1L, 0L, 0L, 0L),
+      safe_delivery = c(0L, 1L, 0L, 0L, 0L, 0L),
+      preventative_consultation = c(0L, 0L, 0L, 0L, 1L, 0L),
+      elective_surgery = c(0L, 0L, 0L, 0L, 0L, 1L)
     )
   )
   result <- add_loop_healthcare_needed_cat(loop)
   expect_true(
     "health_ind_healthcare_needed_lifesaving_yes_unmet" %in% colnames(result)
   )
-  # unmet need with a life-saving type is flagged; met or no need is 0; an unmet
-  # need without a life-saving type is 0
+  # unmet need with a life-saving type is flagged; met or no need is 0; and an
+  # unmet need with only a non-life-saving type (preventative, elective) is 0
   expect_equal(
     result$health_ind_healthcare_needed_lifesaving_yes_unmet,
-    c(1, 1, 0, 0, 0)
+    c(1, 1, 0, 0, 0, 0)
   )
 })
 
