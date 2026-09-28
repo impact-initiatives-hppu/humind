@@ -69,28 +69,36 @@ add_sanitation_no_handwashing <- function(
     wash_sanitation_no_handwashing_d = dplyr::case_when(
       is.na(.data[[sanitation_jmp_cat]]) ~ NA_integer_,
       is.na(.data[[handwashing_jmp_cat]]) ~ NA_integer_,
-      .data[[sanitation_jmp_cat]] == sanitation_facility_jmp_undefined ~ NA_integer_,
-      .data[[handwashing_jmp_cat]] == handwashing_facility_jmp_undefined ~ NA_integer_,
+      .data[[sanitation_jmp_cat]] ==
+        sanitation_facility_jmp_undefined ~ NA_integer_,
+      .data[[handwashing_jmp_cat]] ==
+        handwashing_facility_jmp_undefined ~ NA_integer_,
       # 1L: no improved sanitation (open defecation, unimproved, or limited) AND no handwashing
-      .data[[sanitation_jmp_cat]] %in% c(
-        sanitation_facility_jmp_open_defecation,
-        sanitation_facility_jmp_unimproved,
-        sanitation_facility_jmp_limited
-      ) & .data[[handwashing_jmp_cat]] == handwashing_facility_jmp_no_facility ~ 1L,
+      .data[[sanitation_jmp_cat]] %in%
+        c(
+          sanitation_facility_jmp_open_defecation,
+          sanitation_facility_jmp_unimproved,
+          sanitation_facility_jmp_limited
+        ) &
+        .data[[handwashing_jmp_cat]] ==
+          handwashing_facility_jmp_no_facility ~ 1L,
       # 0L: improved sanitation (basic) — condition not met regardless of handwashing
       .data[[sanitation_jmp_cat]] == sanitation_facility_jmp_basic ~ 0L,
       # 0L: no improved sanitation but has handwashing (limited or basic) — condition not met
-      .data[[sanitation_jmp_cat]] %in% c(
-        sanitation_facility_jmp_open_defecation,
-        sanitation_facility_jmp_unimproved,
-        sanitation_facility_jmp_limited
-      ) & .data[[handwashing_jmp_cat]] %in% c(
-        handwashing_facility_jmp_limited,
-        handwashing_facility_jmp_basic
-      ) ~ 0L,
+      .data[[sanitation_jmp_cat]] %in%
+        c(
+          sanitation_facility_jmp_open_defecation,
+          sanitation_facility_jmp_unimproved,
+          sanitation_facility_jmp_limited
+        ) &
+        .data[[handwashing_jmp_cat]] %in%
+          c(
+            handwashing_facility_jmp_limited,
+            handwashing_facility_jmp_basic
+          ) ~ 0L,
       .default = NA_integer_
     )
   )
 
-  return(df)
+  df
 }

@@ -135,3 +135,47 @@ test_that("errors when handwashing_jmp_cat column is missing", {
   df <- dplyr::tibble(wash_sanitation_facility_jmp_cat = "basic")
   expect_error(add_sanitation_no_handwashing(df))
 })
+
+# --- End-to-end: chain the JMP prerequisites instead of hand-building them ---
+
+test_that("chains the sanitation and handwashing JMP prerequisites (basic sanitation)", {
+  df <- generate_wash_df()
+  df$wash_sanitation_facility_cat <- "improved"
+  df$wash_sharing_sanitation_facility_cat <- "not_shared"
+
+  result <- df |>
+    add_sanitation_facility_jmp_cat() |>
+    add_handwashing_facility_cat() |>
+    add_sanitation_no_handwashing()
+
+  expect_true("wash_sanitation_no_handwashing_d" %in% colnames(result))
+  # basic sanitation means "no improved sanitation" is FALSE, so the flag can
+  # only be 0 or NA (undefined handwashing)
+  resolved <- !is.na(result$wash_handwashing_facility_jmp_cat) &
+    result$wash_handwashing_facility_jmp_cat != "undefined"
+  expect_true(all(result$wash_sanitation_no_handwashing_d[resolved] == 0L))
+})
+
+test_that("chains the sanitation and handwashing JMP prerequisites (open defecation)", {
+  df <- generate_wash_df()
+  df$wash_sanitation_facility_cat <- "none"
+  df$wash_sharing_sanitation_facility_cat <- "not_applicable"
+
+  result <- df |>
+    add_sanitation_facility_jmp_cat() |>
+    add_handwashing_facility_cat() |>
+    add_sanitation_no_handwashing()
+
+  d <- result$wash_sanitation_no_handwashing_d
+  hwj <- result$wash_handwashing_facility_jmp_cat
+  no_fac <- !is.na(hwj) & hwj == "no_facility"
+  has_hw <- !is.na(hwj) & hwj %in% c("limited", "basic")
+  undef <- !is.na(hwj) & hwj == "undefined"
+  # every handwashing category is represented, and each drives the expected flag
+  expect_true(sum(no_fac) > 0)
+  expect_true(sum(has_hw) > 0)
+  expect_true(sum(undef) > 0)
+  expect_true(all(d[no_fac] == 1L))
+  expect_true(all(d[has_hw] == 0L))
+  expect_true(all(is.na(d[undef])))
+})
