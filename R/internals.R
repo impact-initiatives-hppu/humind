@@ -20,7 +20,7 @@ are_cols_numeric <- function(df, cols) {
 
   if (!all(classes)) {
     rlang::abort(c(
-      "All columns must be numeric.",
+      "All values must be numeric.",
       "i" = glue::glue(
         "The following columns are not numeric. Please check.\n",
         glue::glue_collapse(cols, sep = "\n")
@@ -28,7 +28,7 @@ are_cols_numeric <- function(df, cols) {
     ))
   }
 
-  return(TRUE)
+  TRUE
 }
 
 #' @title Stop statement values are not in range
@@ -40,6 +40,26 @@ are_cols_numeric <- function(df, cols) {
 #'
 #' @return A stop statement
 are_values_in_range <- function(df, cols, lower = 0, upper = 7) {
+  #------ Checks
+
+  # lower and upper must be numeric
+  if (!is.numeric(lower)) {
+    rlang::abort("lower must be numeric.")
+  }
+  if (!is.numeric(upper)) {
+    rlang::abort("upper must be numeric.")
+  }
+
+  # upper must be greater than lower
+  if (lower > upper) {
+    rlang::abort(c(
+      glue::glue(
+        "Invalid range: lower ({lower}) cannot be greater than upper ({upper})."
+      ),
+      "i" = "Please ensure the lower bound is less than or equal to the upper bound."
+    ))
+  }
+
   #------ Only use on numeric columns
   are_cols_numeric(df, cols)
 
@@ -55,9 +75,9 @@ are_values_in_range <- function(df, cols, lower = 0, upper = 7) {
 
   cols <- cols[ranges]
 
-  if (all(ranges)) {
+  if (any(ranges)) {
     rlang::abort(c(
-      glue::glue("All columns must be between {lower} and {upper}."),
+      glue::glue("All values must be between {lower} and {upper}."),
       "i" = glue::glue(
         "The following columns have values outside the range Please check.\n",
         glue::glue_collapse(cols, sep = "\n")
@@ -65,7 +85,7 @@ are_values_in_range <- function(df, cols, lower = 0, upper = 7) {
     ))
   }
 
-  return(TRUE)
+  TRUE
 }
 
 
@@ -81,7 +101,7 @@ are_values_in_set <- function(
   df,
   cols,
   set,
-  main_message = "All columns must be in the following set: "
+  main_message = "All values must be in the following set: "
 ) {
   #------ Check for missing columns
   if_not_in_stop(df, cols, "df")
@@ -125,7 +145,7 @@ are_values_in_set <- function(
     ))
   }
 
-  return(TRUE)
+  TRUE
 }
 
 
@@ -193,4 +213,24 @@ if_not_in_stop <- function(df, cols, df_name, arg = NULL) {
       )
     )
   }
+}
+
+
+#' @title Drop columns from main that are also computed in loop
+#'
+#' @description Before joining loop-derived columns into main, drop any
+#' column names main already shares with loop (e.g. from a prior run),
+#' except the two id columns used for the join.
+#'
+#' @param main A data frame (household-level)
+#' @param loop A data frame (individual-level, already summarized)
+#' @param id_col_main Column name for the unique identifier in main
+#' @param id_col_loop Column name for the unique identifier in loop
+#'
+#' @return main, with shared non-id columns dropped
+drop_shared_loop_cols <- function(main, loop, id_col_main, id_col_loop) {
+  id_cols <- c(id_col_main, id_col_loop)
+  shared_cols <- intersect(colnames(loop), colnames(main))
+  shared_cols <- setdiff(shared_cols, id_cols)
+  dplyr::select(main, -dplyr::all_of(shared_cols))
 }
