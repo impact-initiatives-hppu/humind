@@ -15,6 +15,7 @@
 #' @param ind_healthcare_received_pnta Level for "prefer not to answer" in ind_healthcare_received.
 #' @param ind_healthcare_type The name of the variable that indicates the type of healthcare which was sought.
 #' @param ind_healthcare_type_lifesaving Character vector of levels in ind_healthcare_type that indicate life-saving healthcare.
+#' @param ind_healthcare_type_undefined Character vector of levels in ind_healthcare_type that are non-substantive (dnk, pnta, other); these yield `NA` for the life-saving flag.
 #' @param sep Separator for the binary columns.
 #' @param ind_age The name of the variable that indicates the age of the individual.
 #'
@@ -42,6 +43,7 @@ add_loop_healthcare_needed_cat <- function(
   ind_healthcare_received_yes = "yes",
   ind_healthcare_received_dnk = "dnk",
   ind_healthcare_received_pnta = "pnta",
+  ind_age = "ind_age",
   ind_healthcare_type = "health_ind_healthcare_needed_type",
   ind_healthcare_type_lifesaving = c(
     "consultation_acute",
@@ -51,8 +53,8 @@ add_loop_healthcare_needed_cat <- function(
     "natal_services",
     "safe_delivery"
   ),
-  sep = "/",
-  ind_age = "ind_age"
+  ind_healthcare_type_undefined = c("dnk", "pnta", "other"),
+  sep = "/"
 ) {
   #------ Checks
 
@@ -131,34 +133,43 @@ add_loop_healthcare_needed_cat <- function(
     ))
   }
 
-  # Check if ind_healthcare_type is in the data frame; if not, warn and skip lifesaving
+  # The type column is optional: legacy loops do not carry the type question, so
+  # skip quietly unless the caller explicitly named a column that is missing.
   has_healthcare_type <- ind_healthcare_type %in% colnames(loop)
   if (!has_healthcare_type) {
-    rlang::warn(glue::glue(
-      "Variable ind_healthcare_type: {ind_healthcare_type} does not exist in `loop`. Calculation of lifesaving (unmet) health needs is skipped."
-    ))
+    if (!missing(ind_healthcare_type)) {
+      rlang::warn(glue::glue(
+        "Variable ind_healthcare_type: {ind_healthcare_type} does not exist in `loop`. Calculation of lifesaving (unmet) health needs is skipped."
+      ))
+    }
   } else {
     ind_healthcare_type_d_lifesaving <- paste0(
       ind_healthcare_type,
       sep,
       ind_healthcare_type_lifesaving
     )
+    ind_healthcare_type_d_undefined <- paste0(
+      ind_healthcare_type,
+      sep,
+      ind_healthcare_type_undefined
+    )
 
     # Check if columns are in the dataset and in 0:1 set
     are_values_in_set(
       loop,
-      ind_healthcare_type_d_lifesaving,
+      c(ind_healthcare_type_d_lifesaving, ind_healthcare_type_d_undefined),
       c(0, 1)
     )
 
     # Warn for existing "health_ind_healthcare_needed_lifesaving_yes_unmet"
-    if ("health_ind_healthcare_needed_lifesaving_yes_unmet" %in% colnames(loop)) {
+    if (
+      "health_ind_healthcare_needed_lifesaving_yes_unmet" %in% colnames(loop)
+    ) {
       rlang::warn(
         "health_ind_healthcare_needed_lifesaving_yes_unmet already exists in loop. It will be replaced."
       )
     }
   }
-
 
   #------ Compute
   needed_col <- rlang::sym(ind_healthcare_needed)
@@ -220,14 +231,25 @@ add_loop_healthcare_needed_cat <- function(
   if (has_healthcare_type) {
     loop <- dplyr::mutate(
       loop,
-      # 1 if individual had unmet need AND sought at least one lifesaving type
+      # 1 if the individual had an unmet need and sought at least one lifesaving
+      # type; NA if the type is unknown (dnk/pnta/other, or the type question was
+      # not answered); 0 otherwise.
       "health_ind_healthcare_needed_lifesaving_yes_unmet" := dplyr::case_when(
         health_ind_healthcare_needed_yes_unmet == 1 &
           dplyr::if_any(
             dplyr::all_of(ind_healthcare_type_d_lifesaving),
             \(x) x == 1
           ) ~ 1,
-        health_ind_healthcare_needed_yes_unmet == 1 ~ 0,
+        health_ind_healthcare_needed_yes_unmet == 1 &
+          dplyr::if_any(
+            dplyr::all_of(ind_healthcare_type_d_undefined),
+            \(x) x == 1
+          ) ~ NA_real_,
+        health_ind_healthcare_needed_yes_unmet == 1 &
+          dplyr::if_all(
+            dplyr::all_of(ind_healthcare_type_d_lifesaving),
+            \(x) x == 0
+          ) ~ 0,
         health_ind_healthcare_needed_yes_unmet == 0 ~ 0,
         .default = NA_real_
       )
@@ -266,9 +288,9 @@ add_loop_healthcare_needed_cat_to_main <- function(
   ind_healthcare_needed_no = "health_ind_healthcare_needed_no",
   ind_healthcare_needed_yes_unmet = "health_ind_healthcare_needed_yes_unmet",
   ind_healthcare_needed_yes_met = "health_ind_healthcare_needed_yes_met",
-  ind_healthcare_needed_lifesaving_yes_unmet = "health_ind_healthcare_needed_lifesaving_yes_unmet",
   id_col_main = "uuid",
-  id_col_loop = "uuid"
+  id_col_loop = "uuid",
+  ind_healthcare_needed_lifesaving_yes_unmet = "health_ind_healthcare_needed_lifesaving_yes_unmet"
 ) {
   #------ Checks
 
@@ -310,13 +332,19 @@ add_loop_healthcare_needed_cat_to_main <- function(
     ))
   }
 
-  # If lifesaving column exists in loop, add it to aggregation; otherwise warn
+  # If the lifesaving column exists in loop, aggregate it; otherwise skip quietly
+  # unless the caller explicitly named a column that is missing.
   if (!ind_healthcare_needed_lifesaving_yes_unmet %in% colnames(loop)) {
-    rlang::warn(glue::glue(
-      "Variable {ind_healthcare_needed_lifesaving_yes_unmet} does not exist in loop. Calculation of lifesaving (unmet) health needs is skipped."
-    ))
+    if (!missing(ind_healthcare_needed_lifesaving_yes_unmet)) {
+      rlang::warn(glue::glue(
+        "Variable {ind_healthcare_needed_lifesaving_yes_unmet} does not exist in loop. Calculation of lifesaving (unmet) health needs is skipped."
+      ))
+    }
   } else {
-    if (paste0(ind_healthcare_needed_lifesaving_yes_unmet, "_n") %in% colnames(main)) {
+    if (
+      paste0(ind_healthcare_needed_lifesaving_yes_unmet, "_n") %in%
+        colnames(main)
+    ) {
       rlang::warn(paste0(
         paste0(ind_healthcare_needed_lifesaving_yes_unmet, "_n"),
         " already exists in 'main'. It will be replaced."

@@ -17,7 +17,12 @@ add_loop_healthcare_needed_cat(
   ind_healthcare_received_yes = "yes",
   ind_healthcare_received_dnk = "dnk",
   ind_healthcare_received_pnta = "pnta",
-  ind_age = "ind_age"
+  ind_age = "ind_age",
+  ind_healthcare_type = "health_ind_healthcare_needed_type",
+  ind_healthcare_type_lifesaving = c("consultation_acute", "consultation_chronic",
+    "trauma", "emergency_surgery", "natal_services", "safe_delivery"),
+  ind_healthcare_type_undefined = c("dnk", "pnta", "other"),
+  sep = "/"
 )
 
 add_loop_healthcare_needed_cat_to_main(
@@ -27,7 +32,9 @@ add_loop_healthcare_needed_cat_to_main(
   ind_healthcare_needed_yes_unmet = "health_ind_healthcare_needed_yes_unmet",
   ind_healthcare_needed_yes_met = "health_ind_healthcare_needed_yes_met",
   id_col_main = "uuid",
-  id_col_loop = "uuid"
+  id_col_loop = "uuid",
+  ind_healthcare_needed_lifesaving_yes_unmet =
+    "health_ind_healthcare_needed_lifesaving_yes_unmet"
 )
 }
 \arguments{
@@ -55,6 +62,14 @@ add_loop_healthcare_needed_cat_to_main(
 
 \item{ind_age}{The name of the variable that indicates the age of the individual.}
 
+\item{ind_healthcare_type}{The name of the variable that indicates the type of healthcare which was sought.}
+
+\item{ind_healthcare_type_lifesaving}{Character vector of levels in ind_healthcare_type that indicate life-saving healthcare.}
+
+\item{ind_healthcare_type_undefined}{Character vector of levels in ind_healthcare_type that are non-substantive (dnk, pnta, other); these yield \code{NA} for the life-saving flag.}
+
+\item{sep}{Separator for the binary columns.}
+
 \item{main}{A data frame of household-level data.}
 
 \item{ind_healthcare_needed_yes_unmet}{The binary variable that indicates if healthcare is needed but unmet.}
@@ -64,6 +79,8 @@ add_loop_healthcare_needed_cat_to_main(
 \item{id_col_main}{The column name for the unique identifier in the main data frame.}
 
 \item{id_col_loop}{The column name for the unique identifier in the loop data frame.}
+
+\item{ind_healthcare_needed_lifesaving_yes_unmet}{The binary variable that indicates if a life-saving healthcare is needed and unmet.}
 }
 \value{
 A data frame with additional columns:
@@ -74,6 +91,7 @@ A data frame with additional columns:
 \item health_ind_healthcare_needed_no: Dummy variable for no healthcare need.
 \item health_ind_healthcare_needed_yes_unmet: Dummy variable for unmet healthcare need.
 \item health_ind_healthcare_needed_yes_met: Dummy variable for met healthcare need.
+\item health_ind_healthcare_needed_lifesaving_yes_unmet: Dummy variable for unmet lifesaving healthcare need (only when \code{ind_healthcare_type} column is present in \code{loop}).
 }
 
 A data frame with additional columns:
@@ -81,6 +99,7 @@ A data frame with additional columns:
 \item health_ind_healthcare_needed_no_n: Count of individuals not needing healthcare.
 \item health_ind_healthcare_needed_yes_unmet_n: Count of individuals with unmet healthcare needs.
 \item health_ind_healthcare_needed_yes_met_n: Count of individuals with met healthcare needs.
+\item health_ind_healthcare_needed_lifesaving_yes_unmet_n: Count of individuals with unmet lifesaving healthcare needs (only when the column is present in \code{loop}).
 }
 }
 \description{
