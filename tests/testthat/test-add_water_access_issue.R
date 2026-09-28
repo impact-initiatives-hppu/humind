@@ -11,11 +11,9 @@ make_df <- function(
   no_containers = 0L,
   dnk = 0L,
   pnta = 0L,
-  other = 0L,
-  source = "piped_water"
+  other = 0L
 ) {
   dplyr::tibble(
-    wash_drinking_water_source = source,
     wash_water_access_issue = "no_problem_access_water",
     `wash_water_access_issue/waterpoints_too_far` = too_far,
     `wash_water_access_issue/waterpoints_difficult_use` = difficult_use,
@@ -76,8 +74,26 @@ test_that("add_water_access_issue_physical is NA for each undefined option", {
   expect_true(all(is.na(result$wash_water_access_issue_physical_d)))
 })
 
-test_that("add_water_access_issue_physical is NA when water source is 'none'", {
-  result <- add_water_access_issue_physical(make_df(source = "none"))
+test_that("add_water_access_issue_physical is NA when a component binary is missing", {
+  df <- dplyr::bind_rows(
+    make_df(too_far = NA_integer_),
+    make_df(too_far = NA_integer_, safety = NA_integer_)
+  )
+  result <- add_water_access_issue_physical(df)
+  expect_true(all(is.na(result$wash_water_access_issue_physical_d)))
+})
+
+test_that("add_water_access_issue_physical is NA when all component binaries are missing", {
+  result <- add_water_access_issue_physical(
+    make_df(
+      too_far = NA_integer_,
+      difficult_use = NA_integer_,
+      disability = NA_integer_,
+      safety = NA_integer_,
+      safety_travel = NA_integer_,
+      waiting_time = NA_integer_
+    )
+  )
   expect_true(is.na(result$wash_water_access_issue_physical_d))
 })
 
@@ -134,8 +150,23 @@ test_that("add_water_access_issue_financial is NA for each undefined option", {
   expect_true(all(is.na(result$wash_water_access_issue_financial_d)))
 })
 
-test_that("add_water_access_issue_financial is NA when water source is 'none'", {
-  result <- add_water_access_issue_financial(make_df(source = "none"))
+test_that("add_water_access_issue_financial is NA when a component binary is missing", {
+  df <- dplyr::bind_rows(
+    make_df(too_expensive = NA_integer_),
+    make_df(too_expensive = NA_integer_, not_available = NA_integer_)
+  )
+  result <- add_water_access_issue_financial(df)
+  expect_true(all(is.na(result$wash_water_access_issue_financial_d)))
+})
+
+test_that("add_water_access_issue_financial is NA when all component binaries are missing", {
+  result <- add_water_access_issue_financial(
+    make_df(
+      not_available = NA_integer_,
+      too_expensive = NA_integer_,
+      no_containers = NA_integer_
+    )
+  )
   expect_true(is.na(result$wash_water_access_issue_financial_d))
 })
 
