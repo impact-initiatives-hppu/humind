@@ -55,7 +55,12 @@ add_loop_skilled_birth_attendance <- function(
     c(ind_gender, ind_age, health_pregnancy_2years_yn, health_birth_assistance),
     "loop"
   )
-  are_cols_numeric(loop, ind_age)
+  checkmate::assert_integerish(
+    loop[[ind_age]],
+    lower = 0,
+    any.missing = TRUE,
+    .var.name = ind_age
+  )
   are_values_in_set(
     loop,
     health_pregnancy_2years_yn,

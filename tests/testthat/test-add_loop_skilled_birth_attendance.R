@@ -161,6 +161,11 @@ test_that("errors when required columns are missing", {
   expect_error(add_loop_skilled_birth_attendance(df))
 })
 
+test_that("errors when age is not an integer", {
+  df <- make_loop(age = 25.5)
+  expect_error(add_loop_skilled_birth_attendance(df), "ind_age")
+})
+
 
 #########################################
 ### add_loop_skilled_birth_attendance_to_main
