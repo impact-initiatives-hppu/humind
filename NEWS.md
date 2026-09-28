@@ -1,5 +1,11 @@
 # humind (development version)
 
+### New Features
+
+* `add_water_access_issue_physical()` (IND098) and
+  `add_water_access_issue_financial()` (IND099) flag households reporting
+  physical or financial barriers to accessing water points (#668).
+
 # humind 2026.4.1
 
 This patch corrects the weighting of three ability-to-participate barriers in
