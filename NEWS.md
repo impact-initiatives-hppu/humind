@@ -1,5 +1,11 @@
 # humind (development version)
 
+### New Features
+
+* `add_drinking_water_unimproved_no_treatment()` flags households that rely on
+  an unimproved or surface water source and do not treat their drinking water
+  (#693).
+
 # humind 2026.4.1
 
 This patch corrects the weighting of three ability-to-participate barriers in
