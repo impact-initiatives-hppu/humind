@@ -1,5 +1,11 @@
 # humind (development version)
 
+### New Features
+
+* `add_sanitation_no_handwashing()` flags households without improved
+  sanitation (open defecation, unimproved, or limited service) and without any
+  handwashing facility (#695).
+
 # humind 2026.4.1
 
 This patch corrects the weighting of three ability-to-participate barriers in
