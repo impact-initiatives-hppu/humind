@@ -54,18 +54,22 @@ add_livestock_significant_decrease_d <- function(
     rlang::abort("threshold must be a single numeric value between 0 and 1.")
   }
 
-  # all provided livestock columns must exist, be numeric and positive, one pass
+  # all provided livestock columns must exist and be non-negative integer counts;
+  # this also rejects non-finite values (Inf/NaN)
   now_cols <- paste0(prefix, livestock, n_now_suffix)
   ly_cols <- paste0(prefix, livestock, n_ly_suffix)
   # -999 is the form's don't-know / prefer-not-to-answer code for counts.
   # Analysis assumes cleaned data: negative values, including -999, are rejected
   # here rather than treated as blank.
-  are_values_in_range(
-    df,
-    c(now_cols, ly_cols),
-    lower = 0,
-    upper = Inf
-  )
+  if_not_in_stop(df, c(now_cols, ly_cols), "df")
+  for (col in c(now_cols, ly_cols)) {
+    checkmate::assert_integerish(
+      df[[col]],
+      lower = 0,
+      any.missing = TRUE,
+      .var.name = col
+    )
+  }
 
   # prepare column names
   composite_col <- paste0(prefix, "livestock_significant_decrease_d")
@@ -96,13 +100,11 @@ add_livestock_significant_decrease_d <- function(
 
   results_list <- purrr::pmap(
     list(
-      type = livestock,
       now_col = now_cols,
-      ly_col = ly_cols,
-      dummy_col = dummy_cols
+      ly_col = ly_cols
     ),
-    function(type, now_col, ly_col, dummy_col) {
-      res <- dplyr::case_when(
+    function(now_col, ly_col) {
+      dplyr::case_when(
         # any is missing, then missing
         is.na(df[[now_col]]) | is.na(df[[ly_col]]) ~ NA_real_,
         # if last year is 0 and this year is 0, then 0
@@ -112,14 +114,12 @@ add_livestock_significant_decrease_d <- function(
         (df[[ly_col]] - df[[now_col]]) / df[[ly_col]] >= threshold ~ 1,
         .default = 0
       )
-
-      res
     }
   )
   # Name the list elements with the dummy column names
   names(results_list) <- dummy_cols
 
-  # Convert the list of vectors to a tibble (columns become the dummy variables)
+  # Convert the list of vectors to a data frame (columns become the dummy variables)
   df_new <- as.data.frame(results_list)
 
   #------ Bind and Compute Composite

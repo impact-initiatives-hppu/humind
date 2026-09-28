@@ -198,11 +198,10 @@ test_that("add_livestock_significant_decrease_d composite: mix of 1, 0, and NA r
 })
 
 test_that("add_livestock_significant_decrease_d errors on negative values", {
-  # are_values_in_range should catch this
   df <- dplyr::tibble(fsl_sheep_n_now = -1, fsl_sheep_n_ly = 10)
   expect_error(
     add_livestock_significant_decrease_d(df, livestock = "sheep"),
-    "outside the range"
+    "fsl_sheep_n_now"
   )
 })
 
@@ -212,7 +211,22 @@ test_that("add_livestock_significant_decrease_d errors on the -999 code", {
   df <- dplyr::tibble(fsl_sheep_n_now = -999, fsl_sheep_n_ly = 10)
   expect_error(
     add_livestock_significant_decrease_d(df, livestock = "sheep"),
-    "outside the range"
+    "fsl_sheep_n_now"
+  )
+})
+
+test_that("add_livestock_significant_decrease_d errors on non-integer or non-finite counts", {
+  # counts are integer in the form; Inf/fractional values are rejected
+  inf_df <- dplyr::tibble(fsl_sheep_n_now = Inf, fsl_sheep_n_ly = 10)
+  expect_error(
+    add_livestock_significant_decrease_d(inf_df, livestock = "sheep"),
+    "fsl_sheep_n_now"
+  )
+
+  fractional_df <- dplyr::tibble(fsl_sheep_n_now = 2.5, fsl_sheep_n_ly = 10)
+  expect_error(
+    add_livestock_significant_decrease_d(fractional_df, livestock = "sheep"),
+    "fsl_sheep_n_now"
   )
 })
 
