@@ -1,0 +1,14 @@
+citHeader("To cite humind in publications use:")
+
+year <- sub("\\..*", "", as.character(utils::packageVersion("humind")))
+
+bibentry(
+  bibtype = "Manual",
+  title   = "humind: Compose MSNA Indicators",
+  author  = person("IMPACT Initiatives"),
+  year    = year,
+  note    = sprintf("R package version %s", utils::packageVersion("humind")),
+  url     = "https://impact-initiatives-hppu.github.io/humind"
+)
+
+citFooter("humind is developed and maintained by IMPACT Initiatives.")
