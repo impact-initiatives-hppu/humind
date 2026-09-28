@@ -1,5 +1,11 @@
 # humind (development version)
 
+### New Features
+
+* `add_sanitation_access_issue_physical()` and
+  `add_sanitation_access_issue_social()` flag households reporting physical or
+  social barriers to accessing sanitation facilities (#669).
+
 # humind 2026.4.1
 
 This patch corrects the weighting of three ability-to-participate barriers in
