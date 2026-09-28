@@ -1,5 +1,14 @@
 # humind (development version)
 
+### New Features
+
+* `add_loop_healthcare_needed_cat()` gains
+  `health_ind_healthcare_needed_lifesaving_yes_unmet` (and the matching
+  household count via `add_loop_healthcare_needed_cat_to_main()`): `1` when an
+  individual had an unmet healthcare need for a life-saving service, `0`
+  otherwise, `NA` when the care type is unknown. Computed only when the
+  healthcare-type column is present in `loop` (#681).
+
 # humind 2026.4.1
 
 This patch corrects the weighting of three ability-to-participate barriers in
