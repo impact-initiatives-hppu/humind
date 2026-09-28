@@ -124,7 +124,7 @@ test_that("skilled_birth_attendance_d is 0L for non-skilled personnel", {
   df <- dplyr::bind_rows(
     make_loop(birth_assistance = "traditional_birth_attendant"),
     make_loop(birth_assistance = "relative_friend"),
-    make_loop(birth_assistance = "none")
+    make_loop(birth_assistance = "no_one")
   )
   result <- add_loop_skilled_birth_attendance(df)
   expect_equal(result$health_ind_skilled_birth_attendance_d, c(0L, 0L, 0L))
@@ -140,15 +140,15 @@ test_that("skilled_birth_attendance_d is NA when birth_assistance is undefined",
   expect_true(all(is.na(result$health_ind_skilled_birth_attendance_d)))
 })
 
-test_that("skilled_birth_attendance_d is 0 when gender is not female", {
+test_that("skilled_birth_attendance_d is NA when gender is not female (not applicable)", {
   result <- add_loop_skilled_birth_attendance(make_loop(gender = "male"))
-  expect_equal(result$health_ind_skilled_birth_attendance_d, 0L)
+  expect_true(is.na(result$health_ind_skilled_birth_attendance_d))
   expect_equal(result$health_ind_live_birth_2years_d, 0L)
 })
 
-test_that("skilled_birth_attendance_d is 0 when no live birth (live_birth_d = 0L)", {
+test_that("skilled_birth_attendance_d is NA when no live birth (not applicable)", {
   result <- add_loop_skilled_birth_attendance(make_loop(pregnancy_yn = "no"))
-  expect_true(result$health_ind_skilled_birth_attendance_d == 0L)
+  expect_true(is.na(result$health_ind_skilled_birth_attendance_d))
 })
 
 test_that("skilled_birth_attendance_d is NA when live_birth_d is NA", {
@@ -219,4 +219,44 @@ test_that("aggregates to 0 when there are no live births", {
   result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
   expect_equal(result$health_ind_live_birth_2years_n, 0L)
   expect_equal(result$health_ind_skilled_birth_attendance_n, 0L)
+})
+
+test_that("assigns counts to the correct household across multiple households", {
+  loop <- dplyr::bind_rows(
+    make_loop(uuid = "hh1", pregnancy_yn = "yes", birth_assistance = "doctor"),
+    make_loop(uuid = "hh1", pregnancy_yn = "yes", birth_assistance = "nurse"),
+    make_loop(
+      uuid = "hh2",
+      pregnancy_yn = "yes",
+      birth_assistance = "relative_friend"
+    ),
+    make_loop(uuid = "hh2", pregnancy_yn = "no", birth_assistance = "doctor"),
+    make_loop(uuid = "hh3", pregnancy_yn = "no", birth_assistance = "doctor")
+  ) |>
+    add_loop_skilled_birth_attendance()
+  main <- dplyr::tibble(uuid = c("hh1", "hh2", "hh3", "hh4"))
+  result <- add_loop_skilled_birth_attendance_to_main(main, loop)
+  result <- result[order(result$uuid), ]
+  expect_equal(result$health_ind_live_birth_2years_n, c(2L, 1L, 0L, 0L))
+  expect_equal(result$health_ind_skilled_birth_attendance_n, c(2L, 0L, 0L, 0L))
+})
+
+test_that("households absent from loop get a count of 0", {
+  loop <- add_loop_skilled_birth_attendance(make_loop(uuid = "hh1"))
+  main <- dplyr::tibble(uuid = c("hh1", "hh2"))
+  result <- add_loop_skilled_birth_attendance_to_main(main, loop)
+  result <- result[order(result$uuid), ]
+  expect_equal(result$health_ind_live_birth_2years_n, c(1L, 0L))
+  expect_equal(result$health_ind_skilled_birth_attendance_n, c(1L, 0L))
+})
+
+test_that("blanks the skilled count when an eligible member's assistance is unknown", {
+  loop <- dplyr::bind_rows(
+    make_loop(pregnancy_yn = "yes", birth_assistance = "doctor"),
+    make_loop(pregnancy_yn = "yes", birth_assistance = "dnk")
+  ) |>
+    add_loop_skilled_birth_attendance()
+  result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
+  expect_equal(result$health_ind_live_birth_2years_n, 2L)
+  expect_true(is.na(result$health_ind_skilled_birth_attendance_n))
 })

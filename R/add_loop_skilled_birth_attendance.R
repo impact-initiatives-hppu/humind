@@ -21,8 +21,9 @@
 #' @param health_birth_assistance_lessskilled Character vector of response codes for less-skilled birth assistance (traditional birth attendant, relative/friend, or none).
 #' @param health_birth_assistance_undefined Character vector of undefined response codes (dnk, pnta, other).
 #'
-#' @return A data frame with two additional columns:
+#' @return A data frame with three additional columns:
 #'
+#' * `health_ind_gender_female_above_age_d`: `1L` if the individual is female and aged between `ind_age_min` and `ind_age_max` (inclusive); `0L` if not; `NA_integer_` if gender or age is missing.
 #' * `health_ind_live_birth_2years_d`: `1L` if woman aged 15–49 with a live birth in the last two years; `0L` otherwise (including men and women outside age range); `NA_integer_` if age/gender missing or pregnancy response is undefined.
 #' * `health_ind_skilled_birth_attendance_d`: `1L` if live birth and attended by skilled personnel; `0L` if live birth and not attended by skilled personnel; `NA_integer_` if no live birth, birth assistance response is undefined, or live birth status is NA.
 #'
@@ -43,7 +44,7 @@ add_loop_skilled_birth_attendance <- function(
   health_birth_assistance_lessskilled = c(
     "traditional_birth_attendant",
     "relative_friend",
-    "none"
+    "no_one"
   ),
   health_birth_assistance_undefined = c("dnk", "pnta", "other")
 ) {
@@ -80,7 +81,7 @@ add_loop_skilled_birth_attendance <- function(
   loop <- dplyr::mutate(
     loop,
     # gender and age dummy
-    health_ind_gender_female_above_age_d = case_when(
+    health_ind_gender_female_above_age_d = dplyr::case_when(
       is.na(.data[[ind_gender]]) | is.na(.data[[ind_age]]) ~ NA_integer_,
       .data[[ind_gender]] != ind_gender_female ~ 0L,
       .data[[ind_age]] < ind_age_min | .data[[ind_age]] > ind_age_max ~ 0L,
@@ -99,7 +100,7 @@ add_loop_skilled_birth_attendance <- function(
     # skilled birth attendance dummy
     health_ind_skilled_birth_attendance_d = dplyr::case_when(
       is.na(.data[["health_ind_live_birth_2years_d"]]) ~ NA_integer_,
-      .data[["health_ind_live_birth_2years_d"]] == 0L ~ 0L,
+      .data[["health_ind_live_birth_2years_d"]] == 0L ~ NA_integer_,
       .data[[health_birth_assistance]] %in%
         health_birth_assistance_undefined ~ NA_integer_,
       .data[[health_birth_assistance]] %in%
@@ -110,7 +111,7 @@ add_loop_skilled_birth_attendance <- function(
     )
   )
 
-  return(loop)
+  loop
 }
 
 
@@ -129,8 +130,8 @@ add_loop_skilled_birth_attendance <- function(
 #'
 #' @return A data frame with two additional columns:
 #'
-#' * `health_ind_live_birth_2years_n`: Count of women aged 15–49 with a live birth in the last two years per household.
-#' * `health_ind_skilled_birth_attendance_n`: Count of women with a skilled birth attendance per household.
+#' * `health_ind_live_birth_2years_n`: Count of women aged 15–49 with a live birth in the last two years per household; `NA` when a member's live-birth status is unknown; `0` for households absent from `loop`.
+#' * `health_ind_skilled_birth_attendance_n`: Count of women with a skilled birth attendance per household; `NA` when an eligible (live-birth) member's birth assistance is unknown; `0` for households absent from `loop`.
 #'
 #' @export
 add_loop_skilled_birth_attendance_to_main <- function(
@@ -174,9 +175,20 @@ add_loop_skilled_birth_attendance_to_main <- function(
       .data[[ind_live_birth_2years]],
       na.rm = FALSE
     ),
-    health_ind_skilled_birth_attendance_n = sum(
-      .data[[ind_skilled_birth_attendance]],
-      na.rm = FALSE
+    # Members without a live birth are NA and ignored; an unknown answer from an
+    # eligible member (unknown live-birth status, or live birth with unknown
+    # assistance) blanks the household count.
+    health_ind_skilled_birth_attendance_n = dplyr::case_when(
+      any(is.na(.data[[ind_live_birth_2years]])) ~ NA_integer_,
+      any(
+        .data[[ind_live_birth_2years]] == 1L &
+          is.na(.data[[ind_skilled_birth_attendance]]),
+        na.rm = TRUE
+      ) ~ NA_integer_,
+      .default = sum(
+        .data[[ind_skilled_birth_attendance]],
+        na.rm = TRUE
+      )
     ),
     .by = dplyr::all_of(id_col_loop)
   )
@@ -194,5 +206,14 @@ add_loop_skilled_birth_attendance_to_main <- function(
     by = dplyr::join_by(!!rlang::sym(id_col_main) == !!rlang::sym(id_col_loop))
   )
 
-  return(main)
+  # A household absent from the loop has no eligible member: a count of 0.
+  absent <- !main[[id_col_main]] %in% loop_vars[[id_col_loop]]
+  for (col in c(
+    "health_ind_live_birth_2years_n",
+    "health_ind_skilled_birth_attendance_n"
+  )) {
+    main[[col]][absent] <- 0L
+  }
+
+  main
 }

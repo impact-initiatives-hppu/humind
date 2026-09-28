@@ -19,7 +19,7 @@ add_loop_skilled_birth_attendance(
   health_birth_assistance = "health_birth_assistance",
   health_birth_assistance_skilled = c("doctor", "nurse", "midwife"),
   health_birth_assistance_lessskilled = c("traditional_birth_attendant",
-    "relative_friend", "none"),
+    "relative_friend", "no_one"),
   health_birth_assistance_undefined = c("dnk", "pnta", "other")
 )
 
@@ -72,16 +72,17 @@ add_loop_skilled_birth_attendance_to_main(
 \item{id_col_loop}{Column name for the unique identifier in the loop data frame.}
 }
 \value{
-A data frame with two additional columns:
+A data frame with three additional columns:
 \itemize{
+\item \code{health_ind_gender_female_above_age_d}: \code{1L} if the individual is female and aged between \code{ind_age_min} and \code{ind_age_max} (inclusive); \code{0L} if not; \code{NA_integer_} if gender or age is missing.
 \item \code{health_ind_live_birth_2years_d}: \code{1L} if woman aged 15–49 with a live birth in the last two years; \code{0L} otherwise (including men and women outside age range); \code{NA_integer_} if age/gender missing or pregnancy response is undefined.
 \item \code{health_ind_skilled_birth_attendance_d}: \code{1L} if live birth and attended by skilled personnel; \code{0L} if live birth and not attended by skilled personnel; \code{NA_integer_} if no live birth, birth assistance response is undefined, or live birth status is NA.
 }
 
 A data frame with two additional columns:
 \itemize{
-\item \code{health_ind_live_birth_2years_n}: Count of women aged 15–49 with a live birth in the last two years per household.
-\item \code{health_ind_skilled_birth_attendance_n}: Count of women with a skilled birth attendance per household.
+\item \code{health_ind_live_birth_2years_n}: Count of women aged 15–49 with a live birth in the last two years per household; \code{NA} when a member's live-birth status is unknown; \code{0} for households absent from \code{loop}.
+\item \code{health_ind_skilled_birth_attendance_n}: Count of women with a skilled birth attendance per household; \code{NA} when an eligible (live-birth) member's birth assistance is unknown; \code{0} for households absent from \code{loop}.
 }
 }
 \description{
