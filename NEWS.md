@@ -1,5 +1,12 @@
 # humind (development version)
 
+### New Features
+
+* `add_loop_skilled_birth_attendance()` and
+  `add_loop_skilled_birth_attendance_to_main()` compute and aggregate a
+  skilled-birth-attendance indicator for women aged 15–49 with a live birth in
+  the last two years (#697).
+
 # humind 2026.4.1
 
 This patch corrects the weighting of three ability-to-participate barriers in
