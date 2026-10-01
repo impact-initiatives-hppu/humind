@@ -84,6 +84,9 @@
 - [`add_loop_healthcare_needed_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.md)
   [`add_loop_healthcare_needed_cat_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.md)
   : Add Healthcare Needed Category to Individual Data
+- [`add_loop_under5_sick_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md)
+  [`add_loop_under5_sick_d_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md)
+  : Add Under-5 Sick Dummy Variables to Individual Data
 - [`add_loop_wgq_ss()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_wgq_ss.md)
   [`add_loop_wgq_ss_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_wgq_ss.md)
   : Prepare Washington Group Short Set (WG-SS) Disability Indicators

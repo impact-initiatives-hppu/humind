@@ -38,6 +38,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="humind-development-version">humind (development version)<a class="anchor" aria-label="anchor" href="#humind-development-version"></a></h2>
+<div class="section level4">
+<h4 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h4>
+<ul><li>
+<code><a href="../reference/add_loop_under5_sick_d.html">add_loop_under5_sick_d()</a></code> and <code><a href="../reference/add_loop_under5_sick_d.html">add_loop_under5_sick_d_to_main()</a></code>: new functions for the under-5 illness indicators (IND015, IND016, IND017). The loop function flags children under 5 who were sick in the last two weeks and whether the illness included a respiratory symptom (cough) or watery diarrhoea; the <code>_to_main()</code> function counts those children per household. Non-substantive answers (<code>dnk</code>/<code>pnta</code>) are treated as blank, and a household is blank when it has no under-5 child or an under-5 child’s answer is unknown, so only households with a known count enter the indicator (<a href="https://github.com/impact-initiatives-hppu/humind/issues/672" class="external-link">#672</a>).</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2026.4.1" id="humind-202641">humind 2026.4.1<a class="anchor" aria-label="anchor" href="#humind-202641"></a></h2>

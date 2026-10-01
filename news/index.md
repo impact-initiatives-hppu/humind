@@ -2,6 +2,21 @@
 
 ## humind (development version)
 
+#### New Features
+
+- [`add_loop_under5_sick_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md)
+  and
+  [`add_loop_under5_sick_d_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md):
+  new functions for the under-5 illness indicators (IND015, IND016,
+  IND017). The loop function flags children under 5 who were sick in the
+  last two weeks and whether the illness included a respiratory symptom
+  (cough) or watery diarrhoea; the `_to_main()` function counts those
+  children per household. Non-substantive answers (`dnk`/`pnta`) are
+  treated as blank, and a household is blank when it has no under-5
+  child or an under-5 child’s answer is unknown, so only households with
+  a known count enter the indicator
+  ([\#672](https://github.com/impact-initiatives-hppu/humind/issues/672)).
+
 ## humind 2026.4.1
 
 This patch corrects the weighting of three ability-to-participate
