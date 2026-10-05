@@ -8,6 +8,12 @@
   individual had an unmet healthcare need for a life-saving service, `0`
   otherwise, `NA` when the care type is unknown. Computed only when the
   healthcare-type column is present in `loop` (#681).
+* `add_loop_healthcare_needed_cat_to_main()` now also returns
+  `health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one`, a household
+  binary for unmet life-saving healthcare needs: `1` when any member has one,
+  `NA` when no member is confirmed positive but at least one member's care type
+  is unknown, and `0` when every member is a known negative. Computed only when
+  the healthcare-type column is present in `loop` (#681).
 
 # humind 2026.4.1
 

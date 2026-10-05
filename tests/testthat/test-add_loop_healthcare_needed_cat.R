@@ -304,9 +304,68 @@ test_that("add_loop_healthcare_needed_cat_to_main aggregates lifesaving column w
   expect_true(
     "health_ind_healthcare_needed_lifesaving_yes_unmet_n" %in% colnames(result)
   )
+  expect_true(
+    "health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one" %in%
+      colnames(result)
+  )
   expect_equal(
     result$health_ind_healthcare_needed_lifesaving_yes_unmet_n,
     c(1, 0, 0)
+  )
+  expect_equal(
+    result$health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one,
+    c(1, 0, 0)
+  )
+})
+
+test_that("household lifesaving binary is NA when a member's type is unknown and none is positive", {
+  loop_base <- make_type_df(
+    needed = c("yes", "no"),
+    received = c("no", "no"),
+    types = list(dnk = c(1L, 0L))
+  )
+  loop_base$uuid <- c(1L, 1L)
+  main <- dplyr::tibble(uuid = 1L)
+  loop_result <- add_loop_healthcare_needed_cat(loop_base)
+  result <- add_loop_healthcare_needed_cat_to_main(main, loop_result)
+  expect_equal(
+    result$health_ind_healthcare_needed_lifesaving_yes_unmet_n,
+    0
+  )
+  expect_true(is.na(
+    result$health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one
+  ))
+})
+
+test_that("household lifesaving binary is 1 when any member is positive even if another is unknown", {
+  loop_base <- make_type_df(
+    needed = c("yes", "yes"),
+    received = c("no", "no"),
+    types = list(consultation_acute = c(1L, 0L), dnk = c(0L, 1L))
+  )
+  loop_base$uuid <- c(1L, 1L)
+  main <- dplyr::tibble(uuid = 1L)
+  loop_result <- add_loop_healthcare_needed_cat(loop_base)
+  result <- add_loop_healthcare_needed_cat_to_main(main, loop_result)
+  expect_equal(
+    result$health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one,
+    1
+  )
+})
+
+test_that("household lifesaving binary is 0 when every member is a known negative", {
+  loop_base <- make_type_df(
+    needed = c("yes", "no"),
+    received = c("yes", "no"),
+    types = list(consultation_acute = c(1L, 0L))
+  )
+  loop_base$uuid <- c(1L, 1L)
+  main <- dplyr::tibble(uuid = 1L)
+  loop_result <- add_loop_healthcare_needed_cat(loop_base)
+  result <- add_loop_healthcare_needed_cat_to_main(main, loop_result)
+  expect_equal(
+    result$health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one,
+    0
   )
 })
 
@@ -323,5 +382,9 @@ test_that("add_loop_healthcare_needed_cat_to_main skips lifesaving quietly when 
   )
   expect_false(
     "health_ind_healthcare_needed_lifesaving_yes_unmet_n" %in% colnames(result)
+  )
+  expect_false(
+    "health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one" %in%
+      colnames(result)
   )
 })

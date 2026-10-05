@@ -100,6 +100,7 @@ A data frame with additional columns:
 \item health_ind_healthcare_needed_yes_unmet_n: Count of individuals with unmet healthcare needs.
 \item health_ind_healthcare_needed_yes_met_n: Count of individuals with met healthcare needs.
 \item health_ind_healthcare_needed_lifesaving_yes_unmet_n: Count of individuals with unmet lifesaving healthcare needs (only when the column is present in \code{loop}).
+\item health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one: Household binary for unmet lifesaving healthcare needs: \code{1} if any member has one, \code{NA} if no member is confirmed positive but at least one member's care type is unknown, and \code{0} if every member is a known negative (only when the column is present in \code{loop}).
 }
 }
 \description{

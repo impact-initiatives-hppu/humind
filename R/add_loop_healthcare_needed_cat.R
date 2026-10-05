@@ -280,6 +280,7 @@ add_loop_healthcare_needed_cat <- function(
 #' * health_ind_healthcare_needed_yes_unmet_n: Count of individuals with unmet healthcare needs.
 #' * health_ind_healthcare_needed_yes_met_n: Count of individuals with met healthcare needs.
 #' * health_ind_healthcare_needed_lifesaving_yes_unmet_n: Count of individuals with unmet lifesaving healthcare needs (only when the column is present in `loop`).
+#' * health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one: Household binary for unmet lifesaving healthcare needs: `1` if any member has one, `NA` if no member is confirmed positive but at least one member's care type is unknown, and `0` if every member is a known negative (only when the column is present in `loop`).
 #'
 #' @export
 add_loop_healthcare_needed_cat_to_main <- function(
@@ -334,24 +335,27 @@ add_loop_healthcare_needed_cat_to_main <- function(
 
   # If the lifesaving column exists in loop, aggregate it; otherwise skip quietly
   # unless the caller explicitly named a column that is missing.
-  if (!ind_healthcare_needed_lifesaving_yes_unmet %in% colnames(loop)) {
+  lifesaving_present <- ind_healthcare_needed_lifesaving_yes_unmet %in%
+    colnames(loop)
+  if (!lifesaving_present) {
     if (!missing(ind_healthcare_needed_lifesaving_yes_unmet)) {
       rlang::warn(glue::glue(
         "Variable {ind_healthcare_needed_lifesaving_yes_unmet} does not exist in loop. Calculation of lifesaving (unmet) health needs is skipped."
       ))
     }
   } else {
-    if (
-      paste0(ind_healthcare_needed_lifesaving_yes_unmet, "_n") %in%
-        colnames(main)
-    ) {
-      rlang::warn(paste0(
-        paste0(ind_healthcare_needed_lifesaving_yes_unmet, "_n"),
-        " already exists in 'main'. It will be replaced."
-      ))
+    for (lifesaving_col in paste0(
+      ind_healthcare_needed_lifesaving_yes_unmet,
+      c("_n", "_at_least_one")
+    )) {
+      if (lifesaving_col %in% colnames(main)) {
+        rlang::warn(paste0(
+          lifesaving_col,
+          " already exists in 'main'. It will be replaced."
+        ))
+      }
     }
     are_values_in_set(loop, ind_healthcare_needed_lifesaving_yes_unmet, c(0, 1))
-    vars <- c(vars, ind_healthcare_needed_lifesaving_yes_unmet)
   }
 
   #------ Compute
@@ -359,7 +363,7 @@ add_loop_healthcare_needed_cat_to_main <- function(
   # Group loop by id_col_loop
   loop <- dplyr::group_by(loop, !!rlang::sym(id_col_loop))
 
-  # Sum the dummy variable
+  # Sum the count dummy variables
   loop_vars <- dplyr::summarize(
     loop,
     dplyr::across(
@@ -368,6 +372,27 @@ add_loop_healthcare_needed_cat_to_main <- function(
       .names = "{.col}_n"
     )
   )
+
+  # Aggregate the lifesaving dummy separately: the count keeps summing the known
+  # values, while the household binary distinguishes "no confirmed positive"
+  # (NA) from "confirmed absence" (0).
+  if (lifesaving_present) {
+    ls <- ind_healthcare_needed_lifesaving_yes_unmet
+    loop_lifesaving <- dplyr::summarize(
+      loop,
+      "{ls}_n" := sum(.data[[ls]], na.rm = TRUE),
+      "{ls}_at_least_one" := dplyr::case_when(
+        any(.data[[ls]] == 1, na.rm = TRUE) ~ 1,
+        any(is.na(.data[[ls]])) ~ NA_real_,
+        .default = 0
+      )
+    )
+    loop_vars <- dplyr::left_join(
+      loop_vars,
+      loop_lifesaving,
+      by = dplyr::join_by(!!rlang::sym(id_col_loop))
+    )
+  }
 
   # Bind rows
   loop <- loop_vars
