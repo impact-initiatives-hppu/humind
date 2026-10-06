@@ -11,6 +11,15 @@
   is blank when it has no under-5 child or an under-5 child's answer is
   unknown, so only households with a known count enter the indicator (#672).
 
+* `add_food_source_atypical_d()` and `add_food_source_assistance_d()`: new
+  functions for the food-source indicators (IND053 and IND052). They parse the
+  first-ranked (main) source from `fsl_source_food_ranked` into
+  `fsl_food_source_main` and flag whether a household mainly relies on
+  atypical/emergency sources (hunting, gathering, exchange, borrowed, gift,
+  begging) or humanitarian assistance (in-kind food aid, cash and voucher
+  assistance). Non-substantive answers (`other`/`dnk`/`pnta`) and missing
+  values are blank (#812).
+
 # humind 2026.4.1
 
 This patch corrects the weighting of three ability-to-participate barriers in
