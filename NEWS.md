@@ -2,6 +2,11 @@
 
 ### New Features
 
+* `add_livestock_significant_decrease_d()`: new function for the livestock
+  production indicator (IND043). It flags each livestock type (including
+  donkeys) whose herd decreased by 50% or more between last year and now, and
+  a household-level composite that is 1 if any type decreased significantly.
+  Households where the livestock section was skipped are left blank (#671).
 * `add_drinking_water_unimproved_no_treatment()` flags households that rely on
   an unimproved or surface water source and do not treat their drinking water
   (#693).
