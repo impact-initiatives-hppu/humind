@@ -4,6 +4,10 @@
 
 #### New Features
 
+- [`add_drinking_water_unimproved_no_treatment()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
+  flags households that rely on an unimproved or surface water source
+  and do not treat their drinking water
+  ([\#693](https://github.com/impact-initiatives-hppu/humind/issues/693)).
 - [`add_loop_under5_sick_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md)
   and
   [`add_loop_under5_sick_d_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md):
