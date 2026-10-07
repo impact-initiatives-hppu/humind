@@ -4,6 +4,13 @@
 
 #### New Features
 
+- [`add_livestock_significant_decrease_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_livestock_significant_decrease_d.md):
+  new function for the livestock production indicator (IND043). It flags
+  each livestock type (including donkeys) whose herd decreased by 50% or
+  more between last year and now, and a household-level composite that
+  is 1 if any type decreased significantly. Households where the
+  livestock section was skipped are left blank
+  ([\#671](https://github.com/impact-initiatives-hppu/humind/issues/671)).
 - [`add_drinking_water_unimproved_no_treatment()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
   flags households that rely on an unimproved or surface water source
   and do not treat their drinking water

@@ -65,6 +65,8 @@
   : Add Zero to Income Sources When Skipped
 - [`add_lcsi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_lcsi.md)
   : Add LCSI
+- [`add_livestock_significant_decrease_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_livestock_significant_decrease_d.md)
+  : Add Livestock Significant Decrease Dummy Variables
 - [`add_loop_age_dummy()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_age_dummy.md)
   [`add_loop_age_dummy_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_age_dummy.md)
   [`add_loop_age_gender_dummy()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_age_dummy.md)
