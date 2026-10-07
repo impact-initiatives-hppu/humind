@@ -5,6 +5,14 @@
 * `add_drinking_water_unimproved_no_treatment()` flags households that rely on
   an unimproved or surface water source and do not treat their drinking water
   (#693).
+* `add_loop_under5_sick_d()` and `add_loop_under5_sick_d_to_main()`: new
+  functions for the under-5 illness indicators (IND015, IND016, IND017). The
+  loop function flags children under 5 who were sick in the last two weeks and
+  whether the illness included a respiratory symptom (cough) or watery
+  diarrhoea; the `_to_main()` function counts those children per household.
+  Non-substantive answers (`dnk`/`pnta`) are treated as blank, and a household
+  is blank when it has no under-5 child or an under-5 child's answer is
+  unknown, so only households with a known count enter the indicator (#672).
 
 # humind 2026.4.1
 
