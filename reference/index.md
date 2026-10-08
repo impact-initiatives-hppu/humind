@@ -49,6 +49,10 @@
   : add_fcs
 - [`add_fds_cannot_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fds_cannot_cat.md)
   : Add Functional Domestic Space Tasks Categories
+- [`add_food_source_assistance_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_food_source_assistance_d.md)
+  : Add Humanitarian Assistance First-Ranked Food Source Dummy Variable
+- [`add_food_source_atypical_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_food_source_atypical_d.md)
+  : Add Atypical First-Ranked Food Source Dummy Variable
 - [`add_handwashing_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_handwashing_facility_cat.md)
   : Add Handwashing Facility Category
 - [`add_hhs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hhs.md)

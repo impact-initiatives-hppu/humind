@@ -11,10 +11,12 @@
   is 1 if any type decreased significantly. Households where the
   livestock section was skipped are left blank
   ([\#671](https://github.com/impact-initiatives-hppu/humind/issues/671)).
+
 - [`add_drinking_water_unimproved_no_treatment()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
   flags households that rely on an unimproved or surface water source
   and do not treat their drinking water
   ([\#693](https://github.com/impact-initiatives-hppu/humind/issues/693)).
+
 - [`add_loop_under5_sick_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md)
   and
   [`add_loop_under5_sick_d_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md):
@@ -27,6 +29,18 @@
   child or an under-5 child’s answer is unknown, so only households with
   a known count enter the indicator
   ([\#672](https://github.com/impact-initiatives-hppu/humind/issues/672)).
+
+- [`add_food_source_atypical_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_food_source_atypical_d.md)
+  and
+  [`add_food_source_assistance_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_food_source_assistance_d.md):
+  new functions for the food-source indicators (IND053 and IND052). They
+  parse the first-ranked (main) source from `fsl_source_food_ranked`
+  into `fsl_food_source_main` and flag whether a household mainly relies
+  on atypical/emergency sources (hunting, gathering, exchange, borrowed,
+  gift, begging) or humanitarian assistance (in-kind food aid, cash and
+  voucher assistance). Non-substantive answers (`other`/`dnk`/`pnta`)
+  and missing values are blank
+  ([\#812](https://github.com/impact-initiatives-hppu/humind/issues/812)).
 
 ## humind 2026.4.1
 
