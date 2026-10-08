@@ -10,7 +10,10 @@ add_water_access_issue_physical(
   water_access_issue = "wash_water_access_issue",
   physical = c("waterpoints_too_far", "waterpoints_difficult_use",
     "disability_no_access_waterpoints", "safety_concerns_waterpoints",
-    "safety_concerns_travel_waterpoints", "excessive_waiting_time_waterpoints"),
+    "safety_concerns_travel_waterpoints", "excessive_waiting_time_waterpoints",
+    "water_source_not_segregated_gender", "groups_no_access_waterpoints",
+    "water_source_not_functional", "intermittent_infrequent_service",
+    "waterpoints_not_functioning_closed", "not_enough_containers"),
   undefined = c("dnk", "pnta", "other"),
   sep = "/"
 )
@@ -18,8 +21,7 @@ add_water_access_issue_physical(
 add_water_access_issue_financial(
   df,
   water_access_issue = "wash_water_access_issue",
-  financial = c("water_not_available_market", "water_too_expensive",
-    "not_enough_containers"),
+  financial = c("water_not_available_market", "water_too_expensive"),
   undefined = c("dnk", "pnta", "other"),
   sep = "/"
 )
@@ -29,29 +31,29 @@ add_water_access_issue_financial(
 
 \item{water_access_issue}{Base name of the select_multiple variable.}
 
-\item{physical}{Character vector of responses that indicate physical access barriers.}
+\item{physical}{Character vector of responses that indicate physical or infrastructure-related access barriers.}
 
 \item{undefined}{Character vector of undefined responses (dnk, pnta, other).}
 
 \item{sep}{Separator between the base name and response code in binary column names.}
 
-\item{financial}{Character vector of responses that indicate financial access barriers.}
+\item{financial}{Character vector of responses that indicate financial or market-related access barriers.}
 }
 \value{
 A data frame with one additional column:
 \itemize{
-\item \code{wash_water_access_issue_physical_d}: \code{1L} if any physical barrier is reported; \code{0L} if none; \code{NA} if the response is undefined or any component is missing.
+\item \code{wash_water_access_issue_physical_infrastructure_d}: \code{1L} if any physical or infrastructure-related barrier is reported; \code{0L} if none; \code{NA} if the response is undefined or any component is missing.
 }
 
 A data frame with one additional column:
 \itemize{
-\item \code{wash_water_access_issue_financial_d}: \code{1L} if any financial barrier is reported; \code{0L} if none; \code{NA} if the response is undefined or any component is missing.
+\item \code{wash_water_access_issue_financial_market_d}: \code{1L} if any financial or market-related barrier is reported; \code{0L} if none; \code{NA} if the response is undefined or any component is missing.
 }
 }
 \description{
-Computes a binary variable (\code{wash_water_access_issue_physical_d}) that is \code{1L} if the household reported any physical barrier to accessing water points (too far, difficult to use, disability-related barriers, safety concerns, or excessive waiting time), \code{0L} if none were reported, and \code{NA} if the response was ambiguous (dnk/pnta/other) or any component is missing.
+Computes a binary variable (\code{wash_water_access_issue_physical_infrastructure_d}) that is \code{1L} if the household reported any physical or infrastructure-related barrier to accessing water points (too far, difficult to use, disability-related barriers, safety concerns, excessive waiting time, not segregated by gender, some groups lacking access, an out-of-service source, intermittent/infrequent service, closed water points, or not enough containers), \code{0L} if none were reported, and \code{NA} if the response was ambiguous (dnk/pnta/other) or any component is missing.
 
-Computes a binary variable (\code{wash_water_access_issue_financial_d}) that is \code{1L} if the household reported any financial barrier to accessing water (water not available at market, too expensive, or insufficient storage containers), \code{0L} if none were reported, and \code{NA} if the response was ambiguous (dnk/pnta/other) or any component is missing.
+Computes a binary variable (\code{wash_water_access_issue_financial_market_d}) that is \code{1L} if the household reported any financial or market-related barrier to accessing water (water not available at the market, or too expensive), \code{0L} if none were reported, and \code{NA} if the response was ambiguous (dnk/pnta/other) or any component is missing.
 }
 \examples{
 df <- data.frame(
@@ -64,6 +66,12 @@ df <- data.frame(
   `wash_water_access_issue/safety_concerns_waterpoints` = c(0L, 0L, 0L),
   `wash_water_access_issue/safety_concerns_travel_waterpoints` = c(0L, 0L, 0L),
   `wash_water_access_issue/excessive_waiting_time_waterpoints` = c(0L, 0L, 0L),
+  `wash_water_access_issue/water_source_not_segregated_gender` = c(0L, 0L, 0L),
+  `wash_water_access_issue/groups_no_access_waterpoints` = c(0L, 0L, 0L),
+  `wash_water_access_issue/water_source_not_functional` = c(0L, 0L, 0L),
+  `wash_water_access_issue/intermittent_infrequent_service` = c(0L, 0L, 0L),
+  `wash_water_access_issue/waterpoints_not_functioning_closed` = c(0L, 0L, 0L),
+  `wash_water_access_issue/not_enough_containers` = c(0L, 0L, 0L),
   `wash_water_access_issue/dnk` = c(0L, 0L, 1L),
   `wash_water_access_issue/pnta` = c(0L, 0L, 0L),
   `wash_water_access_issue/other` = c(0L, 0L, 0L),
@@ -76,7 +84,6 @@ df <- data.frame(
   ),
   `wash_water_access_issue/water_not_available_market` = c(0L, 0L, 0L),
   `wash_water_access_issue/water_too_expensive` = c(1L, 0L, 0L),
-  `wash_water_access_issue/not_enough_containers` = c(0L, 0L, 0L),
   `wash_water_access_issue/dnk` = c(0L, 0L, 1L),
   `wash_water_access_issue/pnta` = c(0L, 0L, 0L),
   `wash_water_access_issue/other` = c(0L, 0L, 0L),

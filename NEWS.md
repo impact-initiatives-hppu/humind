@@ -2,9 +2,10 @@
 
 ### New Features
 
-* `add_water_access_issue_physical()` (IND098) and
-  `add_water_access_issue_financial()` (IND099) flag households reporting
-  physical or financial barriers to accessing water points (#668).
+* `add_water_access_issue_physical()` (IND097) and
+  `add_water_access_issue_financial()` (IND098) flag households reporting
+  physical/infrastructure or financial/market barriers to accessing water
+  points (#668).
 
 # humind 2026.4.1
 

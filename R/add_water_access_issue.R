@@ -1,20 +1,20 @@
 # ANA
-# 2025 Indicator ID: IND098 and IND099
-# 2025 Metric ID: TBD
+# 2026 Indicator ID: IND097 (physical/infrastructure), IND098 (financial/market)
+# 2026 Metric ID: MET099 (physical/infrastructure), MET100 (financial/market)
 
 #' @title Add Physical Water Access Issue Indicator
 #'
-#' @description Computes a binary variable (`wash_water_access_issue_physical_d`) that is `1L` if the household reported any physical barrier to accessing water points (too far, difficult to use, disability-related barriers, safety concerns, or excessive waiting time), `0L` if none were reported, and `NA` if the response was ambiguous (dnk/pnta/other) or any component is missing.
+#' @description Computes a binary variable (`wash_water_access_issue_physical_infrastructure_d`) that is `1L` if the household reported any physical or infrastructure-related barrier to accessing water points (too far, difficult to use, disability-related barriers, safety concerns, excessive waiting time, not segregated by gender, some groups lacking access, an out-of-service source, intermittent/infrequent service, closed water points, or not enough containers), `0L` if none were reported, and `NA` if the response was ambiguous (dnk/pnta/other) or any component is missing.
 #'
 #' @param df A data frame.
 #' @param water_access_issue Base name of the select_multiple variable.
-#' @param physical Character vector of responses that indicate physical access barriers.
+#' @param physical Character vector of responses that indicate physical or infrastructure-related access barriers.
 #' @param undefined Character vector of undefined responses (dnk, pnta, other).
 #' @param sep Separator between the base name and response code in binary column names.
 #'
 #' @return A data frame with one additional column:
 #'
-#' * `wash_water_access_issue_physical_d`: `1L` if any physical barrier is reported; `0L` if none; `NA` if the response is undefined or any component is missing.
+#' * `wash_water_access_issue_physical_infrastructure_d`: `1L` if any physical or infrastructure-related barrier is reported; `0L` if none; `NA` if the response is undefined or any component is missing.
 #'
 #' @family water_access_issue
 #' @export
@@ -30,6 +30,12 @@
 #'   `wash_water_access_issue/safety_concerns_waterpoints` = c(0L, 0L, 0L),
 #'   `wash_water_access_issue/safety_concerns_travel_waterpoints` = c(0L, 0L, 0L),
 #'   `wash_water_access_issue/excessive_waiting_time_waterpoints` = c(0L, 0L, 0L),
+#'   `wash_water_access_issue/water_source_not_segregated_gender` = c(0L, 0L, 0L),
+#'   `wash_water_access_issue/groups_no_access_waterpoints` = c(0L, 0L, 0L),
+#'   `wash_water_access_issue/water_source_not_functional` = c(0L, 0L, 0L),
+#'   `wash_water_access_issue/intermittent_infrequent_service` = c(0L, 0L, 0L),
+#'   `wash_water_access_issue/waterpoints_not_functioning_closed` = c(0L, 0L, 0L),
+#'   `wash_water_access_issue/not_enough_containers` = c(0L, 0L, 0L),
 #'   `wash_water_access_issue/dnk` = c(0L, 0L, 1L),
 #'   `wash_water_access_issue/pnta` = c(0L, 0L, 0L),
 #'   `wash_water_access_issue/other` = c(0L, 0L, 0L),
@@ -45,7 +51,13 @@ add_water_access_issue_physical <- function(
     "disability_no_access_waterpoints",
     "safety_concerns_waterpoints",
     "safety_concerns_travel_waterpoints",
-    "excessive_waiting_time_waterpoints"
+    "excessive_waiting_time_waterpoints",
+    "water_source_not_segregated_gender",
+    "groups_no_access_waterpoints",
+    "water_source_not_functional",
+    "intermittent_infrequent_service",
+    "waterpoints_not_functioning_closed",
+    "not_enough_containers"
   ),
   undefined = c("dnk", "pnta", "other"),
   sep = "/"
@@ -62,7 +74,7 @@ add_water_access_issue_physical <- function(
 
   df <- dplyr::mutate(
     df,
-    wash_water_access_issue_physical_d = dplyr::case_when(
+    wash_water_access_issue_physical_infrastructure_d = dplyr::case_when(
       dplyr::if_any(dplyr::all_of(d_undefined), \(x) x == 1) ~ NA_integer_,
       dplyr::if_any(dplyr::all_of(d_physical), \(x) x == 1) ~ 1L,
       dplyr::if_all(dplyr::all_of(d_physical), \(x) x == 0) ~ 0L,
@@ -78,13 +90,13 @@ add_water_access_issue_physical <- function(
 #'
 #' @title Add Financial Water Access Issue Indicator
 #'
-#' @description Computes a binary variable (`wash_water_access_issue_financial_d`) that is `1L` if the household reported any financial barrier to accessing water (water not available at market, too expensive, or insufficient storage containers), `0L` if none were reported, and `NA` if the response was ambiguous (dnk/pnta/other) or any component is missing.
+#' @description Computes a binary variable (`wash_water_access_issue_financial_market_d`) that is `1L` if the household reported any financial or market-related barrier to accessing water (water not available at the market, or too expensive), `0L` if none were reported, and `NA` if the response was ambiguous (dnk/pnta/other) or any component is missing.
 #'
-#' @param financial Character vector of responses that indicate financial access barriers.
+#' @param financial Character vector of responses that indicate financial or market-related access barriers.
 #'
 #' @return A data frame with one additional column:
 #'
-#' * `wash_water_access_issue_financial_d`: `1L` if any financial barrier is reported; `0L` if none; `NA` if the response is undefined or any component is missing.
+#' * `wash_water_access_issue_financial_market_d`: `1L` if any financial or market-related barrier is reported; `0L` if none; `NA` if the response is undefined or any component is missing.
 #'
 #' @family water_access_issue
 #' @export
@@ -96,7 +108,6 @@ add_water_access_issue_physical <- function(
 #'   ),
 #'   `wash_water_access_issue/water_not_available_market` = c(0L, 0L, 0L),
 #'   `wash_water_access_issue/water_too_expensive` = c(1L, 0L, 0L),
-#'   `wash_water_access_issue/not_enough_containers` = c(0L, 0L, 0L),
 #'   `wash_water_access_issue/dnk` = c(0L, 0L, 1L),
 #'   `wash_water_access_issue/pnta` = c(0L, 0L, 0L),
 #'   `wash_water_access_issue/other` = c(0L, 0L, 0L),
@@ -108,8 +119,7 @@ add_water_access_issue_financial <- function(
   water_access_issue = "wash_water_access_issue",
   financial = c(
     "water_not_available_market",
-    "water_too_expensive",
-    "not_enough_containers"
+    "water_too_expensive"
   ),
   undefined = c("dnk", "pnta", "other"),
   sep = "/"
@@ -126,7 +136,7 @@ add_water_access_issue_financial <- function(
 
   df <- dplyr::mutate(
     df,
-    wash_water_access_issue_financial_d = dplyr::case_when(
+    wash_water_access_issue_financial_market_d = dplyr::case_when(
       dplyr::if_any(dplyr::all_of(d_undefined), \(x) x == 1) ~ NA_integer_,
       dplyr::if_any(dplyr::all_of(d_financial), \(x) x == 1) ~ 1L,
       dplyr::if_all(dplyr::all_of(d_financial), \(x) x == 0) ~ 0L,
