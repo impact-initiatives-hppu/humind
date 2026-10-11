@@ -23,7 +23,12 @@ add_loop_healthcare_needed_cat(
   ind_healthcare_received_yes = "yes",
   ind_healthcare_received_dnk = "dnk",
   ind_healthcare_received_pnta = "pnta",
-  ind_age = "ind_age"
+  ind_age = "ind_age",
+  ind_healthcare_type = "health_ind_healthcare_needed_type",
+  ind_healthcare_type_lifesaving = c("consultation_acute", "consultation_chronic",
+    "trauma", "emergency_surgery", "natal_services", "safe_delivery"),
+  ind_healthcare_type_undefined = c("dnk", "pnta", "other"),
+  sep = "/"
 )
 
 add_loop_healthcare_needed_cat_to_main(
@@ -33,7 +38,9 @@ add_loop_healthcare_needed_cat_to_main(
   ind_healthcare_needed_yes_unmet = "health_ind_healthcare_needed_yes_unmet",
   ind_healthcare_needed_yes_met = "health_ind_healthcare_needed_yes_met",
   id_col_main = "uuid",
-  id_col_loop = "uuid"
+  id_col_loop = "uuid",
+  ind_healthcare_needed_lifesaving_yes_unmet =
+    "health_ind_healthcare_needed_lifesaving_yes_unmet"
 )
 ```
 
@@ -87,6 +94,26 @@ add_loop_healthcare_needed_cat_to_main(
 
   The name of the variable that indicates the age of the individual.
 
+- ind_healthcare_type:
+
+  The name of the variable that indicates the type of healthcare which
+  was sought.
+
+- ind_healthcare_type_lifesaving:
+
+  Character vector of levels in ind_healthcare_type that indicate
+  life-saving healthcare.
+
+- ind_healthcare_type_undefined:
+
+  Character vector of levels in ind_healthcare_type that are
+  non-substantive (dnk, pnta, other); these yield `NA` for the
+  life-saving flag.
+
+- sep:
+
+  Separator for the binary columns.
+
 - main:
 
   A data frame of household-level data.
@@ -106,6 +133,11 @@ add_loop_healthcare_needed_cat_to_main(
 - id_col_loop:
 
   The column name for the unique identifier in the loop data frame.
+
+- ind_healthcare_needed_lifesaving_yes_unmet:
+
+  The binary variable that indicates if a life-saving healthcare is
+  needed and unmet.
 
 ## Value
 
@@ -128,6 +160,10 @@ A data frame with additional columns:
 - health_ind_healthcare_needed_yes_met: Dummy variable for met
   healthcare need.
 
+- health_ind_healthcare_needed_lifesaving_yes_unmet: Dummy variable for
+  unmet lifesaving healthcare need (only when `ind_healthcare_type`
+  column is present in `loop`).
+
 A data frame with additional columns:
 
 - health_ind_healthcare_needed_no_n: Count of individuals not needing
@@ -138,3 +174,13 @@ A data frame with additional columns:
 
 - health_ind_healthcare_needed_yes_met_n: Count of individuals with met
   healthcare needs.
+
+- health_ind_healthcare_needed_lifesaving_yes_unmet_n: Count of
+  individuals with unmet lifesaving healthcare needs (only when the
+  column is present in `loop`).
+
+- health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one:
+  Household binary for unmet lifesaving healthcare needs: `1` if any
+  member has one, `NA` if no member is confirmed positive but at least
+  one member's care type is unknown, and `0` if every member is a known
+  negative (only when the column is present in `loop`).
