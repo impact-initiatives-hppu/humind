@@ -2,6 +2,18 @@
 
 ### New Features
 
+* `add_loop_healthcare_needed_cat()` gains
+  `health_ind_healthcare_needed_lifesaving_yes_unmet` (and the matching
+  household count via `add_loop_healthcare_needed_cat_to_main()`): `1` when an
+  individual had an unmet healthcare need for a life-saving service, `0`
+  otherwise, `NA` when the care type is unknown. Computed only when the
+  healthcare-type column is present in `loop` (#681).
+* `add_loop_healthcare_needed_cat_to_main()` now also returns
+  `health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one`, a household
+  binary for unmet life-saving healthcare needs: `1` when any member has one,
+  `NA` when no member is confirmed positive but at least one member's care type
+  is unknown, and `0` when every member is a known negative. Computed only when
+  the healthcare-type column is present in `loop` (#681).
 * `add_livestock_significant_decrease_d()`: new function for the livestock
   production indicator (IND043). It flags each livestock type (including
   donkeys) whose herd decreased by 50% or more between last year and now, and
