@@ -2,6 +2,17 @@
 
 ### New Features
 
+* `add_loop_skilled_birth_attendance()` and
+  `add_loop_skilled_birth_attendance_to_main()` compute and aggregate a
+  skilled-birth-attendance indicator for women aged 15–49 with a live birth in
+  the last two years (#697).
+* `add_loop_skilled_birth_attendance_to_main()` now returns a third column,
+  `health_ind_skilled_birth_attendance_known_n`, the count of live births with a
+  defined assistance answer. A member whose assistance is unknown is excluded
+  from both this denominator and `health_ind_skilled_birth_attendance_n`, so she
+  is neither counted as non-skilled nor blanks the household figures; the ratio
+  `health_ind_skilled_birth_attendance_n / health_ind_skilled_birth_attendance_known_n`
+  is `NA` where the denominator is `0` (#697).
 * `add_loop_healthcare_needed_cat()` gains
   `health_ind_healthcare_needed_lifesaving_yes_unmet` (and the matching
   household count via `add_loop_healthcare_needed_cat_to_main()`): `1` when an
