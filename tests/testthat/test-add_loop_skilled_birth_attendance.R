@@ -175,6 +175,9 @@ test_that("adds _n columns to main", {
   loop <- add_loop_skilled_birth_attendance(make_loop())
   result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
   expect_true("health_ind_live_birth_2years_n" %in% colnames(result))
+  expect_true(
+    "health_ind_skilled_birth_attendance_known_n" %in% colnames(result)
+  )
   expect_true("health_ind_skilled_birth_attendance_n" %in% colnames(result))
 })
 
@@ -187,6 +190,7 @@ test_that("counts are correct for a single household", {
     add_loop_skilled_birth_attendance()
   result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
   expect_equal(result$health_ind_live_birth_2years_n, 2L)
+  expect_equal(result$health_ind_skilled_birth_attendance_known_n, 2L)
   expect_equal(result$health_ind_skilled_birth_attendance_n, 2L)
 })
 
@@ -212,6 +216,10 @@ test_that("aggregates to NA when there are undefined responses for pregnancy_yn"
     add_loop_skilled_birth_attendance()
   result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
   expect_equal(result$health_ind_live_birth_2years_n, NA_integer_)
+  expect_equal(
+    result$health_ind_skilled_birth_attendance_known_n,
+    NA_integer_
+  )
   expect_equal(result$health_ind_skilled_birth_attendance_n, NA_integer_)
 })
 
@@ -223,6 +231,7 @@ test_that("aggregates to 0 when there are no live births", {
     add_loop_skilled_birth_attendance()
   result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
   expect_equal(result$health_ind_live_birth_2years_n, 0L)
+  expect_equal(result$health_ind_skilled_birth_attendance_known_n, 0L)
   expect_equal(result$health_ind_skilled_birth_attendance_n, 0L)
 })
 
@@ -243,6 +252,10 @@ test_that("assigns counts to the correct household across multiple households", 
   result <- add_loop_skilled_birth_attendance_to_main(main, loop)
   result <- result[order(result$uuid), ]
   expect_equal(result$health_ind_live_birth_2years_n, c(2L, 1L, 0L, 0L))
+  expect_equal(
+    result$health_ind_skilled_birth_attendance_known_n,
+    c(2L, 1L, 0L, 0L)
+  )
   expect_equal(result$health_ind_skilled_birth_attendance_n, c(2L, 0L, 0L, 0L))
 })
 
@@ -252,10 +265,11 @@ test_that("households absent from loop get a count of 0", {
   result <- add_loop_skilled_birth_attendance_to_main(main, loop)
   result <- result[order(result$uuid), ]
   expect_equal(result$health_ind_live_birth_2years_n, c(1L, 0L))
+  expect_equal(result$health_ind_skilled_birth_attendance_known_n, c(1L, 0L))
   expect_equal(result$health_ind_skilled_birth_attendance_n, c(1L, 0L))
 })
 
-test_that("blanks the skilled count when an eligible member's assistance is unknown", {
+test_that("an unknown assistance answer does not blank the household counts", {
   loop <- dplyr::bind_rows(
     make_loop(pregnancy_yn = "yes", birth_assistance = "doctor"),
     make_loop(pregnancy_yn = "yes", birth_assistance = "dnk")
@@ -263,5 +277,34 @@ test_that("blanks the skilled count when an eligible member's assistance is unkn
     add_loop_skilled_birth_attendance()
   result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
   expect_equal(result$health_ind_live_birth_2years_n, 2L)
-  expect_true(is.na(result$health_ind_skilled_birth_attendance_n))
+  expect_equal(result$health_ind_skilled_birth_attendance_known_n, 1L)
+  expect_equal(result$health_ind_skilled_birth_attendance_n, 1L)
+})
+
+test_that("an unknown assistance answer next to a non-skilled birth counts 0", {
+  loop <- dplyr::bind_rows(
+    make_loop(pregnancy_yn = "yes", birth_assistance = "doctor"),
+    make_loop(
+      pregnancy_yn = "yes",
+      birth_assistance = "traditional_birth_attendant"
+    ),
+    make_loop(pregnancy_yn = "yes", birth_assistance = "dnk")
+  ) |>
+    add_loop_skilled_birth_attendance()
+  result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
+  expect_equal(result$health_ind_live_birth_2years_n, 3L)
+  expect_equal(result$health_ind_skilled_birth_attendance_known_n, 2L)
+  expect_equal(result$health_ind_skilled_birth_attendance_n, 1L)
+})
+
+test_that("a household whose only assistance answers are unknown is not blanked", {
+  loop <- dplyr::bind_rows(
+    make_loop(pregnancy_yn = "yes", birth_assistance = "dnk"),
+    make_loop(pregnancy_yn = "yes", birth_assistance = "pnta")
+  ) |>
+    add_loop_skilled_birth_attendance()
+  result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
+  expect_equal(result$health_ind_live_birth_2years_n, 2L)
+  expect_equal(result$health_ind_skilled_birth_attendance_known_n, 0L)
+  expect_equal(result$health_ind_skilled_birth_attendance_n, 0L)
 })

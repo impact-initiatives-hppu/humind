@@ -124,7 +124,7 @@ add_loop_skilled_birth_attendance <- function(
 #'
 #' @title Aggregate Skilled Birth Attendance to Household Level
 #'
-#' @description Aggregates individual-level skilled birth attendance indicators to the household level by summing the binary dummy variables per household.
+#' @description Aggregates individual-level skilled birth attendance indicators to the household level by summing the binary dummy variables per household. A member whose birth assistance is unknown is excluded from both the denominator (`health_ind_skilled_birth_attendance_known_n`) and the numerator (`health_ind_skilled_birth_attendance_n`), so an unknown assistance answer neither counts as non-skilled nor blanks the household figures.
 #'
 #' @param main A data frame of household-level data.
 #' @param loop A data frame of individual-level data (output of `add_loop_skilled_birth_attendance()`).
@@ -133,10 +133,11 @@ add_loop_skilled_birth_attendance <- function(
 #' @param id_col_main Column name for the unique identifier in the main data frame.
 #' @param id_col_loop Column name for the unique identifier in the loop data frame.
 #'
-#' @return A data frame with two additional columns:
+#' @return A data frame with three additional columns:
 #'
 #' * `health_ind_live_birth_2years_n`: Count of women aged 15–49 with a live birth in the last two years per household; `NA` when a member's live-birth status is unknown; `0` for households absent from `loop`.
-#' * `health_ind_skilled_birth_attendance_n`: Count of women with a skilled birth attendance per household; `NA` when an eligible (live-birth) member's birth assistance is unknown; `0` for households absent from `loop`.
+#' * `health_ind_skilled_birth_attendance_known_n`: Denominator for the skilled birth attendance indicator: count of live births with a defined birth assistance answer (skilled or less-skilled) per household. Members with an unknown assistance answer are excluded; `NA` when a member's live-birth status is unknown; `0` for households absent from `loop`.
+#' * `health_ind_skilled_birth_attendance_n`: Numerator for the skilled birth attendance indicator: count of live births attended by skilled personnel per household. Members with an unknown assistance answer do not blank the count; `NA` when a member's live-birth status is unknown; `0` for households absent from `loop`.
 #'
 #' @export
 add_loop_skilled_birth_attendance_to_main <- function(
@@ -157,19 +158,16 @@ add_loop_skilled_birth_attendance_to_main <- function(
 
   vars_n <- c(
     "health_ind_live_birth_2years_n",
+    "health_ind_skilled_birth_attendance_known_n",
     "health_ind_skilled_birth_attendance_n"
   )
-  if (vars_n[1] %in% colnames(main)) {
-    rlang::warn(paste0(
-      vars_n[1],
-      " already exists in 'main'. It will be replaced."
-    ))
-  }
-  if (vars_n[2] %in% colnames(main)) {
-    rlang::warn(paste0(
-      vars_n[2],
-      " already exists in 'main'. It will be replaced."
-    ))
+  for (var_n in vars_n) {
+    if (var_n %in% colnames(main)) {
+      rlang::warn(paste0(
+        var_n,
+        " already exists in 'main'. It will be replaced."
+      ))
+    }
   }
 
   #------ Compute
@@ -180,16 +178,23 @@ add_loop_skilled_birth_attendance_to_main <- function(
       .data[[ind_live_birth_2years]],
       na.rm = FALSE
     ),
-    # Members without a live birth are NA and ignored; an unknown answer from an
-    # eligible member (unknown live-birth status, or live birth with unknown
-    # assistance) blanks the household count.
+    # Denominator: live births with a defined assistance answer (skilled or
+    # less-skilled). A member with an unknown assistance status is excluded from
+    # the denominator, so she neither blanks the household nor counts as
+    # non-skilled.
+    health_ind_skilled_birth_attendance_known_n = dplyr::case_when(
+      any(is.na(.data[[ind_live_birth_2years]])) ~ NA_integer_,
+      .default = sum(
+        .data[[ind_live_birth_2years]] == 1L &
+          !is.na(.data[[ind_skilled_birth_attendance]]),
+        na.rm = TRUE
+      )
+    ),
+    # Numerator: live births attended by skilled personnel. An unknown assistance
+    # answer is ignored (not coded 0); an unknown live-birth status from an
+    # eligible member still blanks the household figures.
     health_ind_skilled_birth_attendance_n = dplyr::case_when(
       any(is.na(.data[[ind_live_birth_2years]])) ~ NA_integer_,
-      any(
-        .data[[ind_live_birth_2years]] == 1L &
-          is.na(.data[[ind_skilled_birth_attendance]]),
-        na.rm = TRUE
-      ) ~ NA_integer_,
       .default = sum(
         .data[[ind_skilled_birth_attendance]],
         na.rm = TRUE
@@ -213,10 +218,7 @@ add_loop_skilled_birth_attendance_to_main <- function(
 
   # A household absent from the loop has no eligible member: a count of 0.
   absent <- !main[[id_col_main]] %in% loop_vars[[id_col_loop]]
-  for (col in c(
-    "health_ind_live_birth_2years_n",
-    "health_ind_skilled_birth_attendance_n"
-  )) {
+  for (col in vars_n) {
     main[[col]][absent] <- 0L
   }
 
