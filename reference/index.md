@@ -125,6 +125,9 @@
   : Add Number of Shelter Issues and Related Category
 - [`add_shelter_type_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_shelter_type_cat.md)
   : Combine and Recode Shelter Types
+- [`add_water_access_issue_physical()`](https://impact-initiatives-hppu.github.io/humind/reference/add_water_access_issue_physical.md)
+  [`add_water_access_issue_financial()`](https://impact-initiatives-hppu.github.io/humind/reference/add_water_access_issue_physical.md)
+  : Add Physical Water Access Issue Indicator
 - [`are_cols_numeric()`](https://impact-initiatives-hppu.github.io/humind/reference/are_cols_numeric.md)
   : Stop statement values are not numeric
 - [`are_values_in_range()`](https://impact-initiatives-hppu.github.io/humind/reference/are_values_in_range.md)

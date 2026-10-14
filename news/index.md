@@ -4,6 +4,13 @@
 
 #### New Features
 
+- [`add_water_access_issue_physical()`](https://impact-initiatives-hppu.github.io/humind/reference/add_water_access_issue_physical.md)
+  (IND097) and
+  [`add_water_access_issue_financial()`](https://impact-initiatives-hppu.github.io/humind/reference/add_water_access_issue_physical.md)
+  (IND098) flag households reporting physical/infrastructure or
+  financial/market barriers to accessing water points
+  ([\#668](https://github.com/impact-initiatives-hppu/humind/issues/668)).
+
 - [`add_loop_healthcare_needed_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.md)
   gains `health_ind_healthcare_needed_lifesaving_yes_unmet` (and the
   matching household count via
