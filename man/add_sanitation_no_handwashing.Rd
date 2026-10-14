@@ -6,12 +6,11 @@
 \usage{
 add_sanitation_no_handwashing(
   df,
-  sanitation_jmp_cat = "wash_sanitation_facility_jmp_cat",
-  sanitation_facility_jmp_open_defecation = "open_defecation",
-  sanitation_facility_jmp_unimproved = "unimproved",
-  sanitation_facility_jmp_limited = "limited",
-  sanitation_facility_jmp_basic = "basic",
-  sanitation_facility_jmp_undefined = "undefined",
+  sanitation_facility_cat = "wash_sanitation_facility_cat",
+  sanitation_facility_cat_improved = "improved",
+  sanitation_facility_cat_unimproved = "unimproved",
+  sanitation_facility_cat_none = "none",
+  sanitation_facility_cat_undefined = "undefined",
   handwashing_jmp_cat = "wash_handwashing_facility_jmp_cat",
   handwashing_facility_jmp_no_facility = "no_facility",
   handwashing_facility_jmp_limited = "limited",
@@ -22,17 +21,15 @@ add_sanitation_no_handwashing(
 \arguments{
 \item{df}{A data frame.}
 
-\item{sanitation_jmp_cat}{Column name for the JMP sanitation category (output of \code{add_sanitation_facility_jmp_cat()}).}
+\item{sanitation_facility_cat}{Column name for the recoded sanitation facility type (output of \code{add_sanitation_facility_cat()}).}
 
-\item{sanitation_facility_jmp_open_defecation}{Response code for open defecation (no sanitation facility).}
+\item{sanitation_facility_cat_improved}{Response code for improved sanitation facility.}
 
-\item{sanitation_facility_jmp_unimproved}{Response code for unimproved sanitation facility.}
+\item{sanitation_facility_cat_unimproved}{Response code for unimproved sanitation facility.}
 
-\item{sanitation_facility_jmp_limited}{Response code for limited sanitation facility (shared improved facility, below basic service level).}
+\item{sanitation_facility_cat_none}{Response code for no sanitation facility (open defecation).}
 
-\item{sanitation_facility_jmp_basic}{Response code for basic sanitation facility (improved, private).}
-
-\item{sanitation_facility_jmp_undefined}{Response code for undefined sanitation category.}
+\item{sanitation_facility_cat_undefined}{Response code for undefined sanitation facility.}
 
 \item{handwashing_jmp_cat}{Column name for the JMP handwashing facility category (output of \code{add_handwashing_facility_cat()}).}
 
@@ -47,11 +44,23 @@ add_sanitation_no_handwashing(
 \value{
 A data frame with one additional column:
 \itemize{
-\item \code{wash_sanitation_no_handwashing_d}: \code{1L} if no improved sanitation (open defecation, unimproved, or limited) AND no handwashing facility; \code{0L} if improved sanitation (basic) or has handwashing (limited or basic); \code{NA_integer_} if either category is \code{NA} or undefined.
+\item \code{wash_sanitation_no_handwashing_d}: \code{1L} if no improved sanitation (open defecation or unimproved facility) AND no handwashing facility; \code{0L} if the sanitation facility is improved (including a shared improved facility) or has handwashing (limited or basic); \code{NA_integer_} if either category is \code{NA} or undefined.
 }
 }
 \description{
 Flags households without access to improved sanitation AND without any handwashing facility. Output is \code{NA} when either the sanitation or handwashing category is undefined.
 
-Prerequisites: \code{add_sanitation_facility_jmp_cat()} and \code{add_handwashing_facility_cat()} must have been run first.
+Prerequisites: \code{add_sanitation_facility_cat()} and \code{add_handwashing_facility_cat()} must have been run first.
+}
+\examples{
+df <- data.frame(
+  wash_sanitation_facility_cat = c(
+    "improved", "improved", "unimproved", "none", "undefined"
+  ),
+  wash_handwashing_facility_jmp_cat = c(
+    "no_facility", "basic", "no_facility", "no_facility", "no_facility"
+  )
+)
+add_sanitation_no_handwashing(df)
+
 }
