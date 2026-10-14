@@ -2,6 +2,10 @@
 
 ### New Features
 
+* `add_water_access_issue_physical()` (IND097) and
+  `add_water_access_issue_financial()` (IND098) flag households reporting
+  physical/infrastructure or financial/market barriers to accessing water
+  points (#668).
 * `add_loop_healthcare_needed_cat()` gains
   `health_ind_healthcare_needed_lifesaving_yes_unmet` (and the matching
   household count via `add_loop_healthcare_needed_cat_to_main()`): `1` when an
