@@ -5,6 +5,47 @@
 * `add_sanitation_access_issue_physical()` and
   `add_sanitation_access_issue_social()` flag households reporting physical or
   social barriers to accessing sanitation facilities (#669).
+* `add_water_access_issue_physical()` (IND097) and
+  `add_water_access_issue_financial()` (IND098) flag households reporting
+  physical/infrastructure or financial/market barriers to accessing water
+  points (#668).
+* `add_loop_healthcare_needed_cat()` gains
+  `health_ind_healthcare_needed_lifesaving_yes_unmet` (and the matching
+  household count via `add_loop_healthcare_needed_cat_to_main()`): `1` when an
+  individual had an unmet healthcare need for a life-saving service, `0`
+  otherwise, `NA` when the care type is unknown. Computed only when the
+  healthcare-type column is present in `loop` (#681).
+* `add_loop_healthcare_needed_cat_to_main()` now also returns
+  `health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one`, a household
+  binary for unmet life-saving healthcare needs: `1` when any member has one,
+  `NA` when no member is confirmed positive but at least one member's care type
+  is unknown, and `0` when every member is a known negative. Computed only when
+  the healthcare-type column is present in `loop` (#681).
+* `add_livestock_significant_decrease_d()`: new function for the livestock
+  production indicator (IND043). It flags each livestock type (including
+  donkeys) whose herd decreased by 50% or more between last year and now, and
+  a household-level composite that is 1 if any type decreased significantly.
+  Households where the livestock section was skipped are left blank (#671).
+* `add_drinking_water_unimproved_no_treatment()` flags households that rely on
+  an unimproved or surface water source and do not treat their drinking water
+  (#693).
+* `add_loop_under5_sick_d()` and `add_loop_under5_sick_d_to_main()`: new
+  functions for the under-5 illness indicators (IND015, IND016, IND017). The
+  loop function flags children under 5 who were sick in the last two weeks and
+  whether the illness included a respiratory symptom (cough) or watery
+  diarrhoea; the `_to_main()` function counts those children per household.
+  Non-substantive answers (`dnk`/`pnta`) are treated as blank, and a household
+  is blank when it has no under-5 child or an under-5 child's answer is
+  unknown, so only households with a known count enter the indicator (#672).
+
+* `add_food_source_atypical_d()` and `add_food_source_assistance_d()`: new
+  functions for the food-source indicators (IND053 and IND052). They parse the
+  first-ranked (main) source from `fsl_source_food_ranked` into
+  `fsl_food_source_main` and flag whether a household mainly relies on
+  atypical/emergency sources (hunting, gathering, exchange, borrowed, gift,
+  begging) or humanitarian assistance (in-kind food aid, cash and voucher
+  assistance). Non-substantive answers (`other`/`dnk`/`pnta`) and missing
+  values are blank (#812).
 
 # humind 2026.4.1
 
