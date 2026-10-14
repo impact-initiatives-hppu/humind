@@ -7,6 +7,9 @@ make_df <- function(
   disabilities = 0L,
   not_segregated = 0L,
   groups = 0L,
+  crowded = 0L,
+  not_functioning = 0L,
+  unclean = 0L,
   dnk = 0L,
   pnta = 0L,
   other = 0L,
@@ -22,6 +25,9 @@ make_df <- function(
     `wash_sanitation_access_issue/disabilities_no_access_sanitation` = disabilities,
     `wash_sanitation_access_issue/sanitation_not_segregated_gender` = not_segregated,
     `wash_sanitation_access_issue/groups_no_access_sanitation` = groups,
+    `wash_sanitation_access_issue/lack_sanitation_facilities_crowded` = crowded,
+    `wash_sanitation_access_issue/sanitation_not_functioning_full` = not_functioning,
+    `wash_sanitation_access_issue/sanitation_unclean_unhygienic` = unclean,
     `wash_sanitation_access_issue/dnk` = dnk,
     `wash_sanitation_access_issue/pnta` = pnta,
     `wash_sanitation_access_issue/other` = other,
@@ -30,148 +36,196 @@ make_df <- function(
 }
 
 
-#########################################
-### add_sanitation_access_issue_physical
-#########################################
+############################################################
+### add_sanitation_access_issue_physical_safety
+############################################################
 
-test_that("add_sanitation_access_issue_physical returns wash_sanitation_access_issue_physical_d", {
-  result <- add_sanitation_access_issue_physical(make_df())
-  expect_true("wash_sanitation_access_issue_physical_d" %in% colnames(result))
+test_that("add_sanitation_access_issue_physical_safety returns wash_sanitation_access_issue_physical_safety_d", {
+  result <- add_sanitation_access_issue_physical_safety(make_df())
+  expect_true(
+    "wash_sanitation_access_issue_physical_safety_d" %in% colnames(result)
+  )
 })
 
 test_that("output is integer type", {
-  result <- add_sanitation_access_issue_physical(make_df())
-  expect_type(result$wash_sanitation_access_issue_physical_d, "integer")
+  result <- add_sanitation_access_issue_physical_safety(make_df())
+  expect_type(
+    result$wash_sanitation_access_issue_physical_safety_d,
+    "integer"
+  )
 })
 
-test_that("add_sanitation_access_issue_physical is 0L when no physical option selected", {
-  result <- add_sanitation_access_issue_physical(make_df())
-  expect_equal(result$wash_sanitation_access_issue_physical_d, 0L)
+test_that("add_sanitation_access_issue_physical_safety is 0L when no physical/safety option selected", {
+  result <- add_sanitation_access_issue_physical_safety(make_df())
+  expect_equal(result$wash_sanitation_access_issue_physical_safety_d, 0L)
 })
 
-test_that("add_sanitation_access_issue_physical is 1L for each physical option individually", {
+test_that("add_sanitation_access_issue_physical_safety is 1L for each physical/safety option individually", {
   df <- dplyr::bind_rows(
     make_df(not_private = 1L),
     make_df(too_far = 1L),
     make_df(difficult_access = 1L),
     make_df(dangerous = 1L),
-    make_df(disabilities = 1L)
+    make_df(disabilities = 1L),
+    make_df(not_segregated = 1L),
+    make_df(groups = 1L)
   )
-  result <- add_sanitation_access_issue_physical(df)
-  expect_equal(result$wash_sanitation_access_issue_physical_d, rep(1L, 5))
+  result <- add_sanitation_access_issue_physical_safety(df)
+  expect_equal(
+    result$wash_sanitation_access_issue_physical_safety_d,
+    rep(1L, 7)
+  )
 })
 
-test_that("add_sanitation_access_issue_physical is NA for each undefined option", {
+test_that("add_sanitation_access_issue_physical_safety is NA for each undefined option", {
   df <- dplyr::bind_rows(
     make_df(dnk = 1L),
     make_df(pnta = 1L),
     make_df(other = 1L)
   )
-  result <- add_sanitation_access_issue_physical(df)
-  expect_true(all(is.na(result$wash_sanitation_access_issue_physical_d)))
+  result <- add_sanitation_access_issue_physical_safety(df)
+  expect_true(all(is.na(result$wash_sanitation_access_issue_physical_safety_d)))
 })
 
-test_that("add_sanitation_access_issue_physical is NA when a component binary is missing", {
+test_that("add_sanitation_access_issue_physical_safety is NA when a component binary is missing", {
   df <- dplyr::bind_rows(
     make_df(too_far = NA_integer_),
     make_df(too_far = NA_integer_, dangerous = NA_integer_)
   )
-  result <- add_sanitation_access_issue_physical(df)
-  expect_true(all(is.na(result$wash_sanitation_access_issue_physical_d)))
+  result <- add_sanitation_access_issue_physical_safety(df)
+  expect_true(all(is.na(result$wash_sanitation_access_issue_physical_safety_d)))
 })
 
-test_that("add_sanitation_access_issue_physical is NA when all component binaries are missing", {
-  result <- add_sanitation_access_issue_physical(
+test_that("add_sanitation_access_issue_physical_safety is NA when all component binaries are missing", {
+  result <- add_sanitation_access_issue_physical_safety(
     make_df(
       not_private = NA_integer_,
       too_far = NA_integer_,
       difficult_access = NA_integer_,
       dangerous = NA_integer_,
-      disabilities = NA_integer_
+      disabilities = NA_integer_,
+      not_segregated = NA_integer_,
+      groups = NA_integer_
     )
   )
-  expect_true(is.na(result$wash_sanitation_access_issue_physical_d))
+  expect_true(is.na(result$wash_sanitation_access_issue_physical_safety_d))
 })
 
-test_that("add_sanitation_access_issue_physical is NA when sanitation_facility is 'none'", {
-  result <- add_sanitation_access_issue_physical(make_df(facility = "none"))
-  expect_true(is.na(result$wash_sanitation_access_issue_physical_d))
+test_that("add_sanitation_access_issue_physical_safety is NA when sanitation_facility is 'none'", {
+  result <- add_sanitation_access_issue_physical_safety(make_df(
+    facility = "none"
+  ))
+  expect_true(is.na(result$wash_sanitation_access_issue_physical_safety_d))
 })
 
-test_that("add_sanitation_access_issue_physical errors when base column is missing", {
+test_that("add_sanitation_access_issue_physical_safety errors when base column is missing", {
   df <- dplyr::select(make_df(), -wash_sanitation_access_issue)
-  expect_error(add_sanitation_access_issue_physical(df))
+  expect_error(add_sanitation_access_issue_physical_safety(df))
 })
 
-test_that("add_sanitation_access_issue_physical errors when a dummy column is missing", {
+test_that("add_sanitation_access_issue_physical_safety errors when a dummy column is missing", {
   df <- dplyr::select(
     make_df(),
     -`wash_sanitation_access_issue/sanitation_too_far`
   )
-  expect_error(add_sanitation_access_issue_physical(df))
+  expect_error(add_sanitation_access_issue_physical_safety(df))
 })
 
 
-#########################################
-### add_sanitation_access_issue_social
-#########################################
+############################################################
+### add_sanitation_access_issue_hygiene_functionality
+############################################################
 
-test_that("add_sanitation_access_issue_social returns wash_sanitation_access_issue_social_d", {
-  result <- add_sanitation_access_issue_social(make_df())
-  expect_true("wash_sanitation_access_issue_social_d" %in% colnames(result))
+test_that("add_sanitation_access_issue_hygiene_functionality returns wash_sanitation_access_issue_hygiene_functionality_d", {
+  result <- add_sanitation_access_issue_hygiene_functionality(make_df())
+  expect_true(
+    "wash_sanitation_access_issue_hygiene_functionality_d" %in% colnames(result)
+  )
 })
 
 test_that("output is integer type", {
-  result <- add_sanitation_access_issue_social(make_df())
-  expect_type(result$wash_sanitation_access_issue_social_d, "integer")
-})
-
-test_that("add_sanitation_access_issue_social is 0L when no social option selected", {
-  result <- add_sanitation_access_issue_social(make_df())
-  expect_equal(result$wash_sanitation_access_issue_social_d, 0L)
-})
-
-test_that("add_sanitation_access_issue_social is 1L for each social option individually", {
-  df <- dplyr::bind_rows(
-    make_df(not_segregated = 1L),
-    make_df(groups = 1L)
+  result <- add_sanitation_access_issue_hygiene_functionality(make_df())
+  expect_type(
+    result$wash_sanitation_access_issue_hygiene_functionality_d,
+    "integer"
   )
-  result <- add_sanitation_access_issue_social(df)
-  expect_equal(result$wash_sanitation_access_issue_social_d, rep(1L, 2))
 })
 
-test_that("add_sanitation_access_issue_social is NA for each undefined option", {
+test_that("add_sanitation_access_issue_hygiene_functionality is 0L when no hygiene/functionality option selected", {
+  result <- add_sanitation_access_issue_hygiene_functionality(make_df())
+  expect_equal(
+    result$wash_sanitation_access_issue_hygiene_functionality_d,
+    0L
+  )
+})
+
+test_that("add_sanitation_access_issue_hygiene_functionality is 1L for each hygiene/functionality option individually", {
+  df <- dplyr::bind_rows(
+    make_df(crowded = 1L),
+    make_df(not_functioning = 1L),
+    make_df(unclean = 1L)
+  )
+  result <- add_sanitation_access_issue_hygiene_functionality(df)
+  expect_equal(
+    result$wash_sanitation_access_issue_hygiene_functionality_d,
+    rep(1L, 3)
+  )
+})
+
+test_that("add_sanitation_access_issue_hygiene_functionality is NA for each undefined option", {
   df <- dplyr::bind_rows(
     make_df(dnk = 1L),
     make_df(pnta = 1L),
     make_df(other = 1L)
   )
-  result <- add_sanitation_access_issue_social(df)
-  expect_true(all(is.na(result$wash_sanitation_access_issue_social_d)))
+  result <- add_sanitation_access_issue_hygiene_functionality(df)
+  expect_true(
+    all(is.na(result$wash_sanitation_access_issue_hygiene_functionality_d))
+  )
 })
 
-test_that("add_sanitation_access_issue_social is NA when a component binary is missing", {
+test_that("add_sanitation_access_issue_hygiene_functionality is NA when a component binary is missing", {
   df <- dplyr::bind_rows(
-    make_df(not_segregated = NA_integer_),
-    make_df(not_segregated = NA_integer_, groups = NA_integer_)
+    make_df(crowded = NA_integer_),
+    make_df(crowded = NA_integer_, unclean = NA_integer_)
   )
-  result <- add_sanitation_access_issue_social(df)
-  expect_true(all(is.na(result$wash_sanitation_access_issue_social_d)))
-})
-
-test_that("add_sanitation_access_issue_social is NA when all component binaries are missing", {
-  result <- add_sanitation_access_issue_social(
-    make_df(not_segregated = NA_integer_, groups = NA_integer_)
+  result <- add_sanitation_access_issue_hygiene_functionality(df)
+  expect_true(
+    all(is.na(result$wash_sanitation_access_issue_hygiene_functionality_d))
   )
-  expect_true(is.na(result$wash_sanitation_access_issue_social_d))
 })
 
-test_that("add_sanitation_access_issue_social is NA when sanitation_facility is 'none'", {
-  result <- add_sanitation_access_issue_social(make_df(facility = "none"))
-  expect_true(is.na(result$wash_sanitation_access_issue_social_d))
+test_that("add_sanitation_access_issue_hygiene_functionality is NA when all component binaries are missing", {
+  result <- add_sanitation_access_issue_hygiene_functionality(
+    make_df(
+      crowded = NA_integer_,
+      not_functioning = NA_integer_,
+      unclean = NA_integer_
+    )
+  )
+  expect_true(is.na(
+    result$wash_sanitation_access_issue_hygiene_functionality_d
+  ))
 })
 
-test_that("add_sanitation_access_issue_social errors when base column is missing", {
+test_that("add_sanitation_access_issue_hygiene_functionality is NA when sanitation_facility is 'none'", {
+  result <- add_sanitation_access_issue_hygiene_functionality(make_df(
+    facility = "none"
+  ))
+  expect_true(is.na(
+    result$wash_sanitation_access_issue_hygiene_functionality_d
+  ))
+})
+
+test_that("add_sanitation_access_issue_hygiene_functionality errors when base column is missing", {
   df <- dplyr::select(make_df(), -wash_sanitation_access_issue)
-  expect_error(add_sanitation_access_issue_social(df))
+  expect_error(add_sanitation_access_issue_hygiene_functionality(df))
+})
+
+test_that("add_sanitation_access_issue_hygiene_functionality errors when a dummy column is missing", {
+  df <- dplyr::select(
+    make_df(),
+    -`wash_sanitation_access_issue/lack_sanitation_facilities_crowded`
+  )
+  expect_error(add_sanitation_access_issue_hygiene_functionality(df))
 })
