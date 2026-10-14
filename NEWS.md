@@ -2,6 +2,10 @@
 
 ### New Features
 
+* `add_sanitation_access_issue_physical_safety()` and
+  `add_sanitation_access_issue_hygiene_functionality()` flag households
+  reporting physical/safety or hygiene/functionality barriers to accessing
+  sanitation facilities (#669).
 * `add_water_access_issue_physical()` (IND097) and
   `add_water_access_issue_financial()` (IND098) flag households reporting
   physical/infrastructure or financial/market barriers to accessing water
