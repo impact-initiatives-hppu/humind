@@ -116,6 +116,8 @@ iyed
 Iyed
 jmp
 JMP
+jq
+json
 justfile
 knitr
 Kobo
@@ -137,6 +139,7 @@ mealnb
 mealsize
 members'
 MERCHANTABILITY
+minified
 misclassified
 mktemp
 moraes
