@@ -208,19 +208,71 @@ test_that("NA when undefined responses for pregnancy_yn", {
   expect_equal(loop$health_ind_live_birth_2years_d, c(NA_integer_, NA_integer_))
 })
 
-test_that("aggregates to NA when there are undefined responses for pregnancy_yn", {
+test_that("an unknown live-birth status does not blank the household counts", {
   loop <- dplyr::bind_rows(
     make_loop(pregnancy_yn = "dnk"),
     make_loop(pregnancy_yn = "pnta")
   ) |>
     add_loop_skilled_birth_attendance()
   result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
-  expect_equal(result$health_ind_live_birth_2years_n, NA_integer_)
+  expect_equal(result$health_ind_live_birth_2years_n, 0L)
   expect_equal(
     result$health_ind_skilled_birth_attendance_known_n,
-    NA_integer_
+    0L
   )
-  expect_equal(result$health_ind_skilled_birth_attendance_n, NA_integer_)
+  expect_equal(result$health_ind_skilled_birth_attendance_n, 0L)
+})
+
+test_that("a skilled birth next to an unknown live-birth status keeps the count", {
+  loop <- dplyr::bind_rows(
+    make_loop(pregnancy_yn = "yes", birth_assistance = "doctor"),
+    make_loop(pregnancy_yn = "dnk", birth_assistance = "doctor")
+  ) |>
+    add_loop_skilled_birth_attendance()
+  result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
+  expect_equal(result$health_ind_live_birth_2years_n, 1L)
+  expect_equal(result$health_ind_skilled_birth_attendance_known_n, 1L)
+  expect_equal(result$health_ind_skilled_birth_attendance_n, 1L)
+})
+
+test_that("a non-skilled birth next to an unknown live-birth status counts 0", {
+  loop <- dplyr::bind_rows(
+    make_loop(
+      pregnancy_yn = "yes",
+      birth_assistance = "traditional_birth_attendant"
+    ),
+    make_loop(pregnancy_yn = "dnk", birth_assistance = "doctor")
+  ) |>
+    add_loop_skilled_birth_attendance()
+  result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
+  expect_equal(result$health_ind_live_birth_2years_n, 1L)
+  expect_equal(result$health_ind_skilled_birth_attendance_known_n, 1L)
+  expect_equal(result$health_ind_skilled_birth_attendance_n, 0L)
+})
+
+test_that("an unknown live-birth status next to an unknown assistance answer counts 0", {
+  loop <- dplyr::bind_rows(
+    make_loop(pregnancy_yn = "dnk", birth_assistance = "doctor"),
+    make_loop(pregnancy_yn = "yes", birth_assistance = "dnk")
+  ) |>
+    add_loop_skilled_birth_attendance()
+  result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
+  expect_equal(result$health_ind_live_birth_2years_n, 1L)
+  expect_equal(result$health_ind_skilled_birth_attendance_known_n, 0L)
+  expect_equal(result$health_ind_skilled_birth_attendance_n, 0L)
+})
+
+test_that("missing gender or age is treated like an unknown live-birth status", {
+  loop <- dplyr::bind_rows(
+    make_loop(pregnancy_yn = "yes", birth_assistance = "doctor"),
+    make_loop(gender = NA_character_),
+    make_loop(age = NA_real_)
+  ) |>
+    add_loop_skilled_birth_attendance()
+  result <- add_loop_skilled_birth_attendance_to_main(make_main(), loop)
+  expect_equal(result$health_ind_live_birth_2years_n, 1L)
+  expect_equal(result$health_ind_skilled_birth_attendance_known_n, 1L)
+  expect_equal(result$health_ind_skilled_birth_attendance_n, 1L)
 })
 
 test_that("aggregates to 0 when there are no live births", {

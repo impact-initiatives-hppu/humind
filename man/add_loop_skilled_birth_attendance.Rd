@@ -81,13 +81,13 @@ A data frame with three additional columns:
 
 A data frame with three additional columns:
 \itemize{
-\item \code{health_ind_live_birth_2years_n}: Count of women aged 15–49 with a live birth in the last two years per household; \code{NA} when a member's live-birth status is unknown; \code{0} for households absent from \code{loop}.
-\item \code{health_ind_skilled_birth_attendance_known_n}: Denominator for the skilled birth attendance indicator: count of live births with a defined birth assistance answer (skilled or less-skilled) per household. Members with an unknown assistance answer are excluded; \code{NA} when a member's live-birth status is unknown; \code{0} for households absent from \code{loop}.
-\item \code{health_ind_skilled_birth_attendance_n}: Numerator for the skilled birth attendance indicator: count of live births attended by skilled personnel per household. Members with an unknown assistance answer do not blank the count; \code{NA} when a member's live-birth status is unknown; \code{0} for households absent from \code{loop}.
+\item \code{health_ind_live_birth_2years_n}: Count of women aged 15–49 with a live birth in the last two years per household; a member whose live-birth status is unknown is excluded; \code{0} for households absent from \code{loop}.
+\item \code{health_ind_skilled_birth_attendance_known_n}: Denominator for the skilled birth attendance indicator: count of live births with a defined birth assistance answer (skilled or less-skilled) per household. Members with an unknown assistance answer or live-birth status are excluded; \code{0} for households absent from \code{loop}.
+\item \code{health_ind_skilled_birth_attendance_n}: Numerator for the skilled birth attendance indicator: count of live births attended by skilled personnel per household. Members with an unknown assistance answer or live-birth status are excluded; \code{0} for households absent from \code{loop}.
 }
 }
 \description{
 Computes two binary variables at the individual level for women of reproductive age (15–49): whether the woman had a live birth in the last two years, and whether that birth was attended by skilled health personnel (doctor, nurse, or midwife).
 
-Aggregates individual-level skilled birth attendance indicators to the household level by summing the binary dummy variables per household. A member whose birth assistance is unknown is excluded from both the denominator (\code{health_ind_skilled_birth_attendance_known_n}) and the numerator (\code{health_ind_skilled_birth_attendance_n}), so an unknown assistance answer neither counts as non-skilled nor blanks the household figures.
+Aggregates individual-level skilled birth attendance indicators to the household level by summing the binary dummy variables per household. A member whose birth assistance or live-birth status is unknown is excluded from the counts (\code{health_ind_skilled_birth_attendance_known_n} and \code{health_ind_skilled_birth_attendance_n}, and \code{health_ind_live_birth_2years_n} for an unknown live-birth status), so an undefined answer neither counts as non-skilled nor blanks the household figures.
 }
