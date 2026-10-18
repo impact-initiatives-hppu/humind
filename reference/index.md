@@ -55,6 +55,8 @@
   : Add Atypical First-Ranked Food Source Dummy Variable
 - [`add_handwashing_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_handwashing_facility_cat.md)
   : Add Handwashing Facility Category
+- [`add_health_facility_less_1h()`](https://impact-initiatives-hppu.github.io/humind/reference/add_health_facility_less_1h.md)
+  : Add Indicator for Access to Health Facility in Less Than One Hour
 - [`add_hhs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hhs.md)
   : Add the household hunger scale to the dataset
 - [`add_hoh_final()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hoh_final.md)

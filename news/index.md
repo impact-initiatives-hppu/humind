@@ -4,6 +4,16 @@
 
 #### New Features
 
+- [`add_health_facility_less_1h()`](https://impact-initiatives-hppu.github.io/humind/reference/add_health_facility_less_1h.md):
+  computes ANA IND160, a household-level binary indicator for access to
+  the nearest functional health facility in less than one hour on foot.
+  Travel time is coded `1L` below 60 minutes, `0L` at 60 minutes or
+  more, and `NA` when missing. The `health_facility_time` column must
+  contain strictly positive integers; `0`, fractional values, and
+  undefined codes such as `-999` raise an error
+  ([\#662](https://github.com/impact-initiatives-hppu/humind/issues/662),
+  [\#664](https://github.com/impact-initiatives-hppu/humind/issues/664)).
+
 - [`add_water_access_issue_physical()`](https://impact-initiatives-hppu.github.io/humind/reference/add_water_access_issue_physical.md)
   (IND097) and
   [`add_water_access_issue_financial()`](https://impact-initiatives-hppu.github.io/humind/reference/add_water_access_issue_physical.md)
