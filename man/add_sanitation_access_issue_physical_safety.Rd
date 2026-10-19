@@ -38,9 +38,9 @@ add_sanitation_access_issue_hygiene_functionality(
 
 \item{undefined}{Character vector of undefined responses (dnk, pnta, other).}
 
-\item{sanitation_facility}{Column name for the sanitation facility type.}
+\item{sanitation_facility}{Column name for the sanitation facility type. Kept for completeness; not used to determine the output.}
 
-\item{none}{Response code for no sanitation facility (open defecation).}
+\item{none}{Response code for no sanitation facility (open defecation). Kept for completeness; not used to determine the output.}
 
 \item{sep}{Separator for the binary columns.}
 
@@ -49,18 +49,18 @@ add_sanitation_access_issue_hygiene_functionality(
 \value{
 A data frame with one additional column:
 \itemize{
-\item wash_sanitation_access_issue_physical_safety_d which takes 1L if any physical/safety challenge is reported; 0L if no physical/safety challenge is reported; NA if undefined response or no facility.
+\item wash_sanitation_access_issue_physical_safety_d which takes 1L if any physical/safety challenge is reported; 0L if no physical/safety challenge is reported; NA if the response is undefined.
 }
 
 A data frame with one additional column:
 \itemize{
-\item wash_sanitation_access_issue_hygiene_functionality_d which takes 1L if any hygiene/functionality challenge is reported; 0L if no hygiene/functionality challenge is reported; NA if undefined response or no facility.
+\item wash_sanitation_access_issue_hygiene_functionality_d which takes 1L if any hygiene/functionality challenge is reported; 0L if no hygiene/functionality challenge is reported; NA if the response is undefined.
 }
 }
 \description{
-Computes a binary variable (\code{wash_sanitation_access_issue_physical_safety_d}) that is 1 if the household reported any physical or safety-related challenge in accessing sanitation facilities (not private, too far, difficult to reach, dangerous, disability-related, not segregated by gender, or some groups excluded), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other) or the household has no sanitation facility (\code{wash_sanitation_facility = 'none'}).
+Computes a binary variable (\code{wash_sanitation_access_issue_physical_safety_d}) that is 1 if the household reported any physical or safety-related challenge in accessing sanitation facilities (not private, too far, difficult to reach, dangerous, disability-related, not segregated by gender, or some groups excluded), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other). The sanitation facility type is not used: households reporting no facility are classified from their access-issue responses like any other household.
 
-Computes a binary variable (\code{wash_sanitation_access_issue_hygiene_functionality_d}) that is 1 if the household reported any hygiene or functionality challenge in accessing sanitation facilities (too crowded, not functioning/full, unclean/unhygienic), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other) or the household has no sanitation facility (\code{wash_sanitation_facility = 'none'}).
+Computes a binary variable (\code{wash_sanitation_access_issue_hygiene_functionality_d}) that is 1 if the household reported any hygiene or functionality challenge in accessing sanitation facilities (too crowded, not functioning/full, unclean/unhygienic), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other). The sanitation facility type is not used: households reporting no facility are classified from their access-issue responses like any other household.
 }
 \examples{
 df <- data.frame(

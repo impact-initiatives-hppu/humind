@@ -111,11 +111,16 @@ test_that("add_sanitation_access_issue_physical_safety is NA when all component 
   expect_true(is.na(result$wash_sanitation_access_issue_physical_safety_d))
 })
 
-test_that("add_sanitation_access_issue_physical_safety is NA when sanitation_facility is 'none'", {
-  result <- add_sanitation_access_issue_physical_safety(make_df(
-    facility = "none"
-  ))
-  expect_true(is.na(result$wash_sanitation_access_issue_physical_safety_d))
+test_that("add_sanitation_access_issue_physical_safety ignores a 'none' sanitation_facility", {
+  result <- dplyr::bind_rows(
+    make_df(too_far = 1L, facility = "none"),
+    make_df(facility = "none")
+  )
+  result <- add_sanitation_access_issue_physical_safety(result)
+  expect_equal(
+    result$wash_sanitation_access_issue_physical_safety_d,
+    c(1L, 0L)
+  )
 })
 
 test_that("add_sanitation_access_issue_physical_safety errors when base column is missing", {
@@ -208,13 +213,16 @@ test_that("add_sanitation_access_issue_hygiene_functionality is NA when all comp
   ))
 })
 
-test_that("add_sanitation_access_issue_hygiene_functionality is NA when sanitation_facility is 'none'", {
-  result <- add_sanitation_access_issue_hygiene_functionality(make_df(
-    facility = "none"
-  ))
-  expect_true(is.na(
-    result$wash_sanitation_access_issue_hygiene_functionality_d
-  ))
+test_that("add_sanitation_access_issue_hygiene_functionality ignores a 'none' sanitation_facility", {
+  result <- dplyr::bind_rows(
+    make_df(unclean = 1L, facility = "none"),
+    make_df(facility = "none")
+  )
+  result <- add_sanitation_access_issue_hygiene_functionality(result)
+  expect_equal(
+    result$wash_sanitation_access_issue_hygiene_functionality_d,
+    c(1L, 0L)
+  )
 })
 
 test_that("add_sanitation_access_issue_hygiene_functionality errors when base column is missing", {

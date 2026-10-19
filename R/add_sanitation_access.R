@@ -4,19 +4,19 @@
 
 #' @title Add Physical/Safety Sanitation Access Issue
 #'
-#' @description Computes a binary variable (`wash_sanitation_access_issue_physical_safety_d`) that is 1 if the household reported any physical or safety-related challenge in accessing sanitation facilities (not private, too far, difficult to reach, dangerous, disability-related, not segregated by gender, or some groups excluded), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other) or the household has no sanitation facility (`wash_sanitation_facility = 'none'`).
+#' @description Computes a binary variable (`wash_sanitation_access_issue_physical_safety_d`) that is 1 if the household reported any physical or safety-related challenge in accessing sanitation facilities (not private, too far, difficult to reach, dangerous, disability-related, not segregated by gender, or some groups excluded), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other). The sanitation facility type is not used: households reporting no facility are classified from their access-issue responses like any other household.
 #'
 #' @param df A data frame.
 #' @param sanitation_access_issue Base name of the select_multiple variable.
 #' @param physical_safety Character vector of responses that indicate physical or safety-related access challenges.
 #' @param undefined Character vector of undefined responses (dnk, pnta, other).
-#' @param sanitation_facility Column name for the sanitation facility type.
-#' @param none Response code for no sanitation facility (open defecation).
+#' @param sanitation_facility Column name for the sanitation facility type. Kept for completeness; not used to determine the output.
+#' @param none Response code for no sanitation facility (open defecation). Kept for completeness; not used to determine the output.
 #' @param sep Separator for the binary columns.
 #'
 #' @return A data frame with one additional column:
 #'
-#' * wash_sanitation_access_issue_physical_safety_d which takes 1L if any physical/safety challenge is reported; 0L if no physical/safety challenge is reported; NA if undefined response or no facility.
+#' * wash_sanitation_access_issue_physical_safety_d which takes 1L if any physical/safety challenge is reported; 0L if no physical/safety challenge is reported; NA if the response is undefined.
 #'
 #' @family sanitation_access_issue
 #' @export
@@ -77,7 +77,6 @@ add_sanitation_access_issue_physical_safety <- function(
   df <- dplyr::mutate(
     df,
     wash_sanitation_access_issue_physical_safety_d = dplyr::case_when(
-      .data[[sanitation_facility]] %in% none ~ NA_integer_,
       dplyr::if_any(dplyr::all_of(d_undefined), \(x) {
         x == 1
       }) ~ NA_integer_,
@@ -95,13 +94,13 @@ add_sanitation_access_issue_physical_safety <- function(
 #'
 #' @title Add Hygiene/Functionality Sanitation Access Issue Indicator
 #'
-#' @description Computes a binary variable (`wash_sanitation_access_issue_hygiene_functionality_d`) that is 1 if the household reported any hygiene or functionality challenge in accessing sanitation facilities (too crowded, not functioning/full, unclean/unhygienic), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other) or the household has no sanitation facility (`wash_sanitation_facility = 'none'`).
+#' @description Computes a binary variable (`wash_sanitation_access_issue_hygiene_functionality_d`) that is 1 if the household reported any hygiene or functionality challenge in accessing sanitation facilities (too crowded, not functioning/full, unclean/unhygienic), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other). The sanitation facility type is not used: households reporting no facility are classified from their access-issue responses like any other household.
 #'
 #' @param hygiene_functionality Character vector of responses that indicate hygiene or functionality access challenges.
 #'
 #' @return A data frame with one additional column:
 #'
-#' * wash_sanitation_access_issue_hygiene_functionality_d which takes 1L if any hygiene/functionality challenge is reported; 0L if no hygiene/functionality challenge is reported; NA if undefined response or no facility.
+#' * wash_sanitation_access_issue_hygiene_functionality_d which takes 1L if any hygiene/functionality challenge is reported; 0L if no hygiene/functionality challenge is reported; NA if the response is undefined.
 #'
 #' @family sanitation_access_issue
 #' @export
@@ -154,7 +153,6 @@ add_sanitation_access_issue_hygiene_functionality <- function(
   df <- dplyr::mutate(
     df,
     wash_sanitation_access_issue_hygiene_functionality_d = dplyr::case_when(
-      .data[[sanitation_facility]] %in% none ~ NA_integer_,
       dplyr::if_any(dplyr::all_of(d_undefined), \(x) {
         x == 1
       }) ~ NA_integer_,
