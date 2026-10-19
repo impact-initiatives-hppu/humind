@@ -2,6 +2,9 @@
 
 ### New Features
 
+* `add_sanitation_no_handwashing()` flags households without improved
+  sanitation (open defecation or unimproved) and without any handwashing
+  facility (#695).
 * `add_health_facility_less_1h()`: computes ANA IND160, a household-level binary
   indicator for access to the nearest functional health facility in less than
   one hour on foot. Travel time is coded `1L` below 60 minutes, `0L` at 60
