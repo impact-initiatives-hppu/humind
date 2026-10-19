@@ -4,6 +4,11 @@
 
 #### New Features
 
+- [`add_sanitation_no_handwashing()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_no_handwashing.md)
+  flags households without improved sanitation (open defecation or
+  unimproved) and without any handwashing facility
+  ([\#695](https://github.com/impact-initiatives-hppu/humind/issues/695)).
+
 - [`add_health_facility_less_1h()`](https://impact-initiatives-hppu.github.io/humind/reference/add_health_facility_less_1h.md):
   computes ANA IND160, a household-level binary indicator for access to
   the nearest functional health facility in less than one hour on foot.

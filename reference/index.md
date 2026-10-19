@@ -121,6 +121,8 @@
   [`add_sharing_sanitation_facility_n_ind()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
   [`add_sanitation_facility_jmp_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
   : Sanitation Facility Classification
+- [`add_sanitation_no_handwashing()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_no_handwashing.md)
+  : Add No Improved Sanitation and No Handwashing Facility Indicator
 - [`add_shelter_damage_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_shelter_damage_cat.md)
   : Add Category of Shelter damage (SNFI dimension)
 - [`add_shelter_issue_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_shelter_issue_cat.md)
