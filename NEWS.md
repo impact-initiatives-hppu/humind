@@ -6,6 +6,15 @@
   `add_sanitation_access_issue_hygiene_functionality()` flag households
   reporting physical/safety or hygiene/functionality barriers to accessing
   sanitation facilities (#669).
+* `add_sanitation_no_handwashing()` flags households without improved
+  sanitation (open defecation or unimproved) and without any handwashing
+  facility (#695).
+* `add_health_facility_less_1h()`: computes ANA IND160, a household-level binary
+  indicator for access to the nearest functional health facility in less than
+  one hour on foot. Travel time is coded `1L` below 60 minutes, `0L` at 60
+  minutes or more, and `NA` when missing. The `health_facility_time` column must
+  contain strictly positive integers; `0`, fractional values, and undefined
+  codes such as `-999` raise an error (#662, #664).
 * `add_water_access_issue_physical()` (IND097) and
   `add_water_access_issue_financial()` (IND098) flag households reporting
   physical/infrastructure or financial/market barriers to accessing water
