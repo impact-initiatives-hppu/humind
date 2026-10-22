@@ -116,6 +116,9 @@
   : Add indicator for reduced Household CSI Score(rcsi)
 - [`add_received_assistance()`](https://impact-initiatives-hppu.github.io/humind/reference/add_received_assistance.md)
   : Add Received Assistance (Combined Calculation)
+- [`add_sanitation_access_issue_physical_safety()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_access_issue_physical_safety.md)
+  [`add_sanitation_access_issue_hygiene_functionality()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_access_issue_physical_safety.md)
+  : Add Physical/Safety Sanitation Access Issue
 - [`add_sanitation_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
   [`add_sharing_sanitation_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
   [`add_sharing_sanitation_facility_n_ind()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
