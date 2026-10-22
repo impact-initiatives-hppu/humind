@@ -2,6 +2,19 @@
 
 ### New Features
 
+* `add_loop_skilled_birth_attendance()` and
+  `add_loop_skilled_birth_attendance_to_main()` compute and aggregate a
+  skilled-birth-attendance indicator for women aged 15–49 with a live birth in
+  the last two years (#697).
+* `add_loop_skilled_birth_attendance_to_main()` now returns a third column,
+  `health_ind_skilled_birth_attendance_known_n`, the count of live births with a
+  defined assistance answer. A member whose assistance is unknown is excluded
+  from both this denominator and `health_ind_skilled_birth_attendance_n`, and a
+  member whose live-birth status is unknown is excluded from all three counts,
+  so an undefined answer is neither counted as non-skilled nor blanks the
+  household figures; the ratio
+  `health_ind_skilled_birth_attendance_n / health_ind_skilled_birth_attendance_known_n`
+  is `NA` where the denominator is `0` (#697).
 * `add_sanitation_access_issue_physical_safety()` and
   `add_sanitation_access_issue_hygiene_functionality()` flag households
   reporting physical/safety or hygiene/functionality barriers to accessing
