@@ -2,6 +2,7 @@ aap
 abu
 Abu
 alldaynight
+ANA
 ana
 arf
 arg
@@ -105,6 +106,7 @@ HWISE
 hwise
 idempotency
 impactR
+IND160
 IndiKit
 indikit
 infreq
@@ -166,6 +168,7 @@ PHU
 pipefail
 pkgdown
 pkgload
+pkgs
 pnta
 PNTA
 pre
@@ -191,10 +194,12 @@ recoded
 recodes
 Recodes
 recoding
+repo's
 rlang
 rmarkdown
 RMarkdown
 Rmd
+rOpenSci
 roxygen
 Roxygen
 roxygenize
