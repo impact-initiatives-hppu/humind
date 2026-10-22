@@ -122,7 +122,7 @@ add_food_source_assistance_d <- function(
   df <- dplyr::mutate(
     df,
     fsl_food_source_assistance_d = dplyr::recode_values(
-      fsl_food_source_main,
+      .data$fsl_food_source_main,
       from = c(assistance, non_assistance, undefined),
       to = c(
         rep(1, length(assistance)),

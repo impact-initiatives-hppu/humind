@@ -119,7 +119,7 @@ add_food_source_atypical_d <- function(
   df <- dplyr::mutate(
     df,
     fsl_food_source_atypical_d = dplyr::recode_values(
-      fsl_food_source_main,
+      .data$fsl_food_source_main,
       from = c(atypical, non_atypical, undefined),
       to = c(
         rep(1, length(atypical)),
