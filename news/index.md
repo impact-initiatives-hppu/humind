@@ -2,6 +2,10 @@
 
 ## humind (development version)
 
+## humind 2026.5.0
+
+This release ships the ANA 2026 indicator set.
+
 #### New Features
 
 - [`add_loop_skilled_birth_attendance()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_skilled_birth_attendance.md)

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">humind</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2026.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2026.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,8 +38,12 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="humind-development-version">humind (development version)<a class="anchor" aria-label="anchor" href="#humind-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2026.5.0" id="humind-202650">humind 2026.5.0<a class="anchor" aria-label="anchor" href="#humind-202650"></a></h2>
+<p>This release ships the ANA 2026 indicator set.</p>
 <div class="section level4">
-<h4 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h4>
+<h4 id="new-features-2026-5-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-2026-5-0"></a></h4>
 <ul><li><p><code><a href="../reference/add_loop_skilled_birth_attendance.html">add_loop_skilled_birth_attendance()</a></code> and <code><a href="../reference/add_loop_skilled_birth_attendance.html">add_loop_skilled_birth_attendance_to_main()</a></code> compute and aggregate a skilled-birth-attendance indicator for women aged 15–49 with a live birth in the last two years (<a href="https://github.com/impact-initiatives-hppu/humind/issues/697" class="external-link">#697</a>).</p></li>
 <li><p><code><a href="../reference/add_loop_skilled_birth_attendance.html">add_loop_skilled_birth_attendance_to_main()</a></code> now returns a third column, <code>health_ind_skilled_birth_attendance_known_n</code>, the count of live births with a defined assistance answer. A member whose assistance is unknown is excluded from both this denominator and <code>health_ind_skilled_birth_attendance_n</code>, and a member whose live-birth status is unknown is excluded from all three counts, so an undefined answer is neither counted as non-skilled nor blanks the household figures; the ratio <code>health_ind_skilled_birth_attendance_n / health_ind_skilled_birth_attendance_known_n</code> is <code>NA</code> where the denominator is <code>0</code> (<a href="https://github.com/impact-initiatives-hppu/humind/issues/697" class="external-link">#697</a>).</p></li>
 <li><p><code><a href="../reference/add_sanitation_access_issue_physical_safety.html">add_sanitation_access_issue_physical_safety()</a></code> and <code><a href="../reference/add_sanitation_access_issue_physical_safety.html">add_sanitation_access_issue_hygiene_functionality()</a></code> flag households reporting physical/safety or hygiene/functionality barriers to accessing sanitation facilities (<a href="https://github.com/impact-initiatives-hppu/humind/issues/669" class="external-link">#669</a>).</p></li>
