@@ -22,6 +22,10 @@ df_non_numeric <- data.frame(
   col2 = c(1, 2, 3)
 )
 
+
+########################
+### are_cols_numeric
+########################
 # Test data setup
 df_wrong_range <- data.frame(
   col1 = c(1, 2, 3, 4, NA),
@@ -53,6 +57,10 @@ test_that("are_cols_numeric handles all NA columns", {
   expect_error(humind:::are_cols_numeric(df_all_na, c("col1")), class = "error")
 })
 
+##########################
+### are_values_in_range
+##########################
+
 test_that("are_values_in_range works with default parameters", {
   expect_true(humind:::are_values_in_range(df, c("col1", "col4")))
 })
@@ -73,6 +81,9 @@ test_that("are_values_in_range handles missing columns", {
   )
 })
 
+#############################
+### are_values_in_set
+#############################
 test_that("are_values_in_range throws error when any column has values out of range", {
   # col1 is within range (0-7), but col3 contains values > 7 (specifically 8, 9, 10)
   # The function should detect the invalid values in col3 and throw an error
@@ -143,6 +154,10 @@ test_that("are_values_in_set handles all NA columns", {
   ))
 })
 
+##############################
+## subvec_in and subvec_not_in
+##############################
+
 test_that("subvec_in works correctly", {
   expect_equal(humind:::subvec_in(c(1, 2, 3), c(2, 3)), c(2, 3))
 })
@@ -150,6 +165,10 @@ test_that("subvec_in works correctly", {
 test_that("subvec_not_in works correctly", {
   expect_equal(humind:::subvec_not_in(c(1, 2, 3), c(2, 3)), 1)
 })
+
+################################
+### if_not_in_stop
+################################
 
 test_that("if_not_in_stop handles missing columns correctly", {
   expect_error(
@@ -168,6 +187,19 @@ test_that("if_not_in_stop works with custom argument", {
     class = "error"
   )
 })
+
+test_that("if_not_in_stop stops when input is not a data.frame", {
+  expect_error(
+    humind:::if_not_in_stop("not_a_df", c("col1", "col6"), "test_arg"),
+    class = "error",
+    regexp = "test_arg.*data\\.frame"
+  )
+})
+
+
+########################
+### drop_shared_loop_cols
+########################
 
 test_that("drop_shared_loop_cols drops shared non-id columns", {
   main <- data.frame(uuid = 1:2, computed_n = c(5, 6))
