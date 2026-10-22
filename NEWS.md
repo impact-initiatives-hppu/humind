@@ -69,6 +69,13 @@
   begging) or humanitarian assistance (in-kind food aid, cash and voucher
   assistance). Non-substantive answers (`other`/`dnk`/`pnta`) and missing
   values are blank (#812).
+* `add_expenditure_type_share_income()` computes a recall-normalised
+  expenditure share of income and a catastrophic-spending flag. The wrappers
+  `add_expenditure_healthcare_share_income()` (IND162: 6-month health spending
+  vs 30-day income, 25% threshold) and `add_expenditure_water_share_income()`
+  (IND097: 30-day water spending, 5% threshold) expose the indicator-specific
+  parameters. Zero-income households reporting any expenditure on the
+  indicator are flagged as catastrophic (#689).
 
 # humind 2026.4.1
 
