@@ -110,6 +110,17 @@
   and missing values are blank
   ([\#812](https://github.com/impact-initiatives-hppu/humind/issues/812)).
 
+- [`add_expenditure_type_share_income()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_share_income.md)
+  computes a recall-normalised expenditure share of income and a
+  catastrophic-spending flag. The wrappers
+  [`add_expenditure_healthcare_share_income()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_healthcare_share_income.md)
+  (IND162: 6-month health spending vs 30-day income, 25% threshold) and
+  [`add_expenditure_water_share_income()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_water_share_income.md)
+  (IND097: 30-day water spending, 5% threshold) expose the
+  indicator-specific parameters. Zero-income households reporting any
+  expenditure on the indicator are flagged as catastrophic
+  ([\#689](https://github.com/impact-initiatives-hppu/humind/issues/689)).
+
 ## humind 2026.4.1
 
 This patch corrects the weighting of three ability-to-participate

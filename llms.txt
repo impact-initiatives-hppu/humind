@@ -144,6 +144,8 @@ License](https://impact-initiatives-hppu.github.io/humind/LICENSE.md).
   [`add_drinking_water_quality_jmp_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
   [`add_drinking_water_unimproved_no_treatment()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
   : Add Drinking Water Quality JMP Category
+- [`add_expenditure_healthcare_share_income()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_healthcare_share_income.md)
+  : Add Healthcare Expenditure Share of Income
 - [`add_expenditure_type_freq_rank()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_freq_rank.md)
   : Rank Top 3 Frequent Expenditure Types
 - [`add_expenditure_type_infreq_rank()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_infreq_rank.md)
@@ -153,10 +155,14 @@ License](https://impact-initiatives-hppu.github.io/humind/LICENSE.md).
   Frequent Expenditure
 - [`add_expenditure_type_prop_infreq()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_prop_infreq.md)
   : Add Infrequent Expenditure Type Proportions
+- [`add_expenditure_type_share_income()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_share_income.md)
+  : Add Expenditure Type Share of Income and Catastrophic Spending Flag
 - [`add_expenditure_type_zero_freq()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_zero_freq.md)
   : Add Zero for Skipped Frequent Expenditure Types
 - [`add_expenditure_type_zero_infreq()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_zero_infreq.md)
   : Add Zero for Skipped Infrequent Expenditure Types
+- [`add_expenditure_water_share_income()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_water_share_income.md)
+  : Add Water Expenditure Share of Income
 - [`add_fclcm_phase()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fclcm_phase.md)
   : Calculating the Food Consumption-Livelihood Coping Matrix
 - [`add_fcm_phase()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fcm_phase.md)
