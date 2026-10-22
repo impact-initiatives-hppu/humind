@@ -179,8 +179,12 @@ subvec_not_in <- function(vector, set) {
 #'
 #' @return A stop statement
 if_not_in_stop <- function(df, cols, df_name, arg = NULL) {
+  # check that df is a data frame
+  checkmate::assert_data_frame(df, .var.name = df_name)
+
   missing_cols <- subvec_not_in(cols, colnames(df))
 
+  # prepare message
   if (is.null(arg)) {
     if (length(missing_cols) >= 2) {
       msg <- glue::glue("The following columns are missing in `{df_name}`: ")
