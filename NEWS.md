@@ -2,6 +2,10 @@
 
 ### New Features
 
+* `add_sanitation_access_issue_physical_safety()` and
+  `add_sanitation_access_issue_hygiene_functionality()` flag households
+  reporting physical/safety or hygiene/functionality barriers to accessing
+  sanitation facilities (#669).
 * `add_sanitation_no_handwashing()` flags households without improved
   sanitation (open defecation or unimproved) and without any handwashing
   facility (#695).
