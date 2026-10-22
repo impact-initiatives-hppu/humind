@@ -23,8 +23,13 @@
 #' @return A data frame with two additional columns (names derived from
 #'   `expenditure_type`):
 #'
-#' * `{expenditure_type}_share_income`: Recall-normalised share of expenditure relative to income, or `NA` if income is 0 or `NA`.
-#' * `{expenditure_type}_share_income_d`: `1L` if share >= `catastrophic_threshold`, `0L` if below, `NA_integer_` if share is `NA`.
+#' * `{expenditure_type}_share_income`: Recall-normalised share of expenditure
+#'   relative to income; `1` for zero-income households with expenditure above
+#'   `0`; `NA` if income or expenditure is `NA`.
+#' * `{expenditure_type}_share_income_d`: `1L` if share >=
+#'   `catastrophic_threshold`, `0L` if share is below the threshold or for a
+#'   zero-income household with zero expenditure, `NA_integer_` if income or
+#'   share is `NA`.
 #'
 #' @family expenditure_share_income
 #' @export
@@ -111,13 +116,18 @@ add_expenditure_type_share_income <- function(
 
   df <- dplyr::mutate(
     df,
-    "{share_col}" := dplyr::if_else(
-      is.na(.data[[income_total]]) | .data[[income_total]] == 0,
-      NA_real_,
-      (.data[[expenditure_type]] * income_recall_period) /
+    "{share_col}" := dplyr::case_when(
+      is.na(.data[[income_total]]) |
+        is.na(.data[[expenditure_type]]) ~ NA_real_,
+      .data[[income_total]] == 0 & .data[[expenditure_type]] == 0 ~ NA_real_,
+      .data[[income_total]] == 0 ~ 1,
+      .data[[income_total]] > 0 ~
+        (.data[[expenditure_type]] * income_recall_period) /
         (.data[[income_total]] * expenditure_recall_period)
     ),
     "{dummy_col}" := dplyr::case_when(
+      is.na(.data[[income_total]]) ~ NA_integer_,
+      .data[[income_total]] == 0 & .data[[expenditure_type]] == 0 ~ 0L,
       is.na(.data[[share_col]]) ~ NA_integer_,
       .data[[share_col]] >= catastrophic_threshold ~ 1L,
       .default = 0L

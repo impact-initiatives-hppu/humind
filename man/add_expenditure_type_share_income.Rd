@@ -34,8 +34,13 @@ Default: \code{0.25}.}
 A data frame with two additional columns (names derived from
 \code{expenditure_type}):
 \itemize{
-\item \verb{\{expenditure_type\}_share_income}: Recall-normalised share of expenditure relative to income, or \code{NA} if income is 0 or \code{NA}.
-\item \verb{\{expenditure_type\}_share_income_d}: \code{1L} if share >= \code{catastrophic_threshold}, \code{0L} if below, \code{NA_integer_} if share is \code{NA}.
+\item \verb{\{expenditure_type\}_share_income}: Recall-normalised share of expenditure
+relative to income; \code{1} for zero-income households with expenditure above
+\code{0}; \code{NA} if income or expenditure is \code{NA}.
+\item \verb{\{expenditure_type\}_share_income_d}: \code{1L} if share >=
+\code{catastrophic_threshold}, \code{0L} if share is below the threshold or for a
+zero-income household with zero expenditure, \code{NA_integer_} if income or
+share is \code{NA}.
 }
 }
 \description{

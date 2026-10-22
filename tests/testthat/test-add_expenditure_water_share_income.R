@@ -18,8 +18,11 @@ test_that("add_expenditure_water_share_income adds expected columns with default
 })
 
 test_that("default recall periods are 30d / 30d (share = water / income)", {
-  # share = 10 / 200 = 0.05
-  result <- add_expenditure_water_share_income(make_df(water = 10, income = 200))
+  # 10 against an income of 200 gives a share of 0.05
+  result <- add_expenditure_water_share_income(make_df(
+    water = 10,
+    income = 200
+  ))
   expect_equal(result$cm_expenditure_frequent_water_share_income, 0.05)
 })
 
@@ -36,14 +39,33 @@ test_that("default catastrophic_threshold is 0.05: below → 0, at → 1, above 
   )
 })
 
-test_that("share is NA when income is 0", {
+# ---- Zero-income households (#689) ----
+
+test_that("zero income with water expenditure above 0: share is 1 and flag is 1", {
   result <- add_expenditure_water_share_income(make_df(water = 10, income = 0))
+  expect_equal(result$cm_expenditure_frequent_water_share_income, 1)
+  expect_equal(result$cm_expenditure_frequent_water_share_income_d, 1L)
+})
+
+test_that("zero income with zero water expenditure: share is NA and flag is 0", {
+  result <- add_expenditure_water_share_income(make_df(water = 0, income = 0))
+  expect_true(is.na(result$cm_expenditure_frequent_water_share_income))
+  expect_equal(result$cm_expenditure_frequent_water_share_income_d, 0L)
+})
+
+test_that("zero income with NA water expenditure: share is NA and flag is NA", {
+  result <- add_expenditure_water_share_income(
+    make_df(water = NA_real_, income = 0)
+  )
   expect_true(is.na(result$cm_expenditure_frequent_water_share_income))
   expect_true(is.na(result$cm_expenditure_frequent_water_share_income_d))
 })
 
 test_that("share is NA when income is NA", {
-  result <- add_expenditure_water_share_income(make_df(water = 10, income = NA_real_))
+  result <- add_expenditure_water_share_income(make_df(
+    water = 10,
+    income = NA_real_
+  ))
   expect_true(is.na(result$cm_expenditure_frequent_water_share_income))
 })
 

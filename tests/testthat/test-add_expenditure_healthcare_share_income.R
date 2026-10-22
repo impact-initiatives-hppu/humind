@@ -7,6 +7,24 @@ make_df <- function(health = 20, income = 200) {
   )
 }
 
+# ---- Zero-income households (#689) ----
+
+test_that("zero income with health expenditure above 0: share is 1 and flag is 1", {
+  result <- add_expenditure_healthcare_share_income(
+    make_df(health = 30, income = 0)
+  )
+  expect_equal(result$cm_expenditure_infrequent_health_share_income, 1)
+  expect_equal(result$cm_expenditure_infrequent_health_share_income_d, 1L)
+})
+
+test_that("zero income with zero health expenditure: share is NA and flag is 0", {
+  result <- add_expenditure_healthcare_share_income(
+    make_df(health = 0, income = 0)
+  )
+  expect_true(is.na(result$cm_expenditure_infrequent_health_share_income))
+  expect_equal(result$cm_expenditure_infrequent_health_share_income_d, 0L)
+})
+
 test_that("add_expenditure_healthcare_share_income adds expected columns with defaults", {
   result <- add_expenditure_healthcare_share_income(make_df())
   expect_true(
@@ -18,7 +36,7 @@ test_that("add_expenditure_healthcare_share_income adds expected columns with de
 })
 
 test_that("default recall periods are 180d expenditure / 30d income", {
-  # share = (health/180) / (income/30) = health * 30 / (income * 180)
+  # The share compares daily-normalised health spending with daily income
   # health=60, income=100 → share = 60*30 / (100*180) = 1800/18000 = 0.10
   result <- add_expenditure_healthcare_share_income(
     dplyr::tibble(cm_expenditure_infrequent_health = 60, cm_income_total = 100)

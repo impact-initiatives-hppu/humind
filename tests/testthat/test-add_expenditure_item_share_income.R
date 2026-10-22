@@ -45,7 +45,8 @@ test_that("output column names are dynamic based on expenditure_type", {
 # ---- Share calculation ----
 
 test_that("_share_income equals expenditure / income when recall periods are equal", {
-  # (20/30) / (200/30) = 20/200 = 0.1
+  # spending of 20 over 30 days against an income of 200 over 30 days
+  # gives a share of 20/200 equals 0.1
   result <- add_expenditure_type_share_income(
     make_df(health = 20, income = 200),
     expenditure_type = "cm_expenditure_infrequent_health",
@@ -54,7 +55,7 @@ test_that("_share_income equals expenditure / income when recall periods are equ
   expect_equal(result$cm_expenditure_infrequent_health_share_income, 0.1)
 })
 
-test_that("_share_income is NA when income is 0", {
+test_that("_share_income is NA for zero-income household with zero expenditure", {
   result <- add_expenditure_type_share_income(
     make_df(health = 0, income = 0),
     expenditure_type = "cm_expenditure_infrequent_health",
@@ -81,10 +82,41 @@ test_that("_share_income is NA when expenditure is NA", {
   expect_true(is.na(result$cm_expenditure_infrequent_health_share_income))
 })
 
+# ---- Zero-income households (#689) ----
+
+test_that("zero income with expenditure above 0: share is 1 and flag is 1", {
+  result <- add_expenditure_type_share_income(
+    make_df(health = 30, income = 0),
+    expenditure_type = "cm_expenditure_infrequent_health",
+    income_total = "cm_income_total"
+  )
+  expect_equal(result$cm_expenditure_infrequent_health_share_income, 1)
+  expect_equal(result$cm_expenditure_infrequent_health_share_income_d, 1L)
+})
+
+test_that("zero income with zero expenditure: share is NA and flag is 0", {
+  result <- add_expenditure_type_share_income(
+    make_df(health = 0, income = 0),
+    expenditure_type = "cm_expenditure_infrequent_health",
+    income_total = "cm_income_total"
+  )
+  expect_equal(result$cm_expenditure_infrequent_health_share_income_d, 0L)
+})
+
+test_that("zero income with NA expenditure: share is NA and flag is NA", {
+  result <- add_expenditure_type_share_income(
+    make_df(health = NA_real_, income = 0),
+    expenditure_type = "cm_expenditure_infrequent_health",
+    income_total = "cm_income_total"
+  )
+  expect_true(is.na(result$cm_expenditure_infrequent_health_share_income))
+  expect_true(is.na(result$cm_expenditure_infrequent_health_share_income_d))
+})
+
 # ---- Dummy flag ----
 
 test_that("_share_income_d is 0 when share < catastrophic_threshold", {
-  # share = 9/100 = 0.09 < 0.10
+  # 9 against 100 gives a share of 0.09, below the 0.10 threshold
   result <- add_expenditure_type_share_income(
     make_df(health = 9, income = 100),
     expenditure_type = "cm_expenditure_infrequent_health",
@@ -95,7 +127,7 @@ test_that("_share_income_d is 0 when share < catastrophic_threshold", {
 })
 
 test_that("_share_income_d is 1 when share == catastrophic_threshold", {
-  # share = 10/100 = 0.10
+  # 10 against 100 gives a share of 0.10
   result <- add_expenditure_type_share_income(
     make_df(health = 10, income = 100),
     expenditure_type = "cm_expenditure_infrequent_health",
@@ -106,7 +138,7 @@ test_that("_share_income_d is 1 when share == catastrophic_threshold", {
 })
 
 test_that("_share_income_d is 1 when share > catastrophic_threshold", {
-  # share = 30/100 = 0.30 > 0.10
+  # 30 against 100 gives a share of 0.30, above the 0.10 threshold
   result <- add_expenditure_type_share_income(
     make_df(health = 30, income = 100),
     expenditure_type = "cm_expenditure_infrequent_health",
@@ -118,7 +150,7 @@ test_that("_share_income_d is 1 when share > catastrophic_threshold", {
 
 test_that("_share_income_d is NA when share is NA", {
   result <- add_expenditure_type_share_income(
-    make_df(health = 0, income = 0),
+    make_df(health = 20, income = NA_real_),
     expenditure_type = "cm_expenditure_infrequent_health",
     income_total = "cm_income_total"
   )
@@ -154,9 +186,9 @@ test_that("catastrophic_threshold is respected with custom value", {
 # ---- Recall period normalisation ----
 
 test_that("different recall periods normalise correctly", {
-  # expenditure = 60 over 180 days → 1/3 per day
-  # income = 100 over 30 days → 100/30 per day
-  # share = (1/3) / (100/30) = (60/180) / (100/30) = 0.10
+  # expenditure of 60 over 180 days gives 1 per 3 days
+  # income of 100 over 30 days gives 100 per 30 days
+  # the recall-normalised share compares them: 1 per 3 vs 100 per 30 → 0.10
   df <- dplyr::tibble(
     cm_expenditure_infrequent_health = 60,
     cm_income_total = 100

@@ -21,9 +21,11 @@ add_expenditure_water_share_income(
 A data frame with two additional columns:
 \itemize{
 \item \code{cm_expenditure_frequent_water_share_income}: Water expenditure share of
-income, or \code{NA} if income is 0 or \code{NA}.
+income; \code{1} for zero-income households with water expenditure above \code{0};
+\code{NA} if income or expenditure is \code{NA}.
 \item \code{cm_expenditure_frequent_water_share_income_d}: \code{1L} if catastrophic
-(share >= 0.05), \code{0L} otherwise, \code{NA} if share is \code{NA}.
+(share >= 0.05), \code{0L} if not (or for a zero-income household with zero
+water expenditure), \code{NA_integer_} if income or share is \code{NA}.
 }
 }
 \description{

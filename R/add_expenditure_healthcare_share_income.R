@@ -25,9 +25,11 @@
 #' @return A data frame with two additional columns:
 #'
 #' * `cm_expenditure_infrequent_health_share_income`: Recall-normalised health
-#'   expenditure share of income, or `NA` if income is 0 or `NA`.
+#'   expenditure share of income; `1` for zero-income households with health
+#'   expenditure above `0`; `NA` if income or expenditure is `NA`.
 #' * `cm_expenditure_infrequent_health_share_income_d`: `1L` if catastrophic
-#'   (share >= 0.25), `0L` otherwise, `NA` if share is `NA`.
+#'   (share >= 0.25), `0L` if not (or for a zero-income household with zero
+#'   health expenditure), `NA_integer_` if income or share is `NA`.
 #'
 #' @family expenditure_share_income
 #' @export

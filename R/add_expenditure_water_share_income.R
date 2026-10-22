@@ -25,9 +25,11 @@
 #' @return A data frame with two additional columns:
 #'
 #' * `cm_expenditure_frequent_water_share_income`: Water expenditure share of
-#'   income, or `NA` if income is 0 or `NA`.
+#'   income; `1` for zero-income households with water expenditure above `0`;
+#'   `NA` if income or expenditure is `NA`.
 #' * `cm_expenditure_frequent_water_share_income_d`: `1L` if catastrophic
-#'   (share >= 0.05), `0L` otherwise, `NA` if share is `NA`.
+#'   (share >= 0.05), `0L` if not (or for a zero-income household with zero
+#'   water expenditure), `NA_integer_` if income or share is `NA`.
 #'
 #' @family expenditure_share_income
 #' @export
