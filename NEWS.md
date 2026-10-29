@@ -1,19 +1,5 @@
 # humind (development version)
 
-### Documentation
-
-* ANA indicator documentation now uses the 2026 Metric IDs (`MET_ID`) as the
-  primary reference, with legacy `IND` numbers kept only as secondary
-  references. In particular, the water-expenditure-share indicator is `MET098`
-  (legacy `IND096`); `IND097` belongs to the physical/infrastructure
-  water-access indicator.
-* Documented that ANA flagging for skilled birth attendance and unmet health
-  care needs uses the individual-level indicators. The household aggregates are
-  for triangulation only.
-* The pkgdown reference index now groups the ANA indicators by system.
-* `add_drinking_water_unimproved_no_treatment()` now has its own help page,
-  separate from the general drinking-water recode functions.
-
 # humind 2026.5.0
 
 This release ships the ANA 2026 indicator set.
@@ -100,6 +86,20 @@ This release ships the ANA 2026 indicator set.
   water spending, 5% threshold) expose the indicator-specific parameters.
   Zero-income households reporting any expenditure on the indicator are flagged
   as catastrophic (#689).
+
+### Documentation
+
+* ANA indicator documentation now uses the 2026 Metric IDs (`MET_ID`) as the
+  primary reference, with legacy `IND` numbers kept only as secondary
+  references. In particular, the water-expenditure-share indicator is `MET098`
+  (legacy `IND096`); `IND097` belongs to the physical/infrastructure
+  water-access indicator.
+* Documented that ANA flagging for skilled birth attendance and unmet health
+  care needs uses the individual-level indicators. The household aggregates are
+  for triangulation only.
+* The pkgdown reference index now groups the ANA indicators by system.
+* `add_drinking_water_unimproved_no_treatment()` now has its own help page,
+  separate from the general drinking-water recode functions.
 
 # humind 2026.4.1
 
