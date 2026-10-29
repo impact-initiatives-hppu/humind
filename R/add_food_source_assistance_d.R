@@ -31,7 +31,7 @@
 #'   it cannot be classified.
 #'
 #' @section ANA indicator:
-#' Metric ID `MET050` (legacy indicator ID `IND052`); system: Food system.
+#' Metric ID `MET050` (legacy indicator ID `IND052`).
 #'
 #' @examples
 #' df <- data.frame(

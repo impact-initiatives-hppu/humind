@@ -65,7 +65,7 @@ Computes a binary variable (\code{wash_sanitation_access_issue_hygiene_functiona
 \section{ANA indicator}{
 
 Metric IDs \code{MET139} (physical/safety) and \code{MET140}
-(hygiene/functionality); system: Living conditions.
+(hygiene/functionality).
 }
 
 \examples{

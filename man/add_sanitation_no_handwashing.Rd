@@ -54,7 +54,7 @@ Prerequisites: \code{add_sanitation_facility_cat()} and \code{add_handwashing_fa
 }
 \section{ANA indicator}{
 
-Metric ID \code{MET150}; system: Living conditions.
+Metric ID \code{MET150}.
 }
 
 \examples{

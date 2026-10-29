@@ -14,8 +14,7 @@
 #'
 #' @section ANA indicator:
 #' Metric IDs `MET099` (physical/infrastructure; legacy indicator ID `IND097`)
-#' and `MET100` (financial/market; legacy indicator ID `IND098`);
-#' system: Water system.
+#' and `MET100` (financial/market; legacy indicator ID `IND098`).
 #'
 #' @family water_access_issue
 #' @export

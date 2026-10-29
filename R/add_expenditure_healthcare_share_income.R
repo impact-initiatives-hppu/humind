@@ -28,7 +28,7 @@
 #'   health expenditure), `NA_integer_` if income or share is `NA`.
 #'
 #' @section ANA indicator:
-#' Metric ID `MET169` (legacy indicator ID `IND176`); system: Health services.
+#' Metric ID `MET169` (legacy indicator ID `IND176`).
 #'
 #' @family expenditure_share_income
 #' @export

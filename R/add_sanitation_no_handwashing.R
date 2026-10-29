@@ -21,7 +21,7 @@
 #' * `wash_sanitation_no_handwashing_d`: `1L` if no improved sanitation (open defecation or unimproved facility) AND no handwashing facility; `0L` if the sanitation facility is improved (including a shared improved facility) or has handwashing (limited or basic); `NA_integer_` if either category is `NA` or undefined.
 #'
 #' @section ANA indicator:
-#' Metric ID `MET150`; system: Living conditions.
+#' Metric ID `MET150`.
 #'
 #' @examples
 #' df <- data.frame(

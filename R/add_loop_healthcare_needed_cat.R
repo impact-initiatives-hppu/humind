@@ -39,8 +39,7 @@
 #'
 #' @section ANA indicator:
 #' Metric IDs `MET030` (any unmet health need; legacy indicator ID `IND025`)
-#' and `MET031` (unmet need for a potentially life-saving service);
-#' system: Health outcomes.
+#' and `MET031` (unmet need for a potentially life-saving service).
 #'
 #' @export
 add_loop_healthcare_needed_cat <- function(

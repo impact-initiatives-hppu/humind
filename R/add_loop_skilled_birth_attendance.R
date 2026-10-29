@@ -30,7 +30,7 @@
 #' * `health_ind_skilled_birth_attendance_d`: `1L` if live birth and attended by skilled personnel; `0L` if live birth and not attended by skilled personnel; `NA_integer_` if no live birth, birth assistance response is undefined, or live birth status is NA.
 #'
 #' @section ANA indicator:
-#' Metric ID `MET189`; system: Health services.
+#' Metric ID `MET189`.
 #'
 #' @export
 add_loop_skilled_birth_attendance <- function(

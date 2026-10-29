@@ -12,7 +12,7 @@
 #' * `health_facility_less_1h`: `1L` if travel time is strictly less than 60 minutes, `0L` if 60 minutes or more, `NA_integer_` for missing values.
 #'
 #' @section ANA indicator:
-#' Metric ID `MET166` (legacy indicator ID `IND174`); system: Health services.
+#' Metric ID `MET166` (legacy indicator ID `IND174`).
 #'
 #' @export
 #'

@@ -108,7 +108,6 @@ enter the percentage.
 \section{ANA indicator}{
 
 Metric IDs \code{MET016} (any illness), \code{MET017} (respiratory), and \code{MET018}
-(watery diarrhoea; legacy indicator IDs \code{IND015}, \code{IND016}, \code{IND017});
-system: Health outcomes.
+(watery diarrhoea; legacy indicator IDs \code{IND015}, \code{IND016}, \code{IND017}).
 }
 

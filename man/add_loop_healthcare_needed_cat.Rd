@@ -122,7 +122,6 @@ individual-level \code{health_ind_healthcare_needed_yes_unmet} and
 \section{ANA indicator}{
 
 Metric IDs \code{MET030} (any unmet health need; legacy indicator ID \code{IND025})
-and \code{MET031} (unmet need for a potentially life-saving service);
-system: Health outcomes.
+and \code{MET031} (unmet need for a potentially life-saving service).
 }
 

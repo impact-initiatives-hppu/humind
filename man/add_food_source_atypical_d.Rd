@@ -54,7 +54,7 @@ of choice names.
 }
 \section{ANA indicator}{
 
-Metric ID \code{MET051} (legacy indicator ID \code{IND053}); system: Food system.
+Metric ID \code{MET051} (legacy indicator ID \code{IND053}).
 }
 
 \examples{

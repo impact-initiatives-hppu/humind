@@ -28,7 +28,7 @@
 #'   water expenditure), `NA_integer_` if income or share is `NA`.
 #'
 #' @section ANA indicator:
-#' Metric ID `MET098` (legacy indicator ID `IND096`); system: Water system.
+#' Metric ID `MET098` (legacy indicator ID `IND096`).
 #'
 #' @family expenditure_share_income
 #' @export

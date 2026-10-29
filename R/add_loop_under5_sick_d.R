@@ -34,8 +34,7 @@
 #'
 #' @section ANA indicator:
 #' Metric IDs `MET016` (any illness), `MET017` (respiratory), and `MET018`
-#' (watery diarrhoea; legacy indicator IDs `IND015`, `IND016`, `IND017`);
-#' system: Health outcomes.
+#' (watery diarrhoea; legacy indicator IDs `IND015`, `IND016`, `IND017`).
 #'
 #' @export
 add_loop_under5_sick_d <- function(

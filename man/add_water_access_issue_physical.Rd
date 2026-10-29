@@ -58,8 +58,7 @@ Computes a binary variable (\code{wash_water_access_issue_financial_market_d}) t
 \section{ANA indicator}{
 
 Metric IDs \code{MET099} (physical/infrastructure; legacy indicator ID \code{IND097})
-and \code{MET100} (financial/market; legacy indicator ID \code{IND098});
-system: Water system.
+and \code{MET100} (financial/market; legacy indicator ID \code{IND098}).
 }
 
 \examples{

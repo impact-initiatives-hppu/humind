@@ -20,7 +20,7 @@
 #'   0 if none is 1 and at least one is non-NA; NA if all type dummies are NA.
 #'
 #' @section ANA indicator:
-#' Metric ID `MET070`; system: Food system.
+#' Metric ID `MET070`.
 #'
 #' @export
 add_livestock_significant_decrease_d <- function(

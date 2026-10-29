@@ -44,7 +44,7 @@ from the survey or via \code{add_income_source_prop()}.
 }
 \section{ANA indicator}{
 
-Metric ID \code{MET169} (legacy indicator ID \code{IND176}); system: Health services.
+Metric ID \code{MET169} (legacy indicator ID \code{IND176}).
 }
 
 \examples{

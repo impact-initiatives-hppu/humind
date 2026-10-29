@@ -16,7 +16,7 @@
 #'
 #' @section ANA indicator:
 #' Metric IDs `MET139` (physical/safety) and `MET140`
-#' (hygiene/functionality); system: Living conditions.
+#' (hygiene/functionality).
 #'
 #' @family sanitation_access_issue
 #' @export

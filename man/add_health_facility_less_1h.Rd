@@ -24,7 +24,7 @@ Values must be strictly positive integers. The \code{health_facility_time} colum
 }
 \section{ANA indicator}{
 
-Metric ID \code{MET166} (legacy indicator ID \code{IND174}); system: Health services.
+Metric ID \code{MET166} (legacy indicator ID \code{IND174}).
 }
 
 \examples{

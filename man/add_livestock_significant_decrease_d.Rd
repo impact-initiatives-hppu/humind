@@ -44,6 +44,6 @@ If the required columns for a livestock type are absent from \code{df}, an error
 }
 \section{ANA indicator}{
 
-Metric ID \code{MET070}; system: Food system.
+Metric ID \code{MET070}.
 }
 

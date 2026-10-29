@@ -102,6 +102,6 @@ individual-level \code{health_ind_skilled_birth_attendance_d} column.
 }
 \section{ANA indicator}{
 
-Metric ID \code{MET189}; system: Health services.
+Metric ID \code{MET189}.
 }
 

@@ -44,7 +44,7 @@ from the survey or via \code{add_income_source_prop()}.
 }
 \section{ANA indicator}{
 
-Metric ID \code{MET098} (legacy indicator ID \code{IND096}); system: Water system.
+Metric ID \code{MET098} (legacy indicator ID \code{IND096}).
 }
 
 \examples{

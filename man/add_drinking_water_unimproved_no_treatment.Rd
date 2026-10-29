@@ -49,7 +49,7 @@ A data frame with one additional column:
 }
 \section{ANA indicator}{
 
-Metric ID \code{MET113}; system: Water system.
+Metric ID \code{MET113}.
 }
 
 \examples{
