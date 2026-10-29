@@ -2,6 +2,13 @@
 #'
 #' @description This function adds healthcare need categories to individual-level data, including disability information if provided. It creates dummy variables for different healthcare need scenarios and optionally includes disability-specific indicators.
 #'
+#' For ANA flagging, use the individual-level indicators
+#' `health_ind_healthcare_needed_yes_unmet` (any unmet need) and
+#' `health_ind_healthcare_needed_lifesaving_yes_unmet` (unmet need for a
+#' potentially life-saving service). The household counts and
+#' `health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one` returned by
+#' `add_loop_healthcare_needed_cat_to_main()` are for triangulation only.
+#'
 #' @param loop A data frame of individual-level data.
 #' @param ind_healthcare_needed The name of the variable that indicates if healthcare is needed.
 #' @param ind_healthcare_needed_no Level for "no" in ind_healthcare_needed.
@@ -29,6 +36,10 @@
 #' * health_ind_healthcare_needed_yes_unmet: Dummy variable for unmet healthcare need.
 #' * health_ind_healthcare_needed_yes_met: Dummy variable for met healthcare need.
 #' * health_ind_healthcare_needed_lifesaving_yes_unmet: Dummy variable for unmet lifesaving healthcare need (only when `ind_healthcare_type` column is present in `loop`).
+#'
+#' @section ANA indicator:
+#' Metric IDs `MET030` (any unmet health need; legacy indicator ID `IND025`)
+#' and `MET031` (unmet need for a potentially life-saving service).
 #'
 #' @export
 add_loop_healthcare_needed_cat <- function(
@@ -264,6 +275,10 @@ add_loop_healthcare_needed_cat <- function(
 #'
 #' @title Add Healthcare Needed Categories to Main Dataset
 #' @description This function aggregates individual-level healthcare need data to the household level, including disability-specific information if provided.
+#'
+#' These household aggregates are for triangulation only. ANA flagging uses the
+#' individual-level `health_ind_healthcare_needed_yes_unmet` and
+#' `health_ind_healthcare_needed_lifesaving_yes_unmet` columns.
 #'
 #' @param main A data frame of household-level data.
 #' @param loop A data frame of individual-level data.

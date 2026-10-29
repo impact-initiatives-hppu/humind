@@ -1,7 +1,3 @@
-# ANA
-# 2025 Indicator ID: IND097
-# 2025 Metric ID: TBD
-
 #' @title Add Water Expenditure Share of Income
 #'
 #' @description
@@ -30,6 +26,9 @@
 #' * `cm_expenditure_frequent_water_share_income_d`: `1L` if catastrophic
 #'   (share >= 0.05), `0L` if not (or for a zero-income household with zero
 #'   water expenditure), `NA_integer_` if income or share is `NA`.
+#'
+#' @section ANA indicator:
+#' Metric ID `MET098` (legacy indicator ID `IND096`).
 #'
 #' @family expenditure_share_income
 #' @export

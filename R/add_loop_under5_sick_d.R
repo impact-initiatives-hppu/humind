@@ -1,7 +1,3 @@
-#' ANA function
-#' 2025 INDICATOR ID: IND015, IND016, IND017
-#' 2026 METRIC ID: TBD
-
 #' @title Add Under-5 Sick Dummy Variables to Individual Data
 #'
 #' @description Adds dummy (0/1/NA) variables for illness and illness type to
@@ -35,6 +31,10 @@
 #'   response is selected.
 #' * nut_ind_under5_sick_yes_watery_d: Dummy variable (1/0/NA) for sick with any watery
 #'   diarrhoea symptom. Same logic as above.
+#'
+#' @section ANA indicator:
+#' Metric IDs `MET016` (any illness), `MET017` (respiratory), and `MET018`
+#' (watery diarrhoea; legacy indicator IDs `IND015`, `IND016`, `IND017`).
 #'
 #' @export
 add_loop_under5_sick_d <- function(

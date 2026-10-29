@@ -1,7 +1,3 @@
-# ANA
-# 2026 Indicator ID: IND097 (physical/infrastructure), IND098 (financial/market)
-# 2026 Metric ID: MET099 (physical/infrastructure), MET100 (financial/market)
-
 #' @title Add Physical Water Access Issue Indicator
 #'
 #' @description Computes a binary variable (`wash_water_access_issue_physical_infrastructure_d`) that is `1L` if the household reported any physical or infrastructure-related barrier to accessing water points (too far, difficult to use, disability-related barriers, safety concerns, excessive waiting time, not segregated by gender, some groups lacking access, an out-of-service source, intermittent/infrequent service, closed water points, or not enough containers), `0L` if none were reported, and `NA` if the response was ambiguous (dnk/pnta/other) or any component is missing.
@@ -15,6 +11,10 @@
 #' @return A data frame with one additional column:
 #'
 #' * `wash_water_access_issue_physical_infrastructure_d`: `1L` if any physical or infrastructure-related barrier is reported; `0L` if none; `NA` if the response is undefined or any component is missing.
+#'
+#' @section ANA indicator:
+#' Metric IDs `MET099` (physical/infrastructure; legacy indicator ID `IND097`)
+#' and `MET100` (financial/market; legacy indicator ID `IND098`).
 #'
 #' @family water_access_issue
 #' @export

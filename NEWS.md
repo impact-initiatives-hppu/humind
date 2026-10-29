@@ -7,9 +7,11 @@ This release ships the ANA 2026 indicator set.
 ### New Features
 
 * `add_loop_skilled_birth_attendance()` and
-  `add_loop_skilled_birth_attendance_to_main()` compute and aggregate a
-  skilled-birth-attendance indicator for women aged 15–49 with a live birth in
-  the last two years (#697).
+  `add_loop_skilled_birth_attendance_to_main()` compute and aggregate the
+  skilled-birth-attendance indicator (`MET189`) for women aged 15–49 with a
+  live birth in the last two years (#697). ANA flagging uses the individual-level
+  `health_ind_skilled_birth_attendance_d`; the household counts are for
+  triangulation only.
 * `add_loop_skilled_birth_attendance_to_main()` now returns a third column,
   `health_ind_skilled_birth_attendance_known_n`, the count of live births with a
   defined assistance answer. A member whose assistance is unknown is excluded
@@ -22,26 +24,28 @@ This release ships the ANA 2026 indicator set.
 * `add_sanitation_access_issue_physical_safety()` and
   `add_sanitation_access_issue_hygiene_functionality()` flag households
   reporting physical/safety or hygiene/functionality barriers to accessing
-  sanitation facilities (#669).
+  sanitation facilities (`MET139` and `MET140`; #669).
 * `add_sanitation_no_handwashing()` flags households without improved
   sanitation (open defecation or unimproved) and without any handwashing
-  facility (#695).
-* `add_health_facility_less_1h()`: computes ANA IND160, a household-level binary
-  indicator for access to the nearest functional health facility in less than
-  one hour on foot. Travel time is coded `1L` below 60 minutes, `0L` at 60
-  minutes or more, and `NA` when missing. The `health_facility_time` column must
-  contain strictly positive integers; `0`, fractional values, and undefined
-  codes such as `-999` raise an error (#662, #664).
-* `add_water_access_issue_physical()` (IND097) and
-  `add_water_access_issue_financial()` (IND098) flag households reporting
-  physical/infrastructure or financial/market barriers to accessing water
-  points (#668).
+  facility (`MET150`; #695).
+* `add_health_facility_less_1h()`: computes ANA `MET166` (legacy `IND174`), a
+  household-level binary indicator for access to the nearest functional health
+  facility in less than one hour on foot. Travel time is coded `1L` below 60
+  minutes, `0L` at 60 minutes or more, and `NA` when missing. The
+  `health_facility_time` column must contain strictly positive integers; `0`,
+  fractional values, and undefined codes such as `-999` raise an error (#662,
+  #664).
+* `add_water_access_issue_physical()` (`MET099`; legacy `IND097`) and
+  `add_water_access_issue_financial()` (`MET100`; legacy `IND098`) flag
+  households reporting physical/infrastructure or financial/market barriers to
+  accessing water points (#668).
 * `add_loop_healthcare_needed_cat()` gains
   `health_ind_healthcare_needed_lifesaving_yes_unmet` (and the matching
   household count via `add_loop_healthcare_needed_cat_to_main()`): `1` when an
   individual had an unmet healthcare need for a life-saving service, `0`
   otherwise, `NA` when the care type is unknown. Computed only when the
-  healthcare-type column is present in `loop` (#681).
+  healthcare-type column is present in `loop` (#681). ANA flagging uses the
+  individual-level column; the household count is for triangulation only.
 * `add_loop_healthcare_needed_cat_to_main()` now also returns
   `health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one`, a household
   binary for unmet life-saving healthcare needs: `1` when any member has one,
@@ -49,37 +53,53 @@ This release ships the ANA 2026 indicator set.
   is unknown, and `0` when every member is a known negative. Computed only when
   the healthcare-type column is present in `loop` (#681).
 * `add_livestock_significant_decrease_d()`: new function for the livestock
-  production indicator (IND043). It flags each livestock type (including
+  production indicator (`MET070`). It flags each livestock type (including
   donkeys) whose herd decreased by 50% or more between last year and now, and
   a household-level composite that is 1 if any type decreased significantly.
   Households where the livestock section was skipped are left blank (#671).
 * `add_drinking_water_unimproved_no_treatment()` flags households that rely on
   an unimproved or surface water source and do not treat their drinking water
-  (#693).
+  (`MET113`; #693).
 * `add_loop_under5_sick_d()` and `add_loop_under5_sick_d_to_main()`: new
-  functions for the under-5 illness indicators (IND015, IND016, IND017). The
-  loop function flags children under 5 who were sick in the last two weeks and
-  whether the illness included a respiratory symptom (cough) or watery
-  diarrhoea; the `_to_main()` function counts those children per household.
-  Non-substantive answers (`dnk`/`pnta`) are treated as blank, and a household
-  is blank when it has no under-5 child or an under-5 child's answer is
-  unknown, so only households with a known count enter the indicator (#672).
+  functions for the under-5 illness indicators (`MET016`, `MET017`, `MET018`;
+  legacy `IND015`, `IND016`, `IND017`). The loop function flags children under
+  5 who were sick in the last two weeks and whether the illness included a
+  respiratory symptom (cough) or watery diarrhoea; the `_to_main()` function
+  counts those children per household. Non-substantive answers (`dnk`/`pnta`)
+  are treated as blank, and a household is blank when it has no under-5 child
+  or an under-5 child's answer is unknown, so only households with a known
+  count enter the indicator (#672).
 
 * `add_food_source_atypical_d()` and `add_food_source_assistance_d()`: new
-  functions for the food-source indicators (IND053 and IND052). They parse the
-  first-ranked (main) source from `fsl_source_food_ranked` into
-  `fsl_food_source_main` and flag whether a household mainly relies on
-  atypical/emergency sources (hunting, gathering, exchange, borrowed, gift,
-  begging) or humanitarian assistance (in-kind food aid, cash and voucher
-  assistance). Non-substantive answers (`other`/`dnk`/`pnta`) and missing
-  values are blank (#812).
+  functions for the food-source indicators (`MET051` and `MET050`; legacy
+  `IND053` and `IND052`). They parse the first-ranked (main) source from
+  `fsl_source_food_ranked` into `fsl_food_source_main` and flag whether a
+  household mainly relies on atypical/emergency sources (hunting, gathering,
+  exchange, borrowed, gift, begging) or humanitarian assistance (in-kind food
+  aid, cash and voucher assistance). Non-substantive answers
+  (`other`/`dnk`/`pnta`) and missing values are blank (#812).
 * `add_expenditure_type_share_income()` computes a recall-normalised
   expenditure share of income and a catastrophic-spending flag. The wrappers
-  `add_expenditure_healthcare_share_income()` (IND162: 6-month health spending
-  vs 30-day income, 25% threshold) and `add_expenditure_water_share_income()`
-  (IND097: 30-day water spending, 5% threshold) expose the indicator-specific
-  parameters. Zero-income households reporting any expenditure on the
-  indicator are flagged as catastrophic (#689).
+  `add_expenditure_healthcare_share_income()` (`MET169`; legacy `IND176`:
+  6-month health spending vs 30-day income, 25% threshold) and
+  `add_expenditure_water_share_income()` (`MET098`; legacy `IND096`: 30-day
+  water spending, 5% threshold) expose the indicator-specific parameters.
+  Zero-income households reporting any expenditure on the indicator are flagged
+  as catastrophic (#689).
+
+### Documentation
+
+* ANA indicator documentation now uses the 2026 Metric IDs (`MET_ID`) as the
+  primary reference, with legacy `IND` numbers kept only as secondary
+  references. In particular, the water-expenditure-share indicator is `MET098`
+  (legacy `IND096`); `IND097` belongs to the physical/infrastructure
+  water-access indicator.
+* Documented that ANA flagging for skilled birth attendance and unmet health
+  care needs uses the individual-level indicators. The household aggregates are
+  for triangulation only.
+* The pkgdown reference index now groups the ANA indicators by system.
+* `add_drinking_water_unimproved_no_treatment()` now has its own help page,
+  separate from the general drinking-water recode functions.
 
 # humind 2026.4.1
 

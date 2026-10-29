@@ -1,7 +1,3 @@
-#' ANA function
-#' 2025 INDICATOR ID: IND052
-#' 2026 METRIC ID: TBD
-
 #' @title Add Humanitarian Assistance First-Ranked Food Source Dummy Variable
 #'
 #' @description Creates a binary (1/0/NA) dummy variable indicating whether a
@@ -33,6 +29,9 @@
 #' * fsl_food_source_assistance_d: 1 if the first-ranked food source is
 #'   humanitarian assistance; 0 if it is a known non-assistance source; `NA` if
 #'   it cannot be classified.
+#'
+#' @section ANA indicator:
+#' Metric ID `MET050` (legacy indicator ID `IND052`).
 #'
 #' @examples
 #' df <- data.frame(

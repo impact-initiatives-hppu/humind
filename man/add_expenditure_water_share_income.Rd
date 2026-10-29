@@ -42,6 +42,11 @@ Prerequisite: run \code{add_expenditure_type_zero_freq()} before calling this
 function. \code{cm_income_total} must also be present in \code{df}, either directly
 from the survey or via \code{add_income_source_prop()}.
 }
+\section{ANA indicator}{
+
+Metric ID \code{MET098} (legacy indicator ID \code{IND096}).
+}
+
 \examples{
 df <- data.frame(
   cm_expenditure_frequent_water = c(4, 5, 10),

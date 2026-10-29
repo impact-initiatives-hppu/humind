@@ -1,7 +1,3 @@
-#' ANA
-#' 2025 INDICATOR ID: IND043
-#' 2026 METRIC ID: TBD
-
 #' @title Add Livestock Significant Decrease Dummy Variables
 #'
 #' @description For each livestock type, creates a binary (1/0/NA) dummy indicating whether the household experienced a significant decrease (`threshold` or more) in livestock size between last year and now. Also produces a composite dummy that is 1 if any livestock type shows a significant decrease.
@@ -22,6 +18,9 @@
 #'   count is NA.
 #' * `<prefix>livestock_significant_decrease_d`: 1 if any type dummy is 1;
 #'   0 if none is 1 and at least one is non-NA; NA if all type dummies are NA.
+#'
+#' @section ANA indicator:
+#' Metric ID `MET070`.
 #'
 #' @export
 add_livestock_significant_decrease_d <- function(

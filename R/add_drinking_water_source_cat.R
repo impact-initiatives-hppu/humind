@@ -358,10 +358,14 @@ add_drinking_water_quality_jmp_cat <- function(
   df
 }
 
-#' @rdname add_drinking_water_source_cat
+#' @title Add Unimproved Drinking Water and No Treatment Indicator
 #'
 #' @description `add_drinking_water_unimproved_no_treatment()` flags households that rely on an unimproved or surface water source **and** report not treating their drinking water. The flag is `NA` when either the water source category or the treatment response is undefined. Prerequisite: `add_drinking_water_source_cat()` must have been run first so that `wash_drinking_water_source_cat` is present in `df`.
 #'
+#' @section ANA indicator:
+#' Metric ID `MET113`.
+#'
+#' @param df A data frame.
 #' @param drinking_water_source_cat Column name for the recoded water source category (output of `add_drinking_water_source_cat()`).
 #' @param drinking_water_source_cat_improved Response code for improved water source category.
 #' @param drinking_water_source_cat_unimproved Response code for unimproved water source category.

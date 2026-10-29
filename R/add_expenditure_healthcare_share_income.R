@@ -1,7 +1,3 @@
-# ANA
-# 2025 Indicator ID: IND162
-# 2025 Metric ID: TBD
-
 #' @title Add Healthcare Expenditure Share of Income
 #'
 #' @description
@@ -30,6 +26,9 @@
 #' * `cm_expenditure_infrequent_health_share_income_d`: `1L` if catastrophic
 #'   (share >= 0.25), `0L` if not (or for a zero-income household with zero
 #'   health expenditure), `NA_integer_` if income or share is `NA`.
+#'
+#' @section ANA indicator:
+#' Metric ID `MET169` (legacy indicator ID `IND176`).
 #'
 #' @family expenditure_share_income
 #' @export

@@ -1,7 +1,3 @@
-# ANA
-# 2025 Indicator ID: IND160
-# 2026 Metric ID: TBD
-
 #' @title Add Indicator for Access to Health Facility in Less Than One Hour
 #'
 #' @description Adds a binary variable (`1L`/`0L`) for whether a household reports access to the nearest functional health facility in less than one hour on foot.
@@ -14,6 +10,9 @@
 #' @return A data frame with one additional column:
 #'
 #' * `health_facility_less_1h`: `1L` if travel time is strictly less than 60 minutes, `0L` if 60 minutes or more, `NA_integer_` for missing values.
+#'
+#' @section ANA indicator:
+#' Metric ID `MET166` (legacy indicator ID `IND174`).
 #'
 #' @export
 #'

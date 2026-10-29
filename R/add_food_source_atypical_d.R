@@ -1,7 +1,3 @@
-#' ANA function
-#' 2025 INDICATOR ID: IND053
-#' 2026 METRIC ID: TBD
-
 #' @title Add Atypical First-Ranked Food Source Dummy Variable
 #'
 #' @description Creates a binary (1/0/NA) dummy variable indicating whether a
@@ -32,6 +28,9 @@
 #'   missing.
 #' * fsl_food_source_atypical_d: 1 if the first-ranked food source is atypical;
 #'   0 if it is a known non-atypical source; `NA` if it cannot be classified.
+#'
+#' @section ANA indicator:
+#' Metric ID `MET051` (legacy indicator ID `IND053`).
 #'
 #' @examples
 #' df <- data.frame(

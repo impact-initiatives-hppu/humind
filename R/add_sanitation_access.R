@@ -1,7 +1,3 @@
-# ANA
-# 2025 INDICATOR ID: IND143 and 144
-# 2026 METRIC ID: TBD
-
 #' @title Add Physical/Safety Sanitation Access Issue
 #'
 #' @description Computes a binary variable (`wash_sanitation_access_issue_physical_safety_d`) that is 1 if the household reported any physical or safety-related challenge in accessing sanitation facilities (not private, too far, difficult to reach, dangerous, disability-related, not segregated by gender, or some groups excluded), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other). The sanitation facility type is not used: households reporting no facility are classified from their access-issue responses like any other household.
@@ -17,6 +13,10 @@
 #' @return A data frame with one additional column:
 #'
 #' * wash_sanitation_access_issue_physical_safety_d which takes 1L if any physical/safety challenge is reported; 0L if no physical/safety challenge is reported; NA if the response is undefined.
+#'
+#' @section ANA indicator:
+#' Metric IDs `MET139` (physical/safety) and `MET140`
+#' (hygiene/functionality).
 #'
 #' @family sanitation_access_issue
 #' @export

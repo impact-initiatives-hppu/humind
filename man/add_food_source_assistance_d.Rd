@@ -53,11 +53,11 @@ first-ranked source is taken from the ranked food-source question
 (\code{fsl_source_food_ranked}), whose value is an ordered, space-separated list
 of choice names.
 }
-\details{
-ANA function
-2025 INDICATOR ID: IND052
-2026 METRIC ID: TBD
+\section{ANA indicator}{
+
+Metric ID \code{MET050} (legacy indicator ID \code{IND052}).
 }
+
 \examples{
 df <- data.frame(
   fsl_source_food_ranked = c(
