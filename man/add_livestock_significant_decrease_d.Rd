@@ -42,8 +42,8 @@ For each livestock type, creates a binary (1/0/NA) dummy indicating whether the 
 
 If the required columns for a livestock type are absent from \code{df}, an error is thrown.
 }
-\details{
-ANA
-2025 INDICATOR ID: IND043
-2026 METRIC ID: TBD
+\section{ANA indicator}{
+
+Metric ID \code{MET070}; system: Food system.
 }
+

@@ -1,10 +1,12 @@
-# ANA
-# 2025 Indicator ID: TBD
-# 2025 Metric ID: TBD
-
 #' @title Add Skilled Birth Attendance to Individual Data
 #'
 #' @description Computes two binary variables at the individual level for women of reproductive age (15–49): whether the woman had a live birth in the last two years, and whether that birth was attended by skilled health personnel (doctor, nurse, or midwife).
+#'
+#' For ANA flagging, use the individual-level
+#' `health_ind_skilled_birth_attendance_d` (percentage of women with a live birth
+#' attended by skilled personnel). The household counts returned by
+#' `add_loop_skilled_birth_attendance_to_main()` are for triangulation only and
+#' are not the ANA flagging input.
 #'
 #' @param loop A data frame of individual-level data.
 #' @param ind_gender Column name for the gender of the individual.
@@ -26,6 +28,9 @@
 #' * `health_ind_gender_female_above_age_d`: `1L` if the individual is female and aged between `ind_age_min` and `ind_age_max` (inclusive); `0L` if not; `NA_integer_` if gender or age is missing.
 #' * `health_ind_live_birth_2years_d`: `1L` if woman aged 15–49 with a live birth in the last two years; `0L` otherwise (including men and women outside age range); `NA_integer_` if age/gender missing or pregnancy response is undefined.
 #' * `health_ind_skilled_birth_attendance_d`: `1L` if live birth and attended by skilled personnel; `0L` if live birth and not attended by skilled personnel; `NA_integer_` if no live birth, birth assistance response is undefined, or live birth status is NA.
+#'
+#' @section ANA indicator:
+#' Metric ID `MET189`; system: Health services.
 #'
 #' @export
 add_loop_skilled_birth_attendance <- function(
@@ -125,6 +130,9 @@ add_loop_skilled_birth_attendance <- function(
 #' @title Aggregate Skilled Birth Attendance to Household Level
 #'
 #' @description Aggregates individual-level skilled birth attendance indicators to the household level by summing the binary dummy variables per household. A member whose birth assistance or live-birth status is unknown is excluded from the counts (`health_ind_skilled_birth_attendance_known_n` and `health_ind_skilled_birth_attendance_n`, and `health_ind_live_birth_2years_n` for an unknown live-birth status), so an undefined answer neither counts as non-skilled nor blanks the household figures.
+#'
+#' These household aggregates are for triangulation only. ANA flagging uses the
+#' individual-level `health_ind_skilled_birth_attendance_d` column.
 #'
 #' @param main A data frame of household-level data.
 #' @param loop A data frame of individual-level data (output of `add_loop_skilled_birth_attendance()`).

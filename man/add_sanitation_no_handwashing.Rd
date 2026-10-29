@@ -52,6 +52,11 @@ Flags households without access to improved sanitation AND without any handwashi
 
 Prerequisites: \code{add_sanitation_facility_cat()} and \code{add_handwashing_facility_cat()} must have been run first.
 }
+\section{ANA indicator}{
+
+Metric ID \code{MET150}; system: Living conditions.
+}
+
 \examples{
 df <- data.frame(
   wash_sanitation_facility_cat = c(

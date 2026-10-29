@@ -89,5 +89,19 @@ A data frame with three additional columns:
 \description{
 Computes two binary variables at the individual level for women of reproductive age (15–49): whether the woman had a live birth in the last two years, and whether that birth was attended by skilled health personnel (doctor, nurse, or midwife).
 
+For ANA flagging, use the individual-level
+\code{health_ind_skilled_birth_attendance_d} (percentage of women with a live birth
+attended by skilled personnel). The household counts returned by
+\code{add_loop_skilled_birth_attendance_to_main()} are for triangulation only and
+are not the ANA flagging input.
+
 Aggregates individual-level skilled birth attendance indicators to the household level by summing the binary dummy variables per household. A member whose birth assistance or live-birth status is unknown is excluded from the counts (\code{health_ind_skilled_birth_attendance_known_n} and \code{health_ind_skilled_birth_attendance_n}, and \code{health_ind_live_birth_2years_n} for an unknown live-birth status), so an undefined answer neither counts as non-skilled nor blanks the household figures.
+
+These household aggregates are for triangulation only. ANA flagging uses the
+individual-level \code{health_ind_skilled_birth_attendance_d} column.
 }
+\section{ANA indicator}{
+
+Metric ID \code{MET189}; system: Health services.
+}
+

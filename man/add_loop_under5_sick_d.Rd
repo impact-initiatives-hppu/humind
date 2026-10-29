@@ -105,8 +105,10 @@ household is blank when it has no eligible member, and also when any eligible
 member has an unknown answer, so that only households with a known count
 enter the percentage.
 }
-\details{
-ANA function
-2025 INDICATOR ID: IND015, IND016, IND017
-2026 METRIC ID: TBD
+\section{ANA indicator}{
+
+Metric IDs \code{MET016} (any illness), \code{MET017} (respiratory), and \code{MET018}
+(watery diarrhoea; legacy indicator IDs \code{IND015}, \code{IND016}, \code{IND017});
+system: Health outcomes.
 }
+

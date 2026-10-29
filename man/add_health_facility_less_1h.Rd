@@ -22,6 +22,11 @@ Adds a binary variable (\code{1L}/\code{0L}) for whether a household reports acc
 
 Values must be strictly positive integers. The \code{health_facility_time} column is validated with \code{checkmate::assert_integerish()}: \code{0}, negative codes (including \code{-999}), fractional values, and non-finite values all raise an error — recode or remove them before calling this function.
 }
+\section{ANA indicator}{
+
+Metric ID \code{MET166} (legacy indicator ID \code{IND174}); system: Health services.
+}
+
 \examples{
 input_data <- data.frame(
   health_facility_time = c(15L, 45L, 60L, 90L, NA_integer_)

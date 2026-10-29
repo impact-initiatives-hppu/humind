@@ -1,3 +1,55 @@
 url: https://impact-initiatives-hppu.github.io/humind/
 template:
   bootstrap: 5
+
+reference:
+# Keep these contents explicit: matching by @family/@concept would merge the
+# Health services and Health outcomes groups into one section.
+- title: Health services
+  desc: "ANA indicators: birth attendance, access to a health facility, and health expenditure."
+  contents:
+  - add_loop_skilled_birth_attendance
+  - add_health_facility_less_1h
+  - add_expenditure_healthcare_share_income
+
+- title: Health outcomes
+  desc: "ANA indicators: under-5 illness and unmet health care needs."
+  contents:
+  - add_loop_under5_sick_d
+  - add_loop_healthcare_needed_cat
+
+- title: Living conditions
+  desc: "ANA indicators: sanitation access, hygiene, and handwashing."
+  contents:
+  - add_sanitation_access_issue_physical_safety
+  - add_sanitation_no_handwashing
+
+- title: Food system
+  desc: "ANA indicators: food sources and livestock production."
+  contents:
+  - add_food_source_assistance_d
+  - add_food_source_atypical_d
+  - add_livestock_significant_decrease_d
+
+- title: Water system
+  desc: "ANA indicators: drinking-water treatment and water access."
+  contents:
+  - add_drinking_water_unimproved_no_treatment
+  - add_water_access_issue_physical
+
+- title: Other functions
+  desc: Composite indicators, recodes, and utilities outside the ANA indicator set.
+  contents:
+  - matches(".")
+  - "-add_loop_skilled_birth_attendance"
+  - "-add_health_facility_less_1h"
+  - "-add_expenditure_healthcare_share_income"
+  - "-add_loop_under5_sick_d"
+  - "-add_loop_healthcare_needed_cat"
+  - "-add_sanitation_access_issue_physical_safety"
+  - "-add_sanitation_no_handwashing"
+  - "-add_food_source_assistance_d"
+  - "-add_food_source_atypical_d"
+  - "-add_livestock_significant_decrease_d"
+  - "-add_drinking_water_unimproved_no_treatment"
+  - "-add_water_access_issue_physical"

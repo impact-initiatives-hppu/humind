@@ -106,5 +106,23 @@ A data frame with additional columns:
 \description{
 This function adds healthcare need categories to individual-level data, including disability information if provided. It creates dummy variables for different healthcare need scenarios and optionally includes disability-specific indicators.
 
+For ANA flagging, use the individual-level indicators
+\code{health_ind_healthcare_needed_yes_unmet} (any unmet need) and
+\code{health_ind_healthcare_needed_lifesaving_yes_unmet} (unmet need for a
+potentially life-saving service). The household counts and
+\code{health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one} returned by
+\code{add_loop_healthcare_needed_cat_to_main()} are for triangulation only.
+
 This function aggregates individual-level healthcare need data to the household level, including disability-specific information if provided.
+
+These household aggregates are for triangulation only. ANA flagging uses the
+individual-level \code{health_ind_healthcare_needed_yes_unmet} and
+\code{health_ind_healthcare_needed_lifesaving_yes_unmet} columns.
 }
+\section{ANA indicator}{
+
+Metric IDs \code{MET030} (any unmet health need; legacy indicator ID \code{IND025})
+and \code{MET031} (unmet need for a potentially life-saving service);
+system: Health outcomes.
+}
+

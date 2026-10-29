@@ -42,6 +42,11 @@ Prerequisite: run \code{add_expenditure_type_zero_infreq()} before calling this
 function. \code{cm_income_total} must also be present in \code{df}, either directly
 from the survey or via \code{add_income_source_prop()}.
 }
+\section{ANA indicator}{
+
+Metric ID \code{MET169} (legacy indicator ID \code{IND176}); system: Health services.
+}
+
 \examples{
 df <- data.frame(
   cm_expenditure_infrequent_health = c(60, 0, 30),

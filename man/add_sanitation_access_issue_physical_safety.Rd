@@ -62,6 +62,12 @@ Computes a binary variable (\code{wash_sanitation_access_issue_physical_safety_d
 
 Computes a binary variable (\code{wash_sanitation_access_issue_hygiene_functionality_d}) that is 1 if the household reported any hygiene or functionality challenge in accessing sanitation facilities (too crowded, not functioning/full, unclean/unhygienic), 0 if none were reported, and NA if the response was ambiguous (dnk/pnta/other). The sanitation facility type is not used: households reporting no facility are classified from their access-issue responses like any other household.
 }
+\section{ANA indicator}{
+
+Metric IDs \code{MET139} (physical/safety) and \code{MET140}
+(hygiene/functionality); system: Living conditions.
+}
+
 \examples{
 df <- data.frame(
   wash_sanitation_facility = "pit_latrine_slab",

@@ -55,6 +55,13 @@ Computes a binary variable (\code{wash_water_access_issue_physical_infrastructur
 
 Computes a binary variable (\code{wash_water_access_issue_financial_market_d}) that is \code{1L} if the household reported any financial or market-related barrier to accessing water (water not available at the market, or too expensive), \code{0L} if none were reported, and \code{NA} if the response was ambiguous (dnk/pnta/other) or any component is missing.
 }
+\section{ANA indicator}{
+
+Metric IDs \code{MET099} (physical/infrastructure; legacy indicator ID \code{IND097})
+and \code{MET100} (financial/market; legacy indicator ID \code{IND098});
+system: Water system.
+}
+
 \examples{
 df <- data.frame(
   wash_water_access_issue = c(
