@@ -54,6 +54,10 @@ A data frame with two additional columns:
   household with zero health expenditure), `NA_integer_` if income or
   share is `NA`.
 
+## ANA indicator
+
+Metric ID `MET169` (legacy indicator ID `IND176`).
+
 ## See also
 
 Other expenditure_share_income:

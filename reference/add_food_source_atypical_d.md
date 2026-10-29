@@ -65,9 +65,9 @@ A data frame with additional columns:
   atypical; 0 if it is a known non-atypical source; `NA` if it cannot be
   classified.
 
-## Details
+## ANA indicator
 
-ANA function 2025 INDICATOR ID: IND053 2026 METRIC ID: TBD
+Metric ID `MET051` (legacy indicator ID `IND053`).
 
 ## Examples
 

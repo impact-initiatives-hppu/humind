@@ -150,7 +150,7 @@ A data frame with additional columns:
 - nut_ind_under5_sick_yes_watery_d_n: Count of under-5 with watery
   diarrhoea symptom per household.
 
-## Details
+## ANA indicator
 
-ANA function 2025 INDICATOR ID: IND015, IND016, IND017 2026 METRIC ID:
-TBD
+Metric IDs `MET016` (any illness), `MET017` (respiratory), and `MET018`
+(watery diarrhoea; legacy indicator IDs `IND015`, `IND016`, `IND017`).

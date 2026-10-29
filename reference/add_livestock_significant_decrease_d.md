@@ -64,6 +64,6 @@ A data frame with additional columns:
   0 if none is 1 and at least one is non-NA; NA if all type dummies are
   NA.
 
-## Details
+## ANA indicator
 
-ANA 2025 INDICATOR ID: IND043 2026 METRIC ID: TBD
+Metric ID `MET070`.

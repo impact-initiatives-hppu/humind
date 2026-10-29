@@ -100,6 +100,11 @@ A data frame with one additional column:
   hygiene/functionality challenge is reported; NA if the response is
   undefined.
 
+## ANA indicator
+
+Metric IDs `MET139` (physical/safety) and `MET140`
+(hygiene/functionality).
+
 ## Examples
 
 ``` r

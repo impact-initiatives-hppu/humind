@@ -11,9 +11,13 @@ This release ships the ANA 2026 indicator set.
 - [`add_loop_skilled_birth_attendance()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_skilled_birth_attendance.md)
   and
   [`add_loop_skilled_birth_attendance_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_skilled_birth_attendance.md)
-  compute and aggregate a skilled-birth-attendance indicator for women
-  aged 15–49 with a live birth in the last two years
+  compute and aggregate the skilled-birth-attendance indicator
+  (`MET189`) for women aged 15–49 with a live birth in the last two
+  years
   ([\#697](https://github.com/impact-initiatives-hppu/humind/issues/697)).
+  ANA flagging uses the individual-level
+  `health_ind_skilled_birth_attendance_d`; the household counts are for
+  triangulation only.
 
 - [`add_loop_skilled_birth_attendance_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_skilled_birth_attendance.md)
   now returns a third column,
@@ -32,29 +36,31 @@ This release ships the ANA 2026 indicator set.
   and
   [`add_sanitation_access_issue_hygiene_functionality()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_access_issue_physical_safety.md)
   flag households reporting physical/safety or hygiene/functionality
-  barriers to accessing sanitation facilities
-  ([\#669](https://github.com/impact-initiatives-hppu/humind/issues/669)).
+  barriers to accessing sanitation facilities (`MET139` and `MET140`;
+  [\#669](https://github.com/impact-initiatives-hppu/humind/issues/669)).
 
 - [`add_sanitation_no_handwashing()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_no_handwashing.md)
   flags households without improved sanitation (open defecation or
-  unimproved) and without any handwashing facility
-  ([\#695](https://github.com/impact-initiatives-hppu/humind/issues/695)).
+  unimproved) and without any handwashing facility (`MET150`;
+  [\#695](https://github.com/impact-initiatives-hppu/humind/issues/695)).
 
 - [`add_health_facility_less_1h()`](https://impact-initiatives-hppu.github.io/humind/reference/add_health_facility_less_1h.md):
-  computes ANA IND160, a household-level binary indicator for access to
-  the nearest functional health facility in less than one hour on foot.
-  Travel time is coded `1L` below 60 minutes, `0L` at 60 minutes or
-  more, and `NA` when missing. The `health_facility_time` column must
-  contain strictly positive integers; `0`, fractional values, and
-  undefined codes such as `-999` raise an error
+  computes ANA `MET166` (legacy `IND174`), a household-level binary
+  indicator for access to the nearest functional health facility in less
+  than one hour on foot. Travel time is coded `1L` below 60 minutes,
+  `0L` at 60 minutes or more, and `NA` when missing. The
+  `health_facility_time` column must contain strictly positive integers;
+  `0`, fractional values, and undefined codes such as `-999` raise an
+  error
   ([\#662](https://github.com/impact-initiatives-hppu/humind/issues/662),
   [\#664](https://github.com/impact-initiatives-hppu/humind/issues/664)).
 
 - [`add_water_access_issue_physical()`](https://impact-initiatives-hppu.github.io/humind/reference/add_water_access_issue_physical.md)
-  (IND097) and
+  (`MET099`; legacy `IND097`) and
   [`add_water_access_issue_financial()`](https://impact-initiatives-hppu.github.io/humind/reference/add_water_access_issue_physical.md)
-  (IND098) flag households reporting physical/infrastructure or
-  financial/market barriers to accessing water points
+  (`MET100`; legacy `IND098`) flag households reporting
+  physical/infrastructure or financial/market barriers to accessing
+  water points
   ([\#668](https://github.com/impact-initiatives-hppu/humind/issues/668)).
 
 - [`add_loop_healthcare_needed_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.md)
@@ -65,6 +71,8 @@ This release ships the ANA 2026 indicator set.
   service, `0` otherwise, `NA` when the care type is unknown. Computed
   only when the healthcare-type column is present in `loop`
   ([\#681](https://github.com/impact-initiatives-hppu/humind/issues/681)).
+  ANA flagging uses the individual-level column; the household count is
+  for triangulation only.
 
 - [`add_loop_healthcare_needed_cat_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.md)
   now also returns
@@ -77,53 +85,71 @@ This release ships the ANA 2026 indicator set.
   ([\#681](https://github.com/impact-initiatives-hppu/humind/issues/681)).
 
 - [`add_livestock_significant_decrease_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_livestock_significant_decrease_d.md):
-  new function for the livestock production indicator (IND043). It flags
-  each livestock type (including donkeys) whose herd decreased by 50% or
-  more between last year and now, and a household-level composite that
-  is 1 if any type decreased significantly. Households where the
+  new function for the livestock production indicator (`MET070`). It
+  flags each livestock type (including donkeys) whose herd decreased by
+  50% or more between last year and now, and a household-level composite
+  that is 1 if any type decreased significantly. Households where the
   livestock section was skipped are left blank
   ([\#671](https://github.com/impact-initiatives-hppu/humind/issues/671)).
 
-- [`add_drinking_water_unimproved_no_treatment()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
+- [`add_drinking_water_unimproved_no_treatment()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_unimproved_no_treatment.md)
   flags households that rely on an unimproved or surface water source
-  and do not treat their drinking water
-  ([\#693](https://github.com/impact-initiatives-hppu/humind/issues/693)).
+  and do not treat their drinking water (`MET113`;
+  [\#693](https://github.com/impact-initiatives-hppu/humind/issues/693)).
 
 - [`add_loop_under5_sick_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md)
   and
   [`add_loop_under5_sick_d_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md):
-  new functions for the under-5 illness indicators (IND015, IND016,
-  IND017). The loop function flags children under 5 who were sick in the
-  last two weeks and whether the illness included a respiratory symptom
-  (cough) or watery diarrhoea; the `_to_main()` function counts those
-  children per household. Non-substantive answers (`dnk`/`pnta`) are
-  treated as blank, and a household is blank when it has no under-5
-  child or an under-5 child’s answer is unknown, so only households with
-  a known count enter the indicator
+  new functions for the under-5 illness indicators (`MET016`, `MET017`,
+  `MET018`; legacy `IND015`, `IND016`, `IND017`). The loop function
+  flags children under 5 who were sick in the last two weeks and whether
+  the illness included a respiratory symptom (cough) or watery
+  diarrhoea; the `_to_main()` function counts those children per
+  household. Non-substantive answers (`dnk`/`pnta`) are treated as
+  blank, and a household is blank when it has no under-5 child or an
+  under-5 child’s answer is unknown, so only households with a known
+  count enter the indicator
   ([\#672](https://github.com/impact-initiatives-hppu/humind/issues/672)).
 
 - [`add_food_source_atypical_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_food_source_atypical_d.md)
   and
   [`add_food_source_assistance_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_food_source_assistance_d.md):
-  new functions for the food-source indicators (IND053 and IND052). They
-  parse the first-ranked (main) source from `fsl_source_food_ranked`
-  into `fsl_food_source_main` and flag whether a household mainly relies
-  on atypical/emergency sources (hunting, gathering, exchange, borrowed,
-  gift, begging) or humanitarian assistance (in-kind food aid, cash and
-  voucher assistance). Non-substantive answers (`other`/`dnk`/`pnta`)
-  and missing values are blank
+  new functions for the food-source indicators (`MET051` and `MET050`;
+  legacy `IND053` and `IND052`). They parse the first-ranked (main)
+  source from `fsl_source_food_ranked` into `fsl_food_source_main` and
+  flag whether a household mainly relies on atypical/emergency sources
+  (hunting, gathering, exchange, borrowed, gift, begging) or
+  humanitarian assistance (in-kind food aid, cash and voucher
+  assistance). Non-substantive answers (`other`/`dnk`/`pnta`) and
+  missing values are blank
   ([\#812](https://github.com/impact-initiatives-hppu/humind/issues/812)).
 
 - [`add_expenditure_type_share_income()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_share_income.md)
   computes a recall-normalised expenditure share of income and a
   catastrophic-spending flag. The wrappers
   [`add_expenditure_healthcare_share_income()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_healthcare_share_income.md)
-  (IND162: 6-month health spending vs 30-day income, 25% threshold) and
+  (`MET169`; legacy `IND176`: 6-month health spending vs 30-day income,
+  25% threshold) and
   [`add_expenditure_water_share_income()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_water_share_income.md)
-  (IND097: 30-day water spending, 5% threshold) expose the
-  indicator-specific parameters. Zero-income households reporting any
-  expenditure on the indicator are flagged as catastrophic
+  (`MET098`; legacy `IND096`: 30-day water spending, 5% threshold)
+  expose the indicator-specific parameters. Zero-income households
+  reporting any expenditure on the indicator are flagged as catastrophic
   ([\#689](https://github.com/impact-initiatives-hppu/humind/issues/689)).
+
+#### Documentation
+
+- ANA indicator documentation now uses the 2026 Metric IDs (`MET_ID`) as
+  the primary reference, with legacy `IND` numbers kept only as
+  secondary references. In particular, the water-expenditure-share
+  indicator is `MET098` (legacy `IND096`); `IND097` belongs to the
+  physical/infrastructure water-access indicator.
+- Documented that ANA flagging for skilled birth attendance and unmet
+  health care needs uses the individual-level indicators. The household
+  aggregates are for triangulation only.
+- The pkgdown reference index now groups the ANA indicators by system.
+- [`add_drinking_water_unimproved_no_treatment()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_unimproved_no_treatment.md)
+  now has its own help page, separate from the general drinking-water
+  recode functions.
 
 ## humind 2026.4.1
 

@@ -87,6 +87,10 @@ A data frame with one additional column:
   improved facility) or has handwashing (limited or basic);
   `NA_integer_` if either category is `NA` or undefined.
 
+## ANA indicator
+
+Metric ID `MET150`.
+
 ## Examples
 
 ``` r

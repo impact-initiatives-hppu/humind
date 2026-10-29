@@ -5,8 +5,20 @@ including disability information if provided. It creates dummy variables
 for different healthcare need scenarios and optionally includes
 disability-specific indicators.
 
+For ANA flagging, use the individual-level indicators
+`health_ind_healthcare_needed_yes_unmet` (any unmet need) and
+`health_ind_healthcare_needed_lifesaving_yes_unmet` (unmet need for a
+potentially life-saving service). The household counts and
+`health_ind_healthcare_needed_lifesaving_yes_unmet_at_least_one`
+returned by `add_loop_healthcare_needed_cat_to_main()` are for
+triangulation only.
+
 This function aggregates individual-level healthcare need data to the
 household level, including disability-specific information if provided.
+
+These household aggregates are for triangulation only. ANA flagging uses
+the individual-level `health_ind_healthcare_needed_yes_unmet` and
+`health_ind_healthcare_needed_lifesaving_yes_unmet` columns.
 
 ## Usage
 
@@ -184,3 +196,9 @@ A data frame with additional columns:
   member has one, `NA` if no member is confirmed positive but at least
   one member's care type is unknown, and `0` if every member is a known
   negative (only when the column is present in `loop`).
+
+## ANA indicator
+
+Metric IDs `MET030` (any unmet health need; legacy indicator ID
+`IND025`) and `MET031` (unmet need for a potentially life-saving
+service).

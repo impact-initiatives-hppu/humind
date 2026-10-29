@@ -52,6 +52,10 @@ A data frame with two additional columns:
   (share \>= 0.05), `0L` if not (or for a zero-income household with
   zero water expenditure), `NA_integer_` if income or share is `NA`.
 
+## ANA indicator
+
+Metric ID `MET098` (legacy indicator ID `IND096`).
+
 ## See also
 
 Other expenditure_share_income:

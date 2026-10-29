@@ -85,6 +85,11 @@ A data frame with one additional column:
   market-related barrier is reported; `0L` if none; `NA` if the response
   is undefined or any component is missing.
 
+## ANA indicator
+
+Metric IDs `MET099` (physical/infrastructure; legacy indicator ID
+`IND097`) and `MET100` (financial/market; legacy indicator ID `IND098`).
+
 ## Examples
 
 ``` r

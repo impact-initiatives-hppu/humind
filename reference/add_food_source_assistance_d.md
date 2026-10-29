@@ -65,9 +65,9 @@ A data frame with additional columns:
   humanitarian assistance; 0 if it is a known non-assistance source;
   `NA` if it cannot be classified.
 
-## Details
+## ANA indicator
 
-ANA function 2025 INDICATOR ID: IND052 2026 METRIC ID: TBD
+Metric ID `MET050` (legacy indicator ID `IND052`).
 
 ## Examples
 

@@ -5,6 +5,12 @@ reproductive age (15–49): whether the woman had a live birth in the last
 two years, and whether that birth was attended by skilled health
 personnel (doctor, nurse, or midwife).
 
+For ANA flagging, use the individual-level
+`health_ind_skilled_birth_attendance_d` (percentage of women with a live
+birth attended by skilled personnel). The household counts returned by
+`add_loop_skilled_birth_attendance_to_main()` are for triangulation only
+and are not the ANA flagging input.
+
 Aggregates individual-level skilled birth attendance indicators to the
 household level by summing the binary dummy variables per household. A
 member whose birth assistance or live-birth status is unknown is
@@ -13,6 +19,9 @@ and `health_ind_skilled_birth_attendance_n`, and
 `health_ind_live_birth_2years_n` for an unknown live-birth status), so
 an undefined answer neither counts as non-skilled nor blanks the
 household figures.
+
+These household aggregates are for triangulation only. ANA flagging uses
+the individual-level `health_ind_skilled_birth_attendance_d` column.
 
 ## Usage
 
@@ -162,3 +171,7 @@ A data frame with three additional columns:
   birth attendance indicator: count of live births attended by skilled
   personnel per household. Members with an unknown assistance answer or
   live-birth status are excluded; `0` for households absent from `loop`.
+
+## ANA indicator
+
+Metric ID `MET189`.

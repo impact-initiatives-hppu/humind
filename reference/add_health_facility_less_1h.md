@@ -36,6 +36,10 @@ A data frame with one additional column:
   60 minutes, `0L` if 60 minutes or more, `NA_integer_` for missing
   values.
 
+## ANA indicator
+
+Metric ID `MET166` (legacy indicator ID `IND174`).
+
 ## Examples
 
 ``` r

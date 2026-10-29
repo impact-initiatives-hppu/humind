@@ -116,7 +116,69 @@ License](https://impact-initiatives-hppu.github.io/humind/LICENSE.md).
 
 # Package index
 
-## All functions
+## ANA indicators
+
+Indicators from the 2026 ANA reference list, grouped by system. Each
+function page shows its Metric ID (`MET_ID`) and legacy indicator ID.
+
+### Health services
+
+Birth attendance, access to a health facility, and health expenditure.
+
+- [`add_loop_skilled_birth_attendance()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_skilled_birth_attendance.md)
+  [`add_loop_skilled_birth_attendance_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_skilled_birth_attendance.md)
+  : Add Skilled Birth Attendance to Individual Data
+- [`add_health_facility_less_1h()`](https://impact-initiatives-hppu.github.io/humind/reference/add_health_facility_less_1h.md)
+  : Add Indicator for Access to Health Facility in Less Than One Hour
+- [`add_expenditure_healthcare_share_income()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_healthcare_share_income.md)
+  : Add Healthcare Expenditure Share of Income
+
+### Health outcomes
+
+Under-5 illness and unmet health care needs.
+
+- [`add_loop_under5_sick_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md)
+  [`add_loop_under5_sick_d_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md)
+  : Add Under-5 Sick Dummy Variables to Individual Data
+- [`add_loop_healthcare_needed_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.md)
+  [`add_loop_healthcare_needed_cat_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.md)
+  : Add Healthcare Needed Category to Individual Data
+
+### Living conditions
+
+Sanitation access, hygiene, and handwashing.
+
+- [`add_sanitation_access_issue_physical_safety()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_access_issue_physical_safety.md)
+  [`add_sanitation_access_issue_hygiene_functionality()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_access_issue_physical_safety.md)
+  : Add Physical/Safety Sanitation Access Issue
+- [`add_sanitation_no_handwashing()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_no_handwashing.md)
+  : Add No Improved Sanitation and No Handwashing Facility Indicator
+
+### Food system
+
+Food sources and livestock production.
+
+- [`add_food_source_assistance_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_food_source_assistance_d.md)
+  : Add Humanitarian Assistance First-Ranked Food Source Dummy Variable
+- [`add_food_source_atypical_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_food_source_atypical_d.md)
+  : Add Atypical First-Ranked Food Source Dummy Variable
+- [`add_livestock_significant_decrease_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_livestock_significant_decrease_d.md)
+  : Add Livestock Significant Decrease Dummy Variables
+
+### Water system
+
+Drinking-water treatment and water access.
+
+- [`add_drinking_water_unimproved_no_treatment()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_unimproved_no_treatment.md)
+  : Add Unimproved Drinking Water and No Treatment Indicator
+- [`add_water_access_issue_physical()`](https://impact-initiatives-hppu.github.io/humind/reference/add_water_access_issue_physical.md)
+  [`add_water_access_issue_financial()`](https://impact-initiatives-hppu.github.io/humind/reference/add_water_access_issue_physical.md)
+  : Add Physical Water Access Issue Indicator
+
+## MSNI composites & Utils
+
+MSNI Composite indicators, recodes, and utilities outside the ANA
+indicator set.
 
 - [`add_access_to_phone_best()`](https://impact-initiatives-hppu.github.io/humind/reference/add_access_to_phone_best.md)
   [`add_access_to_phone_coverage()`](https://impact-initiatives-hppu.github.io/humind/reference/add_access_to_phone_best.md)
@@ -142,10 +204,7 @@ License](https://impact-initiatives-hppu.github.io/humind/LICENSE.md).
   [`add_drinking_water_time_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
   [`add_drinking_water_time_threshold_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
   [`add_drinking_water_quality_jmp_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
-  [`add_drinking_water_unimproved_no_treatment()`](https://impact-initiatives-hppu.github.io/humind/reference/add_drinking_water_source_cat.md)
   : Add Drinking Water Quality JMP Category
-- [`add_expenditure_healthcare_share_income()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_healthcare_share_income.md)
-  : Add Healthcare Expenditure Share of Income
 - [`add_expenditure_type_freq_rank()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_freq_rank.md)
   : Rank Top 3 Frequent Expenditure Types
 - [`add_expenditure_type_infreq_rank()`](https://impact-initiatives-hppu.github.io/humind/reference/add_expenditure_type_infreq_rank.md)
@@ -171,14 +230,8 @@ License](https://impact-initiatives-hppu.github.io/humind/LICENSE.md).
   : add_fcs
 - [`add_fds_cannot_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_fds_cannot_cat.md)
   : Add Functional Domestic Space Tasks Categories
-- [`add_food_source_assistance_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_food_source_assistance_d.md)
-  : Add Humanitarian Assistance First-Ranked Food Source Dummy Variable
-- [`add_food_source_atypical_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_food_source_atypical_d.md)
-  : Add Atypical First-Ranked Food Source Dummy Variable
 - [`add_handwashing_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_handwashing_facility_cat.md)
   : Add Handwashing Facility Category
-- [`add_health_facility_less_1h()`](https://impact-initiatives-hppu.github.io/humind/reference/add_health_facility_less_1h.md)
-  : Add Indicator for Access to Health Facility in Less Than One Hour
 - [`add_hhs()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hhs.md)
   : Add the household hunger scale to the dataset
 - [`add_hoh_final()`](https://impact-initiatives-hppu.github.io/humind/reference/add_hoh_final.md)
@@ -193,8 +246,6 @@ License](https://impact-initiatives-hppu.github.io/humind/LICENSE.md).
   : Add Zero to Income Sources When Skipped
 - [`add_lcsi()`](https://impact-initiatives-hppu.github.io/humind/reference/add_lcsi.md)
   : Add LCSI
-- [`add_livestock_significant_decrease_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_livestock_significant_decrease_d.md)
-  : Add Livestock Significant Decrease Dummy Variables
 - [`add_loop_age_dummy()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_age_dummy.md)
   [`add_loop_age_dummy_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_age_dummy.md)
   [`add_loop_age_gender_dummy()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_age_dummy.md)
@@ -212,15 +263,6 @@ License](https://impact-initiatives-hppu.github.io/humind/LICENSE.md).
 - [`add_loop_edu_ind_age_corrected()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_ind_age_corrected.md)
   [`add_loop_edu_ind_schooling_age_d_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_edu_ind_age_corrected.md)
   : Add a correct schooling age to the loop
-- [`add_loop_healthcare_needed_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.md)
-  [`add_loop_healthcare_needed_cat_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_healthcare_needed_cat.md)
-  : Add Healthcare Needed Category to Individual Data
-- [`add_loop_skilled_birth_attendance()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_skilled_birth_attendance.md)
-  [`add_loop_skilled_birth_attendance_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_skilled_birth_attendance.md)
-  : Add Skilled Birth Attendance to Individual Data
-- [`add_loop_under5_sick_d()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md)
-  [`add_loop_under5_sick_d_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_under5_sick_d.md)
-  : Add Under-5 Sick Dummy Variables to Individual Data
 - [`add_loop_wgq_ss()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_wgq_ss.md)
   [`add_loop_wgq_ss_to_main()`](https://impact-initiatives-hppu.github.io/humind/reference/add_loop_wgq_ss.md)
   : Prepare Washington Group Short Set (WG-SS) Disability Indicators
@@ -241,25 +283,17 @@ License](https://impact-initiatives-hppu.github.io/humind/LICENSE.md).
   : Add indicator for reduced Household CSI Score(rcsi)
 - [`add_received_assistance()`](https://impact-initiatives-hppu.github.io/humind/reference/add_received_assistance.md)
   : Add Received Assistance (Combined Calculation)
-- [`add_sanitation_access_issue_physical_safety()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_access_issue_physical_safety.md)
-  [`add_sanitation_access_issue_hygiene_functionality()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_access_issue_physical_safety.md)
-  : Add Physical/Safety Sanitation Access Issue
 - [`add_sanitation_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
   [`add_sharing_sanitation_facility_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
   [`add_sharing_sanitation_facility_n_ind()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
   [`add_sanitation_facility_jmp_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_facility_cat.md)
   : Sanitation Facility Classification
-- [`add_sanitation_no_handwashing()`](https://impact-initiatives-hppu.github.io/humind/reference/add_sanitation_no_handwashing.md)
-  : Add No Improved Sanitation and No Handwashing Facility Indicator
 - [`add_shelter_damage_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_shelter_damage_cat.md)
   : Add Category of Shelter damage (SNFI dimension)
 - [`add_shelter_issue_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_shelter_issue_cat.md)
   : Add Number of Shelter Issues and Related Category
 - [`add_shelter_type_cat()`](https://impact-initiatives-hppu.github.io/humind/reference/add_shelter_type_cat.md)
   : Combine and Recode Shelter Types
-- [`add_water_access_issue_physical()`](https://impact-initiatives-hppu.github.io/humind/reference/add_water_access_issue_physical.md)
-  [`add_water_access_issue_financial()`](https://impact-initiatives-hppu.github.io/humind/reference/add_water_access_issue_physical.md)
-  : Add Physical Water Access Issue Indicator
 - [`are_cols_numeric()`](https://impact-initiatives-hppu.github.io/humind/reference/are_cols_numeric.md)
   : Stop statement values are not numeric
 - [`are_values_in_range()`](https://impact-initiatives-hppu.github.io/humind/reference/are_values_in_range.md)
