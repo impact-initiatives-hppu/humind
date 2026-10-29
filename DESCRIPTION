@@ -1,6 +1,6 @@
 Package: humind
 Title: Compose MSNA Indicators
-Version: 2026.4.1
+Version: 2026.5.0
 Authors@R: c(
     person("Quentin", "VILLOTTA", , "quentin.villotta@impact-initiatives.org", role = c("aut", "cre")),
     person("Guillaume", "Noblet", role = "aut"),
@@ -39,5 +39,5 @@ Suggests:
 VignetteBuilder: knitr
 Config/Needs/website: rmarkdown
 Config/testthat/edition: 3
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1
 LazyData: true
