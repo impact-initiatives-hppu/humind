@@ -42,8 +42,8 @@ reference:
   - add_drinking_water_unimproved_no_treatment
   - add_water_access_issue_physical
 
-- title: Other functions
-  desc: Composite indicators, recodes, and utilities outside the ANA indicator set.
+- title: MSNI composites & Utils
+  desc: MSNI Composite indicators, recodes, and utilities outside the ANA indicator set.
   contents:
   - matches(".")
   - "-add_loop_skilled_birth_attendance"
